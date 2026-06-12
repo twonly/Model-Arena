@@ -25,6 +25,15 @@ interface ChatBody {
   maxTokens?: string;
   /** 额外请求参数（JSON 字符串），合并进上游请求体 */
   extraBody?: string;
+  /** 视觉对比：随 Prompt 发送的图片（base64 data URL） */
+  imageDataUrl?: string;
+}
+
+function parseDataUrl(
+  dataUrl: string
+): { mediaType: string; base64: string } | null {
+  const m = dataUrl.match(/^data:([^;,]+);base64,(.+)$/);
+  return m ? { mediaType: m[1], base64: m[2] } : null;
 }
 
 /** 解析 endpoint 的额外参数；非法 JSON 抛错（由上层转成 error 事件） */
@@ -179,10 +188,21 @@ interface OpenAIChunk {
 
 async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
   const url = `${body.baseUrl.replace(/\/+$/, "")}/chat/completions`;
-  const messages: { role: string; content: string }[] = [];
+  const messages: { role: string; content: unknown }[] = [];
   if (body.systemPrompt?.trim())
     messages.push({ role: "system", content: body.systemPrompt });
-  messages.push({ role: "user", content: body.prompt });
+  if (body.imageDataUrl) {
+    // 多模态：OpenAI 兼容协议的 image_url 直接接受 data URL
+    messages.push({
+      role: "user",
+      content: [
+        { type: "text", text: body.prompt },
+        { type: "image_url", image_url: { url: body.imageDataUrl } },
+      ],
+    });
+  } else {
+    messages.push({ role: "user", content: body.prompt });
+  }
 
   const extra = parseExtra(body);
   const makePayload = (withUsage: boolean) => {
@@ -278,11 +298,29 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
   const base = body.baseUrl.replace(/\/+$/, "");
   const url = base.endsWith("/v1") ? `${base}/messages` : `${base}/v1/messages`;
 
+  const img = body.imageDataUrl ? parseDataUrl(body.imageDataUrl) : null;
   const payload: Record<string, unknown> = {
     model: body.model,
     max_tokens: num(body.maxTokens) ?? 8192,
     stream: true,
-    messages: [{ role: "user", content: body.prompt }],
+    messages: [
+      {
+        role: "user",
+        content: img
+          ? [
+              {
+                type: "image",
+                source: {
+                  type: "base64",
+                  media_type: img.mediaType,
+                  data: img.base64,
+                },
+              },
+              { type: "text", text: body.prompt },
+            ]
+          : body.prompt,
+      },
+    ],
   };
   if (body.systemPrompt?.trim()) payload.system = body.systemPrompt;
   const t = num(body.temperature);

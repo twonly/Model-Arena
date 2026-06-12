@@ -182,7 +182,11 @@ export default function Landing() {
                       // @ts-expect-error CSS 自定义属性
                       "--lane-w": lane.w,
                       background:
-                        i === 0 ? "var(--accent)" : i === 1 ? "#1d1c18" : "#a8a49a",
+                        i === 0
+                          ? "var(--accent)"
+                          : i === 1
+                            ? "var(--ink)"
+                            : "var(--faint)",
                     }}
                   />
                 </div>

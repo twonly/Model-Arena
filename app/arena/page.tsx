@@ -4,7 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard } from "@/components/ModelCard";
 import { SettingsDialog } from "@/components/SettingsDialog";
+import { TrendModal } from "@/components/TrendModal";
 import { buildMarkdown } from "@/lib/format";
+import { fileToResizedDataUrl } from "@/lib/image";
 import { PRESET_PROMPTS } from "@/lib/providers";
 import { runEndpoint } from "@/lib/runner";
 import {
@@ -64,6 +66,7 @@ export default function Home() {
   const [history, setHistory] = usePersisted<HistoryEntry[]>("ma.history", []);
   const [watermark, setWatermark] = usePersisted("ma.watermark", "");
   const [wmTiled, setWmTiled] = usePersisted("ma.wmTiled", false);
+  const [theme, setTheme] = usePersisted<"light" | "dark">("ma.theme", "light");
 
   /* 运行时状态 */
   const [runs, setRuns] = useState<Record<string, RunState>>({});
@@ -75,6 +78,17 @@ export default function Home() {
   const [toast, setToast] = useState("");
   const [nowTick, setNowTick] = useState(0);
   const [wmOpen, setWmOpen] = useState(false);
+  const [trendOpen, setTrendOpen] = useState(false);
+  /** 视觉对比图片（仅本次会话，不持久化避免撑爆 localStorage） */
+  const [image, setImage] = useState<{ dataUrl: string; name: string } | null>(
+    null
+  );
+
+  /* 暗色主题：写到 <html data-theme>，CSS 变量整体切换 */
+  useEffect(() => {
+    if (theme === "dark") document.documentElement.dataset.theme = "dark";
+    else delete document.documentElement.dataset.theme;
+  }, [theme]);
 
   /* 平铺水印贴图（SVG data URL，斜排浅色文字） */
   const wmTile = (() => {
@@ -84,7 +98,9 @@ export default function Home() {
       .replace(/</g, "&lt;")
       .replace(/>/g, "&gt;")
       .replace(/'/g, "&apos;");
-    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='320' height='210'><text x='20' y='115' font-size='14' fill='rgba(29,28,24,0.05)' font-family='sans-serif' transform='rotate(-18 160 105)'>${esc}</text></svg>`;
+    const fill =
+      theme === "dark" ? "rgba(235,232,223,0.06)" : "rgba(29,28,24,0.05)";
+    const svg = `<svg xmlns='http://www.w3.org/2000/svg' width='320' height='210'><text x='20' y='115' font-size='14' fill='${fill}' font-family='sans-serif' transform='rotate(-18 160 105)'>${esc}</text></svg>`;
     return `url("data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}")`;
   })();
 
@@ -165,6 +181,7 @@ export default function Home() {
         endpoint: t,
         prompt,
         params,
+        imageDataUrl: image?.dataUrl,
         signal: ctrl.signal,
         update: updateRun(t.id),
         onSettled: (ok) => {
@@ -198,6 +215,7 @@ export default function Home() {
       endpoint: ep,
       prompt,
       params,
+      imageDataUrl: image?.dataUrl,
       signal: ctrl.signal,
       update: updateRun(ep.id),
       onSettled: () => {},
@@ -340,6 +358,20 @@ export default function Home() {
           <button className={btn} onClick={() => setScreenshotMode(true)}>
             📷 截图模式
           </button>
+          <button
+            className={btn}
+            onClick={() => setTrendOpen(true)}
+            title="同一模型在历次对比中的速度走势"
+          >
+            📊 趋势
+          </button>
+          <button
+            className={btn}
+            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+            title="切换明暗主题"
+          >
+            {theme === "dark" ? "☀️ 浅色" : "🌙 暗色"}
+          </button>
           {restored && (
             <button
               className={`${btn} text-accent border-accent/40`}
@@ -411,6 +443,49 @@ export default function Home() {
             <button className={btn} onClick={() => setShowAdvanced((v) => !v)}>
               {showAdvanced ? "▾" : "▸"} 高级参数
             </button>
+            <label
+              className={btn}
+              title="上传一张图随 Prompt 发给所有模型，对比各家视觉模型的识图速度与质量（自动压缩到 1600px JPEG）"
+            >
+              🖼 图片
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={async (e) => {
+                  const f = e.target.files?.[0];
+                  e.target.value = "";
+                  if (!f) return;
+                  try {
+                    const dataUrl = await fileToResizedDataUrl(f);
+                    setImage({ dataUrl, name: f.name });
+                    flash("图片已就绪，将随 Prompt 一起发送 ✓");
+                  } catch {
+                    flash("图片读取失败");
+                  }
+                }}
+              />
+            </label>
+            {image && (
+              <span className="flex items-center gap-1.5 rounded-md border border-line bg-paper/60 px-1.5 py-1">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={image.dataUrl}
+                  alt="对比用图片"
+                  className="h-7 w-7 rounded border border-line object-cover"
+                />
+                <span className="num max-w-[110px] truncate text-[10.5px] text-faint">
+                  {image.name}
+                </span>
+                <button
+                  onClick={() => setImage(null)}
+                  className="px-0.5 text-[12px] text-faint hover:text-accent cursor-pointer"
+                  title="移除图片"
+                >
+                  ✕
+                </button>
+              </span>
+            )}
             <div className="ml-auto flex items-center gap-2">
               {anyRunning ? (
                 <button
@@ -478,6 +553,14 @@ export default function Home() {
         prompt.trim() && (
           <div className="mb-5 rounded-lg border border-line bg-card px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap">
             {prompt}
+            {image && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={image.dataUrl}
+                alt="对比用图片"
+                className="mt-2.5 max-h-44 rounded-md border border-line"
+              />
+            )}
           </div>
         )
       )}
@@ -552,6 +635,11 @@ export default function Home() {
         onRestore={restoreHistory}
         onDelete={(id) => setHistory((prev) => prev.filter((h) => h.id !== id))}
         onClear={() => setHistory([])}
+      />
+      <TrendModal
+        open={trendOpen}
+        onClose={() => setTrendOpen(false)}
+        entries={history}
       />
 
       {!screenshotMode && (

@@ -148,6 +148,10 @@ export const PRESET_PROMPTS: { label: string; text: string }[] = [
     text: "Generate an SVG of a pelican riding a bicycle. 直接输出完整的 <svg> 代码（包含 xmlns 属性和 viewBox），不要任何解释文字。",
   },
   {
+    label: "识图描述（配合 🖼 上传图片）",
+    text: "详细描述这张图片：主体、场景、颜色、文字（如有），最后用一句话概括它在表达什么。",
+  },
+  {
     label: "推理题（测思考链路）",
     text: "一根绳子烧完要 60 分钟，但燃烧不均匀。现在有两根这样的绳子，如何精确测量 45 分钟？请先仔细思考再回答。",
   },

@@ -11,6 +11,8 @@ interface RunOptions {
   endpoint: ModelEndpoint;
   prompt: string;
   params: RunParams;
+  /** 视觉对比：随 Prompt 一起发送的图片（data URL，JPEG 压缩后） */
+  imageDataUrl?: string;
   signal: AbortSignal;
   update: (fn: (prev: RunState) => RunState) => void;
   /** 完成（含报错/中断）时回调，用于竞速排名 */
@@ -29,6 +31,7 @@ export async function runEndpoint({
   endpoint,
   prompt,
   params,
+  imageDataUrl,
   signal,
   update,
   onSettled,
@@ -207,6 +210,7 @@ export async function runEndpoint({
         temperature: params.temperature,
         maxTokens: params.maxTokens,
         extraBody: endpoint.extraBody,
+        imageDataUrl,
       }),
     });
 

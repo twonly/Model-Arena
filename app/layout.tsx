@@ -13,8 +13,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN" className="h-full antialiased">
-      <body className="min-h-full">{children}</body>
+    <html lang="zh-CN" className="h-full antialiased" suppressHydrationWarning>
+      <body className="min-h-full">
+        {/* 首帧前应用已保存的主题，避免暗色用户看到白屏闪烁 */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(JSON.parse(localStorage.getItem("ma.theme"))==="dark")document.documentElement.dataset.theme="dark"}catch(e){}`,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }

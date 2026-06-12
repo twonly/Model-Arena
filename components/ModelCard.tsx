@@ -5,7 +5,7 @@ import { ChartModal } from "./ChartModal";
 import { Markdown } from "./Markdown";
 import { Sparkline } from "./Sparkline";
 import { fmtInt, fmtSeconds, fmtTps, rankBadge } from "@/lib/format";
-import { extractSvgs, svgDataUrl } from "@/lib/svg";
+import { extractHtmlDoc, extractSvgs, svgDataUrl } from "@/lib/svg";
 import type { ModelEndpoint, RunState } from "@/lib/types";
 
 const STATUS_TEXT: Record<RunState["status"], string> = {
@@ -84,10 +84,19 @@ export function ModelCard({
   const stickReasonBottom = useRef(true);
   const [showReasoning, setShowReasoning] = useState(true);
   const [showSvg, setShowSvg] = useState(true);
+  const [showHtml, setShowHtml] = useState(true);
+  const [htmlBig, setHtmlBig] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
 
   // 模型输出中包含 <svg> 时自动提取预览（img 渲染，脚本不会执行）
   const svgs = useMemo(() => extractSvgs(run.text), [run.text]);
+
+  // 完整 HTML 文档（贪吃蛇等）：跑完后在沙箱 iframe 里可交互运行
+  const finished = run.status === "done" || run.status === "stopped";
+  const htmlDoc = useMemo(
+    () => (finished ? extractHtmlDoc(run.text) : null),
+    [run.text, finished]
+  );
 
   const running =
     run.status === "connecting" ||
@@ -267,6 +276,36 @@ export function ModelCard({
                 />
               ))}
             </div>
+          )}
+        </div>
+      )}
+
+      {/* HTML 沙箱预览：单文件网页/游戏类输出可直接交互运行 */}
+      {htmlDoc && (
+        <div className="mx-4 mb-3 rounded-md border border-line overflow-hidden">
+          <div className="flex items-center justify-between bg-paper/70 px-3 py-1.5 text-[11px] text-faint">
+            <button
+              onClick={() => setShowHtml((v) => !v)}
+              className="cursor-pointer"
+            >
+              {showHtml ? "▾" : "▸"} 🕹 HTML 预览（沙箱运行 · 与页面隔离）
+            </button>
+            {showHtml && (
+              <button
+                onClick={() => setHtmlBig((v) => !v)}
+                className="cursor-pointer hover:text-ink"
+              >
+                {htmlBig ? "⊼ 收小" : "⛶ 放大"}
+              </button>
+            )}
+          </div>
+          {showHtml && (
+            <iframe
+              sandbox="allow-scripts"
+              srcDoc={htmlDoc}
+              title={`${endpoint.name} HTML 预览`}
+              className={`w-full border-0 bg-white ${htmlBig ? "h-[520px]" : "h-72"}`}
+            />
           )}
         </div>
       )}

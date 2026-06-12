@@ -20,3 +20,18 @@ function ensureXmlns(svg: string): string {
 export function svgDataUrl(svg: string): string {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(ensureXmlns(svg))}`;
 }
+
+/**
+ * 提取完整 HTML 文档（如「单文件贪吃蛇」类输出），
+ * 用 sandbox iframe 渲染：脚本可运行但与页面完全隔离。
+ */
+export function extractHtmlDoc(text: string): string | null {
+  if (!text || !/<\/html>|<\/body>/i.test(text)) return null;
+  // 优先取 ```html 围栏内的内容
+  const fence = text.match(/```html\s*\n([\s\S]*?)```/i);
+  if (fence && /<html[\s>]|<!doctype html/i.test(fence[1])) return fence[1];
+  const raw =
+    text.match(/<!doctype html[\s\S]*<\/html>/i) ??
+    text.match(/<html[\s>][\s\S]*<\/html>/i);
+  return raw ? raw[0] : null;
+}

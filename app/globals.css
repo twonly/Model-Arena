@@ -9,6 +9,24 @@
   --accent: #d9261c;
   --go: #0e7a4e;
   --think: #9a6700;
+  --code-bg: #f1efe9;
+  --scroll: #d8d5cc;
+  --placeholder: #c4c1b8;
+}
+
+/* 暗色主题（工具条 🌙 切换，localStorage 记忆） */
+[data-theme="dark"] {
+  --paper: #15140f;
+  --card: #1e1d17;
+  --ink: #ebe8df;
+  --faint: #94908a;
+  --line: #33312a;
+  --accent: #ff6157;
+  --go: #43b97f;
+  --think: #d9a73e;
+  --code-bg: #262420;
+  --scroll: #3c3a33;
+  --placeholder: #4f4d45;
 }
 
 @theme inline {
@@ -55,7 +73,7 @@ body {
   resize: none;
 }
 .ghost-input::placeholder {
-  color: #c4c1b8;
+  color: var(--placeholder);
 }
 
 /* 输出区 Markdown 基础排版 */
@@ -80,7 +98,7 @@ body {
 .md ul { list-style: disc; padding-left: 1.4em; }
 .md ol { list-style: decimal; padding-left: 1.4em; }
 .md pre {
-  background: #f1efe9;
+  background: var(--code-bg);
   border: 1px solid var(--line);
   border-radius: 6px;
   padding: 0.6em 0.8em;
@@ -89,7 +107,7 @@ body {
   font-family: var(--font-num);
 }
 .md code {
-  background: #f1efe9;
+  background: var(--code-bg);
   border-radius: 4px;
   padding: 0.1em 0.3em;
   font-size: 0.88em;
@@ -183,7 +201,7 @@ body {
   height: 6px;
 }
 .thin-scroll::-webkit-scrollbar-thumb {
-  background: #d8d5cc;
+  background: var(--scroll);
   border-radius: 3px;
 }
 .thin-scroll::-webkit-scrollbar-track {
