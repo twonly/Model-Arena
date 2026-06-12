@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Model Arena · 模型竞速对比台",
+  title: "百模竞速 · Model Arena",
   description:
-    "同一个 Prompt 并发打到多个大模型，流式对比首 token 时延、思考/输出 TPS、总 tokens 与总用时。",
+    "同一个 Prompt 并发打到多个大模型，流式对比首 Token 时延、思考/输出 TPS、峰值速度与 token 数。出品：AI拯救打工人。",
 };
 
 export default function RootLayout({

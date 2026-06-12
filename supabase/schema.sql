@@ -1,0 +1,54 @@
+-- 百模竞速 · Model Arena 遥测表结构
+-- 在 Supabase SQL Editor 里执行一次即可。
+-- 之后在 Vercel 项目设置里配置环境变量：
+--   SUPABASE_URL              = https://<project-ref>.supabase.co
+--   SUPABASE_SERVICE_ROLE_KEY = <service_role key>（仅服务端使用，勿暴露给前端）
+
+-- 用户同意/拒绝记录（合规留痕）
+create table if not exists consents (
+  id          bigint generated always as identity primary key,
+  created_at  timestamptz not null default now(),
+  client_id   text not null,          -- 匿名设备 ID（随机 UUID，非指纹）
+  choice      text not null check (choice in ('granted', 'denied')),
+  consent_version int not null,
+  user_agent  text
+);
+create index if not exists consents_client_idx on consents (client_id, created_at desc);
+
+-- 每次对比中每个模型的指标（不含 API Key 与输入输出内容）
+create table if not exists run_metrics (
+  id               bigint generated always as identity primary key,
+  created_at       timestamptz not null default now(),
+  client_id        text not null,
+  run_id           text not null,     -- 同一轮对比的多个模型共享
+  provider         text not null,     -- 接口域名，如 api.deepseek.com
+  kind             text,              -- openai / anthropic
+  model            text not null,
+  status           text,
+  has_error        boolean,
+  has_image        boolean,
+  prompt_chars     int,
+  output_chars     int,
+  reasoning_chars  int,
+  ttft_ms          double precision,
+  thinking_ms      double precision,
+  content_ms       double precision,
+  total_ms         double precision,
+  thinking_tps     double precision,
+  content_tps      double precision,
+  avg_tps          double precision,
+  peak_tps         double precision,
+  prompt_tokens    int,
+  output_tokens    int,
+  reasoning_tokens int,
+  content_tokens   int,
+  tokens_official  boolean,
+  rank             int
+);
+create index if not exists run_metrics_model_idx on run_metrics (model, created_at desc);
+create index if not exists run_metrics_provider_idx on run_metrics (provider, created_at desc);
+create index if not exists run_metrics_client_idx on run_metrics (client_id, created_at desc);
+
+-- 两张表都不开放匿名读写（服务端用 service_role key 写入，绕过 RLS）
+alter table consents enable row level security;
+alter table run_metrics enable row level security;

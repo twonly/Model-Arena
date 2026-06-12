@@ -1,12 +1,11 @@
 import Link from "next/link";
+import { Credit, GITHUB_URL as GITHUB } from "@/components/Credit";
 
 export const metadata = {
-  title: "Model Arena · 大模型竞速对比台",
+  title: "百模竞速 · Model Arena",
   description:
-    "同一个 Prompt 并发打到多个大模型，实时对比首 Token 时延、思考/输出 TPS、峰值速度。开源、免费、API Key 不出你的浏览器。",
+    "同一个 Prompt 并发打到多个大模型，实时对比首 Token 时延、思考/输出 TPS、峰值速度。开源、免费、API Key 不出你的浏览器。出品：AI拯救打工人。",
 };
-
-const GITHUB = "https://github.com/twonly/Model-Arena";
 
 /* 赛道演示数据：纯 CSS 动画，三条赛道不同速度 */
 const LANES = [
@@ -86,9 +85,9 @@ export default function Landing() {
             className="text-[20px] font-black"
             style={{ fontFamily: "var(--font-title)" }}
           >
-            Model Arena
+            百模竞速
           </span>
-          <span className="num text-[11px] text-faint">竞速对比台</span>
+          <span className="num text-[11px] text-faint">Model Arena</span>
         </div>
         <div className="flex items-center gap-3">
           <a
@@ -144,6 +143,9 @@ export default function Landing() {
           >
             ⭐ Star on GitHub
           </a>
+        </div>
+        <div className="mt-5 flex justify-center">
+          <Credit />
         </div>
       </header>
 
@@ -303,11 +305,14 @@ export default function Landing() {
       </section>
 
       <footer className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-[12px] text-faint">
-        <span>
-          Model Arena ·{" "}
-          <a href="https://amaletter.com" className="hover:text-ink">
-            amaletter.com
-          </a>
+        <span className="flex flex-wrap items-center gap-2">
+          <span>
+            百模竞速 Model Arena ·{" "}
+            <a href="https://amaletter.com" className="hover:text-ink">
+              amaletter.com
+            </a>
+          </span>
+          <Credit />
         </span>
         <span className="num">
           首Token 含网络往返 · TPS 按阶段活跃窗口独立计算 · tokens 官方 usage 优先

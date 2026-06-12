@@ -8,7 +8,7 @@ import { fmtInt, fmtSeconds, fmtTps, rankBadge } from "@/lib/format";
 import { extractHtmlDoc, extractSvgs, svgDataUrl } from "@/lib/svg";
 import type { ModelEndpoint, RunState } from "@/lib/types";
 
-const STATUS_TEXT: Record<RunState["status"], string> = {
+export const STATUS_TEXT: Record<RunState["status"], string> = {
   idle: "待命",
   connecting: "连接中",
   thinking: "思考中",
@@ -18,7 +18,7 @@ const STATUS_TEXT: Record<RunState["status"], string> = {
   stopped: "已停止",
 };
 
-const STATUS_COLOR: Record<RunState["status"], string> = {
+export const STATUS_COLOR: Record<RunState["status"], string> = {
   idle: "var(--faint)",
   connecting: "var(--faint)",
   thinking: "var(--think)",
@@ -68,6 +68,8 @@ export function ModelCard({
   thinkingStats,
   nowTick,
   onRerun,
+  expanded = false,
+  onToggleFocus,
 }: {
   endpoint: ModelEndpoint;
   run: RunState;
@@ -77,6 +79,10 @@ export function ModelCard({
   thinkingStats: boolean;
   nowTick: number;
   onRerun: () => void;
+  /** 放大查看模式：输出区更高，适合细读单模型 */
+  expanded?: boolean;
+  /** 打开/关闭单模型放大视图 */
+  onToggleFocus?: () => void;
 }) {
   const outRef = useRef<HTMLDivElement>(null);
   const reasonRef = useRef<HTMLDivElement>(null);
@@ -181,6 +187,15 @@ export function ModelCard({
             ↻ 重跑
           </button>
         )}
+        {!screenshotMode && onToggleFocus && (
+          <button
+            onClick={onToggleFocus}
+            title={expanded ? "退出放大（Esc）" : "放大查看此模型（其余模型后台继续跑）"}
+            className="text-[11px] text-faint hover:text-ink border border-line rounded px-1.5 py-0.5 shrink-0 cursor-pointer"
+          >
+            {expanded ? "✕ 关闭" : "⛶"}
+          </button>
+        )}
       </div>
 
       {/* 思考过程 */}
@@ -208,7 +223,7 @@ export function ModelCard({
                 stickReasonBottom.current =
                   el.scrollHeight - el.scrollTop - el.clientHeight < 60;
               }}
-              className="thin-scroll max-h-36 overflow-y-auto px-3 pb-2 text-[12px] leading-relaxed text-faint whitespace-pre-wrap"
+              className={`thin-scroll ${expanded ? "max-h-64" : "max-h-36"} overflow-y-auto px-3 pb-2 text-[12px] leading-relaxed text-faint whitespace-pre-wrap`}
             >
               {run.reasoning}
             </div>
@@ -225,7 +240,11 @@ export function ModelCard({
           stickBottom.current =
             el.scrollHeight - el.scrollTop - el.clientHeight < 80;
         }}
-        className="thin-scroll flex-1 min-h-[160px] max-h-[340px] overflow-y-auto px-4 pb-3 text-[13.5px]"
+        className={`thin-scroll flex-1 overflow-y-auto px-4 pb-3 text-[13.5px] ${
+          expanded
+            ? "min-h-[300px] max-h-[58vh] text-[14px]"
+            : "min-h-[160px] max-h-[340px]"
+        }`}
       >
         {run.status === "error" ? (
           <div className="mt-1 rounded-md border border-accent/30 bg-accent/5 px-3 py-2 text-[12.5px] text-accent break-all">

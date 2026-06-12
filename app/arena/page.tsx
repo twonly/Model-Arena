@@ -1,14 +1,23 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { Credit } from "@/components/Credit";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
-import { ModelCard } from "@/components/ModelCard";
+import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { TrendModal } from "@/components/TrendModal";
 import { buildMarkdown } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import { PRESET_PROMPTS } from "@/lib/providers";
 import { runEndpoint } from "@/lib/runner";
+import { rankBadge } from "@/lib/format";
+import {
+  CONSENT_FIELDS,
+  CONSENT_VERSION,
+  reportConsent,
+  reportRunMetrics,
+  type ConsentChoice,
+} from "@/lib/telemetry";
 import {
   emptyRun,
   type HistoryEntry,
@@ -67,6 +76,12 @@ export default function Home() {
   const [watermark, setWatermark] = usePersisted("ma.watermark", "");
   const [wmTiled, setWmTiled] = usePersisted("ma.wmTiled", false);
   const [theme, setTheme] = usePersisted<"light" | "dark">("ma.theme", "light");
+  /** 遥测同意状态：undefined = 还没问过 */
+  const [telemetry, setTelemetry] = usePersisted<{
+    choice?: ConsentChoice;
+    version?: number;
+    at?: number;
+  }>("ma.telemetry", {});
 
   /* 运行时状态 */
   const [runs, setRuns] = useState<Record<string, RunState>>({});
@@ -83,6 +98,20 @@ export default function Home() {
   const [image, setImage] = useState<{ dataUrl: string; name: string } | null>(
     null
   );
+  /** 前台隐藏的模型（后台照常跑，随时可恢复显示） */
+  const [hiddenIds, setHiddenIds] = usePersisted<string[]>("ma.hidden", []);
+  /** 单模型放大查看（不影响其他模型运行） */
+  const [focusId, setFocusId] = useState<string | null>(null);
+
+  /* Esc 退出放大视图 */
+  useEffect(() => {
+    if (!focusId) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setFocusId(null);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [focusId]);
 
   /* 暗色主题：写到 <html data-theme>，CSS 变量整体切换 */
   useEffect(() => {
@@ -111,6 +140,21 @@ export default function Home() {
   useEffect(() => {
     runsRef.current = runs;
   }, [runs]);
+  // 上报时通过 ref 取最新值，避免 saveHistory 闭包过期
+  const telemetryRef = useRef(telemetry);
+  useEffect(() => {
+    telemetryRef.current = telemetry;
+  }, [telemetry]);
+  const imageRef = useRef(image);
+  useEffect(() => {
+    imageRef.current = image;
+  }, [image]);
+
+  const decideTelemetry = (choice: ConsentChoice) => {
+    setTelemetry({ choice, version: CONSENT_VERSION, at: Date.now() });
+    void reportConsent(choice);
+    flash(choice === "granted" ? "已开启匿名指标共享，感谢支持 ❤" : "好的，不共享");
+  };
 
   const anyRunning = Object.values(runs).some(isRunning);
 
@@ -158,6 +202,18 @@ export default function Home() {
         results,
       };
       setHistory((prev) => [entry, ...prev].slice(0, 24));
+      // 用户已同意时，把本轮指标匿名上报（只有数字，无 Key 无内容）
+      if (telemetryRef.current.choice === "granted") {
+        void reportRunMetrics({
+          runId: entry.id,
+          promptChars: prompt.length,
+          hasImage: !!imageRef.current,
+          rows: targets.map((t) => ({
+            endpoint: t,
+            run: cur[t.id] ?? emptyRun(),
+          })),
+        });
+      }
     },
     [title, notes, prompt, setHistory]
   );
@@ -224,8 +280,27 @@ export default function Home() {
 
   const stopAll = () => controllerRef.current?.abort();
 
+  const toggleHidden = (id: string) =>
+    setHiddenIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
+
+  /** 在「已启用」序列里左右移动模型（持久化到 endpoints 顺序） */
+  const moveEndpoint = (id: string, dir: -1 | 1) =>
+    setEndpoints((prev) => {
+      const enabledIds = prev.filter((e) => e.enabled).map((e) => e.id);
+      const pos = enabledIds.indexOf(id);
+      const targetId = enabledIds[pos + dir];
+      if (!targetId) return prev;
+      const a = prev.findIndex((e) => e.id === id);
+      const b = prev.findIndex((e) => e.id === targetId);
+      const next = [...prev];
+      [next[a], next[b]] = [next[b], next[a]];
+      return next;
+    });
+
   /* 视图数据：恢复历史时渲染快照里的伪 endpoint */
-  const visibleEndpoints: ModelEndpoint[] = restored
+  const enabledEndpoints: ModelEndpoint[] = restored
     ? restored.results.map((r, i) => ({
         id: `h-${i}`,
         name: r.name,
@@ -237,8 +312,18 @@ export default function Home() {
       }))
     : endpoints.filter((e) => e.enabled);
 
+  /* 前台展示 = 启用 − 手动隐藏（隐藏的后台照常跑） */
+  const visibleEndpoints = restored
+    ? enabledEndpoints
+    : enabledEndpoints.filter((e) => !hiddenIds.includes(e.id));
+
+  const focusEndpoint = focusId
+    ? enabledEndpoints.find((e) => e.id === focusId)
+    : null;
+
   const copyResults = async () => {
-    const rows = visibleEndpoints
+    // 导出包含被隐藏的模型（它们也在跑）
+    const rows = enabledEndpoints
       .map((ep) => ({
         name: ep.name,
         model: ep.model,
@@ -315,12 +400,15 @@ export default function Home() {
           onChange={(e) => setNotes(e.target.value)}
           placeholder="点击输入备注，如：同一 Prompt 直连各家官方接口，主要看首响应与吞吐……"
         />
-        <div className="num mt-1 text-[11px] text-faint/70">
-          {new Date().toLocaleDateString("zh-CN")} ·{" "}
-          {restored
-            ? `历史快照 · ${new Date(restored.at).toLocaleString("zh-CN", { hour12: false })}`
-            : `${endpoints.filter((e) => e.enabled).length} 个模型参与对比`}{" "}
-          · {watermark.trim() || "Model Arena"}
+        <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+          <span className="num text-[11px] text-faint/70">
+            {new Date().toLocaleDateString("zh-CN")} ·{" "}
+            {restored
+              ? `历史快照 · ${new Date(restored.at).toLocaleString("zh-CN", { hour12: false })}`
+              : `${endpoints.filter((e) => e.enabled).length} 个模型参与对比`}{" "}
+            · {watermark.trim() || "百模竞速 Model Arena"}
+          </span>
+          <Credit compact />
         </div>
       </header>
 
@@ -372,6 +460,19 @@ export default function Home() {
           >
             {theme === "dark" ? "☀️ 浅色" : "🌙 暗色"}
           </button>
+          {telemetry.choice && (
+            <button
+              className={btn}
+              onClick={() =>
+                decideTelemetry(
+                  telemetry.choice === "granted" ? "denied" : "granted"
+                )
+              }
+              title="匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
+            >
+              📡 指标共享：{telemetry.choice === "granted" ? "开" : "关"}
+            </button>
+          )}
           {restored && (
             <button
               className={`${btn} text-accent border-accent/40`}
@@ -565,6 +666,118 @@ export default function Home() {
         )
       )}
 
+      {/* ===== 遥测同意声明（首次出结果后询问一次） ===== */}
+      {!telemetry.choice && hasResults && !screenshotMode && !restored && (
+        <div className="mb-4 rounded-lg border border-line bg-card px-4 py-3">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+            <span className="text-[13px] font-semibold">
+              📡 愿意匿名共享这些评测指标吗？
+            </span>
+            <span className="text-[12px] text-faint">
+              只上传速度/token 等数字指标，帮助分析各家模型的真实表现；
+              <b className="text-ink">不上传 API Key 和任何输入输出内容</b>。
+            </span>
+            <details className="text-[12px] text-faint">
+              <summary className="cursor-pointer select-none hover:text-ink">
+                查看明细
+              </summary>
+              <div className="mt-1.5 grid gap-x-6 gap-y-0.5 sm:grid-cols-2">
+                <div>
+                  <div className="font-semibold text-ink">会保存：</div>
+                  {CONSENT_FIELDS.collected.map((f) => (
+                    <div key={f}>· {f}</div>
+                  ))}
+                </div>
+                <div>
+                  <div className="font-semibold" style={{ color: "var(--accent)" }}>
+                    永不保存：
+                  </div>
+                  {CONSENT_FIELDS.notCollected.map((f) => (
+                    <div key={f}>· {f}</div>
+                  ))}
+                </div>
+              </div>
+            </details>
+            <span className="ml-auto flex gap-2">
+              <button
+                onClick={() => decideTelemetry("granted")}
+                className="rounded-md bg-ink px-3.5 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
+              >
+                同意共享
+              </button>
+              <button
+                onClick={() => decideTelemetry("denied")}
+                className="rounded-md border border-line px-3.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer"
+              >
+                不共享
+              </button>
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* ===== 模型条：隐藏/显示与排序（隐藏的模型后台照常跑） ===== */}
+      {!screenshotMode && !restored && enabledEndpoints.length >= 2 && (
+        <div className="mb-3 flex flex-wrap items-center gap-1.5">
+          <span className="text-[11px] text-faint shrink-0">显示</span>
+          {enabledEndpoints.map((ep, idx) => {
+            const run = runs[ep.id] ?? emptyRun();
+            const hidden = hiddenIds.includes(ep.id);
+            return (
+              <span
+                key={ep.id}
+                className={`flex items-center gap-0.5 rounded-md border border-line px-1.5 py-1 text-[11.5px] ${
+                  hidden ? "bg-paper/40 opacity-50" : "bg-card"
+                }`}
+              >
+                <button
+                  onClick={() => toggleHidden(ep.id)}
+                  title={
+                    hidden
+                      ? "点击恢复显示（后台一直在跑）"
+                      : "点击隐藏此模型（后台继续跑，随时可恢复）"
+                  }
+                  className="flex items-center gap-1.5 cursor-pointer"
+                >
+                  <span
+                    className={`inline-block h-1.5 w-1.5 rounded-full ${isRunning(run) ? "pulsing" : ""}`}
+                    style={{ background: STATUS_COLOR[run.status] }}
+                  />
+                  <span className={hidden ? "line-through" : ""}>
+                    {ep.name}
+                  </span>
+                  {run.rank != null && <span>{rankBadge(run.rank)}</span>}
+                </button>
+                <button
+                  onClick={() => moveEndpoint(ep.id, -1)}
+                  disabled={idx === 0}
+                  title="左移"
+                  className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
+                >
+                  ◂
+                </button>
+                <button
+                  onClick={() => moveEndpoint(ep.id, 1)}
+                  disabled={idx === enabledEndpoints.length - 1}
+                  title="右移"
+                  className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
+                >
+                  ▸
+                </button>
+              </span>
+            );
+          })}
+          {hiddenIds.length > 0 && (
+            <button
+              onClick={() => setHiddenIds([])}
+              className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
+            >
+              全部显示
+            </button>
+          )}
+        </div>
+      )}
+
       {/* ===== 对比卡片 ===== */}
       {visibleEndpoints.length === 0 ? (
         <div className="rounded-lg border border-dashed border-line bg-card/60 px-6 py-14 text-center">
@@ -592,8 +805,34 @@ export default function Home() {
               thinkingStats={thinkStats}
               nowTick={nowTick}
               onRerun={() => rerunOne(ep)}
+              onToggleFocus={() => setFocusId(ep.id)}
             />
           ))}
+        </div>
+      )}
+
+      {/* ===== 单模型放大视图（其余模型后台继续跑） ===== */}
+      {focusEndpoint && (
+        <div
+          className="fixed inset-0 z-40 overflow-y-auto bg-ink/45 p-4 pt-[4vh]"
+          onClick={() => setFocusId(null)}
+        >
+          <div
+            className="mx-auto w-full max-w-3xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ModelCard
+              endpoint={focusEndpoint}
+              run={runs[focusEndpoint.id] ?? emptyRun()}
+              markdown={markdown}
+              screenshotMode={false}
+              thinkingStats={thinkStats}
+              nowTick={nowTick}
+              onRerun={() => rerunOne(focusEndpoint)}
+              expanded
+              onToggleFocus={() => setFocusId(null)}
+            />
+          </div>
         </div>
       )}
 
@@ -643,11 +882,16 @@ export default function Home() {
       />
 
       {!screenshotMode && (
-        <footer className="mt-10 text-center text-[11px] text-faint/70">
-          指标说明：首Token = 请求发出到收到第一个 token（含网络往返与排队）·
-          思考TPS / 输出TPS 各按该阶段「首个→末个 token」的活跃窗口独立计时，
-          不含阶段间空隙与流收尾时间 · 总 Tokens 优先采用厂商官方
-          usage；思考/输出拆分无官方数据时按各阶段字符独立估算后校准（数字前标 ≈）
+        <footer className="mt-10 space-y-2 text-center text-[11px] text-faint/70">
+          <div>
+            指标说明：首Token = 请求发出到收到第一个 token（含网络往返与排队）·
+            思考TPS / 输出TPS 各按该阶段「首个→末个 token」的活跃窗口独立计时，
+            不含阶段间空隙与流收尾时间 · 总 Tokens 优先采用厂商官方
+            usage；思考/输出拆分无官方数据时按各阶段字符独立估算后校准（数字前标 ≈）
+          </div>
+          <div>
+            <Credit compact />
+          </div>
         </footer>
       )}
     </main>

@@ -87,7 +87,7 @@ export function buildMarkdown(opts: {
     lines.push(`\n\\* 该模型未返回官方 usage，tokens 为估算值`);
   }
   lines.push(
-    `\n<sub>${watermark?.trim() ? `${watermark.trim()} · ` : ""}由 Model Arena 生成 · TPS = tokens/秒 · 首Token 含网络往返</sub>`
+    `\n<sub>${watermark?.trim() ? `${watermark.trim()} · ` : ""}由「百模竞速 Model Arena」生成 · TPS = tokens/秒 · 首Token 含网络往返</sub>`
   );
   return lines.join("\n");
 }
