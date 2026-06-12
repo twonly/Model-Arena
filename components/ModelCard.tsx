@@ -1,0 +1,383 @@
+"use client";
+
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChartModal } from "./ChartModal";
+import { Markdown } from "./Markdown";
+import { Sparkline } from "./Sparkline";
+import { fmtInt, fmtSeconds, fmtTps, rankBadge } from "@/lib/format";
+import { extractSvgs, svgDataUrl } from "@/lib/svg";
+import type { ModelEndpoint, RunState } from "@/lib/types";
+
+const STATUS_TEXT: Record<RunState["status"], string> = {
+  idle: "待命",
+  connecting: "连接中",
+  thinking: "思考中",
+  streaming: "输出中",
+  done: "完成",
+  error: "失败",
+  stopped: "已停止",
+};
+
+const STATUS_COLOR: Record<RunState["status"], string> = {
+  idle: "var(--faint)",
+  connecting: "var(--faint)",
+  thinking: "var(--think)",
+  streaming: "var(--accent)",
+  done: "var(--go)",
+  error: "var(--accent)",
+  stopped: "var(--faint)",
+};
+
+function Metric({
+  value,
+  unit,
+  label,
+  sub,
+  highlight,
+}: {
+  value: string;
+  unit?: string;
+  label: string;
+  sub?: string;
+  highlight?: boolean;
+}) {
+  return (
+    <div className="flex flex-col items-center gap-0.5 py-2.5">
+      <div
+        className="num text-[22px] leading-none font-bold"
+        style={{ color: highlight ? "var(--accent)" : "var(--ink)" }}
+      >
+        {value}
+        {unit && value !== "—" && (
+          <span className="text-[11px] font-medium text-faint ml-0.5">
+            {unit}
+          </span>
+        )}
+      </div>
+      <div className="text-[11px] text-faint">{label}</div>
+      <div className="num text-[10px] text-faint/80 h-3.5">{sub ?? ""}</div>
+    </div>
+  );
+}
+
+export function ModelCard({
+  endpoint,
+  run,
+  markdown,
+  screenshotMode,
+  thinkingStats,
+  nowTick,
+  onRerun,
+}: {
+  endpoint: ModelEndpoint;
+  run: RunState;
+  markdown: boolean;
+  screenshotMode: boolean;
+  /** 关闭时不做思考/输出拆分：首Token 按首个正文 token 计，速度只按正文算 */
+  thinkingStats: boolean;
+  nowTick: number;
+  onRerun: () => void;
+}) {
+  const outRef = useRef<HTMLDivElement>(null);
+  const reasonRef = useRef<HTMLDivElement>(null);
+  const stickBottom = useRef(true);
+  const stickReasonBottom = useRef(true);
+  const [showReasoning, setShowReasoning] = useState(true);
+  const [showSvg, setShowSvg] = useState(true);
+  const [chartOpen, setChartOpen] = useState(false);
+
+  // 模型输出中包含 <svg> 时自动提取预览（img 渲染，脚本不会执行）
+  const svgs = useMemo(() => extractSvgs(run.text), [run.text]);
+
+  const running =
+    run.status === "connecting" ||
+    run.status === "thinking" ||
+    run.status === "streaming";
+
+  // 正文输出自动滚动（用户向上翻则停住）
+  useEffect(() => {
+    const el = outRef.current;
+    if (el && running && stickBottom.current) {
+      el.scrollTop = el.scrollHeight;
+    }
+  }, [run.text, running]);
+
+  // 思考区独立自动滚动
+  useEffect(() => {
+    const el = reasonRef.current;
+    if (el && running && stickReasonBottom.current) {
+      el.scrollTop = el.scrollHeight;
+    }
+  }, [run.reasoning, running, showReasoning]);
+
+  // 新一轮运行开始时恢复两个区域的粘底状态
+  useEffect(() => {
+    if (run.status === "connecting") {
+      stickBottom.current = true;
+      stickReasonBottom.current = true;
+    }
+  }, [run.status]);
+
+  // 完成后自动折叠思考过程
+  useEffect(() => {
+    if (run.status === "done") setShowReasoning(false);
+    if (run.status === "thinking") setShowReasoning(true);
+  }, [run.status]);
+
+  const m = run.metrics;
+  const elapsedMs = m?.totalMs ?? (run.startedAt ? nowTick - run.startedAt : undefined);
+  // 首Token 口径不随思考统计开关变化：始终 = 首个 token（思考开始即响应）
+  const ttft = m?.ttftMs ?? run.liveTtftMs;
+  const thinkingTps =
+    m?.thinkingTps ?? (run.status === "thinking" ? run.liveTps : undefined);
+  const contentTps =
+    m?.contentTps ?? (run.status === "streaming" ? run.liveTps : undefined);
+  const tokens = m?.outputTokens ?? (running ? run.liveTokens : undefined);
+  const official = m?.official ?? false;
+  const hasReasoning = run.reasoning.length > 0;
+
+  return (
+    <div className="flex flex-col rounded-lg border border-line bg-card overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
+      {/* 卡片头 */}
+      <div className="flex items-center gap-2 px-4 pt-3 pb-2">
+        <span
+          className={`inline-block w-2 h-2 rounded-full shrink-0 ${running ? "pulsing" : ""}`}
+          style={{ background: STATUS_COLOR[run.status] }}
+        />
+        <div className="min-w-0 flex-1">
+          <div className="flex items-baseline gap-1.5 min-w-0">
+            <span className="font-bold text-[15px] truncate">
+              {endpoint.name}
+            </span>
+            {run.rank != null && (
+              <span className="text-[14px]">{rankBadge(run.rank)}</span>
+            )}
+          </div>
+          <div className="num text-[10.5px] text-faint truncate">
+            {endpoint.model}
+          </div>
+        </div>
+        <span
+          className="text-[11px] shrink-0"
+          style={{ color: STATUS_COLOR[run.status] }}
+        >
+          {STATUS_TEXT[run.status]}
+        </span>
+        {!screenshotMode && !running && (
+          <button
+            onClick={onRerun}
+            title="重跑此模型"
+            className="text-[11px] text-faint hover:text-ink border border-line rounded px-1.5 py-0.5 shrink-0 cursor-pointer"
+          >
+            ↻ 重跑
+          </button>
+        )}
+      </div>
+
+      {/* 思考过程 */}
+      {hasReasoning && (
+        <div className="mx-4 mb-2 rounded-md border border-line bg-paper/70">
+          <button
+            onClick={() => setShowReasoning((v) => !v)}
+            className="w-full flex items-center justify-between px-3 py-1.5 text-[11px] cursor-pointer"
+            style={{ color: "var(--think)" }}
+          >
+            <span>
+              {showReasoning ? "▾" : "▸"} 思考过程
+              {m?.thinkingMs != null && ` · ${fmtSeconds(m.thinkingMs)}s`}
+              {thinkingStats &&
+                m?.reasoningTokens != null &&
+                ` · ${m.phaseSplitEstimated ? "≈" : ""}${fmtInt(m.reasoningTokens)} tok`}
+            </span>
+          </button>
+          {showReasoning && (
+            <div
+              ref={reasonRef}
+              onScroll={() => {
+                const el = reasonRef.current;
+                if (!el) return;
+                stickReasonBottom.current =
+                  el.scrollHeight - el.scrollTop - el.clientHeight < 60;
+              }}
+              className="thin-scroll max-h-36 overflow-y-auto px-3 pb-2 text-[12px] leading-relaxed text-faint whitespace-pre-wrap"
+            >
+              {run.reasoning}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* 输出区 */}
+      <div
+        ref={outRef}
+        onScroll={() => {
+          const el = outRef.current;
+          if (!el) return;
+          stickBottom.current =
+            el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+        }}
+        className="thin-scroll flex-1 min-h-[160px] max-h-[340px] overflow-y-auto px-4 pb-3 text-[13.5px]"
+      >
+        {run.status === "error" ? (
+          <div className="mt-1 rounded-md border border-accent/30 bg-accent/5 px-3 py-2 text-[12.5px] text-accent break-all">
+            {run.error}
+          </div>
+        ) : run.text ? (
+          markdown ? (
+            <Markdown text={run.text} />
+          ) : (
+            <div className={`whitespace-pre-wrap leading-7 ${running ? "caret" : ""}`}>
+              {run.text}
+            </div>
+          )
+        ) : (
+          <div className="mt-1 text-[12.5px] text-faint/70">
+            {run.status === "idle"
+              ? "等待开始"
+              : run.status === "connecting"
+                ? "正在建立连接…"
+                : run.status === "thinking"
+                  ? "模型思考中…"
+                  : ""}
+          </div>
+        )}
+      </div>
+
+      {/* SVG 预览：模型画图场景（如「鹈鹕骑自行车」）自动渲染 */}
+      {svgs.length > 0 && (
+        <div className="mx-4 mb-3 rounded-md border border-line overflow-hidden">
+          <button
+            onClick={() => setShowSvg((v) => !v)}
+            className="w-full flex items-center justify-between bg-paper/70 px-3 py-1.5 text-[11px] text-faint cursor-pointer"
+          >
+            <span>
+              {showSvg ? "▾" : "▸"} 🖼 SVG 预览（{svgs.length}）
+            </span>
+            <span>img 沙箱渲染 · 脚本不执行</span>
+          </button>
+          {showSvg && (
+            <div className="flex flex-wrap items-center justify-center gap-3 bg-white p-3">
+              {svgs.map((s, i) => (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  key={i}
+                  src={svgDataUrl(s)}
+                  alt={`模型输出的 SVG ${i + 1}`}
+                  className="max-h-60 max-w-full rounded border border-line/60"
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* 指标栏 */}
+      <div className="border-t border-line bg-paper/50">
+        <div
+          className={`grid ${thinkingStats ? "grid-cols-4" : "grid-cols-3"} divide-x divide-line`}
+        >
+          <Metric
+            value={ttft != null ? fmtSeconds(ttft) : running ? "…" : "—"}
+            unit="s"
+            label="首Token"
+            highlight={run.status === "connecting"}
+          />
+          {thinkingStats && (
+            <Metric
+              value={fmtTps(thinkingTps)}
+              label="思考TPS"
+              sub={
+                m?.thinkingMs != null
+                  ? `${fmtSeconds(m.thinkingMs)}s · ${m.phaseSplitEstimated ? "≈" : ""}${fmtInt(m.reasoningTokens)} tok`
+                  : run.status === "thinking"
+                    ? "思考中…"
+                    : undefined
+              }
+              highlight={run.status === "thinking"}
+            />
+          )}
+          <Metric
+            value={fmtTps(contentTps)}
+            label="输出TPS"
+            sub={
+              m?.contentTokens != null && m.contentTokens > 0
+                ? `${m.contentMs != null ? `${fmtSeconds(m.contentMs)}s · ` : ""}${m.phaseSplitEstimated ? "≈" : ""}${fmtInt(m.contentTokens)} tok`
+                : undefined
+            }
+            highlight={run.status === "streaming"}
+          />
+          <Metric
+            value={tokens != null ? fmtInt(tokens) : "—"}
+            label={`总Tokens${m ? (official ? "（官方）" : "（估算）") : ""}`}
+            sub={
+              m?.promptTokens != null
+                ? `输入 ${fmtInt(m.promptTokens)}`
+                : undefined
+            }
+          />
+        </div>
+        <div className="flex items-center justify-between border-t border-line px-4 py-1.5">
+          <div className="num text-[11px] text-faint">
+            {elapsedMs != null && (
+              <>
+                总用时{" "}
+                <span className="text-ink font-semibold">
+                  {fmtSeconds(elapsedMs)}s
+                </span>
+              </>
+            )}
+            {thinkingStats && m?.avgTps != null && (
+              <>
+                {" "}
+                · 平均{" "}
+                <span className="text-ink font-semibold">
+                  {fmtTps(m.avgTps)}
+                </span>{" "}
+                tok/s
+              </>
+            )}
+            {m?.peakTps != null && m.peakTps > 0 && (
+              <>
+                {" "}
+                · 峰值{" "}
+                <span
+                  className="font-semibold"
+                  style={{ color: "var(--accent)" }}
+                >
+                  {fmtTps(m.peakTps)}
+                </span>{" "}
+                tok/s
+              </>
+            )}
+            {running && run.liveTps > 0 && (
+              <>
+                {" "}
+                · 实时{" "}
+                <span className="font-semibold" style={{ color: "var(--accent)" }}>
+                  {fmtTps(run.liveTps)}
+                </span>{" "}
+                tok/s
+              </>
+            )}
+          </div>
+          <button
+            onClick={() => run.samples.length > 1 && setChartOpen(true)}
+            title="点击放大查看速度曲线"
+            className={run.samples.length > 1 ? "cursor-zoom-in" : "cursor-default"}
+          >
+            <Sparkline samples={run.samples} />
+          </button>
+        </div>
+      </div>
+
+      <ChartModal
+        open={chartOpen}
+        onClose={() => setChartOpen(false)}
+        title={endpoint.name}
+        subtitle={endpoint.model}
+        samples={run.samples}
+        avgTps={m?.avgTps}
+      />
+    </div>
+  );
+}
