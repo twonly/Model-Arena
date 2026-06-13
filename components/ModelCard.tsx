@@ -104,6 +104,7 @@ export const ModelCard = memo(function ModelCard({
   expanded = false,
   onToggleFocus,
   wordTarget,
+  compact = false,
 }: {
   endpoint: ModelEndpoint;
   run: RunState;
@@ -119,6 +120,8 @@ export const ModelCard = memo(function ModelCard({
   onToggleFocus?: () => void;
   /** Prompt 里检测到的「N 字」目标，用于显示字数达成率 */
   wordTarget?: number | null;
+  /** 紧凑模式：隐藏输出区与预览，只看头部+指标（多模型纯竞速） */
+  compact?: boolean;
 }) {
   const outRef = useRef<HTMLDivElement>(null);
   const reasonRef = useRef<HTMLDivElement>(null);
@@ -250,7 +253,7 @@ export const ModelCard = memo(function ModelCard({
       </div>
 
       {/* 思考过程 */}
-      {hasReasoning && (
+      {hasReasoning && !compact && (
         <div className="mx-4 mb-2 rounded-md border border-line bg-paper/70">
           <button
             onClick={() => setShowReasoning((v) => !v)}
@@ -282,48 +285,56 @@ export const ModelCard = memo(function ModelCard({
         </div>
       )}
 
-      {/* 输出区 */}
-      <div
-        ref={outRef}
-        onScroll={() => {
-          const el = outRef.current;
-          if (!el) return;
-          stickBottom.current =
-            el.scrollHeight - el.scrollTop - el.clientHeight < 80;
-        }}
-        className={`thin-scroll flex-1 overflow-y-auto px-4 pb-3 text-[13.5px] ${
-          expanded
-            ? "min-h-[300px] max-h-[58vh] text-[14px]"
-            : "min-h-[160px] max-h-[340px]"
-        }`}
-      >
-        {run.status === "error" ? (
-          <div className="mt-1 rounded-md border border-accent/30 bg-accent/5 px-3 py-2 text-[12.5px] text-accent break-all">
+      {/* 输出区（紧凑模式隐藏，只在出错时显示一行错误） */}
+      {compact ? (
+        run.status === "error" && (
+          <div className="mx-4 mb-2 rounded-md border border-accent/30 bg-accent/5 px-3 py-1.5 text-[11.5px] text-accent break-all">
             {run.error}
           </div>
-        ) : run.text ? (
-          markdown ? (
-            <Markdown text={running ? mdText : run.text} />
-          ) : (
-            <div className={`whitespace-pre-wrap leading-7 ${running ? "caret" : ""}`}>
-              {run.text}
+        )
+      ) : (
+        <div
+          ref={outRef}
+          onScroll={() => {
+            const el = outRef.current;
+            if (!el) return;
+            stickBottom.current =
+              el.scrollHeight - el.scrollTop - el.clientHeight < 80;
+          }}
+          className={`thin-scroll flex-1 overflow-y-auto px-4 pb-3 text-[13.5px] ${
+            expanded
+              ? "min-h-[300px] max-h-[58vh] text-[14px]"
+              : "min-h-[160px] max-h-[340px]"
+          }`}
+        >
+          {run.status === "error" ? (
+            <div className="mt-1 rounded-md border border-accent/30 bg-accent/5 px-3 py-2 text-[12.5px] text-accent break-all">
+              {run.error}
             </div>
-          )
-        ) : (
-          <div className="mt-1 text-[12.5px] text-faint/70">
-            {run.status === "idle"
-              ? "等待开始"
-              : run.status === "connecting"
-                ? "正在建立连接…"
-                : run.status === "thinking"
-                  ? "模型思考中…"
-                  : ""}
-          </div>
-        )}
-      </div>
+          ) : run.text ? (
+            markdown ? (
+              <Markdown text={running ? mdText : run.text} />
+            ) : (
+              <div className={`whitespace-pre-wrap leading-7 ${running ? "caret" : ""}`}>
+                {run.text}
+              </div>
+            )
+          ) : (
+            <div className="mt-1 text-[12.5px] text-faint/70">
+              {run.status === "idle"
+                ? "等待开始"
+                : run.status === "connecting"
+                  ? "正在建立连接…"
+                  : run.status === "thinking"
+                    ? "模型思考中…"
+                    : ""}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* SVG 预览：模型画图场景（如「鹈鹕骑自行车」）自动渲染 */}
-      {svgs.length > 0 && (
+      {!compact && svgs.length > 0 && (
         <div className="mx-4 mb-3 rounded-md border border-line overflow-hidden">
           <button
             onClick={() => setShowSvg((v) => !v)}
@@ -351,7 +362,7 @@ export const ModelCard = memo(function ModelCard({
       )}
 
       {/* HTML 沙箱预览：单文件网页/游戏类输出可直接交互运行 */}
-      {htmlDoc && (
+      {htmlDoc && !compact && (
         <div className="mx-4 mb-3 rounded-md border border-line overflow-hidden">
           <div className="flex items-center justify-between bg-paper/70 px-3 py-1.5 text-[11px] text-faint">
             <button
@@ -539,5 +550,6 @@ export const ModelCard = memo(function ModelCard({
   prev.thinkingStats === next.thinkingStats &&
   prev.nowTick === next.nowTick &&
   prev.expanded === next.expanded &&
-  prev.wordTarget === next.wordTarget
+  prev.wordTarget === next.wordTarget &&
+  prev.compact === next.compact
 );

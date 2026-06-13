@@ -75,6 +75,7 @@ export default function Home() {
   });
   const [markdown, setMarkdown] = usePersisted("ma.markdown", true);
   const [thinkStats, setThinkStats] = usePersisted("ma.thinkStats", true);
+  const [compact, setCompact] = usePersisted("ma.compact", false);
   const [history, setHistory] = usePersisted<HistoryEntry[]>("ma.history", []);
   const [watermark, setWatermark] = usePersisted("ma.watermark", "");
   const [wmTiled, setWmTiled] = usePersisted("ma.wmTiled", false);
@@ -385,8 +386,12 @@ export default function Home() {
     setRuns(next);
   };
 
-  const gridCols =
-    visibleEndpoints.length <= 1
+  const gridCols = compact
+    ? // 紧凑模式卡片矮，一行多放
+      visibleEndpoints.length <= 2
+      ? "sm:grid-cols-2"
+      : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    : visibleEndpoints.length <= 1
       ? "grid-cols-1 max-w-3xl"
       : visibleEndpoints.length === 2
         ? "md:grid-cols-2"
@@ -454,6 +459,13 @@ export default function Home() {
             title="关闭后不拆分思考/输出：首Token 按首个正文 token 计（思考计入等待），速度只按正文 token 计算"
           >
             {thinkStats ? "思考统计：开" : "思考统计：关"}
+          </button>
+          <button
+            className={btn}
+            onClick={() => setCompact((v) => !v)}
+            title="紧凑模式：折叠输出内容只看指标，多模型纯竞速一屏看全"
+          >
+            {compact ? "📊 紧凑：开" : "📊 紧凑：关"}
           </button>
           {hasResults && (
             <button className={btn} onClick={copyResults}>
@@ -829,6 +841,7 @@ export default function Home() {
                 onRerun={() => rerunOne(ep)}
                 onToggleFocus={() => setFocusId(ep.id)}
                 wordTarget={wordTarget}
+                compact={compact}
               />
             );
           })}
