@@ -170,11 +170,44 @@ export default function Home() {
   useEffect(() => {
     restoredRef.current = restored;
   }, [restored]);
+  // 暂存最近一轮，供「同意」时立即补报（否则用户必须再跑一轮才有数据）
+  const lastRunRef = useRef<{
+    runId: string;
+    targets: ModelEndpoint[];
+    promptChars: number;
+    hasImage: boolean;
+    reported: boolean;
+  } | null>(null);
+
+  const reportMetrics = (info: {
+    runId: string;
+    targets: ModelEndpoint[];
+    promptChars: number;
+    hasImage: boolean;
+  }) => {
+    const cur = runsRef.current;
+    void reportRunMetrics({
+      runId: info.runId,
+      promptChars: info.promptChars,
+      hasImage: info.hasImage,
+      rows: info.targets.map((t) => ({
+        endpoint: t,
+        run: cur[t.id] ?? emptyRun(),
+      })),
+    });
+  };
 
   const decideTelemetry = (choice: ConsentChoice) => {
     setTelemetry({ choice, version: CONSENT_VERSION, at: Date.now() });
     void reportConsent(choice);
-    flash(choice === "granted" ? "已开启匿名指标共享，感谢支持 ❤" : "好的，不共享");
+    // 同意时，把刚跑完的这一轮立刻补报（不必再跑一轮）
+    if (choice === "granted" && lastRunRef.current && !lastRunRef.current.reported) {
+      reportMetrics(lastRunRef.current);
+      lastRunRef.current.reported = true;
+      flash("已开启共享，已上报本轮数据，感谢支持 ❤");
+    } else {
+      flash(choice === "granted" ? "已开启匿名指标共享，感谢支持 ❤" : "好的，不共享");
+    }
   };
 
   const anyRunning = Object.values(runs).some(isRunning);
@@ -223,19 +256,22 @@ export default function Home() {
         results,
       };
       setHistory((prev) => [entry, ...prev].slice(0, 24));
-      // 用户已同意时，把本轮指标匿名上报（只有数字，无 Key 无内容）
+      // 暂存本轮，供「同意」时补报
+      const info = {
+        runId: entry.id,
+        targets,
+        promptChars: prompt.length,
+        hasImage: !!imageRef.current,
+        reported: false,
+      };
+      lastRunRef.current = info;
+      // 已同意：直接上报（只有数字，无 Key 无内容）
       if (telemetryRef.current.choice === "granted") {
-        void reportRunMetrics({
-          runId: entry.id,
-          promptChars: prompt.length,
-          hasImage: !!imageRef.current,
-          rows: targets.map((t) => ({
-            endpoint: t,
-            run: cur[t.id] ?? emptyRun(),
-          })),
-        });
+        reportMetrics(info);
+        info.reported = true;
       }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [title, notes, prompt, setHistory]
   );
 
