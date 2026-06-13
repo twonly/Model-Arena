@@ -113,6 +113,8 @@ export default function Home() {
   const mainRef = useRef<HTMLElement>(null);
   /** 分享：null=未分享，"loading"=生成中，否则为完整短链 */
   const [shareUrl, setShareUrl] = useState<string | "loading" | null>(null);
+  /** 分享错误（持久显示，直到下次操作） */
+  const [shareError, setShareError] = useState<string | null>(null);
 
   /* Esc 退出放大视图 */
   useEffect(() => {
@@ -283,6 +285,7 @@ export default function Home() {
     if (!targets.length || !prompt.trim() || anyRunning) return;
     setRestored(null);
     setShareUrl(null); // 新一轮作废旧分享链接
+    setShareError(null);
     const ctrl = new AbortController();
     controllerRef.current = ctrl;
     rankCounter.current = 0;
@@ -439,6 +442,7 @@ export default function Home() {
 
   const shareResults = async () => {
     if (shareUrl === "loading") return;
+    setShareError(null);
     const rows = visibleEndpoints
       .map((ep) => ({
         name: ep.name,
@@ -447,9 +451,16 @@ export default function Home() {
       }))
       .filter(({ run }) => run.metrics || run.error);
     if (!rows.length) {
-      flash("还没有可分享的结果");
+      setShareError(
+        anyRunning
+          ? "还没有模型跑完，等出现指标后再分享"
+          : "还没有可分享的结果，请先跑一轮对比"
+      );
       return;
     }
+    const stillRunning = visibleEndpoints.some((ep) =>
+      isRunning(runs[ep.id] ?? emptyRun())
+    );
     setShareUrl("loading");
     try {
       const snapshot = buildSnapshot({
@@ -465,24 +476,36 @@ export default function Home() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(snapshot),
       });
-      const j = (await res.json()) as {
-        ok: boolean;
-        id?: string;
-        error?: string;
-        disabled?: boolean;
-      };
+      // 容错：服务端异常时可能返回非 JSON（如 500 HTML），按文本兜底
+      const raw = await res.text();
+      let j: { ok?: boolean; id?: string; error?: string; disabled?: boolean };
+      try {
+        j = JSON.parse(raw);
+      } catch {
+        j = { ok: false, error: `服务端异常（HTTP ${res.status}）` };
+      }
       if (!j.ok || !j.id) {
         setShareUrl(null);
-        flash(j.disabled ? "分享功能未启用（后端未配置）" : j.error || "分享失败");
+        setShareError(
+          j.disabled
+            ? "分享功能未启用：服务端未配置 Supabase 环境变量"
+            : j.error || `分享失败（HTTP ${res.status}）`
+        );
         return;
       }
       const url = `${location.origin}/r/${j.id}`;
       setShareUrl(url);
       await navigator.clipboard.writeText(url).catch(() => {});
-      flash("分享链接已复制 ✓");
-    } catch {
+      flash(
+        stillRunning
+          ? "链接已复制（部分模型仍在跑，快照只含已完成的）✓"
+          : "分享链接已复制 ✓"
+      );
+    } catch (e) {
       setShareUrl(null);
-      flash("分享失败，请重试");
+      setShareError(
+        `分享失败：${e instanceof Error ? e.message : "网络错误"}，请重试`
+      );
     }
   };
 
@@ -667,6 +690,24 @@ export default function Home() {
             </button>
           )}
           <span className="ml-auto text-[11px] text-accent">{toast}</span>
+        </div>
+      )}
+
+      {/* 分享错误（持久显示） */}
+      {shareError && !screenshotMode && (
+        <div
+          data-no-export="1"
+          className="mb-4 flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3.5 py-2.5"
+        >
+          <span className="text-[12.5px] text-accent break-all">
+            ⚠ {shareError}
+          </span>
+          <button
+            onClick={() => setShareError(null)}
+            className="ml-auto shrink-0 text-[12px] text-faint hover:text-ink cursor-pointer"
+          >
+            ✕
+          </button>
         </div>
       )}
 

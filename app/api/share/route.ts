@@ -45,22 +45,42 @@ export async function POST(req: NextRequest) {
   }
   const size = JSON.stringify(snapshot).length;
   if (size > MAX_BODY)
-    return Response.json({ ok: false, error: "内容过大，无法分享" }, { status: 413 });
+    return Response.json(
+      {
+        ok: false,
+        error: `内容过大无法分享（${Math.round(size / 1024)}KB，上限 ${Math.round(MAX_BODY / 1024)}KB）。可减少模型数量或缩短输出后重试。`,
+      },
+      { status: 413 }
+    );
 
   const id = makeShareId();
-  const res = await fetch(`${url.replace(/\/+$/, "")}/rest/v1/shares`, {
-    method: "POST",
-    signal: AbortSignal.timeout(10000),
-    headers: { ...sbHeaders(key), Prefer: "return=minimal" },
-    body: JSON.stringify([{ id, payload: snapshot }]),
-  });
-  if (!res.ok) {
-    const msg = await res.text().catch(() => "");
-    // 表不存在等场景给出可读提示
+  try {
+    const res = await fetch(`${url.replace(/\/+$/, "")}/rest/v1/shares`, {
+      method: "POST",
+      signal: AbortSignal.timeout(10000),
+      headers: { ...sbHeaders(key), Prefer: "return=minimal" },
+      body: JSON.stringify([{ id, payload: snapshot }]),
+    });
+    if (!res.ok) {
+      const msg = await res.text().catch(() => "");
+      // 表不存在（PGRST205 / 42P01）给出明确指引
+      const hint =
+        res.status === 404 || /relation .* does not exist|PGRST205/i.test(msg)
+          ? "：shares 表尚未创建，请在 Supabase SQL Editor 执行 supabase/schema.sql 中的 shares 建表语句"
+          : `：${msg.slice(0, 160)}`;
+      return Response.json({
+        ok: false,
+        error: `保存失败（${res.status}）${hint}`,
+      });
+    }
+    return Response.json({ ok: true, id });
+  } catch (e) {
+    const msg = e instanceof Error ? e.message : String(e);
     return Response.json({
       ok: false,
-      error: `保存失败（${res.status}）：${msg.slice(0, 160)}`,
+      error: msg.includes("timeout") || msg.includes("abort")
+        ? "保存超时（10s），数据库无响应，请稍后重试"
+        : `保存失败：${msg.slice(0, 160)}`,
     });
   }
-  return Response.json({ ok: true, id });
 }
