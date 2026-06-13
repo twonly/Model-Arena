@@ -11,7 +11,14 @@ const dec = new TextDecoder();
 const bs = (u: Uint8Array): BufferSource => u as unknown as BufferSource;
 
 function toB64(buf: ArrayBuffer): string {
-  return btoa(String.fromCharCode(...new Uint8Array(buf)));
+  // 分块拼接：String.fromCharCode(...bigArray) 在数据较大时会爆栈
+  const bytes = new Uint8Array(buf);
+  let bin = "";
+  const CHUNK = 0x8000; // 32KB/块
+  for (let i = 0; i < bytes.length; i += CHUNK) {
+    bin += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+  }
+  return btoa(bin);
 }
 function fromB64(s: string): Uint8Array {
   return Uint8Array.from(atob(s), (c) => c.charCodeAt(0));
