@@ -6,7 +6,7 @@ import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { TrendModal } from "@/components/TrendModal";
-import { buildMarkdown } from "@/lib/format";
+import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import { PRESET_PROMPTS } from "@/lib/providers";
 import { runEndpoint } from "@/lib/runner";
@@ -395,6 +395,9 @@ export default function Home() {
   const hasResults = visibleEndpoints.some(
     (ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error
   );
+
+  // Prompt 含「N 字」要求时，卡片显示字数达成率
+  const wordTarget = extractWordTarget(restored ? restored.prompt : prompt);
 
   const btn =
     "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
@@ -825,6 +828,7 @@ export default function Home() {
                 nowTick={isRunning(run) ? nowTick : 0}
                 onRerun={() => rerunOne(ep)}
                 onToggleFocus={() => setFocusId(ep.id)}
+                wordTarget={wordTarget}
               />
             );
           })}
@@ -853,6 +857,7 @@ export default function Home() {
               onRerun={() => rerunOne(focusEndpoint)}
               expanded
               onToggleFocus={() => setFocusId(null)}
+              wordTarget={wordTarget}
             />
           </div>
         </div>

@@ -4,7 +4,13 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { ChartModal } from "./ChartModal";
 import { Markdown } from "./Markdown";
 import { Sparkline } from "./Sparkline";
-import { fmtInt, fmtSeconds, fmtTps, rankBadge } from "@/lib/format";
+import {
+  countChars,
+  fmtInt,
+  fmtSeconds,
+  fmtTps,
+  rankBadge,
+} from "@/lib/format";
 import { extractHtmlDoc, extractSvgs, svgDataUrl } from "@/lib/svg";
 import type { ModelEndpoint, RunState } from "@/lib/types";
 
@@ -97,6 +103,7 @@ export const ModelCard = memo(function ModelCard({
   onRerun,
   expanded = false,
   onToggleFocus,
+  wordTarget,
 }: {
   endpoint: ModelEndpoint;
   run: RunState;
@@ -110,6 +117,8 @@ export const ModelCard = memo(function ModelCard({
   expanded?: boolean;
   /** 打开/关闭单模型放大视图 */
   onToggleFocus?: () => void;
+  /** Prompt 里检测到的「N 字」目标，用于显示字数达成率 */
+  wordTarget?: number | null;
 }) {
   const outRef = useRef<HTMLDivElement>(null);
   const reasonRef = useRef<HTMLDivElement>(null);
@@ -130,6 +139,13 @@ export const ModelCard = memo(function ModelCard({
     () => (finished ? extractHtmlDoc(run.text) : null),
     [run.text, finished]
   );
+
+  // 正文字数与「N 字」达成率（仅 Prompt 含字数要求时显示）
+  const wordCount = useMemo(
+    () => (wordTarget ? countChars(run.text) : 0),
+    [run.text, wordTarget]
+  );
+  const wordPct = wordTarget ? Math.round((wordCount / wordTarget) * 100) : 0;
 
   const streamingMd =
     markdown &&
@@ -461,6 +477,45 @@ export const ModelCard = memo(function ModelCard({
             <Sparkline samples={run.samples} />
           </button>
         </div>
+        {/* 字数达成率：Prompt 含「N 字」要求时显示，揭穿字数谎报 */}
+        {wordTarget && (run.text || finished) && (
+          <div className="flex items-center gap-2 border-t border-line px-4 py-1.5">
+            <span className="num text-[11px] text-faint">
+              字数{" "}
+              <span className="text-ink font-semibold">
+                {fmtInt(wordCount)}
+              </span>{" "}
+              / {fmtInt(wordTarget)}
+            </span>
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-paper">
+              <div
+                className="h-full rounded-full transition-all"
+                style={{
+                  width: `${Math.min(wordPct, 100)}%`,
+                  background:
+                    wordPct >= 90
+                      ? "var(--go)"
+                      : wordPct >= 60
+                        ? "var(--think)"
+                        : "var(--accent)",
+                }}
+              />
+            </div>
+            <span
+              className="num text-[11px] font-semibold shrink-0"
+              style={{
+                color:
+                  wordPct >= 90
+                    ? "var(--go)"
+                    : wordPct >= 60
+                      ? "var(--think)"
+                      : "var(--accent)",
+              }}
+            >
+              {wordPct}%
+            </span>
+          </div>
+        )}
       </div>
 
       <ChartModal
@@ -483,5 +538,6 @@ export const ModelCard = memo(function ModelCard({
   prev.screenshotMode === next.screenshotMode &&
   prev.thinkingStats === next.thinkingStats &&
   prev.nowTick === next.nowTick &&
-  prev.expanded === next.expanded
+  prev.expanded === next.expanded &&
+  prev.wordTarget === next.wordTarget
 );
