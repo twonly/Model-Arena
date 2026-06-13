@@ -11,6 +11,7 @@ import { fileToResizedDataUrl } from "@/lib/image";
 import { PRESET_PROMPTS } from "@/lib/providers";
 import { runEndpoint } from "@/lib/runner";
 import { rankBadge } from "@/lib/format";
+import { buildSnapshot } from "@/lib/share";
 import { toPng } from "html-to-image";
 import {
   CONSENT_FIELDS,
@@ -110,6 +111,8 @@ export default function Home() {
   /** 正在导出长图（临时隐藏工具条等非内容元素） */
   const [exporting, setExporting] = useState(false);
   const mainRef = useRef<HTMLElement>(null);
+  /** 分享：null=未分享，"loading"=生成中，否则为完整短链 */
+  const [shareUrl, setShareUrl] = useState<string | "loading" | null>(null);
 
   /* Esc 退出放大视图 */
   useEffect(() => {
@@ -279,6 +282,7 @@ export default function Home() {
     const targets = endpoints.filter((e) => e.enabled);
     if (!targets.length || !prompt.trim() || anyRunning) return;
     setRestored(null);
+    setShareUrl(null); // 新一轮作废旧分享链接
     const ctrl = new AbortController();
     controllerRef.current = ctrl;
     rankCounter.current = 0;
@@ -433,6 +437,55 @@ export default function Home() {
     }
   };
 
+  const shareResults = async () => {
+    if (shareUrl === "loading") return;
+    const rows = visibleEndpoints
+      .map((ep) => ({
+        name: ep.name,
+        model: ep.model,
+        run: runs[ep.id] ?? emptyRun(),
+      }))
+      .filter(({ run }) => run.metrics || run.error);
+    if (!rows.length) {
+      flash("还没有可分享的结果");
+      return;
+    }
+    setShareUrl("loading");
+    try {
+      const snapshot = buildSnapshot({
+        title,
+        notes,
+        prompt,
+        watermark,
+        thinkingStats: thinkStats,
+        rows,
+      });
+      const res = await fetch("/api/share", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(snapshot),
+      });
+      const j = (await res.json()) as {
+        ok: boolean;
+        id?: string;
+        error?: string;
+        disabled?: boolean;
+      };
+      if (!j.ok || !j.id) {
+        setShareUrl(null);
+        flash(j.disabled ? "分享功能未启用（后端未配置）" : j.error || "分享失败");
+        return;
+      }
+      const url = `${location.origin}/r/${j.id}`;
+      setShareUrl(url);
+      await navigator.clipboard.writeText(url).catch(() => {});
+      flash("分享链接已复制 ✓");
+    } catch {
+      setShareUrl(null);
+      flash("分享失败，请重试");
+    }
+  };
+
   const restoreHistory = (h: HistoryEntry) => {
     setTitle(h.title);
     setNotes(h.notes);
@@ -550,6 +603,16 @@ export default function Home() {
               🖼 导出长图
             </button>
           )}
+          {hasResults && !restored && (
+            <button
+              className={btn}
+              onClick={shareResults}
+              disabled={shareUrl === "loading"}
+              title="生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
+            >
+              {shareUrl === "loading" ? "生成中…" : "🔗 分享链接"}
+            </button>
+          )}
           <button className={btn} onClick={() => setWmOpen((v) => !v)}>
             💧 水印{watermark.trim() ? "：开" : ""}
           </button>
@@ -604,6 +667,44 @@ export default function Home() {
             </button>
           )}
           <span className="ml-auto text-[11px] text-accent">{toast}</span>
+        </div>
+      )}
+
+      {/* 分享链接显示（生成后） */}
+      {shareUrl && shareUrl !== "loading" && !screenshotMode && (
+        <div
+          data-no-export="1"
+          className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2.5"
+        >
+          <span className="text-[12px]" style={{ color: "var(--go)" }}>
+            🔗 只读链接已生成
+          </span>
+          <input
+            readOnly
+            value={shareUrl}
+            onFocus={(e) => e.currentTarget.select()}
+            className="num min-w-0 flex-1 rounded-md border border-line bg-paper/60 px-2.5 py-1.5 text-[12px] outline-none"
+          />
+          <button
+            className={btn}
+            onClick={() => {
+              void navigator.clipboard.writeText(shareUrl);
+              flash("已复制 ✓");
+            }}
+          >
+            复制
+          </button>
+          <a
+            className={btn}
+            href={shareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            打开
+          </a>
+          <span className="text-[11px] text-faint/80">
+            链接公开 Prompt 与模型输出，不含 API Key
+          </span>
         </div>
       )}
 

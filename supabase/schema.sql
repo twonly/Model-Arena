@@ -49,6 +49,17 @@ create index if not exists run_metrics_model_idx on run_metrics (model, created_
 create index if not exists run_metrics_provider_idx on run_metrics (provider, created_at desc);
 create index if not exists run_metrics_client_idx on run_metrics (client_id, created_at desc);
 
--- 两张表都不开放匿名读写（服务端用 service_role key 写入，绕过 RLS）
+-- 分享快照：用户主动分享的对比结果（含 Prompt 与模型输出，不含 API Key/baseUrl）
+-- 读取走服务端 service_role，页面再渲染，故同样不开放匿名直读
+create table if not exists shares (
+  id          text primary key,        -- 短 ID，URL 用
+  created_at  timestamptz not null default now(),
+  payload     jsonb not null,          -- 快照：标题/备注/prompt/各模型结果
+  views       int not null default 0
+);
+create index if not exists shares_created_idx on shares (created_at desc);
+
+-- 三张表都不开放匿名读写（服务端用 service_role key 操作，绕过 RLS）
 alter table consents enable row level security;
 alter table run_metrics enable row level security;
+alter table shares enable row level security;
