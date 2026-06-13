@@ -473,9 +473,17 @@ export default function Home() {
       );
       return;
     }
-    const stillRunning = visibleEndpoints.some((ep) =>
+    const runningCount = visibleEndpoints.filter((ep) =>
       isRunning(runs[ep.id] ?? emptyRun())
-    );
+    ).length;
+    const stillRunning = runningCount > 0;
+    // 有模型还在跑时弹确认，避免误分享不完整的结果（漏模型）
+    if (stillRunning) {
+      const ok = confirm(
+        `还有 ${runningCount} 个模型在跑，现在分享只会包含已完成的 ${rows.length} 个。\n建议等全部跑完再分享。确定现在就分享吗？`
+      );
+      if (!ok) return;
+    }
     setShareUrl("loading");
     try {
       const snapshot = buildSnapshot({

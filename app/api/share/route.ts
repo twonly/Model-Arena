@@ -10,7 +10,7 @@ import { makeShareId, type ShareSnapshot } from "@/lib/share";
 
 export const runtime = "nodejs";
 
-const MAX_BODY = 600_000; // 约 0.6MB，足够多模型长文 + 曲线
+const MAX_BODY = 1_500_000; // 约 1.5MB，容纳多模型长文/HTML + 曲线
 
 function sbHeaders(key: string) {
   return {
