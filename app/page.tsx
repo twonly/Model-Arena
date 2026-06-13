@@ -273,6 +273,54 @@ export default function Landing() {
       </section>
 
       {/* 隐私与架构 */}
+      {/* 大陆访问 / 本地部署提示 */}
+      <section className="mx-auto max-w-3xl px-6 py-10">
+        <div className="rounded-xl border border-line bg-card p-5">
+          <div className="flex items-center gap-2 text-[15px] font-bold">
+            🌐 大陆访问遇到 Network Error？本地跑更稳
+          </div>
+          <p className="mt-2.5 text-[13px] leading-relaxed text-faint">
+            在线版部署在 Vercel（海外边缘节点）。大陆网络<span className="text-ink">跨境连接偶发不稳</span>，
+            可能出现「Failed to fetch / network error」——这是
+            <span className="text-ink">你的浏览器到本站服务器</span>这一跳的波动，
+            与 DeepSeek、Kimi 等模型厂商无关，多数情况<span className="text-ink">点「重跑」即可恢复</span>。
+          </p>
+          <p className="mt-2 text-[13px] leading-relaxed text-faint">
+            想要最稳的体验？项目完全开源，
+            <span className="text-ink">Fork 到自己电脑本地运行</span>——
+            浏览器和代理都在本机，直连各厂商，没有跨境这一跳，又快又稳：
+          </p>
+          <div className="mt-3 overflow-x-auto rounded-lg border border-line bg-paper px-4 py-3">
+            <code className="num text-[12px] leading-6 text-ink whitespace-pre">
+              git clone {GITHUB}.git{"\n"}
+              cd Model-Arena && npm install{"\n"}
+              npm run dev   <span className="text-faint"># 打开 http://localhost:3000</span>
+            </code>
+          </div>
+          <div className="mt-3 flex flex-wrap items-center gap-3">
+            <a
+              href={`${GITHUB}/fork`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-md bg-ink px-4 py-2 text-[13px] font-bold text-paper hover:opacity-90"
+            >
+              ⑂ Fork 到我的 GitHub
+            </a>
+            <a
+              href={GITHUB}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-md border border-line px-4 py-2 text-[13px] font-semibold hover:border-ink/40"
+            >
+              查看仓库与部署说明
+            </a>
+          </div>
+          <p className="mt-3 text-[11.5px] text-faint/80">
+            本地运行功能完全一致，且本地版默认可直连 Ollama 等本机模型。
+          </p>
+        </div>
+      </section>
+
       <section className="border-t border-line bg-card/60">
         <div className="mx-auto max-w-3xl px-6 py-14 text-center">
           <h2

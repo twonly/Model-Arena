@@ -14,6 +14,9 @@ import { rateLimit } from "@/lib/ratelimit";
  */
 
 export const runtime = "nodejs";
+// 流式代理可能持续很久（长文生成 + 慢模型）。默认时长不够会被 Vercel
+// 中途杀掉，前端表现为 network error。设到 300s（各计划上限，Fluid 默认）。
+export const maxDuration = 300;
 
 interface ChatBody {
   kind: "openai" | "anthropic";
