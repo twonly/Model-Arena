@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { ChartModal } from "./ChartModal";
 import { Markdown } from "./Markdown";
 import { Sparkline } from "./Sparkline";
@@ -27,6 +27,28 @@ export const STATUS_COLOR: Record<RunState["status"], string> = {
   error: "var(--accent)",
   stopped: "var(--faint)",
 };
+
+/**
+ * 流式期间限频取值（默认 400ms）：长文 Markdown 若每 80ms 重解析一次，
+ * 多卡并发时会明显拖卡页面；结束后立即同步到最终值。
+ */
+function useThrottledWhileActive(value: string, active: boolean, ms = 400) {
+  const [v, setV] = useState(value);
+  const lastRef = useRef(0);
+  useEffect(() => {
+    if (!active) {
+      setV(value);
+      return;
+    }
+    const wait = Math.max(0, ms - (Date.now() - lastRef.current));
+    const t = setTimeout(() => {
+      lastRef.current = Date.now();
+      setV(value);
+    }, wait);
+    return () => clearTimeout(t);
+  }, [value, active, ms]);
+  return v;
+}
 
 function Metric({
   value,
@@ -60,7 +82,12 @@ function Metric({
   );
 }
 
-export function ModelCard({
+/**
+ * memo：流式期间每个模型每秒十几次状态更新，不 memo 会让所有卡片
+ * 跟着每一次更新整体重渲染。memo 后只有自己的 run 变化才重渲染
+ * （page 侧对未运行的卡片传 nowTick=0，避免计时器打穿 memo）。
+ */
+export const ModelCard = memo(function ModelCard({
   endpoint,
   run,
   markdown,
@@ -103,6 +130,14 @@ export function ModelCard({
     () => (finished ? extractHtmlDoc(run.text) : null),
     [run.text, finished]
   );
+
+  const streamingMd =
+    markdown &&
+    (run.status === "connecting" ||
+      run.status === "thinking" ||
+      run.status === "streaming");
+  // Markdown 渲染用限频文本；纯文本模式渲染很便宜，直接用实时值
+  const mdText = useThrottledWhileActive(run.text, streamingMd);
 
   const running =
     run.status === "connecting" ||
@@ -252,7 +287,7 @@ export function ModelCard({
           </div>
         ) : run.text ? (
           markdown ? (
-            <Markdown text={run.text} />
+            <Markdown text={running ? mdText : run.text} />
           ) : (
             <div className={`whitespace-pre-wrap leading-7 ${running ? "caret" : ""}`}>
               {run.text}
@@ -438,4 +473,15 @@ export function ModelCard({
       />
     </div>
   );
-}
+},
+// 函数 props（onRerun/onToggleFocus）不参与比较：它们每次父渲染都是新引用，
+// 但内部通过 refs 读取最新状态，旧闭包无害
+(prev, next) =>
+  prev.endpoint === next.endpoint &&
+  prev.run === next.run &&
+  prev.markdown === next.markdown &&
+  prev.screenshotMode === next.screenshotMode &&
+  prev.thinkingStats === next.thinkingStats &&
+  prev.nowTick === next.nowTick &&
+  prev.expanded === next.expanded
+);

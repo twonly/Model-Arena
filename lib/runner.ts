@@ -58,7 +58,10 @@ export async function runEndpoint({
 
   const now = () => performance.now() - t0;
 
-  const liveTok = () => estimateTokens(reasoning) + estimateTokens(text);
+  // 实时估算用增量累加（O(delta)），避免每次 flush 全文重扫；
+  // 最终指标在 finalize 里仍用全文一次性精确估算
+  let estLiveTok = 0;
+  const liveTok = () => estLiveTok;
 
   const instantTps = (): number => {
     const t = now();
@@ -246,11 +249,13 @@ export async function runEndpoint({
           if (ev.reasoning) {
             if (tFirstReasoning == null) tFirstReasoning = t;
             reasoning += ev.reasoning;
+            estLiveTok += estimateTokens(ev.reasoning);
             tLastReasoning = t;
           }
           if (ev.text) {
             if (tFirstContent == null) tFirstContent = t;
             text += ev.text;
+            estLiveTok += estimateTokens(ev.text);
             tLastContent = t;
           }
           flush();

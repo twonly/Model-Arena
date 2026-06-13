@@ -56,6 +56,9 @@ function usePersisted<T>(
 const isRunning = (r: RunState) =>
   r.status === "connecting" || r.status === "thinking" || r.status === "streaming";
 
+/** 稳定引用的空 run：避免每次渲染 new 对象打穿 ModelCard 的 memo */
+const EMPTY_RUN = emptyRun();
+
 export default function Home() {
   /* 持久化状态 */
   const [endpoints, setEndpoints] = usePersisted<ModelEndpoint[]>(
@@ -140,7 +143,8 @@ export default function Home() {
   useEffect(() => {
     runsRef.current = runs;
   }, [runs]);
-  // 上报时通过 ref 取最新值，避免 saveHistory 闭包过期
+  // 通过 ref 取最新值：saveHistory / rerunOne 可能被旧闭包调用
+  // （ModelCard memo 忽略函数 props 的前提就是这里读 ref）
   const telemetryRef = useRef(telemetry);
   useEffect(() => {
     telemetryRef.current = telemetry;
@@ -149,6 +153,18 @@ export default function Home() {
   useEffect(() => {
     imageRef.current = image;
   }, [image]);
+  const promptRef = useRef(prompt);
+  useEffect(() => {
+    promptRef.current = prompt;
+  }, [prompt]);
+  const paramsRef = useRef(params);
+  useEffect(() => {
+    paramsRef.current = params;
+  }, [params]);
+  const restoredRef = useRef(restored);
+  useEffect(() => {
+    restoredRef.current = restored;
+  }, [restored]);
 
   const decideTelemetry = (choice: ConsentChoice) => {
     setTelemetry({ choice, version: CONSENT_VERSION, at: Date.now() });
@@ -259,7 +275,8 @@ export default function Home() {
   };
 
   const rerunOne = (ep: ModelEndpoint) => {
-    if (!prompt.trim() || restored) return;
+    // 全部走 ref：此函数可能被 memo 卡片里的旧闭包调用
+    if (!promptRef.current.trim() || restoredRef.current) return;
     const ctrl = new AbortController();
     controllerRef.current = ctrl;
     setRuns((prev) => ({
@@ -269,9 +286,9 @@ export default function Home() {
     setNowTick(Date.now());
     void runEndpoint({
       endpoint: ep,
-      prompt,
-      params,
-      imageDataUrl: image?.dataUrl,
+      prompt: promptRef.current,
+      params: paramsRef.current,
+      imageDataUrl: imageRef.current?.dataUrl,
       signal: ctrl.signal,
       update: updateRun(ep.id),
       onSettled: () => {},
@@ -795,19 +812,22 @@ export default function Home() {
         </div>
       ) : (
         <div className={`grid gap-4 ${gridCols}`}>
-          {visibleEndpoints.map((ep) => (
-            <ModelCard
-              key={ep.id}
-              endpoint={ep}
-              run={runs[ep.id] ?? emptyRun()}
-              markdown={markdown}
-              screenshotMode={screenshotMode || !!restored}
-              thinkingStats={thinkStats}
-              nowTick={nowTick}
-              onRerun={() => rerunOne(ep)}
-              onToggleFocus={() => setFocusId(ep.id)}
-            />
-          ))}
+          {visibleEndpoints.map((ep) => {
+            const run = runs[ep.id] ?? EMPTY_RUN;
+            return (
+              <ModelCard
+                key={ep.id}
+                endpoint={ep}
+                run={run}
+                markdown={markdown}
+                screenshotMode={screenshotMode || !!restored}
+                thinkingStats={thinkStats}
+                nowTick={isRunning(run) ? nowTick : 0}
+                onRerun={() => rerunOne(ep)}
+                onToggleFocus={() => setFocusId(ep.id)}
+              />
+            );
+          })}
         </div>
       )}
 
@@ -823,11 +843,13 @@ export default function Home() {
           >
             <ModelCard
               endpoint={focusEndpoint}
-              run={runs[focusEndpoint.id] ?? emptyRun()}
+              run={runs[focusEndpoint.id] ?? EMPTY_RUN}
               markdown={markdown}
               screenshotMode={false}
               thinkingStats={thinkStats}
-              nowTick={nowTick}
+              nowTick={
+                isRunning(runs[focusEndpoint.id] ?? EMPTY_RUN) ? nowTick : 0
+              }
               onRerun={() => rerunOne(focusEndpoint)}
               expanded
               onToggleFocus={() => setFocusId(null)}
