@@ -59,7 +59,27 @@ create table if not exists shares (
 );
 create index if not exists shares_created_idx on shares (created_at desc);
 
--- 三张表都不开放匿名读写（服务端用 service_role key 操作，绕过 RLS）
+-- 云同步：每个登录用户一行，payload 是「客户端加密后的密文」
+-- 服务器无法解密（密钥由用户的同步密码在浏览器派生）。RLS 限定本人可读写。
+create table if not exists user_sync (
+  user_id     uuid primary key references auth.users(id) on delete cascade,
+  payload     jsonb not null,         -- {v, salt, iv, data} 密文
+  updated_at  timestamptz not null default now()
+);
+alter table user_sync enable row level security;
+
+-- 仅本人可读写自己的同步行
+drop policy if exists "own sync select" on user_sync;
+create policy "own sync select" on user_sync
+  for select using (auth.uid() = user_id);
+drop policy if exists "own sync upsert" on user_sync;
+create policy "own sync insert" on user_sync
+  for insert with check (auth.uid() = user_id);
+drop policy if exists "own sync update" on user_sync;
+create policy "own sync update" on user_sync
+  for update using (auth.uid() = user_id);
+
+-- 前三张表都不开放匿名读写（服务端用 service_role key 操作，绕过 RLS）
 alter table consents enable row level security;
 alter table run_metrics enable row level security;
 alter table shares enable row level security;

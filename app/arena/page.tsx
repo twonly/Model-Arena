@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Credit } from "@/components/Credit";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
+import { AccountDialog } from "@/components/AccountDialog";
 import { PromptLibrary } from "@/components/PromptLibrary";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { TrendModal } from "@/components/TrendModal";
@@ -106,6 +107,7 @@ export default function Home() {
   const [wmOpen, setWmOpen] = useState(false);
   const [trendOpen, setTrendOpen] = useState(false);
   const [promptLibOpen, setPromptLibOpen] = useState(false);
+  const [accountOpen, setAccountOpen] = useState(false);
   /** 视觉对比图片（仅本次会话，不持久化避免撑爆 localStorage） */
   const [image, setImage] = useState<{ dataUrl: string; name: string } | null>(
     null
@@ -602,6 +604,9 @@ export default function Home() {
           </button>
           <button className={btn} onClick={() => setHistoryOpen(true)}>
             🕘 历史
+          </button>
+          <button className={btn} onClick={() => setAccountOpen(true)}>
+            👤 账号同步
           </button>
           <button
             className={btn}
@@ -1170,6 +1175,7 @@ export default function Home() {
         custom={customPrompts}
         onChangeCustom={setCustomPrompts}
       />
+      <AccountDialog open={accountOpen} onClose={() => setAccountOpen(false)} />
 
       {!screenshotMode && (
         <footer data-no-export="1" className="mt-10 space-y-2 text-center text-[11px] text-faint/70">

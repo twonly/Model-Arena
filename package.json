@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.108.1",
     "@vercel/analytics": "^2.0.1",
     "html-to-image": "^1.11.13",
     "next": "16.2.9",
