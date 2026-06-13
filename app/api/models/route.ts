@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { checkUpstreamUrl } from "@/lib/upstream-guard";
+import { rateLimit } from "@/lib/ratelimit";
 
 /** 拉取厂商的模型列表（OpenAI 兼容 GET /models；Anthropic GET /v1/models） */
 
@@ -23,6 +24,9 @@ async function readErr(res: Response): Promise<string> {
 }
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, "models", 30);
+  if (limited) return Response.json({ error: limited }, { status: 429 });
+
   let body: Body;
   try {
     body = (await req.json()) as Body;

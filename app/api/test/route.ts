@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { checkUpstreamUrl } from "@/lib/upstream-guard";
+import { rateLimit } from "@/lib/ratelimit";
 
 /** 连通性测试：用极小的 max_tokens 发一次真实补全，验证 URL / Key / 模型 ID */
 
@@ -24,6 +25,9 @@ async function readErr(res: Response): Promise<string> {
 }
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, "test", 30);
+  if (limited) return Response.json({ ok: false, error: limited }, { status: 429 });
+
   let body: Body;
   try {
     body = (await req.json()) as Body;

@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import { checkUpstreamUrl } from "@/lib/upstream-guard";
+import { rateLimit } from "@/lib/ratelimit";
 
 /**
  * 流式代理：把各家厂商接口统一成一种 SSE 事件流，顺带解决浏览器 CORS。
@@ -74,6 +75,10 @@ async function readErrorMessage(res: Response): Promise<string> {
 }
 
 export async function POST(req: NextRequest) {
+  // 每 IP 每分钟最多 60 次对比请求（同时跑多个模型也算多次）
+  const limited = rateLimit(req, "chat", 60);
+  if (limited) return new Response(limited, { status: 429 });
+
   let body: ChatBody;
   try {
     body = (await req.json()) as ChatBody;

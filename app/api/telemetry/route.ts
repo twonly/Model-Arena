@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { rateLimit } from "@/lib/ratelimit";
 
 /**
  * 可选遥测接收端：写入 Supabase（REST 接口，免 SDK）。
@@ -84,6 +85,9 @@ async function supabaseInsert(
 }
 
 export async function POST(req: NextRequest) {
+  const limited = rateLimit(req, "telemetry", 120);
+  if (limited) return Response.json({ ok: false, error: limited }, { status: 429 });
+
   let body: Record<string, unknown>;
   try {
     body = (await req.json()) as Record<string, unknown>;
