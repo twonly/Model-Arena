@@ -16,7 +16,11 @@ const EXTRA_PRESETS: { label: string; json: string }[] = [
     label: "关思考 · vLLM/硅基",
     json: '{"chat_template_kwargs": {"enable_thinking": false}}',
   },
-  { label: "自适应思考 · Claude", json: '{"thinking": {"type": "adaptive"}}' },
+  {
+    label: "开思考 · Anthropic协议(Kimi等)",
+    json: '{"thinking": {"type": "enabled", "budget_tokens": 8192}}',
+  },
+  { label: "自适应思考 · Claude 4.6+", json: '{"thinking": {"type": "adaptive"}}' },
   { label: "清空", json: "" },
 ];
 
