@@ -11,6 +11,7 @@ import { fileToResizedDataUrl } from "@/lib/image";
 import { PRESET_PROMPTS } from "@/lib/providers";
 import { runEndpoint } from "@/lib/runner";
 import { rankBadge } from "@/lib/format";
+import { toPng } from "html-to-image";
 import {
   CONSENT_FIELDS,
   CONSENT_VERSION,
@@ -106,6 +107,9 @@ export default function Home() {
   const [hiddenIds, setHiddenIds] = usePersisted<string[]>("ma.hidden", []);
   /** 单模型放大查看（不影响其他模型运行） */
   const [focusId, setFocusId] = useState<string | null>(null);
+  /** 正在导出长图（临时隐藏工具条等非内容元素） */
+  const [exporting, setExporting] = useState(false);
+  const mainRef = useRef<HTMLElement>(null);
 
   /* Esc 退出放大视图 */
   useEffect(() => {
@@ -365,6 +369,34 @@ export default function Home() {
     flash("已复制 Markdown 表格 ✓");
   };
 
+  const exportImage = async () => {
+    const el = mainRef.current;
+    if (!el || exporting) return;
+    setExporting(true);
+    flash("正在生成长图…");
+    // 等一帧让「隐藏工具条」生效
+    await new Promise((r) => setTimeout(r, 60));
+    try {
+      const bg = getComputedStyle(document.body).backgroundColor;
+      const dataUrl = await toPng(el, {
+        pixelRatio: 2,
+        backgroundColor: bg,
+        // 跳过被标记为不导出的元素（工具条、设置面板等）
+        filter: (node) =>
+          !(node instanceof HTMLElement && node.dataset.noExport === "1"),
+      });
+      const a = document.createElement("a");
+      a.download = `${(title || "模型对比").slice(0, 30)}-${Date.now()}.png`;
+      a.href = dataUrl;
+      a.click();
+      flash("长图已下载 ✓");
+    } catch {
+      flash("生成失败，请重试");
+    } finally {
+      setExporting(false);
+    }
+  };
+
   const restoreHistory = (h: HistoryEntry) => {
     setTitle(h.title);
     setNotes(h.notes);
@@ -408,7 +440,7 @@ export default function Home() {
     "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
 
   return (
-    <main className="mx-auto max-w-7xl px-5 py-8">
+    <main ref={mainRef} className="mx-auto max-w-7xl px-5 py-8">
       {/* ===== 标题区（可编辑，截图友好） ===== */}
       <header className="mb-5">
         <input
@@ -439,7 +471,7 @@ export default function Home() {
 
       {/* ===== 工具条 ===== */}
       {!screenshotMode && (
-        <div className="mb-4 flex flex-wrap items-center gap-2">
+        <div data-no-export="1" className="mb-4 flex flex-wrap items-center gap-2">
           <button className={btn} onClick={() => setSettingsOpen(true)}>
             ⚙ 模型接入
           </button>
@@ -470,6 +502,16 @@ export default function Home() {
           {hasResults && (
             <button className={btn} onClick={copyResults}>
               ⧉ 复制指标表
+            </button>
+          )}
+          {hasResults && (
+            <button
+              className={btn}
+              onClick={exportImage}
+              disabled={exporting}
+              title="把当前对比导出成长图（含标题/备注/水印），直接发文用"
+            >
+              🖼 导出长图
             </button>
           )}
           <button className={btn} onClick={() => setWmOpen((v) => !v)}>
@@ -531,7 +573,7 @@ export default function Home() {
 
       {/* 水印设置 */}
       {wmOpen && !screenshotMode && (
-        <div className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-card px-3.5 py-2.5">
+        <div data-no-export="1" className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-card px-3.5 py-2.5">
           <input
             className="num w-72 rounded-md border border-line px-2.5 py-1.5 text-[12px] outline-none focus:border-ink/40"
             value={watermark}
@@ -563,7 +605,7 @@ export default function Home() {
             onChange={(e) => setPrompt(e.target.value)}
             placeholder="输入要同时发给所有模型的 Prompt……"
           />
-          <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-line pt-2.5">
+          <div data-no-export="1" className="mt-2 flex flex-wrap items-center gap-2 border-t border-line pt-2.5">
             <select
               className="rounded-md border border-line bg-card px-2 py-1.5 text-[12px] text-faint outline-none cursor-pointer max-w-[210px]"
               value=""
@@ -709,7 +751,7 @@ export default function Home() {
 
       {/* ===== 遥测同意声明（首次出结果后询问一次） ===== */}
       {!telemetry.choice && hasResults && !screenshotMode && !restored && (
-        <div className="mb-4 rounded-lg border border-line bg-card px-4 py-3">
+        <div data-no-export="1" className="mb-4 rounded-lg border border-line bg-card px-4 py-3">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="text-[13px] font-semibold">
               📡 愿意匿名共享这些评测指标吗？
@@ -759,7 +801,7 @@ export default function Home() {
 
       {/* ===== 模型条：隐藏/显示与排序（隐藏的模型后台照常跑） ===== */}
       {!screenshotMode && !restored && enabledEndpoints.length >= 2 && (
-        <div className="mb-3 flex flex-wrap items-center gap-1.5">
+        <div data-no-export="1" className="mb-3 flex flex-wrap items-center gap-1.5">
           <span className="text-[11px] text-faint shrink-0">显示</span>
           {enabledEndpoints.map((ep, idx) => {
             const run = runs[ep.id] ?? emptyRun();
@@ -931,7 +973,7 @@ export default function Home() {
       />
 
       {!screenshotMode && (
-        <footer className="mt-10 space-y-2 text-center text-[11px] text-faint/70">
+        <footer data-no-export="1" className="mt-10 space-y-2 text-center text-[11px] text-faint/70">
           <div>
             指标说明：首Token = 请求发出到收到第一个 token（含网络往返与排队）·
             思考TPS / 输出TPS 各按该阶段「首个→末个 token」的活跃窗口独立计时，
