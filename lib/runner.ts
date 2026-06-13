@@ -282,7 +282,17 @@ export async function runEndpoint({
       onSettled(false);
       return;
     }
-    const message = err instanceof Error ? err.message : String(err);
+    const raw = err instanceof Error ? err.message : String(err);
+    const gotData = tFirst != null;
+    // 把浏览器底层的 fetch 失败翻译成可读、可操作的诊断
+    let message = raw;
+    if (/Failed to fetch|NetworkError|network error|ERR_|load failed/i.test(raw)) {
+      message = gotData
+        ? `连接中断：传输途中与服务器的连接断开（多为浏览器↔本站的跨境网络波动，与模型厂商无关）。点「重跑」通常可恢复。原始：${raw}`
+        : `无法连接到服务器：浏览器没能连上本站代理（多为本地网络/跨境到 Vercel 不稳定）。请检查网络后点「重跑」。原始：${raw}`;
+    } else if (/aborted|timeout/i.test(raw)) {
+      message = `请求超时：${raw}`;
+    }
     update((prev) => ({ ...prev, status: "error", error: message }));
     onSettled(false);
   }

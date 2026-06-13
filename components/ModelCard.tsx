@@ -194,7 +194,12 @@ export const ModelCard = memo(function ModelCard({
   }, [run.status]);
 
   const m = run.metrics;
-  const elapsedMs = m?.totalMs ?? (run.startedAt ? nowTick - run.startedAt : undefined);
+  // 仅运行中才用实时计时器；出错/结束无指标时显示「—」而非用 nowTick=0 算出巨大负数
+  const elapsedMs =
+    m?.totalMs ??
+    (running && run.startedAt && nowTick > 0
+      ? nowTick - run.startedAt
+      : undefined);
   // 首Token 口径不随思考统计开关变化：始终 = 首个 token（思考开始即响应）
   const ttft = m?.ttftMs ?? run.liveTtftMs;
   const thinkingTps =
