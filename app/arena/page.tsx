@@ -481,10 +481,19 @@ export default function Home() {
           <button
             className={btn}
             onClick={() => setTrendOpen(true)}
-            title="同一模型在历次对比中的速度走势"
+            title="同一模型在历次对比中的速度走势（本机历史）"
           >
-            📊 趋势
+            📈 趋势
           </button>
+          <a
+            className={btn}
+            href="/stats"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="全网用户实测的大模型速度排行榜"
+          >
+            🏆 排行榜
+          </a>
           <button
             className={btn}
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}

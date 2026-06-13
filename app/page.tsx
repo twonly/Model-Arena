@@ -90,6 +90,12 @@ export default function Landing() {
           <span className="num text-[11px] text-faint">Model Arena</span>
         </div>
         <div className="flex items-center gap-3">
+          <Link
+            href="/stats"
+            className="text-[13px] text-faint hover:text-ink"
+          >
+            排行榜
+          </Link>
           <a
             href={GITHUB}
             target="_blank"
