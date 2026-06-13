@@ -50,6 +50,9 @@ const BACKUP_KEYS = [
   "ma.thinkStats",
   "ma.watermark",
   "ma.wmTiled",
+  "ma.compact",
+  "ma.theme",
+  "ma.customPrompts",
 ];
 
 function exportBackup() {

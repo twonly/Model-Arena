@@ -4,11 +4,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Credit } from "@/components/Credit";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
+import { PromptLibrary } from "@/components/PromptLibrary";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { TrendModal } from "@/components/TrendModal";
 import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
-import { PRESET_PROMPTS } from "@/lib/providers";
+import type { PromptItem } from "@/lib/prompts";
 import { runEndpoint } from "@/lib/runner";
 import { rankBadge } from "@/lib/format";
 import { buildSnapshot } from "@/lib/share";
@@ -78,6 +79,10 @@ export default function Home() {
   const [markdown, setMarkdown] = usePersisted("ma.markdown", true);
   const [thinkStats, setThinkStats] = usePersisted("ma.thinkStats", true);
   const [compact, setCompact] = usePersisted("ma.compact", false);
+  const [customPrompts, setCustomPrompts] = usePersisted<PromptItem[]>(
+    "ma.customPrompts",
+    []
+  );
   const [history, setHistory] = usePersisted<HistoryEntry[]>("ma.history", []);
   const [watermark, setWatermark] = usePersisted("ma.watermark", "");
   const [wmTiled, setWmTiled] = usePersisted("ma.wmTiled", false);
@@ -100,6 +105,7 @@ export default function Home() {
   const [nowTick, setNowTick] = useState(0);
   const [wmOpen, setWmOpen] = useState(false);
   const [trendOpen, setTrendOpen] = useState(false);
+  const [promptLibOpen, setPromptLibOpen] = useState(false);
   /** 视觉对比图片（仅本次会话，不持久化避免撑爆 localStorage） */
   const [image, setImage] = useState<{ dataUrl: string; name: string } | null>(
     null
@@ -784,24 +790,13 @@ export default function Home() {
             placeholder="输入要同时发给所有模型的 Prompt……"
           />
           <div data-no-export="1" className="mt-2 flex flex-wrap items-center gap-2 border-t border-line pt-2.5">
-            <select
-              className="rounded-md border border-line bg-card px-2 py-1.5 text-[12px] text-faint outline-none cursor-pointer max-w-[210px]"
-              value=""
-              onChange={(e) => {
-                const p = PRESET_PROMPTS[Number(e.target.value)];
-                if (p) setPrompt(p.text);
-                e.target.value = "";
-              }}
+            <button
+              className={btn}
+              onClick={() => setPromptLibOpen(true)}
+              title="精选 benchmark 评测题 + 自己保存的常用 Prompt"
             >
-              <option value="" disabled>
-                ⚡ 预设测速 Prompt
-              </option>
-              {PRESET_PROMPTS.map((p, i) => (
-                <option key={i} value={i}>
-                  {p.label}
-                </option>
-              ))}
-            </select>
+              📚 Prompt 库
+            </button>
             <button className={btn} onClick={() => setShowAdvanced((v) => !v)}>
               {showAdvanced ? "▾" : "▸"} 高级参数
             </button>
@@ -1148,6 +1143,13 @@ export default function Home() {
         open={trendOpen}
         onClose={() => setTrendOpen(false)}
         entries={history}
+      />
+      <PromptLibrary
+        open={promptLibOpen}
+        onClose={() => setPromptLibOpen(false)}
+        onPick={(text) => setPrompt(text)}
+        custom={customPrompts}
+        onChangeCustom={setCustomPrompts}
       />
 
       {!screenshotMode && (
