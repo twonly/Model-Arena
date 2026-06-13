@@ -121,6 +121,8 @@ export default function Home() {
   const [shareUrl, setShareUrl] = useState<string | "loading" | null>(null);
   /** 分享错误（持久显示，直到下次操作） */
   const [shareError, setShareError] = useState<string | null>(null);
+  /** 遥测上报状态（短暂显示，让用户看到上报成功/失败） */
+  const [telemetryStatus, setTelemetryStatus] = useState<string | null>(null);
 
   /* Esc 退出放大视图 */
   useEffect(() => {
@@ -190,14 +192,15 @@ export default function Home() {
     reported: boolean;
   } | null>(null);
 
-  const reportMetrics = (info: {
+  const reportMetrics = async (info: {
     runId: string;
     targets: ModelEndpoint[];
     promptChars: number;
     hasImage: boolean;
   }) => {
     const cur = runsRef.current;
-    void reportRunMetrics({
+    setTelemetryStatus("上报中…");
+    const r = await reportRunMetrics({
       runId: info.runId,
       promptChars: info.promptChars,
       hasImage: info.hasImage,
@@ -206,6 +209,11 @@ export default function Home() {
         run: cur[t.id] ?? emptyRun(),
       })),
     });
+    setTelemetryStatus(
+      r.ok ? `✓ 已上报 ${r.count} 条指标` : `✗ 上报失败：${r.error}`
+    );
+    setTimeout(() => setTelemetryStatus(null), 5000);
+    return r;
   };
 
   const decideTelemetry = (choice: ConsentChoice) => {
@@ -213,11 +221,10 @@ export default function Home() {
     void reportConsent(choice);
     // 同意时，把刚跑完的这一轮立刻补报（不必再跑一轮）
     if (choice === "granted" && lastRunRef.current && !lastRunRef.current.reported) {
-      reportMetrics(lastRunRef.current);
       lastRunRef.current.reported = true;
-      flash("已开启共享，已上报本轮数据，感谢支持 ❤");
+      void reportMetrics(lastRunRef.current);
     } else {
-      flash(choice === "granted" ? "已开启匿名指标共享，感谢支持 ❤" : "好的，不共享");
+      flash(choice === "granted" ? "已开启匿名指标共享 ❤" : "好的，不共享");
     }
   };
 
@@ -278,8 +285,8 @@ export default function Home() {
       lastRunRef.current = info;
       // 已同意：直接上报（只有数字，无 Key 无内容）
       if (telemetryRef.current.choice === "granted") {
-        reportMetrics(info);
         info.reported = true;
+        void reportMetrics(info);
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -683,6 +690,18 @@ export default function Home() {
             >
               📡 指标共享：{telemetry.choice === "granted" ? "开" : "关"}
             </button>
+          )}
+          {telemetryStatus && (
+            <span
+              className="text-[11.5px]"
+              style={{
+                color: telemetryStatus.startsWith("✗")
+                  ? "var(--accent)"
+                  : "var(--go)",
+              }}
+            >
+              {telemetryStatus}
+            </span>
           )}
           {restored && (
             <button

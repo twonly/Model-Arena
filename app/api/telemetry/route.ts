@@ -66,22 +66,30 @@ async function supabaseInsert(
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return "disabled";
-  const res = await fetch(`${url.replace(/\/+$/, "")}/rest/v1/${table}`, {
-    method: "POST",
-    signal: AbortSignal.timeout(10000),
-    headers: {
-      "Content-Type": "application/json",
-      apikey: key,
-      Authorization: `Bearer ${key}`,
-      Prefer: "return=minimal",
-    },
-    body: JSON.stringify(rows),
-  });
-  if (!res.ok) {
-    const msg = await res.text().catch(() => "");
-    return `supabase ${res.status}: ${msg.slice(0, 200)}`;
+  // 跨区/弱网下 10s 太紧——放宽到 25s，并对超时重试一次
+  let lastErr = "";
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await fetch(`${url.replace(/\/+$/, "")}/rest/v1/${table}`, {
+        method: "POST",
+        signal: AbortSignal.timeout(25000),
+        headers: {
+          "Content-Type": "application/json",
+          apikey: key,
+          Authorization: `Bearer ${key}`,
+          Prefer: "return=minimal",
+        },
+        body: JSON.stringify(rows),
+      });
+      if (res.ok) return null;
+      const msg = await res.text().catch(() => "");
+      return `supabase ${res.status}: ${msg.slice(0, 200)}`; // HTTP 错误不重试
+    } catch (e) {
+      lastErr = e instanceof Error ? e.message : String(e);
+      // 仅超时/网络错误重试
+    }
   }
-  return null;
+  return `上报超时或网络异常：${lastErr.slice(0, 120)}`;
 }
 
 export async function POST(req: NextRequest) {

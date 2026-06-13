@@ -68,13 +68,19 @@ function hostOf(url: string): string {
   }
 }
 
-/** 一轮对比完成后上报各模型的指标（仅在用户已同意时调用） */
+export interface ReportResult {
+  ok: boolean;
+  count: number;
+  error?: string;
+}
+
+/** 一轮对比完成后上报各模型的指标（仅在用户已同意时调用），返回上报结果 */
 export async function reportRunMetrics(opts: {
   runId: string;
   promptChars: number;
   hasImage: boolean;
   rows: { endpoint: ModelEndpoint; run: RunState }[];
-}): Promise<void> {
+}): Promise<ReportResult> {
   const clientId = getClientId();
   const records = opts.rows
     .filter(({ run }) => run.metrics || run.error)
@@ -108,14 +114,39 @@ export async function reportRunMetrics(opts: {
         rank: run.rank,
       };
     });
-  if (!records.length) return;
-  try {
-    await fetch("/api/telemetry", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ type: "metrics", records }),
-    });
-  } catch {
-    /* 遥测失败不影响使用 */
+  if (!records.length) return { ok: false, count: 0, error: "没有可上报的指标" };
+  const body = JSON.stringify({ type: "metrics", records });
+  let lastErr = "网络错误";
+  // 弱网下重试一次
+  for (let attempt = 0; attempt < 2; attempt++) {
+    try {
+      const res = await fetch("/api/telemetry", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body,
+      });
+      const raw = await res.text();
+      let j: {
+        ok?: boolean;
+        count?: number;
+        error?: string;
+        disabled?: boolean;
+      };
+      try {
+        j = JSON.parse(raw);
+      } catch {
+        lastErr = `服务端异常（HTTP ${res.status}）`;
+        continue;
+      }
+      if (j.ok) return { ok: true, count: j.count ?? records.length };
+      // 服务端明确的业务错误不重试
+      if (j.disabled) return { ok: false, count: 0, error: "服务端未配置数据库" };
+      lastErr = j.error || "上报失败";
+      if (!/超时|timeout|网络|abort/i.test(lastErr))
+        return { ok: false, count: 0, error: lastErr };
+    } catch (e) {
+      lastErr = e instanceof Error ? e.message : "网络错误";
+    }
   }
+  return { ok: false, count: 0, error: lastErr };
 }
