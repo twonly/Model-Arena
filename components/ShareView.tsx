@@ -226,7 +226,6 @@ export function ShareView({
           shareId={shareId}
           results={snapshot.results}
           config={voting}
-          revealed={revealed}
           agg={agg}
           onAgg={setAgg}
           onVoted={() => setRevealed(true)}

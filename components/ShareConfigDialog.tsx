@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SCENES, type VoteMode } from "@/lib/voting";
+import { METHODS, SCENES, type VoteMethod, type VoteMode } from "@/lib/voting";
 import type { VotingConfigLite } from "@/lib/share";
 
 /** 生成分享前选投票配置（打榜/盲评 + 场景维度） */
@@ -20,6 +20,7 @@ export function ShareConfigDialog({
 }) {
   const [enabled, setEnabled] = useState(true);
   const [mode, setMode] = useState<VoteMode>("open");
+  const [method, setMethod] = useState<VoteMethod>("single");
   const [scene, setScene] = useState(defaultScene);
 
   if (!open) return null;
@@ -85,7 +86,27 @@ export function ShareConfigDialog({
 
               <div>
                 <div className="mb-1.5 text-[12px] font-semibold text-faint">
-                  评分维度（按任务类型）
+                  评价方式
+                </div>
+                <div className="space-y-1.5">
+                  {METHODS.map((m) => (
+                    <button
+                      key={m.id}
+                      onClick={() => setMethod(m.id)}
+                      className={`block w-full rounded-md border p-2.5 text-left cursor-pointer ${method === m.id ? "border-ink bg-card" : "border-line"}`}
+                    >
+                      <div className="text-[13px] font-semibold">{m.label}</div>
+                      <div className="mt-0.5 text-[10.5px] text-faint">
+                        {m.desc}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <div className="mb-1.5 text-[12px] font-semibold text-faint">
+                  {method === "score" ? "评分维度" : "维度（评论参考）"}
                 </div>
                 <div className="flex flex-wrap gap-1.5">
                   {SCENES.map((s) => (
@@ -111,7 +132,9 @@ export function ShareConfigDialog({
           <div className="flex gap-2 pt-1">
             <button
               onClick={() =>
-                onGenerate(enabled ? { enabled: true, mode, scene } : undefined)
+                onGenerate(
+                  enabled ? { enabled: true, mode, method, scene } : undefined
+                )
               }
               disabled={generating}
               className="rounded-md bg-ink px-5 py-2 text-[13px] font-bold text-paper disabled:opacity-50 cursor-pointer"

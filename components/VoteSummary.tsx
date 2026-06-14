@@ -15,8 +15,10 @@ export function VoteSummary({
   onGoVote: () => void;
 }) {
   const total = agg?.total ?? 0;
-  const sorted = [...(agg?.tallies ?? [])].sort((a, b) => b.votes - a.votes);
-  const maxV = sorted.length ? Math.max(sorted[0].votes, 1) : 1;
+  const unit =
+    agg?.method === "single" ? "票" : agg?.method === "rank" ? "分" : "均分";
+  const sorted = [...(agg?.tallies ?? [])].sort((a, b) => b.metric - a.metric);
+  const maxV = sorted.length ? Math.max(sorted[0].metric, 0.0001) : 1;
 
   return (
     <div className="mb-5 rounded-xl border border-line bg-card p-4">
@@ -51,13 +53,13 @@ export function VoteSummary({
                 <div
                   className="h-full rounded-full"
                   style={{
-                    width: `${(t.votes / maxV) * 100}%`,
+                    width: `${(t.metric / maxV) * 100}%`,
                     background: rank === 0 ? "var(--accent)" : "var(--ink)",
                   }}
                 />
               </div>
-              <span className="num w-16 shrink-0 text-right text-[11.5px] text-faint">
-                {t.votes} 票 · {Math.round((t.votes / total) * 100)}%
+              <span className="num w-20 shrink-0 text-right text-[11.5px] text-faint">
+                {agg?.method === "score" ? t.metric.toFixed(2) : t.metric} {unit}
               </span>
             </div>
           ))}
