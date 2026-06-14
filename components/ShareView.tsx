@@ -3,21 +3,33 @@
 import { useEffect, useState } from "react";
 import { ModelCard, STATUS_COLOR } from "./ModelCard";
 import { Credit } from "./Credit";
+import { VotePanel } from "./VotePanel";
 import { extractWordTarget, rankBadge } from "@/lib/format";
 import type { ShareSnapshot } from "@/lib/share";
 import { emptyRun, type ModelEndpoint, type RunState } from "@/lib/types";
 
-/** 只读分享视图：复用 ModelCard 渲染快照，支持紧凑/显示切换/单模型放大 */
-export function ShareView({ snapshot }: { snapshot: ShareSnapshot }) {
+/** 只读分享视图：复用 ModelCard 渲染快照，支持紧凑/显示切换/单模型放大 + 投票 */
+export function ShareView({
+  snapshot,
+  shareId,
+}: {
+  snapshot: ShareSnapshot;
+  shareId: string;
+}) {
   const [markdown, setMarkdown] = useState(true);
   const [compact, setCompact] = useState(false);
   const [hidden, setHidden] = useState<string[]>([]);
   const [focusId, setFocusId] = useState<string | null>(null);
 
+  // 盲评：投票前隐藏模型名（揭晓后显示）
+  const voting = snapshot.voting;
+  const blind = voting?.enabled && voting.mode === "blind";
+  const [revealed, setRevealed] = useState(!blind);
+
   const endpoints: ModelEndpoint[] = snapshot.results.map((r, i) => ({
     id: `s-${i}`,
-    name: r.name,
-    model: r.model,
+    name: blind && !revealed ? `模型 ${String.fromCharCode(65 + i)}` : r.name,
+    model: blind && !revealed ? "" : r.model,
     kind: "openai",
     baseUrl: "",
     apiKey: "",
@@ -173,6 +185,17 @@ export function ShareView({ snapshot }: { snapshot: ShareSnapshot }) {
           />
         ))}
       </div>
+
+      {/* 投票/打榜 */}
+      {voting?.enabled && (
+        <VotePanel
+          shareId={shareId}
+          results={snapshot.results}
+          config={voting}
+          revealed={revealed}
+          onVoted={() => setRevealed(true)}
+        />
+      )}
 
       {/* 单模型放大 */}
       {focusEp && (

@@ -79,7 +79,22 @@ drop policy if exists "own sync update" on user_sync;
 create policy "own sync update" on user_sync
   for update using (auth.uid() = user_id);
 
--- 前三张表都不开放匿名读写（服务端用 service_role key 操作，绕过 RLS）
+-- 分享页投票/打榜：每设备每分享 1 票（可改票），登录票单独计可加权
+create table if not exists share_votes (
+  id          bigint generated always as identity primary key,
+  created_at  timestamptz not null default now(),
+  share_id    text not null,
+  client_id   text not null,           -- 匿名设备 ID
+  user_id     uuid,                     -- 登录用户(可空)，用于加权/可信票
+  pick        int not null,             -- 选最佳：快照 results 的下标
+  scores      jsonb,                    -- 多维星级 {维度: 1..5}
+  comment     text,                     -- 文字评论 ≤500
+  unique (share_id, client_id)          -- 每设备每分享 1 票（upsert 改票）
+);
+create index if not exists share_votes_share_idx on share_votes (share_id);
+alter table share_votes enable row level security;
+
+-- 前面这些表都不开放匿名读写（服务端用 service_role key 操作，绕过 RLS）
 alter table consents enable row level security;
 alter table run_metrics enable row level security;
 alter table shares enable row level security;

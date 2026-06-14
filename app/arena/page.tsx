@@ -5,6 +5,7 @@ import { Credit } from "@/components/Credit";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
 import { AccountDialog } from "@/components/AccountDialog";
+import { ShareConfigDialog } from "@/components/ShareConfigDialog";
 import { PromptLibrary } from "@/components/PromptLibrary";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { TrendModal } from "@/components/TrendModal";
@@ -13,7 +14,8 @@ import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
 import { runEndpoint } from "@/lib/runner";
 import { rankBadge } from "@/lib/format";
-import { buildSnapshot } from "@/lib/share";
+import { buildSnapshot, type VotingConfigLite } from "@/lib/share";
+import { guessScene } from "@/lib/voting";
 import { toPng } from "html-to-image";
 import {
   CONSENT_FIELDS,
@@ -125,6 +127,8 @@ export default function Home() {
   const [shareError, setShareError] = useState<string | null>(null);
   /** 遥测上报状态（短暂显示，让用户看到上报成功/失败） */
   const [telemetryStatus, setTelemetryStatus] = useState<string | null>(null);
+  /** 分享配置弹窗 */
+  const [shareCfgOpen, setShareCfgOpen] = useState(false);
 
   /* Esc 退出放大视图 */
   useEffect(() => {
@@ -455,15 +459,12 @@ export default function Home() {
     }
   };
 
-  const shareResults = async () => {
+  /** 点「分享」：先校验，再开配置弹窗（选投票模式） */
+  const openShareConfig = () => {
     if (shareUrl === "loading") return;
     setShareError(null);
     const rows = visibleEndpoints
-      .map((ep) => ({
-        name: ep.name,
-        model: ep.model,
-        run: runs[ep.id] ?? emptyRun(),
-      }))
+      .map((ep) => ({ run: runs[ep.id] ?? emptyRun() }))
       .filter(({ run }) => run.metrics || run.error);
     if (!rows.length) {
       setShareError(
@@ -476,14 +477,30 @@ export default function Home() {
     const runningCount = visibleEndpoints.filter((ep) =>
       isRunning(runs[ep.id] ?? emptyRun())
     ).length;
-    const stillRunning = runningCount > 0;
-    // 有模型还在跑时弹确认，避免误分享不完整的结果（漏模型）
-    if (stillRunning) {
+    if (runningCount > 0) {
       const ok = confirm(
         `还有 ${runningCount} 个模型在跑，现在分享只会包含已完成的 ${rows.length} 个。\n建议等全部跑完再分享。确定现在就分享吗？`
       );
       if (!ok) return;
     }
+    setShareCfgOpen(true);
+  };
+
+  const shareResults = async (voting: VotingConfigLite | undefined) => {
+    setShareCfgOpen(false);
+    if (shareUrl === "loading") return;
+    setShareError(null);
+    const rows = visibleEndpoints
+      .map((ep) => ({
+        name: ep.name,
+        model: ep.model,
+        run: runs[ep.id] ?? emptyRun(),
+      }))
+      .filter(({ run }) => run.metrics || run.error);
+    if (!rows.length) return;
+    const stillRunning = visibleEndpoints.some((ep) =>
+      isRunning(runs[ep.id] ?? emptyRun())
+    );
     setShareUrl("loading");
     try {
       const snapshot = buildSnapshot({
@@ -493,6 +510,7 @@ export default function Home() {
         watermark,
         thinkingStats: thinkStats,
         rows,
+        voting,
       });
       const res = await fetch("/api/share", {
         method: "POST",
@@ -658,7 +676,7 @@ export default function Home() {
           {hasResults && !restored && (
             <button
               className={btn}
-              onClick={shareResults}
+              onClick={openShareConfig}
               disabled={shareUrl === "loading"}
               title="生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
             >
@@ -1187,6 +1205,13 @@ export default function Home() {
         onChangeCustom={setCustomPrompts}
       />
       <AccountDialog open={accountOpen} onClose={() => setAccountOpen(false)} />
+      <ShareConfigDialog
+        open={shareCfgOpen}
+        onClose={() => setShareCfgOpen(false)}
+        defaultScene={guessScene(prompt)}
+        onGenerate={shareResults}
+        generating={shareUrl === "loading"}
+      />
 
       {!screenshotMode && (
         <footer data-no-export="1" className="mt-10 space-y-2 text-center text-[11px] text-faint/70">

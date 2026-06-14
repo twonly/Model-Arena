@@ -66,5 +66,5 @@ export default async function SharePage({
     );
   }
 
-  return <ShareView snapshot={snapshot} />;
+  return <ShareView snapshot={snapshot} shareId={id} />;
 }

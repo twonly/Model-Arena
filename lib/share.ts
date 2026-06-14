@@ -16,6 +16,12 @@ export interface ShareResult {
   error?: string;
 }
 
+export interface VotingConfigLite {
+  enabled: boolean;
+  mode: "open" | "blind";
+  scene: string;
+}
+
 export interface ShareSnapshot {
   v: 1;
   title: string;
@@ -24,6 +30,8 @@ export interface ShareSnapshot {
   watermark: string;
   thinkingStats: boolean;
   results: ShareResult[];
+  /** 投票配置（缺省 = 不开投票，兼容旧分享） */
+  voting?: VotingConfigLite;
 }
 
 const MAX_TEXT = 50000;
@@ -59,6 +67,7 @@ export function buildSnapshot(opts: {
   watermark: string;
   thinkingStats: boolean;
   rows: { name: string; model: string; run: RunState }[];
+  voting?: VotingConfigLite;
 }): ShareSnapshot {
   return {
     v: 1,
@@ -67,6 +76,7 @@ export function buildSnapshot(opts: {
     prompt: opts.prompt.slice(0, 8000),
     watermark: opts.watermark.slice(0, 100),
     thinkingStats: opts.thinkingStats,
+    voting: opts.voting,
     results: opts.rows
       .filter(({ run }) => run.metrics || run.error)
       .map(({ name, model, run }) => ({
