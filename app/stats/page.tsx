@@ -38,12 +38,20 @@ export default async function StatsPage() {
         <Link href="/" className="text-[13px] text-faint hover:text-ink">
           ← 百模竞速
         </Link>
-        <Link
-          href="/arena"
-          className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"
-        >
-          我也来测 ▶
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href="/board"
+            className="rounded-md border border-line px-3 py-1.5 text-[13px] text-faint hover:text-ink"
+          >
+            🏆 人气榜
+          </Link>
+          <Link
+            href="/arena"
+            className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"
+          >
+            我也来测 ▶
+          </Link>
+        </div>
       </nav>
 
       <header className="mb-6">

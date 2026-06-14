@@ -94,7 +94,13 @@ export default function Landing() {
             href="/stats"
             className="text-[13px] text-faint hover:text-ink"
           >
-            排行榜
+            速度榜
+          </Link>
+          <Link
+            href="/board"
+            className="text-[13px] text-faint hover:text-ink"
+          >
+            人气榜
           </Link>
           <a
             href={GITHUB}

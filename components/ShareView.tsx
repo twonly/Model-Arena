@@ -5,6 +5,7 @@ import { ModelCard, STATUS_COLOR } from "./ModelCard";
 import { Credit } from "./Credit";
 import { VotePanel } from "./VotePanel";
 import { VoteSummary } from "./VoteSummary";
+import { ShareCardModal } from "./ShareCardModal";
 import { extractWordTarget, rankBadge } from "@/lib/format";
 import type { ShareSnapshot } from "@/lib/share";
 import { fetchVotes, type VoteAggregate } from "@/lib/voting";
@@ -49,6 +50,30 @@ export function ShareView({
     document
       .getElementById("vote-panel")
       ?.scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const [cardOpen, setCardOpen] = useState(false);
+  // 我的选择（晒卡用）：按方式取冠军模型名
+  const myPickIndex = (() => {
+    const m = agg?.mine;
+    if (!m) return -1;
+    if (m.pick != null) return m.pick;
+    if (m.ranks?.length) return m.ranks[0];
+    if (m.scores) {
+      let best = -1,
+        bestAvg = -1;
+      for (const [idxS, dims] of Object.entries(m.scores)) {
+        const vals = Object.values(dims).filter((v) => v > 0);
+        if (!vals.length) continue;
+        const a = vals.reduce((x, y) => x + y, 0) / vals.length;
+        if (a > bestAvg) {
+          bestAvg = a;
+          best = Number(idxS);
+        }
+      }
+      return best;
+    }
+    return -1;
+  })();
 
   const endpoints: ModelEndpoint[] = snapshot.results.map((r, i) => ({
     id: `s-${i}`,
@@ -230,6 +255,34 @@ export function ShareView({
           onAgg={setAgg}
           onVoted={() => setRevealed(true)}
           label={voteLabel}
+        />
+      )}
+
+      {/* 投票后：晒选择病毒卡入口 */}
+      {voting?.enabled && agg?.mine && myPickIndex >= 0 && (
+        <div className="mt-4 text-center">
+          <button
+            onClick={() => setCardOpen(true)}
+            className="rounded-lg bg-accent px-5 py-2.5 text-[13.5px] font-bold text-white hover:opacity-90 cursor-pointer"
+          >
+            📸 晒出我的选择，喊朋友来投
+          </button>
+        </div>
+      )}
+
+      {voting?.enabled && (
+        <ShareCardModal
+          open={cardOpen}
+          onClose={() => setCardOpen(false)}
+          title={snapshot.title}
+          myPick={
+            myPickIndex >= 0
+              ? (snapshot.results[myPickIndex]?.name ?? "")
+              : ""
+          }
+          agg={agg}
+          label={(i) => snapshot.results[i]?.name ?? `模型${i + 1}`}
+          shareUrl={typeof window !== "undefined" ? window.location.href : ""}
         />
       )}
 
