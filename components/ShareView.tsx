@@ -4,8 +4,10 @@ import { useEffect, useState } from "react";
 import { ModelCard, STATUS_COLOR } from "./ModelCard";
 import { Credit } from "./Credit";
 import { VotePanel } from "./VotePanel";
+import { VoteSummary } from "./VoteSummary";
 import { extractWordTarget, rankBadge } from "@/lib/format";
 import type { ShareSnapshot } from "@/lib/share";
+import { fetchVotes, type VoteAggregate } from "@/lib/voting";
 import { emptyRun, type ModelEndpoint, type RunState } from "@/lib/types";
 
 /** 只读分享视图：复用 ModelCard 渲染快照，支持紧凑/显示切换/单模型放大 + 投票 */
@@ -25,6 +27,28 @@ export function ShareView({
   const voting = snapshot.voting;
   const blind = voting?.enabled && voting.mode === "blind";
   const [revealed, setRevealed] = useState(!blind);
+  const [agg, setAgg] = useState<VoteAggregate | null>(null);
+
+  // 投票聚合：进页就拉，让用户先看到当前得分；已投过则揭晓
+  useEffect(() => {
+    if (!voting?.enabled) return;
+    fetchVotes(shareId)
+      .then((a) => {
+        setAgg(a);
+        if (a.mine) setRevealed(true);
+      })
+      .catch(() => {});
+  }, [voting?.enabled, shareId]);
+
+  const voteLabel = (i: number) =>
+    blind && !revealed
+      ? `模型 ${String.fromCharCode(65 + i)}`
+      : snapshot.results[i]?.name ?? `模型${i + 1}`;
+
+  const goVote = () =>
+    document
+      .getElementById("vote-panel")
+      ?.scrollIntoView({ behavior: "smooth", block: "start" });
 
   const endpoints: ModelEndpoint[] = snapshot.results.map((r, i) => ({
     id: `s-${i}`,
@@ -125,6 +149,16 @@ export function ShareView({
         </div>
       )}
 
+      {/* 顶部实时打榜摘要（第一眼可见，点击去投票） */}
+      {voting?.enabled && (
+        <VoteSummary
+          agg={agg}
+          label={voteLabel}
+          voted={!!agg?.mine}
+          onGoVote={goVote}
+        />
+      )}
+
       {/* 模型显示切换 */}
       {endpoints.length >= 2 && (
         <div className="mb-3 flex flex-wrap items-center gap-1.5">
@@ -193,8 +227,21 @@ export function ShareView({
           results={snapshot.results}
           config={voting}
           revealed={revealed}
+          agg={agg}
+          onAgg={setAgg}
           onVoted={() => setRevealed(true)}
+          label={voteLabel}
         />
+      )}
+
+      {/* 悬浮去投票按钮（长页面滚动到深处也能回到投票区） */}
+      {voting?.enabled && (
+        <button
+          onClick={goVote}
+          className="fixed bottom-5 right-5 z-30 rounded-full bg-ink px-4 py-2.5 text-[13px] font-bold text-paper shadow-lg hover:opacity-90 cursor-pointer"
+        >
+          🏆 {agg?.mine ? "看打榜" : "投票"}
+        </button>
       )}
 
       {/* 单模型放大 */}
