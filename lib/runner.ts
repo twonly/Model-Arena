@@ -105,7 +105,10 @@ export async function runEndpoint({
     }));
   };
 
-  const finalize = (status: "done" | "stopped", finishReason?: string) => {
+  const finalize = (
+    status: "done" | "stopped" | "truncated",
+    finishReason?: string
+  ) => {
     const tEnd = now();
     const estReasoning = estimateTokens(reasoning);
     const estContent = estimateTokens(text);
@@ -225,7 +228,8 @@ export async function runEndpoint({
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let buf = "";
-    let finished = false;
+    let finished = false; // 收到 done 事件（无论是否截断）
+    let cleanFinish = false; // 正常完成（用于竞速排名，截断不计）
 
     while (true) {
       const { done, value } = await reader.read();
@@ -269,12 +273,14 @@ export async function runEndpoint({
           throw new Error(ev.message);
         } else if (ev.type === "done") {
           finished = true;
-          finalize("done", ev.finishReason);
+          cleanFinish = !ev.truncated;
+          finalize(ev.truncated ? "truncated" : "done", ev.finishReason);
         }
       }
     }
-    if (!finished) finalize("done");
-    onSettled(true);
+    // 收到正常 done 事件才算「完成」；否则是流被意外掐断（函数超时/连接断）
+    if (!finished) finalize("truncated");
+    onSettled(cleanFinish);
   } catch (err) {
     if (signal.aborted) {
       // 手动停止：保留已收到的内容并按已收数据结算

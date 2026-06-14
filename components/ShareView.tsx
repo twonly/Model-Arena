@@ -1,15 +1,18 @@
 "use client";
 
-import { useState } from "react";
-import { ModelCard } from "./ModelCard";
+import { useEffect, useState } from "react";
+import { ModelCard, STATUS_COLOR } from "./ModelCard";
 import { Credit } from "./Credit";
-import { extractWordTarget } from "@/lib/format";
+import { extractWordTarget, rankBadge } from "@/lib/format";
 import type { ShareSnapshot } from "@/lib/share";
 import { emptyRun, type ModelEndpoint, type RunState } from "@/lib/types";
 
-/** 只读分享视图：复用 ModelCard 渲染快照，禁用一切交互 */
+/** 只读分享视图：复用 ModelCard 渲染快照，支持紧凑/显示切换/单模型放大 */
 export function ShareView({ snapshot }: { snapshot: ShareSnapshot }) {
   const [markdown, setMarkdown] = useState(true);
+  const [compact, setCompact] = useState(false);
+  const [hidden, setHidden] = useState<string[]>([]);
+  const [focusId, setFocusId] = useState<string | null>(null);
 
   const endpoints: ModelEndpoint[] = snapshot.results.map((r, i) => ({
     id: `s-${i}`,
@@ -25,7 +28,8 @@ export function ShareView({ snapshot }: { snapshot: ShareSnapshot }) {
   snapshot.results.forEach((r, i) => {
     runs[`s-${i}`] = {
       ...emptyRun(),
-      status: r.status === "error" ? "error" : "done",
+      status:
+        r.status === "error" || r.status === "truncated" ? r.status : "done",
       text: r.text,
       reasoning: r.reasoning,
       metrics: r.metrics,
@@ -35,13 +39,29 @@ export function ShareView({ snapshot }: { snapshot: ShareSnapshot }) {
     };
   });
 
+  useEffect(() => {
+    if (!focusId) return;
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setFocusId(null);
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [focusId]);
+
   const wordTarget = extractWordTarget(snapshot.prompt);
-  const cols =
-    endpoints.length <= 1
+  const visible = endpoints.filter((e) => !hidden.includes(e.id));
+  const focusEp = focusId ? endpoints.find((e) => e.id === focusId) : null;
+
+  const cols = compact
+    ? visible.length <= 2
+      ? "sm:grid-cols-2"
+      : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+    : visible.length <= 1
       ? "grid-cols-1 max-w-3xl"
-      : endpoints.length === 2
+      : visible.length === 2
         ? "md:grid-cols-2"
         : "md:grid-cols-2 xl:grid-cols-3";
+
+  const btn =
+    "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-8">
@@ -50,11 +70,15 @@ export function ShareView({ snapshot }: { snapshot: ShareSnapshot }) {
           ← 百模竞速 Model Arena
         </a>
         <div className="flex items-center gap-2">
-          <button
-            onClick={() => setMarkdown((v) => !v)}
-            className="rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer"
-          >
+          <button className={btn} onClick={() => setMarkdown((v) => !v)}>
             {markdown ? "MD 渲染：开" : "MD 渲染：关"}
+          </button>
+          <button
+            className={btn}
+            onClick={() => setCompact((v) => !v)}
+            title="折叠输出只看指标，一屏看全"
+          >
+            {compact ? "📊 紧凑：开" : "📊 紧凑：关"}
           </button>
           <a
             href="/arena"
@@ -89,21 +113,93 @@ export function ShareView({ snapshot }: { snapshot: ShareSnapshot }) {
         </div>
       )}
 
+      {/* 模型显示切换 */}
+      {endpoints.length >= 2 && (
+        <div className="mb-3 flex flex-wrap items-center gap-1.5">
+          <span className="text-[11px] text-faint shrink-0">显示</span>
+          {endpoints.map((ep) => {
+            const run = runs[ep.id] ?? emptyRun();
+            const isHidden = hidden.includes(ep.id);
+            return (
+              <button
+                key={ep.id}
+                onClick={() =>
+                  setHidden((p) =>
+                    p.includes(ep.id)
+                      ? p.filter((x) => x !== ep.id)
+                      : [...p, ep.id]
+                  )
+                }
+                title={isHidden ? "点击显示" : "点击隐藏"}
+                className={`flex items-center gap-1.5 rounded-md border border-line px-1.5 py-1 text-[11.5px] cursor-pointer ${
+                  isHidden ? "bg-paper/40 opacity-50" : "bg-card"
+                }`}
+              >
+                <span
+                  className="inline-block h-1.5 w-1.5 rounded-full"
+                  style={{ background: STATUS_COLOR[run.status] }}
+                />
+                <span className={isHidden ? "line-through" : ""}>{ep.name}</span>
+                {run.rank != null && <span>{rankBadge(run.rank)}</span>}
+              </button>
+            );
+          })}
+          {hidden.length > 0 && (
+            <button
+              onClick={() => setHidden([])}
+              className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
+            >
+              全部显示
+            </button>
+          )}
+        </div>
+      )}
+
       <div className={`grid gap-4 ${cols}`}>
-        {endpoints.map((ep) => (
+        {visible.map((ep) => (
           <ModelCard
             key={ep.id}
             endpoint={ep}
             run={runs[ep.id] ?? emptyRun()}
             markdown={markdown}
-            screenshotMode
+            screenshotMode={false}
+            readOnly
             thinkingStats={snapshot.thinkingStats}
             nowTick={0}
             onRerun={() => {}}
+            onToggleFocus={() => setFocusId(ep.id)}
             wordTarget={wordTarget}
+            compact={compact}
           />
         ))}
       </div>
+
+      {/* 单模型放大 */}
+      {focusEp && (
+        <div
+          className="fixed inset-0 z-40 overflow-y-auto bg-ink/45 p-4 pt-[4vh]"
+          onClick={() => setFocusId(null)}
+        >
+          <div
+            className="mx-auto w-full max-w-3xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <ModelCard
+              endpoint={focusEp}
+              run={runs[focusEp.id] ?? emptyRun()}
+              markdown={markdown}
+              screenshotMode={false}
+              readOnly
+              thinkingStats={snapshot.thinkingStats}
+              nowTick={0}
+              onRerun={() => {}}
+              expanded
+              onToggleFocus={() => setFocusId(null)}
+              wordTarget={wordTarget}
+            />
+          </div>
+        </div>
+      )}
 
       <footer className="mt-10 flex flex-col items-center gap-2 text-center text-[11px] text-faint/70">
         <Credit compact />

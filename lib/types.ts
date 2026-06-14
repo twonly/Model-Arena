@@ -29,7 +29,8 @@ export type RunStatus =
   | "streaming"
   | "done"
   | "error"
-  | "stopped";
+  | "stopped"
+  | "truncated"; // 流未正常结束就断开（函数超时/连接中断），结果可能不完整
 
 export interface SpeedSample {
   /** 距请求开始的毫秒数 */
@@ -115,5 +116,5 @@ export type StreamEvent =
       outputTokens?: number;
       reasoningTokens?: number;
     }
-  | { type: "done"; finishReason?: string }
+  | { type: "done"; finishReason?: string; truncated?: boolean }
   | { type: "error"; message: string };

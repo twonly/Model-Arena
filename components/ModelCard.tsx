@@ -22,6 +22,7 @@ export const STATUS_TEXT: Record<RunState["status"], string> = {
   done: "完成",
   error: "失败",
   stopped: "已停止",
+  truncated: "中断",
 };
 
 export const STATUS_COLOR: Record<RunState["status"], string> = {
@@ -32,6 +33,7 @@ export const STATUS_COLOR: Record<RunState["status"], string> = {
   done: "var(--go)",
   error: "var(--accent)",
   stopped: "var(--faint)",
+  truncated: "var(--think)",
 };
 
 /**
@@ -105,6 +107,7 @@ export const ModelCard = memo(function ModelCard({
   onToggleFocus,
   wordTarget,
   compact = false,
+  readOnly = false,
 }: {
   endpoint: ModelEndpoint;
   run: RunState;
@@ -122,6 +125,8 @@ export const ModelCard = memo(function ModelCard({
   wordTarget?: number | null;
   /** 紧凑模式：隐藏输出区与预览，只看头部+指标（多模型纯竞速） */
   compact?: boolean;
+  /** 只读（分享页）：隐藏「重跑」，但保留放大/紧凑 */
+  readOnly?: boolean;
 }) {
   const outRef = useRef<HTMLDivElement>(null);
   const reasonRef = useRef<HTMLDivElement>(null);
@@ -137,7 +142,10 @@ export const ModelCard = memo(function ModelCard({
   const svgs = useMemo(() => extractSvgs(run.text), [run.text]);
 
   // 完整 HTML 文档（贪吃蛇等）：跑完后在沙箱 iframe 里可交互运行
-  const finished = run.status === "done" || run.status === "stopped";
+  const finished =
+    run.status === "done" ||
+    run.status === "stopped" ||
+    run.status === "truncated";
   const htmlDoc = useMemo(
     () => (finished ? extractHtmlDoc(run.text) : null),
     [run.text, finished]
@@ -237,7 +245,7 @@ export const ModelCard = memo(function ModelCard({
         >
           {STATUS_TEXT[run.status]}
         </span>
-        {!screenshotMode && !running && (
+        {!screenshotMode && !readOnly && !running && (
           <button
             onClick={onRerun}
             title="重跑此模型"
@@ -287,6 +295,17 @@ export const ModelCard = memo(function ModelCard({
               {run.reasoning}
             </div>
           )}
+        </div>
+      )}
+
+      {/* 中断提示：流被意外掐断（函数超时/连接断），结果可能不完整 */}
+      {run.status === "truncated" && (
+        <div
+          className="mx-4 mb-2 rounded-md border px-3 py-1.5 text-[11.5px]"
+          style={{ borderColor: "var(--think)", color: "var(--think)" }}
+        >
+          ⚠ 输出中断：未收到正常结束信号（多为生成耗时过长被服务端超时切断，
+          或网络中断），下方内容可能不完整。点「重跑」重试。
         </div>
       )}
 
@@ -556,5 +575,6 @@ export const ModelCard = memo(function ModelCard({
   prev.nowTick === next.nowTick &&
   prev.expanded === next.expanded &&
   prev.wordTarget === next.wordTarget &&
-  prev.compact === next.compact
+  prev.compact === next.compact &&
+  prev.readOnly === next.readOnly
 );

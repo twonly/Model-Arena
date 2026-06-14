@@ -542,7 +542,10 @@ export default function Home() {
     h.results.forEach((r, i) => {
       next[`h-${i}`] = {
         ...emptyRun(),
-        status: r.status === "error" ? "error" : "done",
+        status:
+          r.status === "error" || r.status === "truncated"
+            ? r.status
+            : "done",
         text: r.text,
         reasoning: r.reasoning,
         metrics: r.metrics,

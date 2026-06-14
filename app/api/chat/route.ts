@@ -143,19 +143,20 @@ export async function POST(req: NextRequest) {
 
 type Send = (obj: Record<string, unknown>) => void;
 
-/** 逐行解析上游 SSE，把每个 data: JSON 交给 handler */
+/** 逐行解析上游 SSE，把每个 data: JSON 交给 handler；返回是否见过 [DONE] 终止符 */
 async function consumeSse(
   res: Response,
   signal: AbortSignal,
   onData: (json: unknown) => void
-) {
+): Promise<{ sawDone: boolean }> {
   const reader = res.body!.getReader();
   const decoder = new TextDecoder();
   let buf = "";
+  let sawDone = false;
   while (true) {
     if (signal.aborted) {
       await reader.cancel().catch(() => {});
-      return;
+      return { sawDone };
     }
     const { done, value } = await reader.read();
     if (done) break;
@@ -166,7 +167,11 @@ async function consumeSse(
       buf = buf.slice(idx + 1);
       if (!line.startsWith("data:")) continue;
       const payload = line.slice(5).trim();
-      if (!payload || payload === "[DONE]") continue;
+      if (!payload) continue;
+      if (payload === "[DONE]") {
+        sawDone = true;
+        continue;
+      }
       try {
         onData(JSON.parse(payload));
       } catch {
@@ -174,6 +179,7 @@ async function consumeSse(
       }
     }
   }
+  return { sawDone };
 }
 
 /* ------------------------- OpenAI 兼容协议 ------------------------- */
@@ -258,33 +264,51 @@ async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
   }
 
   let finishReason: string | undefined;
-  await consumeSse(res, signal, (json) => {
-    const chunk = json as OpenAIChunk;
-    const choice = chunk.choices?.[0];
-    const delta = choice?.delta;
-    if (delta) {
-      const reasoning = delta.reasoning_content ?? delta.reasoning ?? undefined;
-      const text = delta.content ?? undefined;
-      if (reasoning || text) {
+  let gotDelta = false;
+  try {
+    const { sawDone } = await consumeSse(res, signal, (json) => {
+      const chunk = json as OpenAIChunk;
+      const choice = chunk.choices?.[0];
+      const delta = choice?.delta;
+      if (delta) {
+        const reasoning =
+          delta.reasoning_content ?? delta.reasoning ?? undefined;
+        const text = delta.content ?? undefined;
+        if (reasoning || text) {
+          gotDelta = true;
+          send({
+            type: "delta",
+            ...(text ? { text } : {}),
+            ...(reasoning ? { reasoning } : {}),
+          });
+        }
+      }
+      if (choice?.finish_reason) finishReason = choice.finish_reason;
+      if (chunk.usage) {
         send({
-          type: "delta",
-          ...(text ? { text } : {}),
-          ...(reasoning ? { reasoning } : {}),
+          type: "usage",
+          promptTokens: chunk.usage.prompt_tokens,
+          outputTokens: chunk.usage.completion_tokens,
+          reasoningTokens:
+            chunk.usage.completion_tokens_details?.reasoning_tokens,
         });
       }
-    }
-    if (choice?.finish_reason) finishReason = choice.finish_reason;
-    if (chunk.usage) {
+    });
+    // 正常结束应有 [DONE] 或 finish_reason；都没有则是上游中途掐断
+    if (signal.aborted) return;
+    send({ type: "done", finishReason, truncated: !sawDone && !finishReason });
+  } catch (e) {
+    if (signal.aborted) return;
+    // 上游传输途中断开：已有内容则标为截断完成，否则才是错误
+    if (gotDelta) {
+      send({ type: "done", truncated: true });
+    } else {
       send({
-        type: "usage",
-        promptTokens: chunk.usage.prompt_tokens,
-        outputTokens: chunk.usage.completion_tokens,
-        reasoningTokens:
-          chunk.usage.completion_tokens_details?.reasoning_tokens,
+        type: "error",
+        message: `上游连接中断：${e instanceof Error ? e.message : String(e)}`,
       });
     }
-  });
-  send({ type: "done", finishReason });
+  }
 }
 
 /* ------------------------- Anthropic 原生协议 ------------------------- */
