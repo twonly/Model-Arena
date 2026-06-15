@@ -8,6 +8,7 @@ export function HistoryDrawer({
   onClose,
   entries,
   onRestore,
+  onShare,
   onDelete,
   onClear,
 }: {
@@ -15,6 +16,7 @@ export function HistoryDrawer({
   onClose: () => void;
   entries: HistoryEntry[];
   onRestore: (entry: HistoryEntry) => void;
+  onShare: (entry: HistoryEntry) => void;
   onDelete: (id: string) => void;
   onClear: () => void;
 }) {
@@ -74,6 +76,13 @@ export function HistoryDrawer({
                       className="text-[11.5px] text-faint hover:text-ink border border-line rounded px-1.5 py-0.5 cursor-pointer"
                     >
                       恢复查看
+                    </button>
+                    <button
+                      onClick={() => onShare(h)}
+                      className="text-[11.5px] text-faint hover:text-ink border border-line rounded px-1.5 py-0.5 cursor-pointer"
+                      title="为这条历史对比生成只读分享链接（含速度曲线）"
+                    >
+                      🔗 分享
                     </button>
                     <button
                       onClick={() => onDelete(h.id)}

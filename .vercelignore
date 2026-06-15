@@ -1,0 +1,9 @@
+# 后台管理（admin）不部署到生产：vercel --prod 上传时排除，线上这些路由即 404。
+# admin 仅在本地开发环境使用（连同一个 Supabase 做模型/用户治理）。
+app/admin
+app/api/admin
+lib/admin.ts
+lib/admin-bypass.ts
+lib/admin-ui.tsx
+scripts
+.admin-bypass.local.json

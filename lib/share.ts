@@ -51,10 +51,10 @@ function capText(text: string): string {
   return text.slice(0, MAX_TEXT);
 }
 
-/** 速度曲线点过多时等距抽稀，控制 payload 体积 */
-function thinSamples(s: SpeedSample[]): SpeedSample[] {
-  if (s.length <= MAX_SAMPLES) return s;
-  const step = Math.ceil(s.length / MAX_SAMPLES);
+/** 速度曲线点过多时等距抽稀，控制 payload / localStorage 体积 */
+export function thinSamples(s: SpeedSample[], max = MAX_SAMPLES): SpeedSample[] {
+  if (s.length <= max) return s;
+  const step = Math.ceil(s.length / max);
   return s.filter((_, i) => i % step === 0 || i === s.length - 1);
 }
 

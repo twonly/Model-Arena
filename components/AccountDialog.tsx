@@ -87,6 +87,24 @@ export function AccountDialog({
     setMsg("已登出");
   };
 
+  const oauth = async (provider: "github" | "google") => {
+    if (!sb) return;
+    reset();
+    setBusy(true);
+    const next = location.pathname + location.search;
+    const { error } = await sb.auth.signInWithOAuth({
+      provider,
+      options: {
+        redirectTo: `${location.origin}/auth/callback?next=${encodeURIComponent(next)}`,
+      },
+    });
+    // 成功会整页跳转到 provider，不会执行到这里之后
+    if (error) {
+      setErr(error.message);
+      setBusy(false);
+    }
+  };
+
   const doPush = async () => {
     reset();
     if (passphrase.length < 6) {
@@ -173,6 +191,31 @@ export function AccountDialog({
             </div>
           ) : !user ? (
             <div className="space-y-3">
+              {/* 第三方登录 */}
+              <div className="space-y-2">
+                <button
+                  onClick={() => oauth("github")}
+                  disabled={busy}
+                  className="flex w-full items-center justify-center gap-2 rounded-md border border-line bg-card py-2 text-[13px] font-semibold hover:border-ink/40 disabled:opacity-50 cursor-pointer"
+                >
+                  <span></span> 用 GitHub 登录
+                </button>
+                <button
+                  onClick={() => oauth("google")}
+                  disabled={busy}
+                  className="flex w-full items-center justify-center gap-2 rounded-md border border-line bg-card py-2 text-[13px] font-semibold hover:border-ink/40 disabled:opacity-50 cursor-pointer"
+                >
+                  <span className="font-black text-[14px]">G</span> 用 Google 登录
+                </button>
+                <p className="text-[10.5px] text-faint/70">
+                  Google 登录在中国大陆可能无法访问，国内推荐用 GitHub 或邮箱。
+                </p>
+              </div>
+              <div className="flex items-center gap-2 text-[11px] text-faint/50">
+                <span className="h-px flex-1 bg-line" />
+                或用邮箱
+                <span className="h-px flex-1 bg-line" />
+              </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => {

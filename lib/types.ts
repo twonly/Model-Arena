@@ -94,6 +94,8 @@ export interface HistoryResult {
   metrics: RunMetrics | null;
   text: string;
   reasoning: string;
+  /** 速度曲线采样（抽稀后）。旧历史无此字段，分享时回退为空曲线 */
+  samples?: SpeedSample[];
   error?: string;
 }
 

@@ -7,7 +7,7 @@ export default function robots(): MetadataRoute.Robots {
       userAgent: "*",
       allow: "/",
       // 私有「我的中心」与接口不收录
-      disallow: ["/api/", "/me"],
+      disallow: ["/api/", "/me", "/auth/"],
     },
     sitemap: `${BRAND.url}/sitemap.xml`,
     host: BRAND.url,

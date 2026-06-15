@@ -5,6 +5,7 @@ import { Credit } from "@/components/Credit";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
 import { AccountDialog } from "@/components/AccountDialog";
+import { AccountChip } from "@/components/AccountChip";
 import { ShareConfigDialog } from "@/components/ShareConfigDialog";
 import { PromptLibrary } from "@/components/PromptLibrary";
 import { SettingsDialog } from "@/components/SettingsDialog";
@@ -14,7 +15,7 @@ import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
 import { runEndpoint } from "@/lib/runner";
 import { rankBadge } from "@/lib/format";
-import { buildSnapshot, type VotingConfigLite } from "@/lib/share";
+import { buildSnapshot, thinSamples, type VotingConfigLite } from "@/lib/share";
 import { createShare } from "@/lib/me";
 import { toPng } from "html-to-image";
 import {
@@ -109,6 +110,8 @@ export default function Home() {
   const [wmOpen, setWmOpen] = useState(false);
   const [trendOpen, setTrendOpen] = useState(false);
   const [promptLibOpen, setPromptLibOpen] = useState(false);
+  // 工具条收纳：常驻关键项 + 「更多」展开其余
+  const [moreOpen, setMoreOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   /** 视觉对比图片（仅本次会话，不持久化避免撑爆 localStorage） */
   const [image, setImage] = useState<{ dataUrl: string; name: string } | null>(
@@ -129,6 +132,8 @@ export default function Home() {
   const [telemetryStatus, setTelemetryStatus] = useState<string | null>(null);
   /** 分享配置弹窗 */
   const [shareCfgOpen, setShareCfgOpen] = useState(false);
+  // 非空 = 正在分享某条历史快照（而非当前实时结果）
+  const [shareSource, setShareSource] = useState<HistoryEntry | null>(null);
 
   /* Esc 退出放大视图 */
   useEffect(() => {
@@ -267,6 +272,8 @@ export default function Home() {
           metrics: r.metrics,
           text: r.text.slice(0, 6000),
           reasoning: r.reasoning.slice(0, 3000),
+          // 存速度曲线（抽稀到 150 点）：历史分享时才有曲线，代价是 localStorage 略增
+          samples: thinSamples(r.samples, 150),
           error: r.error,
         };
       });
@@ -486,27 +493,58 @@ export default function Home() {
     setShareCfgOpen(true);
   };
 
+  /** 从历史抽屉分享某条快照：走同一个分享配置弹窗，数据用存档（含曲线） */
+  const shareHistory = (h: HistoryEntry) => {
+    if (shareUrl === "loading") return;
+    setShareError(null);
+    setShareSource(h);
+    setHistoryOpen(false);
+    setShareCfgOpen(true);
+  };
+
   const shareResults = async (voting: VotingConfigLite | undefined) => {
     setShareCfgOpen(false);
     if (shareUrl === "loading") return;
     setShareError(null);
-    const rows = visibleEndpoints
-      .map((ep) => ({
-        name: ep.name,
-        model: ep.model,
-        run: runs[ep.id] ?? emptyRun(),
-      }))
-      .filter(({ run }) => run.metrics || run.error);
-    if (!rows.length) return;
-    const stillRunning = visibleEndpoints.some((ep) =>
-      isRunning(runs[ep.id] ?? emptyRun())
-    );
+    const src = shareSource;
+    // 历史分享：直接用存档的 results（含 samples 曲线）；否则用当前实时结果
+    const rows = src
+      ? src.results
+          .filter((r) => r.metrics || r.error)
+          .map((r) => ({
+            name: r.name,
+            model: r.model,
+            run: {
+              ...emptyRun(),
+              status: r.status,
+              rank: r.rank,
+              metrics: r.metrics,
+              text: r.text,
+              reasoning: r.reasoning,
+              samples: r.samples ?? [],
+              error: r.error,
+            } as RunState,
+          }))
+      : visibleEndpoints
+          .map((ep) => ({
+            name: ep.name,
+            model: ep.model,
+            run: runs[ep.id] ?? emptyRun(),
+          }))
+          .filter(({ run }) => run.metrics || run.error);
+    if (!rows.length) {
+      setShareSource(null);
+      return;
+    }
+    const stillRunning =
+      !src &&
+      visibleEndpoints.some((ep) => isRunning(runs[ep.id] ?? emptyRun()));
     setShareUrl("loading");
     try {
       const snapshot = buildSnapshot({
-        title,
-        notes,
-        prompt,
+        title: src ? src.title : title,
+        notes: src ? src.notes : notes,
+        prompt: src ? src.prompt : prompt,
         watermark,
         thinkingStats: thinkStats,
         rows,
@@ -535,6 +573,8 @@ export default function Home() {
       setShareError(
         `分享失败：${e instanceof Error ? e.message : "网络错误"}，请重试`
       );
+    } finally {
+      setShareSource(null);
     }
   };
 
@@ -556,6 +596,7 @@ export default function Home() {
         reasoning: r.reasoning,
         metrics: r.metrics,
         rank: r.rank,
+        samples: r.samples ?? [],
         error: r.error,
       };
     });
@@ -585,6 +626,12 @@ export default function Home() {
 
   return (
     <main ref={mainRef} className="mx-auto max-w-7xl px-5 py-8">
+      {/* ===== 顶部：右上角账号入口（截图时隐藏） ===== */}
+      {!screenshotMode && (
+        <div data-no-export="1" className="mb-3 flex items-center justify-end">
+          <AccountChip onOpen={() => setAccountOpen(true)} />
+        </div>
+      )}
       {/* ===== 标题区（可编辑，截图友好） ===== */}
       <header className="mb-5">
         <input
@@ -616,24 +663,9 @@ export default function Home() {
       {/* ===== 工具条 ===== */}
       {!screenshotMode && (
         <div data-no-export="1" className="mb-4 flex flex-wrap items-center gap-2">
+          {/* —— 常驻：高频 / 与当前对比强相关 —— */}
           <button className={btn} onClick={() => setSettingsOpen(true)}>
-            ⚙ 模型接入
-          </button>
-          <button className={btn} onClick={() => setHistoryOpen(true)}>
-            🕘 历史
-          </button>
-          <button className={btn} onClick={() => setAccountOpen(true)}>
-            👤 账号同步
-          </button>
-          <a className={btn} href="/me">
-            🗂 我的
-          </a>
-          <button
-            className={btn}
-            onClick={() => setMarkdown((v) => !v)}
-            title="切换输出区 Markdown 渲染 / 原始文本"
-          >
-            {markdown ? "MD 渲染：开" : "MD 渲染：关"}
+            ⚙ 模型配置
           </button>
           <button
             className={btn}
@@ -649,21 +681,6 @@ export default function Home() {
           >
             {compact ? "📊 紧凑：开" : "📊 紧凑：关"}
           </button>
-          {hasResults && (
-            <button className={btn} onClick={copyResults}>
-              ⧉ 复制指标表
-            </button>
-          )}
-          {hasResults && (
-            <button
-              className={btn}
-              onClick={exportImage}
-              disabled={exporting}
-              title="把当前对比导出成长图（含标题/备注/水印），直接发文用"
-            >
-              🖼 导出长图
-            </button>
-          )}
           {hasResults && !restored && (
             <button
               className={btn}
@@ -674,48 +691,94 @@ export default function Home() {
               {shareUrl === "loading" ? "生成中…" : "🔗 分享链接"}
             </button>
           )}
-          <button className={btn} onClick={() => setWmOpen((v) => !v)}>
-            💧 水印{watermark.trim() ? "：开" : ""}
-          </button>
-          <button className={btn} onClick={() => setScreenshotMode(true)}>
-            📷 截图模式
-          </button>
-          <button
-            className={btn}
-            onClick={() => setTrendOpen(true)}
-            title="同一模型在历次对比中的速度走势（本机历史）"
-          >
-            📈 趋势
-          </button>
-          <a
-            className={btn}
-            href="/stats"
-            target="_blank"
-            rel="noopener noreferrer"
-            title="全网用户实测的大模型速度排行榜"
-          >
-            🏆 排行榜
+          <a className={btn} href="/me">
+            🗂 我的
           </a>
           <button
             className={btn}
-            onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            title="切换明暗主题"
+            onClick={() => setMoreOpen((v) => !v)}
+            title="展开更多导航与选项"
           >
-            {theme === "dark" ? "☀️ 浅色" : "🌙 暗色"}
+            {moreOpen ? "⋯ 收起" : "⋯ 更多"}
           </button>
-          {telemetry.choice && (
-            <button
-              className={btn}
-              onClick={() =>
-                decideTelemetry(
-                  telemetry.choice === "granted" ? "denied" : "granted"
-                )
-              }
-              title="匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
-            >
-              📡 指标共享：{telemetry.choice === "granted" ? "开" : "关"}
-            </button>
+
+          {/* —— 更多：导航 + 低频选项 —— */}
+          {moreOpen && (
+            <>
+              <button className={btn} onClick={() => setHistoryOpen(true)}>
+                🕘 历史
+              </button>
+              <a
+                className={btn}
+                href="/stats"
+                target="_blank"
+                rel="noopener noreferrer"
+                title="全网用户实测的大模型速度排行榜"
+              >
+                🏆 排行榜
+              </a>
+              <button
+                className={btn}
+                onClick={() => setTrendOpen(true)}
+                title="同一模型在历次对比中的速度走势（本机历史）"
+              >
+                📈 趋势
+              </button>
+              <button className={btn} onClick={() => setAccountOpen(true)}>
+                👤 账号同步
+              </button>
+              {hasResults && (
+                <button className={btn} onClick={copyResults}>
+                  ⧉ 复制指标表
+                </button>
+              )}
+              {hasResults && (
+                <button
+                  className={btn}
+                  onClick={exportImage}
+                  disabled={exporting}
+                  title="把当前对比导出成长图（含标题/备注/水印），直接发文用"
+                >
+                  🖼 导出长图
+                </button>
+              )}
+              <button
+                className={btn}
+                onClick={() => setMarkdown((v) => !v)}
+                title="切换输出区 Markdown 渲染 / 原始文本"
+              >
+                {markdown ? "MD 渲染：开" : "MD 渲染：关"}
+              </button>
+              <button className={btn} onClick={() => setWmOpen((v) => !v)}>
+                💧 水印{watermark.trim() ? "：开" : ""}
+              </button>
+              <button className={btn} onClick={() => setScreenshotMode(true)}>
+                📷 截图模式
+              </button>
+              <button
+                className={btn}
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                title="切换明暗主题"
+              >
+                {theme === "dark" ? "☀️ 浅色" : "🌙 暗色"}
+              </button>
+              {telemetry.choice && (
+                <button
+                  className={btn}
+                  onClick={() =>
+                    decideTelemetry(
+                      telemetry.choice === "granted" ? "denied" : "granted"
+                    )
+                  }
+                  title="匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
+                >
+                  📡 指标共享：{telemetry.choice === "granted" ? "开" : "关"}
+                </button>
+              )}
+            </>
           )}
+
+          {/* —— 上下文：始终可见 —— */}
           {telemetryStatus && (
             <span
               className="text-[11.5px]"
@@ -1180,6 +1243,7 @@ export default function Home() {
         onClose={() => setHistoryOpen(false)}
         entries={history}
         onRestore={restoreHistory}
+        onShare={shareHistory}
         onDelete={(id) => setHistory((prev) => prev.filter((h) => h.id !== id))}
         onClear={() => setHistory([])}
       />
@@ -1198,7 +1262,10 @@ export default function Home() {
       <AccountDialog open={accountOpen} onClose={() => setAccountOpen(false)} />
       <ShareConfigDialog
         open={shareCfgOpen}
-        onClose={() => setShareCfgOpen(false)}
+        onClose={() => {
+          setShareCfgOpen(false);
+          setShareSource(null);
+        }}
         onGenerate={shareResults}
         generating={shareUrl === "loading"}
       />

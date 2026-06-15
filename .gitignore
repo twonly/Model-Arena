@@ -33,6 +33,20 @@ yarn-error.log*
 # env files (can opt-in for committing if needed)
 .env*
 
+# local-only admin auth bypass config; never commit
+.admin-bypass.local.json
+
+# 后台管理（admin）：仅本地保留，不进公开仓库、不进生产部署
+/app/admin/
+/app/api/admin/
+/lib/admin.ts
+/lib/admin-bypass.ts
+/lib/admin-ui.tsx
+/scripts/
+
+# local scratch / screenshots
+tmp/
+
 # vercel
 .vercel
 
