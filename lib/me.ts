@@ -38,6 +38,28 @@ export interface MyReaction {
   at: string;
 }
 
+/**
+ * 把对象 gzip 后转 base64。失败/不支持则返回 null（调用方回退到明文）。
+ * 压缩后体积通常只剩原来的 1/5~1/10，能绕开部分公司网关「上传 >1MB」的拦截。
+ */
+async function gzipBase64(obj: unknown): Promise<string | null> {
+  try {
+    if (typeof CompressionStream === "undefined") return null;
+    const stream = new Blob([JSON.stringify(obj)])
+      .stream()
+      .pipeThrough(new CompressionStream("gzip"));
+    const bytes = new Uint8Array(await new Response(stream).arrayBuffer());
+    let bin = "";
+    const CHUNK = 0x8000; // 分块拼接，避免 fromCharCode(...大数组) 爆栈
+    for (let i = 0; i < bytes.length; i += CHUNK) {
+      bin += String.fromCharCode(...bytes.subarray(i, i + CHUNK));
+    }
+    return btoa(bin);
+  } catch {
+    return null;
+  }
+}
+
 /** 创建分享（带归属信息），返回 {ok,id?,error?,disabled?} */
 export async function createShare(snapshot: ShareSnapshot): Promise<{
   ok: boolean;
@@ -45,10 +67,13 @@ export async function createShare(snapshot: ShareSnapshot): Promise<{
   error?: string;
   disabled?: boolean;
 }> {
+  const clientId = getClientId();
+  const gz = await gzipBase64(snapshot);
+  const body = gz ? { gz, clientId } : { snapshot, clientId };
   const res = await fetch("/api/share", {
     method: "POST",
     headers: { "Content-Type": "application/json", ...(await authHeader()) },
-    body: JSON.stringify({ snapshot, clientId: getClientId() }),
+    body: JSON.stringify(body),
   });
   const raw = await res.text();
   try {

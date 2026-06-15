@@ -23,6 +23,8 @@ export function AccountDialog({
   // 同步密码（仅本机内存，不持久化）
   const [passphrase, setPassphrase] = useState("");
   const [synced, setSynced] = useState<string | null>(null);
+  // 同步方式：合并(并集，来源胜) / 覆盖(整盘替换)。默认合并，避免误删数据
+  const [syncMode, setSyncMode] = useState<"merge" | "overwrite">("merge");
 
   const sb = getSupabase();
 
@@ -91,12 +93,19 @@ export function AccountDialog({
       setErr("同步密码至少 6 位");
       return;
     }
+    if (
+      syncMode === "overwrite" &&
+      !confirm(
+        "「覆盖上传」会用本机数据整盘替换云端，其他设备上传过的内容将被覆盖。继续吗？"
+      )
+    )
+      return;
     setBusy(true);
     try {
-      await pushSync(passphrase);
+      await pushSync(passphrase, syncMode);
       const t = await lastSyncedAt();
       setSynced(t);
-      setMsg("已加密上传到云端 ✓");
+      setMsg(syncMode === "merge" ? "已合并并加密上传 ✓" : "已覆盖上传到云端 ✓");
     } catch (e) {
       setErr(e instanceof Error ? e.message : "上传失败");
     } finally {
@@ -112,14 +121,16 @@ export function AccountDialog({
     }
     if (
       !confirm(
-        "从云端恢复会覆盖本机当前的模型配置、历史与 Prompt 库，确定继续吗？"
+        syncMode === "overwrite"
+          ? "「覆盖恢复」会用云端数据替换本机当前的模型配置、历史与 Prompt 库，本机独有的内容会丢失。继续吗？"
+          : "「合并恢复」会把云端数据并入本机（同一项以云端为准，本机独有的保留）。继续吗？"
       )
     )
       return;
     setBusy(true);
     try {
-      const n = await pullSync(passphrase);
-      setMsg(`已恢复 ${n} 项，正在刷新…`);
+      const n = await pullSync(passphrase, syncMode);
+      setMsg(`已${syncMode === "merge" ? "合并" : "恢复"} ${n} 项，正在刷新…`);
       setTimeout(() => location.reload(), 800);
     } catch (e) {
       setErr(e instanceof Error ? e.message : "恢复失败");
@@ -244,6 +255,32 @@ export function AccountDialog({
                 <p className="mt-1.5 text-[10.5px]" style={{ color: "var(--think)" }}>
                   ⚠ 这个密码不会上传也无法找回，请牢记。换设备恢复时要输同一个。
                 </p>
+
+                <div className="mt-2.5">
+                  <div className="mb-1 text-[11px] text-faint">同步方式</div>
+                  <div className="flex gap-1.5">
+                    {(
+                      [
+                        ["merge", "合并"],
+                        ["overwrite", "覆盖"],
+                      ] as const
+                    ).map(([m, label]) => (
+                      <button
+                        key={m}
+                        onClick={() => setSyncMode(m)}
+                        className={`flex-1 rounded-md px-2 py-1 text-[12px] cursor-pointer ${syncMode === m ? "bg-ink text-paper font-semibold" : "border border-line text-faint"}`}
+                      >
+                        {label}
+                      </button>
+                    ))}
+                  </div>
+                  <p className="mt-1 text-[10.5px] text-faint/80">
+                    {syncMode === "merge"
+                      ? "合并：模型/历史/Prompt 取并集，同一项以来源为准，两端独有的都保留；设置项不互相覆盖。"
+                      : "覆盖：用来源整盘替换目标（上传=替换云端，恢复=替换本机）。"}
+                  </p>
+                </div>
+
                 <div className="mt-2.5 flex gap-2">
                   <button
                     onClick={doPush}

@@ -1,4 +1,5 @@
 import { NextRequest } from "next/server";
+import { gunzipSync } from "node:zlib";
 import { rateLimit } from "@/lib/ratelimit";
 import { makeShareId, type ShareSnapshot } from "@/lib/share";
 import { resolveUserId, safeClientId, ownerFilter } from "@/lib/server-auth";
@@ -40,13 +41,33 @@ export async function POST(req: NextRequest) {
   const { url, key, anon } = env();
   if (!url || !key) return Response.json({ ok: false, disabled: true });
 
-  let body: { snapshot?: ShareSnapshot; clientId?: string };
+  let body: { snapshot?: ShareSnapshot; gz?: string; clientId?: string };
   try {
     body = (await req.json()) as typeof body;
   } catch {
     return Response.json({ ok: false, error: "bad json" }, { status: 400 });
   }
-  const snapshot = body.snapshot;
+  // 新客户端发 gz（base64 gzip 的 snapshot）；老客户端仍发明文 snapshot
+  let snapshot = body.snapshot;
+  if (!snapshot && typeof body.gz === "string") {
+    try {
+      const json = gunzipSync(Buffer.from(body.gz, "base64"), {
+        maxOutputLength: MAX_BODY, // 防 zip bomb：解压超上限即抛 RangeError
+      }).toString("utf8");
+      snapshot = JSON.parse(json) as ShareSnapshot;
+    } catch (e) {
+      const tooBig = e instanceof RangeError;
+      return Response.json(
+        {
+          ok: false,
+          error: tooBig
+            ? `内容过大无法分享（上限 ${Math.round(MAX_BODY / 1024)}KB）。可减少模型数量或缩短输出后重试。`
+            : "压缩内容解析失败",
+        },
+        { status: tooBig ? 413 : 400 }
+      );
+    }
+  }
   if (
     !snapshot ||
     snapshot.v !== 1 ||
