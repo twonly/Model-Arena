@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { Credit, GITHUB_URL as GITHUB } from "@/components/Credit";
+import { JsonLd } from "@/components/JsonLd";
+import { BRAND } from "@/lib/brand";
 
 export const metadata = {
-  title: "百模竞速 · Model Arena",
-  description:
-    "同一个 Prompt 并发打到多个大模型，实时对比首 Token 时延、思考/输出 TPS、峰值速度。开源、免费、API Key 不出你的浏览器。出品：AI拯救打工人。",
+  description: BRAND.descZh,
+  alternates: { canonical: "/" },
 };
 
 /* 赛道演示数据：纯 CSS 动画，三条赛道不同速度 */
@@ -37,8 +38,8 @@ const FEATURES: { icon: string; title: string; desc: string }[] = [
   },
   {
     icon: "🔐",
-    title: "Key 不出你的浏览器",
-    desc: "API Key 只存在你本机 localStorage，请求经页面同源服务直连厂商，永不落库。",
+    title: "Key 只存本地，绝不留存",
+    desc: "API Key 只存在你本机 localStorage（加密）。每次请求经同源服务器中转一次，用完即弃，不记录、不落库。",
   },
   {
     icon: "📷",
@@ -77,7 +78,9 @@ const STEPS = [
 
 export default function Landing() {
   return (
-    <div className="min-h-screen">
+    <>
+      <JsonLd data={homeJsonLd} />
+      <div className="min-h-screen">
       {/* 导航 */}
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
         <div className="flex items-baseline gap-2">
@@ -87,7 +90,7 @@ export default function Landing() {
           >
             百模竞速
           </span>
-          <span className="num text-[11px] text-faint">Model Arena</span>
+          <span className="num text-[11px] text-faint">TOKRACE</span>
         </div>
         <div className="flex items-center gap-3">
           <Link
@@ -126,7 +129,7 @@ export default function Landing() {
             className="inline-block h-1.5 w-1.5 rounded-full"
             style={{ background: "var(--accent)" }}
           />
-          开源 · 免费 · API Key 不出你的浏览器
+          开源 · 免费 · API Key 只存本地不落库
         </div>
         <h1
           className="mx-auto max-w-3xl text-[44px] font-black leading-[1.15] sm:text-[56px]"
@@ -337,7 +340,7 @@ export default function Landing() {
           </h2>
           <p className="mt-4 text-[13.5px] leading-relaxed text-faint">
             API Key 仅保存在<span className="text-ink">你浏览器的 localStorage</span>
-            ，请求经页面同源的轻量代理直连各厂商（仅为解决浏览器跨域），
+            ，请求经页面同源的轻量代理转发到各厂商（仅为解决浏览器跨域），
             服务端<span className="text-ink">不记录、不落盘</span>任何密钥与对话内容。
             介意经过任何服务器？项目完全开源——
             <code className="num rounded bg-paper px-1.5 py-0.5 text-[12px]">
@@ -367,9 +370,9 @@ export default function Landing() {
       <footer className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-2 px-6 py-8 text-[12px] text-faint">
         <span className="flex flex-wrap items-center gap-2">
           <span>
-            百模竞速 Model Arena ·{" "}
-            <a href="https://amaletter.com" className="hover:text-ink">
-              amaletter.com
+            {BRAND.full} ·{" "}
+            <a href={BRAND.url} className="hover:text-ink">
+              {BRAND.domain}
             </a>
           </span>
           <Credit />
@@ -379,5 +382,81 @@ export default function Landing() {
         </span>
       </footer>
     </div>
+    </>
   );
 }
+
+// 首页增强 GEO 的结构化数据：HowTo + FAQPage
+const homeJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "HowTo",
+      "@id": `${BRAND.url}/#howto`,
+      name: "如何使用百模竞速对比大模型速度",
+      description: "三步完成多模型并发测速、截图与分享。",
+      totalTime: "PT5M",
+      step: [
+        {
+          "@type": "HowToStep",
+          position: 1,
+          name: "接入模型",
+          text: "选厂商预设，填入你自己的 API Key 和模型 ID，测试连通。",
+          url: `${BRAND.url}/arena`,
+        },
+        {
+          "@type": "HowToStep",
+          position: 2,
+          name: "输入 Prompt 开跑",
+          text: "一个问题同时发给所有模型，看它们实时竞速。",
+          url: `${BRAND.url}/arena`,
+        },
+        {
+          "@type": "HowToStep",
+          position: 3,
+          name: "截图 / 导出发文",
+          text: "排名、指标、速度曲线尽收一屏，加上水印直接进文章。",
+          url: `${BRAND.url}/arena`,
+        },
+      ],
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${BRAND.url}/#faq`,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "使用 TOKRACE 需要付费吗？",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "本站开源免费，只需自备各模型厂商的 API Key；服务端不存储、不落盘任何密钥。",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "我的 API Key 会泄露吗？",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "API Key 仅保存在你浏览器的 localStorage，请求经页面同源服务转发到厂商（仅为解决浏览器跨域），服务端不记录、不落盘任何密钥与对话内容。",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "为什么大陆访问偶尔出现 Network Error？",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "在线版部署在海外边缘节点，大陆网络跨境连接偶发不稳。多数情况点击重跑即可恢复；也可 Fork 源码在本地运行，直连各厂商。",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "速度榜的数据从哪来？",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "速度榜与人气榜的数据来自用户自愿匿名共享的指标与投票，仅含速度数字，不含任何 Prompt 内容与 API Key。",
+          },
+        },
+      ],
+    },
+  ],
+};

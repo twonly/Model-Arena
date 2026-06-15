@@ -24,6 +24,27 @@ interface RawRow {
   created_at: string;
 }
 
+interface RegistryRow {
+  id: number;
+  raw_id: string;
+  display_name: string | null;
+  hidden: boolean;
+  canonical_id: number | null;
+}
+
+interface CanonicalName {
+  display: string;
+  hidden: boolean;
+}
+
+/** 把模型 raw id 转成 URL 安全的 slug，用于 /model/[slug] 永久页（GEO 长尾） */
+export function modelSlug(model: string): string {
+  return model
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 function median(xs: number[]): number {
   if (!xs.length) return 0;
   const s = [...xs].sort((a, b) => a - b);
@@ -42,22 +63,56 @@ export async function fetchModelStats(
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
 
-  // 拉最近 10000 条成功记录（按时间倒序），在内存里聚合
-  const q =
-    `${url.replace(/\/+$/, "")}/rest/v1/run_metrics` +
-    `?select=model,provider,content_tps,avg_tps,ttft_ms,peak_tps,output_tokens,has_error,created_at` +
-    `&has_error=eq.false&order=created_at.desc&limit=10000`;
-  const res = await fetch(q, {
-    headers: { apikey: key, Authorization: `Bearer ${key}` },
-    next: { revalidate: 300 }, // 5 分钟缓存，避免每次访问都打库
-  });
-  if (!res.ok) throw new Error(`supabase ${res.status}`);
-  const rows = (await res.json()) as RawRow[];
+  const base = url.replace(/\/+$/, "");
+  const headers = { apikey: key, Authorization: `Bearer ${key}` };
+
+  // 并行拉 metrics 和 models registry
+  const [metricsRes, registryRes] = await Promise.all([
+    fetch(
+      `${base}/rest/v1/run_metrics` +
+        `?select=model,provider,content_tps,avg_tps,ttft_ms,peak_tps,output_tokens,has_error,created_at` +
+        `&has_error=eq.false&order=created_at.desc&limit=10000`,
+      { headers, next: { revalidate: 300 } }
+    ),
+    fetch(`${base}/rest/v1/models?select=id,raw_id,display_name,hidden,canonical_id`, {
+      headers,
+      next: { revalidate: 60 },
+    }),
+  ]);
+  if (!metricsRes.ok) throw new Error(`supabase ${metricsRes.status}`);
+  if (!registryRes.ok) throw new Error(`models ${registryRes.status}`);
+
+  const rows = (await metricsRes.json()) as RawRow[];
+  const registry = (await registryRes.json()) as RegistryRow[];
+
+  // 构建 raw_id -> canonical display name / hidden 的映射
+  const regMap = new Map<string, RegistryRow>();
+  for (const r of registry) regMap.set(r.raw_id, r);
+  const idMap = new Map<number, RegistryRow>();
+  for (const r of registry) idMap.set(r.id, r);
+
+  function resolve(rawModel: string): CanonicalName {
+    const r = regMap.get(rawModel);
+    if (!r) return { display: rawModel, hidden: false };
+    if (r.hidden) return { display: r.display_name || rawModel, hidden: true };
+    if (r.canonical_id) {
+      const canonical = idMap.get(r.canonical_id);
+      if (canonical) {
+        return {
+          display: canonical.display_name || canonical.raw_id,
+          hidden: canonical.hidden,
+        };
+      }
+    }
+    return { display: r.display_name || rawModel, hidden: r.hidden };
+  }
 
   const groups = new Map<string, RawRow[]>();
   for (const r of rows) {
     if (!r.model || !r.provider) continue;
-    const k = `${r.model}__${r.provider}`;
+    const resolved = resolve(r.model);
+    if (resolved.hidden) continue;
+    const k = `${resolved.display}__${r.provider}`;
     (groups.get(k) ?? groups.set(k, []).get(k)!).push(r);
   }
 

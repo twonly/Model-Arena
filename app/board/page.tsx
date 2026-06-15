@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { Credit } from "@/components/Credit";
+import { JsonLd } from "@/components/JsonLd";
+import { BRAND } from "@/lib/brand";
 import { fetchBoard, type BoardEntry } from "@/lib/board";
 
 export const metadata = {
-  title: "最受欢迎模型榜 · 百模竞速",
+  title: "最受欢迎模型榜",
   description: "全网用户在分享页投票打榜，谁是大家心中的最佳模型？实时汇总。",
+  alternates: { canonical: "/board" },
 };
 export const dynamic = "force-dynamic"; // 榜单实时
 
@@ -21,8 +24,37 @@ export default async function BoardPage() {
   const maxW = board?.length ? Math.max(board[0].wilson, 0.0001) : 1;
   const totalVotes = board?.reduce((a, b) => a + b.up + b.down, 0) ?? 0;
 
+  const listJsonLd = board?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "最受欢迎大模型榜",
+        description:
+          "用户在分享页对各大模型 👍 点赞 / 👎 点踩，按 Wilson 好评置信下界排名。",
+        url: `${BRAND.url}/board`,
+        numberOfItems: board.length,
+        itemListElement: board.map((e, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: e.model,
+          description: `好评率 ${Math.round(e.ratio * 100)}% · 👍${e.up} 👎${e.down}`,
+        })),
+      }
+    : null;
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: BRAND.zh, item: BRAND.url },
+      { "@type": "ListItem", position: 2, name: "人气榜", item: `${BRAND.url}/board` },
+    ],
+  };
+
   return (
     <main className="mx-auto max-w-3xl px-5 py-8">
+      {listJsonLd && <JsonLd data={listJsonLd} />}
+      <JsonLd data={breadcrumbJsonLd} />
       <nav className="mb-6 flex items-center justify-between">
         <Link href="/" className="text-[13px] text-faint hover:text-ink">
           ← 百模竞速

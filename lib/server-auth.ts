@@ -49,3 +49,10 @@ export function ownerFilter(
   }
   return `${clientCol}=eq.${clientId}`;
 }
+
+/** 检查给定 user_id 是否在 ADMIN_USER_IDS 环境变量允许列表中 */
+export function isAdmin(userId: string | null): boolean {
+  if (!userId) return false;
+  const list = process.env.ADMIN_USER_IDS?.split(",").map((s) => s.trim()) ?? [];
+  return list.includes(userId);
+}

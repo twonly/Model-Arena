@@ -89,7 +89,7 @@ async function importBackup(file: File): Promise<string> {
   } catch {
     return "文件不是合法 JSON";
   }
-  if (data.__app !== "model-arena") return "不是 Model Arena 的备份文件";
+  if (data.__app !== "model-arena") return "不是 百模竞速 的备份文件";
   let count = 0;
   for (const k of BACKUP_KEYS) {
     if (k in data) {

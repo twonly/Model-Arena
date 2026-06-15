@@ -1,11 +1,14 @@
 import Link from "next/link";
 import { Credit } from "@/components/Credit";
-import { fetchModelStats, type ModelStat } from "@/lib/stats";
+import { JsonLd } from "@/components/JsonLd";
+import { BRAND } from "@/lib/brand";
+import { fetchModelStats, modelSlug, type ModelStat } from "@/lib/stats";
 
 export const metadata = {
-  title: "实测速度排行榜 · 百模竞速",
+  title: "大模型实测速度排行榜",
   description:
     "全网用户匿名贡献的大模型真实速度排行：输出 TPS、首 Token 时延、峰值速度。数据持续更新。",
+  alternates: { canonical: "/stats" },
 };
 
 // 每 5 分钟重新生成
@@ -32,8 +35,64 @@ export default async function StatsPage() {
     : 1;
   const totalSamples = stats?.reduce((a, s) => a + s.samples, 0) ?? 0;
 
+  const listJsonLd = stats?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        name: "大模型实测速度排行榜",
+        description:
+          "全网用户匿名贡献的大模型真实速度：中位输出 tok/s、首 Token 时延、峰值速度。",
+        url: `${BRAND.url}/stats`,
+        numberOfItems: stats.length,
+        itemListElement: stats.map((s, i) => ({
+          "@type": "ListItem",
+          position: i + 1,
+          name: s.model,
+          description: `中位输出 ${fmt(s.medianContentTps)} tok/s · 峰值 ${fmt(
+            s.maxPeakTps
+          )} tok/s · ${s.samples} 次实测`,
+        })),
+      }
+    : null;
+
+  // GEO：Dataset 结构化数据，便于生成式引擎理解并引用「哪个模型最快」类问答
+  const datasetJsonLd = stats?.length
+    ? {
+        "@context": "https://schema.org",
+        "@type": "Dataset",
+        name: "大模型实测速度数据集",
+        description:
+          "全网用户匿名贡献的大模型真实速度：首 Token 时延（TTFT）、思考 / 输出 tokens per second、峰值速度与 token 数。",
+        url: `${BRAND.url}/stats`,
+        isAccessibleForFree: true,
+        creator: { "@type": "Organization", name: BRAND.publisher, url: BRAND.url },
+        license: "https://github.com",
+        variableMeasured: [
+          "首Token时延 (TTFT, ms)",
+          "中位输出速度 (tokens/s)",
+          "峰值输出速度 (tokens/s)",
+          "输出 token 数",
+        ],
+        measurementTechnique:
+          "浏览器端流式逐 token 计时，服务端时间戳校准；token 口径以厂商官方 usage 为准",
+        dateModified: new Date().toISOString(),
+      }
+    : null;
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: BRAND.zh, item: BRAND.url },
+      { "@type": "ListItem", position: 2, name: "速度榜", item: `${BRAND.url}/stats` },
+    ],
+  };
+
   return (
     <main className="mx-auto max-w-4xl px-5 py-8">
+      {listJsonLd && <JsonLd data={listJsonLd} />}
+      {datasetJsonLd && <JsonLd data={datasetJsonLd} />}
+      <JsonLd data={breadcrumbJsonLd} />
       <nav className="mb-6 flex items-center justify-between">
         <Link href="/" className="text-[13px] text-faint hover:text-ink">
           ← 百模竞速
@@ -111,9 +170,12 @@ export default async function StatsPage() {
                   <span className="num w-6 shrink-0 text-[13px] text-faint">
                     {MEDALS[i] ?? `${i + 1}`}
                   </span>
-                  <span className="truncate text-[13.5px] font-semibold">
+                  <Link
+                    href={`/model/${modelSlug(s.model)}`}
+                    className="truncate text-[13.5px] font-semibold hover:text-accent"
+                  >
                     {s.model}
-                  </span>
+                  </Link>
                 </div>
                 <div className="num ml-[30px] mt-1 flex items-center gap-2 text-[10.5px] text-faint">
                   <span className="truncate">{s.provider}</span>

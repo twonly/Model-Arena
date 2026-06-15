@@ -2,7 +2,7 @@
 
 同一个 Prompt 并发打到多个大模型，流式对比**首 Token 时延、思考 TPS、输出 TPS、峰值速度、总 Tokens、总用时**，为 AI 测评创作而生——截图即可发文。
 
-**在线版**：https://arena.amaletter.com （API Key 只存你的浏览器，服务端不记录任何密钥与内容）
+**在线版**：https://www.tokrace.com （API Key 只存你浏览器本地，请求经同源服务器中转但不记录、不落库）
 
 出品：[AI拯救打工人](https://www.xiaohongshu.com/user/profile/6467b1210000000010027a51)（小红书 ai_love_worker）
 

@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { ShareView } from "@/components/ShareView";
+import { JsonLd } from "@/components/JsonLd";
+import { BRAND } from "@/lib/brand";
 import type { ShareSnapshot } from "@/lib/share";
 
 export const dynamic = "force-dynamic";
@@ -42,11 +44,14 @@ export async function generateMetadata({
   const r = await fetchShare(id).catch(() => ({ state: "missing" }) as FetchResult);
   const snap = r.state === "ok" ? r.snapshot : null;
   const title = snap?.title?.trim() || "模型速度对比";
+  const description = snap
+    ? `${snap.results.length} 个大模型实测对比 · ${snap.prompt.slice(0, 50)}`
+    : "大模型速度对比分享";
   return {
-    title: `${title} · 百模竞速`,
-    description: snap
-      ? `${snap.results.length} 个大模型实测对比 · ${snap.prompt.slice(0, 50)}`
-      : "大模型速度对比分享",
+    title,
+    description,
+    alternates: { canonical: `/r/${id}` },
+    openGraph: { type: "article", title, description, url: `/r/${id}` },
   };
 }
 
@@ -93,5 +98,72 @@ export default async function SharePage({
     );
   }
 
-  return <ShareView snapshot={r.snapshot} shareId={id} />;
+  const url = `${BRAND.url}/r/${id}`;
+  const shareJsonLd = buildShareJsonLd(r.snapshot, id, url);
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      { "@type": "ListItem", position: 1, name: BRAND.zh, item: BRAND.url },
+      { "@type": "ListItem", position: 2, name: "竞速场", item: `${BRAND.url}/arena` },
+      { "@type": "ListItem", position: 3, name: r.snapshot.title || "分享快照", item: url },
+    ],
+  };
+
+  return (
+    <>
+      <JsonLd data={shareJsonLd} />
+      <JsonLd data={breadcrumbJsonLd} />
+      <ShareView snapshot={r.snapshot} shareId={id} />
+    </>
+  );
+}
+
+function buildShareJsonLd(snapshot: ShareSnapshot, id: string, url: string) {
+  const title = snapshot.title?.trim() || "模型速度对比";
+  const description = snapshot.notes?.trim()
+    ? `${snapshot.notes.slice(0, 120)}…`
+    : `${snapshot.results.length} 个大模型实测速度对比 · ${snapshot.prompt.slice(0, 60)}`;
+  const mainEntity = {
+    "@type": "ItemList",
+    name: title,
+    description,
+    url,
+    numberOfItems: snapshot.results.length,
+    itemListElement: snapshot.results
+      .slice()
+      .sort((a, b) => (a.rank ?? 999) - (b.rank ?? 999))
+      .map((r, i) => {
+        const m = r.metrics;
+        const parts: string[] = [];
+        if (m?.ttftMs != null) parts.push(`首Token ${(m.ttftMs / 1000).toFixed(2)}s`);
+        if (m?.contentTps != null) parts.push(`输出 ${Math.round(m.contentTps)} tok/s`);
+        if (m?.peakTps != null) parts.push(`峰值 ${Math.round(m.peakTps)} tok/s`);
+        return {
+          "@type": "ListItem",
+          position: i + 1,
+          name: r.name,
+          description: parts.join(" · ") || `模型 ${r.model}`,
+        };
+      }),
+  };
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "TechArticle",
+        "@id": `${url}#article`,
+        headline: title,
+        description,
+        url,
+        inLanguage: "zh-CN",
+        author: { "@type": "Organization", name: BRAND.publisher },
+        publisher: { "@type": "Organization", name: BRAND.publisher, url: BRAND.url },
+        datePublished: new Date().toISOString(),
+        mainEntityOfPage: { "@type": "WebPage", "@id": url },
+        isAccessibleForFree: true,
+      },
+      mainEntity,
+    ],
+  };
 }

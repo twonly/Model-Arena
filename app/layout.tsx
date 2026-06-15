@@ -1,11 +1,65 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { BRAND, SEO_KEYWORDS } from "@/lib/brand";
+import { JsonLd } from "@/components/JsonLd";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "百模竞速 · Model Arena",
-  description:
-    "同一个 Prompt 并发打到多个大模型，流式对比首 Token 时延、思考/输出 TPS、峰值速度与 token 数。出品：AI拯救打工人。",
+  metadataBase: new URL(BRAND.url),
+  title: {
+    default: `${BRAND.full} — ${BRAND.taglineZh}`,
+    template: `%s · ${BRAND.zh} ${BRAND.en}`,
+  },
+  description: BRAND.descZh,
+  applicationName: BRAND.en,
+  keywords: SEO_KEYWORDS,
+  authors: [{ name: BRAND.publisher }],
+  creator: BRAND.publisher,
+  alternates: { canonical: "/" },
+  openGraph: {
+    type: "website",
+    siteName: BRAND.full,
+    title: `${BRAND.full} — ${BRAND.taglineZh}`,
+    description: BRAND.descZh,
+    url: BRAND.url,
+    locale: "zh_CN",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: BRAND.full,
+    description: BRAND.descZh,
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+};
+
+// 站点级结构化数据：网站 + 软件应用（GEO / 富搜索结果）
+const siteJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${BRAND.url}/#website`,
+      url: BRAND.url,
+      name: BRAND.full,
+      description: BRAND.descZh,
+      inLanguage: "zh-CN",
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${BRAND.url}/#app`,
+      name: `${BRAND.en} ${BRAND.zh}`,
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Web",
+      url: BRAND.url,
+      description: BRAND.descZh,
+      inLanguage: "zh-CN",
+      offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    },
+  ],
 };
 
 export default function RootLayout({
@@ -22,6 +76,7 @@ export default function RootLayout({
             __html: `try{if(JSON.parse(localStorage.getItem("ma.theme"))==="dark")document.documentElement.dataset.theme="dark"}catch(e){}`,
           }}
         />
+        <JsonLd data={siteJsonLd} />
         {children}
         <Analytics />
       </body>

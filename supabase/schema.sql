@@ -110,7 +110,36 @@ create index if not exists share_votes_client_idx on share_votes (client_id, cre
 create index if not exists share_votes_user_idx on share_votes (user_id, created_at desc);
 alter table share_votes enable row level security;
 
+-- 模型注册表：原始 model ID → 规范化显示名、别名、隐藏状态
+-- 用于治理公开榜单上用户自命名的重复/临时 model_id
+create table if not exists models (
+  id            bigint generated always as identity primary key,
+  created_at    timestamptz not null default now(),
+  updated_at    timestamptz not null default now(),
+  raw_id        text not null unique,     -- 来自 run_metrics.model / share_votes.model_id 的原始字符串
+  display_name  text,                     -- 规范化显示名（如 "Kimi K2"），空则回退 raw_id
+  hidden        boolean not null default false, -- true = 不在公共榜单展示
+  canonical_id  bigint references models(id) on delete set null, -- 指向 canonical model（合并用）
+  notes         text                      -- 管理员备注
+);
+create index if not exists models_canonical_idx on models (canonical_id);
+create index if not exists models_hidden_idx on models (hidden);
+
+-- 更新 models.updated_at 触发器
+create or replace function set_updated_at()
+returns trigger as $$
+begin
+  new.updated_at = now();
+  return new;
+end;
+$$ language plpgsql;
+drop trigger if exists models_updated_at on models;
+create trigger models_updated_at
+  before update on models
+  for each row execute function set_updated_at();
+
 -- 前面这些表都不开放匿名读写（服务端用 service_role key 操作，绕过 RLS）
 alter table consents enable row level security;
 alter table run_metrics enable row level security;
 alter table shares enable row level security;
+alter table models enable row level security;

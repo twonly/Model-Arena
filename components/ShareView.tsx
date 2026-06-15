@@ -102,7 +102,7 @@ export function ShareView({
     <main className="mx-auto max-w-7xl px-5 py-8">
       <nav className="mb-5 flex items-center justify-between">
         <a href="/" className="text-[13px] text-faint hover:text-ink">
-          ← 百模竞速 Model Arena
+          ← 百模竞速 · TOKRACE
         </a>
         <div className="flex items-center gap-2">
           <button className={btn} onClick={() => setMarkdown((v) => !v)}>
@@ -137,7 +137,7 @@ export function ShareView({
         )}
         <div className="num mt-1 text-[11px] text-faint/70">
           {snapshot.results.length} 个模型 ·{" "}
-          {snapshot.watermark.trim() || "百模竞速 Model Arena"} · 分享快照
+          {snapshot.watermark.trim() || "百模竞速 · TOKRACE"} · 分享快照
         </div>
       </header>
 

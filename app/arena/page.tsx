@@ -607,7 +607,7 @@ export default function Home() {
             {restored
               ? `历史快照 · ${new Date(restored.at).toLocaleString("zh-CN", { hour12: false })}`
               : `${endpoints.filter((e) => e.enabled).length} 个模型参与对比`}{" "}
-            · {watermark.trim() || "百模竞速 Model Arena"}
+            · {watermark.trim() || "百模竞速 · TOKRACE"}
           </span>
           <Credit compact />
         </div>

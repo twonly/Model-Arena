@@ -62,6 +62,14 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     exampleModels: ["MiniMax-M2", "MiniMax-Text-01"],
   },
   {
+    id: "xiaomi",
+    label: "小米 MiMo",
+    kind: "openai",
+    baseUrl: "https://api.xiaomimimo.com/v1",
+    exampleModels: ["mimo-v2-pro", "mimo-v2-flash"],
+    note: "也提供 Anthropic 兼容接口 https://api.xiaomimimo.com/anthropic（用 Claude 协议时选它）",
+  },
+  {
     id: "siliconflow",
     label: "硅基流动",
     kind: "openai",
