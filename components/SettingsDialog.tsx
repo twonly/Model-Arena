@@ -324,6 +324,17 @@ export function SettingsDialog({
                     <div className="min-w-0 flex-1">
                       <div className="text-[13px] font-semibold truncate">
                         {ep.name}
+                        {ep.shared && (
+                          <span
+                            className="ml-2 text-[10px] font-semibold rounded px-1 py-px"
+                            style={{
+                              color: "var(--go)",
+                              border: "1px solid color-mix(in srgb, var(--go) 40%, transparent)",
+                            }}
+                          >
+                            🎁 体验
+                          </span>
+                        )}
                         <span className="ml-2 text-[10px] font-normal text-faint border border-line rounded px-1 py-px">
                           {KIND_LABEL[ep.kind]}
                         </span>
@@ -336,8 +347,15 @@ export function SettingsDialog({
                             · 自定义参数
                           </span>
                         )}
-                        {!ep.apiKey && (
-                          <span className="text-accent"> · 未填 Key</span>
+                        {ep.shared ? (
+                          <span style={{ color: "var(--go)" }}>
+                            {" "}
+                            · 免费体验，无需 Key
+                          </span>
+                        ) : (
+                          !ep.apiKey && (
+                            <span className="text-accent"> · 未填 Key</span>
+                          )
                         )}
                       </div>
                     </div>

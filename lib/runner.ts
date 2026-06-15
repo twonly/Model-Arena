@@ -1,4 +1,5 @@
 import { estimateTokens } from "./tokens";
+import { getClientId } from "./telemetry";
 import type {
   ModelEndpoint,
   RunParams,
@@ -17,6 +18,10 @@ interface RunOptions {
   update: (fn: (prev: RunState) => RunState) => void;
   /** 完成（含报错/中断）时回调，用于竞速排名 */
   onSettled: (ok: boolean) => void;
+  /** 本轮对比的唯一 ID（共享额度按此去重计数） */
+  runId?: string;
+  /** 共享额度剩余次数回调（读自响应头 X-Quota-Remaining） */
+  onQuota?: (remaining: number) => void;
 }
 
 const FLUSH_MS = 80; // UI 刷新节流
@@ -35,6 +40,8 @@ export async function runEndpoint({
   signal,
   update,
   onSettled,
+  runId,
+  onQuota,
 }: RunOptions): Promise<void> {
   const t0 = performance.now();
   let reasoning = "";
@@ -202,28 +209,49 @@ export async function runEndpoint({
   }));
 
   try {
+    // 共享「体验额度」模型：不带 key/baseUrl，服务端按 sharedId 注入 + 扣额度
+    const reqBody = endpoint.shared
+      ? {
+          shared: true,
+          sharedId: endpoint.id,
+          clientId: getClientId(),
+          runId,
+          systemPrompt: params.systemPrompt,
+          prompt,
+          temperature: params.temperature,
+          maxTokens: params.maxTokens,
+          imageDataUrl,
+        }
+      : {
+          kind: endpoint.kind,
+          baseUrl: endpoint.baseUrl,
+          apiKey: endpoint.apiKey,
+          model: endpoint.model,
+          systemPrompt: params.systemPrompt,
+          prompt,
+          temperature: params.temperature,
+          maxTokens: params.maxTokens,
+          extraBody: endpoint.extraBody,
+          imageDataUrl,
+        };
     const res = await fetch("/api/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       signal,
-      body: JSON.stringify({
-        kind: endpoint.kind,
-        baseUrl: endpoint.baseUrl,
-        apiKey: endpoint.apiKey,
-        model: endpoint.model,
-        systemPrompt: params.systemPrompt,
-        prompt,
-        temperature: params.temperature,
-        maxTokens: params.maxTokens,
-        extraBody: endpoint.extraBody,
-        imageDataUrl,
-      }),
+      body: JSON.stringify(reqBody),
     });
 
+    // 额度已用完（402）：抛出后端给的友好中文提示
+    if (res.status === 402) {
+      const j = await res.json().catch(() => null);
+      throw new Error(j?.error || "今日免费额度已用完，请配置你自己的 API Key。");
+    }
     if (!res.ok || !res.body) {
       const detail = await res.text().catch(() => "");
       throw new Error(detail || `HTTP ${res.status}`);
     }
+    const rem = res.headers.get("X-Quota-Remaining");
+    if (rem != null && onQuota) onQuota(Number(rem));
 
     const reader = res.body.getReader();
     const decoder = new TextDecoder();

@@ -21,6 +21,7 @@ import { toPng } from "html-to-image";
 import {
   CONSENT_FIELDS,
   CONSENT_VERSION,
+  getClientId,
   reportConsent,
   reportRunMetrics,
   type ConsentChoice,
@@ -32,6 +33,9 @@ import {
   type RunParams,
   type RunState,
 } from "@/lib/types";
+import { QuotaBanner } from "@/components/QuotaBanner";
+import { sharedAsEndpoints } from "@/lib/shared-models";
+import { supabaseEnabled } from "@/lib/supabase-client";
 
 /* ---------- localStorage 持久化 ---------- */
 function usePersisted<T>(
@@ -88,6 +92,48 @@ export default function Home() {
     []
   );
   const [history, setHistory] = usePersisted<HistoryEntry[]>("ma.history", []);
+  // 共享「体验额度」状态（null = 未知/未启用）
+  const [quota, setQuota] = useState<{
+    remaining: number;
+    limit: number;
+    loggedIn: boolean;
+  } | null>(null);
+
+  // 首访预置共享模型（仅一次；已有自配模型则不种）
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("ma.seededShared")) return;
+      const raw = localStorage.getItem("ma.endpoints");
+      const existing = raw ? JSON.parse(raw) : [];
+      localStorage.setItem("ma.seededShared", "1");
+      if (!Array.isArray(existing) || existing.length === 0) {
+        setEndpoints(sharedAsEndpoints());
+      }
+    } catch {
+      /* ignore */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const fetchQuota = useCallback(async () => {
+    if (!supabaseEnabled()) return;
+    try {
+      const { authHeader } = await import("@/lib/me");
+      const res = await fetch(
+        `/api/shared/quota?clientId=${encodeURIComponent(getClientId())}`,
+        { headers: await authHeader(), cache: "no-store" }
+      );
+      const j = await res.json();
+      if (j.ok)
+        setQuota({ remaining: j.remaining, limit: j.limit, loggedIn: j.loggedIn });
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  useEffect(() => {
+    void fetchQuota();
+  }, [fetchQuota]);
   const [watermark, setWatermark] = usePersisted("ma.watermark", "");
   const [wmTiled, setWmTiled] = usePersisted("ma.wmTiled", false);
   const [theme, setTheme] = usePersisted<"light" | "dark">("ma.theme", "light");
@@ -307,8 +353,17 @@ export default function Home() {
   );
 
   const startAll = () => {
-    const targets = endpoints.filter((e) => e.enabled);
+    let targets = endpoints.filter((e) => e.enabled);
     if (!targets.length || !prompt.trim() || anyRunning) return;
+    // 免费额度用完：剔除共享模型，只跑用户自带 key 的
+    if (quota && quota.remaining <= 0 && targets.some((t) => t.shared)) {
+      targets = targets.filter((t) => !t.shared);
+      if (!targets.length) {
+        flash("今日免费体验额度已用完——登录或填自己的 Key 继续");
+        return;
+      }
+      flash("免费额度已用完，本轮只跑你自己配置的模型");
+    }
     setRestored(null);
     setShareUrl(null); // 新一轮作废旧分享链接
     setShareError(null);
@@ -317,6 +372,7 @@ export default function Home() {
     rankCounter.current = 0;
     pendingCount.current = targets.length;
     setNowTick(Date.now());
+    const runId = crypto.randomUUID(); // 本轮唯一 ID：共享额度按此去重计 1 次
     const fresh: Record<string, RunState> = {};
     for (const t of targets)
       fresh[t.id] = { ...emptyRun(), startedAt: Date.now() };
@@ -330,6 +386,9 @@ export default function Home() {
         imageDataUrl: image?.dataUrl,
         signal: ctrl.signal,
         update: updateRun(t.id),
+        runId,
+        onQuota: (remaining) =>
+          setQuota((q) => (q ? { ...q, remaining } : q)),
         onSettled: (ok) => {
           if (ok) {
             rankCounter.current += 1;
@@ -342,6 +401,7 @@ export default function Home() {
           pendingCount.current -= 1;
           if (pendingCount.current <= 0) {
             setTimeout(() => saveHistory(targets), 80);
+            void fetchQuota(); // 跑完同步真实剩余额度
           }
         },
       });
@@ -365,7 +425,11 @@ export default function Home() {
       imageDataUrl: imageRef.current?.dataUrl,
       signal: ctrl.signal,
       update: updateRun(ep.id),
-      onSettled: () => {},
+      runId: crypto.randomUUID(),
+      onQuota: (remaining) => setQuota((q) => (q ? { ...q, remaining } : q)),
+      onSettled: () => {
+        if (ep.shared) void fetchQuota();
+      },
     });
   };
 
@@ -632,6 +696,17 @@ export default function Home() {
           <AccountChip onOpen={() => setAccountOpen(true)} />
         </div>
       )}
+      {!screenshotMode &&
+        quota != null &&
+        endpoints.some((e) => e.enabled && e.shared) && (
+          <QuotaBanner
+            remaining={quota.remaining}
+            limit={quota.limit}
+            loggedIn={quota.loggedIn}
+            onLogin={() => setAccountOpen(true)}
+            onConfigure={() => setSettingsOpen(true)}
+          />
+        )}
       {/* ===== 标题区（可编辑，截图友好） ===== */}
       <header className="mb-5">
         <input

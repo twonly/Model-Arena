@@ -5,7 +5,7 @@ import { getClientId } from "./telemetry";
 import { getSupabase } from "./supabase-client";
 import type { ShareSnapshot } from "./share";
 
-async function authHeader(): Promise<Record<string, string>> {
+export async function authHeader(): Promise<Record<string, string>> {
   try {
     const sb = getSupabase();
     if (!sb) return {};

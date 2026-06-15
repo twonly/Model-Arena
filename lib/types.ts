@@ -14,6 +14,8 @@ export interface ModelEndpoint {
    * 用于厂商私有开关，如 Qwen 的 enable_thinking、GLM/豆包的 thinking.type 等。
    */
   extraBody?: string;
+  /** 共享「体验额度」模型：无 key，跑时走服务端注入 key + 扣免费额度 */
+  shared?: boolean;
 }
 
 export interface RunParams {
