@@ -3,15 +3,19 @@
 import { useEffect, useState } from "react";
 import { ModelCard, STATUS_COLOR } from "./ModelCard";
 import { Credit } from "./Credit";
-import { VotePanel } from "./VotePanel";
-import { VoteSummary } from "./VoteSummary";
-import { ShareCardModal } from "./ShareCardModal";
+import { CardVoteBar } from "./CardVoteBar";
+import { Leaderboard } from "./Leaderboard";
 import { extractWordTarget, rankBadge } from "@/lib/format";
 import type { ShareSnapshot } from "@/lib/share";
-import { fetchVotes, type VoteAggregate } from "@/lib/voting";
+import {
+  fetchVotes,
+  reactModel,
+  type Sentiment,
+  type VoteAggregate,
+} from "@/lib/voting";
 import { emptyRun, type ModelEndpoint, type RunState } from "@/lib/types";
 
-/** 只读分享视图：复用 ModelCard 渲染快照，支持紧凑/显示切换/单模型放大 + 投票 */
+/** 只读分享视图：卡片内 👍/👎 + 评论，右侧实时榜单 */
 export function ShareView({
   snapshot,
   shareId,
@@ -23,62 +27,34 @@ export function ShareView({
   const [compact, setCompact] = useState(false);
   const [hidden, setHidden] = useState<string[]>([]);
   const [focusId, setFocusId] = useState<string | null>(null);
-
-  // 盲评：投票前隐藏模型名（揭晓后显示）
-  const voting = snapshot.voting;
-  const blind = voting?.enabled && voting.mode === "blind";
-  const [revealed, setRevealed] = useState(!blind);
   const [agg, setAgg] = useState<VoteAggregate | null>(null);
 
-  // 投票聚合：进页就拉，让用户先看到当前得分；已投过则揭晓
+  const voting = snapshot.voting?.enabled;
+
   useEffect(() => {
-    if (!voting?.enabled) return;
+    if (!voting) return;
     fetchVotes(shareId)
-      .then((a) => {
-        setAgg(a);
-        if (a.mine) setRevealed(true);
-      })
+      .then(setAgg)
       .catch(() => {});
-  }, [voting?.enabled, shareId]);
+  }, [voting, shareId]);
 
-  const voteLabel = (i: number) =>
-    blind && !revealed
-      ? `模型 ${String.fromCharCode(65 + i)}`
-      : snapshot.results[i]?.name ?? `模型${i + 1}`;
+  const react = async (
+    modelIndex: number,
+    modelId: string,
+    sentiment: Sentiment,
+    comment?: string
+  ) => {
+    const a = await reactModel({ shareId, modelIndex, modelId, sentiment, comment });
+    setAgg(a);
+  };
 
-  const goVote = () =>
-    document
-      .getElementById("vote-panel")
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-
-  const [cardOpen, setCardOpen] = useState(false);
-  // 我的选择（晒卡用）：按方式取冠军模型名
-  const myPickIndex = (() => {
-    const m = agg?.mine;
-    if (!m) return -1;
-    if (m.pick != null) return m.pick;
-    if (m.ranks?.length) return m.ranks[0];
-    if (m.scores) {
-      let best = -1,
-        bestAvg = -1;
-      for (const [idxS, dims] of Object.entries(m.scores)) {
-        const vals = Object.values(dims).filter((v) => v > 0);
-        if (!vals.length) continue;
-        const a = vals.reduce((x, y) => x + y, 0) / vals.length;
-        if (a > bestAvg) {
-          bestAvg = a;
-          best = Number(idxS);
-        }
-      }
-      return best;
-    }
-    return -1;
-  })();
+  const idxOf = (epId: string) => Number(epId.replace("s-", ""));
+  const voteLabel = (i: number) => snapshot.results[i]?.name ?? `模型${i + 1}`;
 
   const endpoints: ModelEndpoint[] = snapshot.results.map((r, i) => ({
     id: `s-${i}`,
-    name: blind && !revealed ? `模型 ${String.fromCharCode(65 + i)}` : r.name,
-    model: blind && !revealed ? "" : r.model,
+    name: r.name,
+    model: r.model,
     kind: "openai",
     baseUrl: "",
     apiKey: "",
@@ -114,12 +90,10 @@ export function ShareView({
   const cols = compact
     ? visible.length <= 2
       ? "sm:grid-cols-2"
-      : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+      : "sm:grid-cols-2 xl:grid-cols-3"
     : visible.length <= 1
-      ? "grid-cols-1 max-w-3xl"
-      : visible.length === 2
-        ? "md:grid-cols-2"
-        : "md:grid-cols-2 xl:grid-cols-3";
+      ? "grid-cols-1"
+      : "md:grid-cols-2";
 
   const btn =
     "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
@@ -134,11 +108,7 @@ export function ShareView({
           <button className={btn} onClick={() => setMarkdown((v) => !v)}>
             {markdown ? "MD 渲染：开" : "MD 渲染：关"}
           </button>
-          <button
-            className={btn}
-            onClick={() => setCompact((v) => !v)}
-            title="折叠输出只看指标，一屏看全"
-          >
+          <button className={btn} onClick={() => setCompact((v) => !v)}>
             {compact ? "📊 紧凑：开" : "📊 紧凑：关"}
           </button>
           <a
@@ -174,16 +144,6 @@ export function ShareView({
         </div>
       )}
 
-      {/* 顶部实时打榜摘要（第一眼可见，点击去投票） */}
-      {voting?.enabled && (
-        <VoteSummary
-          agg={agg}
-          label={voteLabel}
-          voted={!!agg?.mine}
-          onGoVote={goVote}
-        />
-      )}
-
       {/* 模型显示切换 */}
       {endpoints.length >= 2 && (
         <div className="mb-3 flex flex-wrap items-center gap-1.5">
@@ -201,7 +161,6 @@ export function ShareView({
                       : [...p, ep.id]
                   )
                 }
-                title={isHidden ? "点击显示" : "点击隐藏"}
                 className={`flex items-center gap-1.5 rounded-md border border-line px-1.5 py-1 text-[11.5px] cursor-pointer ${
                   isHidden ? "bg-paper/40 opacity-50" : "bg-card"
                 }`}
@@ -226,75 +185,48 @@ export function ShareView({
         </div>
       )}
 
-      <div className={`grid gap-4 ${cols}`}>
-        {visible.map((ep) => (
-          <ModelCard
-            key={ep.id}
-            endpoint={ep}
-            run={runs[ep.id] ?? emptyRun()}
-            markdown={markdown}
-            screenshotMode={false}
-            readOnly
-            thinkingStats={snapshot.thinkingStats}
-            nowTick={0}
-            onRerun={() => {}}
-            onToggleFocus={() => setFocusId(ep.id)}
-            wordTarget={wordTarget}
-            compact={compact}
-          />
-        ))}
-      </div>
-
-      {/* 投票/打榜 */}
-      {voting?.enabled && (
-        <VotePanel
-          shareId={shareId}
-          results={snapshot.results}
-          config={voting}
-          agg={agg}
-          onAgg={setAgg}
-          onVoted={() => setRevealed(true)}
-          label={voteLabel}
-        />
-      )}
-
-      {/* 投票后：晒选择病毒卡入口 */}
-      {voting?.enabled && agg?.mine && myPickIndex >= 0 && (
-        <div className="mt-4 text-center">
-          <button
-            onClick={() => setCardOpen(true)}
-            className="rounded-lg bg-accent px-5 py-2.5 text-[13.5px] font-bold text-white hover:opacity-90 cursor-pointer"
-          >
-            📸 晒出我的选择，喊朋友来投
-          </button>
+      {/* 主区 + 右侧榜单 */}
+      <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
+        <div className="order-2 min-w-0 lg:order-1 lg:flex-1">
+          <div className={`grid gap-4 ${cols}`}>
+            {visible.map((ep) => (
+              <div key={ep.id}>
+                <ModelCard
+                  endpoint={ep}
+                  run={runs[ep.id] ?? emptyRun()}
+                  markdown={markdown}
+                  screenshotMode={false}
+                  readOnly
+                  thinkingStats={snapshot.thinkingStats}
+                  nowTick={0}
+                  onRerun={() => {}}
+                  onToggleFocus={() => setFocusId(ep.id)}
+                  wordTarget={wordTarget}
+                  compact={compact}
+                />
+                {voting && (
+                  <CardVoteBar
+                    modelIndex={idxOf(ep.id)}
+                    modelId={ep.model}
+                    agg={agg}
+                    onReact={react}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      )}
 
-      {voting?.enabled && (
-        <ShareCardModal
-          open={cardOpen}
-          onClose={() => setCardOpen(false)}
-          title={snapshot.title}
-          myPick={
-            myPickIndex >= 0
-              ? (snapshot.results[myPickIndex]?.name ?? "")
-              : ""
-          }
-          agg={agg}
-          label={(i) => snapshot.results[i]?.name ?? `模型${i + 1}`}
-          shareUrl={typeof window !== "undefined" ? window.location.href : ""}
-        />
-      )}
-
-      {/* 悬浮去投票按钮（长页面滚动到深处也能回到投票区） */}
-      {voting?.enabled && (
-        <button
-          onClick={goVote}
-          className="fixed bottom-5 right-5 z-30 rounded-full bg-ink px-4 py-2.5 text-[13px] font-bold text-paper shadow-lg hover:opacity-90 cursor-pointer"
-        >
-          🏆 {agg?.mine ? "看打榜" : "投票"}
-        </button>
-      )}
+        {voting && (
+          <aside className="order-1 lg:order-2 lg:w-64 lg:shrink-0 lg:sticky lg:top-4">
+            <Leaderboard
+              agg={agg}
+              count={snapshot.results.length}
+              label={voteLabel}
+            />
+          </aside>
+        )}
+      </div>
 
       {/* 单模型放大 */}
       {focusEp && (
@@ -319,6 +251,14 @@ export function ShareView({
               onToggleFocus={() => setFocusId(null)}
               wordTarget={wordTarget}
             />
+            {voting && (
+              <CardVoteBar
+                modelIndex={idxOf(focusEp.id)}
+                modelId={focusEp.model}
+                agg={agg}
+                onReact={react}
+              />
+            )}
           </div>
         </div>
       )}

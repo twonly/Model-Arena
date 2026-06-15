@@ -79,33 +79,25 @@ drop policy if exists "own sync update" on user_sync;
 create policy "own sync update" on user_sync
   for update using (auth.uid() = user_id);
 
--- 分享页投票/打榜：每设备每分享 1 票（可改票），登录票单独计可加权。
--- 支持三种评价方式 single/rank/score，评论可针对模型 + 👍/👎。
-create table if not exists share_votes (
+-- 分享页投票（简化版）：每个模型卡片直接 👍/👎 + 评论。
+-- 数据粒度 = 每设备每分享每模型一行（可独立赞/踩不同模型，可改）。
+-- 注意：本表结构与早期版本不同，若你之前建过旧 share_votes，先 drop 再建。
+drop table if exists share_votes;
+create table share_votes (
   id          bigint generated always as identity primary key,
   created_at  timestamptz not null default now(),
   share_id    text not null,
   client_id   text not null,           -- 匿名设备 ID
-  user_id     uuid,                     -- 登录用户(可空)，用于加权/可信票
-  pick        int,                      -- single：最佳下标 / 其它方法的冠军下标
-  ranks       jsonb,                    -- rank：有序前 3 的下标 [i1,i2,i3]
-  scores      jsonb,                    -- score：{模型下标: {维度: 1..5}}
-  winner_model text,                    -- 冠军模型 id（全站周榜聚合用）
-  comment       text,                   -- 文字评论 ≤500
-  comment_target int,                   -- 评论目标模型下标，-1=综合
-  comment_sentiment text,               -- up好评 / down差评 / null
-  unique (share_id, client_id)          -- 每设备每分享 1 票（upsert 改票）
+  user_id     uuid,                     -- 登录用户(可空)，登录票更可信
+  model_index int not null,             -- 快照 results 下标
+  model_id    text,                     -- 模型 id（全站人气榜聚合用）
+  sentiment   text,                     -- up 赞 / down 踩 / null（仅评论）
+  comment     text,                     -- 文字评论 ≤500
+  unique (share_id, client_id, model_index)  -- 每设备每模型一行（upsert 改）
 );
 create index if not exists share_votes_share_idx on share_votes (share_id);
-create index if not exists share_votes_winner_idx on share_votes (winner_model);
+create index if not exists share_votes_model_idx on share_votes (model_id);
 alter table share_votes enable row level security;
-
--- 若你之前已建过旧版 share_votes，补这些列（幂等）：
-alter table share_votes add column if not exists ranks jsonb;
-alter table share_votes add column if not exists winner_model text;
-alter table share_votes add column if not exists comment_target int;
-alter table share_votes add column if not exists comment_sentiment text;
-alter table share_votes alter column pick drop not null;
 
 -- 前面这些表都不开放匿名读写（服务端用 service_role key 操作，绕过 RLS）
 alter table consents enable row level security;

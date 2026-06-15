@@ -18,9 +18,6 @@ export interface ShareResult {
 
 export interface VotingConfigLite {
   enabled: boolean;
-  mode: "open" | "blind";
-  method: "single" | "rank" | "score";
-  scene: string;
 }
 
 export interface ShareSnapshot {

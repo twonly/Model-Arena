@@ -18,8 +18,8 @@ export default async function BoardPage() {
   } catch {
     error = true;
   }
-  const maxWins = board?.length ? Math.max(board[0].wins, 1) : 1;
-  const totalWins = board?.reduce((a, b) => a + b.wins, 0) ?? 0;
+  const maxW = board?.length ? Math.max(board[0].wilson, 0.0001) : 1;
+  const totalVotes = board?.reduce((a, b) => a + b.up + b.down, 0) ?? 0;
 
   return (
     <main className="mx-auto max-w-3xl px-5 py-8">
@@ -51,17 +51,17 @@ export default async function BoardPage() {
           最受欢迎模型榜
         </h1>
         <p className="mt-2 text-[13px] text-faint">
-          全网用户在分享页投票打榜，谁夺冠最多？
+          全网用户在分享页给每个模型 👍 点赞 / 👎 点踩，谁最受好评？
           {board?.length ? (
             <>
               {" "}
               当前 <span className="num text-ink">{board.length}</span> 个模型 ·{" "}
-              <span className="num text-ink">{totalWins}</span> 次夺冠
+              <span className="num text-ink">{totalVotes}</span> 次投票
             </>
           ) : null}
         </p>
         <p className="mt-1 text-[11.5px] text-faint/70">
-          「夺冠」= 在某次对比里被选为最佳 / 排第 1 / 评分最高。与{" "}
+          排名按 Wilson 好评置信下界：票越多越可信，票少自动打折，不是单纯比好评率。与{" "}
           <Link href="/stats" className="underline hover:text-ink">
             速度榜
           </Link>{" "}
@@ -106,20 +106,20 @@ export default async function BoardPage() {
                   <div
                     className="h-full rounded-full"
                     style={{
-                      width: `${(e.wins / maxWins) * 100}%`,
+                      width: `${(e.wilson / maxW) * 100}%`,
                       background: i === 0 ? "var(--accent)" : "var(--ink)",
                     }}
                   />
                 </div>
               </div>
               <div className="num shrink-0 text-right">
-                <span className="text-[16px] font-bold">{e.wins}</span>
-                <span className="text-[11px] text-faint"> 次夺冠</span>
-                {e.loginWins > 0 && (
-                  <div className="text-[10px] text-faint">
-                    {e.loginWins} 登录票
-                  </div>
-                )}
+                <span className="text-[16px] font-bold">
+                  {Math.round(e.ratio * 100)}%
+                </span>
+                <span className="text-[11px] text-faint"> 好评</span>
+                <div className="text-[10px] text-faint">
+                  👍{e.up} 👎{e.down}
+                </div>
               </div>
             </div>
           ))}

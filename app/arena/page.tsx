@@ -15,7 +15,6 @@ import type { PromptItem } from "@/lib/prompts";
 import { runEndpoint } from "@/lib/runner";
 import { rankBadge } from "@/lib/format";
 import { buildSnapshot, type VotingConfigLite } from "@/lib/share";
-import { guessScene } from "@/lib/voting";
 import { toPng } from "html-to-image";
 import {
   CONSENT_FIELDS,
@@ -1208,7 +1207,6 @@ export default function Home() {
       <ShareConfigDialog
         open={shareCfgOpen}
         onClose={() => setShareCfgOpen(false)}
-        defaultScene={guessScene(prompt)}
         onGenerate={shareResults}
         generating={shareUrl === "loading"}
       />
