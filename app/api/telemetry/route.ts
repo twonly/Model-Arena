@@ -44,17 +44,19 @@ const METRIC_FIELDS = [
 /** camelCase → snake_case（与表结构对应） */
 const snake = (s: string) => s.replace(/[A-Z]/g, (c) => `_${c.toLowerCase()}`);
 
+/**
+ * 把一条原始记录规整成固定列集合的行。
+ * 关键：每行都包含「全部」字段（缺失/undefined/非有限数 → null），
+ * 否则 PostgREST 批量插入会因各对象 key 不一致报 PGRST102
+ * （"All object keys must match"）——成功行有全部指标、出错行只有少数字段时必触发。
+ */
 function pickMetricRow(raw: Record<string, unknown>) {
   const row: Record<string, unknown> = {};
   for (const f of METRIC_FIELDS) {
-    const v = raw[f];
-    if (v === undefined) continue;
-    if (typeof v === "number" && !isFinite(v)) continue;
-    if (typeof v === "string" && v.length > 200) {
-      row[snake(f)] = v.slice(0, 200);
-    } else {
-      row[snake(f)] = v;
-    }
+    let v = raw[f];
+    if (typeof v === "number" && !isFinite(v)) v = undefined;
+    else if (typeof v === "string" && v.length > 200) v = v.slice(0, 200);
+    row[snake(f)] = v === undefined ? null : v;
   }
   return row;
 }

@@ -111,6 +111,9 @@ export function ShareView({
           <button className={btn} onClick={() => setCompact((v) => !v)}>
             {compact ? "📊 紧凑：开" : "📊 紧凑：关"}
           </button>
+          <a className={btn} href="/me">
+            🗂 我的
+          </a>
           <a
             href="/arena"
             className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"

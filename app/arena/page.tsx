@@ -15,6 +15,7 @@ import type { PromptItem } from "@/lib/prompts";
 import { runEndpoint } from "@/lib/runner";
 import { rankBadge } from "@/lib/format";
 import { buildSnapshot, type VotingConfigLite } from "@/lib/share";
+import { createShare } from "@/lib/me";
 import { toPng } from "html-to-image";
 import {
   CONSENT_FIELDS,
@@ -511,25 +512,13 @@ export default function Home() {
         rows,
         voting,
       });
-      const res = await fetch("/api/share", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(snapshot),
-      });
-      // 容错：服务端异常时可能返回非 JSON（如 500 HTML），按文本兜底
-      const raw = await res.text();
-      let j: { ok?: boolean; id?: string; error?: string; disabled?: boolean };
-      try {
-        j = JSON.parse(raw);
-      } catch {
-        j = { ok: false, error: `服务端异常（HTTP ${res.status}）` };
-      }
+      const j = await createShare(snapshot);
       if (!j.ok || !j.id) {
         setShareUrl(null);
         setShareError(
           j.disabled
             ? "分享功能未启用：服务端未配置 Supabase 环境变量"
-            : j.error || `分享失败（HTTP ${res.status}）`
+            : j.error || "分享失败，请重试"
         );
         return;
       }
@@ -636,6 +625,9 @@ export default function Home() {
           <button className={btn} onClick={() => setAccountOpen(true)}>
             👤 账号同步
           </button>
+          <a className={btn} href="/me">
+            🗂 我的
+          </a>
           <button
             className={btn}
             onClick={() => setMarkdown((v) => !v)}

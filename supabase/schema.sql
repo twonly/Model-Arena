@@ -59,6 +59,15 @@ create table if not exists shares (
 );
 create index if not exists shares_created_idx on shares (created_at desc);
 
+-- 「我的中心」所需：分享归属 + 软关闭 + 列表用的冗余列（旧分享这些列为 NULL，不影响打开）
+alter table shares add column if not exists owner_client_id text;     -- 创建者设备 ID
+alter table shares add column if not exists owner_user_id   uuid;     -- 创建者登录账号(可空)
+alter table shares add column if not exists disabled        boolean not null default false; -- 软关闭：链接失效但保留数据
+alter table shares add column if not exists title           text;     -- 冗余，列表展示用
+alter table shares add column if not exists model_count     int;      -- 冗余，列表展示用
+create index if not exists shares_owner_idx on shares (owner_client_id, created_at desc);
+create index if not exists shares_owner_user_idx on shares (owner_user_id, created_at desc);
+
 -- 云同步：每个登录用户一行，payload 是「客户端加密后的密文」
 -- 服务器无法解密（密钥由用户的同步密码在浏览器派生）。RLS 限定本人可读写。
 create table if not exists user_sync (
@@ -97,6 +106,8 @@ create table share_votes (
 );
 create index if not exists share_votes_share_idx on share_votes (share_id);
 create index if not exists share_votes_model_idx on share_votes (model_id);
+create index if not exists share_votes_client_idx on share_votes (client_id, created_at desc);
+create index if not exists share_votes_user_idx on share_votes (user_id, created_at desc);
 alter table share_votes enable row level security;
 
 -- 前面这些表都不开放匿名读写（服务端用 service_role key 操作，绕过 RLS）

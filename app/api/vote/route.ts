@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { rateLimit } from "@/lib/ratelimit";
 import { COMMENT_MAX, wilson } from "@/lib/voting-core";
+import { resolveUserId, safeClientId, ownerFilter } from "@/lib/server-auth";
 
 /**
  * 分享页投票（简化版）：每模型 👍/👎 + 评论。
@@ -18,21 +19,6 @@ function env() {
   };
 }
 const sbHeaders = (key: string) => ({ apikey: key, Authorization: `Bearer ${key}` });
-
-async function resolveUserId(req: NextRequest, url: string, anon?: string) {
-  const auth = req.headers.get("authorization");
-  if (!auth?.startsWith("Bearer ") || !anon) return null;
-  try {
-    const res = await fetch(`${url.replace(/\/+$/, "")}/auth/v1/user`, {
-      headers: { apikey: anon, Authorization: auth },
-      signal: AbortSignal.timeout(8000),
-    });
-    if (!res.ok) return null;
-    return ((await res.json()) as { id?: string }).id ?? null;
-  } catch {
-    return null;
-  }
-}
 
 interface Row {
   client_id: string;
@@ -121,9 +107,58 @@ async function aggregate(url: string, key: string, shareId: string, clientId: st
   };
 }
 
+/** 列出「我的赞踩/评论」（跨所有分享），供我的中心用 */
+async function myReactions(
+  url: string,
+  key: string,
+  clientId: string,
+  uid: string | null
+) {
+  const q =
+    `${url.replace(/\/+$/, "")}/rest/v1/share_votes?` +
+    ownerFilter("client_id", "user_id", clientId, uid) +
+    `&select=share_id,model_index,model_id,sentiment,comment,created_at` +
+    `&order=created_at.desc&limit=300`;
+  const res = await fetch(q, { headers: sbHeaders(key), cache: "no-store" });
+  if (!res.ok) throw new Error(`supabase ${res.status}`);
+  const rows = (await res.json()) as Array<{
+    share_id: string;
+    model_index: number;
+    model_id: string | null;
+    sentiment: string | null;
+    comment: string | null;
+    created_at: string;
+  }>;
+  return rows.map((r) => ({
+    shareId: r.share_id,
+    modelIndex: r.model_index,
+    modelId: r.model_id ?? "",
+    sentiment: r.sentiment,
+    comment: r.comment ?? "",
+    at: r.created_at,
+  }));
+}
+
 export async function GET(req: NextRequest) {
-  const { url, key } = env();
+  const { url, key, anon } = env();
   if (!url || !key) return Response.json({ ok: false, disabled: true });
+
+  // 我的中心：?mine=1&clientId=...（+ 可选 Bearer）
+  if (req.nextUrl.searchParams.get("mine")) {
+    const clientId = safeClientId(req.nextUrl.searchParams.get("clientId"));
+    if (!clientId)
+      return Response.json({ ok: false, error: "缺少有效 clientId" }, { status: 400 });
+    const uid = await resolveUserId(req, url, anon);
+    try {
+      return Response.json({ ok: true, reactions: await myReactions(url, key, clientId, uid) });
+    } catch (e) {
+      return Response.json({
+        ok: false,
+        error: e instanceof Error ? e.message.slice(0, 160) : "获取失败",
+      });
+    }
+  }
+
   const shareId = req.nextUrl.searchParams.get("shareId") ?? "";
   const clientId = req.nextUrl.searchParams.get("clientId") ?? "";
   if (!/^[0-9A-Za-z]{6,16}$/.test(shareId))
