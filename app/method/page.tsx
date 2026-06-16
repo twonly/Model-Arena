@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Credit } from "@/components/Credit";
+import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
 
@@ -74,9 +75,7 @@ export default function MethodPage() {
       <JsonLd data={faqJsonLd} />
 
       <nav className="mb-6 flex items-center justify-between">
-        <Link href="/" className="text-[13px] text-faint hover:text-ink">
-          ← {BRAND.zh}
-        </Link>
+        <Logo withText />
         <Link
           href="/arena"
           className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"

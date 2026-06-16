@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Credit } from "@/components/Credit";
+import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
 import {
@@ -165,9 +166,12 @@ export default async function ComparePage({
       <JsonLd data={breadcrumbJsonLd} />
 
       <nav className="mb-6 flex items-center justify-between">
-        <Link href="/stats" className="text-[13px] text-faint hover:text-ink">
-          ← 速度排行榜
-        </Link>
+        <div className="flex items-center gap-3">
+          <Logo />
+          <Link href="/stats" className="text-[13px] text-faint hover:text-ink">
+            ← 速度排行榜
+          </Link>
+        </div>
         <Link
           href="/arena"
           className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"

@@ -1,3 +1,4 @@
+import { readFile } from "node:fs/promises";
 import { ImageResponse } from "next/og";
 import { BRAND } from "@/lib/brand";
 
@@ -18,7 +19,11 @@ const LANES = [
   { w: "52%", c: "#6f6c64", label: "96 tok/s" },
 ];
 
-export default function OgImage() {
+export default async function OgImage() {
+  // 与本路由同目录、用 import.meta.url 引用，确保被打进函数包（public/ 运行时读不到）
+  const logoData = await readFile(new URL("./og-logo.png", import.meta.url));
+  const logoSrc = `data:image/png;base64,${Buffer.from(logoData).toString("base64")}`;
+
   return new ImageResponse(
     (
       <div
@@ -34,9 +39,13 @@ export default function OgImage() {
           fontFamily: "monospace",
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
-          <div
-            style={{ width: 14, height: 14, borderRadius: 14, background: ACCENT }}
+        <div style={{ display: "flex", alignItems: "center", gap: 18 }}>
+          {/* 站点 logo（圆角白底徽标，深色卡片上更醒目） */}
+          <img
+            src={logoSrc}
+            width={80}
+            height={80}
+            style={{ borderRadius: 18 }}
           />
           <div style={{ fontSize: 26, color: FAINT, letterSpacing: 2 }}>
             {BRAND.domain}

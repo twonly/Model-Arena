@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Credit } from "@/components/Credit";
+import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
 import { fetchBoard, type BoardEntry } from "@/lib/board";
@@ -56,9 +57,7 @@ export default async function BoardPage() {
       {listJsonLd && <JsonLd data={listJsonLd} />}
       <JsonLd data={breadcrumbJsonLd} />
       <nav className="mb-6 flex items-center justify-between">
-        <Link href="/" className="text-[13px] text-faint hover:text-ink">
-          ← 百模竞速
-        </Link>
+        <Logo withText />
         <div className="flex items-center gap-2">
           <Link
             href="/stats"

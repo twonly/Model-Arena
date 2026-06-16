@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { Credit } from "@/components/Credit";
+import { Logo } from "@/components/Logo";
 import { AccountDialog } from "@/components/AccountDialog";
 import { getSupabase } from "@/lib/supabase-client";
 import {
@@ -115,9 +116,12 @@ export default function MePage() {
   return (
     <main className="mx-auto max-w-3xl px-5 py-8">
       <nav className="mb-6 flex items-center justify-between">
-        <Link href="/arena" className="text-[13px] text-faint hover:text-ink">
-          ← 竞速场
-        </Link>
+        <div className="flex items-center gap-3">
+          <Logo />
+          <Link href="/arena" className="text-[13px] text-faint hover:text-ink">
+            ← 竞速场
+          </Link>
+        </div>
         <button
           onClick={() => setAccountOpen(true)}
           className="rounded-md border border-line px-3 py-1.5 text-[12.5px] text-faint hover:text-ink cursor-pointer"

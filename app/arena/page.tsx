@@ -6,6 +6,7 @@ import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
 import { AccountDialog } from "@/components/AccountDialog";
 import { AccountChip } from "@/components/AccountChip";
+import { Logo } from "@/components/Logo";
 import { ShareConfigDialog } from "@/components/ShareConfigDialog";
 import { PromptLibrary } from "@/components/PromptLibrary";
 import { SettingsDialog } from "@/components/SettingsDialog";
@@ -692,7 +693,8 @@ export default function Home() {
     <main ref={mainRef} className="mx-auto max-w-7xl px-5 py-8">
       {/* ===== 顶部：右上角账号入口（截图时隐藏） ===== */}
       {!screenshotMode && (
-        <div data-no-export="1" className="mb-3 flex items-center justify-end">
+        <div data-no-export="1" className="mb-3 flex items-center justify-between">
+          <Logo withText />
           <AccountChip onOpen={() => setAccountOpen(true)} />
         </div>
       )}
