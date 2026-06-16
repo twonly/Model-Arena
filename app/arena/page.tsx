@@ -512,13 +512,25 @@ export default function Home() {
     await new Promise((r) => setTimeout(r, 60));
     try {
       const bg = getComputedStyle(document.body).backgroundColor;
-      const dataUrl = await toPng(el, {
+      // 用 scrollWidth/Height 抓「完整内容」（含网格轻微溢出），否则右列/底部会被裁
+      const w = Math.ceil(Math.max(el.scrollWidth, el.clientWidth));
+      const h = Math.ceil(Math.max(el.scrollHeight, el.clientHeight));
+      const opts = {
         pixelRatio: 2,
+        width: w,
+        height: h,
         backgroundColor: bg,
+        cacheBust: true,
+        // 关键：清掉 mx-auto 的自动外边距——否则 html-to-image 克隆时保留居中
+        // 偏移，把右侧一列推出画布外被裁（本 bug 的真因）
+        style: { margin: "0" },
         // 跳过被标记为不导出的元素（工具条、设置面板等）
-        filter: (node) =>
+        filter: (node: HTMLElement) =>
           !(node instanceof HTMLElement && node.dataset.noExport === "1"),
-      });
+      };
+      // 预热一次：首帧字体/速度曲线可能未就绪，二次渲染更完整
+      await toPng(el, opts);
+      const dataUrl = await toPng(el, opts);
       const a = document.createElement("a");
       a.download = `${(title || "模型对比").slice(0, 30)}-${Date.now()}.png`;
       a.href = dataUrl;
