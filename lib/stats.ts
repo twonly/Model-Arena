@@ -45,6 +45,44 @@ export function modelSlug(model: string): string {
     .replace(/^-+|-+$/g, "");
 }
 
+/** 某 slug 在榜单里最可信的一条（样本最多的接入点） */
+export function bestStatForSlug(
+  stats: ModelStat[],
+  slug: string
+): ModelStat | undefined {
+  return stats
+    .filter((s) => modelSlug(s.model) === slug)
+    .sort((a, b) => b.samples - a.samples)[0];
+}
+
+/**
+ * 取榜单前 topN 个模型两两组合，返回**字母序规范化**的 slug 对（去重）。
+ * 用于 /compare/[a]-vs-[b] 对比页（吃「X vs Y 速度对比」高意图搜索词）。
+ */
+export function comparePairs(
+  stats: ModelStat[],
+  topN = 8
+): [string, string][] {
+  const slugs: string[] = [];
+  const seen = new Set<string>();
+  for (const s of stats) {
+    const sl = modelSlug(s.model);
+    if (sl && !seen.has(sl)) {
+      seen.add(sl);
+      slugs.push(sl);
+    }
+    if (slugs.length >= topN) break;
+  }
+  const pairs: [string, string][] = [];
+  for (let i = 0; i < slugs.length; i++) {
+    for (let j = i + 1; j < slugs.length; j++) {
+      const pair = [slugs[i], slugs[j]].sort() as [string, string];
+      pairs.push(pair);
+    }
+  }
+  return pairs;
+}
+
 function median(xs: number[]): number {
   if (!xs.length) return 0;
   const s = [...xs].sort((a, b) => a - b);

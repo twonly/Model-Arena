@@ -26,6 +26,30 @@ async function load(slug: string): Promise<ModelStat[] | null> {
   return hit.length ? hit : null;
 }
 
+/** 榜单里另外几名（排除自己），用于「热门对比」内链 → /compare 页 */
+async function topOthers(
+  slug: string,
+  limit = 4
+): Promise<{ slug: string; name: string }[]> {
+  let stats: ModelStat[] | null = null;
+  try {
+    stats = await fetchModelStats();
+  } catch {
+    return [];
+  }
+  if (!stats) return [];
+  const seen = new Set<string>();
+  const out: { slug: string; name: string }[] = [];
+  for (const s of stats) {
+    const sl = modelSlug(s.model);
+    if (sl === slug || seen.has(sl)) continue;
+    seen.add(sl);
+    out.push({ slug: sl, name: s.model });
+    if (out.length >= limit) break;
+  }
+  return out;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -68,6 +92,7 @@ export default async function ModelPage({
   const top = hit[0];
   const totalSamples = hit.reduce((a, s) => a + s.samples, 0);
   const url = `${BRAND.url}/model/${slug}`;
+  const others = await topOthers(slug);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -205,6 +230,25 @@ export default async function ModelPage({
           </Link>
         </p>
       </div>
+
+      {others.length > 0 && (
+        <div className="mt-6">
+          <div className="mb-2 text-[12px] font-semibold text-faint">
+            热门对比
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {others.map((o) => (
+              <Link
+                key={o.slug}
+                href={`/compare/${[slug, o.slug].sort().join("-vs-")}`}
+                className="rounded-md border border-line bg-card px-3 py-1.5 text-[12.5px] text-faint hover:border-ink/30 hover:text-ink"
+              >
+                {top.model} vs {o.name}
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="mt-7 flex flex-wrap gap-2">
         <Link

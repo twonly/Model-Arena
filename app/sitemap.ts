@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { BRAND } from "@/lib/brand";
-import { fetchModelStats, modelSlug } from "@/lib/stats";
+import { fetchModelStats, modelSlug, comparePairs } from "@/lib/stats";
 
 // 让 sitemap 随排行榜刷新（模型页是动态的）
 export const revalidate = 3600;
@@ -17,13 +17,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/method`, lastModified: now, changeFrequency: "monthly", priority: 0.6 },
   ];
 
-  // 每个上榜模型一个永久页（长尾「X 速度」查询）；去重 slug
-  let modelRoutes: MetadataRoute.Sitemap = [];
+  // 每个上榜模型一个永久页（长尾「X 速度」），以及前 8 名两两对比页（高意图「X vs Y」）
+  let dynamicRoutes: MetadataRoute.Sitemap = [];
   try {
     const stats = await fetchModelStats();
     if (stats?.length) {
       const seen = new Set<string>();
-      modelRoutes = stats
+      const modelRoutes = stats
         .map((s) => modelSlug(s.model))
         .filter((slug) => slug && !seen.has(slug) && (seen.add(slug), true))
         .map((slug) => ({
@@ -32,10 +32,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
           changeFrequency: "daily" as const,
           priority: 0.7,
         }));
+      const compareRoutes = comparePairs(stats, 8).map(([a, b]) => ({
+        url: `${base}/compare/${a}-vs-${b}`,
+        lastModified: now,
+        changeFrequency: "daily" as const,
+        priority: 0.6,
+      }));
+      dynamicRoutes = [...modelRoutes, ...compareRoutes];
     }
   } catch {
     // 遥测未配置或拉取失败：仅返回静态路由
   }
 
-  return [...staticRoutes, ...modelRoutes];
+  return [...staticRoutes, ...dynamicRoutes];
 }
