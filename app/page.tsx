@@ -83,7 +83,15 @@ export default function Landing() {
       <div className="min-h-screen">
       {/* 导航 */}
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <div className="flex items-baseline gap-2">
+        <div className="flex items-center gap-2">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo.png"
+            alt="TOKRACE 百模竞速"
+            width={26}
+            height={26}
+            className="shrink-0"
+          />
           <span
             className="text-[20px] font-black"
             style={{ fontFamily: "var(--font-title)" }}
