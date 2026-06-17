@@ -81,9 +81,7 @@ export function EvalTemplatesClient() {
     });
   }, [allTemplates, filter, query]);
   const selected =
-    allTemplates.find((template) => template.id === selectedId) ??
-    filtered[0] ??
-    allTemplates[0];
+    filtered.find((template) => template.id === selectedId) ?? filtered[0] ?? null;
 
   const selectTemplate = (template: EvalTemplate) => {
     setSelectedId(template.id);
@@ -104,12 +102,12 @@ export function EvalTemplatesClient() {
 
   const addCustom = () => {
     if (!draft.label.trim() || !draft.text.trim()) return;
-    setCustomPrompts((prev) => [
-      { label: draft.label.trim(), text: draft.text.trim() },
-      ...prev,
-    ]);
+    const nextItem = { label: draft.label.trim(), text: draft.text.trim() };
+    const nextTemplate = customPromptToEvalTemplate(nextItem, 0);
+    setCustomPrompts((prev) => [nextItem, ...prev]);
     setDraft({ label: "", text: "" });
     setFilter("mine");
+    setSelectedId(nextTemplate.id);
     setToast("已保存到我的模板");
     setTimeout(() => setToast(""), 1600);
   };
@@ -183,6 +181,46 @@ export function EvalTemplatesClient() {
             />
           </div>
 
+          {filter === "mine" && (
+            <div className="mb-3 rounded-lg border border-line bg-card p-4">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div>
+                  <div className="text-[14px] font-bold">新增我的模板</div>
+                  <div className="mt-0.5 text-[11.5px] text-faint">
+                    保存常用 Prompt 后，可直接在这里试跑并归档样本。
+                  </div>
+                </div>
+                {toast && <span className="text-[12px] text-faint">{toast}</span>}
+              </div>
+              <div className="mt-3 grid gap-2 md:grid-cols-[220px_1fr]">
+                <input
+                  className="w-full rounded-md border border-line bg-paper px-3 py-2 text-[12.5px] outline-none focus:border-ink/40"
+                  placeholder="模板名称"
+                  value={draft.label}
+                  onChange={(e) =>
+                    setDraft((prev) => ({ ...prev, label: e.target.value }))
+                  }
+                />
+                <textarea
+                  className="w-full rounded-md border border-line bg-paper px-3 py-2 text-[12.5px] leading-relaxed outline-none focus:border-ink/40"
+                  rows={3}
+                  placeholder="固定 Prompt"
+                  value={draft.text}
+                  onChange={(e) =>
+                    setDraft((prev) => ({ ...prev, text: e.target.value }))
+                  }
+                />
+              </div>
+              <button
+                onClick={addCustom}
+                disabled={!draft.label.trim() || !draft.text.trim()}
+                className="mt-2 rounded-md bg-ink px-4 py-2 text-[12.5px] font-bold text-paper disabled:opacity-40 cursor-pointer"
+              >
+                保存模板
+              </button>
+            </div>
+          )}
+
           <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
             {filtered.map((template) => (
               <TemplateCard
@@ -198,7 +236,9 @@ export function EvalTemplatesClient() {
 
           {!filtered.length && (
             <div className="rounded-lg border border-dashed border-line bg-card/60 px-4 py-10 text-center text-[13px] text-faint">
-              没有匹配的模板。
+              {filter === "mine"
+                ? "还没有我的模板。先在上方添加一个固定 Prompt。"
+                : "没有匹配的模板。"}
             </div>
           )}
         </section>
@@ -269,31 +309,6 @@ export function EvalTemplatesClient() {
               </div>
             </div>
           )}
-
-          <div className="mt-4 rounded-lg border border-line bg-card p-4">
-            <div className="text-[14px] font-bold">新增我的模板</div>
-            <input
-              className="mt-3 w-full rounded-md border border-line bg-paper px-3 py-2 text-[12.5px] outline-none focus:border-ink/40"
-              placeholder="模板名称"
-              value={draft.label}
-              onChange={(e) => setDraft((prev) => ({ ...prev, label: e.target.value }))}
-            />
-            <textarea
-              className="mt-2 w-full rounded-md border border-line bg-paper px-3 py-2 text-[12.5px] leading-relaxed outline-none focus:border-ink/40"
-              rows={5}
-              placeholder="固定 Prompt"
-              value={draft.text}
-              onChange={(e) => setDraft((prev) => ({ ...prev, text: e.target.value }))}
-            />
-            <button
-              onClick={addCustom}
-              disabled={!draft.label.trim() || !draft.text.trim()}
-              className="mt-2 rounded-md bg-ink px-4 py-2 text-[12.5px] font-bold text-paper disabled:opacity-40 cursor-pointer"
-            >
-              保存模板
-            </button>
-            {toast && <span className="ml-3 text-[12px] text-faint">{toast}</span>}
-          </div>
         </aside>
       </div>
     </main>
@@ -347,7 +362,7 @@ function TemplateCard({
           ))}
         </div>
         <div className="num mt-3 text-[11px] text-faint">
-          我的样本 {localSamples} · {template.estimatedMinutes} 分钟 · {categoryLabel(template.category)}
+          我的样本 {localSamples} · {categoryLabel(template.category)}
         </div>
       </button>
       <div className="mt-3 flex items-center gap-2">
