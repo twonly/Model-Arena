@@ -116,6 +116,12 @@ export default function Landing() {
             人气榜
           </Link>
           <Link
+            href="/templates"
+            className="text-[13px] text-faint hover:text-ink"
+          >
+            评测模板
+          </Link>
+          <Link
             href="/invite"
             className="text-[13px] text-faint hover:text-ink"
           >
@@ -171,6 +177,12 @@ export default function Landing() {
             className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
           >
             进入专业模式
+          </Link>
+          <Link
+            href="/templates"
+            className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
+          >
+            评测模板
           </Link>
           <Link
             href="/invite"

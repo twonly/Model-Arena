@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import {
   REVIEW_DRAFT_SYSTEM_PROMPT,
+  buildFixedReviewDraft,
   buildReviewDraftPrompt,
   reviewDraftGeneratorCandidates,
   reviewDraftRows,
@@ -63,6 +64,7 @@ export function ReviewDraftDialog({
 }) {
   const [style, setStyle] = useState<ReviewDraftStyle>("article");
   const [selectedId, setSelectedId] = useState("");
+  const [viewMode, setViewMode] = useState<"fixed" | "llm">("fixed");
   const [draftRun, setDraftRun] = useState<RunState>(() => emptyRun());
   const [error, setError] = useState("");
   const [copied, setCopied] = useState("");
@@ -73,13 +75,31 @@ export function ReviewDraftDialog({
     [endpoints]
   );
   const evidenceRows = useMemo(() => reviewDraftRows(rows), [rows]);
+  const fixedDraft = useMemo(
+    () =>
+      buildFixedReviewDraft({
+        title,
+        notes,
+        prompt,
+        rows: evidenceRows,
+        style,
+        thinkingStats,
+        shareUrl,
+      }),
+    [title, notes, prompt, evidenceRows, style, thinkingStats, shareUrl]
+  );
   const selected = candidates.find((ep) => ep.id === selectedId) ?? candidates[0];
   const running = isDraftRunning(draftRun);
+  const currentText =
+    viewMode === "llm" && draftRun.text.trim()
+      ? draftRun.text.trim()
+      : fixedDraft.trim();
 
   useEffect(() => {
     if (!open) return;
     setError("");
     setCopied("");
+    setViewMode("fixed");
     setSelectedId((prev) =>
       candidates.some((ep) => ep.id === prev) ? prev : candidates[0]?.id ?? ""
     );
@@ -93,7 +113,7 @@ export function ReviewDraftDialog({
     onClose();
   };
 
-  const generate = async () => {
+  const polishWithModel = async () => {
     if (!selected) {
       setError("请先在模型配置里添加一个带 API Key 的生成模型。");
       return;
@@ -108,6 +128,7 @@ export function ReviewDraftDialog({
     setDraftRun({ ...emptyRun(), startedAt: Date.now() });
     setError("");
     setCopied("");
+    setViewMode("llm");
 
     await runEndpoint({
       endpoint: selected,
@@ -133,10 +154,10 @@ export function ReviewDraftDialog({
   };
 
   const copyDraft = async () => {
-    const text = draftRun.text.trim();
+    const text = currentText;
     if (!text) return;
     await navigator.clipboard.writeText(text);
-    setCopied("已复制评测稿");
+    setCopied(viewMode === "llm" && draftRun.text.trim() ? "已复制润色稿" : "已复制基础稿");
     setTimeout(() => setCopied(""), 1600);
   };
 
@@ -153,7 +174,7 @@ export function ReviewDraftDialog({
           <div>
             <div className="text-[15px] font-bold">生成评测稿</div>
             <div className="mt-0.5 text-[11.5px] text-faint">
-              使用你本地已配置 Key 的模型生成，不消耗免费样例额度；输入包含本次指标、Prompt 与输出摘录。
+              先基于本次数据生成固定模板稿；需要更像文章时，再用你本地 Key 的模型总结润色。
             </div>
           </div>
           <button
@@ -168,7 +189,7 @@ export function ReviewDraftDialog({
           <aside className="border-b border-line p-4 md:border-r md:border-b-0">
             <label className="block">
               <div className="mb-1 text-[11px] font-semibold text-faint">
-                生成模型
+                可选润色模型
               </div>
               <select
                 className="w-full rounded-md border border-line bg-card px-2.5 py-2 text-[12.5px] outline-none focus:border-ink/40"
@@ -187,7 +208,7 @@ export function ReviewDraftDialog({
 
             {!candidates.length && (
               <div className="mt-3 rounded-lg border border-dashed border-line bg-card px-3 py-3 text-[12px] leading-relaxed text-faint">
-                当前没有可用于写稿的自配 Key 模型。共享样例模型不会出现在这里，避免误消耗免费额度。
+                基础稿已可直接复制。当前没有可用于总结润色的自配 Key 模型，共享样例模型不会出现在这里，避免误消耗免费额度。
                 <button
                   onClick={onConfigure}
                   className="mt-2 block rounded-md bg-ink px-3 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
@@ -231,6 +252,7 @@ export function ReviewDraftDialog({
               <div>模型结果：{evidenceRows.length} 个</div>
               <div>分享链接：{shareUrl ? "已包含" : "暂无"}</div>
               <div>token 口径：官方 usage 优先，缺失时标估算</div>
+              <div>基础稿：无需调用模型</div>
             </div>
 
             {error && (
@@ -242,6 +264,29 @@ export function ReviewDraftDialog({
 
           <section className="flex min-h-0 flex-col">
             <div className="flex flex-wrap items-center gap-2 border-b border-line px-4 py-3">
+              <div className="mr-1 flex rounded-md border border-line bg-paper p-0.5">
+                <button
+                  onClick={() => setViewMode("fixed")}
+                  className={`rounded-[5px] px-2.5 py-1.5 text-[12px] font-semibold cursor-pointer ${
+                    viewMode === "fixed"
+                      ? "bg-ink text-paper"
+                      : "text-faint hover:text-ink"
+                  }`}
+                >
+                  基础稿
+                </button>
+                <button
+                  onClick={() => setViewMode("llm")}
+                  disabled={!draftRun.text.trim() && !running}
+                  className={`rounded-[5px] px-2.5 py-1.5 text-[12px] font-semibold disabled:opacity-40 cursor-pointer ${
+                    viewMode === "llm"
+                      ? "bg-ink text-paper"
+                      : "text-faint hover:text-ink"
+                  }`}
+                >
+                  润色稿
+                </button>
+              </div>
               {running ? (
                 <button
                   onClick={() => abortRef.current?.abort()}
@@ -251,27 +296,31 @@ export function ReviewDraftDialog({
                 </button>
               ) : (
                 <button
-                  onClick={() => void generate()}
+                  onClick={() => void polishWithModel()}
                   disabled={!selected || !evidenceRows.length}
                   className="rounded-md bg-ink px-4 py-2 text-[12.5px] font-bold text-paper disabled:opacity-40 cursor-pointer"
                 >
-                  生成评测稿
+                  用模型生成总结
                 </button>
               )}
               <button
                 onClick={copyDraft}
-                disabled={!draftRun.text.trim()}
+                disabled={!currentText}
                 className="rounded-md border border-line px-3 py-2 text-[12.5px] text-faint hover:text-ink disabled:opacity-40 cursor-pointer"
               >
-                复制全文
+                复制当前稿
               </button>
               <span className="ml-auto text-[11.5px] text-faint">
-                {copied || statusText(draftRun)}
+                {copied || (viewMode === "fixed" ? "基础稿已生成" : statusText(draftRun))}
               </span>
             </div>
 
             <div className="thin-scroll min-h-[360px] flex-1 overflow-y-auto bg-card/40 p-4">
-              {draftRun.text || draftRun.reasoning ? (
+              {viewMode === "fixed" ? (
+                <pre className="whitespace-pre-wrap rounded-lg border border-line bg-paper px-4 py-3 text-[13px] leading-relaxed text-ink">
+                  {fixedDraft}
+                </pre>
+              ) : draftRun.text || draftRun.reasoning ? (
                 <div className="space-y-3">
                   {draftRun.reasoning && (
                     <details className="rounded-lg border border-line bg-paper px-3 py-2 text-[11.5px] text-faint">
@@ -291,10 +340,10 @@ export function ReviewDraftDialog({
                 <div className="flex h-full min-h-[320px] items-center justify-center rounded-lg border border-dashed border-line bg-paper/60 px-8 text-center">
                   <div>
                     <div className="text-[14px] font-semibold text-ink">
-                      跑完对比后，一键生成可发布草稿
+                      基础稿已在左侧标签生成
                     </div>
                     <div className="mt-1.5 max-w-md text-[12px] leading-relaxed text-faint">
-                      草稿会基于本次速度、token、输出内容和 Prompt 生成；适合再人工补充观点后发布。
+                      选择一个自配 Key 模型后，可把基础稿改写成更适合发布的总结稿。
                     </div>
                   </div>
                 </div>

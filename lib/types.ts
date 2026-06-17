@@ -107,6 +107,9 @@ export interface HistoryEntry {
   title: string;
   notes: string;
   prompt: string;
+  /** 来源评测模板：仅用于本地归档/后续众测聚合；旧历史无此字段 */
+  templateId?: string;
+  templateTitle?: string;
   results: HistoryResult[];
 }
 

@@ -18,6 +18,9 @@ export interface ArenaSeed {
   notes?: string;
   prompt: string;
   models?: string[];
+  /** 来源评测模板：只做本地历史归档，不会覆盖用户模型配置 */
+  templateId?: string;
+  templateTitle?: string;
 }
 
 export function arenaSeedUsesTemporaryEndpoints(_mode: ArenaSeed["mode"]): boolean {

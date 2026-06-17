@@ -102,6 +102,8 @@ export default function Home() {
     title: string;
     notes: string;
     prompt: string;
+    templateId?: string;
+    templateTitle?: string;
   } | null>(null);
   const title = temporaryDraft?.title ?? savedTitle;
   const notes = temporaryDraft?.notes ?? savedNotes;
@@ -430,6 +432,8 @@ export default function Home() {
         title: seed.title || QUICK_SAMPLE.title,
         notes: seed.notes || "",
         prompt: seed.prompt,
+        templateId: seed.templateId,
+        templateTitle: seed.templateTitle,
       });
       setRestored(null);
       setRuns({});
@@ -456,7 +460,9 @@ export default function Home() {
       url.searchParams.delete("sample");
       window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
       flash(
-        seed.mode === "share-full"
+        seed.templateId
+          ? "已带入评测模板，使用当前模型即可开跑"
+          : seed.mode === "share-full"
           ? "已复制分享里的评测设置，检查模型后即可开跑"
           : seed.mode === "share-prompt"
             ? "已带入同一个 Prompt，选择模型后即可开跑"
@@ -493,7 +499,9 @@ export default function Home() {
   const usingTemporaryEndpoints = temporaryEndpoints != null;
   const usingTemporaryContext = usingTemporaryEndpoints || temporaryDraft != null;
   const temporaryModeLabel =
-    arenaSeedMode === "sample"
+    temporaryDraft?.templateId
+      ? "评测模板模式"
+      : arenaSeedMode === "sample"
       ? "快速样例模式"
       : arenaSeedMode === "share-full"
         ? "复制评测模式"
@@ -535,6 +543,8 @@ export default function Home() {
         title,
         notes,
         prompt,
+        templateId: temporaryDraft?.templateId,
+        templateTitle: temporaryDraft?.templateTitle,
         results,
       };
       setHistory((prev) => [entry, ...prev].slice(0, 24));
@@ -554,7 +564,7 @@ export default function Home() {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [title, notes, prompt, setHistory]
+    [title, notes, prompt, setHistory, temporaryDraft?.templateId, temporaryDraft?.templateTitle]
   );
 
   const startAll = () => {
@@ -1049,6 +1059,9 @@ export default function Home() {
           <button className={btn} onClick={() => setSettingsOpen(true)}>
             ⚙ 模型配置
           </button>
+          <a className={btn} href="/templates">
+            📚 评测模板
+          </a>
           <button
             className={btn}
             onClick={() => setThinkStats((v) => !v)}
