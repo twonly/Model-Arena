@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TOKRACE 评测模板页示意稿</title>
+    <style>
+      :root {
+        --paper: #f7f3ea;
+        --card: #fffaf1;
+        --ink: #1d1c18;
+        --faint: #766f62;
+        --line: #ded5c5;
+        --accent: #c94f2d;
+        --go: #167a5b;
+      }
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+      .page {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 28px 24px 42px;
+      }
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 22px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 900;
+        font-size: 20px;
+      }
+      .logo {
+        width: 26px;
+        height: 26px;
+        border-radius: 8px;
+        background: linear-gradient(135deg, var(--ink), var(--accent));
+      }
+      .nav {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        color: var(--faint);
+        font-size: 13px;
+      }
+      .nav span {
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        padding: 7px 10px;
+        background: var(--card);
+      }
+      .hero {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 320px;
+        gap: 18px;
+        align-items: end;
+        margin-bottom: 18px;
+      }
+      h1 {
+        margin: 0;
+        font-size: 42px;
+        line-height: 1.08;
+        letter-spacing: 0;
+      }
+      .hero p {
+        max-width: 680px;
+        margin: 12px 0 0;
+        color: var(--faint);
+        font-size: 14px;
+        line-height: 1.75;
+      }
+      .hero-panel {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--card);
+        padding: 14px;
+      }
+      .hero-panel b {
+        display: block;
+        margin-bottom: 6px;
+        font-size: 13px;
+      }
+      .hero-panel div {
+        color: var(--faint);
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin: 20px 0 16px;
+      }
+      .tab {
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--card);
+        padding: 8px 12px;
+        color: var(--faint);
+        font-size: 13px;
+      }
+      .tab.active {
+        background: var(--ink);
+        color: var(--paper);
+        border-color: var(--ink);
+        font-weight: 800;
+      }
+      .layout {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 360px;
+        gap: 18px;
+        align-items: start;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+      }
+      .card, .drawer, .create-card {
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--card);
+      }
+      .card {
+        padding: 14px;
+        min-height: 220px;
+      }
+      .card.selected {
+        border-color: color-mix(in srgb, var(--accent), var(--line) 35%);
+        box-shadow: 0 0 0 2px rgba(201, 79, 45, 0.08);
+      }
+      .meta {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        color: var(--faint);
+        font-size: 11px;
+        margin-bottom: 10px;
+      }
+      .title {
+        font-size: 17px;
+        line-height: 1.35;
+        font-weight: 900;
+        margin-bottom: 8px;
+      }
+      .desc {
+        min-height: 44px;
+        color: var(--faint);
+        font-size: 12.5px;
+        line-height: 1.55;
+      }
+      .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin: 12px 0;
+      }
+      .chip {
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 8px;
+        color: var(--faint);
+        background: rgba(255, 255, 255, 0.36);
+        font-size: 11px;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+        margin-top: 12px;
+      }
+      .stat {
+        border-top: 1px solid var(--line);
+        padding-top: 8px;
+      }
+      .stat b {
+        display: block;
+        font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+        font-size: 15px;
+      }
+      .stat span {
+        color: var(--faint);
+        font-size: 10.5px;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 14px;
+      }
+      button {
+        border: 1px solid var(--line);
+        border-radius: 7px;
+        background: var(--card);
+        color: var(--ink);
+        padding: 8px 10px;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      button.primary {
+        background: var(--ink);
+        border-color: var(--ink);
+        color: var(--paper);
+      }
+      .create-card {
+        display: grid;
+        place-items: center;
+        min-height: 220px;
+        border-style: dashed;
+        color: var(--faint);
+        text-align: center;
+        padding: 22px;
+      }
+      .drawer {
+        position: sticky;
+        top: 18px;
+        overflow: hidden;
+      }
+      .drawer-head {
+        border-bottom: 1px solid var(--line);
+        padding: 15px;
+      }
+      .drawer-head small {
+        display: block;
+        color: var(--accent);
+        font-weight: 800;
+        margin-bottom: 6px;
+      }
+      .drawer-head h2 {
+        margin: 0;
+        font-size: 19px;
+        line-height: 1.35;
+      }
+      .drawer-body {
+        padding: 15px;
+      }
+      .section-title {
+        margin: 0 0 7px;
+        font-size: 12px;
+        color: var(--faint);
+        font-weight: 900;
+      }
+      pre {
+        margin: 0 0 14px;
+        white-space: pre-wrap;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.44);
+        padding: 11px;
+        font-size: 11.5px;
+        line-height: 1.55;
+        color: var(--ink);
+      }
+      .score-row {
+        display: grid;
+        grid-template-columns: 94px 1fr;
+        gap: 8px;
+        align-items: center;
+        margin-bottom: 8px;
+        font-size: 12px;
+      }
+      .bar {
+        height: 8px;
+        border-radius: 999px;
+        background: var(--line);
+        overflow: hidden;
+      }
+      .bar i {
+        display: block;
+        height: 100%;
+        background: var(--go);
+      }
+      .decision {
+        margin-top: 18px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+        background: var(--card);
+        padding: 14px;
+        font-size: 12.5px;
+        line-height: 1.7;
+        color: var(--faint);
+      }
+      .decision b {
+        color: var(--ink);
+      }
+      @media (max-width: 920px) {
+        .hero, .layout { grid-template-columns: 1fr; }
+        .drawer { position: static; }
+      }
+      @media (max-width: 640px) {
+        .grid { grid-template-columns: 1fr; }
+        h1 { font-size: 34px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="page">
+      <nav class="topbar">
+        <div class="brand"><span class="logo"></span>百模竞速 <span style="color:var(--faint);font-size:11px">TOKRACE</span></div>
+        <div class="nav"><span>排行榜</span><span>趋势</span><span>账号</span></div>
+      </nav>
+
+      <section class="hero">
+        <div>
+          <h1>评测模板</h1>
+          <p>把“想测什么”沉淀成可复用模板：官方提供经典 Prompt 评测集，用户可添加自己的模板，一键带入竞速场试跑，并把跑完结果回挂到模板下形成样本。</p>
+        </div>
+        <aside class="hero-panel">
+          <b>推荐主交互</b>
+          <div>卡片点击先展开右侧预览；“立即试跑”直接进入 /arena。热门模板再开放详情页，承接 SEO 与众测样本。</div>
+        </aside>
+      </section>
+
+      <div class="tabs">
+        <span class="tab active">官方经典</span>
+        <span class="tab">我的模板</span>
+        <span class="tab">速度与 token</span>
+        <span class="tab">事实准确</span>
+        <span class="tab">长文输出</span>
+        <span class="tab">视觉理解</span>
+        <span class="tab">众测中</span>
+      </div>
+
+      <section class="layout">
+        <div class="grid">
+          <article class="card selected">
+            <div class="meta"><span>官方 · 速度基准</span><span>约 2 分钟</span></div>
+            <div class="title">首 Token 与输出吞吐短测</div>
+            <div class="desc">用 180 字产品说明测试首响、输出 TPS、峰值速度和 token 消耗，适合新模型快速横评。</div>
+            <div class="chips"><span class="chip">TTFT</span><span class="chip">TPS</span><span class="chip">Token 消耗</span><span class="chip">短输出</span></div>
+            <div class="stats">
+              <div class="stat"><b>314</b><span>次试跑</span></div>
+              <div class="stat"><b>高</b><span>样本可信度</span></div>
+              <div class="stat"><b>3-5</b><span>推荐模型数</span></div>
+            </div>
+            <div class="actions"><button class="primary">立即试跑</button><button>预览 Prompt</button></div>
+          </article>
+
+          <article class="card">
+            <div class="meta"><span>官方 · 事实准确</span><span>约 4 分钟</span></div>
+            <div class="title">高相似事实辨析题</div>
+            <div class="desc">要求模型区分相近概念、时间线和限定条件，观察是否含混回答或编造事实。</div>
+            <div class="chips"><span class="chip">事实密度</span><span class="chip">幻觉风险</span><span class="chip">解释质量</span></div>
+            <div class="stats">
+              <div class="stat"><b>86</b><span>次试跑</span></div>
+              <div class="stat"><b>中</b><span>样本可信度</span></div>
+              <div class="stat"><b>人工</b><span>质量评分</span></div>
+            </div>
+            <div class="actions"><button class="primary">立即试跑</button><button>预览 Prompt</button></div>
+          </article>
+
+          <article class="card">
+            <div class="meta"><span>官方 · 长文能力</span><span>约 6 分钟</span></div>
+            <div class="title">5000 字长文完成度测试</div>
+            <div class="desc">观察模型是否满足字数、结构是否完整、token 消耗是否过高，以及长输出过程中速度曲线是否掉速。</div>
+            <div class="chips"><span class="chip">长文</span><span class="chip">字数达成</span><span class="chip">速度曲线</span><span class="chip">成本</span></div>
+            <div class="stats">
+              <div class="stat"><b>142</b><span>次试跑</span></div>
+              <div class="stat"><b>中</b><span>样本可信度</span></div>
+              <div class="stat"><b>长</b><span>耗时</span></div>
+            </div>
+            <div class="actions"><button class="primary">立即试跑</button><button>预览 Prompt</button></div>
+          </article>
+
+          <article class="card">
+            <div class="meta"><span>用户模板 · 私有</span><span>可编辑</span></div>
+            <div class="title">我的代码解释评测题</div>
+            <div class="desc">保存自定义 Prompt 后，也可以出现在模板页；默认只本地可见，用户主动分享后进入公开模板池。</div>
+            <div class="chips"><span class="chip">我的模板</span><span class="chip">可导入导出</span><span class="chip">可试跑</span></div>
+            <div class="stats">
+              <div class="stat"><b>本地</b><span>可见性</span></div>
+              <div class="stat"><b>0</b><span>公开样本</span></div>
+              <div class="stat"><b>草稿</b><span>状态</span></div>
+            </div>
+            <div class="actions"><button class="primary">立即试跑</button><button>编辑</button></div>
+          </article>
+
+          <article class="create-card">
+            <div>
+              <div style="font-weight:900;color:var(--ink);margin-bottom:6px">添加我的评测模板</div>
+              <div>复用现有 Prompt 库能力：标题、分类、标签、Prompt、评分维度、是否公开。</div>
+            </div>
+          </article>
+        </div>
+
+        <aside class="drawer">
+          <div class="drawer-head">
+            <small>当前选中 · 官方模板</small>
+            <h2>首 Token 与输出吞吐短测</h2>
+          </div>
+          <div class="drawer-body">
+            <p class="section-title">Prompt 预览</p>
+            <pre>请用中文写一段 180 字以内的产品说明，主题是：为什么大模型测速不能只看单次主观感受，而要同时比较首 Token 时延、输出速度和稳定性。</pre>
+            <p class="section-title">卡片应展示的关键信息</p>
+            <pre>分类 / 标签 / 预计耗时 / 推荐模型数 / 样本数 / 样本可信度 / 是否可直接试跑 / 是否有公开结果沉淀</pre>
+            <p class="section-title">众测结果预览</p>
+            <div class="score-row"><span>首响稳定</span><span class="bar"><i style="width:72%"></i></span></div>
+            <div class="score-row"><span>输出吞吐</span><span class="bar"><i style="width:64%"></i></span></div>
+            <div class="score-row"><span>token 性价比</span><span class="bar"><i style="width:58%"></i></span></div>
+            <div class="actions"><button class="primary">用这个模板跑一轮</button><button>进入详情页</button></div>
+          </div>
+        </aside>
+      </section>
+
+      <section class="decision">
+        <b>交互取舍：</b>卡片点击展开适合快速浏览和试跑，摩擦最低；详情页适合 SEO、分享和沉淀众测样本，但每次点击成本更高。推荐第一阶段：点击卡片展开右侧预览，主按钮直接试跑；官方高价值模板再生成详情页。<br />
+        <b>是否做众测：</b>建议先做轻量众测，只记录模板维度下的匿名速度指标和用户评分，不急着做复杂社区。跑完后可提示“保存到该模板样本”，用户确认后才公开。
+      </section>
+    </main>
+  </body>
+</html>

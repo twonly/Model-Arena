@@ -9,6 +9,7 @@ import { AccountChip } from "@/components/AccountChip";
 import { Logo } from "@/components/Logo";
 import { ShareConfigDialog } from "@/components/ShareConfigDialog";
 import { PromptLibrary } from "@/components/PromptLibrary";
+import { ReviewDraftDialog } from "@/components/ReviewDraftDialog";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { TrendModal } from "@/components/TrendModal";
 import { ReferralWelcomeBanner } from "@/components/ReferralWelcomeBanner";
@@ -279,6 +280,8 @@ export default function Home() {
   const [telemetryStatus, setTelemetryStatus] = useState<string | null>(null);
   /** 分享配置弹窗 */
   const [shareCfgOpen, setShareCfgOpen] = useState(false);
+  /** 生成评测稿弹窗 */
+  const [reviewDraftOpen, setReviewDraftOpen] = useState(false);
   // 非空 = 正在分享某条历史快照（而非当前实时结果）
   const [shareSource, setShareSource] = useState<HistoryEntry | null>(null);
   const [referralNudge, setReferralNudge] = useState<
@@ -911,6 +914,11 @@ export default function Home() {
   const hasResults = visibleEndpoints.some(
     (ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error
   );
+  const reviewDraftRows = enabledEndpoints.map((ep) => ({
+    name: ep.name,
+    model: ep.model,
+    run: runs[ep.id] ?? emptyRun(),
+  }));
   const referralModelNames = enabledEndpoints
     .map((ep) => ep.name || ep.model)
     .filter(Boolean)
@@ -1063,6 +1071,15 @@ export default function Home() {
               title="生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
             >
               {shareUrl === "loading" ? "生成中…" : "🔗 分享链接"}
+            </button>
+          )}
+          {hasResults && (
+            <button
+              className={btn}
+              onClick={() => setReviewDraftOpen(true)}
+              title="选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
+            >
+              ✍️ 生成评测稿
             </button>
           )}
           <a className={btn} href="/me">
@@ -1639,6 +1656,21 @@ export default function Home() {
         }}
         onGenerate={shareResults}
         generating={shareUrl === "loading"}
+      />
+      <ReviewDraftDialog
+        open={reviewDraftOpen}
+        onClose={() => setReviewDraftOpen(false)}
+        onConfigure={() => {
+          setReviewDraftOpen(false);
+          setSettingsOpen(true);
+        }}
+        endpoints={endpoints}
+        rows={reviewDraftRows}
+        title={title}
+        notes={notes}
+        prompt={prompt}
+        thinkingStats={thinkStats}
+        shareUrl={typeof shareUrl === "string" ? shareUrl : undefined}
       />
 
       {!screenshotMode && (

@@ -5,6 +5,7 @@ import { ModelCard, STATUS_COLOR } from "./ModelCard";
 import { Credit } from "./Credit";
 import { CardVoteBar } from "./CardVoteBar";
 import { Leaderboard } from "./Leaderboard";
+import { ReviewDraftDialog } from "./ReviewDraftDialog";
 import { extractWordTarget, rankBadge } from "@/lib/format";
 import type { ShareSnapshot } from "@/lib/share";
 import {
@@ -30,6 +31,8 @@ export function ShareView({
   const [focusId, setFocusId] = useState<string | null>(null);
   const [agg, setAgg] = useState<VoteAggregate | null>(null);
   const [seedError, setSeedError] = useState("");
+  const [localEndpoints, setLocalEndpoints] = useState<ModelEndpoint[]>([]);
+  const [reviewDraftOpen, setReviewDraftOpen] = useState(false);
 
   const voting = snapshot.voting?.enabled;
 
@@ -39,6 +42,16 @@ export function ShareView({
       .then(setAgg)
       .catch(() => {});
   }, [voting, shareId]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("ma.endpoints");
+      const parsed = raw ? JSON.parse(raw) : [];
+      if (Array.isArray(parsed)) setLocalEndpoints(parsed);
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const react = async (
     modelIndex: number,
@@ -77,6 +90,11 @@ export function ShareView({
       samples: r.samples ?? [],
     };
   });
+  const reviewDraftRows = endpoints.map((ep) => ({
+    name: ep.name,
+    model: ep.model,
+    run: runs[ep.id] ?? emptyRun(),
+  }));
 
   useEffect(() => {
     if (!focusId) return;
@@ -140,6 +158,9 @@ export function ShareView({
           <button className={btn} onClick={() => seedArena("share-prompt")}>
             用同样 Prompt 跑一轮
           </button>
+          <button className={btn} onClick={() => setReviewDraftOpen(true)}>
+            ✍️ 生成评测稿
+          </button>
           <a className={btn} href="/me">
             🗂 我的
           </a>
@@ -182,6 +203,9 @@ export function ShareView({
               </button>
               <button className={primaryBtn} onClick={() => seedArena("share-prompt")}>
                 用同样 Prompt 跑一轮
+              </button>
+              <button className={btn} onClick={() => setReviewDraftOpen(true)}>
+                ✍️ 生成评测稿
               </button>
             </div>
           </div>
@@ -321,6 +345,22 @@ export function ShareView({
           </button>
         </span>
       </footer>
+      <ReviewDraftDialog
+        open={reviewDraftOpen}
+        onClose={() => setReviewDraftOpen(false)}
+        onConfigure={() => seedArena("share-prompt")}
+        endpoints={localEndpoints}
+        rows={reviewDraftRows}
+        title={snapshot.title}
+        notes={snapshot.notes}
+        prompt={snapshot.prompt}
+        thinkingStats={snapshot.thinkingStats}
+        shareUrl={
+          typeof window === "undefined"
+            ? undefined
+            : `${window.location.origin}/r/${shareId}`
+        }
+      />
     </main>
   );
 }
