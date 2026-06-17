@@ -1,17 +1,31 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
 import { getSupabase, supabaseEnabled } from "@/lib/supabase-client";
 import { lastSyncedAt, pullSync, pushSync } from "@/lib/sync";
+import {
+  claimStoredReferral,
+  consumeReferralRewardNotice,
+  fetchReferralDashboard,
+  type ReferralDashboardClient,
+} from "@/lib/referral-client";
+import {
+  buildReferralShareText,
+  REFERRAL_INVITEE_REWARD,
+  REFERRAL_INVITER_REWARD,
+} from "@/lib/referrals";
 
 type Mode = "login" | "register";
 
 export function AccountDialog({
   open,
   onClose,
+  shareModels = [],
 }: {
   open: boolean;
   onClose: () => void;
+  shareModels?: string[];
 }) {
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
@@ -23,6 +37,8 @@ export function AccountDialog({
   // 同步密码（仅本机内存，不持久化）
   const [passphrase, setPassphrase] = useState("");
   const [synced, setSynced] = useState<string | null>(null);
+  const [referral, setReferral] = useState<ReferralDashboardClient | null>(null);
+  const [copyMsg, setCopyMsg] = useState("");
   // 同步方式：合并(并集，来源胜) / 覆盖(整盘替换)。默认合并，避免误删数据
   const [syncMode, setSyncMode] = useState<"merge" | "overwrite">("merge");
 
@@ -39,9 +55,30 @@ export function AccountDialog({
     return () => sub.subscription.unsubscribe();
   }, [open, sb]);
 
+  const reloadReferral = useCallback(async () => {
+    const data = await fetchReferralDashboard().catch(() => null);
+    setReferral(data);
+    if (data) {
+      const notice = consumeReferralRewardNotice(data);
+      if (notice) setMsg(notice.message);
+    }
+  }, []);
+
   useEffect(() => {
-    if (user) lastSyncedAt().then(setSynced);
-  }, [user]);
+    if (!user) {
+      setSynced(null);
+      setReferral(null);
+      return;
+    }
+    lastSyncedAt().then(setSynced);
+    claimStoredReferral()
+      .then((r) => {
+        if (r?.ok && r.message) setMsg(r.message);
+      })
+      .finally(() => {
+        void reloadReferral();
+      });
+  }, [reloadReferral, user]);
 
   if (!open) return null;
 
@@ -85,6 +122,35 @@ export function AccountDialog({
     await sb?.auth.signOut();
     setUser(null);
     setMsg("已登出");
+  };
+
+  const copyInvite = async () => {
+    if (!referral) return;
+    try {
+      await navigator.clipboard.writeText(referral.inviteUrl);
+      setCopyMsg("已复制邀请链接");
+      setTimeout(() => setCopyMsg(""), 1500);
+    } catch {
+      setCopyMsg("复制失败，请手动复制");
+    }
+  };
+
+  const inviteText = referral
+    ? buildReferralShareText({
+        inviteUrl: referral.inviteUrl,
+        models: shareModels,
+      })
+    : "";
+
+  const copyInviteText = async () => {
+    if (!inviteText) return;
+    try {
+      await navigator.clipboard.writeText(inviteText);
+      setCopyMsg("已复制邀请文案");
+      setTimeout(() => setCopyMsg(""), 1500);
+    } catch {
+      setCopyMsg("复制失败，请手动复制");
+    }
   };
 
   const oauth = async (provider: "github" | "google") => {
@@ -166,14 +232,14 @@ export function AccountDialog({
       onClick={onClose}
     >
       <div
-        className="w-full max-w-md rounded-xl border border-line bg-paper shadow-xl"
+        className="max-h-[84vh] w-full max-w-md overflow-y-auto rounded-xl border border-line bg-paper shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex items-center justify-between border-b border-line px-5 py-3">
           <div>
-            <div className="text-[15px] font-bold">账号与云同步</div>
+            <div className="text-[15px] font-bold">账号、云同步与邀请</div>
             <div className="text-[11px] text-faint">
-              跨设备同步配置/历史/Prompt 库 · 数据端到端加密
+              跨设备同步 · 邀请好友获得额外体验次数
             </div>
           </div>
           <button
@@ -282,6 +348,78 @@ export function AccountDialog({
                 >
                   登出
                 </button>
+              </div>
+
+              <div className="rounded-md border border-line bg-card p-3">
+                <div className="mb-1.5 flex items-center justify-between gap-2">
+                  <div className="text-[12px] font-semibold">邀请好友</div>
+                  <Link href="/invite" className="text-[11px] text-faint underline hover:text-ink">
+                    规则
+                  </Link>
+                </div>
+                {referral ? (
+                  <>
+                    <div className="grid grid-cols-3 gap-2">
+                      {[
+                        ["奖励余额", `${referral.bonusRemaining}`],
+                        ["已奖励", `${referral.rewardedInvites}`],
+                        ["待完成", `${referral.pendingInvites}`],
+                      ].map(([label, value]) => (
+                        <div key={label} className="rounded-md border border-line bg-paper px-2 py-2">
+                          <div className="num text-[17px] font-bold leading-none">{value}</div>
+                          <div className="mt-1 text-[10.5px] text-faint">{label}</div>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-[11px] leading-relaxed text-faint">
+                      好友通过你的链接注册并完成首次对比后，你得{" "}
+                      <span className="num text-ink">{REFERRAL_INVITER_REWARD}</span>{" "}
+                      次，对方得{" "}
+                      <span className="num text-ink">{REFERRAL_INVITEE_REWARD}</span> 次。
+                    </p>
+                    <div className="mt-2 flex gap-2">
+                      <input
+                        className={`${input} num text-[11.5px]`}
+                        readOnly
+                        value={referral.inviteUrl}
+                        onFocus={(e) => e.currentTarget.select()}
+                      />
+                      <button
+                        onClick={copyInvite}
+                        className="shrink-0 rounded-md bg-ink px-3 text-[12px] font-semibold text-paper cursor-pointer"
+                      >
+                        复制
+                      </button>
+                    </div>
+                    <textarea
+                      readOnly
+                      value={inviteText}
+                      onFocus={(e) => e.currentTarget.select()}
+                      className="mt-2 min-h-[72px] w-full resize-none rounded-md border border-line bg-paper px-2.5 py-2 text-[11.5px] leading-relaxed outline-none focus:border-ink/40"
+                    />
+                    <div className="mt-1.5 flex flex-wrap items-center gap-2">
+                      <button
+                        onClick={copyInviteText}
+                        className="rounded-md border border-line px-2.5 py-1 text-[11.5px] font-semibold text-faint hover:text-ink cursor-pointer"
+                      >
+                        复制邀请文案
+                      </button>
+                      <span className="text-[10.5px] text-faint">
+                        可配合测评长图、分享链接或社群消息一起发送。
+                      </span>
+                    </div>
+                    {(copyMsg || referral.nextExpiry) && (
+                      <div className="mt-1.5 text-[10.5px] text-faint">
+                        {copyMsg ||
+                          `最近一批奖励有效期至 ${new Date(referral.nextExpiry!).toLocaleDateString("zh-CN")}`}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <div className="text-[11.5px] text-faint">
+                    邀请系统未启用或暂时不可用；你仍可填写自己的 API Key 无限使用。
+                  </div>
+                )}
               </div>
 
               <div className="rounded-md border border-line bg-card p-3">

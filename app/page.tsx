@@ -4,7 +4,9 @@ import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
 
 export const metadata = {
-  description: BRAND.descZh,
+  title: "大模型测速工具 - 实时对比 LLM 速度与首 Token 时延",
+  description:
+    "TOKRACE 帮开发者和 AI 测评作者用同一个 Prompt 并发测试多个大模型，实时对比首 Token 时延、输出 TPS、峰值速度和稳定性，可免费跑样例、生成分享快照和上榜。",
   alternates: { canonical: "/" },
 };
 
@@ -18,13 +20,13 @@ const LANES = [
 const FEATURES: { icon: string; title: string; desc: string }[] = [
   {
     icon: "🏁",
-    title: "并发竞速 · 完成排名",
-    desc: "同一个 Prompt 同时打向所有模型，流式输出实时赛跑，先完成的挂 🥇🥈🥉。",
+    title: "同 Prompt 并发测速",
+    desc: "同一个 Prompt 同时打向多个模型，减少先后顺序带来的网络与时段偏差。",
   },
   {
     icon: "⏱",
-    title: "思考与输出分开统计",
-    desc: "推理模型的思考阶段独立计时计速，思考TPS / 输出TPS / 峰值各算各的，互不污染。",
+    title: "TTFT / TPS 实时对比",
+    desc: "首 Token 时延、思考 TPS、输出 TPS、峰值速度和 token 数同步呈现。",
   },
   {
     icon: "📈",
@@ -33,8 +35,8 @@ const FEATURES: { icon: string; title: string; desc: string }[] = [
   },
   {
     icon: "🔌",
-    title: "16 家厂商开箱即用",
-    desc: "DeepSeek、Kimi、智谱、通义、豆包、阶跃、MiniMax、OpenAI、Claude、Gemini……任何 OpenAI 兼容接口都能接。",
+    title: "免费样例 + 自带 Key",
+    desc: "新用户可直接跑预置模型；专业用户可接入自己的 OpenAI 兼容接口或原生 Anthropic 接口。",
   },
   {
     icon: "🔐",
@@ -61,18 +63,18 @@ const FEATURES: { icon: string; title: string; desc: string }[] = [
 const STEPS = [
   {
     n: "01",
-    title: "接入模型",
-    desc: "选厂商预设，填入你自己的 API Key 和模型 ID，测试连通。",
+    title: "先跑样例",
+    desc: "不用配置 Key，直接用预置模型体验一次真实并发测速。",
   },
   {
     n: "02",
-    title: "输入 Prompt 开跑",
-    desc: "一个问题同时发给所有模型，看它们实时竞速。",
+    title: "换成你的 Prompt",
+    desc: "用自己的任务、长文、代码或视觉输入，比较模型在真实场景里的速度。",
   },
   {
     n: "03",
-    title: "截图 / 导出发文",
-    desc: "排名、指标、速度曲线尽收一屏，加上水印直接进文章。",
+    title: "分享证据",
+    desc: "生成快照、投票页和长图，让读者能复查你的测速结果。",
   },
 ];
 
@@ -113,6 +115,12 @@ export default function Landing() {
           >
             人气榜
           </Link>
+          <Link
+            href="/invite"
+            className="text-[13px] text-faint hover:text-ink"
+          >
+            邀请奖励
+          </Link>
           <a
             href={GITHUB}
             target="_blank"
@@ -137,26 +145,38 @@ export default function Landing() {
             className="inline-block h-1.5 w-1.5 rounded-full"
             style={{ background: "var(--accent)" }}
           />
-          开源 · 免费 · API Key 只存本地不落库
+          免费跑样例 · 实时测速 · 分享可复查结果
         </div>
         <h1
-          className="mx-auto max-w-3xl text-[44px] font-black leading-[1.15] sm:text-[56px]"
+          className="mx-auto max-w-4xl text-[40px] font-black leading-[1.15] sm:text-[54px]"
           style={{ fontFamily: "var(--font-title)" }}
         >
-          让模型用速度
-          <span style={{ color: "var(--accent)" }}>说话</span>
+          开发者与 AI 测评作者的
+          <span style={{ color: "var(--accent)" }}>实时模型测速台</span>
         </h1>
         <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-faint">
-          同一个 Prompt 并发打到多个大模型，实时对比
-          <span className="num text-ink"> 首Token时延 · 思考TPS · 输出TPS · 峰值速度</span>
-          。给 AI 测评博主的竞速仪器，截图即发文。
+          用同一个 Prompt 并发测试多个 LLM，实时比较
+          <span className="num text-ink"> 首 Token 时延 · 输出 TPS · 峰值速度 · 稳定性</span>
+          。先跑免费样例，再换成你的真实任务和模型配置。
         </p>
-        <div className="mt-8 flex items-center justify-center gap-3">
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
-            href="/arena"
+            href="/arena?sample=1"
             className="rounded-lg bg-ink px-7 py-3 text-[15px] font-bold text-paper shadow-sm hover:opacity-90"
           >
-            开始对比 ▶
+            立即跑样例 ▶
+          </Link>
+          <Link
+            href="/arena"
+            className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
+          >
+            进入专业模式
+          </Link>
+          <Link
+            href="/invite"
+            className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
+          >
+            邀请规则
           </Link>
           <a
             href={GITHUB}
@@ -164,7 +184,7 @@ export default function Landing() {
             rel="noopener noreferrer"
             className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
           >
-            ⭐ Star on GitHub
+            GitHub
           </a>
         </div>
         <div className="mt-5 flex justify-center">
@@ -241,7 +261,7 @@ export default function Landing() {
           </div>
         </div>
         <p className="mt-3 text-center text-[11.5px] text-faint/80">
-          ↑ 演示动画 · 真实数据来自你接入的模型
+          ↑ 演示动画 · 真实数据来自你在竞速场跑出的结果
         </p>
       </section>
 
@@ -271,7 +291,7 @@ export default function Landing() {
           className="text-center text-[28px] font-black"
           style={{ fontFamily: "var(--font-title)" }}
         >
-          为「测评发文」打磨的每一处细节
+          从测速到分享证据，围绕一个闭环打磨
         </h2>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {FEATURES.map((f) => (
@@ -290,54 +310,6 @@ export default function Landing() {
       </section>
 
       {/* 隐私与架构 */}
-      {/* 大陆访问 / 本地部署提示 */}
-      <section className="mx-auto max-w-3xl px-6 py-10">
-        <div className="rounded-xl border border-line bg-card p-5">
-          <div className="flex items-center gap-2 text-[15px] font-bold">
-            🌐 大陆访问遇到 Network Error？本地跑更稳
-          </div>
-          <p className="mt-2.5 text-[13px] leading-relaxed text-faint">
-            在线版部署在 Vercel（海外边缘节点）。大陆网络<span className="text-ink">跨境连接偶发不稳</span>，
-            可能出现「Failed to fetch / network error」——这是
-            <span className="text-ink">你的浏览器到本站服务器</span>这一跳的波动，
-            与 DeepSeek、Kimi 等模型厂商无关，多数情况<span className="text-ink">点「重跑」即可恢复</span>。
-          </p>
-          <p className="mt-2 text-[13px] leading-relaxed text-faint">
-            想要最稳的体验？项目完全开源，
-            <span className="text-ink">Fork 到自己电脑本地运行</span>——
-            浏览器和代理都在本机，直连各厂商，没有跨境这一跳，又快又稳：
-          </p>
-          <div className="mt-3 overflow-x-auto rounded-lg border border-line bg-paper px-4 py-3">
-            <code className="num text-[12px] leading-6 text-ink whitespace-pre">
-              git clone {GITHUB}.git{"\n"}
-              cd Model-Arena && npm install{"\n"}
-              npm run dev   <span className="text-faint"># 打开 http://localhost:3000</span>
-            </code>
-          </div>
-          <div className="mt-3 flex flex-wrap items-center gap-3">
-            <a
-              href={`${GITHUB}/fork`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md bg-ink px-4 py-2 text-[13px] font-bold text-paper hover:opacity-90"
-            >
-              ⑂ Fork 到我的 GitHub
-            </a>
-            <a
-              href={GITHUB}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-md border border-line px-4 py-2 text-[13px] font-semibold hover:border-ink/40"
-            >
-              查看仓库与部署说明
-            </a>
-          </div>
-          <p className="mt-3 text-[11.5px] text-faint/80">
-            本地运行功能完全一致，且本地版默认可直连 Ollama 等本机模型。
-          </p>
-        </div>
-      </section>
-
       <section className="border-t border-line bg-card/60">
         <div className="mx-auto max-w-3xl px-6 py-14 text-center">
           <h2
@@ -358,10 +330,10 @@ export default function Landing() {
           </p>
           <div className="mt-7 flex items-center justify-center gap-3">
             <Link
-              href="/arena"
+              href="/arena?sample=1"
               className="rounded-lg bg-ink px-6 py-2.5 text-[14px] font-bold text-paper hover:opacity-90"
             >
-              立即开始 ▶
+              立即跑样例 ▶
             </Link>
             <a
               href={GITHUB}
@@ -401,29 +373,29 @@ const homeJsonLd = {
     {
       "@type": "HowTo",
       "@id": `${BRAND.url}/#howto`,
-      name: "如何使用百模竞速对比大模型速度",
-      description: "三步完成多模型并发测速、截图与分享。",
+      name: "如何用 TOKRACE 做大模型测速",
+      description: "先跑免费样例，再用自己的 Prompt 并发测试多个 LLM，最后生成可复查的分享快照。",
       totalTime: "PT5M",
       step: [
         {
           "@type": "HowToStep",
           position: 1,
-          name: "接入模型",
-          text: "选厂商预设，填入你自己的 API Key 和模型 ID，测试连通。",
-          url: `${BRAND.url}/arena`,
+          name: "立即跑样例",
+          text: "打开快速体验模式，用预置模型直接跑一轮首 Token 时延和输出 TPS 测试。",
+          url: `${BRAND.url}/arena?sample=1`,
         },
         {
           "@type": "HowToStep",
           position: 2,
-          name: "输入 Prompt 开跑",
-          text: "一个问题同时发给所有模型，看它们实时竞速。",
+          name: "换成真实任务",
+          text: "输入自己的 Prompt 或接入自己的模型 API Key，用同一任务并发测试多个 LLM。",
           url: `${BRAND.url}/arena`,
         },
         {
           "@type": "HowToStep",
           position: 3,
-          name: "截图 / 导出发文",
-          text: "排名、指标、速度曲线尽收一屏，加上水印直接进文章。",
+          name: "分享测速结果",
+          text: "生成只读分享快照、投票页或长图，让读者能复查模型速度和输出内容。",
           url: `${BRAND.url}/arena`,
         },
       ],
@@ -434,10 +406,18 @@ const homeJsonLd = {
       mainEntity: [
         {
           "@type": "Question",
+          name: "TOKRACE 是什么？",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "TOKRACE 是面向开发者和 AI 测评作者的大模型测速工具，可用同一个 Prompt 并发测试多个 LLM 的首 Token 时延、输出 TPS、峰值速度和稳定性。",
+          },
+        },
+        {
+          "@type": "Question",
           name: "使用 TOKRACE 需要付费吗？",
           acceptedAnswer: {
             "@type": "Answer",
-            text: "本站开源免费，只需自备各模型厂商的 API Key；服务端不存储、不落盘任何密钥。",
+            text: "可以免费跑预置模型样例；专业使用可填入自己的模型 API Key。项目开源，服务端不存储、不落盘任何密钥。",
           },
         },
         {
@@ -446,14 +426,6 @@ const homeJsonLd = {
           acceptedAnswer: {
             "@type": "Answer",
             text: "API Key 仅保存在你浏览器的 localStorage，请求经页面同源服务转发到厂商（仅为解决浏览器跨域），服务端不记录、不落盘任何密钥与对话内容。",
-          },
-        },
-        {
-          "@type": "Question",
-          name: "为什么大陆访问偶尔出现 Network Error？",
-          acceptedAnswer: {
-            "@type": "Answer",
-            text: "在线版部署在海外边缘节点，大陆网络跨境连接偶发不稳。多数情况点击重跑即可恢复；也可 Fork 源码在本地运行，直连各厂商。",
           },
         },
         {

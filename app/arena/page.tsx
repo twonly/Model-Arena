@@ -11,6 +11,9 @@ import { ShareConfigDialog } from "@/components/ShareConfigDialog";
 import { PromptLibrary } from "@/components/PromptLibrary";
 import { SettingsDialog } from "@/components/SettingsDialog";
 import { TrendModal } from "@/components/TrendModal";
+import { ReferralWelcomeBanner } from "@/components/ReferralWelcomeBanner";
+import { ReferralRewardNotifier } from "@/components/ReferralRewardNotifier";
+import { ReferralShareNudge } from "@/components/ReferralShareNudge";
 import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
@@ -37,6 +40,14 @@ import {
 import { QuotaBanner } from "@/components/QuotaBanner";
 import { sharedAsEndpoints } from "@/lib/shared-models";
 import { supabaseEnabled } from "@/lib/supabase-client";
+import {
+  ARENA_SEED_STORAGE_KEY,
+  QUICK_SAMPLE,
+  arenaSeedUsesTemporaryEndpoints,
+  quickSampleEndpoints,
+  sharedEndpointsForModels,
+  type ArenaSeed,
+} from "@/lib/quickstart";
 
 /* ---------- localStorage 持久化 ---------- */
 function usePersisted<T>(
@@ -77,9 +88,65 @@ export default function Home() {
     "ma.endpoints",
     []
   );
-  const [title, setTitle] = usePersisted("ma.title", "");
-  const [notes, setNotes] = usePersisted("ma.notes", "");
-  const [prompt, setPrompt] = usePersisted("ma.prompt", "");
+  const [temporaryEndpoints, setTemporaryEndpoints] = useState<ModelEndpoint[] | null>(
+    null
+  );
+  const [arenaSeedMode, setArenaSeedMode] = useState<ArenaSeed["mode"] | null>(
+    null
+  );
+  const [savedTitle, setSavedTitle] = usePersisted("ma.title", "");
+  const [savedNotes, setSavedNotes] = usePersisted("ma.notes", "");
+  const [savedPrompt, setSavedPrompt] = usePersisted("ma.prompt", "");
+  const [temporaryDraft, setTemporaryDraft] = useState<{
+    title: string;
+    notes: string;
+    prompt: string;
+  } | null>(null);
+  const title = temporaryDraft?.title ?? savedTitle;
+  const notes = temporaryDraft?.notes ?? savedNotes;
+  const prompt = temporaryDraft?.prompt ?? savedPrompt;
+  const setTitle: React.Dispatch<React.SetStateAction<string>> = (next) => {
+    if (temporaryDraft) {
+      setTemporaryDraft((prev) =>
+        prev
+          ? {
+              ...prev,
+              title: typeof next === "function" ? next(prev.title) : next,
+            }
+          : prev
+      );
+    } else {
+      setSavedTitle(next);
+    }
+  };
+  const setNotes: React.Dispatch<React.SetStateAction<string>> = (next) => {
+    if (temporaryDraft) {
+      setTemporaryDraft((prev) =>
+        prev
+          ? {
+              ...prev,
+              notes: typeof next === "function" ? next(prev.notes) : next,
+            }
+          : prev
+      );
+    } else {
+      setSavedNotes(next);
+    }
+  };
+  const setPrompt: React.Dispatch<React.SetStateAction<string>> = (next) => {
+    if (temporaryDraft) {
+      setTemporaryDraft((prev) =>
+        prev
+          ? {
+              ...prev,
+              prompt: typeof next === "function" ? next(prev.prompt) : next,
+            }
+          : prev
+      );
+    } else {
+      setSavedPrompt(next);
+    }
+  };
   const [params, setParams] = usePersisted<RunParams>("ma.params", {
     systemPrompt: "",
     temperature: "",
@@ -98,6 +165,11 @@ export default function Home() {
     remaining: number;
     limit: number;
     loggedIn: boolean;
+    bonusRemaining: number;
+  } | null>(null);
+  const [referralEntry, setReferralEntry] = useState<{
+    code: string;
+    claimed: boolean;
   } | null>(null);
 
   // 首访预置共享模型（仅一次；已有自配模型则不种）
@@ -126,7 +198,12 @@ export default function Home() {
       );
       const j = await res.json();
       if (j.ok)
-        setQuota({ remaining: j.remaining, limit: j.limit, loggedIn: j.loggedIn });
+        setQuota({
+          remaining: j.remaining,
+          limit: j.limit,
+          loggedIn: j.loggedIn,
+          bonusRemaining: j.bonusRemaining ?? 0,
+        });
     } catch {
       /* ignore */
     }
@@ -134,6 +211,29 @@ export default function Home() {
 
   useEffect(() => {
     void fetchQuota();
+  }, [fetchQuota]);
+
+  useEffect(() => {
+    let alive = true;
+    (async () => {
+      const {
+        captureReferralFromLocation,
+        claimStoredReferral,
+        storedReferralCode,
+      } = await import("@/lib/referral-client");
+      const code = captureReferralFromLocation() ?? storedReferralCode();
+      if (!code || !alive) return;
+      setReferralEntry({ code, claimed: false });
+      const claim = await claimStoredReferral().catch(() => null);
+      if (!alive) return;
+      if (claim?.ok) {
+        setReferralEntry({ code, claimed: true });
+        void fetchQuota();
+      }
+    })();
+    return () => {
+      alive = false;
+    };
   }, [fetchQuota]);
   const [watermark, setWatermark] = usePersisted("ma.watermark", "");
   const [wmTiled, setWmTiled] = usePersisted("ma.wmTiled", false);
@@ -181,6 +281,9 @@ export default function Home() {
   const [shareCfgOpen, setShareCfgOpen] = useState(false);
   // 非空 = 正在分享某条历史快照（而非当前实时结果）
   const [shareSource, setShareSource] = useState<HistoryEntry | null>(null);
+  const [referralNudge, setReferralNudge] = useState<
+    "post-run" | "share" | "export" | null
+  >(null);
 
   /* Esc 退出放大视图 */
   useEffect(() => {
@@ -300,11 +403,109 @@ export default function Home() {
     setTimeout(() => setToast(""), 1600);
   };
 
+  useEffect(() => {
+    try {
+      const url = new URL(window.location.href);
+      const sample = url.searchParams.get("sample") === "1";
+      const seedRaw = sessionStorage.getItem(ARENA_SEED_STORAGE_KEY);
+      if (!sample && !seedRaw) return;
+
+      let seed: ArenaSeed | null = null;
+      if (sample) {
+        seed = {
+          mode: "sample",
+          title: QUICK_SAMPLE.title,
+          notes: QUICK_SAMPLE.notes,
+          prompt: QUICK_SAMPLE.prompt,
+        };
+      } else if (seedRaw) {
+        seed = JSON.parse(seedRaw) as ArenaSeed;
+      }
+      if (!seed?.prompt?.trim()) return;
+
+      setTemporaryDraft({
+        title: seed.title || QUICK_SAMPLE.title,
+        notes: seed.notes || "",
+        prompt: seed.prompt,
+      });
+      setRestored(null);
+      setRuns({});
+      setShareUrl(null);
+      setShareError(null);
+      setHiddenIds([]);
+
+      const seeded =
+        seed.mode === "sample"
+          ? quickSampleEndpoints()
+          : sharedEndpointsForModels(seed.models);
+      if (arenaSeedUsesTemporaryEndpoints(seed.mode) && seeded.length >= 2) {
+        setTemporaryEndpoints(seeded);
+        setArenaSeedMode(seed.mode);
+      } else if (sample) {
+        setTemporaryEndpoints(quickSampleEndpoints());
+        setArenaSeedMode("sample");
+      } else {
+        setTemporaryEndpoints(null);
+        setArenaSeedMode(seed.mode);
+      }
+
+      if (seedRaw) sessionStorage.removeItem(ARENA_SEED_STORAGE_KEY);
+      url.searchParams.delete("sample");
+      window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      flash(
+        seed.mode === "share-full"
+          ? "已复制分享里的评测设置，检查模型后即可开跑"
+          : seed.mode === "share-prompt"
+            ? "已带入同一个 Prompt，选择模型后即可开跑"
+            : "快速样例已就绪，点击开始对比即可开跑"
+      );
+    } catch {
+      /* ignore */
+    }
+    // 仅在首次进入页面时消费 URL / sessionStorage 种子。
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const showReferralNudge = (reason: "post-run" | "share" | "export") => {
+    try {
+      if (reason === "post-run") {
+        const key = "ma.referral.postRunNudgeAt";
+        const last = Number(localStorage.getItem(key) || 0);
+        if (Date.now() - last < 24 * 60 * 60 * 1000) return;
+        localStorage.setItem(key, String(Date.now()));
+      }
+    } catch {
+      /* ignore */
+    }
+    setReferralNudge(reason);
+  };
+
   const updateRun = useCallback(
     (id: string) => (fn: (prev: RunState) => RunState) =>
       setRuns((prev) => ({ ...prev, [id]: fn(prev[id] ?? emptyRun()) })),
     []
   );
+
+  const activeEndpoints = temporaryEndpoints ?? endpoints;
+  const usingTemporaryEndpoints = temporaryEndpoints != null;
+  const usingTemporaryContext = usingTemporaryEndpoints || temporaryDraft != null;
+  const temporaryModeLabel =
+    arenaSeedMode === "sample"
+      ? "快速样例模式"
+      : arenaSeedMode === "share-full"
+        ? "复制评测模式"
+        : "Prompt 复跑模式";
+
+  const exitTemporaryMode = () => {
+    setTemporaryEndpoints(null);
+    setArenaSeedMode(null);
+    setTemporaryDraft(null);
+    setRuns({});
+    setShareUrl(null);
+    setShareError(null);
+    setHiddenIds([]);
+    flash("已切回专业模式，使用你本地保存的模型配置");
+  };
 
   const saveHistory = useCallback(
     (targets: ModelEndpoint[]) => {
@@ -354,7 +555,7 @@ export default function Home() {
   );
 
   const startAll = () => {
-    let targets = endpoints.filter((e) => e.enabled);
+    let targets = activeEndpoints.filter((e) => e.enabled);
     if (!targets.length || !prompt.trim() || anyRunning) return;
     // 免费额度用完：剔除共享模型，只跑用户自带 key 的
     if (quota && quota.remaining <= 0 && targets.some((t) => t.shared)) {
@@ -379,6 +580,7 @@ export default function Home() {
       fresh[t.id] = { ...emptyRun(), startedAt: Date.now() };
     setRuns(fresh);
 
+    let successfulCount = 0;
     for (const t of targets) {
       void runEndpoint({
         endpoint: t,
@@ -392,6 +594,7 @@ export default function Home() {
           setQuota((q) => (q ? { ...q, remaining } : q)),
         onSettled: (ok) => {
           if (ok) {
+            successfulCount += 1;
             rankCounter.current += 1;
             const rank = rankCounter.current;
             setRuns((prev) => ({
@@ -403,6 +606,9 @@ export default function Home() {
           if (pendingCount.current <= 0) {
             setTimeout(() => saveHistory(targets), 80);
             void fetchQuota(); // 跑完同步真实剩余额度
+            if (targets.length >= 2 && successfulCount > 0) {
+              showReferralNudge("post-run");
+            }
           }
         },
       });
@@ -441,9 +647,9 @@ export default function Home() {
       prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
     );
 
-  /** 在「已启用」序列里左右移动模型（持久化到 endpoints 顺序） */
-  const moveEndpoint = (id: string, dir: -1 | 1) =>
-    setEndpoints((prev) => {
+  /** 在「已启用」序列里左右移动模型；样例/分享模式只改临时顺序。 */
+  const moveEndpoint = (id: string, dir: -1 | 1) => {
+    const move = (prev: ModelEndpoint[]) => {
       const enabledIds = prev.filter((e) => e.enabled).map((e) => e.id);
       const pos = enabledIds.indexOf(id);
       const targetId = enabledIds[pos + dir];
@@ -453,7 +659,13 @@ export default function Home() {
       const next = [...prev];
       [next[a], next[b]] = [next[b], next[a]];
       return next;
-    });
+    };
+    if (usingTemporaryEndpoints) {
+      setTemporaryEndpoints((prev) => (prev ? move(prev) : prev));
+    } else {
+      setEndpoints(move);
+    }
+  };
 
   /* 视图数据：恢复历史时渲染快照里的伪 endpoint */
   const enabledEndpoints: ModelEndpoint[] = restored
@@ -466,7 +678,7 @@ export default function Home() {
         apiKey: "",
         enabled: true,
       }))
-    : endpoints.filter((e) => e.enabled);
+    : activeEndpoints.filter((e) => e.enabled);
 
   /* 前台展示 = 启用 − 手动隐藏（隐藏的后台照常跑） */
   const visibleEndpoints = restored
@@ -536,6 +748,7 @@ export default function Home() {
       a.href = dataUrl;
       a.click();
       flash("长图已下载 ✓");
+      showReferralNudge("export");
     } catch {
       flash("生成失败，请重试");
     } finally {
@@ -645,6 +858,7 @@ export default function Home() {
           ? "链接已复制（部分模型仍在跑，快照只含已完成的）✓"
           : "分享链接已复制 ✓"
       );
+      showReferralNudge("share");
     } catch (e) {
       setShareUrl(null);
       setShareError(
@@ -656,9 +870,12 @@ export default function Home() {
   };
 
   const restoreHistory = (h: HistoryEntry) => {
-    setTitle(h.title);
-    setNotes(h.notes);
-    setPrompt(h.prompt);
+    setTemporaryEndpoints(null);
+    setArenaSeedMode(null);
+    setTemporaryDraft(null);
+    setSavedTitle(h.title);
+    setSavedNotes(h.notes);
+    setSavedPrompt(h.prompt);
     setRestored(h);
     setHistoryOpen(false);
     const next: Record<string, RunState> = {};
@@ -694,6 +911,10 @@ export default function Home() {
   const hasResults = visibleEndpoints.some(
     (ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error
   );
+  const referralModelNames = enabledEndpoints
+    .map((ep) => ep.name || ep.model)
+    .filter(Boolean)
+    .slice(0, 2);
 
   // Prompt 含「N 字」要求时，卡片显示字数达成率
   const wordTarget = extractWordTarget(restored ? restored.prompt : prompt);
@@ -703,24 +924,88 @@ export default function Home() {
 
   return (
     <main ref={mainRef} className="mx-auto max-w-7xl px-5 py-8">
+      {!screenshotMode && (
+        <ReferralRewardNotifier onOpenAccount={() => setAccountOpen(true)} />
+      )}
       {/* ===== 顶部：右上角账号入口（截图时隐藏） ===== */}
       {!screenshotMode && (
-        <div data-no-export="1" className="mb-3 flex items-center justify-between">
+        <div
+          data-no-export="1"
+          className="mb-3 flex flex-wrap items-center justify-between gap-2"
+        >
           <Logo withText />
-          <AccountChip onOpen={() => setAccountOpen(true)} />
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <a
+              className={btn}
+              href="/stats"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="全网用户实测的大模型速度排行榜"
+            >
+              🏆 排行榜
+            </a>
+            <button
+              className={btn}
+              onClick={() => setTrendOpen(true)}
+              title="同一模型在历次对比中的速度走势（本机历史）"
+            >
+              📈 趋势
+            </button>
+            <AccountChip onOpen={() => setAccountOpen(true)} />
+          </div>
         </div>
       )}
       {!screenshotMode &&
+        referralEntry && (
+          <ReferralWelcomeBanner
+            code={referralEntry.code}
+            claimed={referralEntry.claimed}
+            onLogin={() => setAccountOpen(true)}
+          />
+        )}
+      {!screenshotMode &&
         quota != null &&
-        endpoints.some((e) => e.enabled && e.shared) && (
+        activeEndpoints.some((e) => e.enabled && e.shared) && (
           <QuotaBanner
             remaining={quota.remaining}
             limit={quota.limit}
             loggedIn={quota.loggedIn}
+            bonusRemaining={quota.bonusRemaining}
             onLogin={() => setAccountOpen(true)}
+            onInvite={() => setAccountOpen(true)}
             onConfigure={() => setSettingsOpen(true)}
           />
         )}
+      {!screenshotMode && !restored && usingTemporaryContext && (
+        <div
+          data-no-export="1"
+          className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-line bg-card px-3.5 py-3 text-[12.5px]"
+        >
+          <div className="min-w-0">
+            <div className="font-semibold text-ink">
+              当前为{temporaryModeLabel}：使用临时带入的
+              {usingTemporaryEndpoints ? "模型列表" : "Prompt"}
+            </div>
+            <div className="mt-0.5 text-faint">
+              临时内容不会覆盖你本地保存的模型、Key 和专业模式草稿；共享预置模型会消耗免费/邀请额度，切回专业模式后使用你的本地配置。
+            </div>
+          </div>
+          <div className="flex shrink-0 flex-wrap items-center gap-2">
+            <button
+              onClick={exitTemporaryMode}
+              className="rounded-md bg-ink px-3 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
+            >
+              切回专业模式（用我的 Key）
+            </button>
+            <button
+              onClick={() => setSettingsOpen(true)}
+              className="rounded-md border border-line px-3 py-1.5 text-[12px] font-semibold text-faint hover:text-ink cursor-pointer"
+            >
+              查看本地模型配置
+            </button>
+          </div>
+        </div>
+      )}
       {/* ===== 标题区（可编辑，截图友好） ===== */}
       <header className="mb-5">
         <input
@@ -742,7 +1027,7 @@ export default function Home() {
             {new Date().toLocaleDateString("zh-CN")} ·{" "}
             {restored
               ? `历史快照 · ${new Date(restored.at).toLocaleString("zh-CN", { hour12: false })}`
-              : `${endpoints.filter((e) => e.enabled).length} 个模型参与对比`}{" "}
+              : `${activeEndpoints.filter((e) => e.enabled).length} 个模型参与对比`}{" "}
             · {watermark.trim() || "百模竞速 · TOKRACE"}
           </span>
           <Credit compact />
@@ -796,22 +1081,6 @@ export default function Home() {
             <>
               <button className={btn} onClick={() => setHistoryOpen(true)}>
                 🕘 历史
-              </button>
-              <a
-                className={btn}
-                href="/stats"
-                target="_blank"
-                rel="noopener noreferrer"
-                title="全网用户实测的大模型速度排行榜"
-              >
-                🏆 排行榜
-              </a>
-              <button
-                className={btn}
-                onClick={() => setTrendOpen(true)}
-                title="同一模型在历次对比中的速度走势（本机历史）"
-              >
-                📈 趋势
               </button>
               <button className={btn} onClick={() => setAccountOpen(true)}>
                 👤 账号同步
@@ -951,6 +1220,15 @@ export default function Home() {
         </div>
       )}
 
+      {referralNudge && !screenshotMode && (
+        <ReferralShareNudge
+          reason={referralNudge}
+          models={referralModelNames}
+          onOpenAccount={() => setAccountOpen(true)}
+          onClose={() => setReferralNudge(null)}
+        />
+      )}
+
       {/* 水印设置 */}
       {wmOpen && !screenshotMode && (
         <div data-no-export="1" className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-card px-3.5 py-2.5">
@@ -1050,7 +1328,7 @@ export default function Home() {
               ) : (
                 <button
                   onClick={startAll}
-                  disabled={!prompt.trim() || !endpoints.some((e) => e.enabled)}
+                  disabled={!prompt.trim() || !activeEndpoints.some((e) => e.enabled)}
                   className="rounded-md bg-ink px-6 py-2 text-[14px] font-bold text-paper disabled:opacity-35 cursor-pointer"
                 >
                   开始对比 ▶
@@ -1348,7 +1626,11 @@ export default function Home() {
         custom={customPrompts}
         onChangeCustom={setCustomPrompts}
       />
-      <AccountDialog open={accountOpen} onClose={() => setAccountOpen(false)} />
+      <AccountDialog
+        open={accountOpen}
+        onClose={() => setAccountOpen(false)}
+        shareModels={referralModelNames}
+      />
       <ShareConfigDialog
         open={shareCfgOpen}
         onClose={() => {

@@ -4,6 +4,7 @@ import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
 import { fetchBoard, type BoardEntry } from "@/lib/board";
+import { voteConfidence } from "@/lib/quickstart";
 
 export const metadata = {
   title: "最受欢迎模型榜",
@@ -13,6 +14,12 @@ export const metadata = {
 export const dynamic = "force-dynamic"; // 榜单实时
 
 const MEDALS = ["🥇", "🥈", "🥉"];
+
+function confidenceClass(tone: "low" | "medium" | "high"): string {
+  if (tone === "high") return "border-go/25 bg-go/10 text-go";
+  if (tone === "medium") return "border-line bg-paper text-faint";
+  return "border-accent/25 bg-accent/10 text-accent";
+}
 
 export default async function BoardPage() {
   let board: BoardEntry[] | null = null;
@@ -96,7 +103,7 @@ export default async function BoardPage() {
           <Link href="/stats" className="underline hover:text-ink">
             速度榜
           </Link>{" "}
-          互补：一个看快慢，一个看人心。
+          互补：一个看快慢，一个看人心。每行会显示票数可信度。
         </p>
       </header>
 
@@ -121,39 +128,54 @@ export default async function BoardPage() {
         </div>
       ) : (
         <div className="overflow-hidden rounded-lg border border-line bg-card">
-          {board.map((e, i) => (
-            <div
-              key={e.model}
-              className="flex items-center gap-3 border-b border-line px-4 py-3 last:border-0"
-            >
-              <span className="num w-7 shrink-0 text-[14px] text-faint">
-                {MEDALS[i] ?? `${i + 1}`}
-              </span>
-              <div className="min-w-0 flex-1">
-                <div className="num truncate text-[13.5px] font-semibold">
-                  {e.model}
-                </div>
-                <div className="mt-1.5 h-2 w-full max-w-[260px] overflow-hidden rounded-full bg-paper">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: `${(e.wilson / maxW) * 100}%`,
-                      background: i === 0 ? "var(--accent)" : "var(--ink)",
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="num shrink-0 text-right">
-                <span className="text-[16px] font-bold">
-                  {Math.round(e.ratio * 100)}%
+          {board.map((e, i) => {
+            const votes = e.up + e.down;
+            const confidence = voteConfidence(votes);
+            return (
+              <div
+                key={e.model}
+                className="flex items-center gap-3 border-b border-line px-4 py-3 last:border-0"
+              >
+                <span className="num w-7 shrink-0 text-[14px] text-faint">
+                  {MEDALS[i] ?? `${i + 1}`}
                 </span>
-                <span className="text-[11px] text-faint"> 好评</span>
-                <div className="text-[10px] text-faint">
-                  👍{e.up} 👎{e.down}
+                <div className="min-w-0 flex-1">
+                  <div className="num truncate text-[13.5px] font-semibold">
+                    {e.model}
+                  </div>
+                  <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] text-faint">
+                    <span>{votes} 票</span>
+                    <span
+                      className={`rounded-full border px-1.5 py-0.5 font-semibold ${confidenceClass(
+                        confidence.tone
+                      )}`}
+                      title={confidence.description}
+                    >
+                      {confidence.label}
+                    </span>
+                  </div>
+                  <div className="mt-1.5 h-2 w-full max-w-[260px] overflow-hidden rounded-full bg-paper">
+                    <div
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${(e.wilson / maxW) * 100}%`,
+                        background: i === 0 ? "var(--accent)" : "var(--ink)",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="num shrink-0 text-right">
+                  <span className="text-[16px] font-bold">
+                    {Math.round(e.ratio * 100)}%
+                  </span>
+                  <span className="text-[11px] text-faint"> 好评</span>
+                  <div className="text-[10px] text-faint">
+                    👍{e.up} 👎{e.down}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

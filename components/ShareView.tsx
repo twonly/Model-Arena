@@ -14,6 +14,7 @@ import {
   type VoteAggregate,
 } from "@/lib/voting";
 import { emptyRun, type ModelEndpoint, type RunState } from "@/lib/types";
+import { ARENA_SEED_STORAGE_KEY, type ArenaSeed } from "@/lib/quickstart";
 
 /** 只读分享视图：卡片内 👍/👎 + 评论，右侧实时榜单 */
 export function ShareView({
@@ -28,6 +29,7 @@ export function ShareView({
   const [hidden, setHidden] = useState<string[]>([]);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [agg, setAgg] = useState<VoteAggregate | null>(null);
+  const [seedError, setSeedError] = useState("");
 
   const voting = snapshot.voting?.enabled;
 
@@ -97,29 +99,53 @@ export function ShareView({
 
   const btn =
     "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
+  const primaryBtn =
+    "rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper cursor-pointer";
+
+  const seedArena = (mode: Extract<ArenaSeed["mode"], "share-full" | "share-prompt">) => {
+    const seed: ArenaSeed = {
+      mode,
+      title: mode === "share-full" ? snapshot.title : "",
+      notes: mode === "share-full" ? snapshot.notes : "",
+      prompt: snapshot.prompt,
+      models:
+        mode === "share-full"
+          ? snapshot.results.map((r) => r.model).filter(Boolean)
+          : undefined,
+    };
+    try {
+      sessionStorage.setItem(ARENA_SEED_STORAGE_KEY, JSON.stringify(seed));
+      window.location.assign("/arena");
+    } catch {
+      setSeedError("当前浏览器无法复制评测设置，请手动复制 Prompt 后重试。");
+    }
+  };
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-8">
-      <nav className="mb-5 flex items-center justify-between">
+      <nav className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <a href="/" className="text-[13px] text-faint hover:text-ink">
           ← 百模竞速 · TOKRACE
         </a>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center justify-end gap-2">
           <button className={btn} onClick={() => setMarkdown((v) => !v)}>
             {markdown ? "MD 渲染：开" : "MD 渲染：关"}
           </button>
           <button className={btn} onClick={() => setCompact((v) => !v)}>
             {compact ? "📊 紧凑：开" : "📊 紧凑：关"}
           </button>
+          <button className={btn} onClick={() => seedArena("share-full")}>
+            复制这次评测
+          </button>
+          <button className={btn} onClick={() => seedArena("share-prompt")}>
+            用同样 Prompt 跑一轮
+          </button>
           <a className={btn} href="/me">
             🗂 我的
           </a>
-          <a
-            href="/arena"
-            className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"
-          >
+          <button className={primaryBtn} onClick={() => seedArena("share-prompt")}>
             我也来测 ▶
-          </a>
+          </button>
         </div>
       </nav>
 
@@ -142,9 +168,29 @@ export function ShareView({
       </header>
 
       {snapshot.prompt.trim() && (
-        <div className="mb-5 rounded-lg border border-line bg-card px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap">
-          {snapshot.prompt}
-        </div>
+        <>
+          <div className="mb-3 rounded-lg border border-line bg-card px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap">
+            {snapshot.prompt}
+          </div>
+          <div className="mb-5 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line bg-paper/50 px-3 py-2.5">
+            <span className="text-[12px] text-faint">
+              想复查这个结果？可以复制完整评测配置，或只带走 Prompt 重跑。
+            </span>
+            <div className="flex flex-wrap items-center gap-2">
+              <button className={btn} onClick={() => seedArena("share-full")}>
+                复制这次评测
+              </button>
+              <button className={primaryBtn} onClick={() => seedArena("share-prompt")}>
+                用同样 Prompt 跑一轮
+              </button>
+            </div>
+          </div>
+          {seedError && (
+            <div className="mb-5 rounded-md border border-accent/30 bg-accent/10 px-3 py-2 text-[12px] text-accent">
+              {seedError}
+            </div>
+          )}
+        </>
       )}
 
       {/* 模型显示切换 */}
@@ -270,9 +316,9 @@ export function ShareView({
         <Credit compact />
         <span>
           这是一次对比的只读快照 ·{" "}
-          <a href="/arena" className="hover:text-ink">
+          <button onClick={() => seedArena("share-prompt")} className="hover:text-ink">
             自己也接入模型跑一轮 →
-          </a>
+          </button>
         </span>
       </footer>
     </main>

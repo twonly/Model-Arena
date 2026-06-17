@@ -1,12 +1,12 @@
-import { estimateTokens } from "./tokens";
-import { getClientId } from "./telemetry";
+import { estimateTokens } from "./tokens.ts";
+import { getClientId } from "./telemetry.ts";
 import type {
   ModelEndpoint,
   RunParams,
   RunState,
   SpeedSample,
   StreamEvent,
-} from "./types";
+} from "./types.ts";
 
 interface RunOptions {
   endpoint: ModelEndpoint;
@@ -22,6 +22,8 @@ interface RunOptions {
   runId?: string;
   /** 共享额度剩余次数回调（读自响应头 X-Quota-Remaining） */
   onQuota?: (remaining: number) => void;
+  /** 登录态请求头；默认读取当前 Supabase session，测试可注入。 */
+  authHeaders?: () => Promise<Record<string, string>>;
 }
 
 const FLUSH_MS = 80; // UI 刷新节流
@@ -42,6 +44,7 @@ export async function runEndpoint({
   onSettled,
   runId,
   onQuota,
+  authHeaders = defaultAuthHeaders,
 }: RunOptions): Promise<void> {
   const t0 = performance.now();
   let reasoning = "";
@@ -236,7 +239,7 @@ export async function runEndpoint({
         };
     const res = await fetch("/api/chat", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", ...(await authHeaders()) },
       signal,
       body: JSON.stringify(reqBody),
     });
@@ -329,5 +332,14 @@ export async function runEndpoint({
     }
     update((prev) => ({ ...prev, status: "error", error: message }));
     onSettled(false);
+  }
+}
+
+async function defaultAuthHeaders(): Promise<Record<string, string>> {
+  try {
+    const { authHeader } = await import("./me.ts");
+    return authHeader();
+  } catch {
+    return {};
   }
 }

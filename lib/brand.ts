@@ -13,23 +13,32 @@ export const BRAND = {
   full: "百模竞速 · TOKRACE",
   domain: "tokrace.com",
   url: "https://tokrace.com",
-  taglineZh: "大模型速度 · 时延 · 实时实测",
-  taglineEn: "Real-time LLM speed & latency benchmark",
+  taglineZh: "开发者与 AI 测评作者的实时模型测速台",
+  taglineEn: "Real-time LLM speed test bench for developers and AI reviewers",
   descZh:
-    "同一个 Prompt 并发打到多个大模型，实时对比首 Token 时延、思考 / 输出 TPS、峰值速度与 token 数。开源、免费，API Key 只存你本地、服务器不留存。",
+    "TOKRACE 是面向开发者和 AI 测评作者的大模型测速工具：同一个 Prompt 并发对比多个 LLM 的首 Token 时延、输出 TPS、峰值速度与稳定性，支持免费样例、分享快照和速度榜。",
   descEn:
-    "Run one prompt across many LLMs at once and compare time-to-first-token, thinking / output tokens-per-second and peak speed in real time. Open-source and free; your API key stays in your browser and is never stored or logged on our servers.",
+    "TOKRACE is an LLM speed testing bench for developers and AI reviewers. Run one prompt across many models and compare TTFT, output TPS, peak speed and stability with shareable snapshots and live leaderboards.",
   /** 出品冠名（运营人格，保留） */
   publisher: "AI拯救打工人",
 } as const;
 
 export const SEO_KEYWORDS = [
   "大模型速度对比",
+  "大模型测速工具",
+  "AI模型测速",
+  "LLM测速",
+  "LLM速度对比",
   "模型测速",
   "首Token时延",
   "TTFT",
+  "首 Token 延迟",
   "tokens per second",
+  "TPS 测试",
   "输出速度",
+  "模型响应速度",
+  "AI测评工具",
+  "模型选型",
   "LLM benchmark",
   "LLM speed test",
   "DeepSeek 速度",

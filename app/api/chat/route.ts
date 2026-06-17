@@ -9,6 +9,7 @@ import {
   IP_DAILY_CEILING,
 } from "@/lib/shared-models";
 import { sharedKeyFor, claimSharedRun } from "@/lib/shared-server";
+import { qualifyReferral } from "@/lib/referral-server";
 
 /**
  * 流式代理：把各家厂商接口统一成一种 SSE 事件流，顺带解决浏览器 CORS。
@@ -136,12 +137,15 @@ export async function POST(req: NextRequest) {
           ? "本网络今日的免费额度已用完，请登录或在「模型配置」填你自己的 API Key。"
           : claim.reason === "unavailable"
             ? "体验额度暂不可用，请稍后再试或配置你自己的 API Key。"
-            : "今日免费额度已用完，登录可再得 10 次，或填你自己的 API Key 无限使用。";
+            : "今日免费额度已用完，登录可再得 10 次，也可以邀请好友获得奖励次数，或填你自己的 API Key 无限使用。";
       return Response.json({ error: msg, reason: claim.reason, quota: true }, {
         status: 402,
       });
     }
     quotaRemaining = claim.remaining;
+    if (uid) {
+      await qualifyReferral(uid, body.runId).catch(() => null);
+    }
     // 用服务端可信配置覆盖客户端字段（key 永不来自客户端）
     body.kind = sm.kind;
     body.baseUrl = sm.baseUrl;

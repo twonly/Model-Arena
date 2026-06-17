@@ -3,6 +3,7 @@ import { Credit } from "@/components/Credit";
 import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
+import { sampleConfidence } from "@/lib/quickstart";
 import { fetchModelStats, modelSlug, type ModelStat } from "@/lib/stats";
 
 export const metadata = {
@@ -21,6 +22,12 @@ function fmt(n: number, digits = 0): string {
 }
 
 const MEDALS = ["🥇", "🥈", "🥉"];
+
+function confidenceClass(tone: "low" | "medium" | "high"): string {
+  if (tone === "high") return "border-go/25 bg-go/10 text-go";
+  if (tone === "medium") return "border-line bg-paper text-faint";
+  return "border-accent/25 bg-accent/10 text-accent";
+}
 
 export default async function StatsPage() {
   let stats: ModelStat[] | null = null;
@@ -120,7 +127,7 @@ export default async function StatsPage() {
           大模型实测速度排行榜
         </h1>
         <p className="mt-2 text-[13px] text-faint">
-          全网用户在「百模竞速」里跑出的真实速度，匿名汇总。
+          全网用户在「百模竞速」里跑出的真实速度，匿名汇总，并按样本量标注可信度。
           {stats?.length ? (
             <>
               {" "}
@@ -159,57 +166,68 @@ export default async function StatsPage() {
             <span className="w-16 text-right">首响</span>
             <span className="w-16 text-right">峰值</span>
           </div>
-          {stats.map((s, i) => (
-            <div
-              key={`${s.model}-${s.provider}`}
-              className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 border-b border-line px-4 py-3 last:border-0"
-            >
-              <div className="min-w-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="num w-6 shrink-0 text-[13px] text-faint">
-                    {MEDALS[i] ?? `${i + 1}`}
-                  </span>
-                  <Link
-                    href={`/model/${modelSlug(s.model)}`}
-                    className="truncate text-[13.5px] font-semibold hover:text-accent"
-                  >
-                    {s.model}
-                  </Link>
-                </div>
-                <div className="num ml-[30px] mt-1 flex items-center gap-2 text-[10.5px] text-faint">
-                  <span className="truncate">{s.provider}</span>
-                  <span>· {s.samples} 次</span>
-                </div>
-                {/* 速度条 */}
-                <div className="ml-[30px] mt-1.5 h-1.5 w-full max-w-[200px] overflow-hidden rounded-full bg-paper">
-                  <div
-                    className="h-full rounded-full"
-                    style={{
-                      width: `${(s.medianContentTps / maxTps) * 100}%`,
-                      background: i === 0 ? "var(--accent)" : "var(--ink)",
-                    }}
-                  />
-                </div>
-              </div>
-              <div className="num w-28 text-right">
-                <span className="text-[16px] font-bold">
-                  {fmt(s.medianContentTps)}
-                </span>
-                <div className="text-[10px] text-faint">
-                  均 {fmt(s.avgContentTps)}
-                </div>
-              </div>
-              <div className="num w-16 text-right text-[13px]">
-                {s.avgTtftMs > 0 ? `${(s.avgTtftMs / 1000).toFixed(2)}s` : "—"}
-              </div>
+          {stats.map((s, i) => {
+            const confidence = sampleConfidence(s.samples);
+            return (
               <div
-                className="num w-16 text-right text-[13px] font-semibold"
-                style={{ color: "var(--accent)" }}
+                key={`${s.model}-${s.provider}`}
+                className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 border-b border-line px-4 py-3 last:border-0"
               >
-                {fmt(s.maxPeakTps)}
+                <div className="min-w-0">
+                  <div className="flex items-center gap-1.5">
+                    <span className="num w-6 shrink-0 text-[13px] text-faint">
+                      {MEDALS[i] ?? `${i + 1}`}
+                    </span>
+                    <Link
+                      href={`/model/${modelSlug(s.model)}`}
+                      className="truncate text-[13.5px] font-semibold hover:text-accent"
+                    >
+                      {s.model}
+                    </Link>
+                  </div>
+                  <div className="num ml-[30px] mt-1 flex flex-wrap items-center gap-2 text-[10.5px] text-faint">
+                    <span className="truncate">{s.provider}</span>
+                    <span>· {s.samples} 次</span>
+                    <span
+                      className={`rounded-full border px-1.5 py-0.5 text-[10px] font-semibold ${confidenceClass(
+                        confidence.tone
+                      )}`}
+                      title={confidence.description}
+                    >
+                      {confidence.label}
+                    </span>
+                  </div>
+                  {/* 速度条 */}
+                  <div className="ml-[30px] mt-1.5 h-1.5 w-full max-w-[200px] overflow-hidden rounded-full bg-paper">
+                    <div
+                      className="h-full rounded-full"
+                      style={{
+                        width: `${(s.medianContentTps / maxTps) * 100}%`,
+                        background: i === 0 ? "var(--accent)" : "var(--ink)",
+                      }}
+                    />
+                  </div>
+                </div>
+                <div className="num w-28 text-right">
+                  <span className="text-[16px] font-bold">
+                    {fmt(s.medianContentTps)}
+                  </span>
+                  <div className="text-[10px] text-faint">
+                    均 {fmt(s.avgContentTps)}
+                  </div>
+                </div>
+                <div className="num w-16 text-right text-[13px]">
+                  {s.avgTtftMs > 0 ? `${(s.avgTtftMs / 1000).toFixed(2)}s` : "—"}
+                </div>
+                <div
+                  className="num w-16 text-right text-[13px] font-semibold"
+                  style={{ color: "var(--accent)" }}
+                >
+                  {fmt(s.maxPeakTps)}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       )}
 

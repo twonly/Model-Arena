@@ -21,9 +21,19 @@ export interface ClaimResult {
   ok: boolean;
   remaining: number;
   reason: string;
+  source?: "base" | "referral";
+  baseLimit?: number;
+  baseUsed?: number;
+  baseRemaining?: number;
+  bonusRemaining?: number;
+  totalUsed?: number;
+  limit?: number;
 }
 
-async function rpc<T>(name: string, args: Record<string, unknown>): Promise<T | null> {
+export async function supabaseRpc<T>(
+  name: string,
+  args: Record<string, unknown>
+): Promise<T | null> {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
   if (!url || !key) return null;
@@ -57,7 +67,7 @@ export async function claimSharedRun(
   limit: number,
   ceiling: number
 ): Promise<ClaimResult> {
-  const r = await rpc<ClaimResult>("claim_shared_run", {
+  const r = await supabaseRpc<ClaimResult>("claim_shared_run", {
     p_who: who,
     p_who_kind: whoKind,
     p_ip: ip,
@@ -69,6 +79,28 @@ export async function claimSharedRun(
 }
 
 export async function sharedUsedToday(who: string): Promise<number | null> {
-  const r = await rpc<number>("shared_used_today", { p_who: who });
+  const r = await supabaseRpc<number>("shared_used_today", { p_who: who });
   return typeof r === "number" ? r : null;
+}
+
+export interface SharedQuotaStatus {
+  baseLimit: number;
+  baseUsed: number;
+  baseRemaining: number;
+  bonusRemaining: number;
+  totalUsed: number;
+  remaining: number;
+  limit: number;
+}
+
+export async function sharedQuotaStatus(
+  who: string,
+  whoKind: "client" | "user",
+  baseLimit: number
+): Promise<SharedQuotaStatus | null> {
+  return supabaseRpc<SharedQuotaStatus>("shared_quota_status", {
+    p_who: who,
+    p_who_kind: whoKind,
+    p_limit: baseLimit,
+  });
 }
