@@ -8,6 +8,7 @@ import { Leaderboard } from "./Leaderboard";
 import { ReviewDraftDialog } from "./ReviewDraftDialog";
 import { SocialSharePanel } from "./SocialSharePanel";
 import { htmlBadge, markdownBadge } from "@/lib/badge";
+import { buildSharePostText } from "@/lib/social-share";
 import { extractWordTarget, rankBadge } from "@/lib/format";
 import type { ShareSnapshot } from "@/lib/share";
 import {
@@ -136,10 +137,12 @@ export function ShareView({
     ? `${origin}/api/badge/share/${shareId}?locale=${locale}`
     : `/api/badge/share/${shareId}?locale=${locale}`;
   const shareTitle =
-    snapshot.title || (isZh ? "模型速度对比" : "Model speed comparison");
-  const shareText = isZh
-    ? `${shareTitle} · ${snapshot.results.length} 个模型 · TOKRACE`
-    : `${shareTitle} · ${snapshot.results.length} models · TOKRACE`;
+    snapshot.title.trim() || (isZh ? "模型速度对比" : "Model speed comparison");
+  const shareText = buildSharePostText({
+    title: shareTitle,
+    models: snapshot.results.map((r) => r.name || r.model),
+    locale,
+  });
   const badgeAlt = isZh
     ? `${shareTitle} 在 TOKRACE 上的速度结果`
     : `${shareTitle} speed result on TOKRACE`;

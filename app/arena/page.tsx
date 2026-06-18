@@ -18,6 +18,7 @@ import { ReferralShareNudge } from "@/components/ReferralShareNudge";
 import { SocialSharePanel } from "@/components/SocialSharePanel";
 import { useI18n } from "@/components/I18nProvider";
 import { htmlBadge, markdownBadge } from "@/lib/badge";
+import { buildSharePostText } from "@/lib/social-share";
 import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
@@ -328,6 +329,10 @@ export default function Home() {
   const [shareUrl, setShareUrl] = useState<string | "loading" | null>(null);
   /** 分享错误（持久显示，直到下次操作） */
   const [shareError, setShareError] = useState<string | null>(null);
+  const [lastShareSummary, setLastShareSummary] = useState<{
+    title: string;
+    models: string[];
+  } | null>(null);
   /** 遥测上报状态（短暂显示，让用户看到上报成功/失败） */
   const [telemetryStatus, setTelemetryStatus] = useState<string | null>(null);
   /** 分享配置弹窗 */
@@ -933,6 +938,10 @@ export default function Home() {
       }
       const url = `${location.origin}${localHref(`/r/${j.id}`)}`;
       setShareUrl(url);
+      setLastShareSummary({
+        title: snapshot.title,
+        models: snapshot.results.map((r) => r.name || r.model),
+      });
       await navigator.clipboard.writeText(url).catch(() => {});
       flash(
         stillRunning
@@ -1021,7 +1030,20 @@ export default function Home() {
       ? `${new URL(shareUrl).origin}/api/badge/share/${generatedShareId}?locale=${locale}`
       : "";
   const generatedShareTitle =
-    title.trim() || (en ? "Model speed comparison" : "模型速度对比");
+    lastShareSummary?.title.trim() ||
+    title.trim() ||
+    (en ? "Model speed comparison" : "模型速度对比");
+  const generatedShareModels =
+    lastShareSummary?.models.length
+      ? lastShareSummary.models
+      : visibleEndpoints
+          .filter((ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error)
+          .map((ep) => ep.name || ep.model);
+  const generatedShareText = buildSharePostText({
+    title: generatedShareTitle,
+    models: generatedShareModels,
+    locale,
+  });
   const generatedBadgeAlt = en
     ? `${generatedShareTitle} speed result on TOKRACE`
     : `${generatedShareTitle} 在 TOKRACE 上的速度结果`;
@@ -1412,11 +1434,7 @@ export default function Home() {
             className="mb-4"
             url={shareUrl}
             title={generatedShareTitle}
-            text={
-              en
-                ? `${generatedShareTitle} · TOKRACE model speed test`
-                : `${generatedShareTitle} · TOKRACE 模型速度实测`
-            }
+            text={generatedShareText}
             badgeMarkdown={generatedBadgeMarkdown}
             badgeHtml={generatedBadgeHtml}
           />

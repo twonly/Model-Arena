@@ -50,7 +50,7 @@ export function truncateBadgeText(value: string, max = 42): string {
 
 export function renderBadgeSvg({ label, message, color = RED }: BadgeContent): string {
   const safeLabel = truncateBadgeText(label, 22);
-  const safeMessage = truncateBadgeText(message, 56);
+  const safeMessage = truncateBadgeText(message, 72);
   const labelWidth = Math.max(58, estimateWidth(safeLabel) + 18);
   const messageWidth = Math.max(86, estimateWidth(safeMessage) + 18);
   const width = labelWidth + messageWidth;
@@ -109,20 +109,19 @@ export function modelBadge(stat: ModelStat, locale: Locale): BadgeContent {
   };
 }
 
-export function compareBadge(a: ModelStat, b: ModelStat, locale: Locale): BadgeContent {
+export function compareBadge(a: ModelStat, b: ModelStat, _locale: Locale): BadgeContent {
   const winner =
     a.medianContentTps === b.medianContentTps
       ? null
       : a.medianContentTps > b.medianContentTps
         ? a
         : b;
+  const message = `${a.model} ${fmtMetric(a.medianContentTps)} vs ${b.model} ${fmtMetric(
+    b.medianContentTps
+  )} tok/s`;
   return {
     label: "TOKRACE",
-    message: winner
-      ? `${winner.model}: ${fmtMetric(winner.medianContentTps)} tok/s`
-      : locale === "en"
-        ? "similar speed"
-        : "速度接近",
+    message,
     color: winner ? GREEN : AMBER,
   };
 }

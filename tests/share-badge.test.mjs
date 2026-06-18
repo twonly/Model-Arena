@@ -2,12 +2,14 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  compareBadge,
   escapeSvgText,
   markdownBadge,
   renderBadgeSvg,
   truncateBadgeText,
 } from "../lib/badge.ts";
 import {
+  buildSharePostText,
   githubLinkMarkdown,
   socialShareTargets,
 } from "../lib/social-share.ts";
@@ -46,6 +48,52 @@ test("badge SVG escapes text and caps long messages", () => {
   });
   assert.match(svg, /x &lt;script&gt;alert\(&quot;bad&quot;\)&lt;\/script&gt; &amp; 171 tok\/s/);
   assert.doesNotMatch(svg, /<script>/);
+});
+
+test("compare badge includes both compared models and speeds", () => {
+  const a = {
+    model: "deepseek-v4-flash",
+    provider: "deepseek",
+    samples: 49,
+    avgContentTps: 132,
+    medianContentTps: 139,
+    avgTtftMs: 710,
+    maxPeakTps: 346,
+    avgOutputTokens: 1000,
+    lastAt: "2026-06-18T00:00:00Z",
+  };
+  const b = {
+    model: "step-3.7-flash",
+    provider: "stepfun",
+    samples: 34,
+    avgContentTps: 181,
+    medianContentTps: 171,
+    avgTtftMs: 1490,
+    maxPeakTps: 528,
+    avgOutputTokens: 1000,
+    lastAt: "2026-06-18T00:00:00Z",
+  };
+  const badge = compareBadge(a, b, "en");
+  assert.match(badge.message, /deepseek-v4-flash 139/);
+  assert.match(badge.message, /step-3\.7-flash 171/);
+});
+
+test("default share post copy lists concrete models and rerun highlights", () => {
+  const copy = buildSharePostText({
+    title: "长文生成速度对比",
+    locale: "zh-CN",
+    models: [
+      "deepseek-v4-flash",
+      "step-3.7-flash",
+      "kimi-for-coding",
+      "mimo-v2.5",
+      "deepseek-v4-pro",
+    ],
+  });
+  assert.match(copy, /首 Token 体感 · 模型评测/);
+  assert.match(copy, /deepseek-v4-flash、step-3\.7-flash、kimi-for-coding、mimo-v2\.5、deepseek-v4-pro（5 个模型）/);
+  assert.match(copy, /TTFT、输出 tok\/s、峰值速度、模型原文/);
+  assert.match(copy, /一键复跑/);
 });
 
 test("markdown badge escapes alt text closing brackets", () => {
