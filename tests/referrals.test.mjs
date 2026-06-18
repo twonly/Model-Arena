@@ -30,12 +30,22 @@ test("builds invite URLs on the arena entry surface", () => {
 test("builds referral share copy with model context and invitee reward", () => {
   assert.equal(referralModelPhrase([" DeepSeek V4 ", "Kimi K2", "GPT"]), "DeepSeek V4 与 Kimi K2");
   assert.equal(referralModelPhrase([]), "多个 AI");
+  assert.equal(referralModelPhrase([" DeepSeek V4 ", "Kimi K2"], "en"), "DeepSeek V4 and Kimi K2");
+  assert.equal(referralModelPhrase([], "en"), "multiple AI");
   assert.equal(
     buildReferralShareText({
       inviteUrl: "https://www.tokrace.com/arena?ref=AB12CD",
       models: ["DeepSeek V4", "Kimi K2"],
     }),
     "我在用 TOKRACE 评测 DeepSeek V4 与 Kimi K2 模型，你通过我的链接注册并完成首次对比，可以获得 5 次免费体验：https://www.tokrace.com/arena?ref=AB12CD"
+  );
+  assert.equal(
+    buildReferralShareText({
+      inviteUrl: "https://www.tokrace.com/en/arena?ref=AB12CD",
+      models: ["DeepSeek V4", "Kimi K2"],
+      locale: "en",
+    }),
+    "I am benchmarking DeepSeek V4 and Kimi K2 models on TOKRACE. Use my link, sign up, and finish your first comparison to get 5 free trial runs: https://www.tokrace.com/en/arena?ref=AB12CD"
   );
 });
 

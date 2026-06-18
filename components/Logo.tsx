@@ -1,4 +1,7 @@
+"use client";
+
 import Link from "next/link";
+import { useI18n } from "@/components/I18nProvider";
 
 /**
  * 站点 logo（竞速速度条），默认链回首页。
@@ -13,10 +16,13 @@ export function Logo({
   withText?: boolean;
   href?: string;
 }) {
+  const { locale, href: localHref } = useI18n();
+  const en = locale === "en";
+  const resolvedHref = href === "/" ? localHref("/") : href;
   return (
     <Link
-      href={href}
-      aria-label="百模竞速 TOKRACE 首页"
+      href={resolvedHref}
+      aria-label={en ? "TOKRACE home" : "百模竞速 TOKRACE 首页"}
       className="flex shrink-0 items-center gap-1.5"
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -26,7 +32,7 @@ export function Logo({
           className="text-[15px] font-black"
           style={{ fontFamily: "var(--font-title)" }}
         >
-          百模竞速
+          {en ? "TOKRACE" : "百模竞速"}
         </span>
       )}
     </Link>

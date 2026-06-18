@@ -64,6 +64,7 @@ async function gzipBase64(obj: unknown): Promise<string | null> {
 export async function createShare(snapshot: ShareSnapshot): Promise<{
   ok: boolean;
   id?: string;
+  code?: string;
   error?: string;
   disabled?: boolean;
 }> {

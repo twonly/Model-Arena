@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { PROMPT_LIBRARY, type PromptItem } from "@/lib/prompts";
+import { promptLibrary, type PromptItem } from "@/lib/prompts";
+import { useI18n } from "@/components/I18nProvider";
 
 /** Prompt 库：内置分类浏览 + 自定义增删 + 导入导出 */
 export function PromptLibrary({
@@ -17,6 +18,9 @@ export function PromptLibrary({
   custom: PromptItem[];
   onChangeCustom: (next: PromptItem[]) => void;
 }) {
+  const { locale } = useI18n();
+  const builtinLibrary = promptLibrary(locale);
+  const isZh = locale === "zh-CN";
   const [tab, setTab] = useState<"builtin" | "mine">("builtin");
   const [filter, setFilter] = useState("");
   const [draft, setDraft] = useState<PromptItem>({ label: "", text: "" });
@@ -33,7 +37,7 @@ export function PromptLibrary({
     if (!draft.label.trim() || !draft.text.trim()) return;
     onChangeCustom([{ label: draft.label.trim(), text: draft.text }, ...custom]);
     setDraft({ label: "", text: "" });
-    setMsg("已添加 ✓");
+    setMsg(isZh ? "已添加 ✓" : "Added ✓");
     setTimeout(() => setMsg(""), 1500);
   };
 
@@ -47,7 +51,7 @@ export function PromptLibrary({
     );
     const a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = `prompt-库-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `prompt-library-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     setTimeout(() => URL.revokeObjectURL(a.href), 5000);
   };
@@ -58,7 +62,7 @@ export function PromptLibrary({
       const items: unknown =
         data?.items ?? (Array.isArray(data) ? data : null);
       if (!Array.isArray(items)) {
-        setMsg("文件格式不对");
+        setMsg(isZh ? "文件格式不对" : "Invalid file format");
         return;
       }
       const valid = items.filter(
@@ -66,7 +70,7 @@ export function PromptLibrary({
           x && typeof x.label === "string" && typeof x.text === "string"
       );
       if (!valid.length) {
-        setMsg("没有可导入的条目");
+        setMsg(isZh ? "没有可导入的条目" : "No importable items found");
         return;
       }
       // 按 label 去重合并
@@ -78,10 +82,10 @@ export function PromptLibrary({
           seen.add(v.label);
         }
       onChangeCustom(merged);
-      setMsg(`已导入 ${valid.length} 条 ✓`);
+      setMsg(isZh ? `已导入 ${valid.length} 条 ✓` : `Imported ${valid.length} items ✓`);
       setTab("mine");
     } catch {
-      setMsg("导入失败：不是合法 JSON");
+      setMsg(isZh ? "导入失败：不是合法 JSON" : "Import failed: invalid JSON");
     }
     setTimeout(() => setMsg(""), 2000);
   };
@@ -104,9 +108,13 @@ export function PromptLibrary({
         {/* 头 */}
         <div className="flex items-center justify-between border-b border-line px-5 py-3">
           <div>
-            <div className="text-[15px] font-bold">Prompt 库</div>
+            <div className="text-[15px] font-bold">
+              {isZh ? "Prompt 库" : "Prompt Library"}
+            </div>
             <div className="text-[11px] text-faint">
-              精选 benchmark 评测题，点击即用；也可保存自己的常用 Prompt
+              {isZh
+                ? "精选 benchmark 评测题，点击即用；也可保存自己的常用 Prompt"
+                : "Curated benchmark prompts you can use immediately, plus your saved prompts"}
             </div>
           </div>
           <button
@@ -127,7 +135,7 @@ export function PromptLibrary({
                 : "border border-line text-faint hover:text-ink"
             }`}
           >
-            内置评测集
+            {isZh ? "内置评测集" : "Built-in"}
           </button>
           <button
             onClick={() => setTab("mine")}
@@ -137,12 +145,12 @@ export function PromptLibrary({
                 : "border border-line text-faint hover:text-ink"
             }`}
           >
-            我的 Prompt（{custom.length}）
+            {isZh ? "我的 Prompt" : "My prompts"}（{custom.length}）
           </button>
           {tab === "builtin" && (
             <input
               className="ml-auto w-44 rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] outline-none focus:border-ink/40"
-              placeholder="搜索…"
+              placeholder={isZh ? "搜索…" : "Search..."}
               value={filter}
               onChange={(e) => setFilter(e.target.value)}
             />
@@ -158,7 +166,7 @@ export function PromptLibrary({
         <div className="thin-scroll flex-1 overflow-y-auto px-5 py-4">
           {tab === "builtin" ? (
             <div className="space-y-4">
-              {PROMPT_LIBRARY.map((cat) => {
+              {builtinLibrary.map((cat) => {
                 const items = cat.items.filter(matchItem);
                 if (!items.length) return null;
                 return (
@@ -198,11 +206,11 @@ export function PromptLibrary({
               {/* 新增表单 */}
               <div className="rounded-lg border border-line bg-card p-3">
                 <div className="mb-1.5 text-[12px] font-semibold text-faint">
-                  新增自定义 Prompt
+                  {isZh ? "新增自定义 Prompt" : "Add custom prompt"}
                 </div>
                 <input
                   className="mb-1.5 w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
-                  placeholder="名称，如：我的代码评测题"
+                  placeholder={isZh ? "名称，如：我的代码评测题" : "Name, e.g. My coding test"}
                   value={draft.label}
                   onChange={(e) =>
                     setDraft({ ...draft, label: e.target.value })
@@ -211,7 +219,7 @@ export function PromptLibrary({
                 <textarea
                   className="w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
                   rows={3}
-                  placeholder="Prompt 内容…"
+                  placeholder={isZh ? "Prompt 内容…" : "Prompt content..."}
                   value={draft.text}
                   onChange={(e) => setDraft({ ...draft, text: e.target.value })}
                 />
@@ -221,7 +229,7 @@ export function PromptLibrary({
                     disabled={!draft.label.trim() || !draft.text.trim()}
                     className="rounded-md bg-ink px-4 py-1.5 text-[12.5px] font-semibold text-paper disabled:opacity-40 cursor-pointer"
                   >
-                    添加
+                    {isZh ? "添加" : "Add"}
                   </button>
                   <div className="ml-auto flex gap-2">
                     <button
@@ -229,10 +237,10 @@ export function PromptLibrary({
                       disabled={!custom.length}
                       className="rounded-md border border-line px-3 py-1.5 text-[12px] text-faint hover:text-ink disabled:opacity-40 cursor-pointer"
                     >
-                      ⤓ 导出
+                      ⤓ {isZh ? "导出" : "Export"}
                     </button>
                     <label className="rounded-md border border-line px-3 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer">
-                      ⤒ 导入
+                      ⤒ {isZh ? "导入" : "Import"}
                       <input
                         type="file"
                         accept="application/json,.json"
@@ -251,7 +259,9 @@ export function PromptLibrary({
               {/* 自定义列表 */}
               {custom.length === 0 ? (
                 <div className="rounded-lg border border-dashed border-line px-4 py-8 text-center text-[12px] text-faint">
-                  还没有自定义 Prompt。在上方添加，或导入之前导出的 JSON。
+                  {isZh
+                    ? "还没有自定义 Prompt。在上方添加，或导入之前导出的 JSON。"
+                    : "No custom prompts yet. Add one above or import a previously exported JSON file."}
                 </div>
               ) : (
                 <div className="space-y-1.5">
@@ -273,10 +283,10 @@ export function PromptLibrary({
                       </button>
                       <button
                         onClick={() => removeCustom(i)}
-                        title="删除"
+                        title={isZh ? "删除" : "Delete"}
                         className="shrink-0 text-[12px] text-faint hover:text-accent cursor-pointer"
                       >
-                        删除
+                        {isZh ? "删除" : "Delete"}
                       </button>
                     </div>
                   ))}

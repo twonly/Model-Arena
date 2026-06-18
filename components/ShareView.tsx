@@ -16,6 +16,7 @@ import {
 } from "@/lib/voting";
 import { emptyRun, type ModelEndpoint, type RunState } from "@/lib/types";
 import { ARENA_SEED_STORAGE_KEY, type ArenaSeed } from "@/lib/quickstart";
+import { useI18n } from "./I18nProvider";
 
 /** 只读分享视图：卡片内 👍/👎 + 评论，右侧实时榜单 */
 export function ShareView({
@@ -25,6 +26,8 @@ export function ShareView({
   snapshot: ShareSnapshot;
   shareId: string;
 }) {
+  const { locale, href } = useI18n();
+  const isZh = locale === "zh-CN";
   const [markdown, setMarkdown] = useState(true);
   const [compact, setCompact] = useState(false);
   const [hidden, setHidden] = useState<string[]>([]);
@@ -64,7 +67,8 @@ export function ShareView({
   };
 
   const idxOf = (epId: string) => Number(epId.replace("s-", ""));
-  const voteLabel = (i: number) => snapshot.results[i]?.name ?? `模型${i + 1}`;
+  const voteLabel = (i: number) =>
+    snapshot.results[i]?.name ?? (isZh ? `模型${i + 1}` : `Model ${i + 1}`);
 
   const endpoints: ModelEndpoint[] = snapshot.results.map((r, i) => ({
     id: `s-${i}`,
@@ -133,39 +137,55 @@ export function ShareView({
     };
     try {
       sessionStorage.setItem(ARENA_SEED_STORAGE_KEY, JSON.stringify(seed));
-      window.location.assign("/arena");
+      window.location.assign(href("/arena"));
     } catch {
-      setSeedError("当前浏览器无法复制评测设置，请手动复制 Prompt 后重试。");
+      setSeedError(
+        isZh
+          ? "当前浏览器无法复制评测设置，请手动复制 Prompt 后重试。"
+          : "This browser could not copy the test settings. Copy the prompt manually and try again."
+      );
     }
   };
 
   return (
     <main className="mx-auto max-w-7xl px-5 py-8">
       <nav className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <a href="/" className="text-[13px] text-faint hover:text-ink">
-          ← 百模竞速 · TOKRACE
+        <a href={href("/")} className="text-[13px] text-faint hover:text-ink">
+          ← {isZh ? "百模竞速 · TOKRACE" : "TOKRACE"}
         </a>
         <div className="flex flex-wrap items-center justify-end gap-2">
           <button className={btn} onClick={() => setMarkdown((v) => !v)}>
-            {markdown ? "MD 渲染：开" : "MD 渲染：关"}
+            {markdown
+              ? isZh
+                ? "MD 渲染：开"
+                : "MD rendering: on"
+              : isZh
+                ? "MD 渲染：关"
+                : "MD rendering: off"}
           </button>
           <button className={btn} onClick={() => setCompact((v) => !v)}>
-            {compact ? "📊 紧凑：开" : "📊 紧凑：关"}
+            {compact
+              ? isZh
+                ? "📊 紧凑：开"
+                : "📊 Compact: on"
+              : isZh
+                ? "📊 紧凑：关"
+                : "📊 Compact: off"}
           </button>
           <button className={btn} onClick={() => seedArena("share-full")}>
-            复制这次评测
+            {isZh ? "复制这次评测" : "Copy this test"}
           </button>
           <button className={btn} onClick={() => seedArena("share-prompt")}>
-            用同样 Prompt 跑一轮
+            {isZh ? "用同样 Prompt 跑一轮" : "Run same prompt"}
           </button>
           <button className={btn} onClick={() => setReviewDraftOpen(true)}>
-            ✍️ 生成评测稿
+            ✍️ {isZh ? "生成评测稿" : "Draft review"}
           </button>
-          <a className={btn} href="/me">
-            🗂 我的
+          <a className={btn} href={href("/me")}>
+            🗂 {isZh ? "我的" : "Mine"}
           </a>
           <button className={primaryBtn} onClick={() => seedArena("share-prompt")}>
-            我也来测 ▶
+            {isZh ? "我也来测" : "Run my test"} ▶
           </button>
         </div>
       </nav>
@@ -175,7 +195,7 @@ export function ShareView({
           className="text-[30px] font-black leading-tight"
           style={{ fontFamily: "var(--font-title)" }}
         >
-          {snapshot.title || "模型速度对比"}
+          {snapshot.title || (isZh ? "模型速度对比" : "Model speed comparison")}
         </h1>
         {snapshot.notes && (
           <p className="mt-1 whitespace-pre-wrap text-[13.5px] leading-relaxed text-faint">
@@ -183,8 +203,9 @@ export function ShareView({
           </p>
         )}
         <div className="num mt-1 text-[11px] text-faint/70">
-          {snapshot.results.length} 个模型 ·{" "}
-          {snapshot.watermark.trim() || "百模竞速 · TOKRACE"} · 分享快照
+          {snapshot.results.length} {isZh ? "个模型" : "models"} ·{" "}
+          {snapshot.watermark.trim() || "百模竞速 · TOKRACE"} ·{" "}
+          {isZh ? "分享快照" : "share snapshot"}
         </div>
       </header>
 
@@ -195,17 +216,19 @@ export function ShareView({
           </div>
           <div className="mb-5 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line bg-paper/50 px-3 py-2.5">
             <span className="text-[12px] text-faint">
-              想复查这个结果？可以复制完整评测配置，或只带走 Prompt 重跑。
+              {isZh
+                ? "想复查这个结果？可以复制完整评测配置，或只带走 Prompt 重跑。"
+                : "Want to verify this result? Copy the full test setup, or bring only the Prompt and rerun it."}
             </span>
             <div className="flex flex-wrap items-center gap-2">
               <button className={btn} onClick={() => seedArena("share-full")}>
-                复制这次评测
+                {isZh ? "复制这次评测" : "Copy this test"}
               </button>
               <button className={primaryBtn} onClick={() => seedArena("share-prompt")}>
-                用同样 Prompt 跑一轮
+                {isZh ? "用同样 Prompt 跑一轮" : "Run same prompt"}
               </button>
               <button className={btn} onClick={() => setReviewDraftOpen(true)}>
-                ✍️ 生成评测稿
+                ✍️ {isZh ? "生成评测稿" : "Draft review"}
               </button>
             </div>
           </div>
@@ -220,7 +243,9 @@ export function ShareView({
       {/* 模型显示切换 */}
       {endpoints.length >= 2 && (
         <div className="mb-3 flex flex-wrap items-center gap-1.5">
-          <span className="text-[11px] text-faint shrink-0">显示</span>
+          <span className="text-[11px] text-faint shrink-0">
+            {isZh ? "显示" : "Visible"}
+          </span>
           {endpoints.map((ep) => {
             const run = runs[ep.id] ?? emptyRun();
             const isHidden = hidden.includes(ep.id);
@@ -252,7 +277,7 @@ export function ShareView({
               onClick={() => setHidden([])}
               className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
             >
-              全部显示
+              {isZh ? "全部显示" : "Show all"}
             </button>
           )}
         </div>
@@ -339,9 +364,9 @@ export function ShareView({
       <footer className="mt-10 flex flex-col items-center gap-2 text-center text-[11px] text-faint/70">
         <Credit compact />
         <span>
-          这是一次对比的只读快照 ·{" "}
+          {isZh ? "这是一次对比的只读快照" : "This is a read-only comparison snapshot"} ·{" "}
           <button onClick={() => seedArena("share-prompt")} className="hover:text-ink">
-            自己也接入模型跑一轮 →
+            {isZh ? "自己也接入模型跑一轮" : "Connect your own models and run it"} →
           </button>
         </span>
       </footer>
@@ -358,7 +383,7 @@ export function ShareView({
         shareUrl={
           typeof window === "undefined"
             ? undefined
-            : `${window.location.origin}/r/${shareId}`
+            : `${window.location.origin}${href(`/r/${shareId}`)}`
         }
       />
     </main>

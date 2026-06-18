@@ -1,3 +1,5 @@
+import type { Locale } from "./i18n";
+
 export const REFERRAL_CODE_PARAM = "ref";
 export const REFERRAL_CODE_STORAGE_KEY = "ma.referral.code";
 export const REFERRAL_INVITER_REWARD = 10;
@@ -35,7 +37,7 @@ export function buildInviteUrl(origin: string, code: string): URL {
   return url;
 }
 
-export function referralModelPhrase(models: string[] = []): string {
+export function referralModelPhrase(models: string[] = [], locale: Locale = "zh-CN"): string {
   const clean = Array.from(
     new Set(
       models
@@ -45,19 +47,24 @@ export function referralModelPhrase(models: string[] = []): string {
     )
   ).slice(0, 2);
 
-  if (clean.length >= 2) return `${clean[0]} 与 ${clean[1]}`;
+  if (clean.length >= 2) return locale === "en" ? `${clean[0]} and ${clean[1]}` : `${clean[0]} 与 ${clean[1]}`;
   if (clean.length === 1) return clean[0];
-  return "多个 AI";
+  return locale === "en" ? "multiple AI" : "多个 AI";
 }
 
 export function buildReferralShareText({
   inviteUrl,
   models = [],
+  locale = "zh-CN",
 }: {
   inviteUrl: string;
   models?: string[];
+  locale?: Locale;
 }): string {
-  return `我在用 TOKRACE 评测 ${referralModelPhrase(models)} 模型，你通过我的链接注册并完成首次对比，可以获得 ${REFERRAL_INVITEE_REWARD} 次免费体验：${inviteUrl}`;
+  if (locale === "en") {
+    return `I am benchmarking ${referralModelPhrase(models, locale)} models on TOKRACE. Use my link, sign up, and finish your first comparison to get ${REFERRAL_INVITEE_REWARD} free trial runs: ${inviteUrl}`;
+  }
+  return `我在用 TOKRACE 评测 ${referralModelPhrase(models, locale)} 模型，你通过我的链接注册并完成首次对比，可以获得 ${REFERRAL_INVITEE_REWARD} 次免费体验：${inviteUrl}`;
 }
 
 export function quotaSnapshot(input: QuotaSnapshotInput): QuotaSnapshot {

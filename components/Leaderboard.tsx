@@ -1,5 +1,6 @@
 "use client";
 
+import { useI18n } from "@/components/I18nProvider";
 import type { ModelStat, VoteAggregate } from "@/lib/voting";
 
 /** 右侧紧凑总榜：按 Wilson 好评置信下界排名；没人点的归「待评价」 */
@@ -12,6 +13,8 @@ export function Leaderboard({
   count: number; // 总模型数（含没人投票的）
   label: (i: number) => string;
 }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
   // 用完整模型清单兜底：没有投票行的模型也要出现在「待评价」
   const byIndex = new Map<number, ModelStat>();
   for (const m of agg?.models ?? []) byIndex.set(m.index, m);
@@ -38,9 +41,11 @@ export function Leaderboard({
   return (
     <div className="rounded-xl border border-line bg-card p-3.5">
       <div className="flex items-baseline justify-between">
-        <span className="text-[13px] font-bold">🏆 实时榜单</span>
+        <span className="text-[13px] font-bold">
+          🏆 {en ? "Live Board" : "实时榜单"}
+        </span>
         <span className="num text-[10.5px] text-faint">
-          {agg ? `${agg.totalVoters} 人参与` : ""}
+          {agg ? (en ? `${agg.totalVoters} voters` : `${agg.totalVoters} 人参与`) : ""}
         </span>
       </div>
 
@@ -69,21 +74,23 @@ export function Leaderboard({
             </div>
             <div className="num mt-0.5 text-[10px] text-faint/80">
               👍{m.up} 👎{m.down}
-              {m.loginUp > 0 ? ` · ${m.loginUp} 登录赞` : ""}
+              {m.loginUp > 0 ? ` · ${m.loginUp} ${en ? "signed-in upvotes" : "登录赞"}` : ""}
             </div>
           </div>
         ))}
 
         {rated.length === 0 && (
           <div className="text-[11.5px] text-faint">
-            还没有人投票，给下面的模型点个 👍 / 👎 吧
+            {en
+              ? "No votes yet. Give the models below a 👍 or 👎."
+              : "还没有人投票，给下面的模型点个 👍 / 👎 吧"}
           </div>
         )}
 
         {pending.length > 0 && (
           <div className="border-t border-line pt-2">
             <div className="mb-1 text-[10.5px] text-faint">
-              待评价 · {pending.length}
+              {en ? "Pending" : "待评价"} · {pending.length}
             </div>
             {pending.map((m) => (
               <div key={m.index} className="text-[11px] text-faint/80 truncate">
@@ -95,7 +102,9 @@ export function Leaderboard({
       </div>
 
       <div className="mt-3 border-t border-line pt-2 text-[9.5px] leading-relaxed text-faint/70">
-        排名按 Wilson 好评置信下界：票越多越可信，票少自动打折，故并非单纯比好评率
+        {en
+          ? "Ranking uses Wilson lower bound for approval confidence: more votes carry more trust, while sparse votes are discounted."
+          : "排名按 Wilson 好评置信下界：票越多越可信，票少自动打折，故并非单纯比好评率"}
       </div>
     </div>
   );

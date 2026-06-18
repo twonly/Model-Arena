@@ -3,11 +3,12 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { Logo } from "@/components/Logo";
+import { useI18n } from "@/components/I18nProvider";
 import {
-  EVAL_TEMPLATE_CATEGORIES,
-  OFFICIAL_EVAL_TEMPLATES,
   buildTemplateArenaSeed,
   customPromptToEvalTemplate,
+  evalTemplateCategories,
+  officialEvalTemplates,
   templateConfidenceLabel,
   templateHistoryCounts,
   type EvalTemplate,
@@ -16,6 +17,7 @@ import {
 import type { PromptItem } from "@/lib/prompts";
 import { ARENA_SEED_STORAGE_KEY } from "@/lib/quickstart";
 import type { HistoryEntry } from "@/lib/types";
+import type { Locale } from "@/lib/i18n";
 
 const CUSTOM_PROMPTS_KEY = "ma.customPrompts";
 const HISTORY_KEY = "ma.history";
@@ -23,12 +25,19 @@ const HISTORY_KEY = "ma.history";
 type FilterId = EvalTemplateCategory | "all" | "mine";
 
 export function EvalTemplatesClient() {
+  const { locale, href } = useI18n();
+  const officialTemplates = useMemo(() => officialEvalTemplates(locale), [locale]);
+  const categories = useMemo(() => evalTemplateCategories(locale), [locale]);
+  const categoryLabels = useMemo(
+    () => new Map(categories.map((item) => [item.id, item.label])),
+    [categories]
+  );
   const [filter, setFilter] = useState<FilterId>("all");
   const [query, setQuery] = useState("");
   const [customPrompts, setCustomPrompts] = useState<PromptItem[]>([]);
   const [customReady, setCustomReady] = useState(false);
   const [historyCounts, setHistoryCounts] = useState<Record<string, number>>({});
-  const [selectedId, setSelectedId] = useState(OFFICIAL_EVAL_TEMPLATES[0]?.id ?? "");
+  const [selectedId, setSelectedId] = useState(officialTemplates[0]?.id ?? "");
   const [draft, setDraft] = useState<PromptItem>({ label: "", text: "" });
   const [toast, setToast] = useState("");
 
@@ -59,12 +68,15 @@ export function EvalTemplatesClient() {
   }, [customPrompts, customReady]);
 
   const customTemplates = useMemo(
-    () => customPrompts.map((item, index) => customPromptToEvalTemplate(item, index)),
-    [customPrompts]
+    () =>
+      customPrompts.map((item, index) =>
+        customPromptToEvalTemplate(item, index, locale)
+      ),
+    [customPrompts, locale]
   );
   const allTemplates = useMemo(
-    () => [...OFFICIAL_EVAL_TEMPLATES, ...customTemplates],
-    [customTemplates]
+    () => [...officialTemplates, ...customTemplates],
+    [customTemplates, officialTemplates]
   );
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -91,11 +103,15 @@ export function EvalTemplatesClient() {
     try {
       sessionStorage.setItem(
         ARENA_SEED_STORAGE_KEY,
-        JSON.stringify(buildTemplateArenaSeed(template))
+        JSON.stringify(buildTemplateArenaSeed(template, locale))
       );
-      window.location.assign("/arena");
+      window.location.assign(href("/arena"));
     } catch {
-      setToast("浏览器无法写入临时模板，请手动复制 Prompt");
+      setToast(
+        locale === "en"
+          ? "Browser could not save the temporary template. Copy the prompt manually."
+          : "浏览器无法写入临时模板，请手动复制 Prompt"
+      );
       setTimeout(() => setToast(""), 1800);
     }
   };
@@ -108,7 +124,7 @@ export function EvalTemplatesClient() {
     setDraft({ label: "", text: "" });
     setFilter("mine");
     setSelectedId(nextTemplate.id);
-    setToast("已保存到我的模板");
+    setToast(locale === "en" ? "Saved to my templates" : "已保存到我的模板");
     setTimeout(() => setToast(""), 1600);
   };
 
@@ -116,7 +132,7 @@ export function EvalTemplatesClient() {
     const idx = customTemplates.findIndex((item) => item.id === template.id);
     if (idx < 0) return;
     setCustomPrompts((prev) => prev.filter((_, index) => index !== idx));
-    setSelectedId(OFFICIAL_EVAL_TEMPLATES[0]?.id ?? "");
+    setSelectedId(officialTemplates[0]?.id ?? "");
   };
 
   const btn =
@@ -127,19 +143,19 @@ export function EvalTemplatesClient() {
       <nav className="mb-6 flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <Logo />
-          <Link href="/" className="text-[13px] text-faint hover:text-ink">
-            首页
+          <Link href={href("/")} className="text-[13px] text-faint hover:text-ink">
+            {locale === "en" ? "Home" : "首页"}
           </Link>
-          <Link href="/arena" className="text-[13px] text-faint hover:text-ink">
-            竞速场
+          <Link href={href("/arena")} className="text-[13px] text-faint hover:text-ink">
+            {locale === "en" ? "Arena" : "竞速场"}
           </Link>
         </div>
         <div className="flex items-center gap-2">
-          <Link href="/stats" className={btn}>
-            🏆 排行榜
+          <Link href={href("/stats")} className={btn}>
+            🏆 {locale === "en" ? "Leaderboard" : "排行榜"}
           </Link>
-          <Link href="/board" className={btn}>
-            人气榜
+          <Link href={href("/board")} className={btn}>
+            {locale === "en" ? "Audience board" : "人气榜"}
           </Link>
         </div>
       </nav>
@@ -150,17 +166,19 @@ export function EvalTemplatesClient() {
           className="mt-1 text-[30px] font-black leading-tight"
           style={{ fontFamily: "var(--font-title)" }}
         >
-          AI 模型评测模板
+          {locale === "en" ? "AI Model Evaluation Templates" : "AI 模型评测模板"}
         </h1>
         <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-faint">
-          选择一个固定任务，用你当前配置的模型直接跑一轮；结果会保存到本机历史，并归档到对应模板。
+          {locale === "en"
+            ? "Pick a fixed task and run it with your current model setup. Results are saved locally and attached to the template."
+            : "选择一个固定任务，用你当前配置的模型直接跑一轮；结果会保存到本机历史，并归档到对应模板。"}
         </p>
       </header>
 
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_360px]">
         <section className="min-w-0">
           <div className="mb-3 flex flex-wrap items-center gap-2">
-            {EVAL_TEMPLATE_CATEGORIES.map((category) => (
+            {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setFilter(category.id)}
@@ -175,7 +193,11 @@ export function EvalTemplatesClient() {
             ))}
             <input
               className="ml-auto min-w-[190px] rounded-md border border-line bg-card px-3 py-1.5 text-[12px] outline-none focus:border-ink/40"
-              placeholder="搜索模板、能力、Prompt"
+              placeholder={
+                locale === "en"
+                  ? "Search templates, skills, prompt"
+                  : "搜索模板、能力、Prompt"
+              }
               value={query}
               onChange={(e) => setQuery(e.target.value)}
             />
@@ -185,9 +207,13 @@ export function EvalTemplatesClient() {
             <div className="mb-3 rounded-lg border border-line bg-card p-4">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <div>
-                  <div className="text-[14px] font-bold">新增我的模板</div>
+                  <div className="text-[14px] font-bold">
+                    {locale === "en" ? "Add my template" : "新增我的模板"}
+                  </div>
                   <div className="mt-0.5 text-[11.5px] text-faint">
-                    保存常用 Prompt 后，可直接在这里试跑并归档样本。
+                    {locale === "en"
+                      ? "Save a reusable prompt, then run and archive samples from here."
+                      : "保存常用 Prompt 后，可直接在这里试跑并归档样本。"}
                   </div>
                 </div>
                 {toast && <span className="text-[12px] text-faint">{toast}</span>}
@@ -195,7 +221,7 @@ export function EvalTemplatesClient() {
               <div className="mt-3 grid gap-2 md:grid-cols-[220px_1fr]">
                 <input
                   className="w-full rounded-md border border-line bg-paper px-3 py-2 text-[12.5px] outline-none focus:border-ink/40"
-                  placeholder="模板名称"
+                  placeholder={locale === "en" ? "Template name" : "模板名称"}
                   value={draft.label}
                   onChange={(e) =>
                     setDraft((prev) => ({ ...prev, label: e.target.value }))
@@ -204,7 +230,7 @@ export function EvalTemplatesClient() {
                 <textarea
                   className="w-full rounded-md border border-line bg-paper px-3 py-2 text-[12.5px] leading-relaxed outline-none focus:border-ink/40"
                   rows={3}
-                  placeholder="固定 Prompt"
+                  placeholder={locale === "en" ? "Fixed prompt" : "固定 Prompt"}
                   value={draft.text}
                   onChange={(e) =>
                     setDraft((prev) => ({ ...prev, text: e.target.value }))
@@ -216,7 +242,7 @@ export function EvalTemplatesClient() {
                 disabled={!draft.label.trim() || !draft.text.trim()}
                 className="mt-2 rounded-md bg-ink px-4 py-2 text-[12.5px] font-bold text-paper disabled:opacity-40 cursor-pointer"
               >
-                保存模板
+                {locale === "en" ? "Save template" : "保存模板"}
               </button>
             </div>
           )}
@@ -228,6 +254,8 @@ export function EvalTemplatesClient() {
                 template={template}
                 selected={selected?.id === template.id}
                 localSamples={historyCounts[template.id] ?? 0}
+                locale={locale}
+                categoryLabel={categoryLabels.get(template.category) ?? template.category}
                 onSelect={() => selectTemplate(template)}
                 onRun={() => runTemplate(template)}
               />
@@ -237,8 +265,12 @@ export function EvalTemplatesClient() {
           {!filtered.length && (
             <div className="rounded-lg border border-dashed border-line bg-card/60 px-4 py-10 text-center text-[13px] text-faint">
               {filter === "mine"
-                ? "还没有我的模板。先在上方添加一个固定 Prompt。"
-                : "没有匹配的模板。"}
+                ? locale === "en"
+                  ? "No personal templates yet. Add a fixed prompt above."
+                  : "还没有我的模板。先在上方添加一个固定 Prompt。"
+                : locale === "en"
+                  ? "No matching templates."
+                  : "没有匹配的模板。"}
             </div>
           )}
         </section>
@@ -254,20 +286,33 @@ export function EvalTemplatesClient() {
                   </div>
                 </div>
                 <span className="shrink-0 rounded bg-paper px-2 py-1 text-[10.5px] font-semibold text-faint">
-                  {categoryLabel(selected.category)}
+                  {categoryLabels.get(selected.category) ?? selected.category}
                 </span>
               </div>
 
               <div className="mt-3 grid grid-cols-2 gap-2 text-[11.5px]">
-                <MetricPill label="预计耗时" value={`${selected.estimatedMinutes} 分钟`} />
                 <MetricPill
-                  label="我的样本"
-                  value={`${historyCounts[selected.id] ?? 0} 次`}
+                  label={locale === "en" ? "Estimated" : "预计耗时"}
+                  value={
+                    locale === "en"
+                      ? `${selected.estimatedMinutes} min`
+                      : `${selected.estimatedMinutes} 分钟`
+                  }
+                />
+                <MetricPill
+                  label={locale === "en" ? "My samples" : "我的样本"}
+                  value={
+                    locale === "en"
+                      ? `${historyCounts[selected.id] ?? 0} runs`
+                      : `${historyCounts[selected.id] ?? 0} 次`
+                  }
                 />
               </div>
 
               <div className="mt-4">
-                <div className="mb-1 text-[11px] font-semibold text-faint">评测维度</div>
+                <div className="mb-1 text-[11px] font-semibold text-faint">
+                  {locale === "en" ? "Scoring dimensions" : "评测维度"}
+                </div>
                 <div className="flex flex-wrap gap-1.5">
                   {selected.scoring.map((item) => (
                     <span
@@ -281,14 +326,18 @@ export function EvalTemplatesClient() {
               </div>
 
               <div className="mt-4">
-                <div className="mb-1 text-[11px] font-semibold text-faint">Prompt 预览</div>
+                <div className="mb-1 text-[11px] font-semibold text-faint">
+                  {locale === "en" ? "Prompt preview" : "Prompt 预览"}
+                </div>
                 <pre className="thin-scroll max-h-56 overflow-y-auto whitespace-pre-wrap rounded-md border border-line bg-paper px-3 py-2 text-[12px] leading-relaxed">
                   {selected.prompt}
                 </pre>
               </div>
 
               <div className="mt-4 rounded-lg border border-line bg-paper px-3 py-2.5 text-[11.5px] leading-relaxed text-faint">
-                跑完后会写入本机历史，并计入这个模板的“我的样本”。公开众测聚合后续开放，当前不会上传 Prompt 或输出内容。
+                {locale === "en"
+                  ? "After the run, the result is saved to local history and counted under this template's local samples. Public aggregation will come later; prompts and outputs are not uploaded now."
+                  : "跑完后会写入本机历史，并计入这个模板的“我的样本”。公开众测聚合后续开放，当前不会上传 Prompt 或输出内容。"}
               </div>
 
               <div className="mt-4 flex flex-wrap gap-2">
@@ -296,14 +345,14 @@ export function EvalTemplatesClient() {
                   onClick={() => runTemplate(selected)}
                   className="rounded-md bg-ink px-4 py-2 text-[12.5px] font-bold text-paper cursor-pointer"
                 >
-                  用这个模板跑一轮
+                  {locale === "en" ? "Run this template" : "用这个模板跑一轮"}
                 </button>
                 {selected.source === "custom" && (
                   <button
                     onClick={() => removeCustom(selected)}
                     className="rounded-md border border-accent/30 px-3 py-2 text-[12.5px] text-accent hover:bg-accent/5 cursor-pointer"
                   >
-                    删除
+                    {locale === "en" ? "Delete" : "删除"}
                   </button>
                 )}
               </div>
@@ -319,16 +368,20 @@ function TemplateCard({
   template,
   selected,
   localSamples,
+  locale,
+  categoryLabel,
   onSelect,
   onRun,
 }: {
   template: EvalTemplate;
   selected: boolean;
   localSamples: number;
+  locale: Locale;
+  categoryLabel: string;
   onSelect: () => void;
   onRun: () => void;
 }) {
-  const confidence = templateConfidenceLabel(template.publicSamples, localSamples);
+  const confidence = templateConfidenceLabel(template.publicSamples, localSamples, locale);
   return (
     <article
       className={`flex min-h-[220px] flex-col rounded-lg border bg-card p-4 ${
@@ -362,7 +415,7 @@ function TemplateCard({
           ))}
         </div>
         <div className="num mt-3 text-[11px] text-faint">
-          我的样本 {localSamples} · {categoryLabel(template.category)}
+          {locale === "en" ? "My samples" : "我的样本"} {localSamples} · {categoryLabel}
         </div>
       </button>
       <div className="mt-3 flex items-center gap-2">
@@ -370,13 +423,13 @@ function TemplateCard({
           onClick={onRun}
           className="rounded-md bg-ink px-3 py-1.5 text-[12px] font-bold text-paper cursor-pointer"
         >
-          立即试跑
+          {locale === "en" ? "Run now" : "立即试跑"}
         </button>
         <button
           onClick={onSelect}
           className="rounded-md border border-line px-3 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer"
         >
-          预览
+          {locale === "en" ? "Preview" : "预览"}
         </button>
       </div>
     </article>
@@ -389,11 +442,5 @@ function MetricPill({ label, value }: { label: string; value: string }) {
       <div className="text-[10.5px] text-faint">{label}</div>
       <div className="num mt-0.5 text-[13px] font-bold">{value}</div>
     </div>
-  );
-}
-
-function categoryLabel(category: EvalTemplateCategory): string {
-  return (
-    EVAL_TEMPLATE_CATEGORIES.find((item) => item.id === category)?.label ?? category
   );
 }

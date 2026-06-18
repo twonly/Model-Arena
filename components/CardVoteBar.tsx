@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { useI18n } from "@/components/I18nProvider";
 import { COMMENT_MAX, type Sentiment, type VoteAggregate } from "@/lib/voting";
 
 /** 单模型卡片底部的投票条：👍/👎（乐观更新）+ 评论（默认露出预览） */
@@ -20,6 +21,8 @@ export function CardVoteBar({
     comment?: string
   ) => Promise<void>;
 }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
   const stat = agg?.models.find((m) => m.index === modelIndex);
   const mine = agg?.mine[modelIndex];
   const serverSent = mine?.sentiment ?? null;
@@ -63,7 +66,7 @@ export function CardVoteBar({
       .catch(() => {
         if (seq === seqRef.current) {
           setOptimistic(null); // 回滚到服务端真值
-          setErr("提交失败，请重试");
+          setErr(en ? "Submit failed. Try again." : "提交失败，请重试");
         }
       });
   };
@@ -78,7 +81,7 @@ export function CardVoteBar({
       setDraft("");
       setOpen(true); // 保持展开，让用户看到评论已上墙
     } catch {
-      setErr("评论提交失败，请重试");
+      setErr(en ? "Comment failed. Try again." : "评论提交失败，请重试");
     } finally {
       setSending(false);
     }
@@ -97,7 +100,7 @@ export function CardVoteBar({
     <div className="rounded-md border border-line bg-paper/50 px-2 py-1 text-[11.5px] leading-snug">
       {c.sentiment === "up" && "👍 "}
       {c.sentiment === "down" && "👎 "}
-      {c.byLogin && <span style={{ color: "var(--go)" }}>[登录] </span>}
+      {c.byLogin && <span style={{ color: "var(--go)" }}>[{en ? "signed in" : "登录"}] </span>}
       <span className="break-words">{c.text}</span>
     </div>
   );
@@ -113,7 +116,7 @@ export function CardVoteBar({
               : "border-line hover:border-ink/30"
           }`}
           style={baseSent === "up" ? { color: "var(--go)" } : undefined}
-          title="点赞"
+          title={en ? "Upvote" : "点赞"}
         >
           👍 <span className="num">{up}</span>
         </button>
@@ -124,20 +127,20 @@ export function CardVoteBar({
               ? "border-accent/40 bg-accent/10 text-accent"
               : "border-line hover:border-ink/30"
           }`}
-          title="点踩"
+          title={en ? "Downvote" : "点踩"}
         >
           👎 <span className="num">{down}</span>
         </button>
         {total > 0 && (
           <span className="num text-[11px] text-faint">
-            好评 {Math.round(ratio * 100)}%
+            {en ? "Positive" : "好评"} {Math.round(ratio * 100)}%
           </span>
         )}
         <button
           onClick={() => setOpen((v) => !v)}
           className="ml-auto rounded-md border border-line px-2.5 py-1 text-[12px] text-faint hover:text-ink cursor-pointer"
         >
-          💬 {cardComments.length > 0 ? `${cardComments.length} 条评论` : "写评论"}
+          💬 {cardComments.length > 0 ? (en ? `${cardComments.length} comments` : `${cardComments.length} 条评论`) : en ? "Comment" : "写评论"}
         </button>
       </div>
 
@@ -154,7 +157,7 @@ export function CardVoteBar({
               onClick={() => setOpen(true)}
               className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
             >
-              查看全部 {cardComments.length} 条 →
+              {en ? `View all ${cardComments.length} →` : `查看全部 ${cardComments.length} 条 →`}
             </button>
           )}
         </div>
@@ -165,14 +168,18 @@ export function CardVoteBar({
         <div className="mt-2">
           {myComment && !draft && (
             <div className="mb-1 text-[11px] text-faint">
-              你已评论：「{myComment}」（重写会覆盖）
+              {en ? "Your comment:" : "你已评论："}「{myComment}」{en ? " (rewriting will replace it)" : "（重写会覆盖）"}
             </div>
           )}
           <textarea
             className="w-full rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] outline-none focus:border-ink/40"
             rows={2}
             maxLength={COMMENT_MAX}
-            placeholder="理性说说你的看法（≤500 字），会展示给其他读者"
+            placeholder={
+              en
+                ? "Share a reasoned take (<= 500 chars). It will be shown to other readers."
+                : "理性说说你的看法（≤500 字），会展示给其他读者"
+            }
             value={draft}
             onChange={(e) => setDraft(e.target.value.slice(0, COMMENT_MAX))}
           />
@@ -185,7 +192,7 @@ export function CardVoteBar({
               disabled={sending || !draft.trim()}
               className="rounded-md bg-ink px-3 py-1 text-[12px] font-semibold text-paper disabled:opacity-40 cursor-pointer"
             >
-              {sending ? "发表中…" : "发表"}
+              {sending ? (en ? "Posting..." : "发表中…") : en ? "Post" : "发表"}
             </button>
           </div>
           {cardComments.length > 0 && (

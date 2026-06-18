@@ -1,10 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { useI18n } from "@/components/I18nProvider";
 import {
-  REVIEW_DRAFT_SYSTEM_PROMPT,
   buildFixedReviewDraft,
   buildReviewDraftPrompt,
+  reviewDraftSystemPrompt,
   reviewDraftGeneratorCandidates,
   reviewDraftRows,
   type ReviewDraftRow,
@@ -36,6 +37,29 @@ const STYLE_LABELS: { value: ReviewDraftStyle; label: string; hint: string }[] =
   },
 ];
 
+const STYLE_LABELS_EN: { value: ReviewDraftStyle; label: string; hint: string }[] = [
+  {
+    value: "article",
+    label: "Blog / Article",
+    hint: "Full structure for long-form publishing",
+  },
+  {
+    value: "xiaohongshu",
+    label: "Short Social Post",
+    hint: "Short bullets, good for image-first posts",
+  },
+  {
+    value: "technical",
+    label: "Technical Review",
+    hint: "Emphasizes metrics, method, and limits",
+  },
+  {
+    value: "brief",
+    label: "Brief",
+    hint: "Only conclusions and key numbers",
+  },
+];
+
 const isDraftRunning = (run: RunState) =>
   run.status === "connecting" || run.status === "thinking" || run.status === "streaming";
 
@@ -62,6 +86,9 @@ export function ReviewDraftDialog({
   thinkingStats: boolean;
   shareUrl?: string;
 }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
+  const styleLabels = en ? STYLE_LABELS_EN : STYLE_LABELS;
   const [style, setStyle] = useState<ReviewDraftStyle>("article");
   const [selectedId, setSelectedId] = useState("");
   const [viewMode, setViewMode] = useState<"fixed" | "llm">("fixed");
@@ -85,8 +112,9 @@ export function ReviewDraftDialog({
         style,
         thinkingStats,
         shareUrl,
+        locale,
       }),
-    [title, notes, prompt, evidenceRows, style, thinkingStats, shareUrl]
+    [title, notes, prompt, evidenceRows, style, thinkingStats, shareUrl, locale]
   );
   const selected = candidates.find((ep) => ep.id === selectedId) ?? candidates[0];
   const running = isDraftRunning(draftRun);
@@ -115,11 +143,11 @@ export function ReviewDraftDialog({
 
   const polishWithModel = async () => {
     if (!selected) {
-      setError("请先在模型配置里添加一个带 API Key 的生成模型。");
+      setError(en ? "Add a generator model with an API Key in model settings first." : "请先在模型配置里添加一个带 API Key 的生成模型。");
       return;
     }
     if (!evidenceRows.length) {
-      setError("还没有可写入评测稿的结果，请先跑完至少一个模型。");
+      setError(en ? "No results can be written into a review draft yet. Run at least one model first." : "还没有可写入评测稿的结果，请先跑完至少一个模型。");
       return;
     }
     abortRef.current?.abort();
@@ -140,9 +168,10 @@ export function ReviewDraftDialog({
         style,
         thinkingStats,
         shareUrl,
+        locale,
       }),
       params: {
-        systemPrompt: REVIEW_DRAFT_SYSTEM_PROMPT,
+        systemPrompt: reviewDraftSystemPrompt(locale),
         temperature: "0.4",
         maxTokens: "3200",
       },
@@ -157,7 +186,15 @@ export function ReviewDraftDialog({
     const text = currentText;
     if (!text) return;
     await navigator.clipboard.writeText(text);
-    setCopied(viewMode === "llm" && draftRun.text.trim() ? "已复制润色稿" : "已复制基础稿");
+    setCopied(
+      viewMode === "llm" && draftRun.text.trim()
+        ? en
+          ? "Polished draft copied"
+          : "已复制润色稿"
+        : en
+          ? "Base draft copied"
+          : "已复制基础稿"
+    );
     setTimeout(() => setCopied(""), 1600);
   };
 
@@ -172,9 +209,13 @@ export function ReviewDraftDialog({
       >
         <div className="flex items-start justify-between gap-3 border-b border-line px-5 py-3">
           <div>
-            <div className="text-[15px] font-bold">生成评测稿</div>
+            <div className="text-[15px] font-bold">
+              {en ? "Generate Review Draft" : "生成评测稿"}
+            </div>
             <div className="mt-0.5 text-[11.5px] text-faint">
-              先基于本次数据生成固定模板稿；需要更像文章时，再用你本地 Key 的模型总结润色。
+              {en
+                ? "First generate a fixed draft from this run. For a more polished article, use one of your local-Key models to summarize and rewrite it."
+                : "先基于本次数据生成固定模板稿；需要更像文章时，再用你本地 Key 的模型总结润色。"}
             </div>
           </div>
           <button
@@ -189,7 +230,7 @@ export function ReviewDraftDialog({
           <aside className="border-b border-line p-4 md:border-r md:border-b-0">
             <label className="block">
               <div className="mb-1 text-[11px] font-semibold text-faint">
-                可选润色模型
+                {en ? "Optional polishing model" : "可选润色模型"}
               </div>
               <select
                 className="w-full rounded-md border border-line bg-card px-2.5 py-2 text-[12.5px] outline-none focus:border-ink/40"
@@ -200,7 +241,7 @@ export function ReviewDraftDialog({
                 {candidates.map((ep) => (
                   <option key={ep.id} value={ep.id}>
                     {ep.name || ep.model}
-                    {ep.enabled ? "" : "（未参与对比）"}
+                    {ep.enabled ? "" : en ? " (not in this comparison)" : "（未参与对比）"}
                   </option>
                 ))}
               </select>
@@ -208,22 +249,24 @@ export function ReviewDraftDialog({
 
             {!candidates.length && (
               <div className="mt-3 rounded-lg border border-dashed border-line bg-card px-3 py-3 text-[12px] leading-relaxed text-faint">
-                基础稿已可直接复制。当前没有可用于总结润色的自配 Key 模型，共享样例模型不会出现在这里，避免误消耗免费额度。
+                {en
+                  ? "The base draft can be copied directly. No local-Key model is available for summarizing and polishing. Shared sample models are hidden here to avoid consuming trial quota by mistake."
+                  : "基础稿已可直接复制。当前没有可用于总结润色的自配 Key 模型，共享样例模型不会出现在这里，避免误消耗免费额度。"}
                 <button
                   onClick={onConfigure}
                   className="mt-2 block rounded-md bg-ink px-3 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
                 >
-                  去配置模型
+                  {en ? "Configure Models" : "去配置模型"}
                 </button>
               </div>
             )}
 
             <div className="mt-4">
               <div className="mb-1 text-[11px] font-semibold text-faint">
-                稿件风格
+                {en ? "Draft Style" : "稿件风格"}
               </div>
               <div className="grid gap-1.5">
-                {STYLE_LABELS.map((item) => (
+                {styleLabels.map((item) => (
                   <button
                     key={item.value}
                     onClick={() => setStyle(item.value)}
@@ -248,11 +291,13 @@ export function ReviewDraftDialog({
             </div>
 
             <div className="mt-4 rounded-lg border border-line bg-card px-3 py-2.5 text-[11.5px] leading-relaxed text-faint">
-              <div className="font-semibold text-ink">将写入证据</div>
-              <div>模型结果：{evidenceRows.length} 个</div>
-              <div>分享链接：{shareUrl ? "已包含" : "暂无"}</div>
-              <div>token 口径：官方 usage 优先，缺失时标估算</div>
-              <div>基础稿：无需调用模型</div>
+              <div className="font-semibold text-ink">
+                {en ? "Evidence included" : "将写入证据"}
+              </div>
+              <div>{en ? "Model results" : "模型结果"}：{evidenceRows.length} {en ? "" : "个"}</div>
+              <div>{en ? "Share link" : "分享链接"}：{shareUrl ? (en ? "included" : "已包含") : en ? "none" : "暂无"}</div>
+              <div>{en ? "Token basis: official usage first; estimated when missing" : "token 口径：官方 usage 优先，缺失时标估算"}</div>
+              <div>{en ? "Base draft: no model call needed" : "基础稿：无需调用模型"}</div>
             </div>
 
             {error && (
@@ -273,7 +318,7 @@ export function ReviewDraftDialog({
                       : "text-faint hover:text-ink"
                   }`}
                 >
-                  基础稿
+                  {en ? "Base Draft" : "基础稿"}
                 </button>
                 <button
                   onClick={() => setViewMode("llm")}
@@ -284,7 +329,7 @@ export function ReviewDraftDialog({
                       : "text-faint hover:text-ink"
                   }`}
                 >
-                  润色稿
+                  {en ? "Polished Draft" : "润色稿"}
                 </button>
               </div>
               {running ? (
@@ -292,7 +337,7 @@ export function ReviewDraftDialog({
                   onClick={() => abortRef.current?.abort()}
                   className="rounded-md bg-accent px-4 py-2 text-[12.5px] font-bold text-white cursor-pointer"
                 >
-                  停止生成
+                  {en ? "Stop" : "停止生成"}
                 </button>
               ) : (
                 <button
@@ -300,7 +345,7 @@ export function ReviewDraftDialog({
                   disabled={!selected || !evidenceRows.length}
                   className="rounded-md bg-ink px-4 py-2 text-[12.5px] font-bold text-paper disabled:opacity-40 cursor-pointer"
                 >
-                  用模型生成总结
+                  {en ? "Generate Summary" : "用模型生成总结"}
                 </button>
               )}
               <button
@@ -308,10 +353,10 @@ export function ReviewDraftDialog({
                 disabled={!currentText}
                 className="rounded-md border border-line px-3 py-2 text-[12.5px] text-faint hover:text-ink disabled:opacity-40 cursor-pointer"
               >
-                复制当前稿
+                {en ? "Copy Current Draft" : "复制当前稿"}
               </button>
               <span className="ml-auto text-[11.5px] text-faint">
-                {copied || (viewMode === "fixed" ? "基础稿已生成" : statusText(draftRun))}
+                {copied || (viewMode === "fixed" ? (en ? "Base draft ready" : "基础稿已生成") : statusText(draftRun, locale))}
               </span>
             </div>
 
@@ -325,7 +370,7 @@ export function ReviewDraftDialog({
                   {draftRun.reasoning && (
                     <details className="rounded-lg border border-line bg-paper px-3 py-2 text-[11.5px] text-faint">
                       <summary className="cursor-pointer select-none font-semibold text-ink">
-                        查看生成模型思考摘录
+                        {en ? "View generator reasoning excerpt" : "查看生成模型思考摘录"}
                       </summary>
                       <pre className="mt-2 whitespace-pre-wrap leading-relaxed">
                         {draftRun.reasoning}
@@ -340,10 +385,12 @@ export function ReviewDraftDialog({
                 <div className="flex h-full min-h-[320px] items-center justify-center rounded-lg border border-dashed border-line bg-paper/60 px-8 text-center">
                   <div>
                     <div className="text-[14px] font-semibold text-ink">
-                      基础稿已在左侧标签生成
+                      {en ? "The base draft is available in the left tab" : "基础稿已在左侧标签生成"}
                     </div>
                     <div className="mt-1.5 max-w-md text-[12px] leading-relaxed text-faint">
-                      选择一个自配 Key 模型后，可把基础稿改写成更适合发布的总结稿。
+                      {en
+                        ? "Select a local-Key model to rewrite the base draft into a more publishable summary."
+                        : "选择一个自配 Key 模型后，可把基础稿改写成更适合发布的总结稿。"}
                     </div>
                   </div>
                 </div>
@@ -356,13 +403,14 @@ export function ReviewDraftDialog({
   );
 }
 
-function statusText(run: RunState): string {
-  if (run.status === "connecting") return "连接生成模型…";
-  if (run.status === "thinking") return "生成模型思考中…";
-  if (run.status === "streaming") return "正在生成…";
-  if (run.status === "done") return "生成完成";
-  if (run.status === "truncated") return "生成中断，已保留收到的内容";
-  if (run.status === "stopped") return "已停止";
-  if (run.status === "error") return run.error || "生成失败";
-  return "准备就绪";
+function statusText(run: RunState, locale: "zh-CN" | "en"): string {
+  const en = locale === "en";
+  if (run.status === "connecting") return en ? "Connecting to generator..." : "连接生成模型…";
+  if (run.status === "thinking") return en ? "Generator is thinking..." : "生成模型思考中…";
+  if (run.status === "streaming") return en ? "Generating..." : "正在生成…";
+  if (run.status === "done") return en ? "Generation complete" : "生成完成";
+  if (run.status === "truncated") return en ? "Interrupted. Partial content kept." : "生成中断，已保留收到的内容";
+  if (run.status === "stopped") return en ? "Stopped" : "已停止";
+  if (run.status === "error") return run.error || (en ? "Generation failed" : "生成失败");
+  return en ? "Ready" : "准备就绪";
 }

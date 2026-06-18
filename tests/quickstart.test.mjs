@@ -4,6 +4,7 @@ import test from "node:test";
 import {
   arenaSeedUsesTemporaryEndpoints,
   QUICK_SAMPLE,
+  quickSample,
   quickSampleEndpoints,
   sampleConfidence,
   sharedEndpointsForModels,
@@ -29,6 +30,8 @@ test("arena seeds use temporary endpoints instead of overwriting saved configs",
 test("quick sample copy makes editable fields explicit", () => {
   assert.match(QUICK_SAMPLE.title, /可自己编辑/);
   assert.match(QUICK_SAMPLE.notes, /可自己编辑/);
+  assert.match(quickSample("en").title, /editable/);
+  assert.match(quickSample("en").prompt, /English/);
 });
 
 test("share snapshots can restore matching shared models", () => {
@@ -47,10 +50,12 @@ test("speed leaderboard confidence thresholds are explicit", () => {
   assert.equal(sampleConfidence(3).tone, "low");
   assert.equal(sampleConfidence(10).tone, "medium");
   assert.equal(sampleConfidence(50).tone, "high");
+  assert.equal(sampleConfidence(50, "en").label, "Stable sample");
 });
 
 test("vote leaderboard confidence thresholds are explicit", () => {
   assert.equal(voteConfidence(7).tone, "low");
   assert.equal(voteConfidence(8).tone, "medium");
   assert.equal(voteConfidence(30).tone, "high");
+  assert.equal(voteConfidence(30, "en").label, "Stable vote");
 });

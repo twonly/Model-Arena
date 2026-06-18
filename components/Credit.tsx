@@ -1,4 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
+
+import { useI18n } from "@/components/I18nProvider";
+
 /**
  * 产品冠名：出品人「AI拯救打工人」+ GitHub 仓库。
  * 悬浮小红书链接时展示二维码（public/qrcode.jpg）。
@@ -8,11 +12,13 @@ export const XHS_URL =
   "https://www.xiaohongshu.com/user/profile/6467b1210000000010027a51";
 
 export function Credit({ compact = false }: { compact?: boolean }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
   return (
     <span
       className={`inline-flex items-center gap-2 ${compact ? "text-[11px]" : "text-[12px]"} text-faint`}
     >
-      <span>出品</span>
+      <span>{en ? "By" : "出品"}</span>
       <span className="group relative inline-block">
         <a
           href={XHS_URL}
@@ -28,11 +34,11 @@ export function Credit({ compact = false }: { compact?: boolean }) {
           <span className="block w-44 rounded-lg border border-line bg-card p-2 shadow-xl">
             <img
               src="/qrcode.jpg"
-              alt="小红书 @AI拯救打工人 二维码"
+              alt={en ? "Xiaohongshu QR code for @AI拯救打工人" : "小红书 @AI拯救打工人 二维码"}
               className="w-full rounded"
             />
             <span className="mt-1 block text-center text-[10.5px] text-faint">
-              小红书扫码关注 · ai_love_worker
+              {en ? "Scan on Xiaohongshu · ai_love_worker" : "小红书扫码关注 · ai_love_worker"}
             </span>
           </span>
         </span>
@@ -44,7 +50,7 @@ export function Credit({ compact = false }: { compact?: boolean }) {
         rel="noopener noreferrer"
         className="hover:text-ink hover:underline"
       >
-        GitHub 开源
+        {en ? "Open Source" : "GitHub 开源"}
       </a>
     </span>
   );

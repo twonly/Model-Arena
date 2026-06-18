@@ -4,6 +4,7 @@
  * 改写为可直接对比的实测题，覆盖速度与能力两类。
  * 用户可在「Prompt 库」里自定义增删，自定义项存 localStorage。
  */
+import { DEFAULT_LOCALE, type Locale } from "./i18n.ts";
 
 export interface PromptItem {
   label: string;
@@ -208,6 +209,201 @@ export const PROMPT_LIBRARY: PromptCategory[] = [
     ],
   },
 ];
+
+export const PROMPT_LIBRARY_EN: PromptCategory[] = [
+  {
+    category: "Speed tests",
+    icon: "⚡",
+    hint: "Stress output length or TTFT, focused on speed",
+    items: [
+      {
+        label: "5,000-word essay (max output)",
+        text: "Write a roughly 5,000-word essay on the topic: why speed itself is a capability. Make it well structured.",
+      },
+      {
+        label: "Self-introduction (TTFT)",
+        text: "Introduce yourself in one sentence and state your model name and version.",
+      },
+      {
+        label: "Count numbers (stable throughput)",
+        text: "Count from 1 to 200, one number per line, with no extra words.",
+      },
+    ],
+  },
+  {
+    category: "Math reasoning",
+    icon: "🧮",
+    hint: "GSM8K-style multi-step word problems",
+    items: [
+      {
+        label: "Chickens and rabbits",
+        text: "A cage contains 35 chickens and rabbits in total. They have 94 legs in total. How many chickens and rabbits are there? Show your reasoning.",
+      },
+      {
+        label: "Stacked discount",
+        text: "An item originally costs 200. It is first discounted by 20%, then a coupon subtracts 20 from orders over 100. What is the final price? Show the steps.",
+      },
+      {
+        label: "Number theory count",
+        text: "Find the number of positive integers n with 1 <= n <= 1000 that are coprime to 1000, and explain the method.",
+      },
+    ],
+  },
+  {
+    category: "Coding",
+    icon: "💻",
+    hint: "HumanEval-style tasks and runnable demos",
+    items: [
+      {
+        label: "Snake game (single HTML)",
+        text: "Write a single-file HTML Snake game with scoring and speed-up logic. Output the complete code directly, with no explanation.",
+      },
+      {
+        label: "Deduplicate while preserving order",
+        text: "Implement in Python: given a list of integers, return a list with duplicates removed while preserving first occurrence order. Include 3 tests.",
+      },
+      {
+        label: "Debug quicksort",
+        text: "What is wrong with this quicksort? Fix it and explain:\n\ndef quicksort(a):\n    if len(a) <= 1: return a\n    p = a[0]\n    left = [x for x in a if x < p]\n    right = [x for x in a if x > p]\n    return quicksort(left) + quicksort(right)",
+      },
+    ],
+  },
+  {
+    category: "Logic reasoning",
+    icon: "🧠",
+    hint: "Classic puzzles requiring careful reasoning",
+    items: [
+      {
+        label: "Burning ropes",
+        text: "A rope takes 60 minutes to burn completely, but it burns unevenly. You have two such ropes. How can you measure exactly 45 minutes? Think carefully before answering.",
+      },
+      {
+        label: "Find the odd ball",
+        text: "There are 12 identical-looking balls, one has an abnormal weight and you don't know whether it is heavier or lighter. With a balance scale, what is the minimum number of weighings needed to identify it? Give the plan.",
+      },
+      {
+        label: "River crossing",
+        text: "A farmer must take a wolf, a goat and a cabbage across a river. The boat carries only one item at a time. The wolf and goat cannot be left alone, nor can the goat and cabbage. Give the full steps.",
+      },
+    ],
+  },
+  {
+    category: "Classic failure cases",
+    icon: "🔤",
+    hint: "Tokenization and counterintuitive detail checks",
+    items: [
+      {
+        label: "Count letters in strawberry",
+        text: "How many letter r's are in the word strawberry? List each letter and count them.",
+      },
+      {
+        label: "Compare 9.11 and 9.9",
+        text: "Which is larger, 9.11 or 9.9? Explain why.",
+      },
+      {
+        label: "Reverse a string",
+        text: "Reverse the string 'human-level' character by character and explain the result.",
+      },
+    ],
+  },
+  {
+    category: "Knowledge Q&A",
+    icon: "📚",
+    hint: "MMLU-style cross-domain knowledge",
+    items: [
+      {
+        label: "Cross-domain quick answers",
+        text: "Answer these 5 questions briefly, one sentence each: 1) chemical equation for photosynthesis; 2) core idea of Keynesian economics; 3) average time complexity of quicksort; 4) author of Red Cliff Rhapsody; 5) who proposed the DNA double helix structure.",
+      },
+      {
+        label: "Correlation vs causation",
+        text: "Explain the difference between correlation and causation in plain language, with one everyday example for each.",
+      },
+    ],
+  },
+  {
+    category: "Writing",
+    icon: "✍️",
+    hint: "Long-form, creative and style-constrained writing",
+    items: [
+      {
+        label: "Product copy",
+        text: "Write a short social media product recommendation for wireless noise-cancelling earbuds with a 3-day battery life. Use emoji, bullet points and a memorable hook, under 200 words.",
+      },
+      {
+        label: "Poem with a fixed image",
+        text: "Write a modern poem using the image 'the light of a convenience store at midnight'. Keep it under 16 lines and make it vivid.",
+      },
+      {
+        label: "Academic to plain language",
+        text: "Rewrite this sentence so an elementary-school student can understand it: 'The reasoning ability of large language models arises from emergent representations acquired through self-supervised learning on massive corpora.'",
+      },
+    ],
+  },
+  {
+    category: "Instruction following",
+    icon: "📋",
+    hint: "Strict formatting and constraints",
+    items: [
+      {
+        label: "Strict JSON output",
+        text: 'Extract the information from this sentence and output only JSON with fields name, age and city. No extra text: "Zhang Wei is 28 years old and lives in Hangzhou."',
+      },
+      {
+        label: "Line format constraint",
+        text: "Write 5 benefits of sleeping early. Each line must start with '1.' through '5.' and contain exactly 10 words after the number.",
+      },
+      {
+        label: "Forbidden words",
+        text: "Introduce giant pandas without using the words 'cat', 'black' or 'white'.",
+      },
+    ],
+  },
+  {
+    category: "Visual creation",
+    icon: "🎨",
+    hint: "SVG output that TOKRACE can preview",
+    items: [
+      {
+        label: "SVG pelican on a bicycle",
+        text: "Generate an SVG of a pelican riding a bicycle. Output only complete <svg> code with xmlns and viewBox, with no explanation.",
+      },
+      {
+        label: "SVG bar chart",
+        text: "Draw a simple SVG bar chart for Monday to Friday values [3,7,5,8,6], with axes. Output only <svg> code.",
+      },
+    ],
+  },
+  {
+    category: "Translation and multilingual",
+    icon: "🌐",
+    items: [
+      {
+        label: "Technical translation + summary",
+        text: "Translate the following paragraph into Chinese, then summarize it in three English bullet points:\n\nLLM inference speed consists of time to first token and throughput. TTFT is mainly determined by compute during prompt prefill, while throughput depends heavily on memory bandwidth during decoding. For real-time chat applications, first response latency often affects user experience more than total throughput.",
+      },
+      {
+        label: "Classical Chinese translation",
+        text: "Translate the Analects phrase '学而时习之，不亦说乎' into modern Chinese and English, then briefly explain its meaning.",
+      },
+    ],
+  },
+  {
+    category: "Long-context understanding",
+    icon: "📖",
+    hint: "Long-input summarization and extraction",
+    items: [
+      {
+        label: "Structured summary",
+        text: "Read the article I paste next and output: 1) one-sentence thesis; 2) three core arguments; 3) one opposing view.\n\n(Paste your long article here.)",
+      },
+    ],
+  },
+];
+
+export function promptLibrary(locale: Locale = DEFAULT_LOCALE): PromptCategory[] {
+  return locale === "en" ? PROMPT_LIBRARY_EN : PROMPT_LIBRARY;
+}
 
 /** 扁平化所有内置 prompt（用于下拉/搜索） */
 export function flattenLibrary(lib: PromptCategory[]): PromptItem[] {

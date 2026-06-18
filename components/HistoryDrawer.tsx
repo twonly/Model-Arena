@@ -1,6 +1,7 @@
 "use client";
 
 import { fmtInt, fmtSeconds, fmtTps, rankBadge } from "@/lib/format";
+import { useI18n } from "@/components/I18nProvider";
 import type { HistoryEntry } from "@/lib/types";
 
 export function HistoryDrawer({
@@ -20,6 +21,9 @@ export function HistoryDrawer({
   onDelete: (id: string) => void;
   onClear: () => void;
 }) {
+  const { locale, messages } = useI18n();
+  const en = locale === "en";
+
   if (!open) return null;
 
   return (
@@ -29,14 +33,16 @@ export function HistoryDrawer({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 flex items-center justify-between border-b border-line bg-paper px-5 py-3">
-          <div className="font-bold text-[15px]">对比历史</div>
+          <div className="font-bold text-[15px]">
+            {en ? "Comparison History" : "对比历史"}
+          </div>
           <div className="flex items-center gap-3">
             {entries.length > 0 && (
               <button
                 onClick={onClear}
                 className="text-[11.5px] text-faint hover:text-accent cursor-pointer"
               >
-                清空
+                {en ? "Clear" : "清空"}
               </button>
             )}
             <button
@@ -50,7 +56,9 @@ export function HistoryDrawer({
 
         {entries.length === 0 ? (
           <div className="p-6 text-[12.5px] text-faint">
-            还没有历史记录。每次对比完成后会自动存档在这里（仅保存在本机）。
+            {en
+              ? "No history yet. Each completed comparison is archived here on this device."
+              : "还没有历史记录。每次对比完成后会自动存档在这里（仅保存在本机）。"}
           </div>
         ) : (
           <div className="p-4 space-y-3">
@@ -62,10 +70,10 @@ export function HistoryDrawer({
                 <div className="flex items-start justify-between gap-2">
                   <div className="min-w-0">
                     <div className="font-semibold text-[13.5px] truncate">
-                      {h.title || "未命名对比"}
+                      {h.title || (en ? "Untitled comparison" : "未命名对比")}
                     </div>
                     <div className="num text-[10.5px] text-faint">
-                      {new Date(h.at).toLocaleString("zh-CN", {
+                      {new Date(h.at).toLocaleString(en ? "en-US" : "zh-CN", {
                         hour12: false,
                       })}
                     </div>
@@ -75,20 +83,24 @@ export function HistoryDrawer({
                       onClick={() => onRestore(h)}
                       className="text-[11.5px] text-faint hover:text-ink border border-line rounded px-1.5 py-0.5 cursor-pointer"
                     >
-                      恢复查看
+                      {en ? "Restore" : "恢复查看"}
                     </button>
                     <button
                       onClick={() => onShare(h)}
                       className="text-[11.5px] text-faint hover:text-ink border border-line rounded px-1.5 py-0.5 cursor-pointer"
-                      title="为这条历史对比生成只读分享链接（含速度曲线）"
+                      title={
+                        en
+                          ? "Generate a read-only share link for this history entry, including speed curves"
+                          : "为这条历史对比生成只读分享链接（含速度曲线）"
+                      }
                     >
-                      🔗 分享
+                      🔗 {messages.common.share}
                     </button>
                     <button
                       onClick={() => onDelete(h.id)}
                       className="text-[11.5px] text-faint hover:text-accent cursor-pointer"
                     >
-                      删除
+                      {messages.common.delete}
                     </button>
                   </div>
                 </div>
@@ -106,9 +118,11 @@ export function HistoryDrawer({
                       </span>
                       <span className="num text-faint shrink-0">
                         {r.status === "error"
-                          ? "失败"
+                          ? en
+                            ? "Failed"
+                            : "失败"
                           : r.metrics
-                            ? `首响 ${fmtSeconds(r.metrics.ttftMs)}s · ${fmtTps(
+                            ? `${en ? "TTFT" : "首响"} ${fmtSeconds(r.metrics.ttftMs)}s · ${fmtTps(
                                 r.metrics.avgTps
                               )} tok/s · ${fmtInt(r.metrics.outputTokens)} tok`
                             : "—"}

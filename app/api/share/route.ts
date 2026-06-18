@@ -45,7 +45,7 @@ export async function POST(req: NextRequest) {
   try {
     body = (await req.json()) as typeof body;
   } catch {
-    return Response.json({ ok: false, error: "bad json" }, { status: 400 });
+    return Response.json({ ok: false, code: "badJson", error: "bad json" }, { status: 400 });
   }
   // 新客户端发 gz（base64 gzip 的 snapshot）；老客户端仍发明文 snapshot
   let snapshot = body.snapshot;
@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
       return Response.json(
         {
           ok: false,
+          code: tooBig ? "sharePayloadTooLarge" : "shareInvalidCompressedPayload",
           error: tooBig
             ? `内容过大无法分享（上限 ${Math.round(MAX_BODY / 1024)}KB）。可减少模型数量或缩短输出后重试。`
             : "压缩内容解析失败",
@@ -74,13 +75,17 @@ export async function POST(req: NextRequest) {
     !Array.isArray(snapshot.results) ||
     !snapshot.results.length
   ) {
-    return Response.json({ ok: false, error: "无可分享的结果" }, { status: 400 });
+    return Response.json(
+      { ok: false, code: "shareEmptySnapshot", error: "无可分享的结果" },
+      { status: 400 }
+    );
   }
   const size = JSON.stringify(snapshot).length;
   if (size > MAX_BODY)
     return Response.json(
       {
         ok: false,
+        code: "sharePayloadTooLarge",
         error: `内容过大无法分享（${Math.round(size / 1024)}KB，上限 ${Math.round(MAX_BODY / 1024)}KB）。可减少模型数量或缩短输出后重试。`,
       },
       { status: 413 }
@@ -116,13 +121,21 @@ export async function POST(req: NextRequest) {
               )
             ? "：shares 表缺少新列，请重跑 supabase/schema.sql 里 shares 的 alter 语句（owner/disabled 等）"
             : `：${msg.slice(0, 160)}`;
-      return Response.json({ ok: false, error: `保存失败（${res.status}）${hint}` });
+      return Response.json({
+        ok: false,
+        code: "shareSaveFailed",
+        error: `保存失败（${res.status}）${hint}`,
+      });
     }
     return Response.json({ ok: true, id });
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
     return Response.json({
       ok: false,
+      code:
+        msg.includes("timeout") || msg.includes("abort")
+          ? "shareSaveTimeout"
+          : "shareSaveFailed",
       error:
         msg.includes("timeout") || msg.includes("abort")
           ? "保存超时（10s），数据库无响应，请稍后重试"
@@ -137,7 +150,10 @@ export async function GET(req: NextRequest) {
   if (!url || !key) return Response.json({ ok: false, disabled: true });
   const clientId = safeClientId(req.nextUrl.searchParams.get("clientId"));
   if (!clientId)
-    return Response.json({ ok: false, error: "缺少有效 clientId" }, { status: 400 });
+    return Response.json(
+      { ok: false, code: "invalidClient", error: "缺少有效 clientId" },
+      { status: 400 }
+    );
   const uid = await resolveUserId(req, url, anon);
 
   const q =
@@ -151,6 +167,7 @@ export async function GET(req: NextRequest) {
       const msg = await res.text().catch(() => "");
       return Response.json({
         ok: false,
+        code: "shareLoadFailed",
         error: `加载失败 ${res.status}: ${msg.slice(0, 140)}`,
       });
     }
@@ -176,6 +193,7 @@ export async function GET(req: NextRequest) {
   } catch (e) {
     return Response.json({
       ok: false,
+      code: "shareLoadFailed",
       error: e instanceof Error ? e.message.slice(0, 160) : "加载失败",
     });
   }
@@ -192,11 +210,14 @@ export async function PATCH(req: NextRequest) {
   try {
     body = (await req.json()) as typeof body;
   } catch {
-    return Response.json({ ok: false, error: "bad json" }, { status: 400 });
+    return Response.json({ ok: false, code: "badJson", error: "bad json" }, { status: 400 });
   }
   const clientId = safeClientId(body.clientId);
   if (!body.id || !/^[0-9A-Za-z]{6,16}$/.test(body.id) || !clientId)
-    return Response.json({ ok: false, error: "参数不完整" }, { status: 400 });
+    return Response.json(
+      { ok: false, code: "incompleteParams", error: "参数不完整" },
+      { status: 400 }
+    );
   const uid = await resolveUserId(req, url, anon);
 
   const q =
@@ -212,16 +233,21 @@ export async function PATCH(req: NextRequest) {
       const msg = await res.text().catch(() => "");
       return Response.json({
         ok: false,
+        code: "operationFailed",
         error: `操作失败 ${res.status}: ${msg.slice(0, 140)}`,
       });
     }
     const updated = (await res.json()) as unknown[];
     if (!updated.length)
-      return Response.json({ ok: false, error: "无权操作或分享不存在" }, { status: 403 });
+      return Response.json(
+        { ok: false, code: "shareForbidden", error: "无权操作或分享不存在" },
+        { status: 403 }
+      );
     return Response.json({ ok: true, disabled: !!body.disabled });
   } catch (e) {
     return Response.json({
       ok: false,
+      code: "operationFailed",
       error: e instanceof Error ? e.message.slice(0, 160) : "操作失败",
     });
   }
@@ -238,11 +264,14 @@ export async function DELETE(req: NextRequest) {
   try {
     body = (await req.json()) as typeof body;
   } catch {
-    return Response.json({ ok: false, error: "bad json" }, { status: 400 });
+    return Response.json({ ok: false, code: "badJson", error: "bad json" }, { status: 400 });
   }
   const clientId = safeClientId(body.clientId);
   if (!body.id || !/^[0-9A-Za-z]{6,16}$/.test(body.id) || !clientId)
-    return Response.json({ ok: false, error: "参数不完整" }, { status: 400 });
+    return Response.json(
+      { ok: false, code: "incompleteParams", error: "参数不完整" },
+      { status: 400 }
+    );
   const uid = await resolveUserId(req, url, anon);
 
   const q =
@@ -257,12 +286,16 @@ export async function DELETE(req: NextRequest) {
       const msg = await res.text().catch(() => "");
       return Response.json({
         ok: false,
+        code: "operationFailed",
         error: `删除失败 ${res.status}: ${msg.slice(0, 140)}`,
       });
     }
     const deleted = (await res.json()) as unknown[];
     if (!deleted.length)
-      return Response.json({ ok: false, error: "无权操作或分享不存在" }, { status: 403 });
+      return Response.json(
+        { ok: false, code: "shareForbidden", error: "无权操作或分享不存在" },
+        { status: 403 }
+      );
     // 顺手清掉这条分享下的投票，避免孤儿数据
     await fetch(`${base(url)}/rest/v1/share_votes?share_id=eq.${body.id}`, {
       method: "DELETE",
@@ -272,6 +305,7 @@ export async function DELETE(req: NextRequest) {
   } catch (e) {
     return Response.json({
       ok: false,
+      code: "operationFailed",
       error: e instanceof Error ? e.message.slice(0, 160) : "删除失败",
     });
   }

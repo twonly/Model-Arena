@@ -4,6 +4,7 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { ChartModal } from "./ChartModal";
 import { Markdown } from "./Markdown";
 import { Sparkline } from "./Sparkline";
+import { useI18n } from "@/components/I18nProvider";
 import {
   countChars,
   fmtInt,
@@ -23,6 +24,17 @@ export const STATUS_TEXT: Record<RunState["status"], string> = {
   error: "失败",
   stopped: "已停止",
   truncated: "中断",
+};
+
+const STATUS_TEXT_EN: Record<RunState["status"], string> = {
+  idle: "Idle",
+  connecting: "Connecting",
+  thinking: "Thinking",
+  streaming: "Streaming",
+  done: "Done",
+  error: "Failed",
+  stopped: "Stopped",
+  truncated: "Interrupted",
 };
 
 export const STATUS_COLOR: Record<RunState["status"], string> = {
@@ -128,6 +140,9 @@ export const ModelCard = memo(function ModelCard({
   /** 只读（分享页）：隐藏「重跑」，但保留放大/紧凑 */
   readOnly?: boolean;
 }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
+  const statusText = en ? STATUS_TEXT_EN : STATUS_TEXT;
   const outRef = useRef<HTMLDivElement>(null);
   const reasonRef = useRef<HTMLDivElement>(null);
   const stickBottom = useRef(true);
@@ -243,24 +258,32 @@ export const ModelCard = memo(function ModelCard({
           className="text-[11px] shrink-0"
           style={{ color: STATUS_COLOR[run.status] }}
         >
-          {STATUS_TEXT[run.status]}
+          {statusText[run.status]}
         </span>
         {!screenshotMode && !readOnly && !running && (
           <button
             onClick={onRerun}
-            title="重跑此模型"
+            title={en ? "Rerun this model" : "重跑此模型"}
             className="text-[11px] text-faint hover:text-ink border border-line rounded px-1.5 py-0.5 shrink-0 cursor-pointer"
           >
-            ↻ 重跑
+            ↻ {en ? "Rerun" : "重跑"}
           </button>
         )}
         {!screenshotMode && onToggleFocus && (
           <button
             onClick={onToggleFocus}
-            title={expanded ? "退出放大（Esc）" : "放大查看此模型（其余模型后台继续跑）"}
+            title={
+              expanded
+                ? en
+                  ? "Exit expanded view (Esc)"
+                  : "退出放大（Esc）"
+                : en
+                  ? "Expand this model. Other models keep running in the background."
+                  : "放大查看此模型（其余模型后台继续跑）"
+            }
             className="text-[11px] text-faint hover:text-ink border border-line rounded px-1.5 py-0.5 shrink-0 cursor-pointer"
           >
-            {expanded ? "✕ 关闭" : "⛶"}
+            {expanded ? `✕ ${en ? "Close" : "关闭"}` : "⛶"}
           </button>
         )}
       </div>
@@ -274,7 +297,7 @@ export const ModelCard = memo(function ModelCard({
             style={{ color: "var(--think)" }}
           >
             <span>
-              {showReasoning ? "▾" : "▸"} 思考过程
+              {showReasoning ? "▾" : "▸"} {en ? "Reasoning" : "思考过程"}
               {m?.thinkingMs != null && ` · ${fmtSeconds(m.thinkingMs)}s`}
               {thinkingStats &&
                 m?.reasoningTokens != null &&
@@ -304,8 +327,9 @@ export const ModelCard = memo(function ModelCard({
           className="mx-4 mb-2 rounded-md border px-3 py-1.5 text-[11.5px]"
           style={{ borderColor: "var(--think)", color: "var(--think)" }}
         >
-          ⚠ 输出中断：未收到正常结束信号（多为生成耗时过长被服务端超时切断，
-          或网络中断），下方内容可能不完整。点「重跑」重试。
+          {en
+            ? "⚠ Output was interrupted before a normal finish signal. The content below may be incomplete. Click Rerun to try again."
+            : "⚠ 输出中断：未收到正常结束信号（多为生成耗时过长被服务端超时切断，或网络中断），下方内容可能不完整。点「重跑」重试。"}
         </div>
       )}
 
@@ -346,11 +370,17 @@ export const ModelCard = memo(function ModelCard({
           ) : (
             <div className="mt-1 text-[12.5px] text-faint/70">
               {run.status === "idle"
-                ? "等待开始"
+                ? en
+                  ? "Waiting to start"
+                  : "等待开始"
                 : run.status === "connecting"
-                  ? "正在建立连接…"
+                  ? en
+                    ? "Connecting..."
+                    : "正在建立连接…"
                   : run.status === "thinking"
-                    ? "模型思考中…"
+                    ? en
+                      ? "Model is thinking..."
+                      : "模型思考中…"
                     : ""}
             </div>
           )}
@@ -365,9 +395,9 @@ export const ModelCard = memo(function ModelCard({
             className="w-full flex items-center justify-between bg-paper/70 px-3 py-1.5 text-[11px] text-faint cursor-pointer"
           >
             <span>
-              {showSvg ? "▾" : "▸"} 🖼 SVG 预览（{svgs.length}）
+              {showSvg ? "▾" : "▸"} 🖼 {en ? "SVG Preview" : "SVG 预览"}（{svgs.length}）
             </span>
-            <span>img 沙箱渲染 · 脚本不执行</span>
+            <span>{en ? "Rendered as sandboxed img · scripts do not run" : "img 沙箱渲染 · 脚本不执行"}</span>
           </button>
           {showSvg && (
             <div className="flex flex-wrap items-center justify-center gap-3 bg-white p-3">
@@ -376,7 +406,7 @@ export const ModelCard = memo(function ModelCard({
                 <img
                   key={i}
                   src={svgDataUrl(s)}
-                  alt={`模型输出的 SVG ${i + 1}`}
+                  alt={en ? `SVG from model output ${i + 1}` : `模型输出的 SVG ${i + 1}`}
                   className="max-h-60 max-w-full rounded border border-line/60"
                 />
               ))}
@@ -393,14 +423,14 @@ export const ModelCard = memo(function ModelCard({
               onClick={() => setShowHtml((v) => !v)}
               className="cursor-pointer"
             >
-              {showHtml ? "▾" : "▸"} 🕹 HTML 预览（沙箱运行 · 与页面隔离）
+              {showHtml ? "▾" : "▸"} 🕹 {en ? "HTML Preview (sandboxed, isolated)" : "HTML 预览（沙箱运行 · 与页面隔离）"}
             </button>
             {showHtml && (
               <button
                 onClick={() => setHtmlBig((v) => !v)}
                 className="cursor-pointer hover:text-ink"
               >
-                {htmlBig ? "⊼ 收小" : "⛶ 放大"}
+                {htmlBig ? (en ? "⊼ Shrink" : "⊼ 收小") : en ? "⛶ Expand" : "⛶ 放大"}
               </button>
             )}
           </div>
@@ -408,7 +438,7 @@ export const ModelCard = memo(function ModelCard({
             <iframe
               sandbox="allow-scripts"
               srcDoc={htmlDoc}
-              title={`${endpoint.name} HTML 预览`}
+              title={en ? `${endpoint.name} HTML preview` : `${endpoint.name} HTML 预览`}
               className={`w-full border-0 bg-white ${htmlBig ? "h-[520px]" : "h-72"}`}
             />
           )}
@@ -423,18 +453,20 @@ export const ModelCard = memo(function ModelCard({
           <Metric
             value={ttft != null ? fmtSeconds(ttft) : running ? "…" : "—"}
             unit="s"
-            label="首Token"
+            label={en ? "TTFT" : "首Token"}
             highlight={run.status === "connecting"}
           />
           {thinkingStats && (
             <Metric
               value={fmtTps(thinkingTps)}
-              label="思考TPS"
+              label={en ? "Reasoning TPS" : "思考TPS"}
               sub={
                 m?.thinkingMs != null
                   ? `${fmtSeconds(m.thinkingMs)}s · ${m.phaseSplitEstimated ? "≈" : ""}${fmtInt(m.reasoningTokens)} tok`
                   : run.status === "thinking"
-                    ? "思考中…"
+                    ? en
+                      ? "Thinking..."
+                      : "思考中…"
                     : undefined
               }
               highlight={run.status === "thinking"}
@@ -442,7 +474,7 @@ export const ModelCard = memo(function ModelCard({
           )}
           <Metric
             value={fmtTps(contentTps)}
-            label="输出TPS"
+            label={en ? "Output TPS" : "输出TPS"}
             sub={
               m?.contentTokens != null && m.contentTokens > 0
                 ? `${m.contentMs != null ? `${fmtSeconds(m.contentMs)}s · ` : ""}${m.phaseSplitEstimated ? "≈" : ""}${fmtInt(m.contentTokens)} tok`
@@ -452,10 +484,10 @@ export const ModelCard = memo(function ModelCard({
           />
           <Metric
             value={tokens != null ? fmtInt(tokens) : "—"}
-            label={`总Tokens${m ? (official ? "（官方）" : "（估算）") : ""}`}
+            label={`${en ? "Total Tokens" : "总Tokens"}${m ? (official ? (en ? " (official)" : "（官方）") : en ? " (estimated)" : "（估算）") : ""}`}
             sub={
               m?.promptTokens != null
-                ? `输入 ${fmtInt(m.promptTokens)}`
+                ? `${en ? "Input" : "输入"} ${fmtInt(m.promptTokens)}`
                 : undefined
             }
           />
@@ -464,7 +496,7 @@ export const ModelCard = memo(function ModelCard({
           <div className="num text-[11px] text-faint">
             {elapsedMs != null && (
               <>
-                总用时{" "}
+                {en ? "Elapsed" : "总用时"}{" "}
                 <span className="text-ink font-semibold">
                   {fmtSeconds(elapsedMs)}s
                 </span>
@@ -473,7 +505,7 @@ export const ModelCard = memo(function ModelCard({
             {thinkingStats && m?.avgTps != null && (
               <>
                 {" "}
-                · 平均{" "}
+                · {en ? "Average" : "平均"}{" "}
                 <span className="text-ink font-semibold">
                   {fmtTps(m.avgTps)}
                 </span>{" "}
@@ -483,7 +515,7 @@ export const ModelCard = memo(function ModelCard({
             {m?.peakTps != null && m.peakTps > 0 && (
               <>
                 {" "}
-                · 峰值{" "}
+                · {en ? "Peak" : "峰值"}{" "}
                 <span
                   className="font-semibold"
                   style={{ color: "var(--accent)" }}
@@ -496,7 +528,7 @@ export const ModelCard = memo(function ModelCard({
             {running && run.liveTps > 0 && (
               <>
                 {" "}
-                · 实时{" "}
+                · {en ? "Live" : "实时"}{" "}
                 <span className="font-semibold" style={{ color: "var(--accent)" }}>
                   {fmtTps(run.liveTps)}
                 </span>{" "}
@@ -506,7 +538,7 @@ export const ModelCard = memo(function ModelCard({
           </div>
           <button
             onClick={() => run.samples.length > 1 && setChartOpen(true)}
-            title="点击放大查看速度曲线"
+            title={en ? "Click to expand the speed curve" : "点击放大查看速度曲线"}
             className={run.samples.length > 1 ? "cursor-zoom-in" : "cursor-default"}
           >
             <Sparkline samples={run.samples} />
@@ -516,7 +548,7 @@ export const ModelCard = memo(function ModelCard({
         {wordTarget && (run.text || finished) && (
           <div className="flex items-center gap-2 border-t border-line px-4 py-1.5">
             <span className="num text-[11px] text-faint">
-              字数{" "}
+              {en ? "Chars" : "字数"}{" "}
               <span className="text-ink font-semibold">
                 {fmtInt(wordCount)}
               </span>{" "}

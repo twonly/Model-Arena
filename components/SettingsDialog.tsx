@@ -1,10 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useI18n } from "@/components/I18nProvider";
 import { PROVIDER_PRESETS, type ProviderPreset } from "@/lib/providers";
 import type { ModelEndpoint } from "@/lib/types";
 
 const KIND_LABEL = { openai: "OpenAI 兼容", anthropic: "Anthropic 原生" } as const;
+const KIND_LABEL_EN = { openai: "OpenAI compatible", anthropic: "Native Anthropic" } as const;
 
 /** 常见思考开关的快捷填充（各厂商参数名不同） */
 const EXTRA_PRESETS: { label: string; json: string }[] = [
@@ -22,6 +24,23 @@ const EXTRA_PRESETS: { label: string; json: string }[] = [
   },
   { label: "自适应思考 · Claude 4.6+", json: '{"thinking": {"type": "adaptive"}}' },
   { label: "清空", json: "" },
+];
+
+const EXTRA_PRESETS_EN: { label: string; json: string }[] = [
+  { label: "Thinking on · Qwen", json: '{"enable_thinking": true}' },
+  { label: "Thinking off · Qwen", json: '{"enable_thinking": false}' },
+  { label: "Thinking on · GLM/Doubao", json: '{"thinking": {"type": "enabled"}}' },
+  { label: "Thinking off · GLM/Doubao", json: '{"thinking": {"type": "disabled"}}' },
+  {
+    label: "Thinking off · vLLM/SiliconFlow",
+    json: '{"chat_template_kwargs": {"enable_thinking": false}}',
+  },
+  {
+    label: "Thinking on · Anthropic protocol",
+    json: '{"thinking": {"type": "enabled", "budget_tokens": 8192}}',
+  },
+  { label: "Adaptive thinking · Claude 4.6+", json: '{"thinking": {"type": "adaptive"}}' },
+  { label: "Clear", json: "" },
 ];
 
 function isValidExtra(s?: string): boolean {
@@ -81,15 +100,18 @@ function exportBackup() {
   setTimeout(() => URL.revokeObjectURL(a.href), 5000);
 }
 
-async function importBackup(file: File): Promise<string> {
+async function importBackup(file: File, locale: "zh-CN" | "en" = "zh-CN"): Promise<string> {
+  const en = locale === "en";
   const text = await file.text();
   let data: Record<string, unknown>;
   try {
     data = JSON.parse(text);
   } catch {
-    return "文件不是合法 JSON";
+    return en ? "File is not valid JSON" : "文件不是合法 JSON";
   }
-  if (data.__app !== "model-arena") return "不是 百模竞速 的备份文件";
+  if (data.__app !== "model-arena") {
+    return en ? "This is not a TOKRACE backup file" : "不是 百模竞速 的备份文件";
+  }
   let count = 0;
   for (const k of BACKUP_KEYS) {
     if (k in data) {
@@ -97,7 +119,7 @@ async function importBackup(file: File): Promise<string> {
       count++;
     }
   }
-  if (!count) return "备份文件里没有可导入的数据";
+  if (!count) return en ? "No importable data found in this backup" : "备份文件里没有可导入的数据";
   location.reload(); // 重新加载让所有状态生效
   return "";
 }
@@ -113,6 +135,10 @@ export function SettingsDialog({
   endpoints: ModelEndpoint[];
   onChange: (next: ModelEndpoint[]) => void;
 }) {
+  const { locale, messages } = useI18n();
+  const en = locale === "en";
+  const kindLabel = en ? KIND_LABEL_EN : KIND_LABEL;
+  const extraPresets = en ? EXTRA_PRESETS_EN : EXTRA_PRESETS;
   const [draft, setDraft] = useState<ModelEndpoint | null>(null);
   const [showKey, setShowKey] = useState(false);
   const [presetNote, setPresetNote] = useState<string | undefined>();
@@ -212,7 +238,7 @@ export function SettingsDialog({
         }),
       });
       const j = (await res.json()) as { models?: string[]; error?: string };
-      if (j.error || !j.models) setModelsError(j.error ?? "拉取失败");
+      if (j.error || !j.models) setModelsError(j.error ?? (en ? "Fetch failed" : "拉取失败"));
       else setModels(j.models);
     } catch (err) {
       setModelsError(err instanceof Error ? err.message : String(err));
@@ -242,8 +268,8 @@ export function SettingsDialog({
       };
       setTest(
         j.ok
-          ? { status: "ok", msg: `连接成功 · ${j.latencyMs}ms · 模型有效` }
-          : { status: "fail", msg: j.error ?? "未知错误" }
+          ? { status: "ok", msg: en ? `Connected · ${j.latencyMs}ms · model is valid` : `连接成功 · ${j.latencyMs}ms · 模型有效` }
+          : { status: "fail", msg: j.error ?? (en ? "Unknown error" : "未知错误") }
       );
     } catch (err) {
       setTest({
@@ -259,7 +285,7 @@ export function SettingsDialog({
   };
 
   const duplicate = (ep: ModelEndpoint) => {
-    const copy = { ...ep, id: newId(), name: `${ep.name} 副本` };
+    const copy = { ...ep, id: newId(), name: `${ep.name} ${en ? "copy" : "副本"}` };
     onChange([...endpoints, copy]);
   };
 
@@ -279,15 +305,19 @@ export function SettingsDialog({
       >
         <div className="sticky top-0 z-10 flex items-center justify-between border-b border-line bg-paper px-5 py-3">
           <div>
-            <div className="font-bold text-[15px]">模型接入管理</div>
+            <div className="font-bold text-[15px]">
+              {en ? "Model Connection Manager" : "模型接入管理"}
+            </div>
             <div className="text-[11px] text-faint">
-              API Key 只保存在你本机浏览器（localStorage），请求经本地服务转发，不经过任何第三方
+              {en
+                ? "API Keys are stored only in this browser (localStorage). Requests are proxied through this site, not any third party."
+                : "API Key 只保存在你本机浏览器（localStorage），请求经本地服务转发，不经过任何第三方"}
             </div>
           </div>
           <button
             type="button"
             onClick={handleClose}
-            title="关闭（Esc）"
+            title={en ? "Close (Esc)" : "关闭（Esc）"}
             className="text-faint hover:text-ink text-[16px] leading-none cursor-pointer rounded-md border border-line px-2.5 py-1.5 shrink-0 ml-3"
           >
             ✕
@@ -300,7 +330,7 @@ export function SettingsDialog({
             {endpoints.length > 0 && (
               <div className="space-y-1.5">
                 <div className="text-[12px] font-semibold text-faint">
-                  已接入（勾选 = 参与对比）
+                  {en ? "Connected (checked = included in comparisons)" : "已接入（勾选 = 参与对比）"}
                 </div>
                 {endpoints.map((ep) => (
                   <div
@@ -332,11 +362,11 @@ export function SettingsDialog({
                               border: "1px solid color-mix(in srgb, var(--go) 40%, transparent)",
                             }}
                           >
-                            🎁 体验
+                            🎁 {en ? "Trial" : "体验"}
                           </span>
                         )}
                         <span className="ml-2 text-[10px] font-normal text-faint border border-line rounded px-1 py-px">
-                          {KIND_LABEL[ep.kind]}
+                          {kindLabel[ep.kind]}
                         </span>
                       </div>
                       <div className="num text-[11px] text-faint truncate">
@@ -344,17 +374,17 @@ export function SettingsDialog({
                         {ep.extraBody?.trim() && (
                           <span style={{ color: "var(--think)" }}>
                             {" "}
-                            · 自定义参数
+                            · {en ? "custom params" : "自定义参数"}
                           </span>
                         )}
                         {ep.shared ? (
                           <span style={{ color: "var(--go)" }}>
                             {" "}
-                            · 免费体验，无需 Key
+                            · {en ? "free trial, no Key needed" : "免费体验，无需 Key"}
                           </span>
                         ) : (
                           !ep.apiKey && (
-                            <span className="text-accent"> · 未填 Key</span>
+                            <span className="text-accent"> · {en ? "missing Key" : "未填 Key"}</span>
                           )
                         )}
                       </div>
@@ -363,19 +393,19 @@ export function SettingsDialog({
                       onClick={() => startEdit(ep)}
                       className="text-[11.5px] text-faint hover:text-ink cursor-pointer"
                     >
-                      编辑
+                      {messages.common.edit}
                     </button>
                     <button
                       onClick={() => duplicate(ep)}
                       className="text-[11.5px] text-faint hover:text-ink cursor-pointer"
                     >
-                      复制
+                      {messages.common.copy}
                     </button>
                     <button
                       onClick={() => remove(ep.id)}
                       className="text-[11.5px] text-faint hover:text-accent cursor-pointer"
                     >
-                      删除
+                      {messages.common.delete}
                     </button>
                   </div>
                 ))}
@@ -385,7 +415,7 @@ export function SettingsDialog({
             {/* 厂商预设 */}
             <div>
               <div className="text-[12px] font-semibold text-faint mb-1.5">
-                新增接入 — 选择厂商预设
+                {en ? "Add connection - choose a provider preset" : "新增接入 — 选择厂商预设"}
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-1.5">
                 {PROVIDER_PRESETS.map((p) => (
@@ -396,7 +426,7 @@ export function SettingsDialog({
                   >
                     <div className="font-semibold">{p.label}</div>
                     <div className="num text-[10px] text-faint truncate">
-                      {p.exampleModels[0] ?? "自定义"}
+                      {p.exampleModels[0] ?? (en ? "Custom" : "自定义")}
                     </div>
                   </button>
                 ))}
@@ -409,10 +439,10 @@ export function SettingsDialog({
                 onClick={exportBackup}
                 className="rounded-md border border-line bg-card px-3 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer"
               >
-                ⤓ 导出备份
+                ⤓ {en ? "Export Backup" : "导出备份"}
               </button>
               <label className="rounded-md border border-line bg-card px-3 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer">
-                ⤒ 导入备份
+                ⤒ {en ? "Import Backup" : "导入备份"}
                 <input
                   type="file"
                   accept="application/json,.json"
@@ -421,7 +451,7 @@ export function SettingsDialog({
                     const f = e.target.files?.[0];
                     e.target.value = "";
                     if (!f) return;
-                    const err = await importBackup(f);
+                    const err = await importBackup(f, locale);
                     if (err) setImportMsg(`✗ ${err}`);
                   }}
                 />
@@ -430,8 +460,9 @@ export function SettingsDialog({
                 <span className="text-[11.5px] text-accent">{importMsg}</span>
               )}
               <span className="text-[10.5px] text-faint/80">
-                含全部模型配置（API Key）、历史与页面设置——浏览器存储按「域名/IP」隔离，
-                换地址或换机器用这里迁移；备份文件请妥善保管
+                {en
+                  ? "Includes all model settings (API Keys), history, and page settings. Browser storage is isolated by domain/IP; use this to migrate across addresses or devices. Keep backup files secure."
+                  : "含全部模型配置（API Key）、历史与页面设置——浏览器存储按「域名/IP」隔离，换地址或换机器用这里迁移；备份文件请妥善保管"}
               </span>
             </div>
           </div>
@@ -439,16 +470,20 @@ export function SettingsDialog({
           <div className="p-5 space-y-3">
             <div className="grid grid-cols-2 gap-3">
               <label className="block">
-                <div className="text-[11.5px] text-faint mb-1">显示名称</div>
+                <div className="text-[11.5px] text-faint mb-1">
+                  {en ? "Display Name" : "显示名称"}
+                </div>
                 <input
                   className={input}
                   value={draft.name}
                   onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-                  placeholder="如 DeepSeek V3"
+                  placeholder={en ? "e.g. DeepSeek V3" : "如 DeepSeek V3"}
                 />
               </label>
               <label className="block">
-                <div className="text-[11.5px] text-faint mb-1">接口协议</div>
+                <div className="text-[11.5px] text-faint mb-1">
+                  {en ? "API Protocol" : "接口协议"}
+                </div>
                 <select
                   className={input}
                   value={draft.kind}
@@ -459,8 +494,12 @@ export function SettingsDialog({
                     })
                   }
                 >
-                  <option value="openai">OpenAI 兼容（绝大多数厂商）</option>
-                  <option value="anthropic">Anthropic 原生</option>
+                  <option value="openai">
+                    {en ? "OpenAI compatible (most providers)" : "OpenAI 兼容（绝大多数厂商）"}
+                  </option>
+                  <option value="anthropic">
+                    {en ? "Native Anthropic" : "Anthropic 原生"}
+                  </option>
                 </select>
               </label>
             </div>
@@ -491,27 +530,31 @@ export function SettingsDialog({
                   onClick={() => setShowKey((v) => !v)}
                   className="shrink-0 rounded-md border border-line px-2 text-[11.5px] text-faint hover:text-ink cursor-pointer"
                 >
-                  {showKey ? "隐藏" : "显示"}
+                  {showKey ? (en ? "Hide" : "隐藏") : en ? "Show" : "显示"}
                 </button>
               </div>
             </label>
             <div className="block">
               <div className="mb-1 flex items-center justify-between">
-                <div className="text-[11.5px] text-faint">模型 ID</div>
+                <div className="text-[11.5px] text-faint">{en ? "Model ID" : "模型 ID"}</div>
                 <button
                   onClick={fetchModels}
                   disabled={modelsLoading || !draft.baseUrl}
                   className="rounded border border-line px-2 py-0.5 text-[10.5px] text-faint hover:text-ink disabled:opacity-40 cursor-pointer"
-                  title="调用厂商的 /models 接口拉取可用模型（需先填 Base URL 和 Key）"
+                  title={
+                    en
+                      ? "Call the provider's /models endpoint to fetch available models. Fill Base URL and Key first."
+                      : "调用厂商的 /models 接口拉取可用模型（需先填 Base URL 和 Key）"
+                  }
                 >
-                  {modelsLoading ? "拉取中…" : "⇩ 拉取模型列表"}
+                  {modelsLoading ? (en ? "Fetching..." : "拉取中…") : `⇩ ${en ? "Fetch Models" : "拉取模型列表"}`}
                 </button>
               </div>
               <input
                 className={`${input} num`}
                 value={draft.model}
                 onChange={(e) => setDraft({ ...draft, model: e.target.value })}
-                placeholder="如 deepseek-chat"
+                placeholder={en ? "e.g. deepseek-chat" : "如 deepseek-chat"}
               />
               {exampleModels.length > 0 && !models && (
                 <div className="mt-1.5 flex flex-wrap gap-1">
@@ -536,7 +579,7 @@ export function SettingsDialog({
                   {models.length > 12 && (
                     <input
                       className="num w-full border-b border-line bg-transparent px-2.5 py-1.5 text-[11.5px] outline-none"
-                      placeholder={`筛选 ${models.length} 个模型…`}
+                      placeholder={en ? `Filter ${models.length} models...` : `筛选 ${models.length} 个模型…`}
                       value={modelFilter}
                       onChange={(e) => setModelFilter(e.target.value)}
                     />
@@ -567,11 +610,13 @@ export function SettingsDialog({
             <div className="block">
               <div className="mb-1 flex items-center justify-between">
                 <div className="text-[11.5px] text-faint">
-                  额外请求参数（JSON，原样合并进请求体；用于思考开关等厂商私有参数）
+                  {en
+                    ? "Extra request params (JSON, merged into the request body as-is; useful for provider-specific thinking switches)"
+                    : "额外请求参数（JSON，原样合并进请求体；用于思考开关等厂商私有参数）"}
                 </div>
                 {draft.extraBody?.trim() && !extraValid && (
                   <span className="text-[10.5px] text-accent">
-                    不是合法 JSON 对象
+                    {en ? "Not a valid JSON object" : "不是合法 JSON 对象"}
                   </span>
                 )}
               </div>
@@ -582,14 +627,14 @@ export function SettingsDialog({
                 onChange={(e) =>
                   setDraft({ ...draft, extraBody: e.target.value })
                 }
-                placeholder='如 {"enable_thinking": false}'
+                placeholder={en ? 'e.g. {"enable_thinking": false}' : '如 {"enable_thinking": false}'}
               />
               <div className="mt-1.5 flex flex-wrap gap-1">
-                {EXTRA_PRESETS.map((p) => (
+                {extraPresets.map((p) => (
                   <button
                     key={p.label}
                     onClick={() => setDraft({ ...draft, extraBody: p.json })}
-                    title={p.json || "清空额外参数"}
+                    title={p.json || (en ? "Clear extra params" : "清空额外参数")}
                     className="rounded border border-line bg-card px-1.5 py-0.5 text-[10.5px] text-faint hover:text-ink cursor-pointer"
                   >
                     {p.label}
@@ -597,8 +642,9 @@ export function SettingsDialog({
                 ))}
               </div>
               <div className="mt-1 text-[10.5px] text-faint/80">
-                ⓘ 同一模型想对比 think vs no-think？保存后用「复制」建两份，
-                分别配置不同参数即可同场竞速
+                {en
+                  ? "ⓘ Want to compare think vs no-think for the same model? Save it, duplicate it, then configure different params for the two entries."
+                  : "ⓘ 同一模型想对比 think vs no-think？保存后用「复制」建两份，分别配置不同参数即可同场竞速"}
               </div>
             </div>
             {presetNote && (
@@ -614,7 +660,7 @@ export function SettingsDialog({
                 }
                 className="rounded-md bg-ink text-paper px-4 py-1.5 text-[13px] font-semibold disabled:opacity-40 cursor-pointer"
               >
-                保存
+                {messages.common.save}
               </button>
               <button
                 onClick={testConnection}
@@ -622,9 +668,13 @@ export function SettingsDialog({
                   test.status === "running" || !draft.baseUrl || !draft.model
                 }
                 className="rounded-md border border-line px-4 py-1.5 text-[13px] text-faint hover:text-ink disabled:opacity-40 cursor-pointer"
-                title="发一次最小补全请求，验证 Base URL / Key / 模型 ID"
+                title={
+                  en
+                    ? "Send a minimal completion request to verify Base URL / Key / Model ID"
+                    : "发一次最小补全请求，验证 Base URL / Key / 模型 ID"
+                }
               >
-                {test.status === "running" ? "测试中…" : "⚡ 测试连接"}
+                {test.status === "running" ? (en ? "Testing..." : "测试中…") : `⚡ ${en ? "Test Connection" : "测试连接"}`}
               </button>
               <button
                 onClick={() => {
@@ -633,7 +683,7 @@ export function SettingsDialog({
                 }}
                 className="rounded-md border border-line px-4 py-1.5 text-[13px] text-faint hover:text-ink cursor-pointer"
               >
-                取消
+                {messages.common.cancel}
               </button>
               {test.status === "ok" && (
                 <span className="text-[12px]" style={{ color: "var(--go)" }}>

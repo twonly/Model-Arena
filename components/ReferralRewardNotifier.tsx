@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useI18n } from "@/components/I18nProvider";
 import { getSupabase, supabaseEnabled } from "@/lib/supabase-client";
 import {
   consumeReferralRewardNotice,
@@ -13,6 +14,8 @@ export function ReferralRewardNotifier({
 }: {
   onOpenAccount: () => void;
 }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
   const [notice, setNotice] = useState<ReferralRewardNotice | null>(null);
 
   useEffect(() => {
@@ -52,9 +55,13 @@ export function ReferralRewardNotifier({
           🎁
         </div>
         <div className="min-w-0 flex-1">
-          <div className="text-[13px] font-bold">邀请奖励到账</div>
+          <div className="text-[13px] font-bold">
+            {en ? "Invite Reward Received" : "邀请奖励到账"}
+          </div>
           <div className="mt-1 text-[12px] leading-relaxed text-faint">
-            {notice.message}
+            {en
+              ? `${notice.newRewardedInvites > 0 ? `${notice.newRewardedInvites} friend(s) completed their first comparison. ` : ""}Reward received: +${notice.gained} runs. Current reward balance: ${notice.bonusRemaining}.`
+              : notice.message}
           </div>
           <div className="mt-2 flex gap-2">
             <button
@@ -64,20 +71,20 @@ export function ReferralRewardNotifier({
               }}
               className="rounded-md bg-ink px-3 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
             >
-              查看邀请
+              {en ? "View Invites" : "查看邀请"}
             </button>
             <button
               onClick={() => setNotice(null)}
               className="rounded-md border border-line px-3 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer"
             >
-              知道了
+              {en ? "Got It" : "知道了"}
             </button>
           </div>
         </div>
         <button
           onClick={() => setNotice(null)}
           className="shrink-0 text-[12px] text-faint hover:text-ink cursor-pointer"
-          aria-label="关闭邀请奖励提示"
+          aria-label={en ? "Close invite reward notice" : "关闭邀请奖励提示"}
         >
           ✕
         </button>

@@ -15,6 +15,7 @@ import { TrendModal } from "@/components/TrendModal";
 import { ReferralWelcomeBanner } from "@/components/ReferralWelcomeBanner";
 import { ReferralRewardNotifier } from "@/components/ReferralRewardNotifier";
 import { ReferralShareNudge } from "@/components/ReferralShareNudge";
+import { useI18n } from "@/components/I18nProvider";
 import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
@@ -43,8 +44,8 @@ import { sharedAsEndpoints } from "@/lib/shared-models";
 import { supabaseEnabled } from "@/lib/supabase-client";
 import {
   ARENA_SEED_STORAGE_KEY,
-  QUICK_SAMPLE,
   arenaSeedUsesTemporaryEndpoints,
+  quickSample,
   quickSampleEndpoints,
   sharedEndpointsForModels,
   type ArenaSeed,
@@ -84,6 +85,53 @@ const isRunning = (r: RunState) =>
 const EMPTY_RUN = emptyRun();
 
 export default function Home() {
+  const { locale, messages, href: localHref } = useI18n();
+  const sampleCopy = quickSample(locale);
+  const en = locale === "en";
+  const arenaText = {
+    telemetryUploading: en ? "Uploading..." : "上报中…",
+    telemetryGranted: en ? "Anonymous metrics sharing enabled" : "已开启匿名指标共享 ❤",
+    telemetryDenied: en ? "OK, metrics sharing is off" : "好的，不共享",
+    templateMode: en ? "Template mode" : "评测模板模式",
+    sampleMode: en ? "Quick sample mode" : "快速样例模式",
+    shareFullMode: en ? "Copied test mode" : "复制评测模式",
+    sharePromptMode: en ? "Prompt rerun mode" : "Prompt 复跑模式",
+    exitTempMode: en ? "Switched back to professional mode with your local model settings" : "已切回专业模式，使用你本地保存的模型配置",
+    quotaEmpty: en ? "Today's free trial quota is used up. Sign in or add your own Key to continue." : "今日免费体验额度已用完——登录或填自己的 Key 继续",
+    quotaOwnOnly: en ? "Free quota is used up. This run will only use models configured with your own Key." : "免费额度已用完，本轮只跑你自己配置的模型",
+    noCopyResults: en ? "No copyable results yet" : "还没有可复制的结果",
+    markdownCopied: en ? "Markdown table copied" : "已复制 Markdown 表格 ✓",
+    exportingImage: en ? "Generating long image..." : "正在生成长图…",
+    imageDownloaded: en ? "Long image downloaded" : "长图已下载 ✓",
+    imageFailed: en ? "Generation failed. Try again." : "生成失败，请重试",
+    shareNoFinished: en ? "No model has finished yet. Share after metrics appear." : "还没有模型跑完，等出现指标后再分享",
+    shareNoResults: en ? "No shareable results yet. Run a comparison first." : "还没有可分享的结果，请先跑一轮对比",
+    sharePartialConfirm: (runningCount: number, rows: number) =>
+      en
+        ? `${runningCount} model(s) are still running. Sharing now includes only the ${rows} completed result(s).\nIt is better to wait until all models finish. Share now?`
+        : `还有 ${runningCount} 个模型在跑，现在分享只会包含已完成的 ${rows} 个。\n建议等全部跑完再分享。确定现在就分享吗？`,
+    shareCopiedPartial: en ? "Link copied. Some models are still running, so the snapshot only includes completed results." : "链接已复制（部分模型仍在跑，快照只含已完成的）✓",
+    shareCopied: en ? "Share link copied" : "分享链接已复制 ✓",
+    networkError: en ? "Network error" : "网络错误",
+    copied: en ? "Copied" : "已复制 ✓",
+    imageReady: en ? "Image is ready and will be sent with the Prompt." : "图片已就绪，将随 Prompt 一起发送 ✓",
+    imageReadFailed: en ? "Failed to read image" : "图片读取失败",
+    restoredSnapshot: en ? "History snapshot" : "历史快照",
+    modelCount: (count: number) => (en ? `${count} models in comparison` : `${count} 个模型参与对比`),
+  };
+  const consentFields = en
+    ? {
+        collected: [
+          "Model provider and API host (domain only)",
+          "Model name and API protocol",
+          "TTFT, reasoning/output phase latency and TPS, peak speed",
+          "Input/output token counts and character lengths",
+          "Run time, success status, and whether an image was included",
+          "Anonymous device ID (random ID removable with browser data)",
+        ],
+        notCollected: ["API Key", "Prompt content", "Model output/reasoning content", "Uploaded image"],
+      }
+    : CONSENT_FIELDS;
   /* 持久化状态 */
   const [endpoints, setEndpoints] = usePersisted<ModelEndpoint[]>(
     "ma.endpoints",
@@ -365,7 +413,7 @@ export default function Home() {
     hasImage: boolean;
   }) => {
     const cur = runsRef.current;
-    setTelemetryStatus("上报中…");
+    setTelemetryStatus(arenaText.telemetryUploading);
     const r = await reportRunMetrics({
       runId: info.runId,
       promptChars: info.promptChars,
@@ -376,7 +424,13 @@ export default function Home() {
       })),
     });
     setTelemetryStatus(
-      r.ok ? `✓ 已上报 ${r.count} 条指标` : `✗ 上报失败：${r.error}`
+      r.ok
+        ? en
+          ? `✓ Uploaded ${r.count} metric row(s)`
+          : `✓ 已上报 ${r.count} 条指标`
+        : en
+          ? `✗ Upload failed: ${r.error}`
+          : `✗ 上报失败：${r.error}`
     );
     setTimeout(() => setTelemetryStatus(null), 5000);
     return r;
@@ -390,7 +444,7 @@ export default function Home() {
       lastRunRef.current.reported = true;
       void reportMetrics(lastRunRef.current);
     } else {
-      flash(choice === "granted" ? "已开启匿名指标共享 ❤" : "好的，不共享");
+      flash(choice === "granted" ? arenaText.telemetryGranted : arenaText.telemetryDenied);
     }
   };
 
@@ -408,6 +462,16 @@ export default function Home() {
     setTimeout(() => setToast(""), 1600);
   };
 
+  const shareErrorText = (j: { code?: string; error?: string; disabled?: boolean }) => {
+    if (j.disabled) {
+      return locale === "en"
+        ? "Sharing is not enabled: Supabase environment variables are not configured on the server."
+        : "分享功能未启用：服务端未配置 Supabase 环境变量";
+    }
+    const code = j.code as keyof typeof messages.apiErrors | undefined;
+    return (code && messages.apiErrors[code]) || j.error || (locale === "en" ? "Sharing failed. Try again." : "分享失败，请重试");
+  };
+
   useEffect(() => {
     try {
       const url = new URL(window.location.href);
@@ -419,9 +483,9 @@ export default function Home() {
       if (sample) {
         seed = {
           mode: "sample",
-          title: QUICK_SAMPLE.title,
-          notes: QUICK_SAMPLE.notes,
-          prompt: QUICK_SAMPLE.prompt,
+          title: sampleCopy.title,
+          notes: sampleCopy.notes,
+          prompt: sampleCopy.prompt,
         };
       } else if (seedRaw) {
         seed = JSON.parse(seedRaw) as ArenaSeed;
@@ -429,7 +493,7 @@ export default function Home() {
       if (!seed?.prompt?.trim()) return;
 
       setTemporaryDraft({
-        title: seed.title || QUICK_SAMPLE.title,
+        title: seed.title || sampleCopy.title,
         notes: seed.notes || "",
         prompt: seed.prompt,
         templateId: seed.templateId,
@@ -461,12 +525,20 @@ export default function Home() {
       window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
       flash(
         seed.templateId
-          ? "已带入评测模板，使用当前模型即可开跑"
+          ? locale === "en"
+            ? "Template loaded. Use your current models to start."
+            : "已带入评测模板，使用当前模型即可开跑"
           : seed.mode === "share-full"
-          ? "已复制分享里的评测设置，检查模型后即可开跑"
+          ? locale === "en"
+            ? "Shared test settings copied. Check models, then start."
+            : "已复制分享里的评测设置，检查模型后即可开跑"
           : seed.mode === "share-prompt"
-            ? "已带入同一个 Prompt，选择模型后即可开跑"
-            : "快速样例已就绪，点击开始对比即可开跑"
+            ? locale === "en"
+              ? "Prompt loaded. Choose models, then start."
+              : "已带入同一个 Prompt，选择模型后即可开跑"
+            : locale === "en"
+              ? "Quick sample is ready. Click start to run."
+              : "快速样例已就绪，点击开始对比即可开跑"
       );
     } catch {
       /* ignore */
@@ -500,12 +572,12 @@ export default function Home() {
   const usingTemporaryContext = usingTemporaryEndpoints || temporaryDraft != null;
   const temporaryModeLabel =
     temporaryDraft?.templateId
-      ? "评测模板模式"
+      ? arenaText.templateMode
       : arenaSeedMode === "sample"
-      ? "快速样例模式"
+      ? arenaText.sampleMode
       : arenaSeedMode === "share-full"
-        ? "复制评测模式"
-        : "Prompt 复跑模式";
+        ? arenaText.shareFullMode
+        : arenaText.sharePromptMode;
 
   const exitTemporaryMode = () => {
     setTemporaryEndpoints(null);
@@ -515,7 +587,7 @@ export default function Home() {
     setShareUrl(null);
     setShareError(null);
     setHiddenIds([]);
-    flash("已切回专业模式，使用你本地保存的模型配置");
+    flash(arenaText.exitTempMode);
   };
 
   const saveHistory = useCallback(
@@ -574,10 +646,10 @@ export default function Home() {
     if (quota && quota.remaining <= 0 && targets.some((t) => t.shared)) {
       targets = targets.filter((t) => !t.shared);
       if (!targets.length) {
-        flash("今日免费体验额度已用完——登录或填自己的 Key 继续");
+        flash(arenaText.quotaEmpty);
         return;
       }
-      flash("免费额度已用完，本轮只跑你自己配置的模型");
+      flash(arenaText.quotaOwnOnly);
     }
     setRestored(null);
     setShareUrl(null); // 新一轮作废旧分享链接
@@ -712,7 +784,7 @@ export default function Home() {
       }))
       .filter(({ run }) => run.metrics || run.error);
     if (!rows.length) {
-      flash("还没有可复制的结果");
+      flash(arenaText.noCopyResults);
       return;
     }
     await navigator.clipboard.writeText(
@@ -725,14 +797,14 @@ export default function Home() {
         thinkingStats: thinkStats,
       })
     );
-    flash("已复制 Markdown 表格 ✓");
+    flash(arenaText.markdownCopied);
   };
 
   const exportImage = async () => {
     const el = mainRef.current;
     if (!el || exporting) return;
     setExporting(true);
-    flash("正在生成长图…");
+    flash(arenaText.exportingImage);
     // 等一帧让「隐藏工具条」生效
     await new Promise((r) => setTimeout(r, 60));
     try {
@@ -757,13 +829,13 @@ export default function Home() {
       await toPng(el, opts);
       const dataUrl = await toPng(el, opts);
       const a = document.createElement("a");
-      a.download = `${(title || "模型对比").slice(0, 30)}-${Date.now()}.png`;
+      a.download = `${(title || (en ? "model-comparison" : "模型对比")).slice(0, 30)}-${Date.now()}.png`;
       a.href = dataUrl;
       a.click();
-      flash("长图已下载 ✓");
+      flash(arenaText.imageDownloaded);
       showReferralNudge("export");
     } catch {
-      flash("生成失败，请重试");
+      flash(arenaText.imageFailed);
     } finally {
       setExporting(false);
     }
@@ -779,8 +851,8 @@ export default function Home() {
     if (!rows.length) {
       setShareError(
         anyRunning
-          ? "还没有模型跑完，等出现指标后再分享"
-          : "还没有可分享的结果，请先跑一轮对比"
+          ? arenaText.shareNoFinished
+          : arenaText.shareNoResults
       );
       return;
     }
@@ -788,9 +860,7 @@ export default function Home() {
       isRunning(runs[ep.id] ?? emptyRun())
     ).length;
     if (runningCount > 0) {
-      const ok = confirm(
-        `还有 ${runningCount} 个模型在跑，现在分享只会包含已完成的 ${rows.length} 个。\n建议等全部跑完再分享。确定现在就分享吗？`
-      );
+      const ok = confirm(arenaText.sharePartialConfirm(runningCount, rows.length));
       if (!ok) return;
     }
     setShareCfgOpen(true);
@@ -856,26 +926,24 @@ export default function Home() {
       const j = await createShare(snapshot);
       if (!j.ok || !j.id) {
         setShareUrl(null);
-        setShareError(
-          j.disabled
-            ? "分享功能未启用：服务端未配置 Supabase 环境变量"
-            : j.error || "分享失败，请重试"
-        );
+        setShareError(shareErrorText(j));
         return;
       }
-      const url = `${location.origin}/r/${j.id}`;
+      const url = `${location.origin}${localHref(`/r/${j.id}`)}`;
       setShareUrl(url);
       await navigator.clipboard.writeText(url).catch(() => {});
       flash(
         stillRunning
-          ? "链接已复制（部分模型仍在跑，快照只含已完成的）✓"
-          : "分享链接已复制 ✓"
+          ? arenaText.shareCopiedPartial
+          : arenaText.shareCopied
       );
       showReferralNudge("share");
     } catch (e) {
       setShareUrl(null);
       setShareError(
-        `分享失败：${e instanceof Error ? e.message : "网络错误"}，请重试`
+        en
+          ? `Sharing failed: ${e instanceof Error ? e.message : arenaText.networkError}. Try again.`
+          : `分享失败：${e instanceof Error ? e.message : "网络错误"}，请重试`
       );
     } finally {
       setShareSource(null);
@@ -955,19 +1023,23 @@ export default function Home() {
           <div className="flex flex-wrap items-center justify-end gap-2">
             <a
               className={btn}
-              href="/stats"
+              href={localHref("/stats")}
               target="_blank"
               rel="noopener noreferrer"
-              title="全网用户实测的大模型速度排行榜"
+              title={en ? "Crowdsourced real-world LLM speed leaderboard" : "全网用户实测的大模型速度排行榜"}
             >
-              🏆 排行榜
+              🏆 {en ? "Leaderboard" : "排行榜"}
             </a>
             <button
               className={btn}
               onClick={() => setTrendOpen(true)}
-              title="同一模型在历次对比中的速度走势（本机历史）"
+              title={
+                en
+                  ? "Speed trend for the same model across local history"
+                  : "同一模型在历次对比中的速度走势（本机历史）"
+              }
             >
-              📈 趋势
+              📈 {en ? "Trends" : "趋势"}
             </button>
             <AccountChip onOpen={() => setAccountOpen(true)} />
           </div>
@@ -1001,11 +1073,15 @@ export default function Home() {
         >
           <div className="min-w-0">
             <div className="font-semibold text-ink">
-              当前为{temporaryModeLabel}：使用临时带入的
-              {usingTemporaryEndpoints ? "模型列表" : "Prompt"}
+              {en ? "Current mode: " : "当前为"}
+              {temporaryModeLabel}
+              {en ? ". Using temporary " : "：使用临时带入的"}
+              {usingTemporaryEndpoints ? (en ? "model list" : "模型列表") : "Prompt"}
             </div>
             <div className="mt-0.5 text-faint">
-              临时内容不会覆盖你本地保存的模型、Key 和专业模式草稿；共享预置模型会消耗免费/邀请额度，切回专业模式后使用你的本地配置。
+              {en
+                ? "Temporary content will not overwrite your saved models, Keys, or professional-mode draft. Shared preset models consume free or invite quota. Switch back to professional mode to use your local configuration."
+                : "临时内容不会覆盖你本地保存的模型、Key 和专业模式草稿；共享预置模型会消耗免费/邀请额度，切回专业模式后使用你的本地配置。"}
             </div>
           </div>
           <div className="flex shrink-0 flex-wrap items-center gap-2">
@@ -1013,13 +1089,13 @@ export default function Home() {
               onClick={exitTemporaryMode}
               className="rounded-md bg-ink px-3 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
             >
-              切回专业模式（用我的 Key）
+              {en ? "Back to Professional Mode (use my Keys)" : "切回专业模式（用我的 Key）"}
             </button>
             <button
               onClick={() => setSettingsOpen(true)}
               className="rounded-md border border-line px-3 py-1.5 text-[12px] font-semibold text-faint hover:text-ink cursor-pointer"
             >
-              查看本地模型配置
+              {en ? "View Local Model Settings" : "查看本地模型配置"}
             </button>
           </div>
         </div>
@@ -1031,21 +1107,29 @@ export default function Home() {
           style={{ fontFamily: "var(--font-title)" }}
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="点击输入标题，如：Step 3.7 Flash · 实时速度实测"
+          placeholder={
+            en
+              ? "Click to enter a title, e.g. Step 3.7 Flash · live speed test"
+              : "点击输入标题，如：Step 3.7 Flash · 实时速度实测"
+          }
         />
         <textarea
           className="ghost-input mt-1 text-[13.5px] leading-relaxed text-faint"
           rows={Math.max(notes.split("\n").length, 1)}
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
-          placeholder="点击输入备注，如：同一 Prompt 直连各家官方接口，主要看首响应与吞吐……"
+          placeholder={
+            en
+              ? "Click to add notes, e.g. same Prompt across official APIs; focus on TTFT and throughput..."
+              : "点击输入备注，如：同一 Prompt 直连各家官方接口，主要看首响应与吞吐……"
+          }
         />
         <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
           <span className="num text-[11px] text-faint/70">
-            {new Date().toLocaleDateString("zh-CN")} ·{" "}
+            {new Date().toLocaleDateString(locale === "en" ? "en-US" : "zh-CN")} ·{" "}
             {restored
-              ? `历史快照 · ${new Date(restored.at).toLocaleString("zh-CN", { hour12: false })}`
-              : `${activeEndpoints.filter((e) => e.enabled).length} 个模型参与对比`}{" "}
+              ? `${arenaText.restoredSnapshot} · ${new Date(restored.at).toLocaleString(en ? "en-US" : "zh-CN", { hour12: false })}`
+              : arenaText.modelCount(activeEndpoints.filter((e) => e.enabled).length)}{" "}
             · {watermark.trim() || "百模竞速 · TOKRACE"}
           </span>
           <Credit compact />
@@ -1057,67 +1141,89 @@ export default function Home() {
         <div data-no-export="1" className="mb-4 flex flex-wrap items-center gap-2">
           {/* —— 常驻：高频 / 与当前对比强相关 —— */}
           <button className={btn} onClick={() => setSettingsOpen(true)}>
-            ⚙ 模型配置
+            ⚙ {en ? "Models" : "模型配置"}
           </button>
-          <a className={btn} href="/templates">
-            📚 评测模板
+          <a className={btn} href={localHref("/templates")}>
+            📚 {messages.common.templates}
           </a>
           <button
             className={btn}
             onClick={() => setThinkStats((v) => !v)}
-            title="关闭后不拆分思考/输出：首Token 按首个正文 token 计（思考计入等待），速度只按正文 token 计算"
+            title={
+              en
+                ? "When off, reasoning/output are not split: TTFT is based on first content token and speed is calculated only from content tokens."
+                : "关闭后不拆分思考/输出：首Token 按首个正文 token 计（思考计入等待），速度只按正文 token 计算"
+            }
           >
-            {thinkStats ? "思考统计：开" : "思考统计：关"}
+            {thinkStats
+              ? en
+                ? "Reasoning stats: on"
+                : "思考统计：开"
+              : en
+                ? "Reasoning stats: off"
+                : "思考统计：关"}
           </button>
           <button
             className={btn}
             onClick={() => setCompact((v) => !v)}
-            title="紧凑模式：折叠输出内容只看指标，多模型纯竞速一屏看全"
+            title={
+              en
+                ? "Compact mode collapses output content and focuses on metrics."
+                : "紧凑模式：折叠输出内容只看指标，多模型纯竞速一屏看全"
+            }
           >
-            {compact ? "📊 紧凑：开" : "📊 紧凑：关"}
+            {compact ? (en ? "📊 Compact: on" : "📊 紧凑：开") : en ? "📊 Compact: off" : "📊 紧凑：关"}
           </button>
           {hasResults && !restored && (
             <button
               className={btn}
               onClick={openShareConfig}
               disabled={shareUrl === "loading"}
-              title="生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
+              title={
+                en
+                  ? "Generate a read-only share link. Readers can view outputs, metrics, and speed curves. Prompt and model outputs are public; API Keys are not included."
+                  : "生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
+              }
             >
-              {shareUrl === "loading" ? "生成中…" : "🔗 分享链接"}
+              {shareUrl === "loading" ? (en ? "Generating..." : "生成中…") : `🔗 ${en ? "Share Link" : "分享链接"}`}
             </button>
           )}
           {hasResults && (
             <button
               className={btn}
               onClick={() => setReviewDraftOpen(true)}
-              title="选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
+              title={
+                en
+                  ? "Use one of your local-Key models to turn this run's metrics, outputs, and Prompt into a publishable review draft."
+                  : "选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
+              }
             >
-              ✍️ 生成评测稿
+              ✍️ {en ? "Review Draft" : "生成评测稿"}
             </button>
           )}
-          <a className={btn} href="/me">
-            🗂 我的
+          <a className={btn} href={localHref("/me")}>
+            🗂 {en ? "Mine" : "我的"}
           </a>
           <button
             className={btn}
             onClick={() => setMoreOpen((v) => !v)}
-            title="展开更多导航与选项"
+            title={en ? "Expand more navigation and options" : "展开更多导航与选项"}
           >
-            {moreOpen ? "⋯ 收起" : "⋯ 更多"}
+            {moreOpen ? (en ? "⋯ Less" : "⋯ 收起") : en ? "⋯ More" : "⋯ 更多"}
           </button>
 
           {/* —— 更多：导航 + 低频选项 —— */}
           {moreOpen && (
             <>
               <button className={btn} onClick={() => setHistoryOpen(true)}>
-                🕘 历史
+                🕘 {en ? "History" : "历史"}
               </button>
               <button className={btn} onClick={() => setAccountOpen(true)}>
-                👤 账号同步
+                👤 {en ? "Account Sync" : "账号同步"}
               </button>
               {hasResults && (
                 <button className={btn} onClick={copyResults}>
-                  ⧉ 复制指标表
+                  ⧉ {en ? "Copy Metrics" : "复制指标表"}
                 </button>
               )}
               {hasResults && (
@@ -1125,30 +1231,34 @@ export default function Home() {
                   className={btn}
                   onClick={exportImage}
                   disabled={exporting}
-                  title="把当前对比导出成长图（含标题/备注/水印），直接发文用"
+                  title={
+                    en
+                      ? "Export this comparison as a long image with title, notes, and watermark."
+                      : "把当前对比导出成长图（含标题/备注/水印），直接发文用"
+                  }
                 >
-                  🖼 导出长图
+                  🖼 {en ? "Export Image" : "导出长图"}
                 </button>
               )}
               <button
                 className={btn}
                 onClick={() => setMarkdown((v) => !v)}
-                title="切换输出区 Markdown 渲染 / 原始文本"
+                title={en ? "Toggle Markdown rendering / raw text" : "切换输出区 Markdown 渲染 / 原始文本"}
               >
-                {markdown ? "MD 渲染：开" : "MD 渲染：关"}
+                {markdown ? (en ? "MD render: on" : "MD 渲染：开") : en ? "MD render: off" : "MD 渲染：关"}
               </button>
               <button className={btn} onClick={() => setWmOpen((v) => !v)}>
-                💧 水印{watermark.trim() ? "：开" : ""}
+                💧 {en ? "Watermark" : "水印"}{watermark.trim() ? (en ? ": on" : "：开") : ""}
               </button>
               <button className={btn} onClick={() => setScreenshotMode(true)}>
-                📷 截图模式
+                📷 {en ? "Screenshot" : "截图模式"}
               </button>
               <button
                 className={btn}
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                title="切换明暗主题"
+                title={en ? "Toggle light/dark theme" : "切换明暗主题"}
               >
-                {theme === "dark" ? "☀️ 浅色" : "🌙 暗色"}
+                {theme === "dark" ? (en ? "☀️ Light" : "☀️ 浅色") : en ? "🌙 Dark" : "🌙 暗色"}
               </button>
               {telemetry.choice && (
                 <button
@@ -1158,9 +1268,13 @@ export default function Home() {
                       telemetry.choice === "granted" ? "denied" : "granted"
                     )
                   }
-                  title="匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
+                  title={
+                    en
+                      ? "Anonymously share numeric benchmark metrics only. API Keys and input/output content are never included. You can toggle this anytime."
+                      : "匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
+                  }
                 >
-                  📡 指标共享：{telemetry.choice === "granted" ? "开" : "关"}
+                  📡 {en ? "Metrics sharing" : "指标共享"}：{telemetry.choice === "granted" ? (en ? "on" : "开") : en ? "off" : "关"}
                 </button>
               )}
             </>
@@ -1187,7 +1301,7 @@ export default function Home() {
                 setRuns({});
               }}
             >
-              ← 退出历史快照
+              ← {en ? "Exit History Snapshot" : "退出历史快照"}
             </button>
           )}
           <span className="ml-auto text-[11px] text-accent">{toast}</span>
@@ -1219,7 +1333,7 @@ export default function Home() {
           className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2.5"
         >
           <span className="text-[12px]" style={{ color: "var(--go)" }}>
-            🔗 只读链接已生成
+            🔗 {en ? "Read-only link generated" : "只读链接已生成"}
           </span>
           <input
             readOnly
@@ -1231,10 +1345,10 @@ export default function Home() {
             className={btn}
             onClick={() => {
               void navigator.clipboard.writeText(shareUrl);
-              flash("已复制 ✓");
+              flash(arenaText.copied);
             }}
           >
-            复制
+            {messages.common.copy}
           </button>
           <a
             className={btn}
@@ -1242,10 +1356,12 @@ export default function Home() {
             target="_blank"
             rel="noopener noreferrer"
           >
-            打开
+            {en ? "Open" : "打开"}
           </a>
           <span className="text-[11px] text-faint/80">
-            链接公开 Prompt 与模型输出，不含 API Key
+            {en
+              ? "The link exposes the Prompt and model outputs, but never API Keys."
+              : "链接公开 Prompt 与模型输出，不含 API Key"}
           </span>
         </div>
       )}
@@ -1266,7 +1382,7 @@ export default function Home() {
             className="num w-72 rounded-md border border-line px-2.5 py-1.5 text-[12px] outline-none focus:border-ink/40"
             value={watermark}
             onChange={(e) => setWatermark(e.target.value)}
-            placeholder="如 小红书 @你的ID · X @yourID"
+            placeholder={en ? "e.g. X @yourID · Blog @yourname" : "如 小红书 @你的ID · X @yourID"}
           />
           <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] text-faint">
             <input
@@ -1275,10 +1391,12 @@ export default function Home() {
               onChange={(e) => setWmTiled(e.target.checked)}
               className="accent-[var(--accent)]"
             />
-            平铺防盗水印
+            {en ? "Tiled anti-repost watermark" : "平铺防盗水印"}
           </label>
           <span className="text-[11px] text-faint/80">
-            显示在页头信息行 + 页面右下角徽标，复制的 Markdown 表格也会带上署名
+            {en
+              ? "Shown in the header line and bottom-right badge. Copied Markdown tables also include the credit."
+              : "显示在页头信息行 + 页面右下角徽标，复制的 Markdown 表格也会带上署名"}
           </span>
         </div>
       )}
@@ -1291,24 +1409,32 @@ export default function Home() {
             rows={3}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder="输入要同时发给所有模型的 Prompt……"
+            placeholder={en ? "Enter the Prompt to send to all models..." : "输入要同时发给所有模型的 Prompt……"}
           />
           <div data-no-export="1" className="mt-2 flex flex-wrap items-center gap-2 border-t border-line pt-2.5">
             <button
               className={btn}
               onClick={() => setPromptLibOpen(true)}
-              title="精选 benchmark 评测题 + 自己保存的常用 Prompt"
+              title={
+                en
+                  ? "Curated benchmark prompts plus your saved custom prompts"
+                  : "精选 benchmark 评测题 + 自己保存的常用 Prompt"
+              }
             >
-              📚 Prompt 库
+              📚 {en ? "Prompt Library" : "Prompt 库"}
             </button>
             <button className={btn} onClick={() => setShowAdvanced((v) => !v)}>
-              {showAdvanced ? "▾" : "▸"} 高级参数
+              {showAdvanced ? "▾" : "▸"} {en ? "Advanced Params" : "高级参数"}
             </button>
             <label
               className={btn}
-              title="上传一张图随 Prompt 发给所有模型，对比各家视觉模型的识图速度与质量（自动压缩到 1600px JPEG）"
+              title={
+                en
+                  ? "Upload an image to send with the Prompt to every model. Compare vision model speed and quality. Images are auto-compressed to 1600px JPEG."
+                  : "上传一张图随 Prompt 发给所有模型，对比各家视觉模型的识图速度与质量（自动压缩到 1600px JPEG）"
+              }
             >
-              🖼 图片
+              🖼 {en ? "Image" : "图片"}
               <input
                 type="file"
                 accept="image/*"
@@ -1320,9 +1446,9 @@ export default function Home() {
                   try {
                     const dataUrl = await fileToResizedDataUrl(f);
                     setImage({ dataUrl, name: f.name });
-                    flash("图片已就绪，将随 Prompt 一起发送 ✓");
+                    flash(arenaText.imageReady);
                   } catch {
-                    flash("图片读取失败");
+                    flash(arenaText.imageReadFailed);
                   }
                 }}
               />
@@ -1332,7 +1458,7 @@ export default function Home() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={image.dataUrl}
-                  alt="对比用图片"
+                  alt={en ? "Comparison image" : "对比用图片"}
                   className="h-7 w-7 rounded border border-line object-cover"
                 />
                 <span className="num max-w-[110px] truncate text-[10.5px] text-faint">
@@ -1341,7 +1467,7 @@ export default function Home() {
                 <button
                   onClick={() => setImage(null)}
                   className="px-0.5 text-[12px] text-faint hover:text-accent cursor-pointer"
-                  title="移除图片"
+                  title={en ? "Remove image" : "移除图片"}
                 >
                   ✕
                 </button>
@@ -1353,7 +1479,7 @@ export default function Home() {
                   onClick={stopAll}
                   className="rounded-md bg-accent px-6 py-2 text-[14px] font-bold text-white cursor-pointer"
                 >
-                  停 止
+                  {en ? "Stop" : "停 止"}
                 </button>
               ) : (
                 <button
@@ -1361,7 +1487,7 @@ export default function Home() {
                   disabled={!prompt.trim() || !activeEndpoints.some((e) => e.enabled)}
                   className="rounded-md bg-ink px-6 py-2 text-[14px] font-bold text-paper disabled:opacity-35 cursor-pointer"
                 >
-                  开始对比 ▶
+                  {en ? "Start Comparison" : "开始对比"} ▶
                 </button>
               )}
             </div>
@@ -1370,7 +1496,7 @@ export default function Home() {
             <div className="mt-2.5 grid gap-2.5 border-t border-line pt-2.5 sm:grid-cols-3">
               <label className="sm:col-span-3 block">
                 <div className="text-[11px] text-faint mb-1">
-                  System Prompt（所有模型共用，留空不传）
+                  System Prompt{en ? " (shared by all models, leave blank to omit)" : "（所有模型共用，留空不传）"}
                 </div>
                 <textarea
                   className="w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
@@ -1383,7 +1509,7 @@ export default function Home() {
               </label>
               <label className="block">
                 <div className="text-[11px] text-faint mb-1">
-                  Temperature（留空 = 厂商默认）
+                  Temperature{en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
                 </div>
                 <input
                   className="num w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
@@ -1391,12 +1517,12 @@ export default function Home() {
                   onChange={(e) =>
                     setParams({ ...params, temperature: e.target.value })
                   }
-                  placeholder="如 0.7"
+                  placeholder={en ? "e.g. 0.7" : "如 0.7"}
                 />
               </label>
               <label className="block">
                 <div className="text-[11px] text-faint mb-1">
-                  Max Tokens（留空 = 厂商默认）
+                  Max Tokens{en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
                 </div>
                 <input
                   className="num w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
@@ -1404,7 +1530,7 @@ export default function Home() {
                   onChange={(e) =>
                     setParams({ ...params, maxTokens: e.target.value })
                   }
-                  placeholder="如 8192"
+                  placeholder={en ? "e.g. 8192" : "如 8192"}
                 />
               </label>
             </div>
@@ -1418,7 +1544,7 @@ export default function Home() {
               // eslint-disable-next-line @next/next/no-img-element
               <img
                 src={image.dataUrl}
-                alt="对比用图片"
+                alt={en ? "Comparison image" : "对比用图片"}
                 className="mt-2.5 max-h-44 rounded-md border border-line"
               />
             )}
@@ -1431,28 +1557,33 @@ export default function Home() {
         <div data-no-export="1" className="mb-4 rounded-lg border border-line bg-card px-4 py-3">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="text-[13px] font-semibold">
-              📡 愿意匿名共享这些评测指标吗？
+              📡 {en ? "Share these benchmark metrics anonymously?" : "愿意匿名共享这些评测指标吗？"}
             </span>
             <span className="text-[12px] text-faint">
-              只上传速度/token 等数字指标，帮助分析各家模型的真实表现；
-              <b className="text-ink">不上传 API Key 和任何输入输出内容</b>。
+              {en ? "Only numeric metrics like speed and tokens are uploaded to help analyze real-world model performance; " : "只上传速度/token 等数字指标，帮助分析各家模型的真实表现；"}
+              <b className="text-ink">
+                {en ? "API Keys and any input/output content are never uploaded" : "不上传 API Key 和任何输入输出内容"}
+              </b>
+              {en ? "." : "。"}
             </span>
             <details className="text-[12px] text-faint">
               <summary className="cursor-pointer select-none hover:text-ink">
-                查看明细
+                {en ? "Details" : "查看明细"}
               </summary>
               <div className="mt-1.5 grid gap-x-6 gap-y-0.5 sm:grid-cols-2">
                 <div>
-                  <div className="font-semibold text-ink">会保存：</div>
-                  {CONSENT_FIELDS.collected.map((f) => (
+                  <div className="font-semibold text-ink">
+                    {en ? "Stored:" : "会保存："}
+                  </div>
+                  {consentFields.collected.map((f) => (
                     <div key={f}>· {f}</div>
                   ))}
                 </div>
                 <div>
                   <div className="font-semibold" style={{ color: "var(--accent)" }}>
-                    永不保存：
+                    {en ? "Never stored:" : "永不保存："}
                   </div>
-                  {CONSENT_FIELDS.notCollected.map((f) => (
+                  {consentFields.notCollected.map((f) => (
                     <div key={f}>· {f}</div>
                   ))}
                 </div>
@@ -1463,13 +1594,13 @@ export default function Home() {
                 onClick={() => decideTelemetry("granted")}
                 className="rounded-md bg-ink px-3.5 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
               >
-                同意共享
+                {en ? "Share" : "同意共享"}
               </button>
               <button
                 onClick={() => decideTelemetry("denied")}
                 className="rounded-md border border-line px-3.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer"
               >
-                不共享
+                {en ? "Do Not Share" : "不共享"}
               </button>
             </span>
           </div>
@@ -1479,7 +1610,9 @@ export default function Home() {
       {/* ===== 模型条：隐藏/显示与排序（隐藏的模型后台照常跑） ===== */}
       {!screenshotMode && !restored && enabledEndpoints.length >= 2 && (
         <div data-no-export="1" className="mb-3 flex flex-wrap items-center gap-1.5">
-          <span className="text-[11px] text-faint shrink-0">显示</span>
+          <span className="text-[11px] text-faint shrink-0">
+            {en ? "Visible" : "显示"}
+          </span>
           {enabledEndpoints.map((ep, idx) => {
             const run = runs[ep.id] ?? emptyRun();
             const hidden = hiddenIds.includes(ep.id);
@@ -1494,8 +1627,12 @@ export default function Home() {
                   onClick={() => toggleHidden(ep.id)}
                   title={
                     hidden
-                      ? "点击恢复显示（后台一直在跑）"
-                      : "点击隐藏此模型（后台继续跑，随时可恢复）"
+                      ? en
+                        ? "Restore visibility. It has kept running in the background."
+                        : "点击恢复显示（后台一直在跑）"
+                      : en
+                        ? "Hide this model. It keeps running in the background and can be restored anytime."
+                        : "点击隐藏此模型（后台继续跑，随时可恢复）"
                   }
                   className="flex items-center gap-1.5 cursor-pointer"
                 >
@@ -1511,7 +1648,7 @@ export default function Home() {
                 <button
                   onClick={() => moveEndpoint(ep.id, -1)}
                   disabled={idx === 0}
-                  title="左移"
+                  title={en ? "Move left" : "左移"}
                   className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
                 >
                   ◂
@@ -1519,7 +1656,7 @@ export default function Home() {
                 <button
                   onClick={() => moveEndpoint(ep.id, 1)}
                   disabled={idx === enabledEndpoints.length - 1}
-                  title="右移"
+                  title={en ? "Move right" : "右移"}
                   className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
                 >
                   ▸
@@ -1532,7 +1669,7 @@ export default function Home() {
               onClick={() => setHiddenIds([])}
               className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
             >
-              全部显示
+              {en ? "Show all" : "全部显示"}
             </button>
           )}
         </div>
@@ -1541,16 +1678,19 @@ export default function Home() {
       {/* ===== 对比卡片 ===== */}
       {visibleEndpoints.length === 0 ? (
         <div className="rounded-lg border border-dashed border-line bg-card/60 px-6 py-14 text-center">
-          <div className="text-[15px] font-semibold mb-1.5">还没有接入模型</div>
+          <div className="text-[15px] font-semibold mb-1.5">
+            {en ? "No models connected yet" : "还没有接入模型"}
+          </div>
           <div className="text-[12.5px] text-faint mb-4">
-            支持 DeepSeek / Kimi / 智谱 / 通义 / 豆包 / 阶跃 / MiniMax / OpenAI
-            / Claude / Gemini …… 以及任何 OpenAI 兼容接口
+            {en
+              ? "Supports DeepSeek / Kimi / GLM / Qwen / Doubao / StepFun / MiniMax / OpenAI / Claude / Gemini, plus any OpenAI-compatible API."
+              : "支持 DeepSeek / Kimi / 智谱 / 通义 / 豆包 / 阶跃 / MiniMax / OpenAI / Claude / Gemini …… 以及任何 OpenAI 兼容接口"}
           </div>
           <button
             onClick={() => setSettingsOpen(true)}
             className="rounded-md bg-ink px-5 py-2 text-[13px] font-bold text-paper cursor-pointer"
           >
-            ⚙ 去接入模型
+            ⚙ {en ? "Connect Models" : "去接入模型"}
           </button>
         </div>
       ) : (
@@ -1625,7 +1765,7 @@ export default function Home() {
           onClick={() => setScreenshotMode(false)}
           className="fixed bottom-5 left-5 rounded-full border border-line bg-card px-4 py-2 text-[12px] text-faint shadow-md hover:text-ink cursor-pointer"
         >
-          退出截图模式
+          {en ? "Exit Screenshot Mode" : "退出截图模式"}
         </button>
       )}
 
@@ -1689,10 +1829,9 @@ export default function Home() {
       {!screenshotMode && (
         <footer data-no-export="1" className="mt-10 space-y-2 text-center text-[11px] text-faint/70">
           <div>
-            指标说明：首Token = 请求发出到收到第一个 token（含网络往返与排队）·
-            思考TPS / 输出TPS 各按该阶段「首个→末个 token」的活跃窗口独立计时，
-            不含阶段间空隙与流收尾时间 · 总 Tokens 优先采用厂商官方
-            usage；思考/输出拆分无官方数据时按各阶段字符独立估算后校准（数字前标 ≈）
+            {en
+              ? "Metric notes: TTFT = time from request sent to first token received, including network round trip and queueing. Reasoning TPS / output TPS each use the active window from first to last token in that phase, excluding gaps and stream tail time. Total Tokens prefer provider official usage; reasoning/output splits are estimated from phase characters and calibrated when official split data is unavailable (≈ marks estimates)."
+              : "指标说明：首Token = 请求发出到收到第一个 token（含网络往返与排队）· 思考TPS / 输出TPS 各按该阶段「首个→末个 token」的活跃窗口独立计时，不含阶段间空隙与流收尾时间 · 总 Tokens 优先采用厂商官方 usage；思考/输出拆分无官方数据时按各阶段字符独立估算后校准（数字前标 ≈）"}
           </div>
           <div>
             <Credit compact />

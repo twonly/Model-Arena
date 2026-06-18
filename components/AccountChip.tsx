@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useI18n } from "@/components/I18nProvider";
 import { getSupabase, supabaseEnabled } from "@/lib/supabase-client";
 import { lastSyncedAt } from "@/lib/sync";
 
@@ -11,6 +12,8 @@ import { lastSyncedAt } from "@/lib/sync";
  * 点击打开 AccountDialog。云同步未配置时整体不渲染。
  */
 export function AccountChip({ onOpen }: { onOpen: () => void }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
   const [ready, setReady] = useState(false);
   const [email, setEmail] = useState<string | null>(null);
   const [synced, setSynced] = useState<string | null>(null);
@@ -48,7 +51,15 @@ export function AccountChip({ onOpen }: { onOpen: () => void }) {
   return (
     <button
       onClick={onOpen}
-      title={email ? "账号与云同步" : "登录以跨设备同步配置 / 历史 / Prompt 库"}
+      title={
+        email
+          ? en
+            ? "Account and cloud sync"
+            : "账号与云同步"
+          : en
+            ? "Sign in to sync settings, history, and Prompt library across devices"
+            : "登录以跨设备同步配置 / 历史 / Prompt 库"
+      }
       className="flex items-center gap-1.5 rounded-full border border-line bg-card px-3 py-1.5 text-[12px] text-faint hover:border-ink/30 hover:text-ink cursor-pointer"
     >
       {!ready ? (
@@ -65,13 +76,13 @@ export function AccountChip({ onOpen }: { onOpen: () => void }) {
             className="shrink-0"
             style={{ color: synced ? "var(--go)" : "var(--faint)" }}
           >
-            · {synced ? "☁ 已同步" : "☁ 未同步"}
+            · {synced ? (en ? "☁ Synced" : "☁ 已同步") : en ? "☁ Not synced" : "☁ 未同步"}
           </span>
         </>
       ) : (
         <>
           <span>👤</span>
-          <span>登录 / 同步</span>
+          <span>{en ? "Sign In / Sync" : "登录 / 同步"}</span>
         </>
       )}
     </button>

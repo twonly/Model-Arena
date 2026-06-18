@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useI18n } from "@/components/I18nProvider";
 import { fmtSeconds, fmtTps } from "@/lib/format";
 import type { HistoryEntry } from "@/lib/types";
 
@@ -27,6 +28,8 @@ export function TrendModal({
   onClose: () => void;
   entries: HistoryEntry[];
 }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
   const series = useMemo(() => {
     const map = new Map<string, TrendPoint[]>();
     for (const h of entries) {
@@ -63,9 +66,13 @@ export function TrendModal({
       >
         <div className="flex items-center justify-between px-5 pt-4 pb-2">
           <div>
-            <div className="font-bold text-[15px]">📊 历史速度趋势</div>
+            <div className="font-bold text-[15px]">
+              📊 {en ? "Historical Speed Trends" : "历史速度趋势"}
+            </div>
             <div className="text-[11px] text-faint">
-              同一模型在历次对比中的输出 TPS 走势（数据来自本机历史记录）
+              {en
+                ? "Output TPS trend for the same model across local history entries."
+                : "同一模型在历次对比中的输出 TPS 走势（数据来自本机历史记录）"}
             </div>
           </div>
           <button
@@ -78,8 +85,9 @@ export function TrendModal({
 
         {!active || active.pts.length < 2 ? (
           <div className="px-5 pb-8 pt-4 text-[12.5px] text-faint">
-            还没有足够的数据——同一个模型至少要有 2
-            次完成的对比记录才能画出趋势。多跑几轮（不同时段更有意思）再来看看。
+            {en
+              ? "Not enough data yet. The same model needs at least 2 completed comparison records before a trend can be drawn. Run a few more tests and check back."
+              : "还没有足够的数据——同一个模型至少要有 2 次完成的对比记录才能画出趋势。多跑几轮（不同时段更有意思）再来看看。"}
           </div>
         ) : (
           <>
@@ -102,7 +110,7 @@ export function TrendModal({
                 </button>
               ))}
             </div>
-            <TrendChart pts={active.pts} hover={hover} setHover={setHover} />
+            <TrendChart pts={active.pts} hover={hover} setHover={setHover} locale={locale} />
           </>
         )}
       </div>
@@ -115,11 +123,14 @@ function TrendChart({
   pts,
   hover,
   setHover,
+  locale,
 }: {
   pts: TrendPoint[];
   hover: number | null;
   setHover: (i: number | null) => void;
+  locale: "zh-CN" | "en";
 }) {
+  const en = locale === "en";
   const minAt = pts[0].at;
   const maxAt = pts[pts.length - 1].at;
   const span = Math.max(maxAt - minAt, 1);
@@ -128,7 +139,7 @@ function TrendChart({
   const X = (at: number) => PAD.l + ((at - minAt) / span) * PLOT_W;
   const Y = (tps: number) => PAD.t + PLOT_H - (tps / maxTps) * PLOT_H;
   const fmtDate = (at: number) =>
-    new Date(at).toLocaleString("zh-CN", {
+    new Date(at).toLocaleString(en ? "en-US" : "zh-CN", {
       month: "numeric",
       day: "numeric",
       hour: "2-digit",
@@ -237,10 +248,10 @@ function TrendChart({
               {fmtDate(hp.at)}
             </text>
             <text x={10} y={31} fontSize={11} fill="#ffb3ad" className="num">
-              输出 {fmtTps(hp.tps)} tok/s
+              {en ? "Output" : "输出"} {fmtTps(hp.tps)} tok/s
             </text>
             <text x={10} y={45} fontSize={10.5} fill="var(--paper)" className="num">
-              首Token {hp.ttftMs != null ? `${fmtSeconds(hp.ttftMs)}s` : "—"}
+              {en ? "TTFT" : "首Token"} {hp.ttftMs != null ? `${fmtSeconds(hp.ttftMs)}s` : "—"}
             </text>
           </g>
         )}

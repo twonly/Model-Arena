@@ -5,6 +5,7 @@ import {
   OFFICIAL_EVAL_TEMPLATES,
   buildTemplateArenaSeed,
   customPromptToEvalTemplate,
+  officialEvalTemplates,
   templateConfidenceLabel,
   templateHistoryCounts,
 } from "../lib/eval-templates.ts";
@@ -19,6 +20,17 @@ test("official eval templates are unique and cover core categories", () => {
   assert.ok(OFFICIAL_EVAL_TEMPLATES.every((template) => template.publicSamples === 0));
 });
 
+test("official eval templates support English with stable ids", () => {
+  const en = officialEvalTemplates("en");
+  assert.equal(en.length, OFFICIAL_EVAL_TEMPLATES.length);
+  assert.deepEqual(
+    en.map((template) => template.id),
+    OFFICIAL_EVAL_TEMPLATES.map((template) => template.id)
+  );
+  assert.match(en[0].title, /throughput/i);
+  assert.match(en[0].prompt, /Write/i);
+});
+
 test("template arena seed only carries prompt and template metadata", () => {
   const template = OFFICIAL_EVAL_TEMPLATES[0];
   const seed = buildTemplateArenaSeed(template);
@@ -29,6 +41,10 @@ test("template arena seed only carries prompt and template metadata", () => {
   assert.equal(seed.templateTitle, template.title);
   assert.equal(seed.models, undefined);
   assert.match(seed.notes ?? "", /可自己编辑/);
+
+  const enSeed = buildTemplateArenaSeed(officialEvalTemplates("en")[0], "en");
+  assert.match(enSeed.title ?? "", /Model evaluation/);
+  assert.match(enSeed.notes ?? "", /editable/);
 });
 
 test("custom prompt templates have stable ids and default scoring", () => {
@@ -45,6 +61,10 @@ test("custom prompt templates have stable ids and default scoring", () => {
   assert.equal(a.source, "custom");
   assert.equal(a.title, "我的客服评测");
   assert.ok(a.scoring.includes("速度表现"));
+
+  const en = customPromptToEvalTemplate({ label: "", text: "Reply to a ticket." }, 1, "en");
+  assert.equal(en.title, "My template 2");
+  assert.ok(en.scoring.includes("Speed"));
 });
 
 test("template history counts only entries with template ids", () => {
@@ -62,4 +82,5 @@ test("template confidence can be lifted by local samples", () => {
   assert.equal(templateConfidenceLabel(0, 0).tone, "low");
   assert.equal(templateConfidenceLabel(0, 12).tone, "medium");
   assert.equal(templateConfidenceLabel(0, 55).tone, "high");
+  assert.equal(templateConfidenceLabel(0, 55, "en").label, "Stable sample");
 });

@@ -1,16 +1,37 @@
 import { SHARED_MODELS, sharedAsEndpoints } from "./shared-models.ts";
+import { DEFAULT_LOCALE, type Locale } from "./i18n.ts";
+import { getMessages } from "./i18n-messages.ts";
 import type { ModelEndpoint } from "./types.ts";
 
 export const ARENA_SEED_STORAGE_KEY = "ma.arena.seed";
 
-export const QUICK_SAMPLE = {
-  title: "三模型速度短测（可自己编辑）",
-  notes:
-    "快速体验模式（可自己编辑）：同一个短任务并发跑 3 个预置模型，先看首 Token 时延、输出速度和完成排名。",
-  prompt:
-    "请用中文写一段 180 字以内的产品说明，主题是：为什么大模型测速不能只看单次主观感受，而要同时比较首 Token 时延、输出速度和稳定性。",
-  sharedIds: ["deepseek-flash", "kimi", "stepfun"],
-} as const;
+export const QUICK_SAMPLE_BY_LOCALE = {
+  "zh-CN": {
+    title: "三模型速度短测（可自己编辑）",
+    notes:
+      "快速体验模式（可自己编辑）：同一个短任务并发跑 3 个预置模型，先看首 Token 时延、输出速度和完成排名。",
+    prompt:
+      "请用中文写一段 180 字以内的产品说明，主题是：为什么大模型测速不能只看单次主观感受，而要同时比较首 Token 时延、输出速度和稳定性。",
+    sharedIds: ["deepseek-flash", "kimi", "stepfun"],
+  },
+  en: {
+    title: "Three-model speed sample (editable)",
+    notes:
+      "Quick sample mode (editable): run one short task across 3 preset models and compare TTFT, output speed and finish order.",
+    prompt:
+      "Write a product-style explanation in English, under 180 words, about why LLM speed testing should not rely on a single subjective impression and should compare TTFT, output speed and stability together.",
+    sharedIds: ["deepseek-flash", "kimi", "stepfun"],
+  },
+} as const satisfies Record<
+  Locale,
+  { title: string; notes: string; prompt: string; sharedIds: readonly string[] }
+>;
+
+export const QUICK_SAMPLE = QUICK_SAMPLE_BY_LOCALE[DEFAULT_LOCALE];
+
+export function quickSample(locale: Locale = DEFAULT_LOCALE) {
+  return QUICK_SAMPLE_BY_LOCALE[locale];
+}
 
 export interface ArenaSeed {
   mode: "sample" | "share-full" | "share-prompt";
@@ -45,54 +66,56 @@ export function sharedEndpointsForModels(models: string[] = []): ModelEndpoint[]
   return sharedAsEndpoints().filter((m) => ids.has(m.id));
 }
 
-export function sampleConfidence(samples: number): {
+export function sampleConfidence(samples: number, locale: Locale = DEFAULT_LOCALE): {
   label: string;
   tone: "low" | "medium" | "high";
   description: string;
 } {
+  const messages = getMessages(locale).confidence;
   if (samples >= 50) {
     return {
-      label: "样本较稳",
+      label: messages.sampleHigh.label,
       tone: "high",
-      description: "50+ 次实测，受单次网络抖动影响较小。",
+      description: messages.sampleHigh.description,
     };
   }
   if (samples >= 10) {
     return {
-      label: "可参考",
+      label: messages.sampleMedium.label,
       tone: "medium",
-      description: "10+ 次实测，适合初步比较。",
+      description: messages.sampleMedium.description,
     };
   }
   return {
-    label: "样本偏少",
+    label: messages.sampleLow.label,
     tone: "low",
-    description: "样本不足 10 次，建议继续贡献实测。",
+    description: messages.sampleLow.description,
   };
 }
 
-export function voteConfidence(votes: number): {
+export function voteConfidence(votes: number, locale: Locale = DEFAULT_LOCALE): {
   label: string;
   tone: "low" | "medium" | "high";
   description: string;
 } {
+  const messages = getMessages(locale).confidence;
   if (votes >= 30) {
     return {
-      label: "投票较稳",
+      label: messages.voteHigh.label,
       tone: "high",
-      description: "30+ 次投票，Wilson 排名更可靠。",
+      description: messages.voteHigh.description,
     };
   }
   if (votes >= 8) {
     return {
-      label: "可参考",
+      label: messages.voteMedium.label,
       tone: "medium",
-      description: "8+ 次投票，仍会被 Wilson 自动折扣。",
+      description: messages.voteMedium.description,
     };
   }
   return {
-    label: "票数偏少",
+    label: messages.voteLow.label,
     tone: "low",
-    description: "投票不足 8 次，排名波动会比较大。",
+    description: messages.voteLow.description,
   };
 }

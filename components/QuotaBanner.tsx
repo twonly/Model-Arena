@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useI18n } from "@/components/I18nProvider";
 
 /**
  * 共享「体验额度」提示条。未登录/未配置 key 的用户用预置模型时显示：
@@ -23,6 +24,8 @@ export function QuotaBanner({
   onInvite: () => void;
   onConfigure: () => void;
 }) {
+  const { href, locale } = useI18n();
+  const en = locale === "en";
   const out = remaining <= 0;
   const low = remaining > 0 && remaining <= 2;
   return (
@@ -36,14 +39,16 @@ export function QuotaBanner({
     >
       {out ? (
         <>
-          <span className="font-semibold text-accent">🚫 今日免费体验额度已用完</span>
-          <span className="text-faint">—— 继续对比：</span>
+          <span className="font-semibold text-accent">
+            🚫 {en ? "Today's free trial runs are used up" : "今日免费体验额度已用完"}
+          </span>
+          <span className="text-faint">{en ? "Continue with:" : "—— 继续对比："}</span>
           {!loggedIn && (
             <button
               onClick={onLogin}
               className="rounded-md bg-ink px-2.5 py-0.5 text-[12px] font-semibold text-paper cursor-pointer"
             >
-              登录再得 10 次
+              {en ? "Sign in for 10 more" : "登录再得 10 次"}
             </button>
           )}
           {loggedIn && (
@@ -51,44 +56,48 @@ export function QuotaBanner({
               onClick={onInvite}
               className="rounded-md bg-ink px-2.5 py-0.5 text-[12px] font-semibold text-paper cursor-pointer"
             >
-              邀请好友得次数
+              {en ? "Invite friends for more" : "邀请好友得次数"}
             </button>
           )}
           <button
             onClick={onConfigure}
             className="rounded-md border border-line px-2.5 py-0.5 text-[12px] font-semibold hover:border-ink/40 cursor-pointer"
           >
-            填我自己的 Key（无限）
+            {en ? "Use my own Key" : "填我自己的 Key（无限）"}
           </button>
         </>
       ) : (
         <>
-          <span>🎁 免费体验中：今日还可免费跑</span>
+          <span>🎁 {en ? "Free trial: you can still run" : "免费体验中：今日还可免费跑"}</span>
           <b className="num text-ink">
             {remaining}/{limit}
           </b>
-          <span>次对比（用预置模型）。</span>
+          <span>{en ? " comparisons today with preset models." : "次对比（用预置模型）。"}</span>
           {bonusRemaining > 0 && (
-            <span className="text-faint">其中邀请奖励 {bonusRemaining} 次。</span>
+            <span className="text-faint">
+              {en ? `${bonusRemaining} come from invite rewards.` : `其中邀请奖励 ${bonusRemaining} 次。`}
+            </span>
           )}
-          <span>{low ? "次数不多了：" : "用完后"}</span>
+          <span>{low ? (en ? "Almost out:" : "次数不多了：") : en ? "After that," : "用完后"}</span>
           {!loggedIn && (
             <button onClick={onLogin} className="underline hover:text-ink cursor-pointer">
-              登录再得 10 次
+              {en ? "sign in for 10 more" : "登录再得 10 次"}
             </button>
           )}
           {loggedIn && (
             <button onClick={onInvite} className="underline hover:text-ink cursor-pointer">
-              邀请好友再得次数
+              {en ? "invite friends for more runs" : "邀请好友再得次数"}
             </button>
           )}
-          <span className="text-faint">或</span>
+          <span className="text-faint">{en ? "or" : "或"}</span>
           <button onClick={onConfigure} className="underline hover:text-ink cursor-pointer">
-            填自己的 Key 无限使用
+            {en ? "use your own Key without the trial limit" : "填自己的 Key 无限使用"}
           </button>
-          <span className="text-faint">。Key 只存你本地。</span>
-          <Link href="/invite" className="underline hover:text-ink">
-            规则
+          <span className="text-faint">
+            {en ? " Your Key stays local." : "。Key 只存你本地。"}
+          </span>
+          <Link href={href("/invite")} className="underline hover:text-ink">
+            {en ? "Rules" : "规则"}
           </Link>
         </>
       )}

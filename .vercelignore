@@ -7,3 +7,6 @@ lib/admin-bypass.ts
 lib/admin-ui.tsx
 scripts
 .admin-bypass.local.json
+
+# 本地内容发布素材，不属于站点运行产物。
+content

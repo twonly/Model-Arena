@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState } from "react";
+import { useI18n } from "@/components/I18nProvider";
 import { fmtTps } from "@/lib/format";
 import type { SpeedSample } from "@/lib/types";
 
@@ -37,6 +38,8 @@ export function ChartModal({
   /** 整体平均（含首响等待），来自最终指标 */
   avgTps?: number;
 }) {
+  const { locale } = useI18n();
+  const en = locale === "en";
   const svgRef = useRef<SVGSVGElement>(null);
   const [hover, setHover] = useState<number | null>(null);
 
@@ -104,11 +107,11 @@ export function ChartModal({
     ctx.fillRect(0, 0, W, H + titleH);
     ctx.fillStyle = "#1d1c18";
     ctx.font = font(17, true);
-    ctx.fillText(`${title} · Token 输出速度曲线`, PAD.l, 26);
+    ctx.fillText(`${title} · ${en ? "Token Output Speed Curve" : "Token 输出速度曲线"}`, PAD.l, 26);
     ctx.fillStyle = "#8d8a82";
     ctx.font = font(11);
     ctx.fillText(
-      `${subtitle ?? ""}   峰值 ${fmtTps(stats.peak.tps)} tok/s @ ${secs(stats.peak.t)} · 曲线平均 ${fmtTps(stats.mean)} tok/s${avgTps != null ? ` · 整体平均 ${fmtTps(avgTps)} tok/s` : ""} · 时长 ${secs(stats.maxT)}`,
+      `${subtitle ?? ""}   ${en ? "Peak" : "峰值"} ${fmtTps(stats.peak.tps)} tok/s @ ${secs(stats.peak.t)} · ${en ? "Curve avg" : "曲线平均"} ${fmtTps(stats.mean)} tok/s${avgTps != null ? ` · ${en ? "Overall avg" : "整体平均"} ${fmtTps(avgTps)} tok/s` : ""} · ${en ? "Duration" : "时长"} ${secs(stats.maxT)}`,
       PAD.l,
       44
     );
@@ -166,7 +169,7 @@ export function ChartModal({
     ctx.setLineDash([]);
 
     const link = document.createElement("a");
-    link.download = `${title}-速度曲线.png`;
+    link.download = `${title}-${en ? "speed-curve" : "速度曲线"}.png`;
     link.href = canvas.toDataURL("image/png");
     link.click();
   };
@@ -183,7 +186,7 @@ export function ChartModal({
         <div className="flex items-start justify-between px-5 pt-4 pb-2">
           <div>
             <div className="font-bold text-[15px]">
-              {title} · Token 输出速度曲线
+              {title} · {en ? "Token Output Speed Curve" : "Token 输出速度曲线"}
             </div>
             {subtitle && (
               <div className="num text-[11px] text-faint">{subtitle}</div>
@@ -194,7 +197,7 @@ export function ChartModal({
               onClick={downloadPng}
               className="rounded-md border border-line px-2.5 py-1 text-[11.5px] text-faint hover:text-ink cursor-pointer"
             >
-              ⤓ 下载 PNG
+              ⤓ {en ? "Download PNG" : "下载 PNG"}
             </button>
             <button
               onClick={onClose}
@@ -208,14 +211,14 @@ export function ChartModal({
         {/* 统计行 */}
         <div className="flex flex-wrap gap-x-6 gap-y-1 px-5 pb-2">
           <span className="text-[11.5px] text-faint">
-            峰值{" "}
+            {en ? "Peak" : "峰值"}{" "}
             <span className="num font-bold text-accent">
               {fmtTps(stats.peak.tps)}
             </span>{" "}
             tok/s <span className="num">@ {secs(stats.peak.t)}</span>
           </span>
           <span className="text-[11.5px] text-faint">
-            曲线平均{" "}
+            {en ? "Curve Avg" : "曲线平均"}{" "}
             <span className="num font-bold text-ink">
               {fmtTps(stats.mean)}
             </span>{" "}
@@ -223,16 +226,16 @@ export function ChartModal({
           </span>
           {avgTps != null && (
             <span className="text-[11.5px] text-faint">
-              整体平均（含首响）{" "}
+              {en ? "Overall Avg (incl. TTFT)" : "整体平均（含首响）"}{" "}
               <span className="num font-bold text-ink">{fmtTps(avgTps)}</span>{" "}
               tok/s
             </span>
           )}
           <span className="text-[11.5px] text-faint">
-            时长 <span className="num font-bold text-ink">{secs(stats.maxT)}</span>
+            {en ? "Duration" : "时长"} <span className="num font-bold text-ink">{secs(stats.maxT)}</span>
           </span>
           <span className="text-[11.5px] text-faint">
-            采样 <span className="num">{samples.length}</span> 点 / 250ms
+            {en ? "Samples" : "采样"} <span className="num">{samples.length}</span> {en ? "points / 250ms" : "点 / 250ms"}
           </span>
         </div>
 

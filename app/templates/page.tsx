@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import { EvalTemplatesClient } from "@/components/EvalTemplatesClient";
 import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
-import { OFFICIAL_EVAL_TEMPLATES } from "@/lib/eval-templates";
+import { officialEvalTemplates } from "@/lib/eval-templates";
+import { getMessages } from "@/lib/i18n-messages";
+import { getRequestLocale } from "@/lib/i18n-server";
+import { localeToLanguage, localizedPath } from "@/lib/i18n";
 
 export const metadata: Metadata = {
   title: "AI 模型评测模板 - LLM Benchmark Prompt 与模型对比任务",
@@ -20,28 +23,32 @@ export const metadata: Metadata = {
   ],
 };
 
-const templatesJsonLd = {
-  "@context": "https://schema.org",
-  "@type": "CollectionPage",
-  name: "AI 模型评测模板",
-  url: `${BRAND.url}/templates`,
-  description: metadata.description,
-  inLanguage: "zh-CN",
-  mainEntity: {
-    "@type": "ItemList",
-    itemListElement: OFFICIAL_EVAL_TEMPLATES.map((template, index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name: template.title,
-      description: template.description,
-    })),
-  },
-};
+function templatesJsonLd(locale: Awaited<ReturnType<typeof getRequestLocale>>) {
+  const messages = getMessages(locale);
+  return {
+    "@context": "https://schema.org",
+    "@type": "CollectionPage",
+    name: messages.metadata.templates.title,
+    url: `${BRAND.url}${localizedPath("/templates", locale)}`,
+    description: messages.metadata.templates.description,
+    inLanguage: localeToLanguage(locale),
+    mainEntity: {
+      "@type": "ItemList",
+      itemListElement: officialEvalTemplates(locale).map((template, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: template.title,
+        description: template.description,
+      })),
+    },
+  };
+}
 
-export default function TemplatesPage() {
+export default async function TemplatesPage() {
+  const locale = await getRequestLocale();
   return (
     <>
-      <JsonLd data={templatesJsonLd} />
+      <JsonLd data={templatesJsonLd(locale)} />
       <EvalTemplatesClient />
     </>
   );

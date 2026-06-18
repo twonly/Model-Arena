@@ -165,6 +165,55 @@ test("fixed review draft builds a deterministic markdown draft with table and ev
   assert.match(draft, /https:\/\/www\.tokrace\.com\/r\/abc123/);
 });
 
+test("review draft templates support English output and prompts", () => {
+  const input = {
+    title: "GPT vs Claude",
+    notes: "same prompt, concurrent run",
+    prompt: "Explain why TTFT changes user perception.",
+    style: "technical",
+    thinkingStats: true,
+    locale: "en",
+    shareUrl: "https://www.tokrace.com/en/r/abc123",
+    rows: [
+      {
+        name: "GPT",
+        model: "gpt-4.1",
+        run: {
+          status: "done",
+          text: "TTFT shapes the first response feel.",
+          reasoning: "Separate latency and throughput.",
+          metrics: {
+            official: false,
+            ttftMs: 710,
+            contentTps: 66,
+            avgTps: 52,
+            peakTps: 90,
+            outputTokens: 120,
+            totalMs: 3500,
+            thinkingTps: 8,
+            reasoningTokens: 22,
+          },
+          samples: [],
+          liveTokens: 0,
+          liveTps: 0,
+          rank: 1,
+        },
+      },
+    ],
+  };
+
+  const draft = buildFixedReviewDraft(input);
+  assert.match(draft, /## Key metrics table/);
+  assert.match(draft, /\| Model \| Rank \| Status \| TTFT/);
+  assert.match(draft, /120 \(estimated\)/);
+  assert.match(draft, /## Original Prompt/);
+
+  const prompt = buildReviewDraftPrompt(input);
+  assert.match(prompt, /produce a publishable English summary/);
+  assert.match(prompt, /Do not invent metrics/);
+  assert.match(prompt, /# Base review draft/);
+});
+
 test("review draft prompt truncates long model outputs", () => {
   const prompt = buildReviewDraftPrompt({
     title: "",
