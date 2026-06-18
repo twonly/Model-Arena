@@ -153,6 +153,13 @@ export const ModelCard = memo(function ModelCard({
   const [htmlBig, setHtmlBig] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
   const previewRef = useRef<HTMLIFrameElement>(null);
+  const previewWrapRef = useRef<HTMLDivElement>(null);
+  // bump 这个 key 会强制 iframe 重挂载（重新加载 / 重跑动画）
+  const [reloadKey, setReloadKey] = useState(0);
+  // 离屏的跨源沙箱 iframe 会被浏览器暂停/限频渲染（rAF 几乎停转），
+  // 表现为「不滚动到这里就一直空白、点一下才出现」。改成进入视口附近才挂载：
+  // 加载即可见、不被限频，也避免多张卡同时抢 CDN。截图/分享态直接预挂载。
+  const [previewSeen, setPreviewSeen] = useState(screenshotMode);
 
   // 预览高度偏好持久化：放大一次后后续运行保持放大，省去每次手动点
   // （用 effect 而非 useState 初值，避免 SSR/CSR 水合不一致）
@@ -187,6 +194,27 @@ export const ModelCard = memo(function ModelCard({
     () => (finished ? extractHtmlDoc(run.text) : null),
     [run.text, finished]
   );
+
+  // 预览进入视口附近（300px 提前量）才挂载 iframe，避免离屏被浏览器限频
+  useEffect(() => {
+    if (previewSeen || !htmlDoc) return;
+    const el = previewWrapRef.current;
+    if (!el || typeof IntersectionObserver === "undefined") {
+      setPreviewSeen(true);
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((e) => e.isIntersecting)) {
+          setPreviewSeen(true);
+          io.disconnect();
+        }
+      },
+      { rootMargin: "300px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, [previewSeen, htmlDoc]);
 
   // 正文字数与「N 字」达成率（仅 Prompt 含字数要求时显示）
   const wordCount = useMemo(
@@ -439,7 +467,10 @@ export const ModelCard = memo(function ModelCard({
 
       {/* HTML/Canvas/3D 沙箱预览：单文件网页/游戏类输出可直接交互运行 */}
       {htmlDoc && !compact && (
-        <div className="mx-4 mb-3 rounded-md border border-line overflow-hidden">
+        <div
+          ref={previewWrapRef}
+          className="mx-4 mb-3 rounded-md border border-line overflow-hidden"
+        >
           <div className="flex items-center justify-between bg-paper/70 px-3 py-1.5 text-[11px] text-faint">
             <button
               onClick={() => setShowHtml((v) => !v)}
@@ -447,8 +478,18 @@ export const ModelCard = memo(function ModelCard({
             >
               {showHtml ? "▾" : "▸"} 🕹 {en ? "HTML / Canvas / 3D Preview (sandboxed)" : "HTML / Canvas / 3D 预览（沙箱运行）"}
             </button>
-            {showHtml && (
+            {showHtml && previewSeen && (
               <div className="flex items-center gap-2.5">
+                <button
+                  onClick={() => {
+                    setPreviewSeen(true);
+                    setReloadKey((k) => k + 1);
+                  }}
+                  title={en ? "Reload / restart the preview" : "重新加载预览（CDN 慢或没出来时点这里）"}
+                  className="cursor-pointer hover:text-ink"
+                >
+                  {en ? "↻ Reload" : "↻ 重新加载"}
+                </button>
                 <button
                   onClick={togglePreviewBig}
                   className="cursor-pointer hover:text-ink"
@@ -465,18 +506,27 @@ export const ModelCard = memo(function ModelCard({
               </div>
             )}
           </div>
-          {showHtml && (
-            <iframe
-              ref={previewRef}
-              sandbox="allow-scripts"
-              allow="fullscreen"
-              srcDoc={htmlDoc}
-              title={en ? `${endpoint.name} HTML preview` : `${endpoint.name} HTML 预览`}
-              className={`w-full border-0 bg-white ${
-                htmlBig ? "h-[78vh]" : expanded ? "h-[58vh]" : "h-80"
-              }`}
-            />
-          )}
+          {showHtml &&
+            (previewSeen ? (
+              <iframe
+                key={reloadKey}
+                ref={previewRef}
+                sandbox="allow-scripts"
+                allow="fullscreen"
+                srcDoc={htmlDoc}
+                title={en ? `${endpoint.name} HTML preview` : `${endpoint.name} HTML 预览`}
+                className={`w-full border-0 bg-white ${
+                  htmlBig ? "h-[78vh]" : expanded ? "h-[58vh]" : "h-80"
+                }`}
+              />
+            ) : (
+              <button
+                onClick={() => setPreviewSeen(true)}
+                className="flex h-80 w-full items-center justify-center gap-2 bg-white/95 text-[12.5px] text-faint hover:text-ink cursor-pointer"
+              >
+                ▶ {en ? "Click to load the interactive preview" : "点击加载交互预览（滚动到此也会自动加载）"}
+              </button>
+            ))}
         </div>
       )}
 
