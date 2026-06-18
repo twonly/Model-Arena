@@ -226,6 +226,21 @@ export const OFFICIAL_EVAL_TEMPLATES: EvalTemplate[] = [
     publicSamples: 0,
   },
   {
+    id: "official-visual-hexagon-ball",
+    source: "official",
+    title: "六边形弹球物理",
+    description:
+      "近期最火的「旋转六边形内弹跳小球」推理题：纯 Canvas、无需联网，球是否始终留在六边形内一眼可判，强烈区分模型的物理与碰撞推理。",
+    category: "vision",
+    tags: ["Canvas", "物理", "推理"],
+    prompt:
+      "写一个单文件 HTML（只输出完整代码，不要解释），用原生 Canvas 实现：一个小球在一个匀速旋转的正六边形内部弹跳。小球受重力下落，与六边形的六条边发生带能量损失的反弹（注意边在旋转，要考虑墙面速度和切向摩擦），任何时刻都不能穿出六边形。深色背景，小球带运动拖尾。不要使用外部库。",
+    scoring: ["完整 HTML", "球始终在内部", "碰撞反弹正确", "重力/摩擦真实感", "旋转流畅"],
+    recommendedFor: "推理模型、物理直觉、一次成稿能力评测",
+    estimatedMinutes: 3,
+    publicSamples: 0,
+  },
+  {
     id: "official-visual-threejs-orbit",
     source: "official",
     title: "Three.js 3D 场景",
@@ -234,8 +249,8 @@ export const OFFICIAL_EVAL_TEMPLATES: EvalTemplate[] = [
     category: "vision",
     tags: ["Three.js", "3D", "WebGL"],
     prompt:
-      "写一个单文件 HTML（只输出完整代码，不要解释），使用 Three.js CDN 创建一个可运行 3D 场景：发光水晶核心、环绕粒子、缓慢旋转相机、鼠标拖拽视角、窗口自适应；如果 CDN 失败，显示明确错误提示。",
-    scoring: ["完整 HTML", "Three.js 加载", "3D 结构", "光照与材质", "相机/鼠标交互"],
+      "写一个单文件 HTML（只输出完整代码，不要解释）。在 <head> 用 importmap 引入 Three.js（把 `three` 映射到 `https://registry.npmmirror.com/three/0.171.0/files/build/three.module.js`、`three/addons/` 映射到 `https://registry.npmmirror.com/three/0.171.0/files/examples/jsm/`），再用 <script type=\"module\"> 构建可运行 3D 场景：缓慢自转的发光水晶核心、环绕粒子、合理的光照与材质、用 OrbitControls 支持鼠标拖拽旋转与滚轮缩放、canvas 铺满视口并随窗口自适应；若脚本加载失败，在页面上显示明确的错误文字。",
+    scoring: ["完整 HTML", "importmap/模块加载", "3D 结构", "光照与材质", "相机/鼠标交互"],
     recommendedFor: "3D 原型、WebGL demo、视觉代码生成评测",
     estimatedMinutes: 3,
     publicSamples: 0,
@@ -422,6 +437,21 @@ export const OFFICIAL_EVAL_TEMPLATES_EN: EvalTemplate[] = [
     publicSamples: 0,
   },
   {
+    id: "official-visual-hexagon-ball",
+    source: "official",
+    title: "Hexagon bouncing ball physics",
+    description:
+      "The recently viral 'ball bouncing inside a rotating hexagon' reasoning task: pure Canvas, no network needed, and whether the ball stays inside is visually obvious — strongly separates models' physics and collision reasoning.",
+    category: "vision",
+    tags: ["Canvas", "Physics", "Reasoning"],
+    prompt:
+      "Write a single-file HTML document (output complete code only, no explanation) using vanilla Canvas: a ball bounces inside a steadily rotating regular hexagon. The ball falls under gravity and bounces off the six moving walls with energy loss (account for the walls' rotation, including wall velocity and tangential friction), and must never escape the hexagon at any time. Dark background, with a motion trail on the ball. Do not use external libraries.",
+    scoring: ["Complete HTML", "Ball stays inside", "Correct bounce", "Gravity/friction realism", "Smooth rotation"],
+    recommendedFor: "Reasoning models, physical intuition and one-shot delivery reviews",
+    estimatedMinutes: 3,
+    publicSamples: 0,
+  },
+  {
     id: "official-visual-threejs-orbit",
     source: "official",
     title: "Three.js 3D scene",
@@ -430,8 +460,8 @@ export const OFFICIAL_EVAL_TEMPLATES_EN: EvalTemplate[] = [
     category: "vision",
     tags: ["Three.js", "3D", "WebGL"],
     prompt:
-      "Write a single-file HTML document (output complete code only, no explanation). Use the Three.js CDN to create a runnable 3D scene: glowing crystal core, orbiting particles, a slowly rotating camera, mouse-drag view control and responsive resize; if the CDN fails, show a clear error message.",
-    scoring: ["Complete HTML", "Three.js load", "3D structure", "Lighting/materials", "Camera/mouse interaction"],
+      "Write a single-file HTML document (output complete code only, no explanation). In <head>, add an importmap mapping `three` to `https://registry.npmmirror.com/three/0.171.0/files/build/three.module.js` and `three/addons/` to `https://registry.npmmirror.com/three/0.171.0/files/examples/jsm/`, then use a <script type=\"module\"> to build a runnable 3D scene: a slowly self-rotating glowing crystal core, orbiting particles, sensible lighting and materials, OrbitControls for mouse-drag rotation and wheel zoom, and a canvas that fills the viewport and resizes with the window; if the scripts fail to load, show clear error text on the page.",
+    scoring: ["Complete HTML", "importmap/module load", "3D structure", "Lighting/materials", "Camera/mouse interaction"],
     recommendedFor: "3D prototypes, WebGL demos and visual code generation reviews",
     estimatedMinutes: 3,
     publicSamples: 0,

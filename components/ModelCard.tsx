@@ -152,6 +152,28 @@ export const ModelCard = memo(function ModelCard({
   const [showHtml, setShowHtml] = useState(true);
   const [htmlBig, setHtmlBig] = useState(false);
   const [chartOpen, setChartOpen] = useState(false);
+  const previewRef = useRef<HTMLIFrameElement>(null);
+
+  // 预览高度偏好持久化：放大一次后后续运行保持放大，省去每次手动点
+  // （用 effect 而非 useState 初值，避免 SSR/CSR 水合不一致）
+  useEffect(() => {
+    try {
+      setHtmlBig(localStorage.getItem("tokrace:preview-big") === "1");
+    } catch {}
+  }, []);
+  const togglePreviewBig = () =>
+    setHtmlBig((v) => {
+      const next = !v;
+      try {
+        localStorage.setItem("tokrace:preview-big", next ? "1" : "0");
+      } catch {}
+      return next;
+    });
+  // 真·全屏：把 iframe 元素本身请求进 Fullscreen，模型内部的 resize
+  // 回调会按整屏分辨率重排（3D/Canvas 场景才能真正铺满看清）
+  const openPreviewFullscreen = () => {
+    previewRef.current?.requestFullscreen?.().catch(() => {});
+  };
 
   // 模型输出中包含 <svg> 时自动提取预览（img 渲染，脚本不会执行）
   const svgs = useMemo(() => extractSvgs(run.text), [run.text]);
@@ -426,20 +448,33 @@ export const ModelCard = memo(function ModelCard({
               {showHtml ? "▾" : "▸"} 🕹 {en ? "HTML / Canvas / 3D Preview (sandboxed)" : "HTML / Canvas / 3D 预览（沙箱运行）"}
             </button>
             {showHtml && (
-              <button
-                onClick={() => setHtmlBig((v) => !v)}
-                className="cursor-pointer hover:text-ink"
-              >
-                {htmlBig ? (en ? "⊼ Shrink" : "⊼ 收小") : en ? "⛶ Expand" : "⛶ 放大"}
-              </button>
+              <div className="flex items-center gap-2.5">
+                <button
+                  onClick={togglePreviewBig}
+                  className="cursor-pointer hover:text-ink"
+                >
+                  {htmlBig ? (en ? "⊼ Shrink" : "⊼ 收小") : en ? "⛶ Taller" : "⛶ 加高"}
+                </button>
+                <button
+                  onClick={openPreviewFullscreen}
+                  title={en ? "Open in real fullscreen (Esc to exit)" : "真·全屏查看（Esc 退出）"}
+                  className="cursor-pointer hover:text-ink"
+                >
+                  {en ? "⤢ Fullscreen" : "⤢ 全屏"}
+                </button>
+              </div>
             )}
           </div>
           {showHtml && (
             <iframe
+              ref={previewRef}
               sandbox="allow-scripts"
+              allow="fullscreen"
               srcDoc={htmlDoc}
               title={en ? `${endpoint.name} HTML preview` : `${endpoint.name} HTML 预览`}
-              className={`w-full border-0 bg-white ${htmlBig ? "h-[520px]" : "h-72"}`}
+              className={`w-full border-0 bg-white ${
+                htmlBig ? "h-[78vh]" : expanded ? "h-[58vh]" : "h-80"
+              }`}
             />
           )}
         </div>

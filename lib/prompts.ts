@@ -186,8 +186,12 @@ export const PROMPT_LIBRARY: PromptCategory[] = [
         text: "写一个单文件 HTML（只输出完整代码，不要解释），在 16:9 深色画布上用原生 Canvas 实现一辆车向右行驶的循环动画：前景车辆始终可见，远山、树、路灯、地面分层视差滚动，轮胎旋转，有速度仪表和暂停/继续按钮。不要使用外部库。",
       },
       {
+        label: "Canvas 六边形弹球（物理推理）",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），用原生 Canvas 实现：一个小球在一个匀速旋转的正六边形内部弹跳。小球受重力下落，与六边形的六条边发生带能量损失的反弹（注意边在旋转，要考虑墙面速度和切向摩擦），任何时刻都不能穿出六边形。深色背景，小球带运动拖尾。不要使用外部库。",
+      },
+      {
         label: "Three.js 3D 水晶场景",
-        text: "写一个单文件 HTML（只输出完整代码，不要解释），使用 Three.js CDN 创建一个可运行 3D 场景：发光水晶核心、环绕粒子、缓慢旋转相机、鼠标拖拽视角、窗口自适应；如果 CDN 失败，显示明确错误提示。",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释）。在 <head> 用 importmap 引入 Three.js（把 `three` 映射到 `https://registry.npmmirror.com/three/0.171.0/files/build/three.module.js`、`three/addons/` 映射到 `https://registry.npmmirror.com/three/0.171.0/files/examples/jsm/`），再用 <script type=\"module\"> 构建可运行 3D 场景：缓慢自转的发光水晶核心、环绕粒子、合理的光照与材质、用 OrbitControls 支持鼠标拖拽旋转与滚轮缩放、canvas 铺满视口并随窗口自适应；若脚本加载失败，在页面上显示明确的错误文字。",
       },
     ],
   },
@@ -385,8 +389,12 @@ export const PROMPT_LIBRARY_EN: PromptCategory[] = [
         text: "Write a single-file HTML document (output complete code only, no explanation). Use vanilla Canvas on a 16:9 dark scene to animate a car driving to the right in a seamless loop: the foreground car stays visible, distant mountains, trees, streetlights and road layers scroll with parallax, wheels rotate, and there is a speed gauge plus pause/resume button. Do not use external libraries.",
       },
       {
+        label: "Canvas hexagon bouncing ball (physics)",
+        text: "Write a single-file HTML document (output complete code only, no explanation) using vanilla Canvas: a ball bounces inside a steadily rotating regular hexagon. The ball falls under gravity and bounces off the six moving walls with energy loss (account for the walls' rotation, including wall velocity and tangential friction), and must never escape the hexagon at any time. Dark background, with a motion trail on the ball. Do not use external libraries.",
+      },
+      {
         label: "Three.js 3D crystal scene",
-        text: "Write a single-file HTML document (output complete code only, no explanation). Use the Three.js CDN to create a runnable 3D scene: glowing crystal core, orbiting particles, a slowly rotating camera, mouse-drag view control and responsive resize; if the CDN fails, show a clear error message.",
+        text: "Write a single-file HTML document (output complete code only, no explanation). In <head>, add an importmap mapping `three` to `https://registry.npmmirror.com/three/0.171.0/files/build/three.module.js` and `three/addons/` to `https://registry.npmmirror.com/three/0.171.0/files/examples/jsm/`, then use a <script type=\"module\"> to build a runnable 3D scene: a slowly self-rotating glowing crystal core, orbiting particles, sensible lighting and materials, OrbitControls for mouse-drag rotation and wheel zoom, and a canvas that fills the viewport and resizes with the window; if the scripts fail to load, show clear error text on the page.",
       },
     ],
   },

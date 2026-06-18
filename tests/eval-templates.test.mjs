@@ -38,11 +38,22 @@ test("official visual code templates cover one-shot canvas and three.js reviews"
   const three = officialEvalTemplates("en").find(
     (template) => template.id === "official-visual-threejs-orbit"
   );
+  const hexagon = OFFICIAL_EVAL_TEMPLATES.find(
+    (template) => template.id === "official-visual-hexagon-ball"
+  );
   assert.equal(canvas?.category, "vision");
   assert.match(canvas?.prompt ?? "", /单文件 HTML/);
   assert.match(canvas?.prompt ?? "", /Canvas/);
-  assert.match(three?.prompt ?? "", /Three\.js CDN/);
+  // Three.js prompt pins a reproducible importmap instead of a vague "use a CDN",
+  // so capable models are not failed for outdated UMD/build knowledge.
+  assert.match(three?.prompt ?? "", /importmap/);
+  // CDN pinned to npmmirror (domestically hosted) for mainland-China accessibility,
+  // verified to render Three.js + OrbitControls inside the sandboxed iframe.
+  assert.match(three?.prompt ?? "", /registry\.npmmirror\.com\/three/);
   assert.match(three?.description ?? "", /One-shot/i);
+  // The hexagon bouncing ball is a CDN-free, visually verifiable physics test.
+  assert.equal(hexagon?.category, "vision");
+  assert.match(hexagon?.prompt ?? "", /六边形/);
 });
 
 test("template arena seed only carries prompt and template metadata", () => {
