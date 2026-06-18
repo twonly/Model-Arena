@@ -211,6 +211,36 @@ export const OFFICIAL_EVAL_TEMPLATES: EvalTemplate[] = [
     publicSamples: 0,
   },
   {
+    id: "official-visual-canvas-parallax",
+    source: "official",
+    title: "Canvas 动态视差场景",
+    description:
+      "one-shot 生成单文件 HTML + Canvas 动画，测试模型能否一次写出可运行、流畅、有层次的动态效果。",
+    category: "vision",
+    tags: ["Canvas", "动画", "可预览"],
+    prompt:
+      "写一个单文件 HTML（只输出完整代码，不要解释），在 16:9 深色画布上用原生 Canvas 实现一辆车向右行驶的循环动画：前景车辆始终可见，远山、树、路灯、地面分层视差滚动，轮胎旋转，有速度仪表和暂停/继续按钮。不要使用外部库。",
+    scoring: ["完整 HTML", "Canvas 可运行", "动画流畅", "视差层次", "交互控件"],
+    recommendedFor: "创意编码、前端原型、动态视觉模型评测",
+    estimatedMinutes: 3,
+    publicSamples: 0,
+  },
+  {
+    id: "official-visual-threejs-orbit",
+    source: "official",
+    title: "Three.js 3D 场景",
+    description:
+      "one-shot 生成单文件 Three.js/WebGL 场景，观察空间结构、光照、相机和交互是否一次成型。",
+    category: "vision",
+    tags: ["Three.js", "3D", "WebGL"],
+    prompt:
+      "写一个单文件 HTML（只输出完整代码，不要解释），使用 Three.js CDN 创建一个可运行 3D 场景：发光水晶核心、环绕粒子、缓慢旋转相机、鼠标拖拽视角、窗口自适应；如果 CDN 失败，显示明确错误提示。",
+    scoring: ["完整 HTML", "Three.js 加载", "3D 结构", "光照与材质", "相机/鼠标交互"],
+    recommendedFor: "3D 原型、WebGL demo、视觉代码生成评测",
+    estimatedMinutes: 3,
+    publicSamples: 0,
+  },
+  {
     id: "official-long-context-summary",
     source: "official",
     title: "长文本结构化摘要",
@@ -374,6 +404,36 @@ export const OFFICIAL_EVAL_TEMPLATES_EN: EvalTemplate[] = [
     scoring: ["SVG completeness", "Recognizable subject", "No extra explanation", "Renderability"],
     recommendedFor: "Graphic generation, visualization and creative coding",
     estimatedMinutes: 2,
+    publicSamples: 0,
+  },
+  {
+    id: "official-visual-canvas-parallax",
+    source: "official",
+    title: "Canvas parallax animation",
+    description:
+      "One-shot single-file HTML + Canvas animation task for testing runnable, smooth, layered motion effects.",
+    category: "vision",
+    tags: ["Canvas", "Animation", "Previewable"],
+    prompt:
+      "Write a single-file HTML document (output complete code only, no explanation). Use vanilla Canvas on a 16:9 dark scene to animate a car driving to the right in a seamless loop: the foreground car stays visible, distant mountains, trees, streetlights and road layers scroll with parallax, wheels rotate, and there is a speed gauge plus pause/resume button. Do not use external libraries.",
+    scoring: ["Complete HTML", "Runnable Canvas", "Smooth animation", "Layered parallax", "Controls"],
+    recommendedFor: "Creative coding, frontend prototypes and dynamic visual model reviews",
+    estimatedMinutes: 3,
+    publicSamples: 0,
+  },
+  {
+    id: "official-visual-threejs-orbit",
+    source: "official",
+    title: "Three.js 3D scene",
+    description:
+      "One-shot single-file Three.js/WebGL scene task for checking spatial structure, lighting, camera motion and interaction.",
+    category: "vision",
+    tags: ["Three.js", "3D", "WebGL"],
+    prompt:
+      "Write a single-file HTML document (output complete code only, no explanation). Use the Three.js CDN to create a runnable 3D scene: glowing crystal core, orbiting particles, a slowly rotating camera, mouse-drag view control and responsive resize; if the CDN fails, show a clear error message.",
+    scoring: ["Complete HTML", "Three.js load", "3D structure", "Lighting/materials", "Camera/mouse interaction"],
+    recommendedFor: "3D prototypes, WebGL demos and visual code generation reviews",
+    estimatedMinutes: 3,
     publicSamples: 0,
   },
   {

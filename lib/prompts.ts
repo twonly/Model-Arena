@@ -181,6 +181,14 @@ export const PROMPT_LIBRARY: PromptCategory[] = [
         label: "SVG 数据图表",
         text: "用 SVG 画一个简单的柱状图，展示「周一到周五」五天的数值 [3,7,5,8,6]，带坐标轴。只输出 <svg> 代码。",
       },
+      {
+        label: "Canvas 动态视差车",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），在 16:9 深色画布上用原生 Canvas 实现一辆车向右行驶的循环动画：前景车辆始终可见，远山、树、路灯、地面分层视差滚动，轮胎旋转，有速度仪表和暂停/继续按钮。不要使用外部库。",
+      },
+      {
+        label: "Three.js 3D 水晶场景",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），使用 Three.js CDN 创建一个可运行 3D 场景：发光水晶核心、环绕粒子、缓慢旋转相机、鼠标拖拽视角、窗口自适应；如果 CDN 失败，显示明确错误提示。",
+      },
     ],
   },
   {
@@ -371,6 +379,14 @@ export const PROMPT_LIBRARY_EN: PromptCategory[] = [
       {
         label: "SVG bar chart",
         text: "Draw a simple SVG bar chart for Monday to Friday values [3,7,5,8,6], with axes. Output only <svg> code.",
+      },
+      {
+        label: "Canvas parallax car",
+        text: "Write a single-file HTML document (output complete code only, no explanation). Use vanilla Canvas on a 16:9 dark scene to animate a car driving to the right in a seamless loop: the foreground car stays visible, distant mountains, trees, streetlights and road layers scroll with parallax, wheels rotate, and there is a speed gauge plus pause/resume button. Do not use external libraries.",
+      },
+      {
+        label: "Three.js 3D crystal scene",
+        text: "Write a single-file HTML document (output complete code only, no explanation). Use the Three.js CDN to create a runnable 3D scene: glowing crystal core, orbiting particles, a slowly rotating camera, mouse-drag view control and responsive resize; if the CDN fails, show a clear error message.",
       },
     ],
   },

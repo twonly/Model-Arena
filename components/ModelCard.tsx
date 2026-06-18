@@ -156,7 +156,7 @@ export const ModelCard = memo(function ModelCard({
   // 模型输出中包含 <svg> 时自动提取预览（img 渲染，脚本不会执行）
   const svgs = useMemo(() => extractSvgs(run.text), [run.text]);
 
-  // 完整 HTML 文档（贪吃蛇等）：跑完后在沙箱 iframe 里可交互运行
+  // 完整 HTML / Canvas / 3D 片段：跑完后在沙箱 iframe 里可交互运行
   const finished =
     run.status === "done" ||
     run.status === "stopped" ||
@@ -415,7 +415,7 @@ export const ModelCard = memo(function ModelCard({
         </div>
       )}
 
-      {/* HTML 沙箱预览：单文件网页/游戏类输出可直接交互运行 */}
+      {/* HTML/Canvas/3D 沙箱预览：单文件网页/游戏类输出可直接交互运行 */}
       {htmlDoc && !compact && (
         <div className="mx-4 mb-3 rounded-md border border-line overflow-hidden">
           <div className="flex items-center justify-between bg-paper/70 px-3 py-1.5 text-[11px] text-faint">
@@ -423,7 +423,7 @@ export const ModelCard = memo(function ModelCard({
               onClick={() => setShowHtml((v) => !v)}
               className="cursor-pointer"
             >
-              {showHtml ? "▾" : "▸"} 🕹 {en ? "HTML Preview (sandboxed, isolated)" : "HTML 预览（沙箱运行 · 与页面隔离）"}
+              {showHtml ? "▾" : "▸"} 🕹 {en ? "HTML / Canvas / 3D Preview (sandboxed)" : "HTML / Canvas / 3D 预览（沙箱运行）"}
             </button>
             {showHtml && (
               <button

@@ -31,6 +31,20 @@ test("official eval templates support English with stable ids", () => {
   assert.match(en[0].prompt, /Write/i);
 });
 
+test("official visual code templates cover one-shot canvas and three.js reviews", () => {
+  const canvas = OFFICIAL_EVAL_TEMPLATES.find(
+    (template) => template.id === "official-visual-canvas-parallax"
+  );
+  const three = officialEvalTemplates("en").find(
+    (template) => template.id === "official-visual-threejs-orbit"
+  );
+  assert.equal(canvas?.category, "vision");
+  assert.match(canvas?.prompt ?? "", /单文件 HTML/);
+  assert.match(canvas?.prompt ?? "", /Canvas/);
+  assert.match(three?.prompt ?? "", /Three\.js CDN/);
+  assert.match(three?.description ?? "", /One-shot/i);
+});
+
 test("template arena seed only carries prompt and template metadata", () => {
   const template = OFFICIAL_EVAL_TEMPLATES[0];
   const seed = buildTemplateArenaSeed(template);
