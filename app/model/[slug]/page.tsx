@@ -3,8 +3,15 @@ import { notFound } from "next/navigation";
 import { Credit } from "@/components/Credit";
 import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
+import { SocialSharePanel } from "@/components/SocialSharePanel";
+import { htmlBadge, markdownBadge } from "@/lib/badge";
 import { BRAND } from "@/lib/brand";
-import { fetchModelStats, modelSlug, type ModelStat } from "@/lib/stats";
+import { modelSlug } from "@/lib/stats";
+import {
+  fmtMetric as fmt,
+  loadModelStatsForSlug as load,
+  topModelAlternatives as topOthers,
+} from "@/lib/seo-models";
 import {
   DEFAULT_LOCALE,
   localeToLanguage,
@@ -16,48 +23,6 @@ import { getMessages } from "@/lib/i18n-messages";
 
 // 排行榜每 5 分钟更新，模型页同步
 export const revalidate = 300;
-
-function fmt(n: number, digits = 0): string {
-  if (!isFinite(n) || n <= 0) return "—";
-  return n.toLocaleString("en-US", { maximumFractionDigits: digits });
-}
-
-/** 取出某个 slug 对应的全部接入点统计（同模型不同厂商分行） */
-async function load(slug: string): Promise<ModelStat[] | null> {
-  let stats: ModelStat[] | null = null;
-  try {
-    stats = await fetchModelStats();
-  } catch {
-    return null;
-  }
-  if (!stats) return null;
-  const hit = stats.filter((s) => modelSlug(s.model) === slug);
-  return hit.length ? hit : null;
-}
-
-/** 榜单里另外几名（排除自己），用于「热门对比」内链 → /compare 页 */
-async function topOthers(
-  slug: string,
-  limit = 4
-): Promise<{ slug: string; name: string }[]> {
-  let stats: ModelStat[] | null = null;
-  try {
-    stats = await fetchModelStats();
-  } catch {
-    return [];
-  }
-  if (!stats) return [];
-  const seen = new Set<string>();
-  const out: { slug: string; name: string }[] = [];
-  for (const s of stats) {
-    const sl = modelSlug(s.model);
-    if (sl === slug || seen.has(sl)) continue;
-    seen.add(sl);
-    out.push({ slug: sl, name: s.model });
-    if (out.length >= limit) break;
-  }
-  return out;
-}
 
 export async function generateMetadata({
   params,
@@ -127,7 +92,47 @@ export default async function ModelPage({
   const top = hit[0];
   const totalSamples = hit.reduce((a, s) => a + s.samples, 0);
   const url = `${BRAND.url}${h(`/model/${slug}`)}`;
+  const badgeUrl = `${BRAND.url}/api/badge/model/${slug}?locale=${locale}`;
+  const badgeAlt = isZh
+    ? `${top.model} 在 TOKRACE 上的速度结果`
+    : `${top.model} speed result on TOKRACE`;
+  const badgeMarkdown = markdownBadge({
+    alt: badgeAlt,
+    badgeUrl,
+    targetUrl: url,
+  });
+  const badgeHtml = htmlBadge({
+    alt: badgeAlt,
+    badgeUrl,
+    targetUrl: url,
+  });
   const others = await topOthers(slug);
+  const faq = [
+    {
+      q: isZh ? `${top.model} 的输出速度是多少？` : `How fast is ${top.model}?`,
+      a: isZh
+        ? `${top.model} 当前中位输出速度约 ${fmt(top.medianContentTps)} tok/s，首 Token 时延约 ${
+            top.avgTtftMs > 0 ? (top.avgTtftMs / 1000).toFixed(2) : "—"
+          }s，基于 ${fmt(totalSamples)} 次匿名实测。`
+        : `${top.model} currently shows about ${fmt(
+            top.medianContentTps
+          )} tok/s median output speed and ${
+            top.avgTtftMs > 0 ? (top.avgTtftMs / 1000).toFixed(2) : "—"
+          }s TTFT, based on ${fmt(totalSamples)} anonymous runs.`,
+    },
+    {
+      q: isZh ? "这些速度数据可以直接当榜单结论吗？" : "Should I treat this as a final benchmark?",
+      a: isZh
+        ? "不建议只看单一数字。不同 Prompt、网络、时段和厂商负载都会影响结果，中位数更适合看长期体感，复测更适合做选型。"
+        : "Use it as directional evidence, not a single final benchmark. Prompt shape, network, time of day and provider load can all change the result.",
+    },
+    {
+      q: isZh ? "可以把这个结果嵌入到文章或 README 吗？" : "Can I embed this result in an article or README?",
+      a: isZh
+        ? `可以。页面提供 Markdown 和 HTML Badge，图片地址为 ${badgeUrl}。`
+        : `Yes. This page provides Markdown and HTML badges. The badge image URL is ${badgeUrl}.`,
+    },
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -177,6 +182,14 @@ export default async function ModelPage({
           url: BRAND.url,
         },
       },
+      {
+        "@type": "FAQPage",
+        mainEntity: faq.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
+      },
     ],
   };
   const breadcrumbJsonLd = {
@@ -225,27 +238,47 @@ export default async function ModelPage({
 
       {/* 概要数字（首个接入点） */}
       <div className="grid grid-cols-3 gap-3">
-        <Stat label="中位输出" value={fmt(top.medianContentTps)} unit="tok/s" accent />
         <Stat
-          label="首 Token"
+          label={isZh ? "中位输出" : "Median output"}
+          value={fmt(top.medianContentTps)}
+          unit="tok/s"
+          accent
+        />
+        <Stat
+          label={isZh ? "首 Token" : "TTFT"}
           value={top.avgTtftMs > 0 ? (top.avgTtftMs / 1000).toFixed(2) : "—"}
           unit="s"
         />
-        <Stat label="峰值" value={fmt(top.maxPeakTps)} unit="tok/s" />
+        <Stat label={isZh ? "峰值" : "Peak"} value={fmt(top.maxPeakTps)} unit="tok/s" />
       </div>
+
+      <SocialSharePanel
+        className="mt-4"
+        url={url}
+        title={isZh ? `${top.model} 速度实测` : `${top.model} speed results`}
+        text={
+          isZh
+            ? `${top.model} 中位输出 ${fmt(top.medianContentTps)} tok/s · TOKRACE`
+            : `${top.model} median output ${fmt(top.medianContentTps)} tok/s · TOKRACE`
+        }
+        badgeMarkdown={badgeMarkdown}
+        badgeHtml={badgeHtml}
+      />
 
       {/* 各接入点明细 */}
       {hit.length > 1 && (
         <p className="mt-5 text-[12px] text-faint">
-          该模型有 {hit.length} 个接入点（厂商域名），分开统计：
+          {isZh
+            ? `该模型有 ${hit.length} 个接入点（厂商域名），分开统计：`
+            : `This model has ${hit.length} provider endpoint(s), reported separately:`}
         </p>
       )}
       <div className="mt-3 overflow-hidden rounded-lg border border-line bg-card">
         <div className="grid grid-cols-[1fr_auto_auto_auto] gap-3 border-b border-line bg-paper/50 px-4 py-2.5 text-[11px] font-semibold text-faint">
-          <span>接入点</span>
-          <span className="w-24 text-right">中位 tok/s</span>
-          <span className="w-16 text-right">首响</span>
-          <span className="w-16 text-right">峰值</span>
+          <span>{isZh ? "接入点" : "Endpoint"}</span>
+          <span className="w-24 text-right">{isZh ? "中位 tok/s" : "Median tok/s"}</span>
+          <span className="w-16 text-right">{isZh ? "首响" : "TTFT"}</span>
+          <span className="w-16 text-right">{isZh ? "峰值" : "Peak"}</span>
         </div>
         {hit.map((s) => (
           <div
@@ -268,6 +301,38 @@ export default async function ModelPage({
           </div>
         ))}
       </div>
+
+      <section className="mt-6 rounded-lg border border-line bg-card px-4 py-4">
+        <h2 className="text-[15px] font-bold">
+          {isZh ? "如何解读这组数据" : "How to read these metrics"}
+        </h2>
+        <div className="mt-3 grid gap-3 text-[12.5px] leading-relaxed text-faint sm:grid-cols-3">
+          <p>
+            <span className="font-semibold text-ink">
+              {isZh ? "输出 tok/s：" : "Output tok/s: "}
+            </span>
+            {isZh
+              ? "更接近长文本生成时的体感速度。"
+              : "The clearest signal for long-form generation speed."}
+          </p>
+          <p>
+            <span className="font-semibold text-ink">
+              {isZh ? "TTFT：" : "TTFT: "}
+            </span>
+            {isZh
+              ? "影响聊天、工具调用等短请求的第一响应速度。"
+              : "Matters most for chatty or tool-heavy short requests."}
+          </p>
+          <p>
+            <span className="font-semibold text-ink">
+              {isZh ? "样本数：" : "Samples: "}
+            </span>
+            {isZh
+              ? "样本越多，越能抵消偶发网络和厂商抖动。"
+              : "More samples reduce one-off network and provider jitter."}
+          </p>
+        </div>
+      </section>
 
       <div className="mt-4 space-y-1 text-[11px] text-faint/80">
         <p>
@@ -303,6 +368,22 @@ export default async function ModelPage({
           </div>
         </div>
       )}
+
+      <section className="mt-7">
+        <h2 className="mb-2 text-[14px] font-bold">FAQ</h2>
+        <div className="space-y-2">
+          {faq.map((item) => (
+            <details key={item.q} className="rounded-lg border border-line bg-card px-4 py-3">
+              <summary className="cursor-pointer text-[13px] font-semibold">
+                {item.q}
+              </summary>
+              <p className="mt-2 text-[12.5px] leading-relaxed text-faint">
+                {item.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <div className="mt-7 flex flex-wrap gap-2">
         <Link

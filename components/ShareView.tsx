@@ -6,6 +6,8 @@ import { Credit } from "./Credit";
 import { CardVoteBar } from "./CardVoteBar";
 import { Leaderboard } from "./Leaderboard";
 import { ReviewDraftDialog } from "./ReviewDraftDialog";
+import { SocialSharePanel } from "./SocialSharePanel";
+import { htmlBadge, markdownBadge } from "@/lib/badge";
 import { extractWordTarget, rankBadge } from "@/lib/format";
 import type { ShareSnapshot } from "@/lib/share";
 import {
@@ -36,6 +38,7 @@ export function ShareView({
   const [seedError, setSeedError] = useState("");
   const [localEndpoints, setLocalEndpoints] = useState<ModelEndpoint[]>([]);
   const [reviewDraftOpen, setReviewDraftOpen] = useState(false);
+  const [origin, setOrigin] = useState("");
 
   const voting = snapshot.voting?.enabled;
 
@@ -54,6 +57,10 @@ export function ShareView({
     } catch {
       /* ignore */
     }
+  }, []);
+
+  useEffect(() => {
+    setOrigin(window.location.origin);
   }, []);
 
   const react = async (
@@ -123,6 +130,29 @@ export function ShareView({
     "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
   const primaryBtn =
     "rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper cursor-pointer";
+  const sharePath = href(`/r/${shareId}`);
+  const shareUrl = origin ? `${origin}${sharePath}` : sharePath;
+  const badgeUrl = origin
+    ? `${origin}/api/badge/share/${shareId}?locale=${locale}`
+    : `/api/badge/share/${shareId}?locale=${locale}`;
+  const shareTitle =
+    snapshot.title || (isZh ? "模型速度对比" : "Model speed comparison");
+  const shareText = isZh
+    ? `${shareTitle} · ${snapshot.results.length} 个模型 · TOKRACE`
+    : `${shareTitle} · ${snapshot.results.length} models · TOKRACE`;
+  const badgeAlt = isZh
+    ? `${shareTitle} 在 TOKRACE 上的速度结果`
+    : `${shareTitle} speed result on TOKRACE`;
+  const badgeMarkdown = markdownBadge({
+    alt: badgeAlt,
+    badgeUrl,
+    targetUrl: shareUrl,
+  });
+  const badgeHtml = htmlBadge({
+    alt: badgeAlt,
+    badgeUrl,
+    targetUrl: shareUrl,
+  });
 
   const seedArena = (mode: Extract<ArenaSeed["mode"], "share-full" | "share-prompt">) => {
     const seed: ArenaSeed = {
@@ -209,23 +239,37 @@ export function ShareView({
         </div>
       </header>
 
+      <SocialSharePanel
+        className="mb-5"
+        url={shareUrl}
+        title={shareTitle}
+        text={shareText}
+        badgeMarkdown={badgeMarkdown}
+        badgeHtml={badgeHtml}
+      />
+
       {snapshot.prompt.trim() && (
         <>
           <div className="mb-3 rounded-lg border border-line bg-card px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap">
             {snapshot.prompt}
           </div>
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-line bg-paper/50 px-3 py-2.5">
-            <span className="text-[12px] text-faint">
-              {isZh
-                ? "想复查这个结果？可以复制完整评测配置，或只带走 Prompt 重跑。"
-                : "Want to verify this result? Copy the full test setup, or bring only the Prompt and rerun it."}
-            </span>
+          <div className="mb-5 rounded-lg border border-line bg-paper/50 px-3 py-2.5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <span className="text-[12px] font-semibold">
+                {isZh ? "复跑这次评测" : "Rerun this test"}
+              </span>
+              <span className="text-[11px] text-faint">
+                {isZh
+                  ? "完整复跑会带走标题、备注、Prompt 和模型；Prompt 复跑只复用任务文本。"
+                  : "Full rerun carries title, notes, Prompt and models; Prompt rerun only reuses the task text."}
+              </span>
+            </div>
             <div className="flex flex-wrap items-center gap-2">
               <button className={btn} onClick={() => seedArena("share-full")}>
-                {isZh ? "复制这次评测" : "Copy this test"}
+                {isZh ? "完整复跑" : "Full rerun"}
               </button>
               <button className={primaryBtn} onClick={() => seedArena("share-prompt")}>
-                {isZh ? "用同样 Prompt 跑一轮" : "Run same prompt"}
+                {isZh ? "只复用 Prompt" : "Prompt only"}
               </button>
               <button className={btn} onClick={() => setReviewDraftOpen(true)}>
                 ✍️ {isZh ? "生成评测稿" : "Draft review"}
@@ -380,11 +424,7 @@ export function ShareView({
         notes={snapshot.notes}
         prompt={snapshot.prompt}
         thinkingStats={snapshot.thinkingStats}
-        shareUrl={
-          typeof window === "undefined"
-            ? undefined
-            : `${window.location.origin}${href(`/r/${shareId}`)}`
-        }
+        shareUrl={shareUrl}
       />
     </main>
   );

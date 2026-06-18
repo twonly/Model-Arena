@@ -15,7 +15,9 @@ import { TrendModal } from "@/components/TrendModal";
 import { ReferralWelcomeBanner } from "@/components/ReferralWelcomeBanner";
 import { ReferralRewardNotifier } from "@/components/ReferralRewardNotifier";
 import { ReferralShareNudge } from "@/components/ReferralShareNudge";
+import { SocialSharePanel } from "@/components/SocialSharePanel";
 import { useI18n } from "@/components/I18nProvider";
+import { htmlBadge, markdownBadge } from "@/lib/badge";
 import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
@@ -1004,6 +1006,41 @@ export default function Home() {
 
   // Prompt 含「N 字」要求时，卡片显示字数达成率
   const wordTarget = extractWordTarget(restored ? restored.prompt : prompt);
+  const generatedShareId =
+    shareUrl && shareUrl !== "loading"
+      ? (() => {
+          try {
+            return new URL(shareUrl).pathname.split("/").filter(Boolean).pop() ?? "";
+          } catch {
+            return "";
+          }
+        })()
+      : "";
+  const generatedBadgeUrl =
+    shareUrl && shareUrl !== "loading" && generatedShareId
+      ? `${new URL(shareUrl).origin}/api/badge/share/${generatedShareId}?locale=${locale}`
+      : "";
+  const generatedShareTitle =
+    title.trim() || (en ? "Model speed comparison" : "模型速度对比");
+  const generatedBadgeAlt = en
+    ? `${generatedShareTitle} speed result on TOKRACE`
+    : `${generatedShareTitle} 在 TOKRACE 上的速度结果`;
+  const generatedBadgeMarkdown =
+    shareUrl && shareUrl !== "loading" && generatedBadgeUrl
+      ? markdownBadge({
+          alt: generatedBadgeAlt,
+          badgeUrl: generatedBadgeUrl,
+          targetUrl: shareUrl,
+        })
+      : "";
+  const generatedBadgeHtml =
+    shareUrl && shareUrl !== "loading" && generatedBadgeUrl
+      ? htmlBadge({
+          alt: generatedBadgeAlt,
+          badgeUrl: generatedBadgeUrl,
+          targetUrl: shareUrl,
+        })
+      : "";
 
   const btn =
     "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
@@ -1365,6 +1402,25 @@ export default function Home() {
           </span>
         </div>
       )}
+
+      {shareUrl &&
+        shareUrl !== "loading" &&
+        !screenshotMode &&
+        generatedBadgeMarkdown && (
+          <SocialSharePanel
+            compact
+            className="mb-4"
+            url={shareUrl}
+            title={generatedShareTitle}
+            text={
+              en
+                ? `${generatedShareTitle} · TOKRACE model speed test`
+                : `${generatedShareTitle} · TOKRACE 模型速度实测`
+            }
+            badgeMarkdown={generatedBadgeMarkdown}
+            badgeHtml={generatedBadgeHtml}
+          />
+        )}
 
       {referralNudge && !screenshotMode && (
         <ReferralShareNudge

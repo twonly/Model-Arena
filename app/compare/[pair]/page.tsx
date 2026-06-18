@@ -3,92 +3,26 @@ import { notFound } from "next/navigation";
 import { Credit } from "@/components/Credit";
 import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
+import { SocialSharePanel } from "@/components/SocialSharePanel";
+import { compareBadgeAlt, htmlBadge, markdownBadge } from "@/lib/badge";
 import { BRAND } from "@/lib/brand";
+import { modelSlug } from "@/lib/stats";
 import {
-  fetchModelStats,
-  bestStatForSlug,
-  modelSlug,
-  type ModelStat,
-} from "@/lib/stats";
+  compareVerdict as verdict,
+  fmtMetric as fmt,
+  fmtSeconds as secs,
+  loadComparePair as load,
+} from "@/lib/seo-models";
 import {
   DEFAULT_LOCALE,
   localeToLanguage,
   localeToOg,
   localizedPath,
   normalizeLocale,
-  type Locale,
 } from "@/lib/i18n";
 import { getMessages } from "@/lib/i18n-messages";
 
 export const revalidate = 300;
-
-function fmt(n: number, digits = 0): string {
-  if (!isFinite(n) || n <= 0) return "—";
-  return n.toLocaleString("en-US", { maximumFractionDigits: digits });
-}
-const secs = (ms: number) => (ms > 0 ? `${(ms / 1000).toFixed(2)}s` : "—");
-
-interface Pair {
-  a: ModelStat;
-  b: ModelStat;
-  canonical: string;
-}
-
-/** 解析 "a-vs-b"，返回两条最可信 stat；顺序与 URL 一致，canonical 取字母序 */
-async function load(pairParam: string): Promise<Pair | null> {
-  const parts = pairParam.split("-vs-");
-  if (parts.length !== 2 || !parts[0] || !parts[1]) return null;
-  let stats: ModelStat[] | null = null;
-  try {
-    stats = await fetchModelStats();
-  } catch {
-    return null;
-  }
-  if (!stats) return null;
-  const a = bestStatForSlug(stats, parts[0]);
-  const b = bestStatForSlug(stats, parts[1]);
-  if (!a || !b || modelSlug(a.model) === modelSlug(b.model)) return null;
-  const canonical = [modelSlug(a.model), modelSlug(b.model)].sort().join("-vs-");
-  return { a, b, canonical };
-}
-
-/** 一句话裁决：谁输出快、谁首响快 */
-function verdict(a: ModelStat, b: ModelStat, locale: Locale = DEFAULT_LOCALE): string {
-  if (locale === "en") {
-    const out =
-      a.medianContentTps === b.medianContentTps
-        ? `Both models have similar output speed (about ${fmt(a.medianContentTps)} tok/s)`
-        : a.medianContentTps > b.medianContentTps
-          ? `${a.model} has faster output (median ${fmt(a.medianContentTps)} vs ${fmt(b.medianContentTps)} tok/s)`
-          : `${b.model} has faster output (median ${fmt(b.medianContentTps)} vs ${fmt(a.medianContentTps)} tok/s)`;
-    let ttft = "";
-    if (a.avgTtftMs > 0 && b.avgTtftMs > 0) {
-      ttft =
-        a.avgTtftMs < b.avgTtftMs
-          ? `; ${a.model} has faster TTFT (${secs(a.avgTtftMs)} vs ${secs(b.avgTtftMs)})`
-          : a.avgTtftMs > b.avgTtftMs
-            ? `; ${b.model} has faster TTFT (${secs(b.avgTtftMs)} vs ${secs(a.avgTtftMs)})`
-            : "";
-    }
-    return out + ttft + ".";
-  }
-  const out =
-    a.medianContentTps === b.medianContentTps
-      ? `两者输出速度接近（约 ${fmt(a.medianContentTps)} tok/s）`
-      : a.medianContentTps > b.medianContentTps
-        ? `${a.model} 输出更快（中位 ${fmt(a.medianContentTps)} vs ${fmt(b.medianContentTps)} tok/s）`
-        : `${b.model} 输出更快（中位 ${fmt(b.medianContentTps)} vs ${fmt(a.medianContentTps)} tok/s）`;
-  let ttft = "";
-  if (a.avgTtftMs > 0 && b.avgTtftMs > 0) {
-    ttft =
-      a.avgTtftMs < b.avgTtftMs
-        ? `；${a.model} 首响更快（${secs(a.avgTtftMs)} vs ${secs(b.avgTtftMs)}）`
-        : a.avgTtftMs > b.avgTtftMs
-          ? `；${b.model} 首响更快（${secs(b.avgTtftMs)} vs ${secs(a.avgTtftMs)}）`
-          : "";
-  }
-  return out + ttft + "。";
-}
 
 export async function generateMetadata({
   params,
@@ -150,6 +84,44 @@ export default async function ComparePage({
   const { a, b } = p;
   const url = `${BRAND.url}${h(`/compare/${p.canonical}`)}`;
   const v = verdict(a, b, locale);
+  const badgeUrl = `${BRAND.url}/api/badge/compare/${p.canonical}?locale=${locale}`;
+  const badgeAlt = compareBadgeAlt(a, b, locale);
+  const badgeMarkdown = markdownBadge({
+    alt: badgeAlt,
+    badgeUrl,
+    targetUrl: url,
+  });
+  const badgeHtml = htmlBadge({
+    alt: badgeAlt,
+    badgeUrl,
+    targetUrl: url,
+  });
+  const faq = [
+    {
+      q: isZh
+        ? `${a.model} 和 ${b.model} 哪个输出更快？`
+        : `Which model outputs faster, ${a.model} or ${b.model}?`,
+      a: v,
+    },
+    {
+      q: isZh ? "为什么输出速度和首 Token 可能不是同一个赢家？" : "Why can output speed and TTFT have different winners?",
+      a: isZh
+        ? "输出 tok/s 衡量持续生成速度，TTFT 衡量请求发出到第一个 token 返回的等待时间。一个模型可能长文生成快，但排队或首响更慢。"
+        : "Output tok/s measures sustained generation speed, while TTFT measures the wait until the first token. A model can generate long text faster while still taking longer to start.",
+    },
+    {
+      q: isZh ? "我应该如何复测这个对比？" : "How should I rerun this comparison?",
+      a: isZh
+        ? "建议在竞速场使用同一个 Prompt、相同温度和相同网络条件重复跑几次，再结合质量结果做模型选型。"
+        : "Use the arena with the same Prompt, temperature and network conditions, then repeat a few times and combine the speed data with output quality.",
+    },
+    {
+      q: isZh ? "可以把这个对比嵌入到 GitHub 或文章里吗？" : "Can I embed this comparison in GitHub or an article?",
+      a: isZh
+        ? `可以。页面提供 Markdown 和 HTML Badge，图片地址为 ${badgeUrl}。`
+        : `Yes. This page provides Markdown and HTML badges. The badge image URL is ${badgeUrl}.`,
+    },
+  ];
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -170,15 +142,11 @@ export default async function ComparePage({
       },
       {
         "@type": "FAQPage",
-        mainEntity: [
-          {
-            "@type": "Question",
-            name: isZh
-              ? `${a.model} 和 ${b.model} 哪个更快？`
-              : `Which is faster, ${a.model} or ${b.model}?`,
-            acceptedAnswer: { "@type": "Answer", text: v },
-          },
-        ],
+        mainEntity: faq.map((item) => ({
+          "@type": "Question",
+          name: item.q,
+          acceptedAnswer: { "@type": "Answer", text: item.a },
+        })),
       },
     ],
   };
@@ -269,6 +237,23 @@ export default async function ComparePage({
         {v}
       </div>
 
+      <SocialSharePanel
+        className="mb-5"
+        url={url}
+        title={
+          isZh
+            ? `${a.model} vs ${b.model} 速度对比`
+            : `${a.model} vs ${b.model} speed comparison`
+        }
+        text={
+          isZh
+            ? `${a.model} vs ${b.model}：${v}`
+            : `${a.model} vs ${b.model}: ${v}`
+        }
+        badgeMarkdown={badgeMarkdown}
+        badgeHtml={badgeHtml}
+      />
+
       {/* 对照表 */}
       <div className="overflow-hidden rounded-lg border border-line bg-card">
         <div className="grid grid-cols-[1fr_auto_auto] gap-3 border-b border-line bg-paper/50 px-4 py-2.5 text-[11px] font-semibold">
@@ -333,6 +318,36 @@ export default async function ComparePage({
         </p>
       </div>
 
+      <section className="mt-6 rounded-lg border border-line bg-card px-4 py-4">
+        <h2 className="text-[15px] font-bold">
+          {isZh ? "如何使用这个对比" : "How to use this comparison"}
+        </h2>
+        <div className="mt-3 grid gap-3 text-[12.5px] leading-relaxed text-faint sm:grid-cols-3">
+          <p>
+            <span className="font-semibold text-ink">
+              {isZh ? "写作/长输出：" : "Writing/long output: "}
+            </span>
+            {isZh
+              ? "优先看中位输出 tok/s 和峰值。"
+              : "Prioritize median output tok/s and peak speed."}
+          </p>
+          <p>
+            <span className="font-semibold text-ink">
+              {isZh ? "聊天/Agent：" : "Chat/agents: "}
+            </span>
+            {isZh ? "首 Token 时延通常更影响体感。" : "TTFT usually has a bigger UX impact."}
+          </p>
+          <p>
+            <span className="font-semibold text-ink">
+              {isZh ? "模型选型：" : "Model selection: "}
+            </span>
+            {isZh
+              ? "复测你的真实 Prompt，并同时检查输出质量。"
+              : "Rerun your real Prompt and inspect output quality too."}
+          </p>
+        </div>
+      </section>
+
       <div className="mt-7 flex flex-wrap gap-2">
         <Link
           href={h("/arena")}
@@ -347,6 +362,22 @@ export default async function ComparePage({
           {isZh ? "看完整排行榜" : "View full leaderboard"} →
         </Link>
       </div>
+
+      <section className="mt-7">
+        <h2 className="mb-2 text-[14px] font-bold">FAQ</h2>
+        <div className="space-y-2">
+          {faq.map((item) => (
+            <details key={item.q} className="rounded-lg border border-line bg-card px-4 py-3">
+              <summary className="cursor-pointer text-[13px] font-semibold">
+                {item.q}
+              </summary>
+              <p className="mt-2 text-[12.5px] leading-relaxed text-faint">
+                {item.a}
+              </p>
+            </details>
+          ))}
+        </div>
+      </section>
 
       <footer className="mt-8 flex justify-center">
         <Credit compact />
