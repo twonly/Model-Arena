@@ -25,6 +25,9 @@ export default async function Landing() {
   const locale = await getRequestLocale();
   const messages = getMessages(locale);
   const h = (path: string) => localizedPath(path, locale);
+  const heroTitle = `${messages.home.titlePrefix} ${messages.home.titleAccent}`;
+  const heroTitleSize =
+    locale === "zh-CN" ? "text-[32px] sm:text-[56px]" : "text-[27px] sm:text-[56px]";
   const lanes = LANES.map((lane, index) => ({
     ...lane,
     name: messages.home.lanes[index] ?? `Model ${index + 1}`,
@@ -35,8 +38,8 @@ export default async function Landing() {
       <JsonLd data={homeJsonLd(locale)} />
       <div className="min-h-screen">
       {/* 导航 */}
-      <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-5">
-        <div className="flex items-center gap-2">
+      <nav className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-5 py-4 sm:px-6 sm:py-5">
+        <div className="flex min-w-0 items-center gap-2">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src="/logo.png"
@@ -46,35 +49,35 @@ export default async function Landing() {
             className="shrink-0"
           />
           <span
-            className="text-[20px] font-black"
+            className="shrink-0 whitespace-nowrap text-[18px] font-black sm:text-[20px]"
             style={{ fontFamily: "var(--font-title)" }}
           >
             {messages.home.navBrand}
           </span>
-          <span className="num text-[11px] text-faint">TOKRACE</span>
+          <span className="num hidden text-[11px] text-faint sm:inline">TOKRACE</span>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <Link
             href={h("/stats")}
-            className="text-[13px] text-faint hover:text-ink"
+            className="hidden text-[13px] text-faint hover:text-ink md:inline"
           >
             {messages.common.stats}
           </Link>
           <Link
             href={h("/board")}
-            className="text-[13px] text-faint hover:text-ink"
+            className="hidden text-[13px] text-faint hover:text-ink md:inline"
           >
             {messages.common.board}
           </Link>
           <Link
             href={h("/templates")}
-            className="text-[13px] text-faint hover:text-ink"
+            className="hidden text-[13px] text-faint hover:text-ink md:inline"
           >
             {messages.common.templates}
           </Link>
           <Link
             href={h("/invite")}
-            className="text-[13px] text-faint hover:text-ink"
+            className="hidden text-[13px] text-faint hover:text-ink lg:inline"
           >
             {messages.common.invite}
           </Link>
@@ -83,13 +86,13 @@ export default async function Landing() {
             href={GITHUB}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-md border border-line bg-card px-3.5 py-1.5 text-[13px] text-faint hover:text-ink"
+            className="hidden rounded-md border border-line bg-card px-3.5 py-1.5 text-[13px] text-faint hover:text-ink sm:inline-flex"
           >
             GitHub
           </a>
           <Link
             href={h("/arena")}
-            className="rounded-md bg-ink px-4 py-1.5 text-[13px] font-bold text-paper"
+            className="whitespace-nowrap rounded-md bg-ink px-3 py-1.5 text-[12px] font-bold text-paper sm:px-4 sm:text-[13px]"
           >
             {messages.common.startRace} ▶
           </Link>
@@ -97,8 +100,8 @@ export default async function Landing() {
       </nav>
 
       {/* Hero */}
-      <header className="mx-auto max-w-6xl px-6 pt-14 pb-10 text-center">
-        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-card px-3.5 py-1 text-[12px] text-faint">
+      <header className="mx-auto max-w-6xl px-5 pt-12 pb-10 text-center sm:px-6 sm:pt-14">
+        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-line bg-card px-3.5 py-1.5 text-[12px] text-faint shadow-sm">
           <span
             className="inline-block h-1.5 w-1.5 rounded-full"
             style={{ background: "var(--accent)" }}
@@ -106,13 +109,21 @@ export default async function Landing() {
           {messages.home.badge}
         </div>
         <h1
-          className="mx-auto max-w-4xl text-[40px] font-black leading-[1.15] sm:text-[54px]"
+          aria-label={heroTitle}
+          className={`mx-auto max-w-5xl font-black leading-[1.08] ${heroTitleSize}`}
           style={{ fontFamily: "var(--font-title)" }}
         >
-          {messages.home.titlePrefix}
-          <span style={{ color: "var(--accent)" }}>{messages.home.titleAccent}</span>
+          <span className="block [text-wrap:balance]">
+            {messages.home.titlePrefix}
+          </span>
+          <span
+            className="mt-1 block [text-wrap:balance]"
+            style={{ color: "var(--accent)" }}
+          >
+            {messages.home.titleAccent}
+          </span>
         </h1>
-        <p className="mx-auto mt-5 max-w-xl text-[15px] leading-relaxed text-faint">
+        <p className="mx-auto mt-6 max-w-2xl text-[15px] leading-relaxed text-faint sm:text-[16px]">
           {messages.home.leadPrefix}
           <span className="num text-ink">{messages.home.leadMetrics}</span>
           {messages.home.leadSuffix}
@@ -120,25 +131,25 @@ export default async function Landing() {
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
             href={h("/arena?sample=1")}
-            className="rounded-lg bg-ink px-7 py-3 text-[15px] font-bold text-paper shadow-sm hover:opacity-90"
+            className="inline-flex min-w-[170px] items-center justify-center rounded-lg bg-ink px-7 py-3 text-[15px] font-bold text-paper shadow-sm hover:opacity-90"
           >
             {messages.common.runSample} ▶
           </Link>
           <Link
             href={h("/arena")}
-            className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
+            className="inline-flex min-w-[150px] items-center justify-center rounded-lg border border-line bg-card px-6 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
           >
             {messages.common.professionalMode}
           </Link>
           <Link
             href={h("/templates")}
-            className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
+            className="inline-flex min-w-[140px] items-center justify-center rounded-lg border border-line bg-card px-6 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
           >
             {messages.common.templates}
           </Link>
           <Link
             href={h("/invite")}
-            className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
+            className="inline-flex min-w-[140px] items-center justify-center rounded-lg border border-line bg-card px-6 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
           >
             {messages.common.invite}
           </Link>
@@ -146,7 +157,7 @@ export default async function Landing() {
             href={GITHUB}
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-lg border border-line bg-card px-7 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
+            className="inline-flex min-w-[120px] items-center justify-center rounded-lg border border-line bg-card px-6 py-3 text-[15px] font-semibold text-ink hover:border-ink/40"
           >
             GitHub
           </a>
@@ -157,13 +168,13 @@ export default async function Landing() {
       </header>
 
       {/* 赛道演示（纯 CSS 动画） */}
-      <section className="mx-auto max-w-4xl px-6 pb-16">
-        <div className="overflow-hidden rounded-xl border border-line bg-card shadow-[0_2px_12px_rgba(0,0,0,0.04)]">
-          <div className="flex items-center justify-between border-b border-line px-5 py-3">
-            <span className="text-[13px] font-bold">
+      <section className="mx-auto max-w-4xl px-5 pb-16 sm:px-6">
+        <div className="overflow-hidden rounded-xl border border-line bg-card shadow-[0_8px_28px_rgba(0,0,0,0.05)]">
+          <div className="flex items-center justify-between gap-4 border-b border-line px-5 py-3">
+            <span className="text-left text-[13px] font-bold leading-snug">
               {messages.home.demoPrompt}
             </span>
-            <span className="num text-[11px]" style={{ color: "var(--accent)" }}>
+            <span className="num shrink-0 text-[11px]" style={{ color: "var(--accent)" }}>
               {messages.home.live}
             </span>
           </div>
@@ -203,14 +214,17 @@ export default async function Landing() {
             ))}
           </div>
           {/* 指标栏（仿真实卡片） */}
-          <div className="grid grid-cols-4 divide-x divide-line border-t border-line bg-paper/50">
+          <div className="grid grid-cols-2 border-t border-line bg-paper/50 sm:grid-cols-4">
             {[
               ["0.68", "s", messages.home.metrics[0]],
               ["102", "", messages.home.metrics[1]],
               ["312", "", messages.home.metrics[2]],
               ["387", "", messages.home.metrics[3]],
             ].map(([v, unit, label]) => (
-              <div key={label} className="flex flex-col items-center gap-1 py-4">
+              <div
+                key={label}
+                className="flex flex-col items-center gap-1 border-line py-4 odd:border-r sm:border-r sm:last:border-r-0"
+              >
                 <div className="num text-[26px] font-bold leading-none">
                   {v}
                   {unit && (
