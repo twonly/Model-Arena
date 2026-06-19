@@ -27,6 +27,38 @@ const COMPLETE_HTML_RE =
   /<!doctype html[\s\S]*<\/html>|<html[\s>][\s\S]*<\/html>/i;
 const HTML_FRAGMENT_RE =
   /<(canvas|script|style|div|main|section|article|button|input|video|svg)\b/i;
+const PREVIEW_ERROR_HANDLER = `<script data-tokrace-preview-error-handler>
+(function () {
+  function showPreviewError(message) {
+    var text = String(message || "Unknown preview error").slice(0, 600);
+    function mount() {
+      if (!document.body) return;
+      var existing = document.getElementById("tokrace-preview-error");
+      if (existing) {
+        existing.textContent = "Preview script error: " + text;
+        return;
+      }
+      var box = document.createElement("pre");
+      box.id = "tokrace-preview-error";
+      box.textContent = "Preview script error: " + text;
+      box.style.cssText = "position:fixed;left:12px;right:12px;bottom:12px;z-index:2147483647;max-height:45vh;overflow:auto;margin:0;padding:10px 12px;border-radius:8px;background:rgba(29,28,24,.92);color:#fff;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre-wrap;box-shadow:0 8px 24px rgba(0,0,0,.28)";
+      document.body.appendChild(box);
+    }
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", mount, { once: true });
+    } else {
+      mount();
+    }
+  }
+  window.addEventListener("error", function (event) {
+    showPreviewError(event.message || (event.error && event.error.message));
+  });
+  window.addEventListener("unhandledrejection", function (event) {
+    var reason = event.reason;
+    showPreviewError(reason && reason.message ? reason.message : reason);
+  });
+})();
+<\/script>`;
 
 function normalizeHtmlCandidate(text: string): string {
   const trimmed = text.trim();
@@ -64,11 +96,23 @@ function wrapHtmlFragment(fragment: string): string {
     }
     canvas, svg, video { max-width: 100%; }
   </style>
+  ${PREVIEW_ERROR_HANDLER}
 </head>
 <body>
 ${fragment}
 </body>
 </html>`;
+}
+
+function injectPreviewErrorHandler(html: string): string {
+  if (/data-tokrace-preview-error-handler/.test(html)) return html;
+  if (/<head[\s>]/i.test(html)) {
+    return html.replace(/<head(\s[^>]*)?>/i, (match) => `${match}\n${PREVIEW_ERROR_HANDLER}`);
+  }
+  if (/<body[\s>]/i.test(html)) {
+    return html.replace(/<body(\s[^>]*)?>/i, (match) => `${match}\n${PREVIEW_ERROR_HANDLER}`);
+  }
+  return `${PREVIEW_ERROR_HANDLER}\n${html}`;
 }
 
 /**
@@ -81,8 +125,8 @@ export function extractHtmlDoc(text: string): string | null {
   if (!text) return null;
   const candidate = normalizeHtmlCandidate(text);
   const raw = candidate.match(COMPLETE_HTML_RE)?.[0] ?? null;
-  if (raw) return raw;
-  if (isCompleteHtml(candidate)) return candidate;
+  if (raw) return injectPreviewErrorHandler(raw);
+  if (isCompleteHtml(candidate)) return injectPreviewErrorHandler(candidate);
   if (hasRunnableHtmlFragment(candidate)) return wrapHtmlFragment(candidate);
   return null;
 }

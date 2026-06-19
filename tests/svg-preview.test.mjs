@@ -9,6 +9,7 @@ test("extracts complete HTML documents from fenced model output", () => {
   );
   assert.ok(html?.startsWith("<!doctype html>"));
   assert.match(html ?? "", /<canvas id="c">/);
+  assert.match(html ?? "", /data-tokrace-preview-error-handler/);
 });
 
 test("wraps runnable canvas fragments for sandbox preview", () => {
@@ -18,6 +19,18 @@ test("wraps runnable canvas fragments for sandbox preview", () => {
   assert.match(html ?? "", /<!doctype html>/);
   assert.match(html ?? "", /<canvas id="scene">/);
   assert.match(html ?? "", /requestAnimationFrame/);
+  assert.match(html ?? "", /Preview script error/);
+});
+
+test("injects a visible error handler before user scripts in complete html", () => {
+  const html = extractHtmlDoc(
+    '<!doctype html><html><head><script>throw new Error("early")</script></head><body></body></html>'
+  );
+  assert.match(html ?? "", /data-tokrace-preview-error-handler/);
+  assert.ok(
+    (html ?? "").indexOf("data-tokrace-preview-error-handler") <
+      (html ?? "").indexOf('throw new Error("early")')
+  );
 });
 
 test("wraps css animation fragments for sandbox preview", () => {

@@ -161,17 +161,27 @@ export const ModelCard = memo(function ModelCard({
     previewRef.current?.requestFullscreen?.().catch(() => {});
   };
 
-  // 模型输出中包含 <svg> 时自动提取预览（img 渲染，脚本不会执行）
-  const svgs = useMemo(() => extractSvgs(run.text), [run.text]);
-
-  // 完整 HTML / Canvas / 3D 片段：跑完后在沙箱 iframe 里可交互运行
   const finished =
     run.status === "done" ||
     run.status === "stopped" ||
     run.status === "truncated";
+  const hasReasoning = run.reasoning.trim().length > 0;
+  const hasFinalText = run.text.trim().length > 0;
+  const reasoningOnlyOutput = finished && !hasFinalText && hasReasoning;
+  const previewSource =
+    hasFinalText || !reasoningOnlyOutput || /<\/html>/i.test(run.reasoning)
+      ? hasFinalText
+        ? run.text
+        : run.reasoning
+      : "";
+
+  // 模型输出中包含 <svg> 时自动提取预览（img 渲染，脚本不会执行）
+  const svgs = useMemo(() => extractSvgs(previewSource), [previewSource]);
+
+  // 完整 HTML / Canvas / 3D 片段：跑完后在沙箱 iframe 里可交互运行
   const htmlDoc = useMemo(
-    () => (finished ? extractHtmlDoc(run.text) : null),
-    [run.text, finished]
+    () => (finished ? extractHtmlDoc(previewSource) : null),
+    [previewSource, finished]
   );
 
   // 预览进入视口附近（300px 提前量）才挂载 iframe，避免离屏被浏览器限频
@@ -233,9 +243,9 @@ export const ModelCard = memo(function ModelCard({
 
   // 完成后自动折叠思考过程
   useEffect(() => {
-    if (run.status === "done") setShowReasoning(false);
+    if (run.status === "done") setShowReasoning(reasoningOnlyOutput);
     if (run.status === "thinking") setShowReasoning(true);
-  }, [run.status]);
+  }, [run.status, reasoningOnlyOutput]);
 
   const m = run.metrics;
   // 仅运行中才用实时计时器；出错/结束无指标时显示「—」而非用 nowTick=0 算出巨大负数
@@ -252,8 +262,6 @@ export const ModelCard = memo(function ModelCard({
     m?.contentTps ?? (run.status === "streaming" ? run.liveTps : undefined);
   const tokens = m?.outputTokens ?? (running ? run.liveTokens : undefined);
   const official = m?.official ?? false;
-  const hasReasoning = run.reasoning.length > 0;
-
   // 单次成本估算：按 model 命中定价表 × token 数（输入暂全按未命中=成本上界）
   const cost = useMemo(() => {
     if (!m || m.outputTokens == null) return null;
@@ -390,7 +398,7 @@ export const ModelCard = memo(function ModelCard({
             <div className="mt-1 rounded-md border border-accent/30 bg-accent/5 px-3 py-2 text-[12.5px] text-accent break-all">
               {run.error}
             </div>
-          ) : run.text ? (
+          ) : hasFinalText ? (
             // 流式期间一律走 O(n) 的纯文本渲染（带光标），只在结束后才把
             // 完整正文交给 Markdown 解析一次——避免每个 tick 重解析整块长文
             // （5000 字短文 / 十几 KB 的单文件 HTML）造成的 O(n²) 卡顿，
@@ -402,6 +410,12 @@ export const ModelCard = memo(function ModelCard({
             ) : (
               <Markdown text={run.text} />
             )
+          ) : reasoningOnlyOutput ? (
+            <div className="mt-1 rounded-md border border-think/30 bg-paper/70 px-3 py-2 text-[12.5px] leading-relaxed text-faint">
+              {en
+                ? "This run finished without a final content stream. The provider only returned reasoning/intermediate tokens, so the reasoning panel above is expanded instead of showing a blank result."
+                : "这次运行已结束，但厂商没有返回最终正文流，只返回了 reasoning / 中间推理 token。上方「思考过程」已自动展开，避免结果区显示为空。"}
+            </div>
           ) : (
             <div className="mt-1 text-[12.5px] text-faint/70">
               {run.status === "idle"

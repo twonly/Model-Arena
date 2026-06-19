@@ -35,20 +35,29 @@ export interface ShareSnapshot {
 const MAX_TEXT = 50000;
 const HARD_TEXT_CAP = 90000; // 为保留完整 HTML 可延伸的硬上限
 const MAX_REASONING = 8000;
+const MAX_REASONING_ONLY = MAX_TEXT;
 const MAX_SAMPLES = 400;
 
 /**
  * 截断输出文本，但若包含完整 HTML 文档（贪吃蛇等），
  * 确保不把结尾的 </html> 切掉——否则分享页无法预览。
  */
-function capText(text: string): string {
-  if (text.length <= MAX_TEXT) return text;
+function capLongText(text: string, max: number): string {
+  if (text.length <= max) return text;
   const m = text.match(/<\/html>/i);
   if (m && m.index != null) {
     const end = Math.min(m.index + m[0].length, HARD_TEXT_CAP);
-    if (end > MAX_TEXT) return text.slice(0, end); // 延伸到含完整 HTML
+    if (end > max) return text.slice(0, end); // 延伸到含完整 HTML
   }
-  return text.slice(0, MAX_TEXT);
+  return text.slice(0, max);
+}
+
+function capText(text: string): string {
+  return capLongText(text, MAX_TEXT);
+}
+
+function capReasoning(text: string, finalText: string): string {
+  return capLongText(text, finalText.trim() ? MAX_REASONING : MAX_REASONING_ONLY);
 }
 
 /** 速度曲线点过多时等距抽稀，控制 payload / localStorage 体积 */
@@ -84,7 +93,7 @@ export function buildSnapshot(opts: {
         rank: run.rank,
         metrics: run.metrics,
         text: capText(run.text),
-        reasoning: run.reasoning.slice(0, MAX_REASONING),
+        reasoning: capReasoning(run.reasoning, run.text),
         samples: thinSamples(run.samples),
         error: run.error,
       })),
