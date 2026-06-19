@@ -193,6 +193,30 @@ export const PROMPT_LIBRARY: PromptCategory[] = [
         label: "Three.js 3D 水晶场景",
         text: "写一个单文件 HTML（只输出完整代码，不要解释）。在 <head> 用 importmap 引入 Three.js（把 `three` 映射到 `https://registry.npmmirror.com/three/0.171.0/files/build/three.module.js`、`three/addons/` 映射到 `https://registry.npmmirror.com/three/0.171.0/files/examples/jsm/`），再用 <script type=\"module\"> 构建可运行 3D 场景：缓慢自转的发光水晶核心、环绕粒子、合理的光照与材质、用 OrbitControls 支持鼠标拖拽旋转与滚轮缩放、canvas 铺满视口并随窗口自适应；若脚本加载失败，在页面上显示明确的错误文字。",
       },
+      {
+        label: "Canvas 墨滴入水扩散（流体）",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），用原生 Canvas 实现一滴黑色墨水滴入一杯清水后扩散的动画。墨水入水瞬间应向外绽放出湍流、翻涌的羽状墨团——分形的卷须不断弯曲、分叉地铺开，并缓慢消散成淡淡的云雾。要用真实的流体运动（平流与扩散），而不是简单放大的圆。墨水要有密度变化：深而浓的内核、丝缕状半透明的边缘。顶部柔和打光。60fps，不要使用外部库。",
+      },
+      {
+        label: "Canvas 光剑对决（光效）",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），用原生 Canvas 实现两名兜帽武士挥舞发光等离子光剑（一蓝一红）的电影感短打斗。背景昏暗有氛围感，飘着余烬或薄雾。两名武士进行一段快速、编排好的劈砍与格挡交锋。核心效果：每把剑都留下平滑、带运动模糊的光迹，勾勒出它划过空中的弧线，带有白热的核心、彩色辉光，以及在几帧内淡出的拖尾。光剑应把动态彩色光投射到武士与地面上，碰撞时迸出火花。动作流畅、有重量感——不要僵硬机械的运动。60fps，不要使用外部库。",
+      },
+      {
+        label: "Canvas 滑动解锁（UI 动效）",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），用原生 Canvas 实现一部智能手机锁屏解锁的动画。展示一个手机屏幕，柔和渐变壁纸上有大号时钟与日期，底部有一条带可拖动滑块的「滑动解锁」轨道。一道流光高亮应持续在「滑动解锁」文字上扫过（移动的高亮渐变）。随后滑块一路滑到底；完成时锁屏平滑地滑出/淡出，露出主屏——一组圆角 App 图标（原创设计）轻柔地缩放并淡入就位，壁纸有细微视差。整体使用精致、流畅、Apple 级的缓动。60fps，不要使用外部库。",
+      },
+      {
+        label: "Canvas 360° 全景泊车（几何同步）",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），用原生 Canvas 模拟现代汽车的 360° 全景泊车辅助，正在驶入一个狭窄的路边车位完成平行泊车（经典的 S 形走位）。布局：屏幕分为两个面板。左面板是车机中控的鸟瞰（环视）合成图——车辆从正上方俯视居于中央，路面与路缘，以及由两辆已停车辆夹出的空车位。右面板是从驾驶位看的方向盘，随走位同步转动。动态引导线：在鸟瞰图上叠加由车辆射出的预测路径线——两条弯曲的轨迹线标出车宽，并按距离分成彩色色段（绿=远、黄=中、红=近）。这些线必须根据当前转向角、用正确的转向几何向左或向右弯曲（方向盘打得越死→转弯半径越小），并且必须随方向盘转动和车辆移动逐帧更新。动画：自动播放完整的平行泊车流程——沿前车并排前进并停下，打满方向盘倒车入弯，待车尾让开后反打方向盘回正，最后微微前进在车位内居中。车身应描出平滑连续的 S 形路径。关键约束：方向盘转角、引导线曲率与车辆实际路径在任何时刻都必须彼此完全一致——方向盘左打，引导线左弯，车辆左转。加入细微的 UI（距离读数、靠近停放车辆时闪红的接近警示弧）、柔和阴影，以及像真实车机一样干净的扁平化风格。60fps，不要使用外部库。",
+      },
+      {
+        label: "Canvas 信纸燃烧成灰（粒子）",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），用原生 Canvas 实现一封手写信燃烧的动画。展示一张泛黄做旧的信纸，上面有可见的手写花体字（用程序化笔画绘制即可），放在深色木桌上。2 秒后，火焰从右下角点燃并有机地蔓延整张纸——燃烧前沿应以不规则、带噪声的边缘推进，绝不是一条直线。在火焰前方，纸张先变暗发褐（焦化），再炭化变黑，最后彻底消失，露出下方的桌面。火焰用分层粒子渲染：明亮的白黄色核心、橙色中焰、半透明的红色火尖闪烁并向上舔动。发光的余烬应从燃烧边缘脱离，在湍流气流中向上飘散，由橙转灰渐隐。火焰上方有半透明烟雾升起弥散，火光在四周桌面投下温暖闪烁的光。整张纸约在 15 秒内被烧尽，只剩几片缓缓暗下去的发光灰烬。60fps，不要使用外部库。",
+      },
+      {
+        label: "Canvas 房屋建造 7 阶段（时间线）",
+        text: "写一个单文件 HTML（只输出完整代码，不要解释），用铺满整页的 Canvas、不使用任何库，在淡蓝色天空与一条绿色地面线前，分 7 个阶段、约 25 秒动画演示一栋简单的 2D 卡通房屋的建造：（1）地基——一块灰色矩形板从地下升起；（2）墙体——四段竖直墙从地基四角向上延伸；（3）填墙——墙框之间填入米黄色/浅褐色外墙板；（4）屋顶——两块三角形屋顶板从上方滑入并在屋脊相接，红色瓦片纹理逐行出现；（5）门——一扇棕色门在正面墙上淡入，带一个小小的金色门把手；（6）窗——门两侧各出现一扇窗，带可见的十字窗框和蓝色玻璃；（7）细节——烟囱从屋顶升起、开始冒出一小缕烟，一条踏脚石小径通向门口，房屋旁长出一棵小树。每个阶段顶部应有简短字幕（「打地基」「砌墙」等）。阶段之间停顿 0.5 秒。持续循环。",
+      },
     ],
   },
   {
@@ -395,6 +419,30 @@ export const PROMPT_LIBRARY_EN: PromptCategory[] = [
       {
         label: "Three.js 3D crystal scene",
         text: "Write a single-file HTML document (output complete code only, no explanation). In <head>, add an importmap mapping `three` to `https://registry.npmmirror.com/three/0.171.0/files/build/three.module.js` and `three/addons/` to `https://registry.npmmirror.com/three/0.171.0/files/examples/jsm/`, then use a <script type=\"module\"> to build a runnable 3D scene: a slowly self-rotating glowing crystal core, orbiting particles, sensible lighting and materials, OrbitControls for mouse-drag rotation and wheel zoom, and a canvas that fills the viewport and resizes with the window; if the scripts fail to load, show clear error text on the page.",
+      },
+      {
+        label: "Canvas ink diffusing in water (fluid)",
+        text: "Create a single HTML file with a canvas animation of a single drop of black ink falling into a glass of clear water and diffusing. On impact the ink should bloom outward in turbulent, billowing plumes — fractal tendrils curling and branching as they spread and slowly disperse into faint clouds. Use real fluid-like motion (advection and diffusion), not simple expanding circles. The ink should have density variation, with dark dense cores and wispy translucent edges. Soft lighting from above. 60fps, no external libraries. Output only the complete single-file HTML, with no explanation.",
+      },
+      {
+        label: "Canvas energy-blade duel (light FX)",
+        text: "Create a single HTML file with a canvas animation of a short, cinematic duel between two hooded warriors wielding glowing plasma blades — one blade blue, one red. Set it on a dark, atmospheric backdrop with drifting embers or mist. The warriors clash in a fast, choreographed exchange of swings and parries. The core effect: each blade leaves a smooth, motion-blurred light streak that traces its arc through the air, with a bright white-hot core, a colored glow, and a trail that fades over a few frames. Blades should cast dynamic colored light onto the fighters and the ground, and clashes throw off sparks. Fluid, weighty movement — no stiff robotic motion. 60fps, no external libraries. Output only the complete single-file HTML, with no explanation.",
+      },
+      {
+        label: "Canvas slide to unlock (UI motion)",
+        text: "Create a single HTML file with a canvas animation of a smartphone lock screen unlocking. Show a phone screen with a large clock and date over a soft gradient wallpaper, and a \"slide to unlock\" track at the bottom with a draggable handle. A shimmering light sweep should animate continuously across the \"slide to unlock\" text (a moving highlight gradient). Then animate the handle sliding all the way across; on completion, the lock screen smoothly slides/fades away to reveal a home screen — a grid of rounded app icons (original designs) that gently zoom and fade into place, with a subtle parallax on the wallpaper. Polished, fluid, Apple-grade easing throughout. 60fps, no external libraries. Output only the complete single-file HTML, with no explanation.",
+      },
+      {
+        label: "Canvas 360° parking assist (geometry)",
+        text: "Create a single HTML file with a canvas animation simulating a modern car's 360° surround-view parking assist as it parallel-parks into a tight roadside gap (the classic S-shaped maneuver). Layout: Split the screen into two panels. The left panel is the car's infotainment display showing a top-down bird's-eye (\"around-view\") composite — the car rendered from directly above in the center, the road surface and curb, and an empty parking gap bracketed by two parked cars. The right panel shows the steering wheel from the driver's seat, rotating in sync with the maneuver. Dynamic guidelines: Overlay predicted-path lines projecting from the car in the bird's-eye view — two curved trajectory lines marking the car's width, divided into colored distance bands (green = far, yellow = mid, red = close). These lines must bend left or right based on the current steering angle using correct steering geometry (sharper wheel angle → tighter turn radius), and they must update every single frame as the wheel turns and the car moves. Animation: Auto-play the full parallel-parking sequence — drive forward alongside the front car and stop, crank the wheel and reverse while curving in, then counter-steer and straighten as the rear end clears, and finally ease forward to center in the spot. The car body should trace a smooth, continuous S-path. Critical constraint: The steering wheel rotation, the curvature of the guidelines, and the car's actual path must stay perfectly consistent with one another at all times — turn the wheel left, the guidelines bend left, the car arcs left. Add subtle UI chrome (a distance readout, proximity warning arcs that flash red as the car nears the parked cars), soft shadows, and clean flat-design styling like a real car display. 60fps, no external libraries. Output only the complete single-file HTML, with no explanation.",
+      },
+      {
+        label: "Canvas burning letter to ash (particles)",
+        text: "Create a single HTML file with a canvas animation of a handwritten letter burning. Show an aged, slightly yellowed sheet of paper with visible handwritten cursive text (procedurally drawn lines are fine) resting on a dark wooden desk. After 2 seconds, a flame ignites at the bottom-right corner and spreads organically across the page — the burn front should advance with an irregular, noisy edge, never a straight line. Just ahead of the flames, the paper should darken and brown (scorching), then char black, then disappear entirely, revealing the desk beneath. Render the fire with layered particles: a bright white-yellow core, orange mid-flame, and translucent red tips that flicker and lick upward. Glowing embers should detach from the burn edge and drift upward on turbulent air currents, fading from orange to gray. Add wisps of semi-transparent smoke rising and dispersing above the flames, and a warm flickering light that the fire casts onto the surrounding desk. The entire page should be consumed in roughly 15 seconds, leaving only a few glowing ash fragments that slowly dim. 60fps, no external libraries. Output only the complete single-file HTML, with no explanation.",
+      },
+      {
+        label: "Canvas build-a-house sequence (timeline)",
+        text: "Write a single HTML file with a full-page canvas, no libraries. Animate the construction of a simple 2D cartoon house in 7 stages over ~25 seconds against a pale blue sky with a green ground line: (1) foundation - a gray rectangular slab rises from underground, (2) walls - four vertical wall segments extend upward from the foundation corners, (3) wall fill - tan/beige siding fills in between the wall frames, (4) roof - two triangular roof panels slide in from above and meet at the peak, with red shingle texture appearing row by row, (5) door - a brown door fades in on the front wall with a small gold doorknob, (6) windows - two windows appear on either side of the door with visible cross-frames and blue glass, (7) details - a chimney extends up from the roof, a small puff of smoke begins rising from it, a path of stepping stones appears leading to the door, and a small tree grows beside the house. Each stage should have a brief caption at the top (\"Laying foundation\", \"Raising walls\", etc.). Between stages, pause for 0.5 seconds. Loop continuously.",
       },
     ],
   },
