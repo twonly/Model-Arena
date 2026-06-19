@@ -38,6 +38,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...allLocales("/templates", { lastModified: now, changeFrequency: "weekly", priority: 0.8 }),
     ...allLocales("/invite", { lastModified: now, changeFrequency: "monthly", priority: 0.7 }),
     ...allLocales("/method", { lastModified: now, changeFrequency: "monthly", priority: 0.6 }),
+    ...allLocales("/pricing", { lastModified: now, changeFrequency: "weekly", priority: 0.8 }),
   ];
 
   // 每个上榜模型一个永久页（长尾「X 速度」），以及前 8 名两两对比页（高意图「X vs Y」）

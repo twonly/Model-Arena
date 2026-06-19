@@ -3,7 +3,7 @@ import { BRAND, SEO_KEYWORDS } from "./brand";
 import { getMessages } from "./i18n-messages";
 import { localeToOg, localizedPath, type Locale } from "./i18n";
 
-type MetadataKey = "home" | "arena" | "stats" | "board" | "templates" | "invite" | "method" | "me";
+type MetadataKey = "home" | "arena" | "stats" | "board" | "templates" | "invite" | "method" | "pricing" | "me";
 
 export function localizedMetadata(
   locale: Locale,

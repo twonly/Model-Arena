@@ -72,6 +72,11 @@ export const zhMessages = {
       description:
         "百模竞速如何测量大模型速度：首 Token 时延（TTFT）、思考 / 输出 tokens per second、峰值速度的精确定义，以及计时方式、token 口径与公平性保证。开源可复现。",
     },
+    pricing: {
+      title: "大模型 API 价格对比表 - 输入/缓存/输出价格汇总",
+      description:
+        "主流大模型 API 价格一览：DeepSeek、智谱 GLM、Kimi、小米 MiMo、阶跃、通义千问、豆包、Claude、GPT、Gemini、Grok 等，含输入（缓存命中/未命中）与输出单价，区分海外与中国大陆价格，标注官方来源。",
+    },
     me: {
       title: "我的分享 - TOKRACE",
       description: "查看、复制、关闭或删除你在 TOKRACE 生成过的模型竞速分享页。",
@@ -295,6 +300,11 @@ export const enMessages = {
       title: "Speed testing methodology: metrics and measurement",
       description:
         "How TOKRACE measures LLM speed: precise definitions for TTFT, thinking/output tokens per second and peak speed, plus timing, token accounting and fairness guarantees.",
+    },
+    pricing: {
+      title: "LLM API pricing comparison - input, cache and output rates",
+      description:
+        "Side-by-side LLM API pricing: DeepSeek, Zhipu GLM, Kimi, Xiaomi MiMo, StepFun, Qwen, Doubao, Claude, GPT, Gemini, Grok and more — input (cache hit/miss) and output rates, with global vs mainland-China prices and official sources.",
     },
     me: {
       title: "My Shares - TOKRACE",

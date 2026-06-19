@@ -8,6 +8,8 @@ import { fetchModelStats, modelSlug, type ModelStat } from "@/lib/stats";
 import { getMessages } from "@/lib/i18n-messages";
 import { getRequestLocale } from "@/lib/i18n-server";
 import { localeToLanguage, localizedPath } from "@/lib/i18n";
+import { findPrice, toUsdPer1M, paretoFrontier } from "@/lib/pricing";
+import { SpeedCostChart, type CostSpeedPoint } from "@/components/SpeedCostChart";
 
 export const metadata = {
   title: "大模型实测速度排行榜",
@@ -48,6 +50,27 @@ export default async function StatsPage() {
     ? Math.max(...stats.map((s) => s.medianContentTps))
     : 1;
   const totalSamples = stats?.reduce((a, s) => a + s.samples, 0) ?? 0;
+
+  // 速度-成本帕累托：每个上榜模型（命中定价表的）取 中位速度 × 输出价(USD)
+  const costPoints: CostSpeedPoint[] = [];
+  const seenModel = new Set<string>();
+  for (const s of stats ?? []) {
+    if (seenModel.has(s.model) || s.medianContentTps <= 0) continue;
+    const price = findPrice(s.model);
+    if (!price) continue;
+    seenModel.add(s.model);
+    costPoints.push({
+      model: s.model,
+      provider: s.provider,
+      speed: s.medianContentTps,
+      costUsd: toUsdPer1M(price.output, price.currency),
+      frontier: false,
+      needsConfirm: !!price.needsConfirm,
+    });
+  }
+  // 帕累托前沿（左上包络）
+  const frontierMask = paretoFrontier(costPoints);
+  costPoints.forEach((p, i) => (p.frontier = frontierMask[i]));
 
   const listJsonLd = stats?.length
     ? {
@@ -270,7 +293,34 @@ export default async function StatsPage() {
         </div>
       )}
 
-      <div className="mt-5 space-y-1 text-[11px] text-faint/80">
+      {costPoints.length >= 3 && (
+        <section className="mt-8">
+          <div className="mb-2 flex items-baseline justify-between gap-2">
+            <h2 className="text-[17px] font-bold">
+              {locale === "en" ? "Speed vs cost" : "速度 vs 成本"}
+            </h2>
+            <Link
+              href={h("/pricing")}
+              className="text-[12px] text-faint underline decoration-dotted hover:text-ink"
+            >
+              {locale === "en" ? "Full pricing table" : "完整价格表"} →
+            </Link>
+          </div>
+          <p className="mb-3 text-[12px] text-faint">
+            {locale === "en"
+              ? "Median output speed against output price. Top-left is best (fast & cheap); the dashed line marks the Pareto frontier — models not beaten on both speed and price."
+              : "横轴输出价、纵轴中位输出速度。左上角最优（又快又便宜）；虚线为帕累托前沿——没有任何模型同时比它更快且更便宜。"}
+          </p>
+          <SpeedCostChart points={costPoints} locale={locale} />
+          <p className="mt-2 text-[11px] text-faint/80">
+            {locale === "en"
+              ? "· Cost uses each model's output price per 1M tokens (CNY converted to USD); speed is the median from the leaderboard above."
+              : "· 成本取各模型「输出价 / 1M token」（人民币按汇率折算 USD）；速度为上方榜单的中位值。"}
+          </p>
+        </section>
+      )}
+
+      <div className="mt-8 space-y-1 text-[11px] text-faint/80">
         <p>
           {locale === "en"
             ? "· Data comes from voluntary anonymous sharing and contains speed metrics only, not prompts or API keys · Updates every 5 minutes"

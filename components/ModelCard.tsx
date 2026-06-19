@@ -13,6 +13,7 @@ import {
   rankBadge,
 } from "@/lib/format";
 import { extractHtmlDoc, extractSvgs, svgDataUrl } from "@/lib/svg";
+import { findPrice, estimateRunCost } from "@/lib/pricing";
 import type { ModelEndpoint, RunState } from "@/lib/types";
 
 export const STATUS_TEXT: Record<RunState["status"], string> = {
@@ -282,6 +283,16 @@ export const ModelCard = memo(function ModelCard({
   const tokens = m?.outputTokens ?? (running ? run.liveTokens : undefined);
   const official = m?.official ?? false;
   const hasReasoning = run.reasoning.length > 0;
+
+  // 单次成本估算：按 model 命中定价表 × token 数（输入暂全按未命中=成本上界）
+  const cost = useMemo(() => {
+    if (!m || m.outputTokens == null) return null;
+    const price = findPrice(endpoint.model);
+    if (!price) return null;
+    return estimateRunCost(price, m.promptTokens ?? 0, m.outputTokens ?? 0);
+  }, [m, endpoint.model]);
+  const fmtCost = (n: number) =>
+    n < 0.01 ? n.toPrecision(2) : n.toFixed(n < 1 ? 3 : 2);
 
   return (
     <div className="flex flex-col rounded-lg border border-line bg-card overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
@@ -618,6 +629,26 @@ export const ModelCard = memo(function ModelCard({
                   {fmtTps(run.liveTps)}
                 </span>{" "}
                 tok/s
+              </>
+            )}
+            {cost && (
+              <>
+                {" "}
+                · {en ? "Cost" : "成本"}{" "}
+                <span
+                  className="font-semibold"
+                  style={{ color: "var(--accent)" }}
+                  title={
+                    (en
+                      ? `Input ${cost.price.currency === "CNY" ? "¥" : "$"}${cost.price.inputMiss}/1M · Output ${cost.price.currency === "CNY" ? "¥" : "$"}${cost.price.output}/1M · ${cost.price.model}`
+                      : `输入 ${cost.price.currency === "CNY" ? "¥" : "$"}${cost.price.inputMiss}/1M · 输出 ${cost.price.currency === "CNY" ? "¥" : "$"}${cost.price.output}/1M · ${cost.price.model}`) +
+                    (cost.price.currency === "CNY" ? ` ≈ $${fmtCost(cost.totalUsd)}` : "") +
+                    (cost.price.needsConfirm ? (en ? " (price unverified)" : "（价格待核实）") : "")
+                  }
+                >
+                  ≈{cost.price.currency === "CNY" ? "¥" : "$"}
+                  {fmtCost(cost.totalNative)}
+                </span>
               </>
             )}
           </div>
