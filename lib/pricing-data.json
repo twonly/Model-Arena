@@ -1,0 +1,524 @@
+[
+  {
+    "matchIds": [
+      "MiniMax-M2.7"
+    ],
+    "provider": "MiniMax",
+    "model": "MiniMax-M3",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 2.1,
+    "inputHit": 0.42,
+    "output": 8.4,
+    "sourceName": "MiniMax按量计费定价",
+    "sourceUrl": "https://platform.minimaxi.com/docs/guides/pricing-paygo",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "MiniMax-M3"
+    ],
+    "provider": "MiniMax",
+    "model": "MiniMax-M3",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 2.1,
+    "inputHit": 0.42,
+    "output": 8.4,
+    "sourceName": "MiniMax按量计费定价",
+    "sourceUrl": "https://platform.minimaxi.com/docs/guides/pricing-paygo",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "kimi-k2.6"
+    ],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K2.6",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 6.5,
+    "inputHit": 1.1,
+    "output": 27,
+    "sourceName": "多模态模型 Kimi K2.6 定价",
+    "sourceUrl": "https://platform.kimi.com/docs/pricing/chat-k26",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "kimi-k2.7-code-highspeed"
+    ],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K2.7 Code highspeed",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 13,
+    "inputHit": 2.6,
+    "output": 54,
+    "sourceName": "编程模型 Kimi K2.7 Code 定价",
+    "sourceUrl": "https://platform.kimi.com/docs/pricing/chat-k27-code",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "kimi-k2.7-code"
+    ],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K2.7 Code",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 6.5,
+    "inputHit": 1.3,
+    "output": 27,
+    "sourceName": "编程模型 Kimi K2.7 Code 定价",
+    "sourceUrl": "https://platform.kimi.com/docs/pricing/chat-k27-code",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "claude-opus-4-8",
+      "claude-opus-4.8",
+      "opus-4-8"
+    ],
+    "provider": "Anthropic",
+    "model": "Claude Opus 4.8",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 5,
+    "inputHit": 0.5,
+    "output": 25,
+    "sourceName": "Anthropic API Pricing 2026",
+    "sourceUrl": "https://www.cloudzero.com/blog/claude-api-pricing/",
+    "verified": "2026-06-19",
+    "note": "标准 API（不含 fast 模式）；缓存命中约 9 折"
+  },
+  {
+    "matchIds": [
+      "claude-opus-4-6",
+      "claude-opus-4.6",
+      "opus-4-6"
+    ],
+    "provider": "Anthropic",
+    "model": "Claude Opus 4.6",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 5,
+    "inputHit": 0.5,
+    "output": 25,
+    "sourceName": "Anthropic API Pricing 2026",
+    "sourceUrl": "https://www.cloudzero.com/blog/claude-api-pricing/",
+    "verified": "2026-06-19",
+    "note": "与 Opus 4.8 同价档；缓存命中约 9 折"
+  },
+  {
+    "matchIds": [
+      "claude-sonnet-4-6",
+      "claude-sonnet-4.6",
+      "sonnet-4-6"
+    ],
+    "provider": "Anthropic",
+    "model": "Claude Sonnet 4.6",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 3,
+    "inputHit": 0.3,
+    "output": 15,
+    "sourceName": "Anthropic API Pricing 2026",
+    "sourceUrl": "https://www.cloudzero.com/blog/claude-api-pricing/",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "claude-haiku-4-5",
+      "claude-haiku-4.5",
+      "haiku-4-5"
+    ],
+    "provider": "Anthropic",
+    "model": "Claude Haiku 4.5",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 1,
+    "inputHit": 0.1,
+    "output": 5,
+    "sourceName": "Anthropic API Pricing 2026",
+    "sourceUrl": "https://www.cloudzero.com/blog/claude-api-pricing/",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "gpt-5.5",
+      "gpt-5-5",
+      "codex"
+    ],
+    "provider": "OpenAI",
+    "model": "Codex / GPT-5.5 API",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 5,
+    "inputHit": 0.5,
+    "output": 30,
+    "sourceName": "OpenAI Developer Pricing",
+    "sourceUrl": "https://platform.openai.com/docs/pricing",
+    "verified": "2026-06-19",
+    "note": "标准短上下文 GPT-5.5 API（非 priority）"
+  },
+  {
+    "matchIds": [
+      "gpt-4.1",
+      "gpt-4-1"
+    ],
+    "provider": "OpenAI",
+    "model": "GPT-4.1",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 2,
+    "inputHit": 0.5,
+    "output": 8,
+    "sourceName": "OpenAI API Pricing 2026",
+    "sourceUrl": "https://pecollective.com/tools/openai-api-pricing/",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "gpt-4.1-mini",
+      "gpt-4-1-mini"
+    ],
+    "provider": "OpenAI",
+    "model": "GPT-4.1 mini",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.4,
+    "inputHit": 0.1,
+    "output": 1.6,
+    "sourceName": "Inworld / OpenAI",
+    "sourceUrl": "https://inworld.ai/models/openai-gpt-4-1-mini",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "gpt-4o-mini"
+    ],
+    "provider": "OpenAI",
+    "model": "GPT-4o mini",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.15,
+    "inputHit": 0.075,
+    "output": 0.6,
+    "sourceName": "OpenAI API Pricing 2026",
+    "sourceUrl": "https://pecollective.com/tools/openai-api-pricing/",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "gemini-3.1-pro-preview"
+    ],
+    "provider": "Google",
+    "model": "Gemini 3.1 Pro Preview",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 2,
+    "inputHit": 0.2,
+    "output": 12,
+    "sourceName": "Gemini Developer API pricing",
+    "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "gemini-3.5-flash"
+    ],
+    "provider": "Google",
+    "model": "Gemini 3.5 Flash",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 1.5,
+    "inputHit": 0.15,
+    "output": 9,
+    "sourceName": "Gemini Developer API pricing",
+    "sourceUrl": "https://ai.google.dev/gemini-api/docs/pricing",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "deepseek-v4-flash",
+      "deepseek-chat"
+    ],
+    "provider": "DeepSeek",
+    "model": "DeepSeek V4 Flash",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.14,
+    "inputHit": 0.0028,
+    "output": 0.28,
+    "sourceName": "DeepSeek API Docs",
+    "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+    "verified": "2026-06-19",
+    "note": "deepseek-chat=V4 Flash 非思考别名；全球统一价（约 ¥1/¥0.02/¥2）"
+  },
+  {
+    "matchIds": [
+      "deepseek-v4-pro",
+      "deepseek-reasoner"
+    ],
+    "provider": "DeepSeek",
+    "model": "DeepSeek V4 Pro",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.435,
+    "inputHit": 0.003625,
+    "output": 0.87,
+    "sourceName": "DeepSeek API Docs",
+    "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
+    "verified": "2026-06-19",
+    "note": "deepseek-reasoner=V4 Pro 思考别名；全球统一价（约 ¥3/¥0.025/¥6）"
+  },
+  {
+    "matchIds": [
+      "glm-5.1"
+    ],
+    "provider": "智谱 Zhipu",
+    "model": "GLM-5.1",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 6,
+    "inputHit": 1.3,
+    "output": 24,
+    "sourceName": "智谱开放平台",
+    "sourceUrl": "https://open.bigmodel.cn/pricing",
+    "verified": "2026-06-19",
+    "note": "输入 [0,32K) 档；[32K+) 为 ¥8/¥2/¥28"
+  },
+  {
+    "matchIds": [
+      "glm-5.1"
+    ],
+    "provider": "智谱 Zhipu",
+    "model": "GLM-5.1",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 1.4,
+    "inputHit": null,
+    "output": 4.4,
+    "sourceName": "Z.ai Developer Docs",
+    "sourceUrl": "https://docs.z.ai/guides/overview/pricing",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "glm-5.2"
+    ],
+    "provider": "智谱 Zhipu",
+    "model": "GLM-5.2",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 8,
+    "inputHit": 2,
+    "output": 28,
+    "sourceName": "智谱开放平台",
+    "sourceUrl": "https://open.bigmodel.cn/pricing",
+    "verified": "2026-06-19",
+    "note": "1M 上下文；缓存存储限时免费"
+  },
+  {
+    "matchIds": [
+      "glm-5.2"
+    ],
+    "provider": "智谱 Zhipu",
+    "model": "GLM-5.2",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 1.4,
+    "inputHit": 0.26,
+    "output": 4.4,
+    "sourceName": "Z.ai Developer Docs",
+    "sourceUrl": "https://docs.z.ai/guides/overview/pricing",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "kimi-for-coding",
+      "kimi-k2.7-code",
+      "kimi-k2",
+      "kimi-k2-turbo-preview",
+      "kimi-latest"
+    ],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K2.7 Code",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.95,
+    "inputHit": 0.19,
+    "output": 4,
+    "sourceName": "platform.moonshot.ai",
+    "sourceUrl": "https://platform.moonshot.ai/",
+    "verified": "2026-06-19",
+    "note": "262K 上下文；kimi-for-coding 即 K2.7 Code"
+  },
+  {
+    "matchIds": [
+      "kimi-k2.7-code-highspeed"
+    ],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K2.7 Code Highspeed",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 1.9,
+    "inputHit": 0.38,
+    "output": 8,
+    "sourceName": "platform.moonshot.ai",
+    "sourceUrl": "https://platform.moonshot.ai/",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "mimo-v2.5",
+      "mimo-v2-flash"
+    ],
+    "provider": "小米 MiMo",
+    "model": "MiMo V2.5",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 1,
+    "inputHit": 0.02,
+    "output": 2,
+    "sourceName": "小米 MiMo 开放平台",
+    "sourceUrl": "https://platform.xiaomimimo.com/docs/zh-CN/price",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "mimo-v2.5-pro",
+      "mimo-v2-pro"
+    ],
+    "provider": "小米 MiMo",
+    "model": "MiMo V2.5 Pro",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 3,
+    "inputHit": 0.025,
+    "output": 6,
+    "sourceName": "小米 MiMo 开放平台",
+    "sourceUrl": "https://platform.xiaomimimo.com/docs/zh-CN/price",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "step-3.7-flash",
+      "step-3-7-flash"
+    ],
+    "provider": "阶跃 StepFun",
+    "model": "Step 3.7 Flash",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 1.35,
+    "inputHit": 0.27,
+    "output": 8.1,
+    "sourceName": "阶跃星辰官方定价",
+    "sourceUrl": "https://platform.stepfun.com/docs/zh/guides/pricing/details",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "qwen-plus"
+    ],
+    "provider": "通义千问 Qwen",
+    "model": "Qwen-Plus",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.4,
+    "inputHit": null,
+    "output": 2.4,
+    "sourceName": "Alibaba Model Studio",
+    "sourceUrl": "https://inferencehub.org/blog/alibaba-cloud-qwen-api-pricing-2026/",
+    "verified": "2026-06-19"
+  },
+  {
+    "matchIds": [
+      "qwen-max",
+      "qwen3.7-max",
+      "qwen3-max"
+    ],
+    "provider": "通义千问 Qwen",
+    "model": "Qwen3.7-Max",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 1.25,
+    "inputHit": 0.13,
+    "output": 3.75,
+    "sourceName": "Together / OpenRouter",
+    "sourceUrl": "https://openrouter.ai/qwen/qwen3-max",
+    "verified": "2026-06-19",
+    "note": "Together/OpenRouter USD 路线；阿里官方为 RMB/分区价"
+  },
+  {
+    "matchIds": [
+      "qwen-turbo"
+    ],
+    "provider": "通义千问 Qwen",
+    "model": "Qwen-Turbo",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.05,
+    "inputHit": null,
+    "output": 0.2,
+    "sourceName": "Alibaba Model Studio",
+    "sourceUrl": "https://inferencehub.org/blog/alibaba-cloud-qwen-api-pricing-2026/",
+    "verified": "2026-06-19",
+    "needsConfirm": true,
+    "note": "输出价待核实"
+  },
+  {
+    "matchIds": [
+      "doubao-seed-1-6",
+      "doubao-seed-1.6"
+    ],
+    "provider": "字节 豆包",
+    "model": "Doubao Seed 1.6",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 0.8,
+    "inputHit": null,
+    "output": 8,
+    "sourceName": "火山方舟 模型价格",
+    "sourceUrl": "https://www.volcengine.com/docs/82379/1544106",
+    "verified": "2026-06-19",
+    "note": "0-32K 档；32K-128K ¥1.2/¥16；128K-256K ¥2.4/¥24。缓存价待核实"
+  },
+  {
+    "matchIds": [
+      "minimax-m3",
+      "minimax-m2",
+      "minimax-text"
+    ],
+    "provider": "MiniMax",
+    "model": "MiniMax-M3",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.3,
+    "inputHit": 0.06,
+    "output": 1.2,
+    "sourceName": "MiniMax / OpenRouter",
+    "sourceUrl": "https://openrouter.ai/minimax/minimax-m2",
+    "verified": "2026-06-19",
+    "note": "标准档 ≤512K 输入；>512K 为 $0.60/$0.12/$2.40"
+  },
+  {
+    "matchIds": [
+      "grok-4",
+      "grok-4.3",
+      "grok-3"
+    ],
+    "provider": "xAI",
+    "model": "Grok 4.3",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 1.25,
+    "inputHit": 0.2,
+    "output": 2.5,
+    "sourceName": "xAI Pricing 2026",
+    "sourceUrl": "https://www.aipricing.guru/xai-pricing/",
+    "verified": "2026-06-19",
+    "note": "grok-4/grok-3 等旧别名现路由至 Grok 4.3"
+  }
+]

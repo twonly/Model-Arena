@@ -13,6 +13,7 @@ function shouldSkip(pathname: string): boolean {
   return (
     pathname.startsWith("/api/") ||
     pathname === "/api" ||
+    pathname.startsWith("/admin") ||
     pathname.startsWith("/_next/") ||
     pathname.startsWith("/auth/callback") ||
     pathname === "/favicon.ico" ||

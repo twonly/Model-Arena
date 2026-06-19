@@ -49,28 +49,6 @@ export const STATUS_COLOR: Record<RunState["status"], string> = {
   truncated: "var(--think)",
 };
 
-/**
- * 流式期间限频取值（默认 400ms）：长文 Markdown 若每 80ms 重解析一次，
- * 多卡并发时会明显拖卡页面；结束后立即同步到最终值。
- */
-function useThrottledWhileActive(value: string, active: boolean, ms = 400) {
-  const [v, setV] = useState(value);
-  const lastRef = useRef(0);
-  useEffect(() => {
-    if (!active) {
-      setV(value);
-      return;
-    }
-    const wait = Math.max(0, ms - (Date.now() - lastRef.current));
-    const t = setTimeout(() => {
-      lastRef.current = Date.now();
-      setV(value);
-    }, wait);
-    return () => clearTimeout(t);
-  }, [value, active, ms]);
-  return v;
-}
-
 function Metric({
   value,
   unit,
@@ -223,14 +201,6 @@ export const ModelCard = memo(function ModelCard({
     [run.text, wordTarget]
   );
   const wordPct = wordTarget ? Math.round((wordCount / wordTarget) * 100) : 0;
-
-  const streamingMd =
-    markdown &&
-    (run.status === "connecting" ||
-      run.status === "thinking" ||
-      run.status === "streaming");
-  // Markdown 渲染用限频文本；纯文本模式渲染很便宜，直接用实时值
-  const mdText = useThrottledWhileActive(run.text, streamingMd);
 
   const running =
     run.status === "connecting" ||
@@ -421,12 +391,16 @@ export const ModelCard = memo(function ModelCard({
               {run.error}
             </div>
           ) : run.text ? (
-            markdown ? (
-              <Markdown text={running ? mdText : run.text} />
-            ) : (
+            // 流式期间一律走 O(n) 的纯文本渲染（带光标），只在结束后才把
+            // 完整正文交给 Markdown 解析一次——避免每个 tick 重解析整块长文
+            // （5000 字短文 / 十几 KB 的单文件 HTML）造成的 O(n²) 卡顿，
+            // 多卡并发时尤甚。结束后的一次性解析按各模型完成时刻天然错峰。
+            running || !markdown ? (
               <div className={`whitespace-pre-wrap leading-7 ${running ? "caret" : ""}`}>
                 {run.text}
               </div>
+            ) : (
+              <Markdown text={run.text} />
             )
           ) : (
             <div className="mt-1 text-[12.5px] text-faint/70">
