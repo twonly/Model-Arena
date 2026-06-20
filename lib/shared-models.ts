@@ -46,7 +46,9 @@ export const SHARED_MODELS: SharedModel[] = [
     kind: "anthropic",
     baseUrl: "https://api.kimi.com/coding/",
     model: "kimi-for-coding",
-    extraBody: '{"thinking": {"type": "enabled"}}',
+    // thinking 计入 max_tokens；budget 必须小于 max，留 32k 给最终正文。
+    extraBody:
+      '{"max_tokens": 256000, "thinking": {"type": "enabled", "budget_tokens": 224000}}',
   },
   {
     id: "mimo",

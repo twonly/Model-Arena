@@ -10,6 +10,11 @@ import {
 } from "@/lib/shared-models";
 import { sharedKeyFor, claimSharedRun } from "@/lib/shared-server";
 import { qualifyReferral } from "@/lib/referral-server";
+import {
+  anthropicThinkingMaxTokenErrorMessage,
+  DEFAULT_ANTHROPIC_MAX_TOKENS,
+  normalizeAnthropicThinkingPayload,
+} from "@/lib/anthropic";
 
 /**
  * 流式代理：把各家厂商接口统一成一种 SSE 事件流，顺带解决浏览器 CORS。
@@ -399,10 +404,12 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
   const base = body.baseUrl.replace(/\/+$/, "");
   const url = base.endsWith("/v1") ? `${base}/messages` : `${base}/v1/messages`;
 
+  const extra = parseExtra(body); // 如 {"thinking":{"type":"enabled"}}
+  const formMax = num(body.maxTokens);
   const img = body.imageDataUrl ? parseDataUrl(body.imageDataUrl) : null;
   const payload: Record<string, unknown> = {
     model: body.model,
-    max_tokens: num(body.maxTokens) ?? 8192,
+    max_tokens: formMax ?? DEFAULT_ANTHROPIC_MAX_TOKENS,
     stream: true,
     messages: [
       {
@@ -427,7 +434,12 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
   const t = num(body.temperature);
   // Opus 4.7+/Fable 已移除采样参数，仅在用户显式填写时传
   if (t != null) payload.temperature = t;
-  Object.assign(payload, parseExtra(body)); // 如 {"thinking":{"type":"adaptive"}}
+  Object.assign(payload, extra); // 模型私有参数（thinking 开关、max_tokens 覆盖等）优先
+
+  const thinkingOn = normalizeAnthropicThinkingPayload(payload, {
+    formMax,
+    extra,
+  });
 
   const res = await fetch(url, {
     method: "POST",
@@ -450,6 +462,7 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
 
   let outputTokens: number | undefined;
   let finishReason: string | undefined;
+  let gotText = false;
   await consumeSse(res, signal, (json) => {
     const ev = json as AnthropicEvent;
     switch (ev.type) {
@@ -460,6 +473,7 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
         break;
       case "content_block_delta":
         if (ev.delta?.type === "text_delta" && ev.delta.text) {
+          gotText = true;
           send({ type: "delta", text: ev.delta.text });
         } else if (ev.delta?.type === "thinking_delta" && ev.delta.thinking) {
           send({ type: "delta", reasoning: ev.delta.thinking });
@@ -473,7 +487,18 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
       case "message_stop":
         if (outputTokens != null)
           send({ type: "usage", outputTokens });
-        send({ type: "done", finishReason });
+        // 思考用满 max_tokens 却一个字正文都没产出 = 配置问题，给可操作建议
+        // （正常截断——有正文但被切——仍按 truncated 处理，不当错误）
+        if (finishReason === "max_tokens" && thinkingOn && !gotText) {
+          send({
+            type: "error",
+            message: anthropicThinkingMaxTokenErrorMessage(
+              payload.max_tokens
+            ),
+          });
+        } else {
+          send({ type: "done", finishReason });
+        }
         break;
       case "error":
         send({
