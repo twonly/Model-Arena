@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { ProviderIcon } from "@/components/ProviderIcon";
+import { providerBrandFor } from "@/lib/provider-icons";
 import type { ModelPrice } from "@/lib/pricing";
 import type { Locale } from "@/lib/i18n";
 
@@ -110,6 +112,7 @@ export function PricingTable({
           </thead>
           <tbody>
             {visible.map((r) => {
+              const brand = providerBrandFor(r.provider);
               const notes = [r.global?.note, r.cn?.note].filter(Boolean);
               const uniqNotes = [...new Set(notes)];
               const unconfirmed =
@@ -117,24 +120,32 @@ export function PricingTable({
               return (
                 <tr key={`${r.provider}-${r.model}`} className="border-t border-line">
                   <td className="px-3 py-2">
-                    <div className="font-semibold text-ink">
-                      {r.model}
-                      {unconfirmed && (
-                        <span
-                          className="ml-1.5 rounded bg-think/15 px-1 py-0.5 align-middle text-[10px] font-medium"
-                          style={{ color: "var(--think)" }}
-                          title={t("部分价格未经权威来源确认", "Some prices not yet confirmed")}
-                        >
-                          {t("待核实", "unverified")}
-                        </span>
-                      )}
-                    </div>
-                    <div className="text-[11px] text-faint">{r.provider}</div>
-                    {uniqNotes.length > 0 && (
-                      <div className="mt-0.5 max-w-[260px] text-[10.5px] leading-snug text-faint/80">
-                        {uniqNotes.join("；")}
+                    <div className="flex items-start gap-2.5">
+                      <ProviderIcon provider={r.provider} brand={brand} />
+                      <div className="min-w-0">
+                        <div className="font-semibold text-ink">
+                          {r.model}
+                          {unconfirmed && (
+                            <span
+                              className="ml-1.5 rounded bg-think/15 px-1 py-0.5 align-middle text-[10px] font-medium"
+                              style={{ color: "var(--think)" }}
+                              title={t("部分价格未经权威来源确认", "Some prices not yet confirmed")}
+                            >
+                              {t("待核实", "unverified")}
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1.5 text-[11px] text-faint">
+                          <span className="truncate">{r.provider}</span>
+                          {brand && <span className="text-faint/50">· {brand.sourceDomain}</span>}
+                        </div>
+                        {uniqNotes.length > 0 && (
+                          <div className="mt-0.5 max-w-[260px] text-[10.5px] leading-snug text-faint/80">
+                            {uniqNotes.join("；")}
+                          </div>
+                        )}
                       </div>
-                    )}
+                    </div>
                   </td>
                   {showGlobal && <PriceCells p={r.global} />}
                   {showCn && <PriceCells p={r.cn} />}
