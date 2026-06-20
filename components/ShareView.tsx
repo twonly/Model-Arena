@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 import { ModelCard, STATUS_COLOR } from "./ModelCard";
+import { VerdictCard } from "./VerdictCard";
+import { computeVerdict } from "@/lib/verdict";
+import { grade } from "@/lib/grade";
 import { Credit } from "./Credit";
 import { CardVoteBar } from "./CardVoteBar";
 import { Leaderboard } from "./Leaderboard";
@@ -116,6 +119,17 @@ export function ShareView({
   }, [focusId]);
 
   const wordTarget = extractWordTarget(snapshot.prompt);
+
+  const verdict = computeVerdict(
+    snapshot.results.map((r, i) => ({
+      id: String(i),
+      name: r.name || r.model,
+      model: r.model,
+      status: r.status,
+      metrics: r.metrics,
+      graded: grade(snapshot.prompt, r.text),
+    }))
+  );
   const visible = endpoints.filter((e) => !hidden.includes(e.id));
   const focusEp = focusId ? endpoints.find((e) => e.id === focusId) : null;
 
@@ -333,6 +347,11 @@ export function ShareView({
       {/* 主区 + 右侧榜单 */}
       <div className="flex flex-col gap-6 lg:flex-row lg:items-start">
         <div className="order-2 min-w-0 lg:order-1 lg:flex-1">
+          {verdict && (
+            <div className="mb-4">
+              <VerdictCard verdict={verdict} locale={locale} />
+            </div>
+          )}
           <div className={`grid gap-4 ${cols}`}>
             {visible.map((ep) => (
               <div key={ep.id}>

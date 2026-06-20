@@ -139,6 +139,25 @@ export const ModelCard = memo(function ModelCard({
   // 表现为「不滚动到这里就一直空白、点一下才出现」。改成进入视口附近才挂载：
   // 加载即可见、不被限频，也避免多张卡同时抢 CDN。截图/分享态直接预挂载。
   const [previewSeen, setPreviewSeen] = useState(screenshotMode);
+  // T0 视觉探针：沙箱内脚本 postMessage 回报「渲染成功/报错」
+  const [previewOk, setPreviewOk] = useState<boolean | null>(null);
+  useEffect(() => {
+    const onMsg = (e: MessageEvent) => {
+      if (
+        e.source === previewRef.current?.contentWindow &&
+        e.data &&
+        e.data.__tokracePreview
+      ) {
+        setPreviewOk(!!e.data.ok);
+      }
+    };
+    window.addEventListener("message", onMsg);
+    return () => window.removeEventListener("message", onMsg);
+  }, []);
+  // 每次重挂载预览（reloadKey 变）重置探针状态
+  useEffect(() => {
+    setPreviewOk(null);
+  }, [reloadKey, htmlBig]);
 
   // 预览高度偏好持久化：放大一次后后续运行保持放大，省去每次手动点
   // （用 effect 而非 useState 初值，避免 SSR/CSR 水合不一致）
@@ -475,12 +494,26 @@ export const ModelCard = memo(function ModelCard({
           className="mx-4 mb-3 rounded-md border border-line overflow-hidden"
         >
           <div className="flex items-center justify-between bg-paper/70 px-3 py-1.5 text-[11px] text-faint">
-            <button
-              onClick={() => setShowHtml((v) => !v)}
-              className="cursor-pointer"
-            >
-              {showHtml ? "▾" : "▸"} 🕹 {en ? "HTML / Canvas / 3D Preview (sandboxed)" : "HTML / Canvas / 3D 预览（沙箱运行）"}
-            </button>
+            <div className="flex items-center gap-1.5">
+              <button
+                onClick={() => setShowHtml((v) => !v)}
+                className="cursor-pointer"
+              >
+                {showHtml ? "▾" : "▸"} 🕹 {en ? "HTML / Canvas / 3D Preview (sandboxed)" : "HTML / Canvas / 3D 预览（沙箱运行）"}
+              </button>
+              {previewSeen && previewOk !== null && (
+                <span
+                  className="rounded px-1.5 py-0.5 text-[10px] font-medium"
+                  style={{
+                    background: previewOk ? "var(--go)" : "var(--accent)",
+                    color: "var(--paper)",
+                  }}
+                  title={en ? "Auto-detected: sandbox rendered without script errors" : "自动检测：沙箱是否无脚本报错渲染"}
+                >
+                  {previewOk ? (en ? "✓ rendered" : "✓ 渲染成功") : en ? "✗ error" : "✗ 渲染报错"}
+                </span>
+              )}
+            </div>
             {showHtml && previewSeen && (
               <div className="flex items-center gap-2.5">
                 <button

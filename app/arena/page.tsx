@@ -4,6 +4,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Credit } from "@/components/Credit";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
+import { VerdictCard } from "@/components/VerdictCard";
+import { computeVerdict } from "@/lib/verdict";
+import { grade } from "@/lib/grade";
 import { AccountDialog } from "@/components/AccountDialog";
 import { AccountChip } from "@/components/AccountChip";
 import { Logo } from "@/components/Logo";
@@ -43,7 +46,7 @@ import {
   type RunState,
 } from "@/lib/types";
 import { QuotaBanner } from "@/components/QuotaBanner";
-import { sharedAsEndpoints } from "@/lib/shared-models";
+import { retireDuplicateShared, sharedAsEndpoints } from "@/lib/shared-models";
 import { supabaseEnabled } from "@/lib/supabase-client";
 import {
   ARENA_SEED_STORAGE_KEY,
@@ -236,6 +239,24 @@ export default function Home() {
       if (!Array.isArray(existing) || existing.length === 0) {
         setEndpoints(sharedAsEndpoints());
       }
+    } catch {
+      /* ignore */
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 一次性收敛存量用户：已配自己的 Key 时，取消勾选同 provider 的体验模型，
+  // 缩短卡片网格、消除重复、避免误烧额度。只改 enabled（可再勾回），仅跑一次。
+  useEffect(() => {
+    try {
+      if (localStorage.getItem("ma.retiredSharedDupes")) return;
+      localStorage.setItem("ma.retiredSharedDupes", "1");
+      const raw = localStorage.getItem("ma.endpoints");
+      if (!raw) return;
+      const eps = JSON.parse(raw);
+      if (!Array.isArray(eps)) return;
+      const next = retireDuplicateShared(eps);
+      if (next !== eps) setEndpoints(next);
     } catch {
       /* ignore */
     }
@@ -1015,6 +1036,21 @@ export default function Home() {
 
   // Prompt 含「N 字」要求时，卡片显示字数达成率
   const wordTarget = extractWordTarget(restored ? restored.prompt : prompt);
+
+  // 结算卡：跑完后选出最快/最省/答对/综合推荐（客观题自动判定）
+  const verdict = computeVerdict(
+    enabledEndpoints.map((ep) => {
+      const run = runs[ep.id] ?? EMPTY_RUN;
+      return {
+        id: ep.id,
+        name: ep.name,
+        model: ep.model,
+        status: run.status,
+        metrics: run.metrics,
+        graded: grade(restored ? restored.prompt : prompt, run.text),
+      };
+    })
+  );
   const generatedShareId =
     shareUrl && shareUrl !== "loading"
       ? (() => {
@@ -1787,6 +1823,13 @@ export default function Home() {
               />
             );
           })}
+        </div>
+      )}
+
+      {/* 结算卡：最快 / 最省 / 答对 / 综合推荐 */}
+      {verdict && hasResults && (
+        <div className="mt-4">
+          <VerdictCard verdict={verdict} locale={locale} />
         </div>
       )}
 

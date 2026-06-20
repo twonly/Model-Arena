@@ -29,6 +29,17 @@ const HTML_FRAGMENT_RE =
   /<(canvas|script|style|div|main|section|article|button|input|video|svg)\b/i;
 const PREVIEW_ERROR_HANDLER = `<script data-tokrace-preview-error-handler>
 (function () {
+  var reported = false;
+  // T0 探针：把「渲染成功/报错」回报父页（结算卡视觉判 + 卡片徽章用）
+  function postProbe(ok, message) {
+    try {
+      parent.postMessage({
+        __tokracePreview: true,
+        ok: ok,
+        message: message ? String(message).slice(0, 300) : undefined
+      }, "*");
+    } catch (e) {}
+  }
   function showPreviewError(message) {
     var text = String(message || "Unknown preview error").slice(0, 600);
     function mount() {
@@ -50,12 +61,20 @@ const PREVIEW_ERROR_HANDLER = `<script data-tokrace-preview-error-handler>
       mount();
     }
   }
+  function fail(message) {
+    showPreviewError(message);
+    if (!reported) { reported = true; postProbe(false, message); }
+  }
   window.addEventListener("error", function (event) {
-    showPreviewError(event.message || (event.error && event.error.message));
+    fail(event.message || (event.error && event.error.message));
   });
   window.addEventListener("unhandledrejection", function (event) {
     var reason = event.reason;
-    showPreviewError(reason && reason.message ? reason.message : reason);
+    fail(reason && reason.message ? reason.message : reason);
+  });
+  // 加载后若无错误则报告成功（留时间让 CDN/脚本跑起来）
+  window.addEventListener("load", function () {
+    setTimeout(function () { if (!reported) { reported = true; postProbe(true); } }, 1800);
   });
 })();
 <\/script>`;
