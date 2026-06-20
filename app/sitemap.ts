@@ -20,6 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       languages: {
         "zh-CN": `${base}${localizedPath(pathname, "zh-CN")}`,
         en: `${base}${localizedPath(pathname, "en")}`,
+        "x-default": `${base}${localizedPath(pathname, "zh-CN")}`,
       },
     },
     ...rest,

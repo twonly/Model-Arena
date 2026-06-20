@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { BRAND, SEO_KEYWORDS } from "./brand";
+import { BRAND, OG_IMAGE, SEO_KEYWORDS } from "./brand";
 import { getMessages } from "./i18n-messages";
 import { localeToOg, localizedPath, type Locale } from "./i18n";
 
@@ -23,6 +23,7 @@ export function localizedMetadata(
       languages: {
         "zh-CN": localizedPath(pathname, "zh-CN"),
         en: localizedPath(pathname, "en"),
+        "x-default": localizedPath(pathname, "zh-CN"),
       },
       ...opts.alternates,
     },
@@ -33,12 +34,14 @@ export function localizedMetadata(
       description: meta.description,
       url: localizedPath(pathname, locale),
       locale: localeToOg(locale),
+      images: [OG_IMAGE],
       ...opts.openGraph,
     },
     twitter: {
       card: "summary_large_image",
       title: meta.title,
       description: meta.description,
+      images: [OG_IMAGE.url],
       ...opts.twitter,
     },
     ...opts,

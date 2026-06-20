@@ -20,6 +20,9 @@ function shouldSkip(pathname: string): boolean {
     pathname === "/robots.txt" ||
     pathname === "/sitemap.xml" ||
     pathname === "/manifest.webmanifest" ||
+    // 元数据图片路由（无扩展名，PUBLIC_FILE 兜不住）不参与语言重定向，
+    // 否则社媒抓取 OG 图时会被 307 跳走、拿不到图
+    pathname === "/opengraph-image" ||
     PUBLIC_FILE.test(pathname)
   );
 }

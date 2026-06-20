@@ -5,7 +5,7 @@ import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import { SocialSharePanel } from "@/components/SocialSharePanel";
 import { htmlBadge, markdownBadge } from "@/lib/badge";
-import { BRAND } from "@/lib/brand";
+import { BRAND, OG_IMAGE } from "@/lib/brand";
 import { modelSlug } from "@/lib/stats";
 import {
   fmtMetric as fmt,
@@ -70,9 +70,18 @@ export async function generateMetadata({
       languages: {
         "zh-CN": localizedPath(`/model/${slug}`, "zh-CN"),
         en: localizedPath(`/model/${slug}`, "en"),
+        "x-default": localizedPath(`/model/${slug}`, "zh-CN"),
       },
     },
-    openGraph: { type: "article", title, description, url: canonical, locale: localeToOg(locale) },
+    openGraph: {
+      type: "article",
+      title,
+      description,
+      url: canonical,
+      locale: localeToOg(locale),
+      images: [OG_IMAGE],
+    },
+    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE.url] },
   };
 }
 

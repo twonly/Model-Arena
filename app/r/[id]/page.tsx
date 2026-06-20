@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ShareView } from "@/components/ShareView";
 import { JsonLd } from "@/components/JsonLd";
-import { BRAND } from "@/lib/brand";
+import { BRAND, OG_IMAGE } from "@/lib/brand";
 import type { ShareSnapshot } from "@/lib/share";
 import { fetchShareSnapshot, type ShareFetchResult } from "@/lib/share-server";
 import {
@@ -43,6 +43,7 @@ export async function generateMetadata({
       languages: {
         "zh-CN": localizedPath(`/r/${id}`, "zh-CN"),
         en: localizedPath(`/r/${id}`, "en"),
+        "x-default": localizedPath(`/r/${id}`, "zh-CN"),
       },
     },
     openGraph: {
@@ -51,7 +52,9 @@ export async function generateMetadata({
       description,
       url: canonical,
       locale: localeToOg(locale),
+      images: [OG_IMAGE],
     },
+    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE.url] },
   };
 }
 

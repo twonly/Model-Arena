@@ -81,7 +81,10 @@ export function findPrice(
 ): ModelPrice | undefined {
   const id = modelId.toLowerCase();
   const hits = MODEL_PRICES.filter((p) =>
-    p.matchIds.some((m) => id === m || id.includes(m))
+    p.matchIds.some((m) => {
+      const ml = m.toLowerCase(); // matchId 大小写不敏感（手填 ID 常带大写）
+      return id === ml || id.includes(ml);
+    })
   );
   if (!hits.length) return undefined;
   return hits.find((p) => p.region === region) ?? hits[0];

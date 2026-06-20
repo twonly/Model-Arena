@@ -6,8 +6,9 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      // 私有「我的中心」与接口不收录
-      disallow: ["/api/", "/me", "/auth/"],
+      // 接口、鉴权回调、后台管理不收录。
+      // 「我的中心」(/me) 改用页面级 noindex（robots 屏蔽会让爬虫看不到 noindex）。
+      disallow: ["/api/", "/auth/", "/admin"],
     },
     sitemap: `${BRAND.url}/sitemap.xml`,
     host: BRAND.url,

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { BRAND, SEO_KEYWORDS } from "@/lib/brand";
+import { BRAND, OG_IMAGE, SEO_KEYWORDS } from "@/lib/brand";
 import { JsonLd } from "@/components/JsonLd";
 import { I18nProvider } from "@/components/I18nProvider";
 import { getRequestLocale } from "@/lib/i18n-server";
@@ -27,6 +27,8 @@ function siteMetadata(locale: Locale): Metadata {
       languages: {
         "zh-CN": localizedPath("/", "zh-CN"),
         en: localizedPath("/", "en"),
+        // x-default：语言/地区未匹配时的兜底，指向默认中文版
+        "x-default": localizedPath("/", "zh-CN"),
       },
     },
     openGraph: {
@@ -36,11 +38,14 @@ function siteMetadata(locale: Locale): Metadata {
       description: messages.brand.description,
       url: localizedPath("/", locale),
       locale: localeToOg(locale),
+      images: [OG_IMAGE],
     },
     twitter: {
       card: "summary_large_image",
       title: BRAND.full,
       description: messages.brand.description,
+      // twitter.images 未设时会回退到 openGraph.images，这里显式声明更稳妥
+      images: [OG_IMAGE.url],
     },
     robots: {
       index: true,
@@ -61,12 +66,21 @@ function siteJsonLd(locale: Locale) {
     "@context": "https://schema.org",
     "@graph": [
       {
+        "@type": "Organization",
+        "@id": `${BRAND.url}/#org`,
+        name: `${BRAND.en} ${BRAND.zh}`,
+        url: BRAND.url,
+        logo: `${BRAND.url}/logo.png`,
+        description: messages.brand.description,
+      },
+      {
         "@type": "WebSite",
         "@id": `${BRAND.url}/#website`,
         url: BRAND.url,
         name: BRAND.full,
         description: messages.brand.description,
         inLanguage: language,
+        publisher: { "@id": `${BRAND.url}/#org` },
       },
       {
         "@type": "SoftwareApplication",
@@ -77,6 +91,7 @@ function siteJsonLd(locale: Locale) {
         url: BRAND.url,
         description: messages.brand.description,
         inLanguage: language,
+        publisher: { "@id": `${BRAND.url}/#org` },
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       },
     ],

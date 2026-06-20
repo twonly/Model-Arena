@@ -12,7 +12,9 @@ export const BRAND = {
   /** 锁定写法，作默认水印 / 页脚署名 */
   full: "百模竞速 · TOKRACE",
   domain: "tokrace.com",
-  url: "https://tokrace.com",
+  // 规范主机：apex 域 tokrace.com 会 308 跳到 www，故所有 canonical /
+  // hreflang / sitemap / OG / JSON-LD 的绝对地址都以 www 为准，避免指向跳转源。
+  url: "https://www.tokrace.com",
   taglineZh: "开发者与 AI 测评作者的实时模型测速台",
   taglineEn: "Real-time LLM speed test bench for developers and AI reviewers",
   descZh:
@@ -21,6 +23,18 @@ export const BRAND = {
     "TOKRACE is an LLM speed testing bench for developers and AI reviewers. Run one prompt across many models and compare TTFT, output TPS, peak speed and stability with shareable snapshots and live leaderboards.",
   /** 出品冠名（运营人格，保留） */
   publisher: "AI拯救打工人",
+} as const;
+
+/**
+ * 默认社媒分享图（文件式路由 app/opengraph-image.tsx，1200×630）。
+ * 显式声明给各页 metadata，避免本地化路由下 OG 图丢失。
+ * url 用相对路径，由 metadataBase 解析为 www 绝对地址。
+ */
+export const OG_IMAGE = {
+  url: "/opengraph-image",
+  width: 1200,
+  height: 630,
+  alt: `${BRAND.full} — ${BRAND.taglineEn}`,
 } as const;
 
 export const SEO_KEYWORDS = [
