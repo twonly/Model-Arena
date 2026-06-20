@@ -60,6 +60,37 @@ const PREVIEW_ERROR_HANDLER = `<script data-tokrace-preview-error-handler>
 })();
 <\/script>`;
 
+// 沙箱 iframe 是 null origin（无 allow-same-origin，安全考虑绝不能加），
+// 访问 localStorage/sessionStorage 会直接抛 SecurityError 整页崩白。
+// 模型代码本身没错（真浏览器里能跑），是沙箱限制导致的「假阴性」。
+// 在用户脚本前注入内存垫片：访问会抛时才用内存版兜底，能正常用时保持原样。
+// 注意：内存版不跨 Reload 持久化，但「能跑」永远好过「崩白」。
+const PREVIEW_STORAGE_SHIM = `<script data-tokrace-preview-storage-shim>
+(function () {
+  function mem() {
+    var s = {};
+    return {
+      getItem: function (k) { return Object.prototype.hasOwnProperty.call(s, k) ? s[k] : null; },
+      setItem: function (k, v) { s[k] = String(v); },
+      removeItem: function (k) { delete s[k]; },
+      clear: function () { s = {}; },
+      key: function (i) { return Object.keys(s)[i] || null; },
+      get length() { return Object.keys(s).length; }
+    };
+  }
+  ["localStorage", "sessionStorage"].forEach(function (name) {
+    var ok = false;
+    try { var t = window[name]; t.setItem("__tokrace_probe__", "1"); t.removeItem("__tokrace_probe__"); ok = true; } catch (e) {}
+    if (!ok) {
+      try { Object.defineProperty(window, name, { value: mem(), configurable: true }); } catch (e) {}
+    }
+  });
+})();
+<\/script>`;
+
+// 注入顺序：错误处理器在前（先注册才能兜住后续一切错误），存储垫片在后。
+const PREVIEW_PREAMBLE = `${PREVIEW_ERROR_HANDLER}\n${PREVIEW_STORAGE_SHIM}`;
+
 function normalizeHtmlCandidate(text: string): string {
   const trimmed = text.trim();
   const htmlFence = trimmed.match(HTML_FENCE_RE);
@@ -96,7 +127,7 @@ function wrapHtmlFragment(fragment: string): string {
     }
     canvas, svg, video { max-width: 100%; }
   </style>
-  ${PREVIEW_ERROR_HANDLER}
+  ${PREVIEW_PREAMBLE}
 </head>
 <body>
 ${fragment}
@@ -107,12 +138,12 @@ ${fragment}
 function injectPreviewErrorHandler(html: string): string {
   if (/data-tokrace-preview-error-handler/.test(html)) return html;
   if (/<head[\s>]/i.test(html)) {
-    return html.replace(/<head(\s[^>]*)?>/i, (match) => `${match}\n${PREVIEW_ERROR_HANDLER}`);
+    return html.replace(/<head(\s[^>]*)?>/i, (match) => `${match}\n${PREVIEW_PREAMBLE}`);
   }
   if (/<body[\s>]/i.test(html)) {
-    return html.replace(/<body(\s[^>]*)?>/i, (match) => `${match}\n${PREVIEW_ERROR_HANDLER}`);
+    return html.replace(/<body(\s[^>]*)?>/i, (match) => `${match}\n${PREVIEW_PREAMBLE}`);
   }
-  return `${PREVIEW_ERROR_HANDLER}\n${html}`;
+  return `${PREVIEW_PREAMBLE}\n${html}`;
 }
 
 /**
@@ -129,4 +160,15 @@ export function extractHtmlDoc(text: string): string | null {
   if (isCompleteHtml(candidate)) return injectPreviewErrorHandler(candidate);
   if (hasRunnableHtmlFragment(candidate)) return wrapHtmlFragment(candidate);
   return null;
+}
+
+const HTML_ATTEMPT_RE = /<!doctype html|<html[\s>]|<canvas\b|```html/i;
+
+/**
+ * 输出「明显想给网页/Canvas，但 extractHtmlDoc 没能拼出可运行文档」的判定。
+ * 仅在强信号（doctype/html/canvas/```html）下为真，避免对普通正文误报；
+ * 用于把「无预览」这种静默空白换成一句可解释的提示（多半是被截断）。
+ */
+export function looksLikeHtmlAttempt(text: string): boolean {
+  return !!text && HTML_ATTEMPT_RE.test(text);
 }

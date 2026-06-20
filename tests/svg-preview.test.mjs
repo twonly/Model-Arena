@@ -1,7 +1,12 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { extractHtmlDoc, extractSvgs, svgDataUrl } from "../lib/svg.ts";
+import {
+  extractHtmlDoc,
+  extractSvgs,
+  looksLikeHtmlAttempt,
+  svgDataUrl,
+} from "../lib/svg.ts";
 
 test("extracts complete HTML documents from fenced model output", () => {
   const html = extractHtmlDoc(
@@ -45,4 +50,29 @@ test("keeps svg extraction as inert image previews", () => {
   const svgs = extractSvgs('<svg viewBox="0 0 10 10"><script>alert(1)</script></svg>');
   assert.equal(svgs.length, 1);
   assert.match(svgDataUrl(svgs[0]), /^data:image\/svg\+xml;charset=utf-8,/);
+});
+
+test("injects a storage shim before user scripts so null-origin localStorage doesn't crash", () => {
+  const html = extractHtmlDoc(
+    '<!doctype html><html><head></head><body><script>localStorage.setItem("k","1")</script></body></html>'
+  );
+  // Shim is present and lands before the user script that touches storage.
+  assert.match(html ?? "", /data-tokrace-preview-storage-shim/);
+  assert.ok(
+    (html ?? "").indexOf("data-tokrace-preview-storage-shim") <
+      (html ?? "").indexOf('localStorage.setItem("k","1")')
+  );
+  // Error handler still comes first (must register before everything else).
+  assert.ok(
+    (html ?? "").indexOf("data-tokrace-preview-error-handler") <
+      (html ?? "").indexOf("data-tokrace-preview-storage-shim")
+  );
+});
+
+test("looksLikeHtmlAttempt flags web/canvas output but not plain prose", () => {
+  assert.ok(looksLikeHtmlAttempt("<!doctype html><html>...</html>"));
+  assert.ok(looksLikeHtmlAttempt("here is a <canvas id='c'></canvas> snippet"));
+  assert.ok(looksLikeHtmlAttempt("```html\n<div>hi</div>\n```"));
+  assert.equal(looksLikeHtmlAttempt("Just a normal essay about speed."), false);
+  assert.equal(looksLikeHtmlAttempt(""), false);
 });

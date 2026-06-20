@@ -12,7 +12,7 @@ import {
   fmtTps,
   rankBadge,
 } from "@/lib/format";
-import { extractHtmlDoc, extractSvgs, svgDataUrl } from "@/lib/svg";
+import { extractHtmlDoc, extractSvgs, looksLikeHtmlAttempt, svgDataUrl } from "@/lib/svg";
 import { findPrice, estimateRunCost } from "@/lib/pricing";
 import type { ModelEndpoint, RunState } from "@/lib/types";
 
@@ -183,6 +183,10 @@ export const ModelCard = memo(function ModelCard({
     () => (finished ? extractHtmlDoc(previewSource) : null),
     [previewSource, finished]
   );
+  // 看起来想给网页/Canvas、却没拼出可运行文档（多半被超时截断或夹带说明）：
+  // 把静默空白换成一句可解释的提示，而不是让用户对着「没有预览」发懵。
+  const noPreviewHint =
+    finished && !htmlDoc && svgs.length === 0 && looksLikeHtmlAttempt(previewSource);
 
   // 预览进入视口附近（300px 提前量）才挂载 iframe，避免离屏被浏览器限频
   useEffect(() => {
@@ -526,6 +530,15 @@ export const ModelCard = memo(function ModelCard({
                 ▶ {en ? "Click to load the interactive preview" : "点击加载交互预览（滚动到此也会自动加载）"}
               </button>
             ))}
+        </div>
+      )}
+
+      {/* 像网页/Canvas 但没拼出可运行文档：给一句可解释的提示，而非静默空白 */}
+      {noPreviewHint && (
+        <div className="mx-4 mb-3 rounded-md border border-line/70 bg-paper/50 px-3 py-2 text-[12px] leading-relaxed text-faint">
+          {en
+            ? "⚠ Looks like web/Canvas code, but no complete runnable document could be extracted (often truncated by a timeout, or wrapped in explanation). Try Rerun, or read the raw output above."
+            : "⚠ 看起来是网页/Canvas 代码，但没能提取出可运行的完整文档（常因超时被截断，或被说明文字包裹）。可点「重跑」，或查看上方原始输出。"}
         </div>
       )}
 
