@@ -194,6 +194,20 @@ export default async function BestPage({
         </Link>
       </div>
 
+      {!page.empty && (
+        <details className="mt-6 rounded-lg border border-line bg-paper/40 px-4 py-3">
+          <summary className="cursor-pointer text-[12.5px] font-medium text-faint hover:text-ink">
+            {isZh ? "📋 把这个榜单嵌到你的网站" : "📋 Embed this ranking on your site"}
+          </summary>
+          <p className="mt-2 text-[11.5px] text-faint">
+            {isZh ? "复制下面代码（实时数据，自动更新）：" : "Copy the code below (live data, auto-updating):"}
+          </p>
+          <pre className="num mt-1.5 overflow-x-auto rounded-md bg-ink/90 px-3 py-2 text-[11px] text-paper">
+            {`<iframe src="${BRAND.url}/embed/best/${metric}${isZh ? "" : "?lang=en"}" width="400" height="360" style="border:0;border-radius:12px" loading="lazy" title="${page.title}"></iframe>`}
+          </pre>
+        </details>
+      )}
+
       <p className="mt-5 text-[11px] text-faint/80">
         {isZh
           ? "· 速度来自匿名实测中位数，价格以官方页面为准，跨币种按固定汇率折算 USD，仅供参考。"
