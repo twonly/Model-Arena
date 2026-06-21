@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { BRAND } from "@/lib/brand";
 import { fetchModelStats, modelSlug, comparePairs } from "@/lib/stats";
+import { BEST_METRICS } from "@/lib/best";
 import { LOCALES, localizedPath, type Locale } from "@/lib/i18n";
 
 // 让 sitemap 随排行榜刷新（模型页是动态的）
@@ -40,6 +41,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...allLocales("/invite", { lastModified: now, changeFrequency: "monthly", priority: 0.7 }),
     ...allLocales("/method", { lastModified: now, changeFrequency: "monthly", priority: 0.6 }),
     ...allLocales("/pricing", { lastModified: now, changeFrequency: "weekly", priority: 0.8 }),
+    ...BEST_METRICS.flatMap((m) =>
+      allLocales(`/best/${m}`, { lastModified: now, changeFrequency: "daily", priority: 0.8 })
+    ),
   ];
 
   // 每个上榜模型一个永久页（长尾「X 速度」），以及前 8 名两两对比页（高意图「X vs Y」）

@@ -64,6 +64,12 @@ export default async function Landing() {
             {messages.common.stats}
           </Link>
           <Link
+            href={h("/best/cheapest")}
+            className="hidden text-[13px] text-faint hover:text-ink md:inline"
+          >
+            {messages.common.best}
+          </Link>
+          <Link
             href={h("/board")}
             className="hidden text-[13px] text-faint hover:text-ink md:inline"
           >
