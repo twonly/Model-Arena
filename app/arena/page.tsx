@@ -5,6 +5,7 @@ import { Credit } from "@/components/Credit";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
 import { VerdictCard } from "@/components/VerdictCard";
+import { RaceTrack } from "@/components/RaceTrack";
 import { computeVerdict } from "@/lib/verdict";
 import { grade } from "@/lib/grade";
 import { AccountDialog } from "@/components/AccountDialog";
@@ -1045,6 +1046,23 @@ export default function Home() {
   // Prompt 含「N 字」要求时，卡片显示字数达成率
   const wordTarget = extractWordTarget(restored ? restored.prompt : prompt);
 
+  // 实时赛道：流式期间按累计 token 赛跑
+  const runners = visibleEndpoints.map((ep) => {
+    const run = runs[ep.id] ?? EMPTY_RUN;
+    const m = run.metrics;
+    return {
+      id: ep.id,
+      name: ep.name,
+      tokens: m?.outputTokens ?? run.liveTokens ?? 0,
+      tps: m?.contentTps ?? run.liveTps ?? 0,
+      done:
+        run.status === "done" ||
+        run.status === "stopped" ||
+        run.status === "truncated",
+      running: isRunning(run),
+    };
+  });
+
   // 结算卡：跑完后选出最快/最省/答对/综合推荐（客观题自动判定）
   const verdict = computeVerdict(
     enabledEndpoints.map((ep) => {
@@ -1790,6 +1808,13 @@ export default function Home() {
               {en ? "Show all" : "全部显示"}
             </button>
           )}
+        </div>
+      )}
+
+      {/* 实时赛道：开跑后/有结果时在卡片上方显示 */}
+      {(anyRunning || hasResults) && visibleEndpoints.length >= 2 && (
+        <div className="mb-4">
+          <RaceTrack runners={runners} locale={locale} />
         </div>
       )}
 
