@@ -46,7 +46,7 @@ import {
   type RunState,
 } from "@/lib/types";
 import { QuotaBanner } from "@/components/QuotaBanner";
-import { retireDuplicateShared, sharedAsEndpoints } from "@/lib/shared-models";
+import { graduateShared, sharedAsEndpoints } from "@/lib/shared-models";
 import { supabaseEnabled } from "@/lib/supabase-client";
 import {
   ARENA_SEED_STORAGE_KEY,
@@ -245,23 +245,31 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 一次性收敛存量用户：已配自己的 Key 时，取消勾选同 provider 的体验模型，
-  // 缩短卡片网格、消除重复、避免误烧额度。只改 enabled（可再勾回），仅跑一次。
+  // 「毕业」：用户一旦拥有可用的自配模型，体验模型整体退场（默认全部取消勾选）。
+  // 依赖 endpoints，确保在 usePersisted 异步水合出真实数据之后才生效（否则会与水合竞争、
+  // 在 StrictMode 下被回灌覆盖）。只在「首次出现可用自配模型」那一刻翻一次并落 localStorage
+  // 标记，之后用户手动勾回的体验基线在刷新后依然保留。新增/导入自配模型也会经由此处统一处理。
+  const graduatedRef = useRef(false);
   useEffect(() => {
+    if (graduatedRef.current) return;
     try {
-      if (localStorage.getItem("ma.retiredSharedDupes")) return;
-      localStorage.setItem("ma.retiredSharedDupes", "1");
-      const raw = localStorage.getItem("ma.endpoints");
-      if (!raw) return;
-      const eps = JSON.parse(raw);
-      if (!Array.isArray(eps)) return;
-      const next = retireDuplicateShared(eps);
-      if (next !== eps) setEndpoints(next);
+      if (localStorage.getItem("ma.graduatedShared")) {
+        graduatedRef.current = true;
+        return;
+      }
+    } catch {
+      return;
+    }
+    const next = graduateShared(endpoints);
+    if (next === endpoints) return; // 尚无可用自配模型，或体验模型本就未勾 → 暂不处理
+    graduatedRef.current = true;
+    try {
+      localStorage.setItem("ma.graduatedShared", "1");
     } catch {
       /* ignore */
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    setEndpoints(next);
+  }, [endpoints, setEndpoints]);
 
   const fetchQuota = useCallback(async () => {
     if (!supabaseEnabled()) return;

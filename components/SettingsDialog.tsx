@@ -120,6 +120,10 @@ async function importBackup(file: File, locale: "zh-CN" | "en" = "zh-CN"): Promi
     }
   }
   if (!count) return en ? "No importable data found in this backup" : "备份文件里没有可导入的数据";
+  // 导入的备份可能来自老版本（自配模型 + 一堆体验模型都还勾着）。清掉「毕业」标记，
+  // 让 reload 后的一次性迁移重新跑一遍：有自配模型时把体验模型整体取消勾选。
+  // 对已毕业的新备份是幂等的（体验模型本就未勾，迁移 no-op）。
+  localStorage.removeItem("ma.graduatedShared");
   location.reload(); // 重新加载让所有状态生效
   return "";
 }
@@ -154,6 +158,8 @@ export function SettingsDialog({
     msg?: string;
   }>({ status: "idle" });
   const [importMsg, setImportMsg] = useState("");
+  // 体验模型分组折叠（null = 跟随默认：有自配模型时折叠；boolean = 用户显式覆盖）
+  const [trialCollapsed, setTrialCollapsed] = useState<boolean | null>(null);
 
   /* ESC 关闭 */
   useEffect(() => {
@@ -213,6 +219,8 @@ export function SettingsDialog({
   const saveDraft = () => {
     if (!draft) return;
     const exists = endpoints.some((e) => e.id === draft.id);
+    // 体验模型的「毕业」（首次有可用自配模型 → 整体取消勾选）由 arena 页统一处理，
+    // 这里只负责增改 endpoints 本身。
     onChange(
       exists
         ? endpoints.map((e) => (e.id === draft.id ? draft : e))
@@ -294,6 +302,95 @@ export function SettingsDialog({
   const input =
     "w-full rounded-md border border-line bg-card px-2.5 py-1.5 text-[13px] outline-none focus:border-ink/40";
 
+  // ── 已接入列表分两组：我的模型 / 体验模型 ──
+  const ownEndpoints = endpoints.filter((e) => !e.shared);
+  const trialEndpoints = endpoints.filter((e) => e.shared);
+  const trialInRace = trialEndpoints.filter((e) => e.enabled).length;
+  // 默认：有自配模型时折叠体验组（脚手架隐退）；用户点过则以其选择为准
+  const trialCollapsedEff = trialCollapsed ?? ownEndpoints.length > 0;
+  const setGroupEnabled = (shared: boolean, val: boolean) =>
+    onChange(
+      endpoints.map((e) => (!!e.shared === shared ? { ...e, enabled: val } : e))
+    );
+  const groupBtn =
+    "text-[11px] text-faint hover:text-ink cursor-pointer";
+
+  const renderRow = (ep: ModelEndpoint) => (
+    <div
+      key={ep.id}
+      className="flex items-center gap-2.5 rounded-md border border-line bg-card px-3 py-2"
+    >
+      <input
+        type="checkbox"
+        checked={ep.enabled}
+        onChange={(e) =>
+          onChange(
+            endpoints.map((x) =>
+              x.id === ep.id ? { ...x, enabled: e.target.checked } : x
+            )
+          )
+        }
+        className="accent-[var(--accent)] cursor-pointer"
+      />
+      <div className="min-w-0 flex-1">
+        <div className="text-[13px] font-semibold truncate">
+          {ep.name}
+          {ep.shared && (
+            <span
+              className="ml-2 text-[10px] font-semibold rounded px-1 py-px"
+              style={{
+                color: "var(--go)",
+                border: "1px solid color-mix(in srgb, var(--go) 40%, transparent)",
+              }}
+            >
+              🎁 {en ? "Trial" : "体验"}
+            </span>
+          )}
+          <span className="ml-2 text-[10px] font-normal text-faint border border-line rounded px-1 py-px">
+            {kindLabel[ep.kind]}
+          </span>
+        </div>
+        <div className="num text-[11px] text-faint truncate">
+          {ep.model} · {ep.baseUrl}
+          {ep.extraBody?.trim() && (
+            <span style={{ color: "var(--think)" }}>
+              {" "}
+              · {en ? "custom params" : "自定义参数"}
+            </span>
+          )}
+          {ep.shared ? (
+            <span style={{ color: "var(--go)" }}>
+              {" "}
+              · {en ? "free trial, no Key needed" : "免费体验，无需 Key"}
+            </span>
+          ) : (
+            !ep.apiKey && (
+              <span className="text-accent"> · {en ? "missing Key" : "未填 Key"}</span>
+            )
+          )}
+        </div>
+      </div>
+      <button
+        onClick={() => startEdit(ep)}
+        className="text-[11.5px] text-faint hover:text-ink cursor-pointer"
+      >
+        {messages.common.edit}
+      </button>
+      <button
+        onClick={() => duplicate(ep)}
+        className="text-[11.5px] text-faint hover:text-ink cursor-pointer"
+      >
+        {messages.common.copy}
+      </button>
+      <button
+        onClick={() => remove(ep.id)}
+        className="text-[11.5px] text-faint hover:text-accent cursor-pointer"
+      >
+        {messages.common.delete}
+      </button>
+    </div>
+  );
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-start justify-center bg-ink/30 p-4 pt-[6vh]"
@@ -326,89 +423,75 @@ export function SettingsDialog({
 
         {!draft ? (
           <div className="p-5 space-y-5">
-            {/* 已接入列表 */}
-            {endpoints.length > 0 && (
+            {/* 我的模型（自配 / 导入） */}
+            {ownEndpoints.length > 0 && (
               <div className="space-y-1.5">
-                <div className="text-[12px] font-semibold text-faint">
-                  {en ? "Connected (checked = included in comparisons)" : "已接入（勾选 = 参与对比）"}
-                </div>
-                {endpoints.map((ep) => (
-                  <div
-                    key={ep.id}
-                    className="flex items-center gap-2.5 rounded-md border border-line bg-card px-3 py-2"
-                  >
-                    <input
-                      type="checkbox"
-                      checked={ep.enabled}
-                      onChange={(e) =>
-                        onChange(
-                          endpoints.map((x) =>
-                            x.id === ep.id
-                              ? { ...x, enabled: e.target.checked }
-                              : x
-                          )
-                        )
-                      }
-                      className="accent-[var(--accent)] cursor-pointer"
-                    />
-                    <div className="min-w-0 flex-1">
-                      <div className="text-[13px] font-semibold truncate">
-                        {ep.name}
-                        {ep.shared && (
-                          <span
-                            className="ml-2 text-[10px] font-semibold rounded px-1 py-px"
-                            style={{
-                              color: "var(--go)",
-                              border: "1px solid color-mix(in srgb, var(--go) 40%, transparent)",
-                            }}
-                          >
-                            🎁 {en ? "Trial" : "体验"}
-                          </span>
-                        )}
-                        <span className="ml-2 text-[10px] font-normal text-faint border border-line rounded px-1 py-px">
-                          {kindLabel[ep.kind]}
-                        </span>
-                      </div>
-                      <div className="num text-[11px] text-faint truncate">
-                        {ep.model} · {ep.baseUrl}
-                        {ep.extraBody?.trim() && (
-                          <span style={{ color: "var(--think)" }}>
-                            {" "}
-                            · {en ? "custom params" : "自定义参数"}
-                          </span>
-                        )}
-                        {ep.shared ? (
-                          <span style={{ color: "var(--go)" }}>
-                            {" "}
-                            · {en ? "free trial, no Key needed" : "免费体验，无需 Key"}
-                          </span>
-                        ) : (
-                          !ep.apiKey && (
-                            <span className="text-accent"> · {en ? "missing Key" : "未填 Key"}</span>
-                          )
-                        )}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() => startEdit(ep)}
-                      className="text-[11.5px] text-faint hover:text-ink cursor-pointer"
-                    >
-                      {messages.common.edit}
+                <div className="flex items-center justify-between gap-2">
+                  <div className="text-[12px] font-semibold text-faint">
+                    {en ? "My models" : "我的模型"} ({ownEndpoints.length})
+                    <span className="ml-1 font-normal text-faint/70">
+                      {en ? "· checked = in the race" : "· 勾选 = 参与对比"}
+                    </span>
+                  </div>
+                  <div className="flex shrink-0 gap-2.5">
+                    <button onClick={() => setGroupEnabled(false, true)} className={groupBtn}>
+                      {en ? "Select all" : "全选"}
                     </button>
-                    <button
-                      onClick={() => duplicate(ep)}
-                      className="text-[11.5px] text-faint hover:text-ink cursor-pointer"
-                    >
-                      {messages.common.copy}
-                    </button>
-                    <button
-                      onClick={() => remove(ep.id)}
-                      className="text-[11.5px] text-faint hover:text-accent cursor-pointer"
-                    >
-                      {messages.common.delete}
+                    <button onClick={() => setGroupEnabled(false, false)} className={groupBtn}>
+                      {en ? "Clear" : "全不选"}
                     </button>
                   </div>
-                ))}
+                </div>
+                {ownEndpoints.map(renderRow)}
+              </div>
+            )}
+
+            {/* 体验模型（平台脚手架，免费试跑）：有自配模型时默认折叠 */}
+            {trialEndpoints.length > 0 && (
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between gap-2">
+                  <button
+                    onClick={() => setTrialCollapsed(!trialCollapsedEff)}
+                    className="flex items-center gap-1 text-[12px] font-semibold text-faint hover:text-ink cursor-pointer"
+                  >
+                    <span className="text-[9px] text-faint/70">
+                      {trialCollapsedEff ? "▸" : "▾"}
+                    </span>
+                    🎁 {en ? "Trial models" : "体验模型"} ({trialEndpoints.length})
+                    <span className="font-normal text-faint/70">
+                      {en ? "· free, no Key" : "· 免费体验，无需 Key"}
+                    </span>
+                  </button>
+                  {!trialCollapsedEff && (
+                    <div className="flex shrink-0 gap-2.5">
+                      <button onClick={() => setGroupEnabled(true, true)} className={groupBtn}>
+                        {en ? "Select all" : "全选"}
+                      </button>
+                      <button onClick={() => setGroupEnabled(true, false)} className={groupBtn}>
+                        {en ? "Clear" : "全不选"}
+                      </button>
+                    </div>
+                  )}
+                </div>
+                {trialCollapsedEff ? (
+                  <button
+                    onClick={() => setTrialCollapsed(false)}
+                    className="w-full rounded-md border border-dashed border-line bg-card px-3 py-2 text-left text-[11.5px] text-faint hover:text-ink cursor-pointer"
+                  >
+                    {en
+                      ? `${trialEndpoints.length} trial models collapsed · click to expand`
+                      : `已折叠 ${trialEndpoints.length} 个体验模型 · 点击展开`}
+                    {trialInRace > 0 && (
+                      <span className="ml-1" style={{ color: "var(--go)" }}>
+                        {en
+                          ? `(${trialInRace} still in the race)`
+                          : `（其中 ${trialInRace} 个仍参与对比）`}
+                      </span>
+                    )}
+                  </button>
+                ) : (
+                  trialEndpoints.map(renderRow)
+                )}
               </div>
             )}
 

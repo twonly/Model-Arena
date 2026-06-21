@@ -118,3 +118,24 @@ export function sharedAsEndpoints(): ModelEndpoint[] {
     shared: true,
   }));
 }
+
+/**
+ * 「体验模型」是上手脚手架：一旦用户配好了自己的、可用的模型（非 shared 且有 Key），
+ * 脚手架就该整体退场——把**所有**体验模型默认取消勾选，主页只剩用户自己的模型。
+ * 这是真正缩短主页卡片网格的杠杆（卡片由 enabled 驱动）。只改 enabled、不删除，
+ * 体验模型仍留在列表里（折叠），想拿来当基线对比时随时可再勾回。
+ * 无变化时返回原引用，便于调用方判断是否需要落库。
+ */
+export function graduateShared(eps: ModelEndpoint[]): ModelEndpoint[] {
+  const hasUsableOwn = eps.some((e) => !e.shared && e.apiKey.trim());
+  if (!hasUsableOwn) return eps;
+  let changed = false;
+  const next = eps.map((e) => {
+    if (e.shared && e.enabled) {
+      changed = true;
+      return { ...e, enabled: false };
+    }
+    return e;
+  });
+  return changed ? next : eps;
+}
