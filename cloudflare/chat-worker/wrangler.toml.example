@@ -1,0 +1,12 @@
+name = "tokrace-chat-worker"
+main = "src/index.js"
+compatibility_date = "2026-06-22"
+workers_dev = true
+
+# Required secrets:
+#   TOKRACE_APP_ORIGIN      = https://www.tokrace.com
+#   TOKRACE_WORKER_TOKEN    = same value as Vercel CHAT_WORKER_TOKEN
+#
+# Set with:
+#   npx wrangler secret put TOKRACE_APP_ORIGIN
+#   npx wrangler secret put TOKRACE_WORKER_TOKEN

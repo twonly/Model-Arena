@@ -26,7 +26,7 @@ import { buildSharePostText } from "@/lib/social-share";
 import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
-import { runEndpoint } from "@/lib/runner";
+import { prewarmTransportPlan, runEndpoint } from "@/lib/runner";
 import { rankBadge } from "@/lib/format";
 import { buildSnapshot, thinSamples, type VotingConfigLite } from "@/lib/share";
 import { createShare } from "@/lib/me";
@@ -244,6 +244,12 @@ export default function Home() {
       /* ignore */
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // 提前探测路由计划（哪些模型走 Cloudflare），结果缓存供本页所有对比复用，
+  // 避免首轮对比的首个模型为此等待。失败兜底全 Vercel，不影响默认路径。
+  useEffect(() => {
+    prewarmTransportPlan();
   }, []);
 
   // 「毕业」：用户一旦拥有可用的自配模型，体验模型整体退场（默认全部取消勾选）。

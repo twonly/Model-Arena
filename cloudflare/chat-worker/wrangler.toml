@@ -1,0 +1,12 @@
+name = "tokrace-chat-worker"
+main = "src/index.js"
+compatibility_date = "2026-06-22"
+workers_dev = true
+
+# 非机密变量：限定允许的浏览器来源（避免 Worker 默认 CORS "*"）。
+[vars]
+TOKRACE_ALLOWED_ORIGIN = "https://www.tokrace.com"
+
+# 机密通过 `wrangler secret put` 设置，不写进本文件：
+#   TOKRACE_APP_ORIGIN   = https://www.tokrace.com        （Vercel 站点 origin）
+#   TOKRACE_WORKER_TOKEN = <与 Vercel CHAT_WORKER_TOKEN 相同的值>

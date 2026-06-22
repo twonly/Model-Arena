@@ -1,5 +1,9 @@
 import { estimateTokens } from "./tokens.ts";
 import { getClientId } from "./telemetry.ts";
+import {
+  resolveEndpointTransport,
+  type ChatTransportPlan,
+} from "./chat-route-match.ts";
 import type {
   ModelEndpoint,
   RunParams,
@@ -25,6 +29,16 @@ interface RunOptions {
   /** 登录态请求头；默认读取当前 Supabase session，测试可注入。 */
   authHeaders?: () => Promise<Record<string, string>>;
 }
+
+type ChatTransportSession =
+  | { ok: true; transport: "vercel"; reason?: string }
+  | {
+      ok: true;
+      transport: "cloudflare";
+      workerUrl: string;
+      ticket: string;
+      expiresAt: string;
+    };
 
 const FLUSH_MS = 80; // UI 刷新节流
 const SAMPLE_MS = 250; // 速度曲线采样间隔
@@ -237,11 +251,40 @@ export async function runEndpoint({
           extraBody: endpoint.extraBody,
           imageDataUrl,
         };
-    const res = await fetch("/api/chat", {
+    const headers = { "Content-Type": "application/json", ...(await authHeaders()) };
+    // 默认 Vercel：直接打 /api/chat，不多打 session（每页只探测一次路由计划并缓存）。
+    // 仅当该模型命中 Cloudflare 规则（或全局默认即 CF）时，才按请求签一次性
+    // ticket（ticket 绑定 body，无法预签）走 Worker。
+    const plan = await getTransportPlan();
+    const useCloudflare =
+      resolveEndpointTransport(
+        {
+          id: endpoint.id,
+          model: endpoint.model,
+          baseUrl: endpoint.baseUrl,
+          name: endpoint.name,
+        },
+        plan
+      ) === "cloudflare";
+    const session = useCloudflare
+      ? await resolveChatTransport(reqBody, headers, signal)
+      : null;
+    const chatUrl =
+      session?.transport === "cloudflare" ? session.workerUrl : "/api/chat";
+    const chatBody =
+      session?.transport === "cloudflare"
+        ? { ticket: session.ticket, body: reqBody }
+        : reqBody;
+    const chatHeaders =
+      session?.transport === "cloudflare"
+        ? { "Content-Type": "application/json" }
+        : headers;
+
+    const res = await fetch(chatUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/json", ...(await authHeaders()) },
+      headers: chatHeaders,
       signal,
-      body: JSON.stringify(reqBody),
+      body: JSON.stringify(chatBody),
     });
 
     // 额度已用完（402）：抛出后端给的友好中文提示
@@ -332,6 +375,66 @@ export async function runEndpoint({
     }
     update((prev) => ({ ...prev, status: "error", error: message }));
     onSettled(false);
+  }
+}
+
+const VERCEL_ONLY_PLAN: ChatTransportPlan = { default: "vercel", match: [] };
+
+// 路由计划（全局默认 + 命中即走 CF 的关键词）。全站配置、极少变动：每页加载
+// 只探测一次并缓存，不在每次对比时都多打一趟 /api/chat/session。探测失败/超时
+// 一律按全 Vercel 兜底（默认稳定路径，且 CF 本就依赖能连上 Vercel 签 ticket）。
+let transportPlanPromise: Promise<ChatTransportPlan> | null = null;
+
+export function prewarmTransportPlan(): void {
+  void getTransportPlan();
+}
+
+function getTransportPlan(): Promise<ChatTransportPlan> {
+  if (!transportPlanPromise) {
+    transportPlanPromise = (async () => {
+      try {
+        const res = await fetch("/api/chat/session", {
+          method: "GET",
+          signal: AbortSignal.timeout(3000),
+        });
+        if (!res.ok) return VERCEL_ONLY_PLAN;
+        const j = (await res.json()) as {
+          default?: string;
+          match?: unknown;
+        };
+        return {
+          default: j?.default === "cloudflare" ? "cloudflare" : "vercel",
+          match: Array.isArray(j?.match)
+            ? j.match.filter((x): x is string => typeof x === "string")
+            : [],
+        };
+      } catch {
+        return VERCEL_ONLY_PLAN;
+      }
+    })();
+  }
+  return transportPlanPromise;
+}
+
+async function resolveChatTransport(
+  reqBody: unknown,
+  headers: Record<string, string>,
+  signal: AbortSignal
+): Promise<ChatTransportSession | null> {
+  try {
+    const res = await fetch("/api/chat/session", {
+      method: "POST",
+      headers,
+      signal,
+      body: JSON.stringify(reqBody),
+    });
+    if (!res.ok) return null;
+    const j = (await res.json()) as ChatTransportSession;
+    if (j?.ok && j.transport === "cloudflare" && j.workerUrl && j.ticket) return j;
+    if (j?.ok && j.transport === "vercel") return j;
+    return null;
+  } catch {
+    return null;
   }
 }
 
