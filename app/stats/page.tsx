@@ -9,6 +9,7 @@ import { getMessages } from "@/lib/i18n-messages";
 import { getRequestLocale } from "@/lib/i18n-server";
 import { localeToLanguage, localizedPath } from "@/lib/i18n";
 import { findPrice, toUsdPer1M, paretoFrontier } from "@/lib/pricing";
+import { DATASET_LICENSE_URL } from "@/lib/structured-data";
 import { SpeedCostChart, type CostSpeedPoint } from "@/components/SpeedCostChart";
 
 export const metadata = {
@@ -111,7 +112,7 @@ export default async function StatsPage() {
         inLanguage: localeToLanguage(locale),
         isAccessibleForFree: true,
         creator: { "@type": "Organization", name: BRAND.publisher, url: BRAND.url },
-        license: "https://github.com",
+        license: DATASET_LICENSE_URL,
         variableMeasured:
           locale === "en"
             ? [

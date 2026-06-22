@@ -7,6 +7,7 @@ import { SocialSharePanel } from "@/components/SocialSharePanel";
 import { htmlBadge, markdownBadge } from "@/lib/badge";
 import { BRAND, OG_IMAGE } from "@/lib/brand";
 import { modelSlug } from "@/lib/stats";
+import { DATASET_LICENSE_URL } from "@/lib/structured-data";
 import {
   fmtMetric as fmt,
   loadModelStatsForSlug as load,
@@ -155,6 +156,7 @@ export default async function ModelPage({
           : `${top.model} real-world speed results on TOKRACE: TTFT, output tokens/s and peak speed aggregated anonymously.`,
         url,
         isAccessibleForFree: true,
+        license: DATASET_LICENSE_URL,
         creator: {
           "@type": "Organization",
           name: BRAND.publisher,

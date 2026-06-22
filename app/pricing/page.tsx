@@ -8,6 +8,7 @@ import { getMessages } from "@/lib/i18n-messages";
 import { getRequestLocale } from "@/lib/i18n-server";
 import { localeToLanguage, localizedPath, type Locale } from "@/lib/i18n";
 import { MODEL_PRICES, USD_PER_CNY, toUsdPer1M } from "@/lib/pricing";
+import { DATASET_LICENSE_URL } from "@/lib/structured-data";
 
 export const metadata = {
   title: "大模型 API 价格对比表 - 输入/缓存/输出价格汇总",
@@ -120,6 +121,7 @@ function structuredData(locale: Locale, rows: PricedModel[]) {
     url,
     inLanguage: localeToLanguage(locale),
     isAccessibleForFree: true,
+    license: DATASET_LICENSE_URL,
     creator: { "@id": `${BRAND.url}/#org` },
     variableMeasured: isZh
       ? ["输入价·未命中缓存 (每百万 token)", "输入价·命中缓存 (每百万 token)", "输出价 (每百万 token)"]
