@@ -33,15 +33,15 @@ export const zhMessages = {
     language: "语言",
   },
   brand: {
-    tagline: "开发者与 AI 测评作者的实时模型测速台",
+    tagline: "开发者与 AI 测评作者的免费开源模型测速台",
     description:
-      "TOKRACE 是面向开发者和 AI 测评作者的大模型测速工具：同一个 Prompt 并发对比多个 LLM 的首 Token 时延、输出 TPS、峰值速度与稳定性，支持免费样例、分享快照和速度榜。",
+      "TOKRACE 是免费开源的大模型测速与 AI 模型评测工具：同一个 Prompt 并发对比多个 LLM 的首 Token 时延、输出 TPS、峰值速度与稳定性，支持免费模型试用、免费评测样例、分享快照和速度榜。",
   },
   metadata: {
     home: {
-      title: "大模型测速工具 - 实时对比 LLM 速度与首 Token 时延",
+      title: "免费开源大模型测速工具 - 实时对比 LLM 速度与首 Token 时延",
       description:
-        "TOKRACE 帮开发者和 AI 测评作者用同一个 Prompt 并发测试多个大模型，实时对比首 Token 时延、输出 TPS、峰值速度和稳定性，可免费跑样例、生成分享快照和上榜。",
+        "TOKRACE 是免费开源的大模型测速与 AI 模型评测工具，支持免费模型试用：同一个 Prompt 并发测试多个 LLM，实时对比首 Token 时延、输出 TPS、峰值速度和稳定性，并生成分享快照。",
     },
     arena: {
       title: "竞速场 - 并发测试多个大模型",
@@ -101,12 +101,12 @@ export const zhMessages = {
   },
   home: {
     navBrand: "百模竞速",
-    badge: "免费跑样例 · 实时测速 · 分享可复查结果",
+    badge: "免费模型试用 · 开源评测工具 · 分享可复查结果",
     titlePrefix: "开发者与 AI 测评作者的",
     titleAccent: "实时模型测速台",
     leadPrefix: "用同一个 Prompt 并发测试多个 LLM，实时比较",
     leadMetrics: " 首 Token 时延 · 输出 TPS · 峰值速度 · 稳定性",
-    leadSuffix: "。先跑免费样例，再换成你的真实任务和模型配置。",
+    leadSuffix: "。先用免费模型试用跑样例，再换成你的真实任务和模型配置。",
     demoPrompt: "写一篇 5000 字短文，主题是「为什么速度本身就是一种能力」",
     live: "● LIVE",
     lanes: ["模型 A", "模型 B", "模型 C"],
@@ -135,8 +135,8 @@ export const zhMessages = {
       },
       {
         icon: "🔌",
-        title: "免费样例 + 自带 Key",
-        desc: "新用户可直接跑预置模型；专业用户可接入自己的 OpenAI 兼容接口或原生 Anthropic 接口。",
+        title: "免费评测 + 自带 Key",
+        desc: "新用户无需 Key 可免费试用预置模型并跑评测样例；专业用户可接入自己的 OpenAI 兼容接口或原生 Anthropic 接口。",
       },
       {
         icon: "🔐",
@@ -162,8 +162,8 @@ export const zhMessages = {
     steps: [
       {
         n: "01",
-        title: "先跑样例",
-        desc: "不用配置 Key，直接用预置模型体验一次真实并发测速。",
+        title: "免费跑样例",
+        desc: "不用注册、不用配置 Key，直接用预置模型体验一次免费模型评测。",
       },
       {
         n: "02",
@@ -263,15 +263,15 @@ export const enMessages = {
     language: "Language",
   },
   brand: {
-    tagline: "Real-time LLM speed test bench for developers and AI reviewers",
+    tagline: "Free, open-source LLM speed test bench for developers and AI reviewers",
     description:
-      "TOKRACE is an LLM speed testing bench for developers and AI reviewers. Run one prompt across many models and compare TTFT, output TPS, peak speed and stability with shareable snapshots and live leaderboards.",
+      "TOKRACE is a free, open-source LLM speed testing and AI model evaluation bench for developers and AI reviewers. Run free model trials, compare TTFT, output TPS, peak speed and stability, then share evidence snapshots and leaderboards.",
   },
   metadata: {
     home: {
-      title: "LLM speed testing tool - compare TTFT and output TPS in real time",
+      title: "Free open-source LLM speed test - compare TTFT and output TPS",
       description:
-        "TOKRACE helps developers and AI reviewers run one prompt across multiple LLMs and compare TTFT, output TPS, peak speed and stability with free samples, shareable snapshots and leaderboards.",
+        "TOKRACE is a free, open-source LLM speed testing and AI model evaluation tool with free model trials. Compare TTFT, output TPS, peak speed and stability, then share evidence snapshots.",
     },
     arena: {
       title: "Arena - test multiple LLMs concurrently",
@@ -332,12 +332,12 @@ export const enMessages = {
   },
   home: {
     navBrand: "TOKRACE",
-    badge: "Free samples · Real-time speed tests · Shareable evidence",
+    badge: "Free model trials · Open-source benchmarks · Shareable evidence",
     titlePrefix: "A real-time model speed bench",
     titleAccent: "for developers and AI reviewers",
     leadPrefix: "Run one prompt across multiple LLMs and compare",
     leadMetrics: " TTFT · output TPS · peak speed · stability",
-    leadSuffix: ". Start with a free sample, then switch to your real task and model setup.",
+    leadSuffix: ". Start with free model trials, then switch to your real task and model setup.",
     demoPrompt: "Write a 5,000-word essay on why speed itself is a capability",
     live: "● LIVE",
     lanes: ["Model A", "Model B", "Model C"],
@@ -366,8 +366,8 @@ export const enMessages = {
       },
       {
         icon: "🔌",
-        title: "Free samples + bring your own key",
-        desc: "New users can run preset models immediately; advanced users can connect OpenAI-compatible or native Anthropic endpoints.",
+        title: "Free trials + bring your own key",
+        desc: "New users can try preset models and run free evaluation samples without keys; advanced users can connect OpenAI-compatible or native Anthropic endpoints.",
       },
       {
         icon: "🔐",
@@ -393,8 +393,8 @@ export const enMessages = {
     steps: [
       {
         n: "01",
-        title: "Run a sample",
-        desc: "Try a real concurrent speed test with preset models without configuring keys.",
+        title: "Run a free sample",
+        desc: "Try a free model evaluation with preset models, no registration or keys required.",
       },
       {
         n: "02",

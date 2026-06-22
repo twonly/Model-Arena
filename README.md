@@ -2,9 +2,9 @@
 
 # TOKRACE 百模竞速
 
-**A real-time LLM speed test and model benchmark tool for developers, AI reviewers, and model selection teams.**
+**A free, open-source LLM speed test and model benchmark tool for developers, AI reviewers, and model selection teams.**
 
-**同一个 Prompt，并发横评多个大模型，实时比较首 Token 时延、输出 TPS、峰值速度、token 消耗和完整输出证据。**
+**免费开源的大模型测速与 AI 模型评测工具：同一个 Prompt，并发横评多个大模型，实时比较首 Token 时延、输出 TPS、峰值速度、token 消耗和完整输出证据。**
 
 [![Website](https://img.shields.io/badge/Website-www.tokrace.com-111111?style=flat-square)](https://www.tokrace.com)
 [![GitHub stars](https://img.shields.io/github/stars/twonly/Model-Arena?style=flat-square)](https://github.com/twonly/Model-Arena)
@@ -22,9 +22,9 @@
 
 ![TOKRACE social preview](https://www.tokrace.com/opengraph-image)
 
-TOKRACE is an **LLM benchmark** and **AI model speed test** web app. It runs the same prompt across multiple LLMs at the same time, then records TTFT (time to first token), reasoning TPS, output TPS, peak tokens per second, total tokens, latency curves, model output, and shareable evidence pages.
+TOKRACE is a **free, open-source LLM benchmark** and **AI model speed test** web app with free model trials. It runs the same prompt across multiple LLMs at the same time, then records TTFT (time to first token), reasoning TPS, output TPS, peak tokens per second, total tokens, latency curves, model output, and shareable evidence pages.
 
-百模竞速 TOKRACE 是面向 AI 测评作者、开发者和模型选型团队的大模型测速工具。它把“哪个模型更快”的主观体感，变成可复查、可分享、可复跑的数据证据链，适合做 DeepSeek、Kimi、GPT、Claude、Gemini、GLM、Qwen、Doubao、StepFun、MiniMax、Ollama 等模型的真实任务横评。
+百模竞速 TOKRACE 是面向 AI 测评作者、开发者和模型选型团队的免费开源大模型测速工具。新用户可以先做免费模型试用 / 免费评测样例，再把“哪个模型更快”的主观体感，变成可复查、可分享、可复跑的数据证据链，适合做 DeepSeek、Kimi、GPT、Claude、Gemini、GLM、Qwen、Doubao、StepFun、MiniMax、Ollama 等模型的真实任务横评。
 
 ## Why TOKRACE
 
@@ -38,7 +38,7 @@ Most LLM benchmarks focus on answer quality or synthetic scores. TOKRACE focuses
 
 ## 中文简介
 
-如果你正在找 **大模型测速工具**、**AI 模型评测工具**、**LLM benchmark 中文**、**模型响应速度对比**、**首 Token 延迟测试**、**tokens per second 测试**、**DeepSeek Kimi GPT Claude 速度对比**，TOKRACE 解决的是同一个问题：用同一任务并发测试多个模型，把速度、输出、token 和证据页放到同一张表里比较。
+如果你正在找 **大模型测速工具**、**免费 AI 模型评测工具**、**免费模型试用**、**开源 LLM benchmark 中文**、**模型响应速度对比**、**首 Token 延迟测试**、**tokens per second 测试**、**DeepSeek Kimi GPT Claude 速度对比**，TOKRACE 解决的是同一个问题：用同一任务并发测试多个模型，把速度、输出、token 和证据页放到同一张表里比较。
 
 适合这些场景：
 
@@ -85,7 +85,7 @@ Most LLM benchmarks focus on answer quality or synthetic scores. TOKRACE focuses
 ### Use the Hosted App
 
 1. Open [www.tokrace.com](https://www.tokrace.com).
-2. Click the sample run button to test preset models without registration or API keys.
+2. Click the sample run button for a free model trial without registration or API keys.
 3. Switch to professional mode to add your own provider, model ID, base URL, and API key.
 4. Export screenshots, copy Markdown, create a share page, or contribute anonymous metrics.
 
@@ -161,9 +161,9 @@ Key files:
 
 Maintaining this README is the foundation, but it is not the whole GitHub SEO strategy. For best discovery, also keep the repository metadata aligned:
 
-- **Description**: `Real-time LLM speed test and AI model benchmark tool for TTFT, TPS, token usage, and shareable model comparison evidence.`
+- **Description**: `Free, open-source LLM speed test and AI model benchmark tool for TTFT, TPS, token usage, free model trials, and shareable model comparison evidence.`
 - **Website**: `https://www.tokrace.com`
-- **Topics**: `llm`, `llm-benchmark`, `ai-models`, `model-evaluation`, `openai`, `anthropic`, `nextjs`, `typescript`, `tokrace`, `ttft`, `tokens-per-second`
+- **Topics**: `llm`, `llm-benchmark`, `ai-models`, `model-evaluation`, `free-llm-benchmark`, `free-ai-model-evaluation`, `free-model-trial`, `open-source-ai`, `openai`, `anthropic`, `nextjs`, `typescript`, `tokrace`, `ttft`, `tokens-per-second`
 - **Pinned links**: homepage, speed board, pricing table, model comparison pages, and methodology.
 - **Release notes**: publish short releases when adding providers, pricing pages, benchmarks, or sharing improvements.
 
@@ -217,6 +217,6 @@ If TOKRACE helps your model review, product evaluation, or API selection workflo
 
 **Run a real LLM speed benchmark at [www.tokrace.com](https://www.tokrace.com).**
 
-大模型测速工具 · AI 模型评测工具 · LLM benchmark · LLM speed test · model comparison · TTFT · tokens per second · TPS · DeepSeek Kimi GPT Claude Gemini speed comparison · OpenAI compatible benchmark
+免费大模型评测 · 免费模型试用 · 开源 AI 模型评测工具 · 大模型测速工具 · AI 模型评测工具 · LLM benchmark · free LLM benchmark · LLM speed test · model comparison · TTFT · tokens per second · TPS · DeepSeek Kimi GPT Claude Gemini speed comparison · OpenAI compatible benchmark
 
 </div>

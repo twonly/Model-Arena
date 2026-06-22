@@ -72,6 +72,7 @@ function siteJsonLd(locale: Locale) {
         url: BRAND.url,
         logo: `${BRAND.url}/logo.png`,
         description: messages.brand.description,
+        sameAs: [BRAND.githubUrl],
       },
       {
         "@type": "WebSite",
@@ -81,6 +82,7 @@ function siteJsonLd(locale: Locale) {
         description: messages.brand.description,
         inLanguage: language,
         publisher: { "@id": `${BRAND.url}/#org` },
+        sameAs: [BRAND.githubUrl],
       },
       {
         "@type": "SoftwareApplication",
@@ -91,7 +93,9 @@ function siteJsonLd(locale: Locale) {
         url: BRAND.url,
         description: messages.brand.description,
         inLanguage: language,
+        isAccessibleForFree: true,
         publisher: { "@id": `${BRAND.url}/#org` },
+        sameAs: [BRAND.githubUrl],
         offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
       },
     ],

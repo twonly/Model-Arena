@@ -2,12 +2,13 @@
 "use client";
 
 import { useI18n } from "@/components/I18nProvider";
+import { BRAND } from "@/lib/brand";
 
 /**
  * 产品冠名：出品人「AI拯救打工人」+ GitHub 仓库。
  * 悬浮小红书链接时展示二维码（public/qrcode.jpg）。
  */
-export const GITHUB_URL = "https://github.com/twonly/Model-Arena";
+export const GITHUB_URL = BRAND.githubUrl;
 export const XHS_URL =
   "https://www.xiaohongshu.com/user/profile/6467b1210000000010027a51";
 

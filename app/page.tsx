@@ -8,9 +8,9 @@ import { getRequestLocale } from "@/lib/i18n-server";
 import { localeToLanguage, localizedPath } from "@/lib/i18n";
 
 export const metadata = {
-  title: "大模型测速工具 - 实时对比 LLM 速度与首 Token 时延",
+  title: "免费开源大模型测速工具 - 实时对比 LLM 速度与首 Token 时延",
   description:
-    "TOKRACE 帮开发者和 AI 测评作者用同一个 Prompt 并发测试多个大模型，实时对比首 Token 时延、输出 TPS、峰值速度和稳定性，可免费跑样例、生成分享快照和上榜。",
+    "TOKRACE 是免费开源的大模型测速与 AI 模型评测工具，支持免费模型试用：同一个 Prompt 并发测试多个 LLM，实时对比首 Token 时延、输出 TPS、峰值速度和稳定性，并生成分享快照。",
   alternates: { canonical: "/" },
 };
 
@@ -379,8 +379,8 @@ function homeJsonLd(locale: Awaited<ReturnType<typeof getRequestLocale>>) {
         "@id": `${BRAND.url}/#howto`,
         name: isZh ? "如何用 TOKRACE 做大模型测速" : "How to test LLM speed with TOKRACE",
         description: isZh
-          ? "先跑免费样例，再用自己的 Prompt 并发测试多个 LLM，最后生成可复查的分享快照。"
-          : "Start with a free sample, run your own prompt across multiple LLMs concurrently, then generate an inspectable share snapshot.",
+          ? "先用免费模型试用跑样例，再用自己的 Prompt 并发测试多个 LLM，最后生成可复查的分享快照。"
+          : "Start with free model trials, run your own prompt across multiple LLMs concurrently, then generate an inspectable share snapshot.",
         totalTime: "PT5M",
         inLanguage: localeToLanguage(locale),
         step: [
@@ -389,8 +389,8 @@ function homeJsonLd(locale: Awaited<ReturnType<typeof getRequestLocale>>) {
             position: 1,
             name: isZh ? "立即跑样例" : "Run a sample",
             text: isZh
-              ? "打开快速体验模式，用预置模型直接跑一轮首 Token 时延和输出 TPS 测试。"
-              : "Open quick sample mode and run a TTFT/output TPS test with preset models.",
+              ? "打开快速体验模式，用预置模型直接做一轮免费评测，测试首 Token 时延和输出 TPS。"
+              : "Open quick sample mode and run a free evaluation of preset models for TTFT and output TPS.",
             url: `${BRAND.url}${localizedPath("/arena?sample=1", locale)}`,
           },
           {
@@ -424,8 +424,8 @@ function homeJsonLd(locale: Awaited<ReturnType<typeof getRequestLocale>>) {
             acceptedAnswer: {
               "@type": "Answer",
               text: isZh
-                ? "TOKRACE 是面向开发者和 AI 测评作者的大模型测速工具，可用同一个 Prompt 并发测试多个 LLM 的首 Token 时延、输出 TPS、峰值速度和稳定性。"
-                : "TOKRACE is an LLM speed testing bench for developers and AI reviewers. It runs one prompt across multiple LLMs and compares TTFT, output TPS, peak speed and stability.",
+                ? "TOKRACE 是面向开发者和 AI 测评作者的免费开源大模型测速与 AI 模型评测工具，可用同一个 Prompt 并发测试多个 LLM 的首 Token 时延、输出 TPS、峰值速度和稳定性。"
+                : "TOKRACE is a free, open-source LLM speed testing and AI model evaluation bench for developers and AI reviewers. It runs one prompt across multiple LLMs and compares TTFT, output TPS, peak speed and stability.",
             },
           },
           {
@@ -434,8 +434,8 @@ function homeJsonLd(locale: Awaited<ReturnType<typeof getRequestLocale>>) {
             acceptedAnswer: {
               "@type": "Answer",
               text: isZh
-                ? "可以免费跑预置模型样例；专业使用可填入自己的模型 API Key。项目开源，服务端不存储、不落盘任何密钥。"
-                : "You can run preset sample models for free. Advanced users can add their own model API keys. The project is open source and the server does not persist keys.",
+                ? "可以免费试用预置模型并跑免费评测样例；专业使用可填入自己的模型 API Key。项目开源，服务端不存储、不落盘任何密钥。"
+                : "You can try preset models for free and run free evaluation samples. Advanced users can add their own model API keys. The project is open source and the server does not persist keys.",
             },
           },
           {
