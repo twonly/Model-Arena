@@ -47,7 +47,9 @@ export function createWorkerTicket(
   const claims: ChatWorkerTicketClaims = {
     v: 1,
     iat: now,
-    exp: now + 30 * 60 * 1000,
+    // ticket 仅用于「浏览器→Worker→Vercel 兑票」这几秒，流本身不再依赖它，
+    // 故有效期取 2 分钟即可：大幅压缩被截获后重放（反复真打上游烧共享 key）的窗口。
+    exp: now + 2 * 60 * 1000,
     bodyHash: hashChatBody(body),
     ...(context.uid ? { uid: context.uid } : {}),
     ...(context.ip ? { ip: context.ip } : {}),

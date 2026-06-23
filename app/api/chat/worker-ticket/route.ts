@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { ChatBody, prepareChatBody } from "@/lib/chat-request";
 import { verifyWorkerTicket, workerTokenMatches } from "@/lib/chat-transport";
+import { rateLimitByKey } from "@/lib/ratelimit";
 
 export const runtime = "nodejs";
 
@@ -39,6 +40,14 @@ export async function POST(req: NextRequest) {
   const verified = verifyWorkerTicket(payload.ticket, payload.body);
   if (!verified.ok) {
     return Response.json({ ok: false, error: verified.error }, { status: 401 });
+  }
+
+  // 限流维度用 ticket 内的原始用户身份（请求 IP 是 Cloudflare 的，无法区分用户）。
+  // 每用户每分钟最多 40 次开流——正常一轮对比只命中几次，却能卡死「截票重放反复烧 key」。
+  const who = verified.claims.uid || verified.claims.ip || "anon";
+  const limited = rateLimitByKey(`worker-ticket:${who}`, 40);
+  if (limited) {
+    return Response.json({ ok: false, error: limited }, { status: 429 });
   }
 
   const prepared = await prepareChatBody(req, payload.body, {

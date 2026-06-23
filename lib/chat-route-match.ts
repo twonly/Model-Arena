@@ -3,8 +3,11 @@
  * 这里**不依赖任何服务端 API**（无 node:crypto 等），所以客户端 runner
  * 和服务端路由都能安全引用，且可单元测试。
  *
- * 规则语义：对 endpoint 的 id / model / baseUrl / name 做「大小写不敏感子串」匹配，
- * 命中任一关键词即走 Cloudflare；否则交给全局默认通路。
+ * 规则语义：对 endpoint 的 id / model / baseUrl / name 做「大小写不敏感子串」匹配。
+ * - 规则之间（换行 / 逗号分隔）= OR：命中任一条规则即走 Cloudflare。
+ * - 单条规则内用 `&` 连接 = AND：所有子词都要命中（各自可命中任一字段）才算这条成立。
+ *   例：`bigmodel.cn & glm-5.2` 只匹配「baseUrl 含 bigmodel.cn 且 含 glm-5.2」的模型，
+ *   从而把同名模型在不同 API 上的情况区分开。
  */
 
 export type ChatTransportMode = "vercel" | "cloudflare";
@@ -24,9 +27,19 @@ export interface ChatTransportPlan {
   match: string[];
 }
 
+/** 把一条规则拆成 AND 子词（按 `&` 分隔，去空白、丢空）。 */
+function ruleSubTokens(rule: string): string[] {
+  return rule
+    .toLowerCase()
+    .split("&")
+    .map((p) => p.trim())
+    .filter(Boolean);
+}
+
 /**
- * 规范化匹配关键词：接受数组或以换行/逗号分隔的字符串。
- * 去空白、转小写、丢弃空串（空串会匹配一切，是危险默认）、去重、限量。
+ * 规范化匹配规则：接受数组或以换行/逗号分隔的字符串。
+ * 每条规则转小写、按 `&` 拆子词后去空白/丢空再以 ` & ` 规整重组；
+ * 丢弃无有效子词的规则（空串 / 纯 `&` / 空白——空规则会匹配一切，是危险默认）；去重、限量。
  */
 export function sanitizeCloudflareMatch(input: unknown): string[] {
   const raw = Array.isArray(input)
@@ -37,15 +50,19 @@ export function sanitizeCloudflareMatch(input: unknown): string[] {
   const out: string[] = [];
   for (const item of raw) {
     if (typeof item !== "string") continue;
-    const t = item.trim().toLowerCase();
-    if (!t) continue; // 空 token 会命中所有模型，必须丢弃
-    if (!out.includes(t)) out.push(t);
+    const subs = ruleSubTokens(item);
+    if (subs.length === 0) continue; // 无有效子词的规则丢弃
+    const rule = subs.join(" & ");
+    if (!out.includes(rule)) out.push(rule);
     if (out.length >= 50) break;
   }
   return out;
 }
 
-/** 命中任一关键词即走 CF。match 为空 → 不命中（由全局默认决定）。 */
+/**
+ * 命中任一规则即走 CF（规则间 OR）；单条规则内 `&` 的子词须全部命中（AND）。
+ * match 为空 → 不命中（由全局默认决定）。
+ */
 export function matchesCloudflare(
   fields: RouteMatchFields,
   match: readonly string[]
@@ -55,9 +72,9 @@ export function matchesCloudflare(
     .filter((v): v is string => typeof v === "string" && v.length > 0)
     .map((v) => v.toLowerCase());
   if (hay.length === 0) return false;
-  return match.some((token) => {
-    const t = token.toLowerCase();
-    return t.length > 0 && hay.some((h) => h.includes(t));
+  return match.some((rule) => {
+    const subs = ruleSubTokens(rule);
+    return subs.length > 0 && subs.every((t) => hay.some((h) => h.includes(t)));
   });
 }
 

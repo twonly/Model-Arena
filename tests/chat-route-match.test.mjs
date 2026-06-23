@@ -66,6 +66,36 @@ test("dot-vs-dash: 'glm-5.1' matches model not id; 'glm-5-1' matches id", () => 
   assert.equal(matchesCloudflare(GLM_51, sanitizeCloudflareMatch(["glm-5-1"])), true);
 });
 
+test("AND rule (a & b): both sub-tokens must match, distinguishes same model on different APIs", () => {
+  const m = sanitizeCloudflareMatch("bigmodel.cn & glm-5.2");
+  assert.deepEqual(m, ["bigmodel.cn & glm-5.2"]);
+  // bigmodel 上的 glm-5.2 → 两个子词都命中
+  assert.equal(
+    matchesCloudflare({ ...GLM_51, id: "glm-5-2", model: "glm-5.2" }, m),
+    true
+  );
+  // bigmodel 上的 glm-5.1 → 缺 glm-5.2，AND 不成立（这正是 OR 做不到的区分）
+  assert.equal(matchesCloudflare(GLM_51, m), false);
+  // 别的 API 上的 glm-5.2 → 缺 bigmodel.cn，AND 不成立
+  assert.equal(
+    matchesCloudflare({ id: "x", model: "glm-5.2", baseUrl: "https://api.other.com/v1", name: "Other GLM-5.2" }, m),
+    false
+  );
+});
+
+test("AND + OR mix: newline/comma separate OR rules, & is AND within a rule", () => {
+  const m = sanitizeCloudflareMatch("bigmodel.cn & glm-5.2\ndeepseek");
+  assert.deepEqual(m, ["bigmodel.cn & glm-5.2", "deepseek"]);
+  assert.equal(matchesCloudflare(DEEPSEEK, m), true); // 命中第二条 OR 规则
+  assert.equal(matchesCloudflare({ ...GLM_51, model: "glm-5.2" }, m), true); // 命中第一条 AND 规则
+});
+
+test("sanitize drops rules with no real sub-tokens (pure & / blanks)", () => {
+  assert.deepEqual(sanitizeCloudflareMatch("&"), []);
+  assert.deepEqual(sanitizeCloudflareMatch("  &  & "), []);
+  assert.deepEqual(sanitizeCloudflareMatch("glm &"), ["glm"]);
+});
+
 test("resolveEndpointTransport: rule wins over default, else falls back to default", () => {
   const plan = { default: "vercel", match: sanitizeCloudflareMatch(["glm-5"]) };
   assert.equal(resolveEndpointTransport(GLM_51, plan), "cloudflare");
