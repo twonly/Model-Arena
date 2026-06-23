@@ -42,15 +42,17 @@ function ruleSubTokens(rule: string): string[] {
  * 丢弃无有效子词的规则（空串 / 纯 `&` / 空白——空规则会匹配一切，是危险默认）；去重、限量。
  */
 export function sanitizeCloudflareMatch(input: unknown): string[] {
-  const raw = Array.isArray(input)
-    ? input
+  const items: string[] = Array.isArray(input)
+    ? input.filter((x): x is string => typeof x === "string")
     : typeof input === "string"
-      ? input.split(/[\n,]/)
+      ? [input]
       : [];
+  // 不管是数组还是字符串，每个条目都再按换行/逗号拆成多条规则（OR）——
+  // 这样用户把多条写进一个数组元素（如 "bigmodel,kimi"）也能正确拆开。
+  const rules = items.flatMap((s) => s.split(/[\n,]/));
   const out: string[] = [];
-  for (const item of raw) {
-    if (typeof item !== "string") continue;
-    const subs = ruleSubTokens(item);
+  for (const item of rules) {
+    const subs = ruleSubTokens(item); // 规则内 & = AND
     if (subs.length === 0) continue; // 无有效子词的规则丢弃
     const rule = subs.join(" & ");
     if (!out.includes(rule)) out.push(rule);

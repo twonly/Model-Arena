@@ -35,6 +35,19 @@ test("sanitize lowercases, dedupes, accepts comma/newline strings", () => {
   assert.deepEqual(sanitizeCloudflareMatch(123), []);
 });
 
+test("array element containing commas is split into separate rules", () => {
+  // 复现线上 bug：admin 把 "bigmodel,kimi" 存成单个数组元素，逗号没拆
+  const m = sanitizeCloudflareMatch(["bigmodel,kimi"]);
+  assert.deepEqual(m, ["bigmodel", "kimi"]);
+  assert.equal(matchesCloudflare(GLM_51, m), true); // baseUrl 含 bigmodel
+  assert.equal(
+    matchesCloudflare({ id: "kimi", model: "kimi-for-coding", baseUrl: "https://api.kimi.com/coding/", name: "Kimi" }, m),
+    true
+  );
+  // 修复前那种「整段字面量」才不会命中
+  assert.equal(matchesCloudflare(GLM_51, ["bigmodel,kimi"]), false);
+});
+
 test("empty match never routes to cloudflare", () => {
   assert.equal(matchesCloudflare(GLM_51, []), false);
   assert.equal(matchesCloudflare(GLM_51, sanitizeCloudflareMatch([""])), false);
