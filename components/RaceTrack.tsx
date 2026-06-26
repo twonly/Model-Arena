@@ -1,5 +1,9 @@
+"use client";
+
+import { useRef } from "react";
 import type { Locale } from "@/lib/i18n";
 import {
+  frozenRaceProgress,
   raceProgressPct,
   speedBarPct,
   SPEED_BAR_REF,
@@ -23,10 +27,16 @@ export interface Runner {
  * 速率，按固定基准的绝对刻度）。这样「token 多但慢」与「token 少但快」一眼可辨，
  * 而不只是看谁的 token 多。最快者标 ⚡，token 最多者（领跑）粗条用强调色。
  * 速度条用绝对刻度：跑动中实时 tps 抖动让柱子真实地动、越过基准线即「破线」，跑完即
- * 定格静止（仅跑动中轻微脉冲表示「还在跑」）。静态截图/录屏友好。
+ * 定格静止（仅跑动中轻微脉冲表示「还在跑」）。
+ * 粗条也「跑完即定格」：进度 = token / 全场最高，分母会因别人继续生成而变大，导致已
+ * 完成的粗条往回缩——记下完成那一刻的进度并钉住，跑完的就像撞线后停在原地不再倒退。
+ * 静态截图/录屏友好。
  */
 export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Locale }) {
   const isZh = locale === "zh-CN";
+  // 每个模型「完成那一刻」的进度 pct 快照：撞线后即便 max 再涨也不回缩；未完成则清掉
+  // 快照（重跑自然复位）。用 ref 跨 tick 持久、不触发额外渲染。
+  const frozenRef = useRef<Map<string, number>>(new Map());
   if (runners.length < 2) return null;
   const max = Math.max(1, ...runners.map((r) => r.tokens));
   // 按 token 降序：领跑者在最上
@@ -64,7 +74,13 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
       </div>
       <div className="flex flex-col gap-2.5">
         {ordered.map((r) => {
-          const pct = raceProgressPct(r.tokens, max);
+          // 跑完即定格：撞线后钉住进度，不随别人继续生成而回缩
+          const pct = frozenRaceProgress(
+            frozenRef.current,
+            r.id,
+            r.done,
+            raceProgressPct(r.tokens, max)
+          );
           const markerPct = r.tokens > 0 ? Math.max(1.5, pct) : 0;
           const leader = r.id === leaderId;
           const isFastest = r.id === fastestId;
