@@ -27,6 +27,7 @@ import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
 import { prewarmTransportPlan, runEndpoint } from "@/lib/runner";
+import { estimateTokens } from "@/lib/tokens";
 import { rankBadge } from "@/lib/format";
 import { buildSnapshot, thinSamples, type VotingConfigLite } from "@/lib/share";
 import { createShare } from "@/lib/me";
@@ -1056,10 +1057,18 @@ export default function Home() {
   const runners = visibleEndpoints.map((ep) => {
     const run = runs[ep.id] ?? EMPTY_RUN;
     const m = run.metrics;
+    // 思考 token：结束用官方/估算的 reasoningTokens；流式期间按思考正文实时估算
+    // （liveTokens 已含思考+输出，二者口径一致）
+    const reasoningTokens = m
+      ? m.reasoningTokens ?? 0
+      : run.reasoning
+        ? estimateTokens(run.reasoning)
+        : 0;
     return {
       id: ep.id,
       name: ep.name,
       tokens: m?.outputTokens ?? run.liveTokens ?? 0,
+      reasoningTokens,
       tps: m?.contentTps ?? run.liveTps ?? 0,
       done:
         run.status === "done" ||

@@ -1,6 +1,10 @@
+"use client";
+
+import { useLayoutEffect, useRef } from "react";
 import type { Locale } from "@/lib/i18n";
 import {
   raceProgressPct,
+  reasoningSharePct,
   speedBarPct,
   SPEED_BAR_REF,
   SPEED_REF_PCT,
@@ -9,8 +13,10 @@ import {
 export interface Runner {
   id: string;
   name: string;
-  /** 已生成 token（实时 liveTokens 或最终 outputTokens） */
+  /** 已生成 token，总量（含思考+输出；实时 liveTokens 或最终 outputTokens） */
   tokens: number;
+  /** 其中思考 token（0=非思考模型）；粗条里 [思考▕输出] 拆分用 */
+  reasoningTokens: number;
   /** 当前/最终速度 tok/s */
   tps: number;
   done: boolean;
@@ -27,10 +33,33 @@ export interface Runner {
  * 粗条「进度 = token / 全场最高」始终按 token 数成比例：谁 token 多谁更长。代价是当某模型
  * 跑完后、仍在跑的模型继续生成把全场最高顶上去时，已完成的粗条会随之等比变短（被反超就
  * 该落后）——这与「跑完即静止」二选一，这里选「长度忠实反映 token」。
- * 静态截图/录屏友好。
+ * 粗条内再按「思考▕输出」两色拆分（思考=琥珀 var(--think)，沿用全站思考色；输出=主色），
+ * 让 high-think-budget 模型「想了多少 vs 写了多少」一眼可见。
+ * 名次变化时行用 FLIP 动画平滑滑到新位（非瞬跳）。静态截图/录屏友好。
  */
 export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Locale }) {
   const isZh = locale === "zh-CN";
+  // 名次变化的 FLIP 动画：记下每行上一帧的 offsetTop，重排后把行瞬移回原位再过渡回 0
+  const listRef = useRef<HTMLDivElement>(null);
+  const prevTops = useRef<Map<string, number>>(new Map());
+  useLayoutEffect(() => {
+    const list = listRef.current;
+    if (!list) return;
+    const reduce = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    list.querySelectorAll<HTMLElement>("[data-runner-id]").forEach((el) => {
+      const id = el.dataset.runnerId;
+      if (!id) return;
+      const top = el.offsetTop;
+      const prev = prevTops.current.get(id);
+      prevTops.current.set(id, top);
+      if (reduce || prev == null || prev === top) return;
+      el.style.transition = "none";
+      el.style.transform = `translateY(${prev - top}px)`;
+      void el.offsetHeight; // 强制 reflow，提交起始位移
+      el.style.transition = "transform 0.45s cubic-bezier(0.22,1,0.36,1)";
+      el.style.transform = "";
+    });
+  });
   if (runners.length < 2) return null;
   const max = Math.max(1, ...runners.map((r) => r.tokens));
   // 按 token 降序：领跑者在最上
@@ -50,11 +79,13 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
         <span className="flex items-center gap-2.5 text-[10.5px] text-faint">
           <span className="flex items-center gap-1">
             <span
-              className="inline-block h-2 w-3.5 rounded-full"
-              style={{ background: "var(--ink)", opacity: 0.6 }}
+              className="inline-flex h-2 w-4 overflow-hidden rounded-full"
               aria-hidden="true"
-            />
-            {isZh ? "已生成 token" : "tokens"}
+            >
+              <span className="h-full w-1/2" style={{ background: "var(--think)" }} />
+              <span className="h-full w-1/2" style={{ background: "var(--ink)", opacity: 0.6 }} />
+            </span>
+            {isZh ? "思考 / 输出 token" : "reasoning / output"}
           </span>
           <span className="flex items-center gap-1">
             <span
@@ -66,31 +97,45 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
           </span>
         </span>
       </div>
-      <div className="flex flex-col gap-2.5">
+      <div ref={listRef} className="relative flex flex-col gap-2.5">
         {ordered.map((r) => {
           const pct = raceProgressPct(r.tokens, max);
           const markerPct = r.tokens > 0 ? Math.max(1.5, pct) : 0;
           const leader = r.id === leaderId;
           const isFastest = r.id === fastestId;
           const color = leader ? "var(--accent)" : "var(--ink)";
+          const reasonShare = reasoningSharePct(r.reasoningTokens, r.tokens);
           const spd = speedBarPct(r.tps);
           const aboveRef = r.tps >= SPEED_BAR_REF;
           return (
             <div
               key={r.id}
+              data-runner-id={r.id}
               className="grid grid-cols-[5.5rem_minmax(0,1fr)_4.75rem] items-center gap-2.5 sm:grid-cols-[7rem_minmax(0,1fr)_5.5rem]"
             >
               <div className="truncate text-[12px] font-medium" title={r.name}>
                 {r.name}
               </div>
-              {/* 两条并列：粗条=token 进度，细条=相对速度 */}
+              {/* 两条并列：粗条=token 进度（内分思考▕输出两色），细条=相对速度 */}
               <div className="flex flex-col gap-1">
                 <div className="relative h-5 overflow-hidden rounded-full bg-paper">
                   <div className="absolute inset-y-0 right-2 w-px bg-line/80" aria-hidden="true" />
+                  {/* 已填充粗条，内分两段：思考(琥珀) | 输出(主色) */}
                   <div
-                    className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-300 ease-out"
-                    style={{ width: `${pct}%`, background: color, opacity: leader ? 0.95 : 0.55 }}
-                  />
+                    className="absolute inset-y-0 left-0 overflow-hidden rounded-full transition-[width] duration-300 ease-out"
+                    style={{ width: `${pct}%`, opacity: leader ? 0.95 : 0.55 }}
+                  >
+                    <div
+                      className="absolute inset-y-0 left-0 transition-[width] duration-300 ease-out"
+                      style={{ width: `${reasonShare}%`, background: "var(--think)" }}
+                      title={isZh ? "思考 token" : "reasoning tokens"}
+                    />
+                    <div
+                      className="absolute inset-y-0 right-0 transition-[left] duration-300 ease-out"
+                      style={{ left: `${reasonShare}%`, background: color }}
+                      title={isZh ? "输出 token" : "output tokens"}
+                    />
+                  </div>
                   <div
                     className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-[12px] transition-[left] duration-300 ease-out"
                     style={{ left: `${markerPct}%` }}

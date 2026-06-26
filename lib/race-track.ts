@@ -21,3 +21,12 @@ export function speedBarPct(tps: number, full: number = SPEED_BAR_FULL): number 
   return Math.min(100, (tps / full) * 100);
 }
 
+/**
+ * 思考段在「已填充粗条」里占的比例（0–100）。粗条总量 = 思考 token + 输出 token（总
+ * token 含思考），这里给出思考那一截的占比，用于把粗条拆成「思考▕输出」两色段。
+ */
+export function reasoningSharePct(reasoningTokens: number, totalTokens: number): number {
+  if (reasoningTokens <= 0 || totalTokens <= 0) return 0;
+  return Math.min(100, (reasoningTokens / totalTokens) * 100);
+}
+

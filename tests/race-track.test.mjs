@@ -3,6 +3,7 @@ import test from "node:test";
 
 import {
   raceProgressPct,
+  reasoningSharePct,
   speedBarPct,
   SPEED_BAR_FULL,
   SPEED_BAR_REF,
@@ -47,6 +48,21 @@ test("the reference line sits below full scale so fast models can cross it", () 
 test("speed bar handles zero / not-yet-started speeds", () => {
   assert.equal(speedBarPct(0), 0);
   assert.equal(speedBarPct(100, 0), 0);
+});
+
+test("reasoning share splits the filled bar by thinking-token fraction", () => {
+  // total = thinking + output（总 token 含思考）
+  assert.equal(reasoningSharePct(0, 500), 0); // 非思考模型：全是输出
+  assert.equal(reasoningSharePct(250, 500), 50); // 一半思考一半输出
+  // high-think-budget：2000 思考 + 200 输出 => 思考占绝大部分（但不是 100%）
+  assert.equal(reasoningSharePct(2000, 2200), (2000 / 2200) * 100);
+  assert.ok(reasoningSharePct(2000, 2200) < 100);
+});
+
+test("reasoning share clamps and handles edge inputs", () => {
+  assert.equal(reasoningSharePct(600, 500), 100); // 估算误差导致 > 总量时夹到 100
+  assert.equal(reasoningSharePct(100, 0), 0);
+  assert.equal(reasoningSharePct(0, 0), 0);
 });
 
 test("token bar length stays proportional to tokens (different tokens => different length)", () => {
