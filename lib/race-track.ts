@@ -21,26 +21,3 @@ export function speedBarPct(tps: number, full: number = SPEED_BAR_FULL): number 
   return Math.min(100, (tps / full) * 100);
 }
 
-/**
- * 粗条「撞线即定格」：进度 = token / 全场最高，分母会随别人继续生成而变大、把已完成的
- * 粗条往回挤。这里记下模型「完成首帧」的进度 pct 并钉住，之后即便 max 再涨也返回快照、
- * 不回缩；未完成则清掉快照（重跑自然复位）。cache 由调用方（组件）跨 tick 持有。
- */
-export function frozenRaceProgress(
-  cache: Map<string, number>,
-  id: string,
-  done: boolean,
-  livePct: number
-): number {
-  if (!done) {
-    cache.delete(id);
-    return livePct;
-  }
-  const frozen = cache.get(id);
-  if (frozen == null) {
-    cache.set(id, livePct);
-    return livePct;
-  }
-  return frozen;
-}
-

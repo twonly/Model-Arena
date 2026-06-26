@@ -2,7 +2,6 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
-  frozenRaceProgress,
   raceProgressPct,
   speedBarPct,
   SPEED_BAR_FULL,
@@ -50,26 +49,13 @@ test("speed bar handles zero / not-yet-started speeds", () => {
   assert.equal(speedBarPct(100, 0), 0);
 });
 
-test("finished token bar freezes at the finish position and stops sliding back", () => {
-  const cache = new Map();
-  // running: tracks live value, nothing frozen
-  assert.equal(frozenRaceProgress(cache, "a", false, 80), 80);
-  assert.equal(cache.has("a"), false);
-  // finish frame: snapshot taken, returns live value
-  assert.equal(frozenRaceProgress(cache, "a", true, 80), 80);
-  // later frames: max grew so live would be smaller, but frozen value holds
-  assert.equal(frozenRaceProgress(cache, "a", true, 40), 80);
-  assert.equal(frozenRaceProgress(cache, "a", true, 12), 80);
-});
-
-test("frozen progress is released on rerun so it can re-snapshot", () => {
-  const cache = new Map();
-  frozenRaceProgress(cache, "a", true, 90); // finished, frozen at 90
-  assert.equal(frozenRaceProgress(cache, "a", true, 30), 90);
-  // rerun: not done anymore -> snapshot cleared, follows live again
-  assert.equal(frozenRaceProgress(cache, "a", false, 5), 5);
-  assert.equal(cache.has("a"), false);
-  // finishes again at a new position
-  assert.equal(frozenRaceProgress(cache, "a", true, 70), 70);
-  assert.equal(frozenRaceProgress(cache, "a", true, 50), 70);
+test("token bar length stays proportional to tokens (different tokens => different length)", () => {
+  // 复刻线上现象：阶跃 4181 / Kimi 2943 / GLM 886 → 长度应当各不相同、按 token 比例
+  const max = 4181;
+  const lead = raceProgressPct(4181, max);
+  const mid = raceProgressPct(2943, max);
+  const low = raceProgressPct(886, max);
+  assert.ok(lead > mid && mid > low);
+  assert.equal(mid, (2943 / 4181) * 92);
+  assert.equal(low, (886 / 4181) * 92);
 });
