@@ -1,5 +1,10 @@
 import type { Locale } from "@/lib/i18n";
-import { raceProgressPct, speedBarPct } from "@/lib/race-track";
+import {
+  raceProgressPct,
+  speedBarPct,
+  SPEED_BAR_REF,
+  SPEED_REF_PCT,
+} from "@/lib/race-track";
 
 export interface Runner {
   id: string;
@@ -15,15 +20,15 @@ export interface Runner {
 /**
  * 实时赛道：每个模型一条跑道。两条并列的条形分别编码两个维度——
  * 粗条「进度 = 已生成 token」（跑了多远 / 数量），细条「速度 = 实时 tps」（跑得多快 /
- * 速率，相对全场最快归一化）。这样「token 多但慢」与「token 少但快」一眼可辨，
+ * 速率，按固定基准的绝对刻度）。这样「token 多但慢」与「token 少但快」一眼可辨，
  * 而不只是看谁的 token 多。最快者标 ⚡，token 最多者（领跑）粗条用强调色。
- * 静态截图/录屏友好。
+ * 速度条用绝对刻度：跑动中实时 tps 抖动让柱子真实地动、越过基准线即「破线」，跑完即
+ * 定格静止（仅跑动中轻微脉冲表示「还在跑」）。静态截图/录屏友好。
  */
 export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Locale }) {
   const isZh = locale === "zh-CN";
   if (runners.length < 2) return null;
   const max = Math.max(1, ...runners.map((r) => r.tokens));
-  const maxTps = Math.max(1, ...runners.map((r) => r.tps));
   // 按 token 降序：领跑者在最上
   const ordered = [...runners].sort((a, b) => b.tokens - a.tokens);
   const leaderId = ordered[0]?.tokens > 0 ? ordered[0].id : null;
@@ -53,7 +58,7 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
               style={{ background: "var(--go)" }}
               aria-hidden="true"
             />
-            {isZh ? "速度 t/s" : "speed t/s"}
+            {isZh ? `速度 t/s · 基准 ${SPEED_BAR_REF}` : `speed t/s · ref ${SPEED_BAR_REF}`}
           </span>
         </span>
       </div>
@@ -64,7 +69,8 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
           const leader = r.id === leaderId;
           const isFastest = r.id === fastestId;
           const color = leader ? "var(--accent)" : "var(--ink)";
-          const spd = speedBarPct(r.tps, maxTps);
+          const spd = speedBarPct(r.tps);
+          const aboveRef = r.tps >= SPEED_BAR_REF;
           return (
             <div
               key={r.id}
@@ -88,10 +94,30 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                     {r.done ? "🏁" : r.running ? "🏎️" : "•"}
                   </div>
                 </div>
-                <div className="relative h-1.5 overflow-hidden rounded-full bg-paper">
+                <div className="relative h-2 overflow-hidden rounded-full bg-paper">
+                  {/* 基准参考线：速度越过即「破线」（虚线立于条上） */}
                   <div
-                    className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-500 ease-out"
-                    style={{ width: `${spd}%`, background: "var(--go)", opacity: isFastest ? 1 : 0.5 }}
+                    className="absolute inset-y-0 z-10"
+                    style={{
+                      left: `${SPEED_REF_PCT}%`,
+                      borderLeft: "2px dashed var(--faint)",
+                      opacity: 0.6,
+                    }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className={`absolute inset-y-0 left-0 rounded-full transition-[width] duration-500 ease-out ${
+                      r.running ? "speed-live" : ""
+                    }`}
+                    style={{
+                      // 绝对刻度：宽随真实 tps 动；非零给个下限保证可见
+                      width: r.tps > 0 ? `${Math.max(3, spd)}%` : "0%",
+                      background: "var(--go)",
+                      // 跑动中由脉冲动画控透明度；跑完定格、稍降透明度示「已结算」
+                      ...(r.running ? {} : { opacity: 0.7 }),
+                      // 越过基准线发一点微光，强调「破线」
+                      boxShadow: aboveRef ? "0 0 5px var(--go)" : undefined,
+                    }}
                   />
                 </div>
               </div>

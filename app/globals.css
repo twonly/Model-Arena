@@ -144,6 +144,21 @@ body {
   }
 }
 
+/* 速度条「仍在跑」的轻微脉冲：与跑完的静止条区分。只表达「还活着」，不表达快慢
+   （快慢由柱长表达）；幅度很小，截图里定格也只是正常的实心条。 */
+@keyframes speed-pulse {
+  0%,
+  100% {
+    opacity: 0.78;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.speed-live {
+  animation: speed-pulse 1.2s ease-in-out infinite;
+}
+
 /* 运行状态呼吸点 */
 @keyframes pulse-dot {
   0%,
