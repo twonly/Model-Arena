@@ -2,7 +2,7 @@
 
 import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { ChartModal } from "./ChartModal";
-import { Markdown } from "./Markdown";
+import { Markdown, StreamingMarkdown } from "./Markdown";
 import { Sparkline } from "./Sparkline";
 import { useI18n } from "@/components/I18nProvider";
 import {
@@ -422,14 +422,17 @@ export const ModelCard = memo(function ModelCard({
               {run.error}
             </div>
           ) : hasFinalText ? (
-            // 流式期间一律走 O(n) 的纯文本渲染（带光标），只在结束后才把
-            // 完整正文交给 Markdown 解析一次——避免每个 tick 重解析整块长文
-            // （5000 字短文 / 十几 KB 的单文件 HTML）造成的 O(n²) 卡顿，
-            // 多卡并发时尤甚。结束后的一次性解析按各模型完成时刻天然错峰。
-            running || !markdown ? (
+            // 关闭 Markdown：始终纯文本（带光标）。
+            // 开启 Markdown：流式期间走 StreamingMarkdown 实时渲染——已完成的块走
+            // memo 不重解析、只解析正在增长的末块，把整篇 O(n²) 降到「只解析末块」；
+            // 未闭合代码围栏（半截单文件 HTML）退化为纯文本，避免重解析几十 KB。
+            // 结束后再交给完整 <Markdown> 做一次性最终解析（含表格/嵌套等完整语义）。
+            !markdown ? (
               <div className={`whitespace-pre-wrap leading-7 ${running ? "caret" : ""}`}>
                 {run.text}
               </div>
+            ) : running ? (
+              <StreamingMarkdown text={run.text} />
             ) : (
               <Markdown text={run.text} />
             )
