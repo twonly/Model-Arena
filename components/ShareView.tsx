@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ModelCard, STATUS_COLOR } from "./ModelCard";
+import { RaceTrack, type Runner } from "./RaceTrack";
 import { VerdictCard } from "./VerdictCard";
 import { computeVerdict } from "@/lib/verdict";
 import { grade } from "@/lib/grade";
@@ -132,6 +133,25 @@ export function ShareView({
   );
   const visible = endpoints.filter((e) => !hidden.includes(e.id));
   const focusEp = focusId ? endpoints.find((e) => e.id === focusId) : null;
+
+  // 实时竞赛（终局）：用快照里最终的 token / 速度 / 思考拆分还原赛道，全部定格在终点。
+  // 与 arena 口径一致——tokens 含思考+输出，思考段单独着色；error 模型无指标计 0。
+  const raceRunners: Runner[] = visible.map((ep) => {
+    const run = runs[ep.id] ?? emptyRun();
+    const m = run.metrics;
+    return {
+      id: ep.id,
+      name: ep.name,
+      tokens: m?.outputTokens ?? 0,
+      reasoningTokens: m?.reasoningTokens ?? 0,
+      tps: m?.contentTps ?? 0,
+      done: run.status === "done" || run.status === "truncated",
+      running: false,
+    };
+  });
+  // 至少两条且有人真的跑出 token，才值得展示赛道（避免全 0 的空轨）
+  const showRace =
+    visible.length >= 2 && raceRunners.some((r) => r.tokens > 0);
 
   const cols = compact
     ? visible.length <= 2
@@ -341,6 +361,13 @@ export function ShareView({
               {isZh ? "全部显示" : "Show all"}
             </button>
           )}
+        </div>
+      )}
+
+      {/* 实时竞赛（终局赛道）：开页即定格在最终名次，截图友好 */}
+      {showRace && (
+        <div className="mb-5">
+          <RaceTrack runners={raceRunners} locale={locale} />
         </div>
       )}
 
