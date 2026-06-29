@@ -203,6 +203,7 @@ export function SettingsDialog({
       apiKey: "",
       model: p.exampleModels[0] ?? "",
       enabled: true,
+      ...(p.extraBody ? { extraBody: p.extraBody } : {}),
     });
     setPresetNote(p.note);
     setExampleModels(p.exampleModels);

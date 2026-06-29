@@ -7,6 +7,8 @@ export interface ProviderPreset {
   baseUrl: string;
   /** 建议填写的模型 ID 示例 */
   exampleModels: string[];
+  /** 套用预设时一并填入「额外请求参数」（如默认开启思考），用户可再改 */
+  extraBody?: string;
   note?: string;
 }
 
@@ -57,9 +59,11 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
   {
     id: "minimax",
     label: "MiniMax",
-    kind: "openai",
-    baseUrl: "https://api.minimaxi.com/v1",
-    exampleModels: ["MiniMax-M2", "MiniMax-Text-01"],
+    kind: "anthropic",
+    baseUrl: "https://api.minimaxi.com/anthropic",
+    exampleModels: ["MiniMax-M3", "MiniMax-M2"],
+    extraBody: '{"thinking":{"type":"enabled"}}',
+    note: "默认走原生 Anthropic 协议，思考会单独输出（已默认开启思考）。也提供 OpenAI 兼容接口 https://api.minimaxi.com/v1，但该接口会把思考混在正文里",
   },
   {
     id: "xiaomi",
