@@ -1,6 +1,8 @@
 import { countChars, fmtInt, fmtSeconds, fmtTps } from "./format.ts";
 import type { Locale } from "./i18n.ts";
+import { estimateRunCost, findPrice } from "./pricing.ts";
 import type { ModelEndpoint, RunState } from "./types.ts";
+import type { Verdict } from "./verdict.ts";
 
 export type ReviewDraftStyle =
   | "xiaohongshu"
@@ -23,6 +25,8 @@ export interface ReviewDraftPromptInput {
   thinkingStats: boolean;
   shareUrl?: string;
   locale?: Locale;
+  /** 已在调用处算好的结算（最快/最省/综合推荐）；缺省时从行内自行推导 */
+  verdict?: Verdict | null;
 }
 
 export const REVIEW_DRAFT_SYSTEM_PROMPT = [
@@ -98,31 +102,34 @@ export function buildFixedReviewDraft(input: ReviewDraftPromptInput): string {
   const fastestPeak = pickMax(completed, (row) => row.run.metrics?.peakTps);
   const shortestOutput = pickMin(completed, (row) => row.run.metrics?.outputTokens);
   const longestOutput = pickMax(completed, (row) => row.run.metrics?.outputTokens);
+  const cheapest = pickMin(completed, (row) => rowCostUsd(row));
+  const priciest = pickMax(completed, (row) => rowCostUsd(row));
+  const totalCost = completed.reduce((sum, row) => sum + (rowCostUsd(row) ?? 0), 0);
+  const hasCost = completed.some((row) => rowCostUsd(row) != null);
+  const overall = input.verdict?.overall;
 
   const lines: string[] = [];
   lines.push(`# ${input.title.trim() || (en ? "Model Review Draft" : "模型评测稿")}`);
   if (input.notes.trim()) lines.push("", `> ${input.notes.trim().replace(/\n/g, "\n> ")}`);
+
+  const summary = buildSummaryBlock({
+    completed: completed.length,
+    total: rows.length,
+    failures: failures.length,
+    overall,
+    fastestAward: input.verdict?.fastest,
+    fastestOutput,
+    cheapest,
+    correct: input.verdict?.correct ?? [],
+    graded: input.verdict?.graded ?? false,
+    locale: input.locale ?? "zh-CN",
+  });
+
   if (en) {
     lines.push(
       "",
-      "## One-line conclusion",
-      buildOneLineConclusion({
-        total: rows.length,
-        completed: completed.length,
-        failures: failures.length,
-        fastestTtft,
-        fastestOutput,
-        shortestOutput,
-        locale: "en",
-      }),
-      "",
-      "## Test method",
-      "- The same Prompt was sent to multiple models concurrently to reduce time-of-day and ordering bias.",
-      "- Speed focuses on TTFT, output TPS, average TPS, peak TPS, and total duration.",
-      "- Content quality observations are based only on this run and do not prove long-term model stability or factual accuracy.",
-      missingOfficial
-        ? "- Token basis: some models did not return official usage, so relevant token counts are estimated."
-        : "- Token basis: provider official usage is preferred when available.",
+      "## 🏆 At a glance",
+      ...summary,
       "",
       "## Key metrics table",
       buildMetricTable(rows, input.thinkingStats, "en"),
@@ -130,11 +137,26 @@ export function buildFixedReviewDraft(input: ReviewDraftPromptInput): string {
       "## Speed observations",
       ...buildSpeedObservations({ fastestTtft, fastestOutput, fastestPeak, shortestOutput, longestOutput, locale: "en" }),
       "",
-      "## Output quality observations",
+      ...(hasCost
+        ? [
+            "## Cost observations",
+            ...buildCostObservations({ cheapest, priciest, totalCost, locale: "en" }),
+            "",
+          ]
+        : []),
+      "## Output characteristics",
       ...buildQualityObservations(rows, "en"),
       "",
-      "## Publishable conclusions",
-      ...buildPublishableConclusions({ fastestTtft, fastestOutput, shortestOutput, failures, locale: "en" }),
+      "## Recommendations",
+      ...buildPublishableConclusions({ overall, fastestTtft, fastestOutput, cheapest, failures, locale: "en" }),
+      "",
+      "## Test method",
+      "- The same Prompt was sent to multiple models concurrently to reduce time-of-day and ordering bias.",
+      "- Speed: TTFT, output TPS, average TPS, peak TPS, and total duration. Cost is estimated from this run's tokens at listed prices.",
+      missingOfficial
+        ? "- Token basis: some models did not return official usage, so relevant token counts are estimated."
+        : "- Token basis: provider official usage is preferred when available.",
+      "- This is one prompt in one run. Output quality is from this single sample, not a capability ranking.",
       "",
       "## Original Prompt",
       input.prompt.trim() || "(empty)"
@@ -142,23 +164,8 @@ export function buildFixedReviewDraft(input: ReviewDraftPromptInput): string {
   } else {
     lines.push(
       "",
-      "## 一句话结论",
-      buildOneLineConclusion({
-        total: rows.length,
-        completed: completed.length,
-        failures: failures.length,
-        fastestTtft,
-        fastestOutput,
-        shortestOutput,
-      }),
-      "",
-      "## 测试方法",
-      "- 同一 Prompt 对多个模型并发发起请求，减少先后顺序带来的时段偏差。",
-      "- 速度重点看首 Token 时延、输出 TPS、平均 TPS、峰值 TPS 和总用时。",
-      "- 内容质量只基于本次输出做观察，不代表模型长期稳定能力或事实正确性。",
-      missingOfficial
-        ? "- token 口径：部分模型未返回官方 usage，相关 token 数为估算。"
-        : "- token 口径：优先使用厂商返回的官方 usage。",
+      "## 🏆 本轮速览",
+      ...summary,
       "",
       "## 关键指标表",
       buildMetricTable(rows, input.thinkingStats),
@@ -166,11 +173,22 @@ export function buildFixedReviewDraft(input: ReviewDraftPromptInput): string {
       "## 速度观察",
       ...buildSpeedObservations({ fastestTtft, fastestOutput, fastestPeak, shortestOutput, longestOutput }),
       "",
-      "## 输出质量观察",
+      ...(hasCost
+        ? ["## 成本观察", ...buildCostObservations({ cheapest, priciest, totalCost }), ""]
+        : []),
+      "## 输出特征",
       ...buildQualityObservations(rows),
       "",
-      "## 可发布结论",
-      ...buildPublishableConclusions({ fastestTtft, fastestOutput, shortestOutput, failures }),
+      "## 选型建议",
+      ...buildPublishableConclusions({ overall, fastestTtft, fastestOutput, cheapest, failures }),
+      "",
+      "## 测试方法",
+      "- 同一 Prompt 对多个模型并发发起请求，减少先后顺序带来的时段偏差。",
+      "- 速度看首 Token 时延、输出 / 平均 / 峰值 TPS 与总用时；成本按本轮 token 用量乘挂牌价估算。",
+      missingOfficial
+        ? "- token 口径：部分模型未返回官方 usage，相关 token 数为估算。"
+        : "- token 口径：优先使用厂商返回的官方 usage。",
+      "- 本轮为单 Prompt 单次结果，输出质量仅为这一题的样本表现，不代表模型整体能力排名。",
       "",
       "## 原始 Prompt",
       input.prompt.trim() || "（空）"
@@ -184,8 +202,8 @@ export function buildFixedReviewDraft(input: ReviewDraftPromptInput): string {
     lines.push(
       "",
       en
-        ? "> Note: tokens marked as estimated are not provider official usage."
-        : "> 注：表格中标注“估算”的 token 不是厂商官方 usage。"
+        ? "> Note: tokens marked as estimated are not provider official usage; cost figures are estimates."
+        : "> 注：表格中标注“估算”的 token 不是厂商官方 usage，成本为估算值。"
     );
   }
   return lines.join("\n");
@@ -276,14 +294,14 @@ function buildMetricTable(rows: ReviewDraftRow[], thinkingStats: boolean, locale
   const en = locale === "en";
   const header = thinkingStats
     ? en
-      ? "| Model | Rank | Status | TTFT | Reasoning TPS | Reasoning Tokens | Output TPS | Avg TPS | Peak TPS | Output Tokens | Total Time |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
-      : "| 模型 | 排名 | 状态 | 首 Token | 思考 TPS | 思考 Tokens | 输出 TPS | 平均 TPS | 峰值 TPS | 输出 Tokens | 总用时 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
+      ? "| Model | Rank | Status | TTFT | Reasoning TPS | Reasoning Tokens | Output TPS | Avg TPS | Peak TPS | Output Tokens | Total Time | Cost (run) |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
+      : "| 模型 | 排名 | 状态 | 首 Token | 思考 TPS | 思考 Tokens | 输出 TPS | 平均 TPS | 峰值 TPS | 输出 Tokens | 总用时 | 本轮成本 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
     : en
-      ? "| Model | Rank | Status | TTFT | Output TPS | Avg TPS | Peak TPS | Output Tokens | Total Time |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |"
-      : "| 模型 | 排名 | 状态 | 首 Token | 输出 TPS | 平均 TPS | 峰值 TPS | 输出 Tokens | 总用时 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- |";
+      ? "| Model | Rank | Status | TTFT | Output TPS | Avg TPS | Peak TPS | Output Tokens | Total Time | Cost (run) |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |"
+      : "| 模型 | 排名 | 状态 | 首 Token | 输出 TPS | 平均 TPS | 峰值 TPS | 输出 Tokens | 总用时 | 本轮成本 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |";
   const body = rows.map((row) => formatMetricTableRow(row, thinkingStats, locale)).join("\n");
   const empty = en ? "No results" : "暂无结果";
-  return body ? `${header}\n${body}` : `${header}\n| ${empty} | — | — | — | ${thinkingStats ? "— | — | " : ""}— | — | — | — | — |`;
+  return body ? `${header}\n${body}` : `${header}\n| ${empty} | — | — | — | ${thinkingStats ? "— | — | " : ""}— | — | — | — | — | — |`;
 }
 
 function formatMetricTableRow(row: ReviewDraftRow, thinkingStats: boolean, locale: Locale = "zh-CN"): string {
@@ -293,9 +311,10 @@ function formatMetricTableRow(row: ReviewDraftRow, thinkingStats: boolean, local
   if (!m) {
     const err = escapeCell(row.run.error || (en ? "Unknown error" : "未知错误"));
     return thinkingStats
-      ? `| ${model} | — | ${en ? "Failed" : "失败"}：${err} | — | — | — | — | — | — | — | — |`
-      : `| ${model} | — | ${en ? "Failed" : "失败"}：${err} | — | — | — | — | — | — |`;
+      ? `| ${model} | — | ${en ? "Failed" : "失败"}：${err} | — | — | — | — | — | — | — | — | — |`
+      : `| ${model} | — | ${en ? "Failed" : "失败"}：${err} | — | — | — | — | — | — | — |`;
   }
+  const cost = rowCostUsd(row);
   const base = [
     model,
     row.run.rank ? `#${row.run.rank}` : en ? "unranked" : "未排名",
@@ -308,6 +327,7 @@ function formatMetricTableRow(row: ReviewDraftRow, thinkingStats: boolean, local
     fmtTps(m.peakTps),
     `${fmtInt(m.outputTokens)}${m.official ? (en ? " (official)" : "（官方）") : en ? " (estimated)" : "（估算）"}`,
     `${fmtSeconds(m.totalMs)}s`,
+    cost != null ? `≈${fmtCostUsd(cost)}` : "—",
   ];
   const cells = thinkingStats
     ? [
@@ -320,53 +340,129 @@ function formatMetricTableRow(row: ReviewDraftRow, thinkingStats: boolean, local
   return `| ${cells.map(escapeCell).join(" | ")} |`;
 }
 
-function buildOneLineConclusion({
-  total,
+/** 顶部 🏆 速览：一句话结论 + 综合/最快/最省 + 答对，截图友好。 */
+function buildSummaryBlock({
   completed,
+  total,
   failures,
-  fastestTtft,
+  overall,
+  fastestAward,
   fastestOutput,
-  shortestOutput,
+  cheapest,
+  correct,
+  graded,
   locale = "zh-CN",
 }: {
-  total: number;
   completed: number;
+  total: number;
   failures: number;
-  fastestTtft?: ReviewDraftRow;
+  overall?: { id: string; name: string };
+  fastestAward?: { id: string; name: string; value: string };
   fastestOutput?: ReviewDraftRow;
-  shortestOutput?: ReviewDraftRow;
+  cheapest?: ReviewDraftRow;
+  correct: string[];
+  graded: boolean;
   locale?: Locale;
-}): string {
+}): string[] {
   const en = locale === "en";
   if (!total) {
-    return en ? "No usable results yet. Complete at least one model comparison first." : "这轮还没有可用结果，建议先完成至少一次模型对比。";
+    return [en ? "No usable results yet. Run at least one model first." : "这轮还没有可用结果，先跑完至少一个模型。"];
   }
-  const parts = [en ? `${completed}/${total} models completed output` : `本轮 ${completed}/${total} 个模型完成输出`];
-  if (fastestTtft?.run.metrics) {
-    parts.push(
+
+  const lead = overall
+    ? en
+      ? `**${overall.name}** is the overall pick this run — best balance of speed, cost, and outcome across ${completed}/${total} models.`
+      : `本轮综合最优是 **${overall.name}**——在 ${completed}/${total} 个模型里，速度、成本与结果最均衡。`
+    : en
+      ? `${completed}/${total} models finished this run.`
+      : `本轮 ${completed}/${total} 个模型完成输出。`;
+
+  const bullets: string[] = [];
+  if (overall) {
+    bullets.push(en ? `- 🥇 Overall pick: ${overall.name}` : `- 🥇 综合最优：${overall.name}`);
+  }
+  if (fastestAward) {
+    bullets.push(
       en
-        ? `${fastestTtft.name} had the fastest TTFT (${fmtSeconds(fastestTtft.run.metrics.ttftMs)}s)`
-        : `${fastestTtft.name} 首 Token 最快（${fmtSeconds(fastestTtft.run.metrics.ttftMs)}s）`
+        ? `- ⚡ Fastest: ${fastestAward.name} (${fastestAward.value})`
+        : `- ⚡ 最快：${fastestAward.name}（${fastestAward.value}）`
+    );
+  } else if (fastestOutput?.run.metrics) {
+    bullets.push(
+      en
+        ? `- ⚡ Fastest output: ${fastestOutput.name} (${fmtTps(fastestOutput.run.metrics.contentTps)} tok/s)`
+        : `- ⚡ 输出最快：${fastestOutput.name}（${fmtTps(fastestOutput.run.metrics.contentTps)} tok/s）`
     );
   }
-  if (fastestOutput?.run.metrics) {
-    parts.push(
+  const cost = cheapest ? rowCostUsd(cheapest) : undefined;
+  if (cheapest && cost != null) {
+    bullets.push(
       en
-        ? `${fastestOutput.name} had the highest output TPS (${fmtTps(fastestOutput.run.metrics.contentTps)} tok/s)`
-        : `${fastestOutput.name} 输出 TPS 最高（${fmtTps(fastestOutput.run.metrics.contentTps)} tok/s）`
+        ? `- 💰 Cheapest run: ${cheapest.name} (≈${fmtCostUsd(cost)})`
+        : `- 💰 本轮最省：${cheapest.name}（≈${fmtCostUsd(cost)}）`
     );
   }
-  if (shortestOutput?.run.metrics) {
-    parts.push(
-      en
-        ? `${shortestOutput.name} used the fewest output tokens in this run (${fmtInt(shortestOutput.run.metrics.outputTokens)})`
-        : `${shortestOutput.name} 本轮输出 token 最少（${fmtInt(shortestOutput.run.metrics.outputTokens)}）`
-    );
+  if (graded && correct.length) {
+    bullets.push(en ? `- ✅ Passed this task: ${correct.join(", ")}` : `- ✅ 本题答对：${correct.join("、")}`);
   }
   if (failures) {
-    parts.push(en ? `${failures} model(s) failed or returned no valid result` : `${failures} 个模型失败或未返回有效结果`);
+    bullets.push(en ? `- ⚠️ Failed / no result: ${failures}` : `- ⚠️ 失败 / 无结果：${failures} 个`);
   }
-  return `${parts.join(en ? "; " : "；")}${en ? "." : "。"}`;
+
+  return bullets.length ? [lead, "", ...bullets] : [lead];
+}
+
+/** 本轮单次运行的估算美元成本；无定价或无 token 时返回 undefined。 */
+function rowCostUsd(row: ReviewDraftRow): number | undefined {
+  const m = row.run.metrics;
+  if (!m || m.outputTokens == null) return undefined;
+  const price = findPrice(row.model);
+  if (!price) return undefined;
+  return estimateRunCost(price, m.promptTokens ?? 0, m.outputTokens ?? 0).totalUsd;
+}
+
+function fmtCostUsd(n: number): string {
+  if (n <= 0) return "$0";
+  if (n < 0.01) return `$${n.toPrecision(2)}`;
+  return `$${n.toFixed(n < 1 ? 3 : 2)}`;
+}
+
+/** 成本观察：最省 / 最贵 / 本轮合计。 */
+function buildCostObservations({
+  cheapest,
+  priciest,
+  totalCost,
+  locale = "zh-CN",
+}: {
+  cheapest?: ReviewDraftRow;
+  priciest?: ReviewDraftRow;
+  totalCost: number;
+  locale?: Locale;
+}): string[] {
+  const en = locale === "en";
+  const lines: string[] = [];
+  const cheapCost = cheapest ? rowCostUsd(cheapest) : undefined;
+  const priceyCost = priciest ? rowCostUsd(priciest) : undefined;
+  if (cheapest && cheapCost != null) {
+    lines.push(
+      en
+        ? `- Cheapest: ${cheapest.name} cost about ${fmtCostUsd(cheapCost)} for this run.`
+        : `- 最省：${cheapest.name} 本轮约 ${fmtCostUsd(cheapCost)}。`
+    );
+  }
+  if (priciest && priceyCost != null && cheapest && priciest.name !== cheapest.name) {
+    const ratio = cheapCost && cheapCost > 0 ? priceyCost / cheapCost : undefined;
+    const ratioText = ratio && ratio >= 1.5 ? (en ? ` (~${ratio.toFixed(1)}× the cheapest)` : `（约为最省的 ${ratio.toFixed(1)} 倍）`) : "";
+    lines.push(
+      en
+        ? `- Most expensive: ${priciest.name} cost about ${fmtCostUsd(priceyCost)}${ratioText}.`
+        : `- 最贵：${priciest.name} 本轮约 ${fmtCostUsd(priceyCost)}${ratioText}。`
+    );
+  }
+  if (totalCost > 0) {
+    lines.push(en ? `- Total for this run: ≈${fmtCostUsd(totalCost)}.` : `- 本轮合计：≈${fmtCostUsd(totalCost)}。`);
+  }
+  return lines.length ? lines : [en ? "- No pricing data available for these models." : "- 这些模型暂无可用定价数据。"];
 }
 
 function buildSpeedObservations({
@@ -429,74 +525,84 @@ function buildQualityObservations(rows: ReviewDraftRow[], locale: Locale = "zh-C
     const text = row.run.text.trim();
     const chars = countChars(text);
     if (en) {
-      const parts = [`${row.name}: output was about ${fmtInt(chars)} characters`];
-      if (row.run.status === "truncated") parts.push("the stream was truncated and should be rerun to confirm completeness");
-      if (!text) parts.push("no content output");
-      else if (chars < 80) parts.push("short output, good for quick answers but information density needs manual review");
-      else if (chars > 1200) parts.push("long output, good for long-form tasks but watch for redundancy");
-      else parts.push("moderate length; factual density and structure still need manual judgment");
-      if (row.run.reasoning.trim()) parts.push("includes a reasoning excerpt");
+      const parts = [`${row.name}: ~${fmtInt(chars)} chars`];
+      if (row.run.status === "truncated") parts.push("stream truncated — rerun to confirm completeness");
+      if (!text) parts.push("no content");
+      else if (chars < 80) parts.push("terse, fits quick answers");
+      else if (chars > 1200) parts.push("long-form, fits detailed tasks");
+      else parts.push("medium length");
+      if (row.run.reasoning.trim()) parts.push("includes reasoning");
       return `- ${parts.join("; ")}.`;
     }
-    const parts = [`${row.name}：输出约 ${fmtInt(chars)} 字`];
-    if (row.run.status === "truncated") parts.push("流式输出被截断，需要复跑确认完整性");
-    if (!text) parts.push("没有正文输出");
-    else if (chars < 80) parts.push("内容较短，适合速答但信息密度需人工复核");
-    else if (chars > 1200) parts.push("内容较长，适合长文任务但需要关注冗余");
-    else parts.push("长度适中，可进一步人工判断事实密度与结构");
-    if (row.run.reasoning.trim()) parts.push("包含思考输出摘录");
+    const parts = [`${row.name}：约 ${fmtInt(chars)} 字`];
+    if (row.run.status === "truncated") parts.push("流式被截断，需复跑确认完整性");
+    if (!text) parts.push("无正文");
+    else if (chars < 80) parts.push("精简，适合速答");
+    else if (chars > 1200) parts.push("长文，适合展开型任务");
+    else parts.push("中等长度");
+    if (row.run.reasoning.trim()) parts.push("含思考过程");
     return `- ${parts.join("，")}。`;
   });
   return lines.length ? lines : [en ? "- No model output is available for observation." : "- 暂无模型输出可观察。"];
 }
 
 function buildPublishableConclusions({
+  overall,
   fastestTtft,
   fastestOutput,
-  shortestOutput,
+  cheapest,
   failures,
   locale = "zh-CN",
 }: {
+  overall?: { id: string; name: string };
   fastestTtft?: ReviewDraftRow;
   fastestOutput?: ReviewDraftRow;
-  shortestOutput?: ReviewDraftRow;
+  cheapest?: ReviewDraftRow;
   failures: ReviewDraftRow[];
   locale?: Locale;
 }): string[] {
   const en = locale === "en";
   const lines: string[] = [];
-  if (fastestTtft) {
+  if (overall) {
     lines.push(
       en
-        ? `- If interaction feel matters most, pay close attention to ${fastestTtft.name}'s TTFT.`
-        : `- 如果重点是交互体感，可以优先关注 ${fastestTtft.name} 的首 Token 表现。`
+        ? `- Default to ${overall.name}: best overall balance of speed, cost, and outcome this run.`
+        : `- 默认选 ${overall.name}：本轮速度、成本、结果综合最均衡。`
     );
   }
-  if (fastestOutput) {
+  if (fastestTtft?.run.metrics) {
     lines.push(
       en
-        ? `- If long-form generation speed matters most, pay close attention to ${fastestOutput.name}'s output TPS.`
-        : `- 如果重点是长文本生成速度，可以优先关注 ${fastestOutput.name} 的输出 TPS。`
+        ? `- Want the snappiest feel? ${fastestTtft.name} replied first (${fmtSeconds(fastestTtft.run.metrics.ttftMs)}s to first token).`
+        : `- 要体感最跟手：${fastestTtft.name} 首 Token 最快（${fmtSeconds(fastestTtft.run.metrics.ttftMs)}s）。`
     );
   }
-  if (shortestOutput) {
+  if (fastestOutput?.run.metrics && fastestOutput.name !== fastestTtft?.name) {
     lines.push(
       en
-        ? `- If output length or token cost matters, ${shortestOutput.name} was shortest in this run, but completeness still needs review.`
-        : `- 如果重点是控制输出长度或 token 成本，本轮 ${shortestOutput.name} 的输出最短，但仍需结合内容完整性判断。`
+        ? `- Pushing long-form throughput? ${fastestOutput.name} streamed fastest (${fmtTps(fastestOutput.run.metrics.contentTps)} tok/s).`
+        : `- 要长文吞吐快：${fastestOutput.name} 输出最快（${fmtTps(fastestOutput.run.metrics.contentTps)} tok/s）。`
+    );
+  }
+  const cheapCost = cheapest ? rowCostUsd(cheapest) : undefined;
+  if (cheapest && cheapCost != null) {
+    lines.push(
+      en
+        ? `- Watching spend? ${cheapest.name} was cheapest this run (≈${fmtCostUsd(cheapCost)}).`
+        : `- 要省钱：${cheapest.name} 本轮最便宜（≈${fmtCostUsd(cheapCost)}）。`
     );
   }
   if (failures.length) {
     lines.push(
       en
-        ? `- ${failures.map((row) => row.name).join(", ")} failed in this run; keep the error information or rerun before publishing.`
-        : `- ${failures.map((row) => row.name).join("、")} 本轮失败，发布时建议保留错误信息或复跑一次。`
+        ? `- Note: ${failures.map((row) => row.name).join(", ")} failed this run — rerun before relying on them.`
+        : `- 注意：${failures.map((row) => row.name).join("、")} 本轮失败，依赖前请复跑一次。`
     );
   }
   lines.push(
     en
-      ? "- This is a sample run. Before formal model selection, rerun with different Prompts, times, and task types."
-      : "- 这是一轮样本测试，正式选型前建议更换 Prompt、时段和任务类型复测。"
+      ? "- Caveat: one prompt, one run. Rerun with other prompts and times before locking in a choice."
+      : "- 提醒：单 Prompt 单次结果，正式定型前换 Prompt 和时段再复测一轮。"
   );
   return lines;
 }

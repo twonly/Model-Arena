@@ -1989,6 +1989,7 @@ export default function Home() {
         prompt={prompt}
         thinkingStats={thinkStats}
         shareUrl={typeof shareUrl === "string" ? shareUrl : undefined}
+        verdict={verdict}
       />
 
       {!screenshotMode && (

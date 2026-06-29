@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useI18n } from "@/components/I18nProvider";
+import { Markdown } from "@/components/Markdown";
 import {
   buildFixedReviewDraft,
   buildReviewDraftPrompt,
@@ -13,6 +14,7 @@ import {
 } from "@/lib/review-draft";
 import { runEndpoint } from "@/lib/runner";
 import { emptyRun, type ModelEndpoint, type RunState } from "@/lib/types";
+import type { Verdict } from "@/lib/verdict";
 
 const STYLE_LABELS: { value: ReviewDraftStyle; label: string; hint: string }[] = [
   {
@@ -74,6 +76,7 @@ export function ReviewDraftDialog({
   prompt,
   thinkingStats,
   shareUrl,
+  verdict,
 }: {
   open: boolean;
   onClose: () => void;
@@ -85,6 +88,7 @@ export function ReviewDraftDialog({
   prompt: string;
   thinkingStats: boolean;
   shareUrl?: string;
+  verdict?: Verdict | null;
 }) {
   const { locale } = useI18n();
   const en = locale === "en";
@@ -92,6 +96,7 @@ export function ReviewDraftDialog({
   const [style, setStyle] = useState<ReviewDraftStyle>("article");
   const [selectedId, setSelectedId] = useState("");
   const [viewMode, setViewMode] = useState<"fixed" | "llm">("fixed");
+  const [rawView, setRawView] = useState(false);
   const [draftRun, setDraftRun] = useState<RunState>(() => emptyRun());
   const [error, setError] = useState("");
   const [copied, setCopied] = useState("");
@@ -113,8 +118,9 @@ export function ReviewDraftDialog({
         thinkingStats,
         shareUrl,
         locale,
+        verdict,
       }),
-    [title, notes, prompt, evidenceRows, style, thinkingStats, shareUrl, locale]
+    [title, notes, prompt, evidenceRows, style, thinkingStats, shareUrl, locale, verdict]
   );
   const selected = candidates.find((ep) => ep.id === selectedId) ?? candidates[0];
   const running = isDraftRunning(draftRun);
@@ -169,6 +175,7 @@ export function ReviewDraftDialog({
         thinkingStats,
         shareUrl,
         locale,
+        verdict,
       }),
       params: {
         systemPrompt: reviewDraftSystemPrompt(locale),
@@ -214,8 +221,8 @@ export function ReviewDraftDialog({
             </div>
             <div className="mt-0.5 text-[11.5px] text-faint">
               {en
-                ? "First generate a fixed draft from this run. For a more polished article, use one of your local-Key models to summarize and rewrite it."
-                : "先基于本次数据生成固定模板稿；需要更像文章时，再用你本地 Key 的模型总结润色。"}
+                ? "Get a ready-to-publish draft from this run — winner, speed, and cost included. Want it to read more like an article? Polish it with one of your local-Key models."
+                : "一键生成带结论的评测稿（含冠军、速度、成本，可直接发）；想更像文章时，再用你本地 Key 的模型润色。"}
             </div>
           </div>
           <button
@@ -355,6 +362,13 @@ export function ReviewDraftDialog({
               >
                 {en ? "Copy Current Draft" : "复制当前稿"}
               </button>
+              <button
+                onClick={() => setRawView((v) => !v)}
+                title={en ? "Toggle rendered preview / raw Markdown" : "切换渲染预览 / Markdown 原文"}
+                className="rounded-md border border-line px-3 py-2 text-[12.5px] text-faint hover:text-ink cursor-pointer"
+              >
+                {rawView ? (en ? "Preview" : "预览") : (en ? "Raw" : "原文")}
+              </button>
               <span className="ml-auto text-[11.5px] text-faint">
                 {copied || (viewMode === "fixed" ? (en ? "Base draft ready" : "基础稿已生成") : statusText(draftRun, locale))}
               </span>
@@ -362,9 +376,15 @@ export function ReviewDraftDialog({
 
             <div className="thin-scroll min-h-[360px] flex-1 overflow-y-auto bg-card/40 p-4">
               {viewMode === "fixed" ? (
-                <pre className="whitespace-pre-wrap rounded-lg border border-line bg-paper px-4 py-3 text-[13px] leading-relaxed text-ink">
-                  {fixedDraft}
-                </pre>
+                rawView ? (
+                  <pre className="whitespace-pre-wrap rounded-lg border border-line bg-paper px-4 py-3 text-[13px] leading-relaxed text-ink">
+                    {fixedDraft}
+                  </pre>
+                ) : (
+                  <div className="thin-scroll overflow-x-auto rounded-lg border border-line bg-paper px-4 py-3 text-[13px] leading-relaxed text-ink">
+                    <Markdown text={fixedDraft} />
+                  </div>
+                )
               ) : draftRun.text || draftRun.reasoning ? (
                 <div className="space-y-3">
                   {draftRun.reasoning && (
@@ -377,9 +397,15 @@ export function ReviewDraftDialog({
                       </pre>
                     </details>
                   )}
-                  <pre className="whitespace-pre-wrap rounded-lg border border-line bg-paper px-4 py-3 text-[13px] leading-relaxed text-ink">
-                    {draftRun.text}
-                  </pre>
+                  {rawView || running ? (
+                    <pre className="whitespace-pre-wrap rounded-lg border border-line bg-paper px-4 py-3 text-[13px] leading-relaxed text-ink">
+                      {draftRun.text}
+                    </pre>
+                  ) : (
+                    <div className="thin-scroll overflow-x-auto rounded-lg border border-line bg-paper px-4 py-3 text-[13px] leading-relaxed text-ink">
+                      <Markdown text={draftRun.text} />
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div className="flex h-full min-h-[320px] items-center justify-center rounded-lg border border-dashed border-line bg-paper/60 px-8 text-center">

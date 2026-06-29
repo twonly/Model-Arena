@@ -447,6 +447,7 @@ export function ShareView({
         prompt={snapshot.prompt}
         thinkingStats={snapshot.thinkingStats}
         shareUrl={shareUrl}
+        verdict={verdict}
       />
     </main>
   );
