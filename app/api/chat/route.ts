@@ -1,6 +1,7 @@
 import { NextRequest } from "next/server";
 import { rateLimit } from "@/lib/ratelimit";
 import { ChatBody, prepareChatBody } from "@/lib/chat-request";
+import { createThinkSplitter } from "@/lib/think-split";
 import {
   anthropicThinkingMaxTokenErrorMessage,
   DEFAULT_ANTHROPIC_MAX_TOKENS,
@@ -258,21 +259,38 @@ async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
 
   let finishReason: string | undefined;
   let gotDelta = false;
+  // 兜底：把内联 <think>…</think> 的思考拆出来（MiniMax-M3 等走 OpenAI 接口时如此）。
+  // 仅当本轮从未出现独立 reasoning 字段时才启用，规矩用字段的模型（DeepSeek 等）不受影响。
+  const splitter = createThinkSplitter();
+  let sawReasoningField = false;
   try {
     const { sawDone } = await consumeSse(res, signal, (json) => {
       const chunk = json as OpenAIChunk;
       const choice = chunk.choices?.[0];
       const delta = choice?.delta;
       if (delta) {
-        const reasoning =
+        const reasoningField =
           delta.reasoning_content ?? delta.reasoning ?? undefined;
-        const text = delta.content ?? undefined;
-        if (reasoning || text) {
+        if (reasoningField) sawReasoningField = true;
+        const content = delta.content ?? undefined;
+        let outText = "";
+        let outReason = reasoningField || "";
+        if (content) {
+          if (sawReasoningField) {
+            // 模型已用独立 reasoning 字段 → 正文就是正文，不做 <think> 拆分
+            outText = content;
+          } else {
+            const r = splitter.push(content);
+            outText = r.text;
+            outReason += r.reasoning;
+          }
+        }
+        if (outText || outReason) {
           gotDelta = true;
           send({
             type: "delta",
-            ...(text ? { text } : {}),
-            ...(reasoning ? { reasoning } : {}),
+            ...(outText ? { text: outText } : {}),
+            ...(outReason ? { reasoning: outReason } : {}),
           });
         }
       }
@@ -287,6 +305,18 @@ async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
         });
       }
     });
+    // 冲刷 <think> 拆分器缓冲（未闭合的半截标签 / 缓冲尾巴），没缓冲时返回空
+    if (!signal.aborted) {
+      const tail = splitter.flush();
+      if (tail.text || tail.reasoning) {
+        gotDelta = true;
+        send({
+          type: "delta",
+          ...(tail.text ? { text: tail.text } : {}),
+          ...(tail.reasoning ? { reasoning: tail.reasoning } : {}),
+        });
+      }
+    }
     // 正常结束应有 [DONE] 或 finish_reason；都没有则是上游中途掐断
     if (signal.aborted) return;
     send({ type: "done", finishReason, truncated: !sawDone && !finishReason });
