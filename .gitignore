@@ -47,6 +47,9 @@ yarn-error.log*
 # local scratch / screenshots
 tmp/
 
+# 发布内容草稿（公众号/小红书/周报等营销素材）：仅本地，不进公开仓库
+/content/
+
 # vercel
 .vercel
 

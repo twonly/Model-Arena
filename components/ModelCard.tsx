@@ -135,12 +135,16 @@ export const ModelCard = memo(function ModelCard({
   const previewWrapRef = useRef<HTMLDivElement>(null);
   // bump 这个 key 会强制 iframe 重挂载（重新加载 / 重跑动画）
   const [reloadKey, setReloadKey] = useState(0);
-  // 离屏的跨源沙箱 iframe 会被浏览器暂停/限频渲染（rAF 几乎停转），
-  // 表现为「不滚动到这里就一直空白、点一下才出现」。改成进入视口附近才挂载：
-  // 加载即可见、不被限频，也避免多张卡同时抢 CDN。截图/分享态直接预挂载。
+  // 离屏的跨源沙箱 iframe 会被浏览器暂停 rAF（动画停在第 1 帧：渐入类整屏全空白），
+  // 且部分 Chromium 上滚回来也不一定自动恢复——表现为「不点一下就一直空白」。
+  // 解法：只在预览「真正进入视口」时才挂载，iframe 一出生就可见，rAF 立即运行、
+  // 动画从头播。截图/分享态直接预挂载。
   const [previewSeen, setPreviewSeen] = useState(screenshotMode);
-  // T0 视觉探针：沙箱内脚本 postMessage 回报「渲染成功/报错」
+  // T0 视觉探针：沙箱内脚本 postMessage 回报「渲染成功 / 报错 / 空白未出画面」
   const [previewOk, setPreviewOk] = useState<boolean | null>(null);
+  const [previewKind, setPreviewKind] = useState<
+    "ok" | "blank" | "error" | null
+  >(null);
   useEffect(() => {
     const onMsg = (e: MessageEvent) => {
       if (
@@ -149,6 +153,7 @@ export const ModelCard = memo(function ModelCard({
         e.data.__tokracePreview
       ) {
         setPreviewOk(!!e.data.ok);
+        setPreviewKind(e.data.kind ?? (e.data.ok ? "ok" : "error"));
       }
     };
     window.addEventListener("message", onMsg);
@@ -157,6 +162,7 @@ export const ModelCard = memo(function ModelCard({
   // 每次重挂载预览（reloadKey 变）重置探针状态
   useEffect(() => {
     setPreviewOk(null);
+    setPreviewKind(null);
   }, [reloadKey, htmlBig]);
 
   // 预览高度偏好持久化：放大一次后后续运行保持放大，省去每次手动点
@@ -207,7 +213,8 @@ export const ModelCard = memo(function ModelCard({
   const noPreviewHint =
     finished && !htmlDoc && svgs.length === 0 && looksLikeHtmlAttempt(previewSource);
 
-  // 预览进入视口附近（300px 提前量）才挂载 iframe，避免离屏被浏览器限频
+  // 预览「真正进入视口」才挂载 iframe（rootMargin 0）：避免提前在离屏挂载导致
+  // rAF 被暂停、动画停在空白第 1 帧。一出生就可见，rAF 立即运行、动画从头播。
   useEffect(() => {
     if (previewSeen || !htmlDoc) return;
     const el = previewWrapRef.current;
@@ -222,7 +229,7 @@ export const ModelCard = memo(function ModelCard({
           io.disconnect();
         }
       },
-      { rootMargin: "300px" }
+      { rootMargin: "0px" }
     );
     io.observe(el);
     return () => io.disconnect();
@@ -511,9 +518,19 @@ export const ModelCard = memo(function ModelCard({
                     background: previewOk ? "var(--go)" : "var(--accent)",
                     color: "var(--paper)",
                   }}
-                  title={en ? "Auto-detected: sandbox rendered without script errors" : "自动检测：沙箱是否无脚本报错渲染"}
+                  title={en ? "Auto-detected by sampling the rendered pixels" : "自动检测：采样画面像素，确认是否真的画出内容"}
                 >
-                  {previewOk ? (en ? "✓ rendered" : "✓ 渲染成功") : en ? "✗ error" : "✗ 渲染报错"}
+                  {previewOk
+                    ? en
+                      ? "✓ rendered"
+                      : "✓ 渲染成功"
+                    : previewKind === "blank"
+                      ? en
+                        ? "✗ blank"
+                        : "✗ 空白未出画面"
+                      : en
+                        ? "✗ error"
+                        : "✗ 渲染报错"}
                 </span>
               )}
             </div>

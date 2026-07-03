@@ -31,11 +31,12 @@ const PREVIEW_ERROR_HANDLER = `<script data-tokrace-preview-error-handler>
 (function () {
   var reported = false;
   // T0 探针：把「渲染成功/报错」回报父页（结算卡视觉判 + 卡片徽章用）
-  function postProbe(ok, message) {
+  function postProbe(ok, kind, message) {
     try {
       parent.postMessage({
         __tokracePreview: true,
         ok: ok,
+        kind: kind || (ok ? "ok" : "error"),
         message: message ? String(message).slice(0, 300) : undefined
       }, "*");
     } catch (e) {}
@@ -63,7 +64,7 @@ const PREVIEW_ERROR_HANDLER = `<script data-tokrace-preview-error-handler>
   }
   function fail(message) {
     showPreviewError(message);
-    if (!reported) { reported = true; postProbe(false, message); }
+    if (!reported) { reported = true; postProbe(false, "error", message); }
   }
   window.addEventListener("error", function (event) {
     fail(event.message || (event.error && event.error.message));
@@ -72,9 +73,71 @@ const PREVIEW_ERROR_HANDLER = `<script data-tokrace-preview-error-handler>
     var reason = event.reason;
     fail(reason && reason.message ? reason.message : reason);
   });
-  // 加载后若无错误则报告成功（留时间让 CDN/脚本跑起来）
+  // 「无脚本报错」≠「真的画出了东西」：canvas 被纯色填满（如把整屏盖成黑色）、
+  // 或渐入动画还没起来时，旧逻辑会误报「✓ 渲染成功」。这里在 load 后采样画面，
+  // 确认确实有内容再判成功，避免假阳性徽章。
+  function quant(d) { return (d[0] >> 4) * 256 + (d[1] >> 4) * 16 + (d[2] >> 4); }
+  function canvasVerdict(c) {
+    if (c.width < 24 || c.height < 24) return "unknown";
+    var ctx;
+    try { ctx = c.getContext("2d"); } catch (e) { return "unknown"; }
+    if (!ctx) return "unknown"; // 多半是 WebGL/3D：用 2d 读不到像素，就不误判
+    var N = 20, key0 = -1, solid = 0;
+    for (var gx = 0; gx < N; gx++) {
+      for (var gy = 0; gy < N; gy++) {
+        var x = Math.min(c.width - 1, ((gx + 0.5) / N * c.width) | 0);
+        var y = Math.min(c.height - 1, ((gy + 0.5) / N * c.height) | 0);
+        var d;
+        try { d = ctx.getImageData(x, y, 1, 1).data; } catch (e) { return "unknown"; } // 被跨源图片污染
+        if (d[3] < 250) continue;
+        solid++;
+        var key = quant(d);
+        if (key0 === -1) key0 = key; else if (key !== key0) return "content";
+      }
+    }
+    return "blank"; // 全透明，或全是同一种不透明颜色（纯色＝等于没画出内容）
+  }
+  function domVerdict() {
+    var b = document.body;
+    if (!b) return "blank";
+    if (b.querySelector("svg, img, video")) return "content";
+    if ((b.innerText || "").trim().length > 0) return "content";
+    var els = b.querySelectorAll("*");
+    for (var i = 0; i < els.length && i < 300; i++) {
+      var r = els[i].getBoundingClientRect();
+      if (r.width > 4 && r.height > 4) return "content";
+    }
+    return "blank";
+  }
+  function probePaint() {
+    try {
+      var cs = document.querySelectorAll("canvas");
+      if (cs.length) {
+        var readable = false;
+        for (var i = 0; i < cs.length; i++) {
+          var v = canvasVerdict(cs[i]);
+          if (v === "content") return "content";
+          if (v === "blank") readable = true;
+        }
+        return readable ? "blank" : "unknown"; // 全读不到（3D 等）→ unknown，保守判成功
+      }
+      return domVerdict();
+    } catch (e) { return "unknown"; }
+  }
+  function checkPaint(attempt) {
+    if (reported) return;
+    var v = probePaint();
+    if (v === "blank" && attempt < 2) {
+      // 可能是渐入 / 延迟启动的动画还没画出来：再等等重测，避免误报失败
+      setTimeout(function () { checkPaint(attempt + 1); }, 1200);
+      return;
+    }
+    reported = true;
+    postProbe(v !== "blank", v === "blank" ? "blank" : "ok");
+  }
+  // 留时间让 CDN/脚本跑起来，再采样画面
   window.addEventListener("load", function () {
-    setTimeout(function () { if (!reported) { reported = true; postProbe(true); } }, 1800);
+    setTimeout(function () { checkPaint(0); }, 1800);
   });
 })();
 <\/script>`;
