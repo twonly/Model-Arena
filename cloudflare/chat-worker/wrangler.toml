@@ -3,6 +3,18 @@ main = "src/index.js"
 compatibility_date = "2026-06-22"
 workers_dev = true
 
+# 自定义域：workers.dev 在大陆被墙，绑 chat.tokrace.com（tokrace.com 已在本 Cloudflare 账号）。
+# deploy 时自动建 DNS 记录(橙云代理)+签证书。大陆可达性通常远好于 workers.dev。
+routes = [
+  { pattern = "chat.tokrace.com", custom_domain = true }
+]
+
+# CPU 上限。已实测：默认配置下 Worker 在 ~194s 被 CPU 配额杀掉（done/error 都没发出）。
+# HTTP Worker 无墙钟限制，唯一限制就是 CPU 时间。把上限顶到 5 分钟（最大值）。
+# **需 Workers Paid 才能设到 10ms 以上**：deploy 若因本块报错 = 你在 Free 计划，需先升级。
+[limits]
+cpu_ms = 300000
+
 # 非机密变量：限定允许的浏览器来源（避免 Worker 默认 CORS "*"）。
 [vars]
 TOKRACE_ALLOWED_ORIGIN = "https://www.tokrace.com"

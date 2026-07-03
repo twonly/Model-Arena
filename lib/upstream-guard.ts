@@ -5,10 +5,12 @@
  *
  * 仅在 Vercel 等托管环境（VERCEL=1）启用拦截——本机自部署时仍可
  * 直连 localhost 的 Ollama 等本地模型。
+ *
+ * 拦截规则（PRIVATE_HOST_RE）抽到 `./private-host.ts` 单一来源，
+ * 与 Cloudflare Worker 共用，避免两份正则漂移。
  */
 
-const PRIVATE_HOST_RE =
-  /^(localhost|.*\.local|.*\.internal|0\.0\.0\.0|127\.\d+\.\d+\.\d+|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+|169\.254\.\d+\.\d+|metadata\.google\.internal|\[?::1\]?|\[?f[cd][0-9a-f]{2}:.*)$/i;
+import { PRIVATE_HOST_RE } from "./private-host.ts";
 
 export function checkUpstreamUrl(baseUrl: string): string | null {
   let u: URL;

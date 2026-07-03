@@ -1,8 +1,23 @@
+// 与 Vercel 路由共用同一份源，避免逻辑漂移（wrangler/esbuild 会把这些纯 TS 文件
+// 一起打包进 Worker bundle；它们无 node 内建依赖，Worker 运行时安全）。
+import { PRIVATE_HOST_RE } from "../../../lib/private-host.ts";
+import {
+  DEFAULT_ANTHROPIC_MAX_TOKENS,
+  normalizeAnthropicThinkingPayload,
+  anthropicThinkingMaxTokenErrorMessage,
+} from "../../../lib/anthropic.ts";
+
 const enc = new TextEncoder();
 const sse = (obj) => enc.encode(`data: ${JSON.stringify(obj)}\n\n`);
 
-const PRIVATE_HOST_RE =
-  /^(localhost|.*\.local|.*\.internal|0\.0\.0\.0|127\.\d+\.\d+\.\d+|10\.\d+\.\d+\.\d+|192\.168\.\d+\.\d+|172\.(1[6-9]|2\d|3[01])\.\d+\.\d+|169\.254\.\d+\.\d+|metadata\.google\.internal|\[?::1\]?|\[?f[cd][0-9a-f]{2}:.*)$/i;
+// 浏览器伪装头：尝试降低上游 bot 防护对 Worker 请求的评分（如 Kimi 的 Cloudflare 风控）。
+// 注意：真正的强信号是 TLS(JA3) 指纹 + "来自 Cloudflare 网络"，UA 改不了那些，成功率有限。
+const BROWSER_UA =
+  "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/137.0.0.0 Safari/537.36";
+const BROWSER_HINT_HEADERS = {
+  "user-agent": BROWSER_UA,
+  "accept-language": "en-US,en;q=0.9",
+};
 
 function corsHeaders(env) {
   return {
@@ -141,6 +156,7 @@ async function pipeOpenAI(body, send, signal) {
       method: "POST",
       signal,
       headers: {
+        ...BROWSER_HINT_HEADERS,
         "content-type": "application/json",
         authorization: `Bearer ${body.apiKey}`,
       },
@@ -206,24 +222,6 @@ async function pipeOpenAI(body, send, signal) {
   }
 }
 
-function normalizeAnthropicThinkingPayload(payload, formMax, extra) {
-  const thinking = payload.thinking;
-  if (!thinking || typeof thinking !== "object" || thinking.type !== "enabled") {
-    return false;
-  }
-  const budget = Number(thinking.budget_tokens ?? 0);
-  const max = Number(payload.max_tokens ?? 0);
-  if (Number.isFinite(budget) && Number.isFinite(max) && budget >= max) {
-    payload.max_tokens = Math.max(budget + 1024, formMax || 0, 4096);
-  }
-  if (!extra.temperature && payload.temperature == null) delete payload.temperature;
-  return true;
-}
-
-function anthropicThinkingMaxTokenErrorMessage(maxTokens) {
-  return `思考预算已用满但没有生成正文。请把 max_tokens 提高到 ${Number(maxTokens || 0) + 1024} 以上，或降低 thinking.budget_tokens。`;
-}
-
 async function pipeAnthropic(body, send, signal) {
   const base = body.baseUrl.replace(/\/+$/, "");
   const url = base.endsWith("/v1") ? `${base}/messages` : `${base}/v1/messages`;
@@ -232,7 +230,7 @@ async function pipeAnthropic(body, send, signal) {
   const img = body.imageDataUrl ? parseDataUrl(body.imageDataUrl) : null;
   const payload = {
     model: body.model,
-    max_tokens: formMax ?? 4096,
+    max_tokens: formMax ?? DEFAULT_ANTHROPIC_MAX_TOKENS,
     stream: true,
     messages: [
       {
@@ -257,12 +255,13 @@ async function pipeAnthropic(body, send, signal) {
   const t = num(body.temperature);
   if (t != null) payload.temperature = t;
   Object.assign(payload, extra);
-  const thinkingOn = normalizeAnthropicThinkingPayload(payload, formMax, extra);
+  const thinkingOn = normalizeAnthropicThinkingPayload(payload, { formMax, extra });
 
   const res = await fetch(url, {
     method: "POST",
     signal,
     headers: {
+      ...BROWSER_HINT_HEADERS,
       "content-type": "application/json",
       "x-api-key": body.apiKey,
       "anthropic-version": "2023-06-01",
