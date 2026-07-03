@@ -31,6 +31,7 @@ import { estimateTokens } from "@/lib/tokens";
 import { rankBadge } from "@/lib/format";
 import { buildSnapshot, thinSamples, type VotingConfigLite } from "@/lib/share";
 import { createShare } from "@/lib/me";
+import { track } from "@vercel/analytics";
 import { toPng } from "html-to-image";
 import {
   CONSENT_FIELDS,
@@ -698,6 +699,11 @@ export default function Home() {
     setRestored(null);
     setShareUrl(null); // 新一轮作废旧分享链接
     setShareError(null);
+    // 漏斗埋点：UV→开跑 的转化在 Vercel Analytics 看（服务端只能看到跑成功的）
+    track("run_start", {
+      models: targets.length,
+      sharedModels: targets.filter((t) => t.shared).length,
+    });
     const ctrl = new AbortController();
     controllerRef.current = ctrl;
     rankCounter.current = 0;
@@ -974,6 +980,7 @@ export default function Home() {
         return;
       }
       const url = `${location.origin}${localHref(`/r/${j.id}`)}`;
+      track("share_create", { models: snapshot.results.length });
       setShareUrl(url);
       setLastShareSummary({
         title: snapshot.title,

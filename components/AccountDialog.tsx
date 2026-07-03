@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { track } from "@vercel/analytics";
 import { useI18n } from "@/components/I18nProvider";
 import { getSupabase, supabaseEnabled } from "@/lib/supabase-client";
 import { lastSyncedAt, pullSync, pushSync } from "@/lib/sync";
@@ -108,12 +109,18 @@ export function AccountDialog({
       });
   }, [reloadReferral, user]);
 
+  // 漏斗埋点：打开账号弹窗 = 注册/登录意图
+  useEffect(() => {
+    if (open) track("account_open");
+  }, [open]);
+
   if (!open) return null;
 
   const reset = () => {
     setErr("");
     setMsg("");
   };
+
 
   const submit = async () => {
     if (!sb) return;
@@ -127,6 +134,7 @@ export function AccountDialog({
       if (mode === "register") {
         const { error } = await sb.auth.signUp({ email, password: pw });
         if (error) throw error;
+        track("signup", { method: "email" });
         setMsg(
           en
             ? "Registered. If email verification is enabled, confirm the link in your inbox before signing in."
@@ -187,6 +195,7 @@ export function AccountDialog({
   const oauth = async (provider: "github" | "google") => {
     if (!sb) return;
     reset();
+    track("signup", { method: provider });
     setBusy(true);
     const next = location.pathname + location.search;
     const { error } = await sb.auth.signInWithOAuth({
