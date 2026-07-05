@@ -4,7 +4,7 @@ import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
 import { sampleConfidence } from "@/lib/quickstart";
-import { fetchModelStats, modelSlug, type ModelStat } from "@/lib/stats";
+import { comparePairs, fetchModelStats, modelSlug, type ModelStat } from "@/lib/stats";
 import { getMessages } from "@/lib/i18n-messages";
 import { getRequestLocale } from "@/lib/i18n-server";
 import { localeToLanguage, localizedPath } from "@/lib/i18n";
@@ -318,6 +318,38 @@ export default async function StatsPage() {
               ? "· Cost uses each model's output price per 1M tokens (CNY converted to USD); speed is the median from the leaderboard above."
               : "· 成本取各模型「输出价 / 1M token」（人民币按汇率折算 USD）；速度为上方榜单的中位值。"}
           </p>
+        </section>
+      )}
+
+      {stats && stats.length >= 2 && (
+        <section className="mt-8">
+          <h2 className="mb-2 text-[17px] font-bold">
+            {locale === "en" ? "Popular comparisons" : "热门对比"}
+          </h2>
+          <p className="mb-3 text-[12px] text-faint">
+            {locale === "en"
+              ? "Head-to-head speed pages for the top models on the board."
+              : "榜单前列模型的两两速度对比页。"}
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {(() => {
+              // slug → 榜单里排最前的模型名（用作链接文案）
+              const slugName = new Map<string, string>();
+              for (const s of stats) {
+                const sl = modelSlug(s.model);
+                if (sl && !slugName.has(sl)) slugName.set(sl, s.model);
+              }
+              return comparePairs(stats, 8).map(([a, b]) => (
+                <Link
+                  key={`${a}-vs-${b}`}
+                  href={h(`/compare/${a}-vs-${b}`)}
+                  className="rounded-full border border-line bg-card px-3 py-1.5 text-[12px] text-faint hover:border-ink/40 hover:text-ink"
+                >
+                  {slugName.get(a) ?? a} vs {slugName.get(b) ?? b}
+                </Link>
+              ));
+            })()}
+          </div>
         </section>
       )}
 
