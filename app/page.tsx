@@ -351,9 +351,10 @@ export default async function Landing() {
         <span className="flex flex-wrap items-center gap-2">
           <span>
             {BRAND.full} ·{" "}
-            <a href={BRAND.url} className="hover:text-ink">
+            {/* 用带语言前缀的内链，避免每页都内链到一个会 308 的裸地址 */}
+            <Link href={h("/")} className="hover:text-ink">
               {BRAND.domain}
-            </a>
+            </Link>
           </span>
           <Credit />
         </span>

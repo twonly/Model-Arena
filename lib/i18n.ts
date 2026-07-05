@@ -72,6 +72,19 @@ export function pathLocale(pathname: string): Locale | null {
   return stripLocalePrefix(pathname).locale;
 }
 
+/**
+ * 非规范语言前缀（/zh、/zh-cn、/en-US 等别名或大小写变体）对应的规范路径；
+ * 前缀已规范或不是语言时返回 null。外链常把 URL 小写化，不归一的话
+ * 这类路径会被当成无前缀路径再叠一层默认语言，跳到 /zh-CN/zh-cn/... 404。
+ */
+export function localeAliasRedirectPath(pathname: string): string | null {
+  const normalized = pathname.startsWith("/") ? pathname : `/${pathname}`;
+  const [, maybeLocale] = normalized.split("/");
+  const locale = normalizeLocale(maybeLocale);
+  if (!locale || maybeLocale === locale) return null;
+  return localizedPath(normalized.slice(maybeLocale.length + 1) || "/", locale);
+}
+
 export function localizedPath(path: string, locale: Locale): string {
   if (/^[a-z][a-z0-9+.-]*:/i.test(path) || path.startsWith("//")) return path;
 

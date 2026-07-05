@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import {
   LOCALE_HEADER,
   NEXT_LOCALE_COOKIE,
+  localeAliasRedirectPath,
   localizedPath,
   pathLocale,
   resolveLocale,
@@ -46,6 +47,15 @@ export function proxy(request: NextRequest) {
   const currentLocale = pathLocale(pathname);
   if (currentLocale) return nextWithLocale(request, currentLocale);
 
+  // /zh、/zh-cn、/en-US 等别名/大小写前缀：308 归一到规范前缀，
+  // 否则会跳到 /zh-CN/zh-cn/... 404，Search Console 报「重定向错误」
+  const aliasPath = localeAliasRedirectPath(pathname);
+  if (aliasPath) {
+    const url = request.nextUrl.clone();
+    url.pathname = aliasPath;
+    return NextResponse.redirect(url, 308);
+  }
+
   const targetLocale = resolveLocale({
     pathname,
     lang: searchParams.get("lang"),
@@ -61,7 +71,12 @@ export function proxy(request: NextRequest) {
   url.pathname = localizedPath(pathname, targetLocale);
   url.searchParams.delete("lang");
   url.searchParams.delete("locale");
-  const response = NextResponse.redirect(url, 307);
+  // 无前缀旧地址 → 带语言前缀正式页是永久策略，308 让 Google 把权重并给目标页
+  // （307 会让 Google 想继续索引无内容的旧地址，Search Console 持续报
+  // 「网页会自动重定向」）。目标随 Accept-Language / Cookie 变化，
+  // 禁止浏览器把这条重定向缓存成死值。
+  const response = NextResponse.redirect(url, 308);
+  response.headers.set("cache-control", "no-store");
   if (searchParams.get("lang") || searchParams.get("locale")) {
     response.cookies.set(NEXT_LOCALE_COOKIE, targetLocale, {
       path: "/",

@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  localeAliasRedirectPath,
   localizedPath,
   localeFromSource,
   normalizeLocale,
@@ -25,6 +26,19 @@ test("adds and replaces locale path prefixes", () => {
     locale: "zh-CN",
     pathname: "/r/abc",
   });
+});
+
+test("canonicalizes alias locale prefixes and leaves others alone", () => {
+  assert.equal(localeAliasRedirectPath("/zh-cn/board"), "/zh-CN/board");
+  assert.equal(localeAliasRedirectPath("/zh/board"), "/zh-CN/board");
+  assert.equal(localeAliasRedirectPath("/cn"), "/zh-CN");
+  assert.equal(localeAliasRedirectPath("/zh-cn/"), "/zh-CN");
+  assert.equal(localeAliasRedirectPath("/en-US/stats"), "/en/stats");
+  // 已是规范前缀或非语言路径：不重定向
+  assert.equal(localeAliasRedirectPath("/zh-CN/board"), null);
+  assert.equal(localeAliasRedirectPath("/en"), null);
+  assert.equal(localeAliasRedirectPath("/board"), null);
+  assert.equal(localeAliasRedirectPath("/"), null);
 });
 
 test("maps explicit source and referrer without using referral code", () => {
