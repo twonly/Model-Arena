@@ -3,7 +3,6 @@ export type Locale = (typeof LOCALES)[number];
 
 export const DEFAULT_LOCALE: Locale = "zh-CN";
 export const NEXT_LOCALE_COOKIE = "NEXT_LOCALE";
-export const LOCALE_HEADER = "x-tokrace-locale";
 
 const LOCALE_SET = new Set<string>(LOCALES);
 

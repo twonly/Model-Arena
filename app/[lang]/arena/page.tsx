@@ -1,4 +1,4 @@
-import ArenaPage from "../../arena/page";
+import ArenaPage from "./ArenaClient";
 import { localizedMetadata } from "@/lib/i18n-metadata";
 import { normalizeLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 

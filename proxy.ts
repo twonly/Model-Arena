@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import {
-  LOCALE_HEADER,
   NEXT_LOCALE_COOKIE,
   localeAliasRedirectPath,
   localizedPath,
@@ -30,22 +29,13 @@ function shouldSkip(pathname: string): boolean {
   );
 }
 
-function nextWithLocale(request: NextRequest, locale: string) {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set(LOCALE_HEADER, locale);
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
-}
-
 export function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
   if (shouldSkip(pathname)) return NextResponse.next();
 
-  const currentLocale = pathLocale(pathname);
-  if (currentLocale) return nextWithLocale(request, currentLocale);
+  // 已带规范语言前缀：直接放行（页面从路由参数取 locale，
+  // 不再注入请求头——那会把全站页面拖成动态渲染）
+  if (pathLocale(pathname)) return NextResponse.next();
 
   // /zh、/zh-cn、/en-US 等别名/大小写前缀：308 归一到规范前缀，
   // 否则会跳到 /zh-CN/zh-cn/... 404，Search Console 报「重定向错误」

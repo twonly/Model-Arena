@@ -5,9 +5,9 @@ import test from "node:test";
 import { DATASET_LICENSE_URL } from "../lib/structured-data.ts";
 
 const datasetPages = [
-  "app/model/[slug]/page.tsx",
-  "app/pricing/page.tsx",
-  "app/stats/page.tsx",
+  "app/[lang]/model/[slug]/page.tsx",
+  "app/[lang]/pricing/page.tsx",
+  "app/[lang]/stats/page.tsx",
 ];
 
 test("Dataset JSON-LD pages use the shared license URL", () => {

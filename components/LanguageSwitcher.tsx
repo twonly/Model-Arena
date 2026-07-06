@@ -1,6 +1,6 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { LOCALES, localizedPath, stripLocalePrefix, type Locale } from "@/lib/i18n";
 import { useI18n } from "./I18nProvider";
 
@@ -11,15 +11,16 @@ const LABELS: Record<Locale, string> = {
 
 export function LanguageSwitcher({ compact = false }: { compact?: boolean }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const router = useRouter();
   const { locale, messages, setLocalePreference } = useI18n();
 
   const switchTo = (nextLocale: Locale) => {
     setLocalePreference(nextLocale);
     const stripped = stripLocalePrefix(pathname).pathname;
-    const query = searchParams.toString();
-    router.push(localizedPath(`${stripped}${query ? `?${query}` : ""}`, nextLocale));
+    // 查询串只在点击时才需要，从 location 现取——useSearchParams 会触发
+    // CSR bailout，把使用本组件的页面全部拖出静态预渲染
+    const search = window.location.search;
+    router.push(localizedPath(`${stripped}${search}`, nextLocale));
   };
 
   return (

@@ -1,4 +1,4 @@
-import MePage from "../../me/page";
+import MePage from "./MeClient";
 import { localizedMetadata } from "@/lib/i18n-metadata";
 import { normalizeLocale, DEFAULT_LOCALE } from "@/lib/i18n";
 
