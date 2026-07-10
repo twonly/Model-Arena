@@ -22,8 +22,8 @@ export const BRAND = {
     "TOKRACE 是免费开源的大模型测速与 AI 模型评测工具：同一个 Prompt 并发对比多个 LLM 的首 Token 时延、输出 TPS、峰值速度与稳定性，支持免费模型试用、免费评测样例、分享快照和速度榜。",
   descEn:
     "TOKRACE is a free, open-source LLM speed testing and AI model evaluation bench for developers and AI reviewers. Run free model trials, compare TTFT, output TPS, peak speed and stability, then share evidence snapshots and leaderboards.",
-  /** 出品冠名（运营人格，保留） */
-  publisher: "AI拯救打工人",
+  /** 出品冠名：中性品牌名（个人运营署名暂不对外，勿在 UI/metadata 引用） */
+  publisher: "TOKRACE",
 } as const;
 
 /**

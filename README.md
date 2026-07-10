@@ -205,7 +205,6 @@ Repository: [github.com/twonly/Model-Arena](https://github.com/twonly/Model-Aren
 ## Contact
 
 - Website: [www.tokrace.com](https://www.tokrace.com)
-- Xiaohongshu: [ai_love_worker / AI拯救打工人](https://www.xiaohongshu.com/user/profile/6467b1210000000010027a51)
 - Speed board: [tokrace.com/stats](https://www.tokrace.com/stats)
 - Pricing table: [tokrace.com/pricing](https://www.tokrace.com/pricing)
 
