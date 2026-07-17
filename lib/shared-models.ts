@@ -51,6 +51,15 @@ export const SHARED_MODELS: SharedModel[] = [
       '{"max_tokens": 256000, "thinking": {"type": "enabled", "budget_tokens": 224000}}',
   },
   {
+    id: "k3",
+    provider: "kimi",
+    name: "Kimi K3",
+    kind: "anthropic",
+    baseUrl: "https://api.kimi.com/coding/",
+    model: "k3",
+    extraBody: '{"max_tokens": 1000000}',
+  },
+  {
     id: "mimo",
     provider: "xiaomi",
     name: "小米 MiMo V2.5",
