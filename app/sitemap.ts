@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { BRAND } from "@/lib/brand";
 import { fetchModelStats, modelSlug, comparePairs, type ModelStat } from "@/lib/stats";
 import { BEST_METRICS } from "@/lib/best";
+import { PRELAUNCH_MODELS } from "@/lib/seo-models";
 import { LOCALES, localizedPath, type Locale } from "@/lib/i18n";
 
 // 让 sitemap 随排行榜刷新（模型页是动态的）
@@ -93,5 +94,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     dynamicRoutes = [...modelRoutes, ...compareRoutes];
   }
 
-  return [...staticRoutes, ...dynamicRoutes];
+  // 精选待实测模型的占位页（发布日即入 sitemap）；已有实测数据的 slug 交给上面的动态路由，避免重复
+  const prelaunchRoutes = PRELAUNCH_MODELS.filter((p) => !slugLastMod.has(p.slug)).flatMap((p) =>
+    allLocales(`/model/${p.slug}`, { changeFrequency: "daily", priority: 0.7 })
+  );
+
+  return [...staticRoutes, ...dynamicRoutes, ...prelaunchRoutes];
 }

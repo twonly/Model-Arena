@@ -46,6 +46,22 @@
   },
   {
     "matchIds": [
+      "kimi-k3",
+      "k3"
+    ],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K3",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 20,
+    "inputHit": 2,
+    "output": 100,
+    "sourceName": "Kimi K3 定价",
+    "sourceUrl": "https://platform.kimi.com/docs/pricing/chat-k3",
+    "verified": "2026-07-21"
+  },
+  {
+    "matchIds": [
       "kimi-k2.7-code-highspeed"
     ],
     "provider": "Moonshot Kimi",

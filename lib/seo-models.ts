@@ -12,6 +12,41 @@ export interface ComparePair {
   canonical: string;
 }
 
+/**
+ * 精选「已发布、待实测」模型：刚上线、已进试用池但还没攒够速度样本的新模型。
+ * 用于让 /model/[slug] 在有真实数据前就渲染一个可索引的占位页（承接发布当天的
+ * 「XXX 速度 / 评测」搜索），一旦累积到样本，页面自动切换成真实数据版。
+ *
+ * slug 必须等于 modelSlug(该模型将来在榜单上的展示名)，占位页与 live 页才同 URL。
+ * 展示名由 /admin/models 的 canonical display_name 决定（见 lib/stats.ts resolve）。
+ * contextTokens / priceHintZh 仅用于占位页正文，避免「薄内容」。
+ */
+export interface PrelaunchModel {
+  slug: string;
+  name: string;
+  provider: string;
+  /** 上下文窗口（token），用于占位页正文 */
+  contextTokens?: number;
+  blurbZh: string;
+  blurbEn: string;
+}
+
+export const PRELAUNCH_MODELS: PrelaunchModel[] = [
+  {
+    slug: "kimi-k3",
+    name: "Kimi K3",
+    provider: "Moonshot Kimi",
+    contextTokens: 1_048_576,
+    blurbZh:
+      "月之暗面新一代模型 Kimi K3，1,048,576 tokens 超长上下文，已加入本站免费试跑池。真实速度数据（输出 tok/s、首 Token 时延）正在采集中——欢迎来跑第一轮。",
+    blurbEn:
+      "Moonshot's next-gen Kimi K3 ships a 1,048,576-token context window and is now in this site's free trial pool. Real-world speed data (output tok/s, TTFT) is still being collected — be the first to run it.",
+  },
+];
+
+export const prelaunchBySlug = (slug: string): PrelaunchModel | undefined =>
+  PRELAUNCH_MODELS.find((m) => m.slug === slug);
+
 export function fmtMetric(n: number, digits = 0): string {
   if (!Number.isFinite(n) || n <= 0) return "—";
   return n.toLocaleString("en-US", { maximumFractionDigits: digits });

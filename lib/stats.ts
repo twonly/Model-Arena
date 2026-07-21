@@ -166,7 +166,9 @@ export async function fetchModelStats(
       .map((r) => r.output_tokens)
       .filter((v): v is number => v != null && v > 0);
     stats.push({
-      model: rs[0].model,
+      // 展示名走 canonical 注册表（display_name / 合并目标），而非原始 model id，
+      // 使 /admin/models 里配置的展示名真正驱动榜单与 SEO 页的标签和 slug。
+      model: resolve(rs[0].model).display,
       provider: rs[0].provider,
       samples: rs.length,
       avgContentTps: avg(tps),
