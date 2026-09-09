@@ -142,6 +142,18 @@ export default async function Landing({
           <span className="num text-ink">{messages.home.leadMetrics}</span>
           {messages.home.leadSuffix}
         </p>
+        <Link
+          href={h("/model/deepseek-v4-1-flash")}
+          className="mx-auto mt-5 inline-flex items-center gap-2 rounded-full border border-line bg-card px-3.5 py-2 text-[12px] font-semibold text-ink shadow-sm hover:border-ink/30"
+        >
+          <span className="rounded-full bg-ink px-2 py-0.5 text-[9px] font-black tracking-wider text-paper">
+            PREVIEW
+          </span>
+          {locale === "zh-CN"
+            ? "DeepSeek V4.1 Flash 限时预览 · 查看 API 状态与实测"
+            : "DeepSeek V4.1 Flash limited preview · API status and speed test"}
+          <span aria-hidden>→</span>
+        </Link>
         <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
           <Link
             href={h("/arena?sample=1")}

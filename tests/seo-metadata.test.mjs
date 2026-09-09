@@ -3,6 +3,7 @@ import test from "node:test";
 
 import { BRAND, SEO_KEYWORDS } from "../lib/brand.ts";
 import { enMessages, zhMessages } from "../lib/i18n-messages.ts";
+import { PRELAUNCH_MODELS } from "../lib/seo-models.ts";
 
 test("SEO metadata covers free and open-source search intent", () => {
   assert.match(BRAND.descZh, /免费开源/);
@@ -27,3 +28,10 @@ test("SEO keyword list includes free trial and open-source variants", () => {
   }
 });
 
+test("DeepSeek V4.1 Flash has a stable SEO landing page identity", () => {
+  const model = PRELAUNCH_MODELS.find((item) => item.slug === "deepseek-v4-1-flash");
+  assert.equal(model?.name, "DeepSeek V4.1 Flash");
+  assert.equal(model?.apiModelId, "deepseek-v4.1-flash-expires-on-0910");
+  assert.match(model?.metadataTitleZh ?? "", /DeepSeek V4\.1 Flash/);
+  assert.match(model?.noticeZh ?? "", /未出现在 DeepSeek 公开 \/models 目录/);
+});

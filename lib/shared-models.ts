@@ -20,7 +20,15 @@ export interface SharedModel {
   model: string;
   /** 厂商私有参数（JSON 字符串），如 Kimi 的 thinking 开关 */
   extraBody?: string;
+  /** 限时模型到期时间；到期后客户端不再展示、服务端也拒绝继续注入共享 Key */
+  availableUntil?: string;
+  /** 新上架时向已有用户的本地模型列表补一次，避免只对首次访问者可见 */
+  promoted?: boolean;
 }
+
+export const DEEPSEEK_V41_MODEL_ID = "deepseek-v4.1-flash-expires-on-0910";
+export const DEEPSEEK_V41_AVAILABLE_UNTIL = "2026-09-10T00:00:00+08:00";
+export const SHARED_PROMOTION_VERSION = "2026-09-09-deepseek-v4-1-flash";
 
 export const SHARED_MODELS: SharedModel[] = [
   {
@@ -30,6 +38,16 @@ export const SHARED_MODELS: SharedModel[] = [
     kind: "openai",
     baseUrl: "https://api.deepseek.com/v1",
     model: "deepseek-v4-flash",
+  },
+  {
+    id: "deepseek-v4-1-flash",
+    provider: "deepseek",
+    name: "DeepSeek V4.1 Flash（限时预览）",
+    kind: "openai",
+    baseUrl: "https://api.deepseek.com/v1",
+    model: DEEPSEEK_V41_MODEL_ID,
+    availableUntil: DEEPSEEK_V41_AVAILABLE_UNTIL,
+    promoted: true,
   },
   {
     id: "deepseek-pro",
@@ -106,16 +124,28 @@ export const FREE_LIMIT_ANON = 5; // 每浏览器（clientId）
 export const FREE_LIMIT_USER = 15; // 登录后（5 + 10）
 export const IP_DAILY_CEILING = 50; // 每 IP 每天总量天花板（防清缓存刷 clientId）
 
-export const sharedById = (id: string): SharedModel | undefined =>
-  SHARED_MODELS.find((m) => m.id === id);
+export function sharedModelIsAvailable(
+  model: SharedModel,
+  now: Date = new Date()
+): boolean {
+  if (!model.availableUntil) return true;
+  const deadline = Date.parse(model.availableUntil);
+  return Number.isFinite(deadline) && now.getTime() < deadline;
+}
+
+export const sharedById = (
+  id: string,
+  now: Date = new Date()
+): SharedModel | undefined =>
+  SHARED_MODELS.find((m) => m.id === id && sharedModelIsAvailable(m, now));
 
 /**
  * 转成 ModelEndpoint 形态（无 key，shared:true），用于首访预置进 ma.endpoints。
  * 注意 import type 避免环依赖。
  */
 import type { ModelEndpoint } from "./types";
-export function sharedAsEndpoints(): ModelEndpoint[] {
-  return SHARED_MODELS.map((m) => ({
+export function sharedAsEndpoints(now: Date = new Date()): ModelEndpoint[] {
+  return SHARED_MODELS.filter((m) => sharedModelIsAvailable(m, now)).map((m) => ({
     id: m.id, // 跑时即 sharedId
     name: m.name,
     kind: m.kind,
@@ -126,6 +156,55 @@ export function sharedAsEndpoints(): ModelEndpoint[] {
     extraBody: m.extraBody,
     shared: true,
   }));
+}
+
+/**
+ * 把本次推广的限时模型补到已有用户列表；到期后即使模型留在 localStorage 也会清掉。
+ * addMissing 由版本标记控制，确保用户手动删除后不会每次刷新都被重新加入。
+ */
+export function reconcilePromotedShared(
+  endpoints: ModelEndpoint[],
+  addMissing: boolean,
+  now: Date = new Date()
+): ModelEndpoint[] {
+  const promoted = SHARED_MODELS.filter((m) => m.promoted);
+  if (!promoted.length) return endpoints;
+
+  const promotedById = new Map(promoted.map((m) => [m.id, m]));
+  const active = new Map(
+    sharedAsEndpoints(now)
+      .filter((endpoint) => promotedById.has(endpoint.id))
+      .map((endpoint) => [endpoint.id, endpoint])
+  );
+
+  let changed = false;
+  const next = endpoints.flatMap((endpoint) => {
+    if (!endpoint.shared || !promotedById.has(endpoint.id)) return [endpoint];
+    const current = active.get(endpoint.id);
+    if (!current) {
+      changed = true;
+      return [];
+    }
+    active.delete(endpoint.id);
+    const refreshed = { ...current, enabled: endpoint.enabled };
+    if (
+      endpoint.name !== refreshed.name ||
+      endpoint.kind !== refreshed.kind ||
+      endpoint.baseUrl !== refreshed.baseUrl ||
+      endpoint.model !== refreshed.model ||
+      endpoint.extraBody !== refreshed.extraBody
+    ) {
+      changed = true;
+      return [refreshed];
+    }
+    return [endpoint];
+  });
+
+  if (addMissing && active.size) {
+    next.push(...active.values());
+    changed = true;
+  }
+  return changed ? next : endpoints;
 }
 
 /**

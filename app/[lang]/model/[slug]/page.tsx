@@ -62,9 +62,11 @@ export async function generateMetadata({
     if (pre) {
       const isZh = locale === "zh-CN";
       const title = isZh
-        ? `${pre.name} 速度实测：数据采集中`
-        : `${pre.name} speed test: data collecting`;
-      const description = isZh ? pre.blurbZh : pre.blurbEn;
+        ? pre.metadataTitleZh ?? `${pre.name} 速度实测：数据采集中`
+        : pre.metadataTitleEn ?? `${pre.name} speed test: data collecting`;
+      const description = isZh
+        ? pre.metadataDescriptionZh ?? pre.blurbZh
+        : pre.metadataDescriptionEn ?? pre.blurbEn;
       const canonical = localizedPath(`/model/${slug}`, locale);
       return {
         title,
@@ -515,13 +517,45 @@ function PrelaunchModelPage({ pre, locale }: { pre: PrelaunchModel; locale: stri
   const ctx = pre.contextTokens
     ? pre.contextTokens.toLocaleString("en-US")
     : null;
+  const isLimitedPreview = Boolean(pre.availableUntil);
+  const previewActive = pre.availableUntil
+    ? Date.now() < Date.parse(pre.availableUntil)
+    : true;
+  const previewDate = pre.availableUntil?.slice(0, 10);
+  const status = isZh
+    ? previewActive
+      ? pre.statusZh ?? "限时预览"
+      : "限时预览已结束"
+    : previewActive
+      ? pre.statusEn ?? "Limited preview"
+      : "Limited preview ended";
 
   const faq = [
+    ...(pre.apiModelId
+      ? [
+          {
+            q: isZh ? `${pre.name} 的 API model ID 是什么？` : `What is the ${pre.name} API model ID?`,
+            a: isZh
+              ? `本站在 ${pre.verifiedOn ?? "最近一次检查"} 直连验证可调用的临时 ID 是 ${pre.apiModelId}。它没有出现在当日公开 /models 返回列表中，因此应按限时预览而非稳定生产型号使用。`
+              : `TOKRACE directly verified the temporary ID ${pre.apiModelId} on ${pre.verifiedOn ?? "its latest check"}. It was absent from the public /models response that day, so treat it as a limited preview rather than a stable production model.`,
+          },
+          {
+            q: isZh ? `${pre.name} 是正式发布版吗？` : `Is ${pre.name} generally available?`,
+            a: isZh
+              ? `不是。当前可验证的是一个名称带 expires-on-0910 的临时模型 ID；DeepSeek 尚未在公开模型目录、更新日志或价格页单独发布 V4.1 Flash。`
+              : `No. The currently verified model is a temporary ID containing expires-on-0910; DeepSeek has not separately announced V4.1 Flash in its public model catalog, changelog, or pricing page.`,
+          },
+        ]
+      : []),
     {
       q: isZh ? `${pre.name} 的速度数据什么时候有？` : `When will ${pre.name} speed data be available?`,
       a: isZh
-        ? `${pre.name} 已进入本站免费试跑池，速度指标来自用户真实运行的匿名汇总。样本达到阈值后，本页会自动显示中位输出 tok/s、首 Token 时延与峰值速度。你现在就可以来跑第一轮。`
-        : `${pre.name} is already in the free trial pool; speed metrics come from anonymized real user runs. Once enough samples accumulate, this page automatically shows median output tok/s, TTFT and peak speed. You can run the first test right now.`,
+        ? previewActive
+          ? `${pre.name} 已进入本站免费试跑池，速度指标来自用户真实运行的匿名汇总。样本达到阈值后，本页会自动显示中位输出 tok/s、首 Token 时延与峰值速度。你现在就可以来跑第一轮。`
+          : `${pre.name} 的限时试跑入口已经关闭；如果预览期内形成了有效样本，本页会继续保留中位输出 tok/s、首 Token 时延与峰值速度，作为可复查的历史记录。`
+        : previewActive
+          ? `${pre.name} is already in the free trial pool; speed metrics come from anonymized real user runs. Once enough samples accumulate, this page automatically shows median output tok/s, TTFT and peak speed. You can run the first test right now.`
+          : `The limited ${pre.name} trial has ended. If valid samples were collected during the preview, this page will keep the median output tok/s, TTFT and peak speed as a reviewable historical record.`,
     },
     ...(price
       ? [
@@ -570,18 +604,20 @@ function PrelaunchModelPage({ pre, locale }: { pre: PrelaunchModel; locale: stri
             ← {isZh ? "速度排行榜" : "Speed leaderboard"}
           </Link>
         </div>
-        <Link
-          href={h("/arena")}
-          className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"
-        >
-          {isZh ? "测一下" : "Test"} {pre.name} ▶
-        </Link>
+        {previewActive && (
+          <Link
+            href={h("/arena")}
+            className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"
+          >
+            {isZh ? "测一下" : "Test"} {pre.name} ▶
+          </Link>
+        )}
       </nav>
 
       <header className="mb-6">
         <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-card px-2.5 py-1 text-[11px] font-semibold text-faint">
           <span style={{ color: "var(--accent)" }}>●</span>
-          {isZh ? "数据采集中" : "Collecting data"}
+          {status}
         </div>
         <h1
           className="text-[28px] font-black leading-tight"
@@ -591,6 +627,13 @@ function PrelaunchModelPage({ pre, locale }: { pre: PrelaunchModel; locale: stri
         </h1>
         <p className="mt-2 text-[13.5px] text-faint">{isZh ? pre.blurbZh : pre.blurbEn}</p>
       </header>
+
+      {(pre.noticeZh || pre.noticeEn) && (
+        <section className="mb-6 rounded-lg border border-amber-500/30 bg-amber-50/60 px-4 py-3 text-[12.5px] leading-relaxed text-amber-950 dark:bg-amber-950/15 dark:text-amber-100">
+          <strong>{isZh ? "状态说明：" : "Status note: "}</strong>
+          {isZh ? pre.noticeZh : pre.noticeEn}
+        </section>
+      )}
 
       <div className="grid grid-cols-3 gap-3">
         <Stat label={isZh ? "中位输出" : "Median output"} value="—" unit="tok/s" accent />
@@ -607,6 +650,21 @@ function PrelaunchModelPage({ pre, locale }: { pre: PrelaunchModel; locale: stri
         <h2 className="text-[15px] font-bold">{isZh ? "模型规格" : "Model specs"}</h2>
         <div className="mt-3 grid gap-3 text-[13px] sm:grid-cols-2">
           <SpecRow label={isZh ? "厂商" : "Provider"} value={pre.provider} />
+          {pre.apiModelId && (
+            <SpecRow label="API model ID" value={pre.apiModelId} />
+          )}
+          {pre.verifiedOn && (
+            <SpecRow
+              label={isZh ? "本站直连验证" : "Direct verification"}
+              value={pre.verifiedOn}
+            />
+          )}
+          {previewDate && (
+            <SpecRow
+              label={isZh ? "ID 标注到期" : "ID-labeled expiry"}
+              value={previewDate}
+            />
+          )}
           {ctx && (
             <SpecRow label={isZh ? "上下文窗口" : "Context window"} value={`${ctx} tokens`} />
           )}
@@ -628,15 +686,37 @@ function PrelaunchModelPage({ pre, locale }: { pre: PrelaunchModel; locale: stri
             </Link>
           </p>
         )}
+        {pre.sourceUrl && (
+          <p className="mt-3 text-[11px] text-faint">
+            {isZh ? "参考：" : "Reference: "}
+            <a
+              href={pre.sourceUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline hover:text-ink"
+            >
+              {isZh ? pre.sourceNameZh : pre.sourceNameEn}
+            </a>
+          </p>
+        )}
       </section>
 
       <div className="mt-7 flex flex-wrap gap-2">
-        <Link
-          href={h("/arena")}
-          className="rounded-md bg-ink px-4 py-2 text-[13px] font-bold text-paper"
-        >
-          {isZh ? `来跑第一轮 ${pre.name}` : `Run the first ${pre.name} test`} ▶
-        </Link>
+        {previewActive ? (
+          <Link
+            href={h("/arena")}
+            className="rounded-md bg-ink px-4 py-2 text-[13px] font-bold text-paper"
+          >
+            {isZh ? `限时试跑 ${pre.name}` : `Try ${pre.name} while available`} ▶
+          </Link>
+        ) : (
+          <Link
+            href={h("/model/deepseek-v4-flash")}
+            className="rounded-md bg-ink px-4 py-2 text-[13px] font-bold text-paper"
+          >
+            {isZh ? "查看 DeepSeek V4 Flash 实测" : "View DeepSeek V4 Flash results"} →
+          </Link>
+        )}
         <Link
           href={h("/stats")}
           className="rounded-md border border-line px-4 py-2 text-[13px] text-faint hover:text-ink"

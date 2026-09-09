@@ -3,8 +3,12 @@ import {
   fetchModelStats,
   modelSlug,
   type ModelStat,
-} from "./stats";
-import { DEFAULT_LOCALE, type Locale } from "./i18n";
+} from "./stats.ts";
+import { DEFAULT_LOCALE, type Locale } from "./i18n.ts";
+import {
+  DEEPSEEK_V41_AVAILABLE_UNTIL,
+  DEEPSEEK_V41_MODEL_ID,
+} from "./shared-models.ts";
 
 export interface ComparePair {
   a: ModelStat;
@@ -29,9 +33,53 @@ export interface PrelaunchModel {
   contextTokens?: number;
   blurbZh: string;
   blurbEn: string;
+  /** 搜索页可展示的实际 API model id；未正式公开的预览型号尤其需要明确 */
+  apiModelId?: string;
+  /** 本站最近一次真实直连验证日期 */
+  verifiedOn?: string;
+  /** 限时试跑入口的自动截止时间；SEO 页面在截止后仍保留为历史说明页 */
+  availableUntil?: string;
+  statusZh?: string;
+  statusEn?: string;
+  noticeZh?: string;
+  noticeEn?: string;
+  metadataTitleZh?: string;
+  metadataTitleEn?: string;
+  metadataDescriptionZh?: string;
+  metadataDescriptionEn?: string;
+  sourceUrl?: string;
+  sourceNameZh?: string;
+  sourceNameEn?: string;
 }
 
 export const PRELAUNCH_MODELS: PrelaunchModel[] = [
+  {
+    slug: "deepseek-v4-1-flash",
+    name: "DeepSeek V4.1 Flash",
+    provider: "DeepSeek",
+    apiModelId: DEEPSEEK_V41_MODEL_ID,
+    verifiedOn: "2026-09-09",
+    availableUntil: DEEPSEEK_V41_AVAILABLE_UNTIL,
+    statusZh: "限时预览",
+    statusEn: "Limited preview",
+    metadataTitleZh: "DeepSeek V4.1 Flash 实测：限时预览与 API ID",
+    metadataTitleEn: "DeepSeek V4.1 Flash API preview and speed test",
+    metadataDescriptionZh:
+      "DeepSeek V4.1 Flash 限时预览实测：临时 API ID、2026-09-09 可调用验证、9 月 10 日到期提示、公开目录状态与真实速度数据。",
+    metadataDescriptionEn:
+      "DeepSeek V4.1 Flash preview: verified temporary API ID, September 10 expiry notice, public catalog status, and real-world speed test data.",
+    sourceUrl: "https://api-docs.deepseek.com/",
+    sourceNameZh: "DeepSeek API 公开文档",
+    sourceNameEn: "DeepSeek public API docs",
+    noticeZh:
+      "截至 2026-09-09，该临时 ID 尚未出现在 DeepSeek 公开 /models 目录，官方也未单独公布 V4.1 Flash 的价格与完整规格。本站只陈述已经直连验证的可调用性，不把它写成正式发布版。",
+    noticeEn:
+      "As of 2026-09-09, this temporary ID is not listed in DeepSeek's public /models catalog, and separate V4.1 Flash pricing and full specifications have not been published. TOKRACE reports only the connectivity it verified and does not present this preview as a general release.",
+    blurbZh:
+      "DeepSeek V4.1 Flash 限时预览已加入 TOKRACE 免费试跑池。本站于 2026-09-09 直连验证临时模型 ID 可调用；该 ID 标注 9 月 10 日到期，真实输出速度与首 Token 时延正在采集中。",
+    blurbEn:
+      "The limited DeepSeek V4.1 Flash preview is now in TOKRACE's free trial pool. TOKRACE verified the temporary model ID with a direct API call on 2026-09-09; the ID says it expires on September 10, while real-world output speed and TTFT samples are being collected.",
+  },
   {
     slug: "kimi-k3",
     name: "Kimi K3",

@@ -1,7 +1,13 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 
-import { graduateShared } from "../lib/shared-models.ts";
+import {
+  DEEPSEEK_V41_MODEL_ID,
+  graduateShared,
+  reconcilePromotedShared,
+  sharedAsEndpoints,
+  sharedById,
+} from "../lib/shared-models.ts";
 
 const trial = (over = {}) => ({
   id: "deepseek-pro",
@@ -60,4 +66,25 @@ test("does not touch the user's own enabled flag", () => {
   const eps = [own({ enabled: false }), trial()];
   const next = graduateShared(eps);
   assert.equal(next.find((e) => !e.shared).enabled, false);
+});
+
+test("DeepSeek V4.1 Flash is available only during its verified preview window", () => {
+  const during = new Date("2026-09-09T12:00:00+08:00");
+  const after = new Date("2026-09-10T00:00:00+08:00");
+
+  assert.equal(sharedById("deepseek-v4-1-flash", during)?.model, DEEPSEEK_V41_MODEL_ID);
+  assert.equal(sharedById("deepseek-v4-1-flash", after), undefined);
+  assert.ok(sharedAsEndpoints(during).some((e) => e.id === "deepseek-v4-1-flash"));
+  assert.ok(!sharedAsEndpoints(after).some((e) => e.id === "deepseek-v4-1-flash"));
+});
+
+test("promoted preview reaches existing users once and is removed after expiry", () => {
+  const during = new Date("2026-09-09T12:00:00+08:00");
+  const after = new Date("2026-09-10T00:00:00+08:00");
+  const existing = [trial()];
+  const promoted = reconcilePromotedShared(existing, true, during);
+
+  assert.ok(promoted.some((e) => e.id === "deepseek-v4-1-flash"));
+  assert.strictEqual(reconcilePromotedShared(existing, false, during), existing);
+  assert.ok(!reconcilePromotedShared(promoted, false, after).some((e) => e.id === "deepseek-v4-1-flash"));
 });

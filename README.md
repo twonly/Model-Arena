@@ -60,7 +60,7 @@ Most LLM benchmarks focus on answer quality or synthetic scores. TOKRACE focuses
 
 ### Model and Provider Support
 
-- Built-in presets for DeepSeek, Kimi, Zhipu GLM, Qwen, Doubao, StepFun, MiniMax, OpenAI, Anthropic Claude, Google Gemini, xAI Grok, Groq, OpenRouter, SiliconFlow, and Ollama.
+- Built-in presets for DeepSeek (including the time-limited V4.1 Flash preview), Kimi, Zhipu GLM, Qwen, Doubao, StepFun, MiniMax, OpenAI, Anthropic Claude, Google Gemini, xAI Grok, Groq, OpenRouter, SiliconFlow, and Ollama.
 - Supports both OpenAI-compatible `/chat/completions` APIs and native Anthropic Messages API.
 - Per-model extra JSON parameters for thinking switches, `temperature`, `max_tokens`, `thinking.budget_tokens`, vendor-specific options, and vision inputs.
 - Connectivity test and model list fetch for quickly validating a new endpoint.
@@ -77,6 +77,7 @@ Most LLM benchmarks focus on answer quality or synthetic scores. TOKRACE focuses
 - [Speed leaderboard](https://www.tokrace.com/stats): anonymous aggregate TTFT, output TPS, peak speed, token counts, and confidence labels.
 - [Audience board](https://www.tokrace.com/board): model voting and comments.
 - [Model pages](https://www.tokrace.com/model/deepseek-v4-flash): long-term model detail pages.
+- [DeepSeek V4.1 Flash preview](https://www.tokrace.com/model/deepseek-v4-1-flash): verified temporary API ID, availability status, and speed samples.
 - [Model comparison pages](https://www.tokrace.com/compare/deepseek-v4-flash-vs-step-3-7-flash): SEO-friendly pair comparison pages.
 - [LLM API pricing table](https://www.tokrace.com/pricing): input, cache-hit, and output prices for mainstream models.
 
