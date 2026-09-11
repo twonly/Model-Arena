@@ -66,6 +66,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...allLocales("/invite", { changeFrequency: "monthly", priority: 0.7 }),
     ...allLocales("/method", { changeFrequency: "monthly", priority: 0.6 }),
     ...allLocales("/pricing", { changeFrequency: "weekly", priority: 0.8 }),
+    ...allLocales("/providers/orcarouter", {
+      lastModified: new Date("2026-09-11T00:00:00Z"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }),
+    ...["/about", "/contact", "/privacy", "/terms"].flatMap((path) =>
+      allLocales(path, { lastModified: new Date("2026-09-09T00:00:00Z"), changeFrequency: "monthly", priority: 0.3 })
+    ),
     ...BEST_METRICS.flatMap((m) =>
       allLocales(`/best/${m}`, { ...dataMod, changeFrequency: "daily", priority: 0.8 })
     ),

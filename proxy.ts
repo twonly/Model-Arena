@@ -17,7 +17,7 @@ function shouldSkip(pathname: string): boolean {
     // 可嵌入挂件：第三方 iframe 引用，不能被语言重定向（307 会让嵌入失败）
     pathname.startsWith("/embed") ||
     pathname.startsWith("/_next/") ||
-    pathname.startsWith("/auth/callback") ||
+    pathname.startsWith("/auth/") ||
     pathname === "/favicon.ico" ||
     pathname === "/robots.txt" ||
     pathname === "/sitemap.xml" ||

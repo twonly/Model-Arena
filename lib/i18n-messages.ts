@@ -140,8 +140,8 @@ export const zhMessages = {
       },
       {
         icon: "🔐",
-        title: "Key 只存本地，绝不留存",
-        desc: "API Key 只存在你本机 localStorage（加密）。每次请求经同源服务器中转一次，用完即弃，不记录、不落库。",
+        title: "Key 默认本地保存",
+        desc: "API Key 默认保存在浏览器，请求时经代理转发。主动云同步时，配置在浏览器加密后才上传。",
       },
       {
         icon: "📷",
@@ -371,8 +371,8 @@ export const enMessages = {
       },
       {
         icon: "🔐",
-        title: "Keys stay local",
-        desc: "API keys stay in encrypted localStorage. Requests pass through the same-origin server once and are not stored.",
+        title: "Keys saved locally by default",
+        desc: "API keys are saved in your browser and forwarded when you make requests. Optional cloud backups are encrypted in your browser before upload.",
       },
       {
         icon: "📷",

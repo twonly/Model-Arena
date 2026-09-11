@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useI18n } from "@/components/I18nProvider";
+import { OrcaRouterConnectButton } from "@/components/OrcaRouterConnectButton";
 import { PROVIDER_PRESETS, type ProviderPreset } from "@/lib/providers";
 import type { ModelEndpoint } from "@/lib/types";
 
@@ -144,6 +145,7 @@ export function SettingsDialog({
   const kindLabel = en ? KIND_LABEL_EN : KIND_LABEL;
   const extraPresets = en ? EXTRA_PRESETS_EN : EXTRA_PRESETS;
   const [draft, setDraft] = useState<ModelEndpoint | null>(null);
+  const [presetId, setPresetId] = useState<string | null>(null);
   const [showKey, setShowKey] = useState(false);
   const [presetNote, setPresetNote] = useState<string | undefined>();
   const [exampleModels, setExampleModels] = useState<string[]>([]);
@@ -186,6 +188,7 @@ export function SettingsDialog({
   /** 关闭时丢弃未保存草稿，避免下次打开残留编辑态（看起来像“关闭不生效”） */
   function handleClose() {
     setDraft(null);
+    setPresetId(null);
     setModels(null);
     setModelsError("");
     setModelFilter("");
@@ -206,12 +209,14 @@ export function SettingsDialog({
       ...(p.extraBody ? { extraBody: p.extraBody } : {}),
     });
     setPresetNote(p.note);
+    setPresetId(p.id);
     setExampleModels(p.exampleModels);
     resetAux();
   };
 
   const startEdit = (ep: ModelEndpoint) => {
     setDraft({ ...ep });
+    setPresetId(null);
     setPresetNote(undefined);
     setExampleModels([]);
     resetAux();
@@ -228,6 +233,7 @@ export function SettingsDialog({
         : [...endpoints, draft]
     );
     setDraft(null);
+    setPresetId(null);
     resetAux();
   };
 
@@ -408,8 +414,8 @@ export function SettingsDialog({
             </div>
             <div className="text-[11px] text-faint">
               {en
-                ? "API Keys are stored only in this browser (localStorage). Requests are proxied through this site, not any third party."
-                : "API Key 只保存在你本机浏览器（localStorage），请求经本地服务转发，不经过任何第三方"}
+                ? "Keys are saved in this browser by default and sent through TOKRACE to the provider you choose."
+                : "Key 默认保存在本机浏览器，请求会经 TOKRACE 转发给你选择的模型服务商"}
             </div>
           </div>
           <button
@@ -618,6 +624,28 @@ export function SettingsDialog({
                 </button>
               </div>
             </label>
+            {presetId === "orcarouter" && (
+              <div className="rounded-md border border-line bg-card px-3 py-2.5">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <div className="text-[11.5px] leading-5 text-faint">
+                    {en
+                      ? "Authorize with PKCE to create an OrcaRouter key and fill this connection automatically."
+                      : "通过 PKCE 授权创建 OrcaRouter Key，并自动写入这条接入配置。"}
+                  </div>
+                  <OrcaRouterConnectButton
+                    returnTo={`/${locale}/arena`}
+                    className="rounded-md bg-ink px-3 py-1.5 text-[11.5px] font-bold text-paper disabled:opacity-50"
+                  >
+                    {en ? "Connect OrcaRouter" : "一键连接 OrcaRouter"}
+                  </OrcaRouterConnectButton>
+                </div>
+                <div className="mt-1 text-[10.5px] text-faint/80">
+                  {en
+                    ? "Manual setup still works: paste an sk-orca-… key below."
+                    : "也可以继续手动粘贴 sk-orca-… Key。"}
+                </div>
+              </div>
+            )}
             <div className="block">
               <div className="mb-1 flex items-center justify-between">
                 <div className="text-[11.5px] text-faint">{en ? "Model ID" : "模型 ID"}</div>

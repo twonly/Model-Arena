@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import { BRAND, OG_IMAGE, SEO_KEYWORDS } from "@/lib/brand";
 import { JsonLd } from "@/components/JsonLd";
 import { I18nProvider } from "@/components/I18nProvider";
+import { SiteFooter } from "@/components/SiteFooter";
 import { getMessages } from "@/lib/i18n-messages";
 import {
   DEFAULT_LOCALE,
@@ -41,6 +42,10 @@ function siteMetadata(locale: Locale): Metadata {
     keywords: SEO_KEYWORDS,
     authors: [{ name: BRAND.publisher }],
     creator: BRAND.publisher,
+    // Site ownership verification only; this does not load ads or advertising cookies.
+    other: {
+      "google-adsense-account": "ca-pub-3004733289316212",
+    },
     alternates: {
       canonical: localizedPath("/", locale),
       languages: {
@@ -156,6 +161,7 @@ export default async function RootLayout({
         <JsonLd data={siteJsonLd(locale)} />
         <I18nProvider locale={locale} messages={messages}>
           {children}
+          <SiteFooter />
         </I18nProvider>
         <Analytics />
         <SpeedInsights />

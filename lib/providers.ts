@@ -124,6 +124,19 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     exampleModels: ["deepseek/deepseek-chat", "anthropic/claude-sonnet-4.6"],
   },
   {
+    id: "orcarouter",
+    label: "OrcaRouter",
+    kind: "openai",
+    baseUrl: "https://api.orcarouter.ai/v1",
+    exampleModels: [
+      "orcarouter/auto",
+      "openai/gpt-4o-mini",
+      "anthropic/claude-sonnet-4.6",
+      "deepseek/deepseek-chat",
+    ],
+    note: "支持一键授权或手动粘贴 sk-orca-… Key。Auto 会按请求动态选模型；做可复现测速时请选择固定模型 ID。",
+  },
+  {
     id: "ollama",
     label: "Ollama 本地",
     kind: "openai",

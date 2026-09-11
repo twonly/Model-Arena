@@ -11,6 +11,7 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?style=flat-square&logo=next.js)](https://nextjs.org)
 [![React](https://img.shields.io/badge/React-19-149eca?style=flat-square&logo=react&logoColor=white)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178c6?style=flat-square&logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![OrcaRouter](https://img.shields.io/badge/OrcaRouter-integrated-0b7285?style=flat-square)](https://www.orcarouter.ai/ref/ref_d0785b3ec87207162565)
 
 [Live Demo](https://www.tokrace.com) ·
 [Speed Board](https://www.tokrace.com/stats) ·
@@ -60,7 +61,7 @@ Most LLM benchmarks focus on answer quality or synthetic scores. TOKRACE focuses
 
 ### Model and Provider Support
 
-- Built-in presets for DeepSeek (including the time-limited V4.1 Flash preview), Kimi, Zhipu GLM, Qwen, Doubao, StepFun, MiniMax, OpenAI, Anthropic Claude, Google Gemini, xAI Grok, Groq, OpenRouter, SiliconFlow, and Ollama.
+- Built-in presets for DeepSeek (including the time-limited V4.1 Flash preview), Kimi, Zhipu GLM, Qwen, Doubao, StepFun, MiniMax, OpenAI, Anthropic Claude, Google Gemini, xAI Grok, Groq, OpenRouter, **OrcaRouter**, SiliconFlow, and Ollama.
 - Supports both OpenAI-compatible `/chat/completions` APIs and native Anthropic Messages API.
 - Per-model extra JSON parameters for thinking switches, `temperature`, `max_tokens`, `thinking.budget_tokens`, vendor-specific options, and vision inputs.
 - Connectivity test and model list fetch for quickly validating a new endpoint.
@@ -90,7 +91,23 @@ Most LLM benchmarks focus on answer quality or synthetic scores. TOKRACE focuses
 3. Switch to professional mode to add your own provider, model ID, base URL, and API key.
 4. Export screenshots, copy Markdown, create a share page, or contribute anonymous metrics.
 
-Preset shared models are server-side only. Anonymous users can run sample comparisons for free; signed-in users get a higher daily quota. Your own API keys stay in your browser local storage and are never written to the TOKRACE database.
+Preset shared models are server-side only. Anonymous users can run sample comparisons for free; signed-in users get a higher daily quota. Your own API keys are saved in browser local storage by default and forwarded to your selected provider when making requests. Optional cloud sync stores a browser-encrypted backup that may include keys. See the [privacy policy](https://www.tokrace.com/en/privacy).
+
+### OrcaRouter
+
+TOKRACE includes a first-class [OrcaRouter integration guide](https://www.tokrace.com/en/providers/orcarouter) and provider preset. In **Models → OrcaRouter**, either connect with OAuth 2.0 + PKCE or paste an `sk-orca-…` key manually:
+
+```text
+Protocol:  OpenAI compatible
+Base URL:  https://api.orcarouter.ai/v1
+Model:     orcarouter/auto
+```
+
+`orcarouter/auto` evaluates the router rather than one deterministic model. For reproducible model-to-model benchmarks, select an explicit namespaced model ID from OrcaRouter's model list instead.
+
+[Create an OrcaRouter account](https://www.orcarouter.ai/ref/ref_d0785b3ec87207162565) · [Official API documentation](https://docs.orcarouter.ai/)
+
+The account link is an affiliate link. TOKRACE may receive 5% of qualifying referred workspace spend; this does not affect benchmark measurements or rankings. The integration is attribution, not an endorsement by OrcaRouter.
 
 ### Run Locally
 
@@ -152,7 +169,7 @@ Key files:
 
 ## Privacy and Security
 
-- User-provided API keys are stored locally in the browser, not in the database.
+- User-provided API keys are saved locally by default. Optional cloud sync encrypts configuration and history in the browser before uploading a backup, which can include API keys.
 - The server-side proxy exists to avoid browser CORS issues and normalize streaming formats.
 - Shared sample model keys are injected on the server and never sent to the client.
 - Anonymous telemetry is opt-in and excludes prompts, model outputs, images, and API keys.
@@ -164,7 +181,7 @@ Maintaining this README is the foundation, but it is not the whole GitHub SEO st
 
 - **Description**: `Free, open-source LLM speed test and AI model benchmark tool for TTFT, TPS, token usage, free model trials, and shareable model comparison evidence.`
 - **Website**: `https://www.tokrace.com`
-- **Topics**: `llm`, `llm-benchmark`, `ai-models`, `model-evaluation`, `free-llm-benchmark`, `free-ai-model-evaluation`, `free-model-trial`, `open-source-ai`, `openai`, `anthropic`, `nextjs`, `typescript`, `tokrace`, `ttft`, `tokens-per-second`
+- **Topics**: `llm`, `llm-benchmark`, `ai-models`, `model-evaluation`, `free-llm-benchmark`, `free-ai-model-evaluation`, `free-model-trial`, `open-source-ai`, `openai`, `anthropic`, `orcarouter`, `ai-gateway`, `nextjs`, `typescript`, `tokrace`, `ttft`, `tokens-per-second`
 - **Pinned links**: homepage, speed board, pricing table, model comparison pages, and methodology.
 - **Release notes**: publish short releases when adding providers, pricing pages, benchmarks, or sharing improvements.
 

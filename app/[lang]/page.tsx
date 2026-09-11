@@ -315,6 +315,30 @@ export default async function Landing({
         </div>
       </section>
 
+      <section className="border-t border-line">
+        <div className="mx-auto flex max-w-4xl flex-col items-start justify-between gap-5 px-6 py-10 sm:flex-row sm:items-center">
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-[0.16em] text-accent">
+              NEW PROVIDER
+            </div>
+            <h2 className="mt-1 text-[21px] font-black" style={{ fontFamily: "var(--font-title)" }}>
+              {locale === "zh-CN" ? "现已支持 OrcaRouter" : "Now supports OrcaRouter"}
+            </h2>
+            <p className="mt-2 max-w-2xl text-[13px] leading-relaxed text-faint">
+              {locale === "zh-CN"
+                ? "通过 PKCE 一键连接或手动填写 sk-orca Key，可测试 OrcaRouter Auto 路由与带厂商前缀的固定模型。"
+                : "Connect with PKCE or paste an sk-orca key to test the OrcaRouter Auto route and namespaced fixed models."}
+            </p>
+          </div>
+          <Link
+            href={h("/providers/orcarouter")}
+            className="shrink-0 rounded-md border border-line bg-card px-4 py-2 text-[13px] font-semibold hover:border-ink/40"
+          >
+            {locale === "zh-CN" ? "查看接入方法" : "Integration guide"} →
+          </Link>
+        </div>
+      </section>
+
       {/* 隐私与架构 */}
       <section className="border-t border-line bg-card/60">
         <div className="mx-auto max-w-3xl px-6 py-14 text-center">
@@ -327,19 +351,21 @@ export default async function Landing({
           <p className="mt-4 text-[13.5px] leading-relaxed text-faint">
             {locale === "zh-CN" ? (
               <>
-                API Key 仅保存在
+                API Key 默认保存在
                 <span className="text-ink">你浏览器的 localStorage</span>
-                ，请求经页面同源的轻量代理转发到各厂商（仅为解决浏览器跨域），服务端
-                <span className="text-ink">不记录、不落盘</span>任何密钥与对话内容。
+                ，运行时通过请求代理转发给所选模型服务商。代理
+                <span className="text-ink">不主动持久化</span>密钥或请求正文；
+                主动分享会保存公开快照，云同步会保存浏览器加密后的备份。
                 介意经过任何服务器？项目完全开源——
               </>
             ) : (
               <>
-                API keys are stored only in
+                API keys are saved by default in
                 <span className="text-ink"> your browser localStorage</span>. Requests
-                pass through a same-origin proxy only to avoid browser CORS; the server
-                <span className="text-ink"> does not log or persist</span> keys or
-                conversation content. Prefer no hosted proxy at all? The project is open
+                pass through a proxy to your selected provider. The proxy
+                <span className="text-ink"> does not intentionally persist</span> keys or request bodies.
+                Publishing a share saves a public snapshot; optional cloud sync saves a browser-encrypted backup.
+                Prefer no hosted proxy at all? The project is open
                 source:
               </>
             )}
@@ -455,8 +481,8 @@ function homeJsonLd(locale: Locale) {
             acceptedAnswer: {
               "@type": "Answer",
               text: isZh
-                ? "可以免费试用预置模型并跑免费评测样例；专业使用可填入自己的模型 API Key。项目开源，服务端不存储、不落盘任何密钥。"
-                : "You can try preset models for free and run free evaluation samples. Advanced users can add their own model API keys. The project is open source and the server does not persist keys.",
+                ? "可以在额度内免费试用预置模型并跑评测样例；专业使用可填入自己的模型 API Key，厂商可能对请求收费。项目开源。"
+                : "You can try preset models within the free quota. Advanced users can add their own API keys; their provider may charge for requests. The project is open source.",
             },
           },
           {
@@ -465,8 +491,8 @@ function homeJsonLd(locale: Locale) {
             acceptedAnswer: {
               "@type": "Answer",
               text: isZh
-                ? "API Key 仅保存在你浏览器的 localStorage，请求经页面同源服务转发到厂商（仅为解决浏览器跨域），服务端不记录、不落盘任何密钥与对话内容。"
-                : "API keys are stored only in your browser localStorage. Requests pass through the same-origin service only to avoid browser CORS; the server does not log or persist keys or conversation content.",
+                ? "API Key 默认保存在浏览器 localStorage，运行请求会通过代理发送给所选服务商。主动云同步会上传浏览器加密后的配置备份，主动分享会保存公开快照。请勿在共享设备上保存密钥，详情见隐私政策。"
+                : "API keys are saved in browser localStorage by default and forwarded to your selected provider when making requests. Optional cloud sync uploads browser-encrypted backups, and publishing shares saves public snapshots. Avoid saving keys on shared devices. See the privacy policy.",
             },
           },
           {
