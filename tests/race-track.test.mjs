@@ -2,12 +2,26 @@ import assert from "node:assert/strict";
 import test from "node:test";
 
 import {
+  fastestTtftId,
   raceProgressPct,
   reasoningSharePct,
   speedBarPct,
   SPEED_BAR_FULL,
   SPEED_BAR_REF,
 } from "../lib/race-track.ts";
+
+test("TTFT winner is the earliest valid first response", () => {
+  assert.equal(
+    fastestTtftId([
+      { id: "waiting" },
+      { id: "slow", ttftMs: 1800 },
+      { id: "fast", ttftMs: 620 },
+      { id: "invalid", ttftMs: Number.NaN },
+    ]),
+    "fast"
+  );
+  assert.equal(fastestTtftId([{ id: "waiting" }]), null);
+});
 
 test("race progress keeps the leader away from the finish edge", () => {
   assert.equal(raceProgressPct(10000, 10000), 92);

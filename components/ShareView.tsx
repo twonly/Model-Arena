@@ -145,8 +145,11 @@ export function ShareView({
       tokens: m?.outputTokens ?? 0,
       reasoningTokens: m?.reasoningTokens ?? 0,
       tps: m?.contentTps ?? 0,
+      ttftMs: m?.ttftMs,
+      firstContentMs: m?.firstContentMs,
       done: run.status === "done" || run.status === "truncated",
       running: false,
+      failed: run.status === "error",
     };
   });
   // 至少两条且有人真的跑出 token，才值得展示赛道（避免全 0 的空轨）

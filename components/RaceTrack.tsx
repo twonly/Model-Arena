@@ -2,7 +2,9 @@
 
 import { useLayoutEffect, useRef } from "react";
 import type { Locale } from "@/lib/i18n";
+import { fmtSeconds } from "@/lib/format";
 import {
+  fastestTtftId,
   raceProgressPct,
   reasoningSharePct,
   speedBarPct,
@@ -19,8 +21,15 @@ export interface Runner {
   reasoningTokens: number;
   /** 当前/最终速度 tok/s */
   tps: number;
+  /** 首个 token（含思考）的已结算时延 */
+  ttftMs?: number;
+  /** 尚未收到首 token 时的实时等待时长 */
+  waitMs?: number;
+  /** 首个正文 token 时延，仅用于思考模型的悬浮说明 */
+  firstContentMs?: number;
   done: boolean;
   running: boolean;
+  failed?: boolean;
 }
 
 /**
@@ -71,12 +80,13 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
     null as Runner | null
   );
   const fastestId = fastest && fastest.tps > 0 ? fastest.id : null;
+  const fastestResponseId = fastestTtftId(ordered);
 
   return (
     <div className="rounded-xl border border-line bg-card px-3.5 py-3">
-      <div className="mb-2.5 flex items-center justify-between gap-2">
+      <div className="mb-2.5 flex flex-wrap items-center justify-between gap-2">
         <span className="text-[12px] font-semibold">🏁 {isZh ? "实时竞速" : "Live race"}</span>
-        <span className="flex items-center gap-2.5 text-[10.5px] text-faint">
+        <span className="flex flex-wrap items-center justify-end gap-2.5 text-[10.5px] text-faint">
           <span className="flex items-center gap-1">
             <span
               className="inline-flex h-2 w-4 overflow-hidden rounded-full"
@@ -95,6 +105,7 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
             />
             {isZh ? `速度 t/s · 基准 ${SPEED_BAR_REF}` : `speed t/s · ref ${SPEED_BAR_REF}`}
           </span>
+          <span>{isZh ? "🚦 首响" : "🚦 TTFT"}</span>
         </span>
       </div>
       <div ref={listRef} className="relative flex flex-col gap-2.5">
@@ -103,15 +114,35 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
           const markerPct = r.tokens > 0 ? Math.max(1.5, pct) : 0;
           const leader = r.id === leaderId;
           const isFastest = r.id === fastestId;
+          const isFastestResponse = r.id === fastestResponseId;
+          const waitingForFirst = r.running && r.ttftMs == null;
           const color = leader ? "var(--accent)" : "var(--ink)";
           const reasonShare = reasoningSharePct(r.reasoningTokens, r.tokens);
           const spd = speedBarPct(r.tps);
           const aboveRef = r.tps >= SPEED_BAR_REF;
+          const ttftTitle =
+            r.ttftMs != null
+              ? `${isFastestResponse ? (isZh ? "首响最快 · " : "Fastest TTFT · ") : ""}${
+                  isZh ? "首响应" : "TTFT"
+                } ${fmtSeconds(r.ttftMs)}s${
+                  r.firstContentMs != null && r.firstContentMs > r.ttftMs
+                    ? ` · ${isZh ? "首正文" : "first content"} ${fmtSeconds(r.firstContentMs)}s`
+                    : ""
+                }`
+              : waitingForFirst
+                ? `${isZh ? "等待首响" : "Waiting for first token"} ${fmtSeconds(r.waitMs)}s`
+                : r.failed
+                  ? isZh
+                    ? "未收到首 token"
+                    : "No first token received"
+                  : isZh
+                    ? "尚未开始"
+                    : "Not started";
           return (
             <div
               key={r.id}
               data-runner-id={r.id}
-              className="grid grid-cols-[5.5rem_minmax(0,1fr)_4.75rem] items-center gap-2.5 sm:grid-cols-[7rem_minmax(0,1fr)_5.5rem]"
+              className="grid grid-cols-[5.5rem_minmax(0,1fr)_5.75rem] items-center gap-2.5 sm:grid-cols-[7rem_minmax(0,1fr)_6.75rem]"
             >
               <div className="truncate text-[12px] font-medium" title={r.name}>
                 {r.name}
@@ -140,7 +171,15 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                     className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-[12px] transition-[left] duration-300 ease-out"
                     style={{ left: `${markerPct}%` }}
                   >
-                    {r.done ? "🏁" : r.running ? "🏎️" : "•"}
+                    {r.done ? (
+                      "🏁"
+                    ) : waitingForFirst ? (
+                      <span title={ttftTitle}>⏳</span>
+                    ) : r.running ? (
+                      <span className="race-launch" title={ttftTitle}>🏎️</span>
+                    ) : (
+                      "•"
+                    )}
                   </div>
                 </div>
                 <div className="relative h-2 overflow-hidden rounded-full bg-paper">
@@ -170,7 +209,7 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                   />
                 </div>
               </div>
-              {/* 数值：token 数（大）+ 实时 t/s（最快标 ⚡ 强调） */}
+              {/* 数值：token 数 + 实时 t/s + 等待中/已结算的首响 */}
               <div className="num shrink-0 text-right leading-tight tabular-nums">
                 <div className="text-[12px] font-semibold text-ink">{Math.round(r.tokens)}</div>
                 <div
@@ -184,6 +223,35 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                     </>
                   ) : (
                     <span className="text-faint">—</span>
+                  )}
+                </div>
+                <div
+                  data-ttft-id={r.id}
+                  data-ttft-state={
+                    waitingForFirst ? "waiting" : r.ttftMs != null ? "ready" : r.failed ? "failed" : "idle"
+                  }
+                  className={`mt-0.5 text-[10px] ${waitingForFirst ? "ttft-waiting" : ""}`}
+                  style={{
+                    color: waitingForFirst
+                      ? "var(--accent)"
+                      : isFastestResponse
+                        ? "var(--go)"
+                        : "var(--faint)",
+                  }}
+                  title={ttftTitle}
+                  aria-label={ttftTitle}
+                >
+                  {waitingForFirst ? (
+                    <>⏱ {fmtSeconds(r.waitMs)}s…</>
+                  ) : r.ttftMs != null ? (
+                    <>
+                      {isFastestResponse ? "🚦" : isZh ? "首响 " : "TTFT "}
+                      {fmtSeconds(r.ttftMs)}s
+                    </>
+                  ) : r.failed ? (
+                    isZh ? "首响失败" : "TTFT failed"
+                  ) : (
+                    isZh ? "首响 —" : "TTFT —"
                   )}
                 </div>
               </div>

@@ -159,6 +159,35 @@ body {
   animation: speed-pulse 1.2s ease-in-out infinite;
 }
 
+/* 首 token 到达时只触发一次起跑弹跳；等待计时仅做轻微呼吸。 */
+@keyframes race-launch-pop {
+  0% {
+    transform: translateX(-3px) scale(0.72);
+    filter: saturate(0.7);
+  }
+  65% {
+    transform: translateX(1px) scale(1.2);
+  }
+  100% {
+    transform: translateX(0) scale(1);
+    filter: saturate(1);
+  }
+}
+.race-launch {
+  display: inline-block;
+  animation: race-launch-pop 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.ttft-waiting {
+  animation: speed-pulse 1.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .race-launch,
+  .ttft-waiting {
+    animation: none;
+  }
+}
+
 /* 运行状态呼吸点 */
 @keyframes pulse-dot {
   0%,

@@ -1077,6 +1077,7 @@ export default function Home() {
   const runners = visibleEndpoints.map((ep) => {
     const run = runs[ep.id] ?? EMPTY_RUN;
     const m = run.metrics;
+    const ttftMs = m?.ttftMs ?? run.liveTtftMs;
     // 思考 token：结束用官方/估算的 reasoningTokens；流式期间按思考正文实时估算
     // （liveTokens 已含思考+输出，二者口径一致）
     const reasoningTokens = m
@@ -1090,11 +1091,18 @@ export default function Home() {
       tokens: m?.outputTokens ?? run.liveTokens ?? 0,
       reasoningTokens,
       tps: m?.contentTps ?? run.liveTps ?? 0,
+      ttftMs,
+      waitMs:
+        ttftMs == null && run.status === "connecting" && run.startedAt && nowTick > 0
+          ? Math.max(0, nowTick - run.startedAt)
+          : undefined,
+      firstContentMs: m?.firstContentMs,
       done:
         run.status === "done" ||
         run.status === "stopped" ||
         run.status === "truncated",
       running: isRunning(run),
+      failed: run.status === "error",
     };
   });
 

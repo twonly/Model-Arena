@@ -1,5 +1,17 @@
 export const RACE_LEADER_MAX_PROGRESS = 92;
 
+export function fastestTtftId(
+  runners: readonly { id: string; ttftMs?: number }[]
+): string | null {
+  let fastest: { id: string; ttftMs: number } | null = null;
+  for (const runner of runners) {
+    const ttftMs = runner.ttftMs;
+    if (ttftMs == null || !Number.isFinite(ttftMs) || ttftMs < 0) continue;
+    if (!fastest || ttftMs < fastest.ttftMs) fastest = { id: runner.id, ttftMs };
+  }
+  return fastest?.id ?? null;
+}
+
 export function raceProgressPct(tokens: number, maxTokens: number): number {
   if (tokens <= 0 || maxTokens <= 0) return 0;
   return Math.min(RACE_LEADER_MAX_PROGRESS, (tokens / maxTokens) * RACE_LEADER_MAX_PROGRESS);
@@ -29,4 +41,3 @@ export function reasoningSharePct(reasoningTokens: number, totalTokens: number):
   if (reasoningTokens <= 0 || totalTokens <= 0) return 0;
   return Math.min(100, (reasoningTokens / totalTokens) * 100);
 }
-
