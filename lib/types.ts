@@ -74,6 +74,8 @@ export interface RunState {
   liveTtftMs?: number;
   /** 本次运行开始的墙钟时间（驱动用时计时器） */
   startedAt?: number;
+  /** 已结束请求的墙钟用时；用于无首 token 的失败/截断状态定格等待柱 */
+  elapsedMs?: number;
   rank?: number;
 }
 
@@ -98,6 +100,8 @@ export interface HistoryResult {
   reasoning: string;
   /** 速度曲线采样（抽稀后）。旧历史无此字段，分享时回退为空曲线 */
   samples?: SpeedSample[];
+  /** 请求已结束时的墙钟用时，用于无首 token 状态还原等待柱 */
+  elapsedMs?: number;
   error?: string;
 }
 

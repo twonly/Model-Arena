@@ -8,6 +8,10 @@ import {
   speedBarPct,
   SPEED_BAR_FULL,
   SPEED_BAR_REF,
+  TTFT_BAR_FULL_MS,
+  TTFT_BAR_REF_MS,
+  TTFT_REF_PCT,
+  ttftBarPct,
 } from "../lib/race-track.ts";
 
 test("TTFT winner is the earliest valid first response", () => {
@@ -21,6 +25,18 @@ test("TTFT winner is the earliest valid first response", () => {
     "fast"
   );
   assert.equal(fastestTtftId([{ id: "waiting" }]), null);
+});
+
+test("TTFT wait bar grows with elapsed time and caps at five seconds", () => {
+  assert.equal(TTFT_BAR_FULL_MS, 5000);
+  assert.equal(TTFT_BAR_REF_MS, 1000);
+  assert.equal(TTFT_REF_PCT, 20);
+  assert.equal(ttftBarPct(undefined), 0);
+  assert.equal(ttftBarPct(0), 0);
+  assert.equal(ttftBarPct(500), 10);
+  assert.equal(ttftBarPct(1000), 20);
+  assert.equal(ttftBarPct(5000), 100);
+  assert.equal(ttftBarPct(8000), 100);
 });
 
 test("race progress keeps the leader away from the finish edge", () => {

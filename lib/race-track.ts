@@ -1,4 +1,7 @@
 export const RACE_LEADER_MAX_PROGRESS = 92;
+export const TTFT_BAR_FULL_MS = 5_000;
+export const TTFT_BAR_REF_MS = 1_000;
+export const TTFT_REF_PCT = (TTFT_BAR_REF_MS / TTFT_BAR_FULL_MS) * 100;
 
 export function fastestTtftId(
   runners: readonly { id: string; ttftMs?: number }[]
@@ -10,6 +13,12 @@ export function fastestTtftId(
     if (!fastest || ttftMs < fastest.ttftMs) fastest = { id: runner.id, ttftMs };
   }
   return fastest?.id ?? null;
+}
+
+/** 首响等待柱：5 秒满格，等待越久越长；超过满格后截断。 */
+export function ttftBarPct(ms: number | undefined, fullMs: number = TTFT_BAR_FULL_MS): number {
+  if (ms == null || !Number.isFinite(ms) || ms <= 0 || fullMs <= 0) return 0;
+  return Math.min(100, (ms / fullMs) * 100);
 }
 
 export function raceProgressPct(tokens: number, maxTokens: number): number {

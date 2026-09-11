@@ -663,6 +663,7 @@ export default function Home() {
           reasoning: r.reasoning.slice(0, 3000),
           // 存速度曲线（抽稀到 150 点）：历史分享时才有曲线，代价是 localStorage 略增
           samples: thinSamples(r.samples, 150),
+          elapsedMs: r.elapsedMs,
           error: r.error,
         };
       });
@@ -958,6 +959,7 @@ export default function Home() {
               text: r.text,
               reasoning: r.reasoning,
               samples: r.samples ?? [],
+              elapsedMs: r.elapsedMs,
               error: r.error,
             } as RunState,
           }))
@@ -1093,8 +1095,11 @@ export default function Home() {
       tps: m?.contentTps ?? run.liveTps ?? 0,
       ttftMs,
       waitMs:
-        ttftMs == null && run.status === "connecting" && run.startedAt && nowTick > 0
-          ? Math.max(0, nowTick - run.startedAt)
+        ttftMs == null
+          ? run.elapsedMs ??
+            (run.status === "connecting" && run.startedAt && nowTick > 0
+              ? Math.max(0, nowTick - run.startedAt)
+              : undefined)
           : undefined,
       firstContentMs: m?.firstContentMs,
       done:

@@ -10,6 +10,10 @@ import {
   speedBarPct,
   SPEED_BAR_REF,
   SPEED_REF_PCT,
+  TTFT_BAR_FULL_MS,
+  TTFT_BAR_REF_MS,
+  TTFT_REF_PCT,
+  ttftBarPct,
 } from "@/lib/race-track";
 
 export interface Runner {
@@ -23,7 +27,7 @@ export interface Runner {
   tps: number;
   /** 首个 token（含思考）的已结算时延 */
   ttftMs?: number;
-  /** 尚未收到首 token 时的实时等待时长 */
+  /** 尚未收到首 token 时的实时或已定格等待时长 */
   waitMs?: number;
   /** 首个正文 token 时延，仅用于思考模型的悬浮说明 */
   firstContentMs?: number;
@@ -105,7 +109,17 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
             />
             {isZh ? `速度 t/s · 基准 ${SPEED_BAR_REF}` : `speed t/s · ref ${SPEED_BAR_REF}`}
           </span>
-          <span>{isZh ? "🚦 首响" : "🚦 TTFT"}</span>
+          <span
+            className="flex items-center gap-1"
+            title={
+              isZh
+                ? `${TTFT_BAR_REF_MS / 1000}s 参考线 · ${TTFT_BAR_FULL_MS / 1000}s 满格`
+                : `${TTFT_BAR_REF_MS / 1000}s reference · ${TTFT_BAR_FULL_MS / 1000}s full scale`
+            }
+          >
+            <span className="inline-block h-1.5 w-4 rounded-full bg-think" aria-hidden="true" />
+            {isZh ? "首响等待 · 短更好" : "TTFT wait · shorter is better"}
+          </span>
         </span>
       </div>
       <div ref={listRef} className="relative flex flex-col gap-2.5">
@@ -120,6 +134,8 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
           const reasonShare = reasoningSharePct(r.reasoningTokens, r.tokens);
           const spd = speedBarPct(r.tps);
           const aboveRef = r.tps >= SPEED_BAR_REF;
+          const ttftDurationMs = r.ttftMs ?? r.waitMs;
+          const ttftPct = ttftBarPct(ttftDurationMs);
           const ttftTitle =
             r.ttftMs != null
               ? `${isFastestResponse ? (isZh ? "首响最快 · " : "Fastest TTFT · ") : ""}${
@@ -147,7 +163,7 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
               <div className="truncate text-[12px] font-medium" title={r.name}>
                 {r.name}
               </div>
-              {/* 两条并列：粗条=token 进度（内分思考▕输出两色），细条=相对速度 */}
+              {/* 三条并列：token 进度、输出速度、首响等待（越短越好） */}
               <div className="flex flex-col gap-1">
                 <div className="relative h-5 overflow-hidden rounded-full bg-paper">
                   <div className="absolute inset-y-0 right-2 w-px bg-line/80" aria-hidden="true" />
@@ -206,6 +222,36 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                       // 越过基准线发一点微光，强调「破线」
                       boxShadow: aboveRef ? "0 0 5px var(--go)" : undefined,
                     }}
+                  />
+                </div>
+                <div
+                  className="relative h-1.5 overflow-hidden rounded-full bg-paper"
+                  title={`${ttftTitle} · ${
+                    isZh
+                      ? `${TTFT_BAR_FULL_MS / 1000}s 满格，越短越好`
+                      : `${TTFT_BAR_FULL_MS / 1000}s full scale, shorter is better`
+                  }`}
+                  data-ttft-bar-id={r.id}
+                  data-ttft-bar-pct={ttftPct.toFixed(1)}
+                >
+                  <div
+                    className="absolute inset-y-0 z-10 border-l border-dashed border-faint/70"
+                    style={{ left: `${TTFT_REF_PCT}%` }}
+                    aria-hidden="true"
+                  />
+                  <div
+                    className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-100 ease-linear"
+                    style={{
+                      width: `${ttftPct}%`,
+                      minWidth: ttftPct > 0 ? "2px" : undefined,
+                      background: r.failed
+                        ? "var(--accent)"
+                        : isFastestResponse
+                          ? "var(--go)"
+                          : "var(--think)",
+                      opacity: waitingForFirst ? 0.8 : 0.9,
+                    }}
+                    aria-hidden="true"
                   />
                 </div>
               </div>

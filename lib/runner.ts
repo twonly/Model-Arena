@@ -207,6 +207,7 @@ export async function runEndpoint({
       text,
       status,
       metrics,
+      elapsedMs: tEnd,
       liveTokens: outputTokens,
       samples: calibratedSamples,
     }));
@@ -222,6 +223,8 @@ export async function runEndpoint({
     samples: [],
     liveTokens: 0,
     liveTps: 0,
+    liveTtftMs: undefined,
+    elapsedMs: undefined,
     rank: undefined,
   }));
 
@@ -373,7 +376,7 @@ export async function runEndpoint({
     } else if (/aborted|timeout/i.test(raw)) {
       message = `请求超时：${raw}`;
     }
-    update((prev) => ({ ...prev, status: "error", error: message }));
+    update((prev) => ({ ...prev, status: "error", error: message, elapsedMs: now() }));
     onSettled(false);
   }
 }

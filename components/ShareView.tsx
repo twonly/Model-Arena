@@ -104,6 +104,7 @@ export function ShareView({
       rank: r.rank,
       error: r.error,
       samples: r.samples ?? [],
+      elapsedMs: r.elapsedMs,
     };
   });
   const reviewDraftRows = endpoints.map((ep) => ({
@@ -146,6 +147,7 @@ export function ShareView({
       reasoningTokens: m?.reasoningTokens ?? 0,
       tps: m?.contentTps ?? 0,
       ttftMs: m?.ttftMs,
+      waitMs: m?.ttftMs == null ? run.elapsedMs ?? m?.totalMs : undefined,
       firstContentMs: m?.firstContentMs,
       done: run.status === "done" || run.status === "truncated",
       running: false,

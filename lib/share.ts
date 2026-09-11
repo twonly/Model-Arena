@@ -13,6 +13,7 @@ export interface ShareResult {
   text: string;
   reasoning: string;
   samples: SpeedSample[];
+  elapsedMs?: number;
   error?: string;
 }
 
@@ -95,6 +96,7 @@ export function buildSnapshot(opts: {
         text: capText(run.text),
         reasoning: capReasoning(run.reasoning, run.text),
         samples: thinSamples(run.samples),
+        elapsedMs: run.elapsedMs,
         error: run.error,
       })),
   };
