@@ -26,7 +26,7 @@ export interface SharedModel {
 
 export const DEEPSEEK_V41_MODEL_ID = "deepseek-v4.1-flash-expires-on-0910";
 export const DEEPSEEK_V41_AVAILABLE_UNTIL = "2026-09-10T00:00:00+08:00";
-export const SHARED_POOL_VERSION = "2026-09-11-orcarouter-free-pool";
+export const SHARED_POOL_VERSION = "2026-09-11-glm-5-3-pool";
 
 export const SHARED_MODELS: SharedModel[] = [
   {
@@ -55,20 +55,20 @@ export const SHARED_MODELS: SharedModel[] = [
     model: "deepseek-v4-pro",
   },
   {
-    id: "glm-5-1",
+    id: "glm-5-3",
     provider: "zhipu",
-    name: "智谱 GLM-5.1",
+    name: "智谱 GLM-5.3",
     kind: "openai",
     baseUrl: "https://open.bigmodel.cn/api/coding/paas/v4",
-    model: "glm-5.1",
+    model: "glm-5.3",
   },
   {
-    id: "glm-5-2",
+    id: "glm-5-3-flash",
     provider: "zhipu",
-    name: "智谱 GLM-5.2",
+    name: "智谱 GLM-5.3 Flash",
     kind: "openai",
     baseUrl: "https://open.bigmodel.cn/api/coding/paas/v4",
-    model: "glm-5.2",
+    model: "glm-5.3-flash",
   },
   {
     id: "orcarouter-free",

@@ -16,7 +16,7 @@ test("worker chat url appends /chat once", () => {
 
 test("worker tickets bind to the exact request body and expiry", () => {
   const secret = "unit-test-secret";
-  const body = { shared: true, sharedId: "glm-5-2", runId: "r1", clientId: "c1" };
+  const body = { shared: true, sharedId: "glm-5-3", runId: "r1", clientId: "c1" };
   const signed = createWorkerTicket(body, { uid: "u1", ip: "1.2.3.4" }, secret, 1000);
   assert.ok(signed);
 
@@ -27,7 +27,7 @@ test("worker tickets bind to the exact request body and expiry", () => {
 
   const changed = verifyWorkerTicket(
     signed.ticket,
-    { ...body, sharedId: "glm-5-1" },
+    { ...body, sharedId: "glm-5-3-flash" },
     secret,
     2000
   );

@@ -85,8 +85,8 @@ test("current shared pool keeps DeepSeek and GLM and adds four OrcaRouter free e
     [
       "deepseek-flash",
       "deepseek-pro",
-      "glm-5-1",
-      "glm-5-2",
+      "glm-5-3",
+      "glm-5-3-flash",
       "orcarouter-free",
       "orcarouter-hy3-free",
       "orcarouter-glm-5-3-flash-free",
@@ -100,13 +100,15 @@ test("pool migration removes retired trials and adds new free models once", () =
   const existing = [
     own(),
     trial({ id: "kimi", name: "Kimi", model: "kimi-for-coding" }),
-    trial({ id: "glm-5-2", name: "Old GLM label", enabled: false }),
+    trial({ id: "glm-5-2", name: "Old GLM", model: "glm-5.2" }),
+    trial({ id: "glm-5-3-flash", name: "Old GLM label", enabled: false }),
   ];
   const migrated = reconcileSharedPool(existing, true, current);
 
   assert.ok(migrated.some((endpoint) => endpoint.id === "mine"));
   assert.ok(!migrated.some((endpoint) => endpoint.id === "kimi"));
-  assert.equal(migrated.find((endpoint) => endpoint.id === "glm-5-2")?.enabled, false);
+  assert.ok(!migrated.some((endpoint) => endpoint.id === "glm-5-2"));
+  assert.equal(migrated.find((endpoint) => endpoint.id === "glm-5-3-flash")?.enabled, false);
   assert.ok(migrated.some((endpoint) => endpoint.id === "orcarouter-free"));
   assert.ok(migrated.some((endpoint) => endpoint.id === "orcarouter-hy3-free"));
 

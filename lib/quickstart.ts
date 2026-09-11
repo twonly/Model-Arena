@@ -12,7 +12,7 @@ export const QUICK_SAMPLE_BY_LOCALE = {
       "快速体验模式（可自己编辑）：同一个短任务并发跑 3 个预置模型，先看首 Token 时延、输出速度和完成排名。",
     prompt:
       "请用中文写一段 180 字以内的产品说明，主题是：为什么大模型测速不能只看单次主观感受，而要同时比较首 Token 时延、输出速度和稳定性。",
-    sharedIds: ["deepseek-flash", "glm-5-2", "orcarouter-hy3-free"],
+    sharedIds: ["deepseek-flash", "glm-5-3-flash", "orcarouter-hy3-free"],
   },
   en: {
     title: "Three-model speed sample (editable)",
@@ -20,7 +20,7 @@ export const QUICK_SAMPLE_BY_LOCALE = {
       "Quick sample mode (editable): run one short task across 3 preset models and compare TTFT, output speed and finish order.",
     prompt:
       "Write a product-style explanation in English, under 180 words, about why LLM speed testing should not rely on a single subjective impression and should compare TTFT, output speed and stability together.",
-    sharedIds: ["deepseek-flash", "glm-5-2", "orcarouter-hy3-free"],
+    sharedIds: ["deepseek-flash", "glm-5-3-flash", "orcarouter-hy3-free"],
   },
 } as const satisfies Record<
   Locale,

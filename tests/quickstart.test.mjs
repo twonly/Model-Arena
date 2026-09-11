@@ -16,7 +16,7 @@ test("quick sample uses three shared endpoints", () => {
   assert.equal(endpoints.length, 3);
   assert.deepEqual(
     endpoints.map((e) => e.id),
-    ["deepseek-flash", "glm-5-2", "orcarouter-hy3-free"]
+    ["deepseek-flash", "glm-5-3-flash", "orcarouter-hy3-free"]
   );
   assert.ok(endpoints.every((e) => e.shared));
 });

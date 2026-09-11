@@ -6,7 +6,7 @@
  * 规则语义：对 endpoint 的 id / model / baseUrl / name 做「大小写不敏感子串」匹配。
  * - 规则之间（换行 / 逗号分隔）= OR：命中任一条规则即走 Cloudflare。
  * - 单条规则内用 `&` 连接 = AND：所有子词都要命中（各自可命中任一字段）才算这条成立。
- *   例：`bigmodel.cn & glm-5.2` 只匹配「baseUrl 含 bigmodel.cn 且 含 glm-5.2」的模型，
+ *   例：`bigmodel.cn & glm-5.3-flash` 只匹配「baseUrl 含 bigmodel.cn 且含 glm-5.3-flash」的模型，
  *   从而把同名模型在不同 API 上的情况区分开。
  */
 
