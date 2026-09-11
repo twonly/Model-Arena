@@ -6,13 +6,13 @@
  * 真正的 API Key 由服务端按 provider 从环境变量 SHARED_KEY_* 注入，
  * 客户端永远拿不到、也不发送 key（只发 sharedId）。
  *
- * 配置来源：站长本人的 model-arena 备份（2026-06-15）。改这里即改共享池。
+ * 配置来源：各服务商当前可用模型目录。改这里即改共享池。
  */
 export interface SharedModel {
   /** 稳定 ID，客户端用它请求、服务端用它查配置 */
   id: string;
   /** 映射到服务端 env key 的 provider（见 /api/chat 的 SHARED_PROVIDER_KEY） */
-  provider: "deepseek" | "kimi" | "xiaomi" | "zhipu" | "stepfun";
+  provider: "deepseek" | "zhipu" | "orcarouter";
   /** 展示名 */
   name: string;
   kind: "openai" | "anthropic";
@@ -22,13 +22,11 @@ export interface SharedModel {
   extraBody?: string;
   /** 限时模型到期时间；到期后客户端不再展示、服务端也拒绝继续注入共享 Key */
   availableUntil?: string;
-  /** 新上架时向已有用户的本地模型列表补一次，避免只对首次访问者可见 */
-  promoted?: boolean;
 }
 
 export const DEEPSEEK_V41_MODEL_ID = "deepseek-v4.1-flash-expires-on-0910";
 export const DEEPSEEK_V41_AVAILABLE_UNTIL = "2026-09-10T00:00:00+08:00";
-export const SHARED_PROMOTION_VERSION = "2026-09-09-deepseek-v4-1-flash";
+export const SHARED_POOL_VERSION = "2026-09-11-orcarouter-free-pool";
 
 export const SHARED_MODELS: SharedModel[] = [
   {
@@ -47,7 +45,6 @@ export const SHARED_MODELS: SharedModel[] = [
     baseUrl: "https://api.deepseek.com/v1",
     model: DEEPSEEK_V41_MODEL_ID,
     availableUntil: DEEPSEEK_V41_AVAILABLE_UNTIL,
-    promoted: true,
   },
   {
     id: "deepseek-pro",
@@ -56,42 +53,6 @@ export const SHARED_MODELS: SharedModel[] = [
     kind: "openai",
     baseUrl: "https://api.deepseek.com/v1",
     model: "deepseek-v4-pro",
-  },
-  {
-    id: "kimi",
-    provider: "kimi",
-    name: "Kimi",
-    kind: "anthropic",
-    baseUrl: "https://api.kimi.com/coding/",
-    model: "kimi-for-coding",
-    // thinking 计入 max_tokens；budget 必须小于 max，留 32k 给最终正文。
-    extraBody:
-      '{"max_tokens": 256000, "thinking": {"type": "enabled", "budget_tokens": 224000}}',
-  },
-  {
-    id: "k3",
-    provider: "kimi",
-    name: "Kimi K3",
-    kind: "anthropic",
-    baseUrl: "https://api.kimi.com/coding/",
-    model: "k3",
-    extraBody: '{"max_tokens": 1000000}',
-  },
-  {
-    id: "mimo",
-    provider: "xiaomi",
-    name: "小米 MiMo V2.5",
-    kind: "openai",
-    baseUrl: "https://api.xiaomimimo.com/v1",
-    model: "mimo-v2.5",
-  },
-  {
-    id: "mimo-pro",
-    provider: "xiaomi",
-    name: "小米 MiMo V2.5 Pro",
-    kind: "openai",
-    baseUrl: "https://api.xiaomimimo.com/v1",
-    model: "mimo-v2.5-pro",
   },
   {
     id: "glm-5-1",
@@ -110,12 +71,36 @@ export const SHARED_MODELS: SharedModel[] = [
     model: "glm-5.2",
   },
   {
-    id: "stepfun",
-    provider: "stepfun",
-    name: "阶跃 Step-3.7 Flash",
+    id: "orcarouter-free",
+    provider: "orcarouter",
+    name: "OrcaRouter Free",
     kind: "openai",
-    baseUrl: "https://api.stepfun.com/step_plan/v1",
-    model: "step-3.7-flash",
+    baseUrl: "https://api.orcarouter.ai/v1",
+    model: "orcarouter/free",
+  },
+  {
+    id: "orcarouter-hy3-free",
+    provider: "orcarouter",
+    name: "Tencent HY3 Free",
+    kind: "openai",
+    baseUrl: "https://api.orcarouter.ai/v1",
+    model: "tencent/hy3-free",
+  },
+  {
+    id: "orcarouter-glm-5-3-flash-free",
+    provider: "orcarouter",
+    name: "GLM-5.3 Flash Free · OrcaRouter",
+    kind: "openai",
+    baseUrl: "https://api.orcarouter.ai/v1",
+    model: "z-ai/glm-5.3-flash-free",
+  },
+  {
+    id: "orcarouter-deepseek-v4-flash-free",
+    provider: "orcarouter",
+    name: "DeepSeek V4 Flash Free · OrcaRouter",
+    kind: "openai",
+    baseUrl: "https://api.orcarouter.ai/v1",
+    model: "deepseek/deepseek-v4-flash-free",
   },
 ];
 
@@ -159,27 +144,21 @@ export function sharedAsEndpoints(now: Date = new Date()): ModelEndpoint[] {
 }
 
 /**
- * 把本次推广的限时模型补到已有用户列表；到期后即使模型留在 localStorage 也会清掉。
- * addMissing 由版本标记控制，确保用户手动删除后不会每次刷新都被重新加入。
+ * 让已有用户的本地体验模型与当前共享池保持一致：
+ * - 无条件移除已下架、已过期或未知的 shared 端点；
+ * - 刷新仍在池中的服务端可信配置；
+ * - addMissing 仅在共享池版本变化时为老用户补新模型，避免用户手动删除后又被每次加回。
  */
-export function reconcilePromotedShared(
+export function reconcileSharedPool(
   endpoints: ModelEndpoint[],
   addMissing: boolean,
   now: Date = new Date()
 ): ModelEndpoint[] {
-  const promoted = SHARED_MODELS.filter((m) => m.promoted);
-  if (!promoted.length) return endpoints;
-
-  const promotedById = new Map(promoted.map((m) => [m.id, m]));
-  const active = new Map(
-    sharedAsEndpoints(now)
-      .filter((endpoint) => promotedById.has(endpoint.id))
-      .map((endpoint) => [endpoint.id, endpoint])
-  );
+  const active = new Map(sharedAsEndpoints(now).map((endpoint) => [endpoint.id, endpoint]));
 
   let changed = false;
   const next = endpoints.flatMap((endpoint) => {
-    if (!endpoint.shared || !promotedById.has(endpoint.id)) return [endpoint];
+    if (!endpoint.shared) return [endpoint];
     const current = active.get(endpoint.id);
     if (!current) {
       changed = true;
@@ -192,7 +171,8 @@ export function reconcilePromotedShared(
       endpoint.kind !== refreshed.kind ||
       endpoint.baseUrl !== refreshed.baseUrl ||
       endpoint.model !== refreshed.model ||
-      endpoint.extraBody !== refreshed.extraBody
+      endpoint.extraBody !== refreshed.extraBody ||
+      endpoint.apiKey !== refreshed.apiKey
     ) {
       changed = true;
       return [refreshed];

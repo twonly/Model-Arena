@@ -51,8 +51,8 @@ import {
 import { QuotaBanner } from "@/components/QuotaBanner";
 import {
   graduateShared,
-  reconcilePromotedShared,
-  SHARED_PROMOTION_VERSION,
+  reconcileSharedPool,
+  SHARED_POOL_VERSION,
   sharedAsEndpoints,
 } from "@/lib/shared-models";
 import { supabaseEnabled } from "@/lib/supabase-client";
@@ -237,23 +237,23 @@ export default function Home() {
     claimed: boolean;
   } | null>(null);
 
-  // 首访预置共享模型；新上架的限时模型按版本向老用户补一次，到期后自动移除。
+  // 首访预置共享模型；共享池升级时向老用户补新模型并清掉已下架项。
   useEffect(() => {
     try {
       const raw = localStorage.getItem("ma.endpoints");
       const existing = raw ? JSON.parse(raw) : [];
       if (!Array.isArray(existing)) return;
       const seeded = localStorage.getItem("ma.seededShared");
-      const promotionVersion = localStorage.getItem("ma.sharedPromotionVersion");
-      const shouldPromote = promotionVersion !== SHARED_PROMOTION_VERSION;
+      const poolVersion = localStorage.getItem("ma.sharedPoolVersion");
+      const shouldPromote = poolVersion !== SHARED_POOL_VERSION;
 
       localStorage.setItem("ma.seededShared", "1");
-      localStorage.setItem("ma.sharedPromotionVersion", SHARED_PROMOTION_VERSION);
+      localStorage.setItem("ma.sharedPoolVersion", SHARED_POOL_VERSION);
       if (!seeded && existing.length === 0) {
         setEndpoints(sharedAsEndpoints());
         return;
       }
-      const next = reconcilePromotedShared(existing, shouldPromote);
+      const next = reconcileSharedPool(existing, shouldPromote);
       if (next !== existing) setEndpoints(next);
     } catch {
       /* ignore */

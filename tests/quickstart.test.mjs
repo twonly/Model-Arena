@@ -16,7 +16,7 @@ test("quick sample uses three shared endpoints", () => {
   assert.equal(endpoints.length, 3);
   assert.deepEqual(
     endpoints.map((e) => e.id),
-    ["deepseek-flash", "kimi", "stepfun"]
+    ["deepseek-flash", "glm-5-2", "orcarouter-hy3-free"]
   );
   assert.ok(endpoints.every((e) => e.shared));
 });
@@ -38,11 +38,11 @@ test("share snapshots can restore matching shared models", () => {
   const endpoints = sharedEndpointsForModels([
     "deepseek-v4-flash",
     "unknown-model",
-    "step-3.7-flash",
+    "z-ai/glm-5.3-flash-free",
   ]);
   assert.deepEqual(
     endpoints.map((e) => e.id),
-    ["deepseek-flash", "stepfun"]
+    ["deepseek-flash", "orcarouter-glm-5-3-flash-free"]
   );
 });
 

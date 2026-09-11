@@ -4,7 +4,7 @@ import test from "node:test";
 import {
   DEEPSEEK_V41_MODEL_ID,
   graduateShared,
-  reconcilePromotedShared,
+  reconcileSharedPool,
   sharedAsEndpoints,
   sharedById,
 } from "../lib/shared-models.ts";
@@ -78,13 +78,39 @@ test("DeepSeek V4.1 Flash is available only during its verified preview window",
   assert.ok(!sharedAsEndpoints(after).some((e) => e.id === "deepseek-v4-1-flash"));
 });
 
-test("promoted preview reaches existing users once and is removed after expiry", () => {
-  const during = new Date("2026-09-09T12:00:00+08:00");
-  const after = new Date("2026-09-10T00:00:00+08:00");
-  const existing = [trial()];
-  const promoted = reconcilePromotedShared(existing, true, during);
+test("current shared pool keeps DeepSeek and GLM and adds four OrcaRouter free entries", () => {
+  const current = new Date("2026-09-11T12:00:00+08:00");
+  assert.deepEqual(
+    sharedAsEndpoints(current).map((endpoint) => endpoint.id),
+    [
+      "deepseek-flash",
+      "deepseek-pro",
+      "glm-5-1",
+      "glm-5-2",
+      "orcarouter-free",
+      "orcarouter-hy3-free",
+      "orcarouter-glm-5-3-flash-free",
+      "orcarouter-deepseek-v4-flash-free",
+    ]
+  );
+});
 
-  assert.ok(promoted.some((e) => e.id === "deepseek-v4-1-flash"));
-  assert.strictEqual(reconcilePromotedShared(existing, false, during), existing);
-  assert.ok(!reconcilePromotedShared(promoted, false, after).some((e) => e.id === "deepseek-v4-1-flash"));
+test("pool migration removes retired trials and adds new free models once", () => {
+  const current = new Date("2026-09-11T12:00:00+08:00");
+  const existing = [
+    own(),
+    trial({ id: "kimi", name: "Kimi", model: "kimi-for-coding" }),
+    trial({ id: "glm-5-2", name: "Old GLM label", enabled: false }),
+  ];
+  const migrated = reconcileSharedPool(existing, true, current);
+
+  assert.ok(migrated.some((endpoint) => endpoint.id === "mine"));
+  assert.ok(!migrated.some((endpoint) => endpoint.id === "kimi"));
+  assert.equal(migrated.find((endpoint) => endpoint.id === "glm-5-2")?.enabled, false);
+  assert.ok(migrated.some((endpoint) => endpoint.id === "orcarouter-free"));
+  assert.ok(migrated.some((endpoint) => endpoint.id === "orcarouter-hy3-free"));
+
+  const withoutAdding = reconcileSharedPool(existing, false, current);
+  assert.ok(!withoutAdding.some((endpoint) => endpoint.id === "kimi"));
+  assert.ok(!withoutAdding.some((endpoint) => endpoint.id === "orcarouter-free"));
 });

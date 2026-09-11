@@ -7,10 +7,8 @@ import type { SharedModel } from "./shared-models";
 
 const PROVIDER_ENV: Record<SharedModel["provider"], string> = {
   deepseek: "SHARED_KEY_DEEPSEEK",
-  kimi: "SHARED_KEY_KIMI",
-  xiaomi: "SHARED_KEY_XIAOMI",
   zhipu: "SHARED_KEY_ZHIPU",
-  stepfun: "SHARED_KEY_STEPFUN",
+  orcarouter: "SHARED_KEY_ORCAROUTER",
 };
 
 export function sharedKeyFor(provider: SharedModel["provider"]): string | undefined {
