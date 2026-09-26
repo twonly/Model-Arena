@@ -44,9 +44,15 @@ await context.route("**/api/share", (r) =>
   r.fulfill({ json: { ok: true, id: "local-ui-check" } }),
 );
 let retry = false;
+let pauseNextChat;
 await context.route("**/api/chat", async (route) => {
   const body = route.request().postDataJSON();
   requests.push(body);
+  if (pauseNextChat) {
+    const pause = pauseNextChat;
+    pauseNextChat = null;
+    await pause;
+  }
   const partial = body.sharedId === "glm-5-3-flash" && !retry;
   const failed = body.sharedId === "orcarouter-hy3-free" && !retry;
   const c = BENCHMARK_CASES.find((c) => c.prompt === body.prompt),
@@ -91,11 +97,43 @@ try {
     await page.locator('[aria-label="报告标题"]').isVisible(),
     false,
   );
+  assert.ok(
+    await page.evaluate(
+      () =>
+        document.querySelector("#display-settings").getBoundingClientRect()
+          .top <
+        document.querySelector("#task-prompt").getBoundingClientRect().top,
+    ),
+    "display settings precede the task form",
+  );
+  const modes = page.getByRole("navigation", { name: "对比方式" });
+  const singleMode = modes.getByRole("button", { name: /^单次对比/ });
+  const batchMode = modes.getByRole("button", { name: /^测试集与批量运行/ });
+  assert.equal(
+    await page.getByRole("region", { name: "批量测试工作区" }).isVisible(),
+    false,
+  );
   await page.screenshot({ path: "output/playwright/arena-mobile.png" });
+  let resumeComparison;
+  pauseNextChat = new Promise((resolve) => {
+    resumeComparison = resolve;
+  });
   await page
     .getByRole("button", { name: "开始对比 ▶", exact: true })
     .first()
     .click();
+  await modes
+    .getByRole("button", { name: "单次对比 · 运行中", exact: true })
+    .waitFor();
+  await batchMode.click();
+  assert.equal(
+    await page
+      .getByRole("button", { name: "批量运行", exact: true })
+      .isDisabled(),
+    true,
+  );
+  await singleMode.click();
+  resumeComparison();
   await page.getByRole("region", { name: "结果摘要" }).waitFor();
   await page.waitForFunction(
     () => JSON.parse(localStorage.getItem("ma.history") || "[]").length === 1,
@@ -269,21 +307,112 @@ try {
     .getByText("尚未评估", { exact: true })
     .first()
     .waitFor();
-  // Custom batch output exports the exact recorded prompts and safely escapes CSV formulas.
-  await page.getByLabel("你的任务").fill("=1+1");
-  await page
-    .locator("summary")
-    .filter({ hasText: "本地测试集与批量运行" })
-    .click();
-  await page.getByRole("button", { name: "保存当前任务", exact: true }).click();
+  // The independent batch view preserves drafts, selections and results across switches.
+  const singleRequests = requests.length;
+  await batchMode.click();
+  assert.equal(await batchMode.getAttribute("aria-pressed"), "true");
+  assert.equal(await page.getByLabel("你的任务").isVisible(), false);
+  assert.equal(
+    await page.getByRole("region", { name: "结果摘要" }).isVisible(),
+    false,
+  );
+  assert.equal(
+    await page
+      .getByRole("button", { name: "开始对比 ▶", exact: true })
+      .count(),
+    0,
+  );
+  const batchWorkspace = page.getByRole("region", { name: "批量测试工作区" });
   await page.getByLabel("选择测试集").selectOption("custom");
+  await page.getByLabel("新测试案例", { exact: true }).fill("=1+1");
+  await page.getByRole("button", { name: /^添加案例/ }).click();
+  await page
+    .getByLabel("新测试案例", { exact: true })
+    .fill("未保存的批量任务草稿");
+  await batchWorkspace
+    .locator("summary")
+    .filter({ hasText: "批量运行参数" })
+    .click();
+  await batchWorkspace.getByLabel("Max Tokens", { exact: true }).fill("512");
+  const batchModels = page.getByLabel("批量测试模型", { exact: true });
+  assert.equal(await batchModels.locator("input:checked").count(), 3);
+  await batchModels.getByRole("checkbox", { checked: true }).first().uncheck();
+  await singleMode.click();
+  assert.equal(
+    await page.getByLabel("你的任务").inputValue(),
+    "changed prompt",
+  );
+  assert.equal(
+    await page.locator('[aria-label="已选模型"] input:checked').count(),
+    3,
+  );
+  assert.equal(
+    await page.getByRole("region", { name: "结果摘要" }).isVisible(),
+    true,
+  );
+  await batchMode.click();
+  assert.equal(
+    await page.getByLabel("新测试案例", { exact: true }).inputValue(),
+    "未保存的批量任务草稿",
+  );
+  assert.equal(await batchModels.locator("input:checked").count(), 2);
+  assert.equal(
+    await batchWorkspace.getByLabel("Max Tokens", { exact: true }).inputValue(),
+    "512",
+  );
+  assert.equal(
+    requests.length,
+    singleRequests,
+    "switching views never starts model requests",
+  );
+  await page.screenshot({
+    path: "output/playwright/batch-mobile.png",
+    fullPage: true,
+  });
+  let releaseChat;
+  pauseNextChat = new Promise((resolve) => {
+    releaseChat = resolve;
+  });
   await page.getByRole("button", { name: "批量运行", exact: true }).click();
-  await page.getByRole("status").filter({ hasText: "已记录 3" }).waitFor();
+  await modes
+    .getByRole("button", { name: "测试集与批量运行 · 运行中", exact: true })
+    .waitFor();
+  await singleMode.click();
+  assert.equal(
+    await page
+      .getByRole("button", { name: "开始对比 ▶", exact: true })
+      .first()
+      .isDisabled(),
+    true,
+  );
+  await tools
+    .getByRole("button", { name: "展开全部输出", exact: true })
+    .click();
+  const pendingBatchRequests = requests.length;
+  await page.getByRole("button", { name: /重跑/ }).first().click();
+  assert.equal(
+    requests.length,
+    pendingBatchRequests,
+    "individual retries also wait for the batch",
+  );
+  await batchMode.click();
+  assert.equal(
+    await page.getByRole("button", { name: /^停止 ·/ }).isVisible(),
+    true,
+  );
+  releaseChat();
+  await page.getByRole("status").filter({ hasText: "已记录 2" }).waitFor();
+  assert.equal(requests.length, singleRequests + 2);
+  assert.equal(requests.at(-1).maxTokens, "512");
+  assert.equal(requests.at(-1).prompt, "=1+1");
+  await singleMode.click();
+  await batchMode.click();
+  await page.getByRole("status").filter({ hasText: "已记录 2" }).waitFor();
   const downloaded = page.waitForEvent("download");
   await page.getByRole("button", { name: "导出 CSV", exact: true }).click();
   const csv = await readFile(await (await downloaded).path(), "utf8");
   assert.match(csv, /'=1\+1/);
-  assert.equal(csv.split("\r\n").length, 4);
+  assert.equal(csv.split("\r\n").length, 3);
   assert.equal(
     await page.evaluate(
       () => JSON.parse(localStorage.getItem("ma.testSuite")).length,
@@ -295,6 +424,11 @@ try {
     .getByRole("button", { name: "恢复查看", exact: true })
     .first()
     .click();
+  assert.equal(
+    await singleMode.getAttribute("aria-pressed"),
+    "true",
+    "history opens the single comparison view",
+  );
   await tools
     .getByRole("button", { name: "展开全部输出", exact: true })
     .click();
@@ -406,7 +540,7 @@ try {
   );
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: mobile comparison, output toggles, screenshot restoration, PNG export, history, truncation, one-model retry, exact rerun, unchanged saved settings, cross-day hydration, homepage, expiry, links and protected API; no paid requests",
+    "PASS: mobile comparison, top display settings, independent batch view/drafts/models/parameters/results, switches during running, run guards, CSV export, output toggles, screenshot restoration, PNG export, history, truncation, one-model retry, exact rerun, unchanged saved settings, cross-day hydration, homepage, expiry, links and protected API; no paid requests",
   );
 } finally {
   await browser.close();

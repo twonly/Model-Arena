@@ -206,7 +206,10 @@ export default function Home() {
   const [task, setTask] = useState<TaskIdentity | undefined>();
   const [seedRefs, setSeedRefs] = useState<ArenaSeed["endpointRefs"]>();
   const [missingModels, setMissingModels] = useState<string[]>([]);
+  const [view, setView] = useState<"single" | "batch">("single");
   const [batchBusy, setBatchBusy] = useState(false);
+  const batchBusyRef = useRef(false);
+  batchBusyRef.current = batchBusy;
   const [reportId, setReportId] = useState<string | undefined>();
   const [temporaryParams, setTemporaryParams] = useState<RunParams | null>(
     null,
@@ -948,6 +951,14 @@ export default function Home() {
   };
 
   const rerunOne = (ep: ModelEndpoint) => {
+    if (batchBusyRef.current) {
+      flash(
+        en
+          ? "Stop the batch run before retrying a model."
+          : "请先停止批量运行，再重跑单个模型。",
+      );
+      return;
+    }
     // 全部走 ref：此函数可能被 memo 卡片里的旧闭包调用
     const context = comparisonRef.current;
     if (!context?.prompt.trim() || restoredRef.current) return;
@@ -1211,6 +1222,7 @@ export default function Home() {
   };
 
   const restoreHistory = (h: HistoryEntry) => {
+    setView("single");
     setTemporaryEndpoints(null);
     setArenaSeedMode(null);
     setTemporaryDraft(null);
@@ -1481,937 +1493,986 @@ export default function Home() {
           onLogin={() => setAccountOpen(true)}
         />
       )}
-      {!captureMode && !restored && usingTemporaryContext && (
-        <details className="mb-4 rounded-lg border border-line bg-card p-3 text-sm">
-          <summary className="cursor-pointer font-semibold">
-            {arenaSeedMode === "report"
-              ? en
-                ? "Report configuration loaded"
-                : "已带入原报告配置"
-              : temporaryModeLabel}{" "}
-            · {activeEndpoints.filter((e) => e.enabled).length}{" "}
-            {en ? "models" : "个模型"}
-          </summary>
-          <p className="my-3 text-faint">
-            {en
-              ? "This temporary setup keeps your saved configuration. Review endpoint access and parameters before running."
-              : "本次临时配置保留原有设置。开始前请确认接入权限与参数。"}
-          </p>
-          <button onClick={exitTemporaryMode} className={btn}>
-            {en ? "Use my saved setup" : "使用我的原有配置"}
-          </button>
-        </details>
-      )}
-      {toast && !captureMode && (
-        <p role="status" className="mb-3 text-sm text-accent">
-          {toast}
-        </p>
-      )}
-      {/* ===== Prompt 区 ===== */}
-      {!captureMode ? (
-        <div className="mb-5 rounded-lg border border-line bg-card p-3.5">
-          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
-            <label htmlFor="task-prompt" className="font-bold">
-              {en ? "1. Your task" : "1. 输入你的任务"}
-            </label>
-            <select
-              className="max-w-full rounded border border-line p-2 text-sm"
-              aria-label={en ? "Standard test case" : "标准测试案例"}
-              value={
-                BENCHMARK_CASES.some(
-                  (c) => c.id === task?.caseId && c.prompt === prompt,
-                )
-                  ? task?.caseId
-                  : ""
-              }
-              onChange={(e) => {
-                const c = BENCHMARK_CASES.find((c) => c.id === e.target.value);
-                if (c) {
-                  setPrompt(c.prompt);
-                  setTask({ caseId: c.id, version: c.version });
-                  setTemporaryParams(BENCHMARK_PARAMS);
-                } else setTask(undefined);
-              }}
-            >
-              <option value="">
-                {en ? "Custom task · not graded" : "自定义任务 · 尚未评估"}
-              </option>
-              {BENCHMARK_CASES.map((c) => (
-                <option key={c.id} value={c.id}>
-                  {en ? c.titleEn : c.title}
-                </option>
-              ))}
-            </select>
-          </div>
-          <textarea
-            className="ghost-input text-[14px] leading-relaxed min-h-[64px]"
-            rows={3}
-            id="task-prompt"
-            aria-label={en ? "Your task" : "你的任务"}
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder={
-              en
-                ? "Enter the Prompt to send to all models..."
-                : "输入要同时发给所有模型的 Prompt……"
-            }
-          />
-          <div
-            className="my-3 flex flex-wrap items-center gap-2"
-            aria-label={en ? "Selected models" : "已选模型"}
+      {!captureMode && (
+        <nav
+          aria-label={en ? "Comparison mode" : "对比方式"}
+          className="mb-5 flex flex-wrap gap-2"
+        >
+          <button
+            className={`rounded-lg border px-4 py-2.5 text-sm font-semibold ${view === "single" ? "border-ink bg-ink text-paper" : "border-line bg-card"}`}
+            aria-pressed={view === "single"}
+            aria-controls="single-comparison"
+            onClick={() => setView("single")}
           >
-            <span className="mr-2 text-sm font-bold">
-              {en ? "2. Models" : "2. 选择模型"}
-            </span>
-            {activeEndpoints
-              .filter((ep) => ep.enabled)
-              .map((ep) => (
-                <label
-                  key={ep.id}
-                  className="flex min-h-11 items-center gap-2 rounded border border-line px-3 text-sm"
+            {en ? "Single comparison" : "单次对比"}
+            {anyRunning && (en ? " · Running" : " · 运行中")}
+          </button>
+          <button
+            className={`rounded-lg border px-4 py-2.5 text-sm font-semibold ${view === "batch" ? "border-ink bg-ink text-paper" : "border-line bg-card"}`}
+            aria-pressed={view === "batch"}
+            aria-controls="batch-comparison"
+            onClick={() => setView("batch")}
+          >
+            {en ? "Test suites & batch runs" : "测试集与批量运行"}
+            {batchBusy && (en ? " · Running" : " · 运行中")}
+          </button>
+        </nav>
+      )}
+      <div id="single-comparison" hidden={view !== "single"}>
+        <details
+          ref={displaySettingsRef}
+          id="display-settings"
+          data-no-export="1"
+          hidden={captureMode}
+          className="my-6 rounded-lg border border-line bg-card p-4"
+        >
+          <summary className="mb-4 cursor-pointer font-bold">
+            {en ? "Title, notes & display settings" : "标题、备注与显示设置"}
+          </summary>
+          {!captureMode && reportHeading}
+
+          {/* ===== 工具条 ===== */}
+          {!captureMode && (
+            <div
+              data-no-export="1"
+              className="mb-4 flex flex-wrap items-center gap-2"
+            >
+              {/* —— 常驻：高频 / 与当前对比强相关 —— */}
+              <button className={btn} onClick={() => setSettingsOpen(true)}>
+                ⚙ {en ? "Models" : "模型配置"}
+              </button>
+              <button
+                className={btn}
+                onClick={() => setThinkStats((v) => !v)}
+                title={
+                  en
+                    ? "When off, reasoning/output are not split: TTFT is based on first content token and speed is calculated only from content tokens."
+                    : "关闭后不拆分思考/输出：首Token 按首个正文 token 计（思考计入等待），速度只按正文 token 计算"
+                }
+              >
+                {thinkStats
+                  ? en
+                    ? "Reasoning stats: on"
+                    : "思考统计：开"
+                  : en
+                    ? "Reasoning stats: off"
+                    : "思考统计：关"}
+              </button>
+              <button
+                className={btn}
+                onClick={() => setCompact((v) => !v)}
+                title={
+                  en
+                    ? "Compact mode collapses output content and focuses on metrics."
+                    : "紧凑模式：折叠输出内容只看指标，多模型纯竞速一屏看全"
+                }
+              >
+                {compact
+                  ? en
+                    ? "📊 Compact: on"
+                    : "📊 紧凑：开"
+                  : en
+                    ? "📊 Compact: off"
+                    : "📊 紧凑：关"}
+              </button>
+              <a className={btn} href={localHref("/me")}>
+                🗂 {en ? "Mine" : "我的"}
+              </a>
+              <button className={btn} onClick={() => setAccountOpen(true)}>
+                👤 {en ? "Account Sync" : "账号同步"}
+              </button>
+              <button
+                className={btn}
+                onClick={() => setMarkdown((v) => !v)}
+                title={
+                  en
+                    ? "Toggle Markdown rendering / raw text"
+                    : "切换输出区 Markdown 渲染 / 原始文本"
+                }
+              >
+                {markdown
+                  ? en
+                    ? "MD render: on"
+                    : "MD 渲染：开"
+                  : en
+                    ? "MD render: off"
+                    : "MD 渲染：关"}
+              </button>
+              <button className={btn} onClick={() => setWmOpen((v) => !v)}>
+                💧 {en ? "Watermark" : "水印"}
+                {watermark.trim() ? (en ? ": on" : "：开") : ""}
+              </button>
+              <button
+                className={btn}
+                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                title={en ? "Toggle light/dark theme" : "切换明暗主题"}
+              >
+                {theme === "dark"
+                  ? en
+                    ? "☀️ Light"
+                    : "☀️ 浅色"
+                  : en
+                    ? "🌙 Dark"
+                    : "🌙 暗色"}
+              </button>
+              {telemetry.choice && (
+                <button
+                  className={btn}
+                  onClick={() =>
+                    decideTelemetry(
+                      telemetry.choice === "granted" ? "denied" : "granted",
+                    )
+                  }
+                  title={
+                    en
+                      ? "Anonymously share numeric benchmark metrics only. API Keys and input/output content are never included. You can toggle this anytime."
+                      : "匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
+                  }
                 >
-                  <input
-                    type="checkbox"
-                    checked={ep.enabled}
-                    disabled={anyRunning || batchBusy}
-                    onChange={(e) => {
-                      const change = (list: ModelEndpoint[]) =>
-                        list.map((m) =>
-                          m.id === ep.id
-                            ? { ...m, enabled: e.target.checked }
-                            : m,
-                        );
-                      if (temporaryEndpoints)
-                        setTemporaryEndpoints(change(temporaryEndpoints));
-                      else setEndpoints(change);
-                    }}
-                  />
-                  {ep.name}
-                </label>
-              ))}
-            <button className={btn} onClick={() => setSettingsOpen(true)}>
-              {en ? "Connect / configure" : "接入与配置"}
-            </button>
-          </div>
-          {missingModels.length > 0 && (
-            <p role="alert" className="my-3 text-sm text-accent">
-              {en
-                ? "Connect these exact endpoints before rerunning: "
-                : "复测前请接入这些原始模型，未自动替换："}
-              {missingModels.join("；")}
-            </p>
+                  📡 {en ? "Metrics sharing" : "指标共享"}：
+                  {telemetry.choice === "granted"
+                    ? en
+                      ? "on"
+                      : "开"
+                    : en
+                      ? "off"
+                      : "关"}
+                </button>
+              )}
+
+              {/* —— 上下文：始终可见 —— */}
+              {telemetryStatus && (
+                <span
+                  className="text-[11.5px]"
+                  style={{
+                    color: telemetryStatus.startsWith("✗")
+                      ? "var(--accent)"
+                      : "var(--go)",
+                  }}
+                >
+                  {telemetryStatus}
+                </span>
+              )}
+              <span className="ml-auto text-[11px] text-accent">{toast}</span>
+            </div>
           )}
-          {!captureMode &&
-            quota != null &&
-            activeEndpoints.some((e) => e.enabled && e.shared) && (
-              <details className="my-3 text-xs text-faint">
-                <summary className="cursor-pointer">
-                  {en ? "Trial quota remaining" : "体验额度剩余"}：
-                  {quota.remaining} · {en ? "Access options" : "接入说明"}
-                </summary>
-                <QuotaBanner
-                  remaining={quota.remaining}
-                  limit={quota.limit}
-                  loggedIn={quota.loggedIn}
-                  bonusRemaining={quota.bonusRemaining}
-                  onLogin={() => setAccountOpen(true)}
-                  onInvite={() => setAccountOpen(true)}
-                  onConfigure={() => setSettingsOpen(true)}
+
+          {/* 水印设置 */}
+          {wmOpen && !captureMode && (
+            <div
+              data-no-export="1"
+              className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-card px-3.5 py-2.5"
+            >
+              <input
+                className="num w-72 rounded-md border border-line px-2.5 py-1.5 text-[12px] outline-none focus:border-ink/40"
+                value={watermark}
+                onChange={(e) => setWatermark(e.target.value)}
+                placeholder={
+                  en
+                    ? "e.g. X @yourID · Blog @yourname"
+                    : "如 小红书 @你的ID · X @yourID"
+                }
+              />
+              <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] text-faint">
+                <input
+                  type="checkbox"
+                  checked={wmTiled}
+                  onChange={(e) => setWmTiled(e.target.checked)}
+                  className="accent-[var(--accent)]"
                 />
-              </details>
+                {en ? "Tiled anti-repost watermark" : "平铺防盗水印"}
+              </label>
+              <span className="text-[11px] text-faint/80">
+                {en
+                  ? "Shown in the header line and bottom-right badge. Copied Markdown tables also include the credit."
+                  : "显示在页头信息行 + 页面右下角徽标，复制的 Markdown 表格也会带上署名"}
+              </span>
+            </div>
+          )}
+        </details>
+        {batchBusy && !captureMode && (
+          <p role="status" className="mb-3 text-sm text-accent">
+            {en
+              ? "A batch is running. Switch to Test suites & batch runs to view or stop it before starting a single comparison."
+              : "批量任务运行中。可切换到「测试集与批量运行」查看或停止，再开始单次对比。"}
+          </p>
+        )}
+        {!captureMode && !restored && usingTemporaryContext && (
+          <details className="mb-4 rounded-lg border border-line bg-card p-3 text-sm">
+            <summary className="cursor-pointer font-semibold">
+              {arenaSeedMode === "report"
+                ? en
+                  ? "Report configuration loaded"
+                  : "已带入原报告配置"
+                : temporaryModeLabel}{" "}
+              · {activeEndpoints.filter((e) => e.enabled).length}{" "}
+              {en ? "models" : "个模型"}
+            </summary>
+            <p className="my-3 text-faint">
+              {en
+                ? "This temporary setup keeps your saved configuration. Review endpoint access and parameters before running."
+                : "本次临时配置保留原有设置。开始前请确认接入权限与参数。"}
+            </p>
+            <button onClick={exitTemporaryMode} className={btn}>
+              {en ? "Use my saved setup" : "使用我的原有配置"}
+            </button>
+          </details>
+        )}
+        {toast && !captureMode && (
+          <p role="status" className="mb-3 text-sm text-accent">
+            {toast}
+          </p>
+        )}
+        {/* ===== Prompt 区 ===== */}
+        {!captureMode ? (
+          <div className="mb-5 rounded-lg border border-line bg-card p-3.5">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+              <label htmlFor="task-prompt" className="font-bold">
+                {en ? "1. Your task" : "1. 输入你的任务"}
+              </label>
+              <select
+                className="max-w-full rounded border border-line p-2 text-sm"
+                aria-label={en ? "Standard test case" : "标准测试案例"}
+                value={
+                  BENCHMARK_CASES.some(
+                    (c) => c.id === task?.caseId && c.prompt === prompt,
+                  )
+                    ? task?.caseId
+                    : ""
+                }
+                onChange={(e) => {
+                  const c = BENCHMARK_CASES.find(
+                    (c) => c.id === e.target.value,
+                  );
+                  if (c) {
+                    setPrompt(c.prompt);
+                    setTask({ caseId: c.id, version: c.version });
+                    setTemporaryParams(BENCHMARK_PARAMS);
+                  } else setTask(undefined);
+                }}
+              >
+                <option value="">
+                  {en ? "Custom task · not graded" : "自定义任务 · 尚未评估"}
+                </option>
+                {BENCHMARK_CASES.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {en ? c.titleEn : c.title}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <textarea
+              className="ghost-input text-[14px] leading-relaxed min-h-[64px]"
+              rows={3}
+              id="task-prompt"
+              aria-label={en ? "Your task" : "你的任务"}
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              placeholder={
+                en
+                  ? "Enter the Prompt to send to all models..."
+                  : "输入要同时发给所有模型的 Prompt……"
+              }
+            />
+            <div
+              className="my-3 flex flex-wrap items-center gap-2"
+              aria-label={en ? "Selected models" : "已选模型"}
+            >
+              <span className="mr-2 text-sm font-bold">
+                {en ? "2. Models" : "2. 选择模型"}
+              </span>
+              {activeEndpoints
+                .filter((ep) => ep.enabled)
+                .map((ep) => (
+                  <label
+                    key={ep.id}
+                    className="flex min-h-11 items-center gap-2 rounded border border-line px-3 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      checked={ep.enabled}
+                      disabled={anyRunning || batchBusy}
+                      onChange={(e) => {
+                        const change = (list: ModelEndpoint[]) =>
+                          list.map((m) =>
+                            m.id === ep.id
+                              ? { ...m, enabled: e.target.checked }
+                              : m,
+                          );
+                        if (temporaryEndpoints)
+                          setTemporaryEndpoints(change(temporaryEndpoints));
+                        else setEndpoints(change);
+                      }}
+                    />
+                    {ep.name}
+                  </label>
+                ))}
+              <button className={btn} onClick={() => setSettingsOpen(true)}>
+                {en ? "Connect / configure" : "接入与配置"}
+              </button>
+            </div>
+            {missingModels.length > 0 && (
+              <p role="alert" className="my-3 text-sm text-accent">
+                {en
+                  ? "Connect these exact endpoints before rerunning: "
+                  : "复测前请接入这些原始模型，未自动替换："}
+                {missingModels.join("；")}
+              </p>
             )}
+            {!captureMode &&
+              quota != null &&
+              activeEndpoints.some((e) => e.enabled && e.shared) && (
+                <details className="my-3 text-xs text-faint">
+                  <summary className="cursor-pointer">
+                    {en ? "Trial quota remaining" : "体验额度剩余"}：
+                    {quota.remaining} · {en ? "Access options" : "接入说明"}
+                  </summary>
+                  <QuotaBanner
+                    remaining={quota.remaining}
+                    limit={quota.limit}
+                    loggedIn={quota.loggedIn}
+                    bonusRemaining={quota.bonusRemaining}
+                    onLogin={() => setAccountOpen(true)}
+                    onInvite={() => setAccountOpen(true)}
+                    onConfigure={() => setSettingsOpen(true)}
+                  />
+                </details>
+              )}
+            <div
+              data-no-export="1"
+              className="mt-2 flex flex-wrap items-center gap-2 border-t border-line pt-2.5"
+            >
+              <button
+                className={btn}
+                onClick={() => setPromptLibOpen(true)}
+                title={
+                  en
+                    ? "Curated benchmark prompts plus your saved custom prompts"
+                    : "精选 benchmark 评测题 + 自己保存的常用 Prompt"
+                }
+              >
+                📚 {en ? "Prompt Library" : "Prompt 库"}
+              </button>
+              <button
+                className={btn}
+                onClick={() => setShowAdvanced((v) => !v)}
+              >
+                {showAdvanced ? "▾" : "▸"} {en ? "Advanced Params" : "高级参数"}
+              </button>
+              <label
+                className={btn}
+                title={
+                  en
+                    ? "Upload an image to send with the Prompt to every model. Compare vision model speed and quality. Images are auto-compressed to 1600px JPEG."
+                    : "上传一张图随 Prompt 发给所有模型，对比各家视觉模型的识图速度与质量（自动压缩到 1600px JPEG）"
+                }
+              >
+                🖼 {en ? "Image" : "图片"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={async (e) => {
+                    const f = e.target.files?.[0];
+                    e.target.value = "";
+                    if (!f) return;
+                    try {
+                      const dataUrl = await fileToResizedDataUrl(f);
+                      setImage({ dataUrl, name: f.name });
+                      flash(arenaText.imageReady);
+                    } catch {
+                      flash(arenaText.imageReadFailed);
+                    }
+                  }}
+                />
+              </label>
+              {image && (
+                <span className="flex items-center gap-1.5 rounded-md border border-line bg-paper/60 px-1.5 py-1">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={image.dataUrl}
+                    alt={en ? "Comparison image" : "对比用图片"}
+                    className="h-7 w-7 rounded border border-line object-cover"
+                  />
+                  <span className="num max-w-[110px] truncate text-[10.5px] text-faint">
+                    {image.name}
+                  </span>
+                  <button
+                    onClick={() => setImage(null)}
+                    className="px-0.5 text-[12px] text-faint hover:text-accent cursor-pointer"
+                    title={en ? "Remove image" : "移除图片"}
+                  >
+                    ✕
+                  </button>
+                </span>
+              )}
+              <div className="ml-auto flex items-center gap-2">
+                {anyRunning ? (
+                  <button
+                    onClick={stopAll}
+                    className="rounded-md bg-accent px-6 py-2 text-[14px] font-bold text-white cursor-pointer"
+                  >
+                    {en ? "Stop" : "停 止"}
+                  </button>
+                ) : (
+                  <button
+                    onClick={startAll}
+                    disabled={
+                      batchBusy ||
+                      missingModels.length > 0 ||
+                      !prompt.trim() ||
+                      !activeEndpoints.some((e) => e.enabled)
+                    }
+                    className="rounded-md bg-ink px-6 py-2 text-[14px] font-bold text-paper disabled:opacity-35 cursor-pointer"
+                  >
+                    {en ? "Start Comparison" : "开始对比"} ▶
+                  </button>
+                )}
+              </div>
+            </div>
+            {showAdvanced && (
+              <div className="mt-2.5 grid gap-2.5 border-t border-line pt-2.5 sm:grid-cols-3">
+                <label className="sm:col-span-3 block">
+                  <div className="text-[11px] text-faint mb-1">
+                    System Prompt
+                    {en
+                      ? " (shared by all models, leave blank to omit)"
+                      : "（所有模型共用，留空不传）"}
+                  </div>
+                  <textarea
+                    className="w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
+                    rows={2}
+                    value={params.systemPrompt}
+                    onChange={(e) =>
+                      setParams({ ...params, systemPrompt: e.target.value })
+                    }
+                  />
+                </label>
+                <label className="block">
+                  <div className="text-[11px] text-faint mb-1">
+                    Temperature
+                    {en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
+                  </div>
+                  <input
+                    className="num w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
+                    value={params.temperature}
+                    onChange={(e) =>
+                      setParams({ ...params, temperature: e.target.value })
+                    }
+                    placeholder={en ? "e.g. 0.7" : "如 0.7"}
+                  />
+                </label>
+                <label className="block">
+                  <div className="text-[11px] text-faint mb-1">
+                    Max Tokens
+                    {en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
+                  </div>
+                  <input
+                    className="num w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
+                    value={params.maxTokens}
+                    onChange={(e) =>
+                      setParams({ ...params, maxTokens: e.target.value })
+                    }
+                    placeholder={en ? "e.g. 8192" : "如 8192"}
+                  />
+                </label>
+              </div>
+            )}
+          </div>
+        ) : (
+          (restored?.prompt ?? comparison?.prompt ?? prompt).trim() && (
+            <div className="mb-5 rounded-lg border border-line bg-card px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap">
+              {restored?.prompt ?? comparison?.prompt ?? prompt}
+              {(comparison ? comparison.imageDataUrl : image?.dataUrl) && (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={comparison ? comparison.imageDataUrl : image?.dataUrl}
+                  alt={en ? "Comparison image" : "对比用图片"}
+                  className="mt-2.5 max-h-44 rounded-md border border-line"
+                />
+              )}
+            </div>
+          )
+        )}
+
+        {/* ===== 遥测同意声明（首次出结果后询问一次） ===== */}
+        {!telemetry.choice && hasResults && !captureMode && !restored && (
           <div
             data-no-export="1"
-            className="mt-2 flex flex-wrap items-center gap-2 border-t border-line pt-2.5"
+            className="mb-4 rounded-lg border border-line bg-card px-4 py-3"
           >
-            <button
-              className={btn}
-              onClick={() => setPromptLibOpen(true)}
-              title={
-                en
-                  ? "Curated benchmark prompts plus your saved custom prompts"
-                  : "精选 benchmark 评测题 + 自己保存的常用 Prompt"
-              }
-            >
-              📚 {en ? "Prompt Library" : "Prompt 库"}
-            </button>
-            <button className={btn} onClick={() => setShowAdvanced((v) => !v)}>
-              {showAdvanced ? "▾" : "▸"} {en ? "Advanced Params" : "高级参数"}
-            </button>
-            <label
-              className={btn}
-              title={
-                en
-                  ? "Upload an image to send with the Prompt to every model. Compare vision model speed and quality. Images are auto-compressed to 1600px JPEG."
-                  : "上传一张图随 Prompt 发给所有模型，对比各家视觉模型的识图速度与质量（自动压缩到 1600px JPEG）"
-              }
-            >
-              🖼 {en ? "Image" : "图片"}
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={async (e) => {
-                  const f = e.target.files?.[0];
-                  e.target.value = "";
-                  if (!f) return;
-                  try {
-                    const dataUrl = await fileToResizedDataUrl(f);
-                    setImage({ dataUrl, name: f.name });
-                    flash(arenaText.imageReady);
-                  } catch {
-                    flash(arenaText.imageReadFailed);
-                  }
-                }}
-              />
-            </label>
-            {image && (
-              <span className="flex items-center gap-1.5 rounded-md border border-line bg-paper/60 px-1.5 py-1">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={image.dataUrl}
-                  alt={en ? "Comparison image" : "对比用图片"}
-                  className="h-7 w-7 rounded border border-line object-cover"
-                />
-                <span className="num max-w-[110px] truncate text-[10.5px] text-faint">
-                  {image.name}
-                </span>
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
+              <span className="text-[13px] font-semibold">
+                📡{" "}
+                {en
+                  ? "Share these benchmark metrics anonymously?"
+                  : "愿意匿名共享这些评测指标吗？"}
+              </span>
+              <span className="text-[12px] text-faint">
+                {en
+                  ? "Only numeric metrics like speed and tokens are uploaded to help analyze real-world model performance; "
+                  : "只上传速度/token 等数字指标，帮助分析各家模型的真实表现；"}
+                <b className="text-ink">
+                  {en
+                    ? "API Keys and any input/output content are never uploaded"
+                    : "不上传 API Key 和任何输入输出内容"}
+                </b>
+                {en ? "." : "。"}
+              </span>
+              <details className="text-[12px] text-faint">
+                <summary className="cursor-pointer select-none hover:text-ink">
+                  {en ? "Details" : "查看明细"}
+                </summary>
+                <div className="mt-1.5 grid gap-x-6 gap-y-0.5 sm:grid-cols-2">
+                  <div>
+                    <div className="font-semibold text-ink">
+                      {en ? "Stored:" : "会保存："}
+                    </div>
+                    {consentFields.collected.map((f) => (
+                      <div key={f}>· {f}</div>
+                    ))}
+                  </div>
+                  <div>
+                    <div
+                      className="font-semibold"
+                      style={{ color: "var(--accent)" }}
+                    >
+                      {en ? "Never stored:" : "永不保存："}
+                    </div>
+                    {consentFields.notCollected.map((f) => (
+                      <div key={f}>· {f}</div>
+                    ))}
+                  </div>
+                </div>
+              </details>
+              <span className="ml-auto flex gap-2">
                 <button
-                  onClick={() => setImage(null)}
-                  className="px-0.5 text-[12px] text-faint hover:text-accent cursor-pointer"
-                  title={en ? "Remove image" : "移除图片"}
+                  onClick={() => decideTelemetry("granted")}
+                  className="rounded-md bg-ink px-3.5 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
                 >
-                  ✕
+                  {en ? "Share" : "同意共享"}
+                </button>
+                <button
+                  onClick={() => decideTelemetry("denied")}
+                  className="rounded-md border border-line px-3.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer"
+                >
+                  {en ? "Do Not Share" : "不共享"}
                 </button>
               </span>
-            )}
-            <div className="ml-auto flex items-center gap-2">
-              {anyRunning ? (
+            </div>
+          </div>
+        )}
+
+        {/* ===== 模型条：隐藏/显示与排序（隐藏的模型后台照常跑） ===== */}
+        {!captureMode &&
+          !restored &&
+          (hasResults || anyRunning) &&
+          enabledEndpoints.length >= 2 && (
+            <div
+              data-no-export="1"
+              className="mb-3 flex flex-wrap items-center gap-1.5"
+            >
+              <span className="text-[11px] text-faint shrink-0">
+                {en ? "Visible" : "显示"}
+              </span>
+              {enabledEndpoints.map((ep, idx) => {
+                const run = runs[ep.id] ?? emptyRun();
+                const hidden = hiddenIds.includes(ep.id);
+                return (
+                  <span
+                    key={ep.id}
+                    className={`flex items-center gap-0.5 rounded-md border border-line px-1.5 py-1 text-[11.5px] ${
+                      hidden ? "bg-paper/40 opacity-50" : "bg-card"
+                    }`}
+                  >
+                    <button
+                      onClick={() => toggleHidden(ep.id)}
+                      title={
+                        hidden
+                          ? en
+                            ? "Restore visibility. It has kept running in the background."
+                            : "点击恢复显示（后台一直在跑）"
+                          : en
+                            ? "Hide this model. It keeps running in the background and can be restored anytime."
+                            : "点击隐藏此模型（后台继续跑，随时可恢复）"
+                      }
+                      className="flex items-center gap-1.5 cursor-pointer"
+                    >
+                      <span
+                        className={`inline-block h-1.5 w-1.5 rounded-full ${isRunning(run) ? "pulsing" : ""}`}
+                        style={{ background: STATUS_COLOR[run.status] }}
+                      />
+                      <span className={hidden ? "line-through" : ""}>
+                        {ep.name}
+                      </span>
+                      {run.rank != null && <span>{rankBadge(run.rank)}</span>}
+                    </button>
+                    <button
+                      onClick={() => moveEndpoint(ep.id, -1)}
+                      disabled={idx === 0}
+                      title={en ? "Move left" : "左移"}
+                      className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
+                    >
+                      ◂
+                    </button>
+                    <button
+                      onClick={() => moveEndpoint(ep.id, 1)}
+                      disabled={idx === enabledEndpoints.length - 1}
+                      title={en ? "Move right" : "右移"}
+                      className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
+                    >
+                      ▸
+                    </button>
+                  </span>
+                );
+              })}
+              {hiddenIds.length > 0 && (
                 <button
-                  onClick={stopAll}
-                  className="rounded-md bg-accent px-6 py-2 text-[14px] font-bold text-white cursor-pointer"
+                  onClick={() => setHiddenIds([])}
+                  className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
                 >
-                  {en ? "Stop" : "停 止"}
-                </button>
-              ) : (
-                <button
-                  onClick={startAll}
-                  disabled={
-                    batchBusy ||
-                    missingModels.length > 0 ||
-                    !prompt.trim() ||
-                    !activeEndpoints.some((e) => e.enabled)
-                  }
-                  className="rounded-md bg-ink px-6 py-2 text-[14px] font-bold text-paper disabled:opacity-35 cursor-pointer"
-                >
-                  {en ? "Start Comparison" : "开始对比"} ▶
+                  {en ? "Show all" : "全部显示"}
                 </button>
               )}
             </div>
-          </div>
-          {showAdvanced && (
-            <div className="mt-2.5 grid gap-2.5 border-t border-line pt-2.5 sm:grid-cols-3">
-              <label className="sm:col-span-3 block">
-                <div className="text-[11px] text-faint mb-1">
-                  System Prompt
-                  {en
-                    ? " (shared by all models, leave blank to omit)"
-                    : "（所有模型共用，留空不传）"}
-                </div>
-                <textarea
-                  className="w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
-                  rows={2}
-                  value={params.systemPrompt}
-                  onChange={(e) =>
-                    setParams({ ...params, systemPrompt: e.target.value })
-                  }
-                />
-              </label>
-              <label className="block">
-                <div className="text-[11px] text-faint mb-1">
-                  Temperature
-                  {en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
-                </div>
-                <input
-                  className="num w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
-                  value={params.temperature}
-                  onChange={(e) =>
-                    setParams({ ...params, temperature: e.target.value })
-                  }
-                  placeholder={en ? "e.g. 0.7" : "如 0.7"}
-                />
-              </label>
-              <label className="block">
-                <div className="text-[11px] text-faint mb-1">
-                  Max Tokens
-                  {en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
-                </div>
-                <input
-                  className="num w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
-                  value={params.maxTokens}
-                  onChange={(e) =>
-                    setParams({ ...params, maxTokens: e.target.value })
-                  }
-                  placeholder={en ? "e.g. 8192" : "如 8192"}
-                />
-              </label>
-            </div>
           )}
-        </div>
-      ) : (
-        (restored?.prompt ?? comparison?.prompt ?? prompt).trim() && (
-          <div className="mb-5 rounded-lg border border-line bg-card px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap">
-            {restored?.prompt ?? comparison?.prompt ?? prompt}
-            {(comparison ? comparison.imageDataUrl : image?.dataUrl) && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img
-                src={comparison ? comparison.imageDataUrl : image?.dataUrl}
-                alt={en ? "Comparison image" : "对比用图片"}
-                className="mt-2.5 max-h-44 rounded-md border border-line"
-              />
-            )}
-          </div>
-        )
-      )}
 
-      {/* ===== 遥测同意声明（首次出结果后询问一次） ===== */}
-      {!telemetry.choice && hasResults && !captureMode && !restored && (
-        <div
-          data-no-export="1"
-          className="mb-4 rounded-lg border border-line bg-card px-4 py-3"
-        >
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
-            <span className="text-[13px] font-semibold">
-              📡{" "}
+        {!captureMode &&
+          hasResults &&
+          comparison &&
+          comparison.prompt !== prompt && (
+            <p className="mb-3 rounded border border-line p-3 text-sm">
               {en
-                ? "Share these benchmark metrics anonymously?"
-                : "愿意匿名共享这些评测指标吗？"}
-            </span>
-            <span className="text-[12px] text-faint">
-              {en
-                ? "Only numeric metrics like speed and tokens are uploaded to help analyze real-world model performance; "
-                : "只上传速度/token 等数字指标，帮助分析各家模型的真实表现；"}
-              <b className="text-ink">
-                {en
-                  ? "API Keys and any input/output content are never uploaded"
-                  : "不上传 API Key 和任何输入输出内容"}
-              </b>
-              {en ? "." : "。"}
-            </span>
-            <details className="text-[12px] text-faint">
-              <summary className="cursor-pointer select-none hover:text-ink">
-                {en ? "Details" : "查看明细"}
-              </summary>
-              <div className="mt-1.5 grid gap-x-6 gap-y-0.5 sm:grid-cols-2">
-                <div>
-                  <div className="font-semibold text-ink">
-                    {en ? "Stored:" : "会保存："}
-                  </div>
-                  {consentFields.collected.map((f) => (
-                    <div key={f}>· {f}</div>
-                  ))}
-                </div>
-                <div>
-                  <div
-                    className="font-semibold"
-                    style={{ color: "var(--accent)" }}
-                  >
-                    {en ? "Never stored:" : "永不保存："}
-                  </div>
-                  {consentFields.notCollected.map((f) => (
-                    <div key={f}>· {f}</div>
-                  ))}
-                </div>
-              </div>
-            </details>
-            <span className="ml-auto flex gap-2">
-              <button
-                onClick={() => decideTelemetry("granted")}
-                className="rounded-md bg-ink px-3.5 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
-              >
-                {en ? "Share" : "同意共享"}
-              </button>
-              <button
-                onClick={() => decideTelemetry("denied")}
-                className="rounded-md border border-line px-3.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer"
-              >
-                {en ? "Do Not Share" : "不共享"}
-              </button>
-            </span>
-          </div>
-        </div>
-      )}
-
-      {/* ===== 模型条：隐藏/显示与排序（隐藏的模型后台照常跑） ===== */}
-      {!captureMode &&
-        !restored &&
-        (hasResults || anyRunning) &&
-        enabledEndpoints.length >= 2 && (
+                ? "Results below belong to the previous task. Start a new comparison to test your edited prompt; retries keep the original task."
+                : "下方结果属于上一次任务。开始对比会测试修改后的 Prompt；单模型重试保留原任务。"}
+            </p>
+          )}
+        {!captureMode && (hasResults || anyRunning) && (
           <div
+            role="group"
+            aria-label={en ? "Result tools" : "结果工具"}
             data-no-export="1"
-            className="mb-3 flex flex-wrap items-center gap-1.5"
+            className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card p-3 [&_button]:min-h-11"
           >
-            <span className="text-[11px] text-faint shrink-0">
-              {en ? "Visible" : "显示"}
-            </span>
-            {enabledEndpoints.map((ep, idx) => {
-              const run = runs[ep.id] ?? emptyRun();
-              const hidden = hiddenIds.includes(ep.id);
-              return (
-                <span
-                  key={ep.id}
-                  className={`flex items-center gap-0.5 rounded-md border border-line px-1.5 py-1 text-[11.5px] ${
-                    hidden ? "bg-paper/40 opacity-50" : "bg-card"
-                  }`}
-                >
-                  <button
-                    onClick={() => toggleHidden(ep.id)}
-                    title={
-                      hidden
-                        ? en
-                          ? "Restore visibility. It has kept running in the background."
-                          : "点击恢复显示（后台一直在跑）"
-                        : en
-                          ? "Hide this model. It keeps running in the background and can be restored anytime."
-                          : "点击隐藏此模型（后台继续跑，随时可恢复）"
-                    }
-                    className="flex items-center gap-1.5 cursor-pointer"
-                  >
-                    <span
-                      className={`inline-block h-1.5 w-1.5 rounded-full ${isRunning(run) ? "pulsing" : ""}`}
-                      style={{ background: STATUS_COLOR[run.status] }}
-                    />
-                    <span className={hidden ? "line-through" : ""}>
-                      {ep.name}
-                    </span>
-                    {run.rank != null && <span>{rankBadge(run.rank)}</span>}
-                  </button>
-                  <button
-                    onClick={() => moveEndpoint(ep.id, -1)}
-                    disabled={idx === 0}
-                    title={en ? "Move left" : "左移"}
-                    className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
-                  >
-                    ◂
-                  </button>
-                  <button
-                    onClick={() => moveEndpoint(ep.id, 1)}
-                    disabled={idx === enabledEndpoints.length - 1}
-                    title={en ? "Move right" : "右移"}
-                    className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
-                  >
-                    ▸
-                  </button>
-                </span>
-              );
-            })}
-            {hiddenIds.length > 0 && (
-              <button
-                onClick={() => setHiddenIds([])}
-                className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
-              >
-                {en ? "Show all" : "全部显示"}
-              </button>
-            )}
-          </div>
-        )}
-
-      {!captureMode &&
-        hasResults &&
-        comparison &&
-        comparison.prompt !== prompt && (
-          <p className="mb-3 rounded border border-line p-3 text-sm">
-            {en
-              ? "Results below belong to the previous task. Start a new comparison to test your edited prompt; retries keep the original task."
-              : "下方结果属于上一次任务。开始对比会测试修改后的 Prompt；单模型重试保留原任务。"}
-          </p>
-        )}
-      {!captureMode && (hasResults || anyRunning) && (
-        <div
-          role="group"
-          aria-label={en ? "Result tools" : "结果工具"}
-          data-no-export="1"
-          className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card p-3 [&_button]:min-h-11"
-        >
-          <button
-            className={btn}
-            aria-controls="model-outputs"
-            onClick={() => {
-              setCompact(false);
-              setOpenOutputs(
-                Object.fromEntries(enabledEndpoints.map((ep) => [ep.id, true])),
-              );
-            }}
-          >
-            {en ? "Expand all outputs" : "展开全部输出"}
-          </button>
-          <button
-            className={btn}
-            aria-controls="model-outputs"
-            onClick={() => setOpenOutputs({})}
-          >
-            {en ? "Collapse all outputs" : "折叠全部输出"}
-          </button>
-          <button className={btn} onClick={() => setScreenshotMode(true)}>
-            📷 {en ? "Screenshot" : "截图模式"}
-          </button>
-          {hasResults && (
-            <button className={btn} onClick={copyResults}>
-              ⧉ {en ? "Copy Metrics" : "复制指标表"}
-            </button>
-          )}
-          {hasResults && (
             <button
               className={btn}
-              onClick={exportImage}
-              disabled={exporting}
-              title={
-                en
-                  ? "Export this comparison as a long image with title, notes, and watermark."
-                  : "把当前对比导出成长图（含标题/备注/水印），直接发文用"
-              }
-            >
-              🖼 {en ? "Export Image" : "导出长图"}
-            </button>
-          )}
-          {hasResults && !restored && (
-            <button
-              className={btn}
-              onClick={openShareConfig}
-              disabled={shareUrl === "loading"}
-              title={
-                en
-                  ? "Generate a read-only share link. Readers can view outputs, metrics, and speed curves. Prompt and model outputs are public; API Keys are not included."
-                  : "生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
-              }
-            >
-              {shareUrl === "loading"
-                ? en
-                  ? "Generating..."
-                  : "生成中…"
-                : `🔗 ${en ? "Share Link" : "分享链接"}`}
-            </button>
-          )}
-          {hasResults && (
-            <button
-              className={btn}
-              onClick={() => setReviewDraftOpen(true)}
-              title={
-                en
-                  ? "Use one of your local-Key models to turn this run's metrics, outputs, and Prompt into a publishable review draft."
-                  : "选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
-              }
-            >
-              ✍️ {en ? "Review Draft" : "生成评测稿"}
-            </button>
-          )}
-          {restored && (
-            <button
-              className={`${btn} text-accent border-accent/40`}
+              aria-controls="model-outputs"
               onClick={() => {
-                setRestored(null);
-                setRuns({});
+                setCompact(false);
+                setOpenOutputs(
+                  Object.fromEntries(
+                    enabledEndpoints.map((ep) => [ep.id, true]),
+                  ),
+                );
               }}
             >
-              ← {en ? "Exit History Snapshot" : "退出历史快照"}
-            </button>
-          )}
-          <button
-            className={btn}
-            aria-controls="display-settings"
-            onClick={() => {
-              const panel = displaySettingsRef.current;
-              if (panel) {
-                panel.open = true;
-                panel.scrollIntoView({ behavior: "smooth", block: "start" });
-                panel.querySelector("summary")?.focus({ preventScroll: true });
-              }
-            }}
-          >
-            {en ? "Title / watermark / display" : "标题 / 水印 / 显示设置"}
-          </button>
-        </div>
-      )}
-      {/* 分享错误（持久显示） */}
-      {shareError && !captureMode && (
-        <div
-          data-no-export="1"
-          className="mb-4 flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3.5 py-2.5"
-        >
-          <span className="text-[12.5px] text-accent break-all">
-            ⚠ {shareError}
-          </span>
-          <button
-            onClick={() => setShareError(null)}
-            className="ml-auto shrink-0 text-[12px] text-faint hover:text-ink cursor-pointer"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
-      {/* 分享链接显示（生成后） */}
-      {shareUrl && shareUrl !== "loading" && !captureMode && (
-        <div
-          data-no-export="1"
-          className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2.5"
-        >
-          <span className="text-[12px]" style={{ color: "var(--go)" }}>
-            🔗 {en ? "Read-only link generated" : "只读链接已生成"}
-          </span>
-          <input
-            readOnly
-            value={shareUrl}
-            onFocus={(e) => e.currentTarget.select()}
-            className="num min-w-0 flex-1 rounded-md border border-line bg-paper/60 px-2.5 py-1.5 text-[12px] outline-none"
-          />
-          <button
-            className={btn}
-            onClick={() => {
-              void navigator.clipboard.writeText(shareUrl);
-              flash(arenaText.copied);
-            }}
-          >
-            {messages.common.copy}
-          </button>
-          <a
-            className={btn}
-            href={shareUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {en ? "Open" : "打开"}
-          </a>
-          <span className="text-[11px] text-faint/80">
-            {en
-              ? "The link exposes the Prompt and model outputs, but never API Keys."
-              : "链接公开 Prompt 与模型输出，不含 API Key"}
-          </span>
-        </div>
-      )}
-
-      {shareUrl &&
-        shareUrl !== "loading" &&
-        !captureMode &&
-        generatedBadgeMarkdown && (
-          <SocialSharePanel
-            compact
-            className="mb-4"
-            url={shareUrl}
-            title={generatedShareTitle}
-            text={generatedShareText}
-            badgeMarkdown={generatedBadgeMarkdown}
-            badgeHtml={generatedBadgeHtml}
-          />
-        )}
-
-      {referralNudge && !captureMode && (
-        <ReferralShareNudge
-          reason={referralNudge}
-          models={referralModelNames}
-          onOpenAccount={() => setAccountOpen(true)}
-          onClose={() => setReferralNudge(null)}
-        />
-      )}
-
-      {hasResults && (
-        <ResultSummary
-          rows={enabledEndpoints.map((endpoint) => ({
-            endpoint,
-            run: runs[endpoint.id] ?? EMPTY_RUN,
-          }))}
-          prompt={restored?.prompt ?? comparison?.prompt ?? prompt}
-          task={restored ? restored.task : comparison ? comparison.task : task}
-          en={en}
-        />
-      )}
-      {/* 结算卡：速度 / 成本 / 已验证任务效果 */}
-      {verdict && hasResults && (
-        <div className="mt-4">
-          <VerdictCard verdict={verdict} locale={locale} />
-        </div>
-      )}
-
-      {/* 实时赛道：开跑后/有结果时在卡片上方显示 */}
-      {(anyRunning || hasResults) && visibleEndpoints.length >= 2 && (
-        <div className="mb-4">
-          <RaceTrack runners={runners} locale={locale} />
-        </div>
-      )}
-
-      {/* ===== 对比卡片 ===== */}
-      {visibleEndpoints.length === 0 ? (
-        <div className="rounded-lg border border-dashed border-line bg-card/60 px-6 py-14 text-center">
-          <div className="text-[15px] font-semibold mb-1.5">
-            {en ? "No models connected yet" : "还没有接入模型"}
-          </div>
-          <div className="text-[12.5px] text-faint mb-4">
-            {en
-              ? "Supports DeepSeek / Kimi / GLM / Qwen / Doubao / StepFun / MiniMax / OpenAI / Claude / Gemini, plus any OpenAI-compatible API."
-              : "支持 DeepSeek / Kimi / 智谱 / 通义 / 豆包 / 阶跃 / MiniMax / OpenAI / Claude / Gemini …… 以及任何 OpenAI 兼容接口"}
-          </div>
-          <button
-            onClick={() => setSettingsOpen(true)}
-            className="rounded-md bg-ink px-5 py-2 text-[13px] font-bold text-paper cursor-pointer"
-          >
-            ⚙ {en ? "Connect Models" : "去接入模型"}
-          </button>
-        </div>
-      ) : (
-        <div
-          id="model-outputs"
-          className={`grid gap-4 ${gridCols}`}
-          style={
-            exporting
-              ? {
-                  gridTemplateColumns: `repeat(${Math.min(visibleEndpoints.length, 3)}, minmax(0, 1fr))`,
-                }
-              : undefined
-          }
-        >
-          {visibleEndpoints
-            .filter(() => hasResults || anyRunning)
-            .map((ep) => {
-              const run = runs[ep.id] ?? EMPTY_RUN;
-              return (
-                <details
-                  key={ep.id}
-                  open={captureMode || !!openOutputs[ep.id]}
-                  onToggle={(event) => {
-                    if (captureMode) return;
-                    const open = event.currentTarget.open;
-                    setOpenOutputs((previous) =>
-                      !!previous[ep.id] === open
-                        ? previous
-                        : { ...previous, [ep.id]: open },
-                    );
-                  }}
-                  className="rounded-lg border border-line bg-card"
-                >
-                  <summary className="cursor-pointer p-4 text-sm font-semibold">
-                    {ep.name} · {en ? "View output" : "查看输出"}
-                  </summary>
-                  <ModelCard
-                    endpoint={ep}
-                    run={run}
-                    markdown={markdown}
-                    screenshotMode={captureMode || !!restored}
-                    thinkingStats={thinkStats}
-                    nowTick={isRunning(run) ? nowTick : 0}
-                    onRerun={() => rerunOne(ep)}
-                    onToggleFocus={() => setFocusId(ep.id)}
-                    wordTarget={wordTarget}
-                    compact={compact}
-                  />
-                </details>
-              );
-            })}
-        </div>
-      )}
-
-      {!captureMode && !anyRunning && (
-        <BatchTests
-          endpoints={activeEndpoints}
-          params={params}
-          prompt={prompt}
-          en={en}
-          onBusy={setBatchBusy}
-        />
-      )}
-      <details
-        ref={displaySettingsRef}
-        id="display-settings"
-        data-no-export="1"
-        hidden={captureMode}
-        className="my-6 rounded-lg border border-line bg-card p-4"
-      >
-        <summary className="mb-4 cursor-pointer font-bold">
-          {en ? "Title, notes & display settings" : "标题、备注与显示设置"}
-        </summary>
-        {!captureMode && reportHeading}
-
-        {/* ===== 工具条 ===== */}
-        {!captureMode && (
-          <div
-            data-no-export="1"
-            className="mb-4 flex flex-wrap items-center gap-2"
-          >
-            {/* —— 常驻：高频 / 与当前对比强相关 —— */}
-            <button className={btn} onClick={() => setSettingsOpen(true)}>
-              ⚙ {en ? "Models" : "模型配置"}
+              {en ? "Expand all outputs" : "展开全部输出"}
             </button>
             <button
               className={btn}
-              onClick={() => setThinkStats((v) => !v)}
-              title={
-                en
-                  ? "When off, reasoning/output are not split: TTFT is based on first content token and speed is calculated only from content tokens."
-                  : "关闭后不拆分思考/输出：首Token 按首个正文 token 计（思考计入等待），速度只按正文 token 计算"
-              }
+              aria-controls="model-outputs"
+              onClick={() => setOpenOutputs({})}
             >
-              {thinkStats
-                ? en
-                  ? "Reasoning stats: on"
-                  : "思考统计：开"
-                : en
-                  ? "Reasoning stats: off"
-                  : "思考统计：关"}
+              {en ? "Collapse all outputs" : "折叠全部输出"}
             </button>
-            <button
-              className={btn}
-              onClick={() => setCompact((v) => !v)}
-              title={
-                en
-                  ? "Compact mode collapses output content and focuses on metrics."
-                  : "紧凑模式：折叠输出内容只看指标，多模型纯竞速一屏看全"
-              }
-            >
-              {compact
-                ? en
-                  ? "📊 Compact: on"
-                  : "📊 紧凑：开"
-                : en
-                  ? "📊 Compact: off"
-                  : "📊 紧凑：关"}
+            <button className={btn} onClick={() => setScreenshotMode(true)}>
+              📷 {en ? "Screenshot" : "截图模式"}
             </button>
-            <a className={btn} href={localHref("/me")}>
-              🗂 {en ? "Mine" : "我的"}
-            </a>
-            <button className={btn} onClick={() => setAccountOpen(true)}>
-              👤 {en ? "Account Sync" : "账号同步"}
-            </button>
-            <button
-              className={btn}
-              onClick={() => setMarkdown((v) => !v)}
-              title={
-                en
-                  ? "Toggle Markdown rendering / raw text"
-                  : "切换输出区 Markdown 渲染 / 原始文本"
-              }
-            >
-              {markdown
-                ? en
-                  ? "MD render: on"
-                  : "MD 渲染：开"
-                : en
-                  ? "MD render: off"
-                  : "MD 渲染：关"}
-            </button>
-            <button className={btn} onClick={() => setWmOpen((v) => !v)}>
-              💧 {en ? "Watermark" : "水印"}
-              {watermark.trim() ? (en ? ": on" : "：开") : ""}
-            </button>
-            <button
-              className={btn}
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              title={en ? "Toggle light/dark theme" : "切换明暗主题"}
-            >
-              {theme === "dark"
-                ? en
-                  ? "☀️ Light"
-                  : "☀️ 浅色"
-                : en
-                  ? "🌙 Dark"
-                  : "🌙 暗色"}
-            </button>
-            {telemetry.choice && (
-              <button
-                className={btn}
-                onClick={() =>
-                  decideTelemetry(
-                    telemetry.choice === "granted" ? "denied" : "granted",
-                  )
-                }
-                title={
-                  en
-                    ? "Anonymously share numeric benchmark metrics only. API Keys and input/output content are never included. You can toggle this anytime."
-                    : "匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
-                }
-              >
-                📡 {en ? "Metrics sharing" : "指标共享"}：
-                {telemetry.choice === "granted"
-                  ? en
-                    ? "on"
-                    : "开"
-                  : en
-                    ? "off"
-                    : "关"}
+            {hasResults && (
+              <button className={btn} onClick={copyResults}>
+                ⧉ {en ? "Copy Metrics" : "复制指标表"}
               </button>
             )}
-
-            {/* —— 上下文：始终可见 —— */}
-            {telemetryStatus && (
-              <span
-                className="text-[11.5px]"
-                style={{
-                  color: telemetryStatus.startsWith("✗")
-                    ? "var(--accent)"
-                    : "var(--go)",
+            {hasResults && (
+              <button
+                className={btn}
+                onClick={exportImage}
+                disabled={exporting}
+                title={
+                  en
+                    ? "Export this comparison as a long image with title, notes, and watermark."
+                    : "把当前对比导出成长图（含标题/备注/水印），直接发文用"
+                }
+              >
+                🖼 {en ? "Export Image" : "导出长图"}
+              </button>
+            )}
+            {hasResults && !restored && (
+              <button
+                className={btn}
+                onClick={openShareConfig}
+                disabled={shareUrl === "loading"}
+                title={
+                  en
+                    ? "Generate a read-only share link. Readers can view outputs, metrics, and speed curves. Prompt and model outputs are public; API Keys are not included."
+                    : "生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
+                }
+              >
+                {shareUrl === "loading"
+                  ? en
+                    ? "Generating..."
+                    : "生成中…"
+                  : `🔗 ${en ? "Share Link" : "分享链接"}`}
+              </button>
+            )}
+            {hasResults && (
+              <button
+                className={btn}
+                onClick={() => setReviewDraftOpen(true)}
+                title={
+                  en
+                    ? "Use one of your local-Key models to turn this run's metrics, outputs, and Prompt into a publishable review draft."
+                    : "选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
+                }
+              >
+                ✍️ {en ? "Review Draft" : "生成评测稿"}
+              </button>
+            )}
+            {restored && (
+              <button
+                className={`${btn} text-accent border-accent/40`}
+                onClick={() => {
+                  setRestored(null);
+                  setRuns({});
                 }}
               >
-                {telemetryStatus}
-              </span>
+                ← {en ? "Exit History Snapshot" : "退出历史快照"}
+              </button>
             )}
-            <span className="ml-auto text-[11px] text-accent">{toast}</span>
+            <button
+              className={btn}
+              aria-controls="display-settings"
+              onClick={() => {
+                const panel = displaySettingsRef.current;
+                if (panel) {
+                  panel.open = true;
+                  panel.scrollIntoView({ behavior: "smooth", block: "start" });
+                  panel
+                    .querySelector("summary")
+                    ?.focus({ preventScroll: true });
+                }
+              }}
+            >
+              {en ? "Title / watermark / display" : "标题 / 水印 / 显示设置"}
+            </button>
+          </div>
+        )}
+        {/* 分享错误（持久显示） */}
+        {shareError && !captureMode && (
+          <div
+            data-no-export="1"
+            className="mb-4 flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3.5 py-2.5"
+          >
+            <span className="text-[12.5px] text-accent break-all">
+              ⚠ {shareError}
+            </span>
+            <button
+              onClick={() => setShareError(null)}
+              className="ml-auto shrink-0 text-[12px] text-faint hover:text-ink cursor-pointer"
+            >
+              ✕
+            </button>
           </div>
         )}
 
-        {/* 水印设置 */}
-        {wmOpen && !captureMode && (
+        {/* 分享链接显示（生成后） */}
+        {shareUrl && shareUrl !== "loading" && !captureMode && (
           <div
             data-no-export="1"
-            className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-card px-3.5 py-2.5"
+            className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2.5"
           >
+            <span className="text-[12px]" style={{ color: "var(--go)" }}>
+              🔗 {en ? "Read-only link generated" : "只读链接已生成"}
+            </span>
             <input
-              className="num w-72 rounded-md border border-line px-2.5 py-1.5 text-[12px] outline-none focus:border-ink/40"
-              value={watermark}
-              onChange={(e) => setWatermark(e.target.value)}
-              placeholder={
-                en
-                  ? "e.g. X @yourID · Blog @yourname"
-                  : "如 小红书 @你的ID · X @yourID"
-              }
+              readOnly
+              value={shareUrl}
+              onFocus={(e) => e.currentTarget.select()}
+              className="num min-w-0 flex-1 rounded-md border border-line bg-paper/60 px-2.5 py-1.5 text-[12px] outline-none"
             />
-            <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] text-faint">
-              <input
-                type="checkbox"
-                checked={wmTiled}
-                onChange={(e) => setWmTiled(e.target.checked)}
-                className="accent-[var(--accent)]"
-              />
-              {en ? "Tiled anti-repost watermark" : "平铺防盗水印"}
-            </label>
+            <button
+              className={btn}
+              onClick={() => {
+                void navigator.clipboard.writeText(shareUrl);
+                flash(arenaText.copied);
+              }}
+            >
+              {messages.common.copy}
+            </button>
+            <a
+              className={btn}
+              href={shareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {en ? "Open" : "打开"}
+            </a>
             <span className="text-[11px] text-faint/80">
               {en
-                ? "Shown in the header line and bottom-right badge. Copied Markdown tables also include the credit."
-                : "显示在页头信息行 + 页面右下角徽标，复制的 Markdown 表格也会带上署名"}
+                ? "The link exposes the Prompt and model outputs, but never API Keys."
+                : "链接公开 Prompt 与模型输出，不含 API Key"}
             </span>
           </div>
         )}
-      </details>
-      {!captureMode && !restored && (
-        <div className="fixed inset-x-4 bottom-3 z-30 flex justify-end sm:hidden">
-          <button
-            className="rounded-lg bg-ink px-6 py-3 font-bold text-paper shadow-lg disabled:opacity-40"
-            disabled={
-              batchBusy ||
-              missingModels.length > 0 ||
-              !prompt.trim() ||
-              !activeEndpoints.some((e) => e.enabled)
+
+        {shareUrl &&
+          shareUrl !== "loading" &&
+          !captureMode &&
+          generatedBadgeMarkdown && (
+            <SocialSharePanel
+              compact
+              className="mb-4"
+              url={shareUrl}
+              title={generatedShareTitle}
+              text={generatedShareText}
+              badgeMarkdown={generatedBadgeMarkdown}
+              badgeHtml={generatedBadgeHtml}
+            />
+          )}
+
+        {referralNudge && !captureMode && (
+          <ReferralShareNudge
+            reason={referralNudge}
+            models={referralModelNames}
+            onOpenAccount={() => setAccountOpen(true)}
+            onClose={() => setReferralNudge(null)}
+          />
+        )}
+
+        {hasResults && (
+          <ResultSummary
+            rows={enabledEndpoints.map((endpoint) => ({
+              endpoint,
+              run: runs[endpoint.id] ?? EMPTY_RUN,
+            }))}
+            prompt={restored?.prompt ?? comparison?.prompt ?? prompt}
+            task={
+              restored ? restored.task : comparison ? comparison.task : task
             }
-            onClick={anyRunning ? stopAll : startAll}
+            en={en}
+          />
+        )}
+        {/* 结算卡：速度 / 成本 / 已验证任务效果 */}
+        {verdict && hasResults && (
+          <div className="mt-4">
+            <VerdictCard verdict={verdict} locale={locale} />
+          </div>
+        )}
+
+        {/* 实时赛道：开跑后/有结果时在卡片上方显示 */}
+        {(anyRunning || hasResults) && visibleEndpoints.length >= 2 && (
+          <div className="mb-4">
+            <RaceTrack runners={runners} locale={locale} />
+          </div>
+        )}
+
+        {/* ===== 对比卡片 ===== */}
+        {visibleEndpoints.length === 0 ? (
+          <div className="rounded-lg border border-dashed border-line bg-card/60 px-6 py-14 text-center">
+            <div className="text-[15px] font-semibold mb-1.5">
+              {en ? "No models connected yet" : "还没有接入模型"}
+            </div>
+            <div className="text-[12.5px] text-faint mb-4">
+              {en
+                ? "Supports DeepSeek / Kimi / GLM / Qwen / Doubao / StepFun / MiniMax / OpenAI / Claude / Gemini, plus any OpenAI-compatible API."
+                : "支持 DeepSeek / Kimi / 智谱 / 通义 / 豆包 / 阶跃 / MiniMax / OpenAI / Claude / Gemini …… 以及任何 OpenAI 兼容接口"}
+            </div>
+            <button
+              onClick={() => setSettingsOpen(true)}
+              className="rounded-md bg-ink px-5 py-2 text-[13px] font-bold text-paper cursor-pointer"
+            >
+              ⚙ {en ? "Connect Models" : "去接入模型"}
+            </button>
+          </div>
+        ) : (
+          <div
+            id="model-outputs"
+            className={`grid gap-4 ${gridCols}`}
+            style={
+              exporting
+                ? {
+                    gridTemplateColumns: `repeat(${Math.min(visibleEndpoints.length, 3)}, minmax(0, 1fr))`,
+                  }
+                : undefined
+            }
           >
-            {anyRunning
-              ? en
-                ? "Stop"
-                : "停止"
-              : en
-                ? "Start comparison"
-                : "开始对比"}{" "}
-            ▶
-          </button>
-        </div>
-      )}
+            {visibleEndpoints
+              .filter(() => hasResults || anyRunning)
+              .map((ep) => {
+                const run = runs[ep.id] ?? EMPTY_RUN;
+                return (
+                  <details
+                    key={ep.id}
+                    open={captureMode || !!openOutputs[ep.id]}
+                    onToggle={(event) => {
+                      if (captureMode) return;
+                      const open = event.currentTarget.open;
+                      setOpenOutputs((previous) =>
+                        !!previous[ep.id] === open
+                          ? previous
+                          : { ...previous, [ep.id]: open },
+                      );
+                    }}
+                    className="rounded-lg border border-line bg-card"
+                  >
+                    <summary className="cursor-pointer p-4 text-sm font-semibold">
+                      {ep.name} · {en ? "View output" : "查看输出"}
+                    </summary>
+                    <ModelCard
+                      endpoint={ep}
+                      run={run}
+                      markdown={markdown}
+                      screenshotMode={captureMode || !!restored}
+                      thinkingStats={thinkStats}
+                      nowTick={isRunning(run) ? nowTick : 0}
+                      onRerun={() => rerunOne(ep)}
+                      onToggleFocus={() => setFocusId(ep.id)}
+                      wordTarget={wordTarget}
+                      compact={compact}
+                    />
+                  </details>
+                );
+              })}
+          </div>
+        )}
+
+        {!captureMode && !restored && (
+          <div className="fixed inset-x-4 bottom-3 z-30 flex justify-end sm:hidden">
+            <button
+              className="rounded-lg bg-ink px-6 py-3 font-bold text-paper shadow-lg disabled:opacity-40"
+              disabled={
+                batchBusy ||
+                missingModels.length > 0 ||
+                !prompt.trim() ||
+                !activeEndpoints.some((e) => e.enabled)
+              }
+              onClick={anyRunning ? stopAll : startAll}
+            >
+              {anyRunning
+                ? en
+                  ? "Stop"
+                  : "停止"
+                : en
+                  ? "Start comparison"
+                  : "开始对比"}{" "}
+              ▶
+            </button>
+          </div>
+        )}
+      </div>
+      <div
+        id="batch-comparison"
+        hidden={view !== "batch" || captureMode}
+        data-no-export="1"
+      >
+        <BatchTests
+          endpoints={endpoints}
+          en={en}
+          disabled={anyRunning}
+          onBusy={setBatchBusy}
+          onConfigure={() => setSettingsOpen(true)}
+        />
+      </div>
       {/* ===== 单模型放大视图（其余模型后台继续跑） ===== */}
       {focusEndpoint && (
         <div
@@ -2441,7 +2502,7 @@ export default function Home() {
       )}
 
       {/* 平铺防盗水印（不挡点击） */}
-      {watermark.trim() && wmTiled && (
+      {view === "single" && watermark.trim() && wmTiled && (
         <div
           aria-hidden
           className="pointer-events-none fixed inset-0 z-20"
@@ -2449,7 +2510,7 @@ export default function Home() {
         />
       )}
       {/* 右下角水印徽标 */}
-      {watermark.trim() && (
+      {view === "single" && watermark.trim() && (
         <div className="pointer-events-none fixed bottom-4 right-4 z-30 rounded-full bg-ink/85 px-3.5 py-1.5 text-[11.5px] text-paper shadow-md">
           {watermark}
         </div>
