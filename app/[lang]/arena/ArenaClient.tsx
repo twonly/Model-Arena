@@ -416,6 +416,7 @@ export default function Home() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [screenshotMode, setScreenshotMode] = useState(false);
+  const [openOutputs, setOpenOutputs] = useState<Record<string, boolean>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [restored, setRestored] = useState<HistoryEntry | null>(null);
   const [toast, setToast] = useState("");
@@ -423,8 +424,6 @@ export default function Home() {
   const [wmOpen, setWmOpen] = useState(false);
   const [trendOpen, setTrendOpen] = useState(false);
   const [promptLibOpen, setPromptLibOpen] = useState(false);
-  // 工具条收纳：常驻关键项 + 「更多」展开其余
-  const [moreOpen, setMoreOpen] = useState(false);
   const [accountOpen, setAccountOpen] = useState(false);
   /** 视觉对比图片（仅本次会话，不持久化避免撑爆 localStorage） */
   const [image, setImage] = useState<{ dataUrl: string; name: string } | null>(
@@ -436,7 +435,9 @@ export default function Home() {
   const [focusId, setFocusId] = useState<string | null>(null);
   /** 正在导出长图（临时隐藏工具条等非内容元素） */
   const [exporting, setExporting] = useState(false);
+  const captureMode = screenshotMode || exporting;
   const mainRef = useRef<HTMLElement>(null);
+  const displaySettingsRef = useRef<HTMLDetailsElement>(null);
   /** 分享：null=未分享，"loading"=生成中，否则为完整短链 */
   const [shareUrl, setShareUrl] = useState<string | "loading" | null>(null);
   /** 分享错误（持久显示，直到下次操作） */
@@ -1378,19 +1379,73 @@ export default function Home() {
   const btn =
     "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
 
+  const reportHeading = (
+    <header className="mb-5">
+      <input
+        className="ghost-input text-[30px] font-black leading-tight"
+        style={{ fontFamily: "var(--font-title)" }}
+        aria-label={en ? "Report title" : "报告标题"}
+        value={title}
+        onChange={(e) => setTitle(e.target.value)}
+        placeholder={
+          en
+            ? "Click to enter a title, e.g. Step 3.7 Flash · live speed test"
+            : "点击输入标题，如：Step 3.7 Flash · 实时速度实测"
+        }
+      />
+      <textarea
+        className="ghost-input mt-1 text-[13.5px] leading-relaxed text-faint"
+        rows={Math.max(notes.split("\n").length, 1)}
+        aria-label={en ? "Report notes" : "报告备注"}
+        value={notes}
+        onChange={(e) => setNotes(e.target.value)}
+        placeholder={
+          en
+            ? "Click to add notes, e.g. same Prompt across official APIs; focus on TTFT and throughput..."
+            : "点击输入备注，如：同一 Prompt 直连各家官方接口，主要看首响应与吞吐……"
+        }
+      />
+      <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+        <span className="num text-[11px] text-faint/70">
+          {restored
+            ? `${arenaText.restoredSnapshot} · ${new Date(restored.at).toLocaleString(en ? "en-US" : "zh-CN", { hour12: false })}`
+            : arenaText.modelCount(
+                activeEndpoints.filter((e) => e.enabled).length,
+              )}{" "}
+          · {watermark.trim() || "百模竞速 · TOKRACE"}
+        </span>
+        <Credit compact />
+      </div>
+    </header>
+  );
+
   return (
-    <main ref={mainRef} className="mx-auto max-w-7xl px-5 py-8">
-      {!screenshotMode && (
+    <main
+      ref={mainRef}
+      className="mx-auto max-w-7xl px-5 py-8"
+      style={
+        exporting ? { width: "max(960px, 100%)", maxWidth: "none" } : undefined
+      }
+    >
+      {captureMode && reportHeading}
+      {!captureMode && (
         <ReferralRewardNotifier onOpenAccount={() => setAccountOpen(true)} />
       )}
       {/* ===== 顶部：右上角账号入口（截图时隐藏） ===== */}
-      {!screenshotMode && (
+      {!captureMode && (
         <div
           data-no-export="1"
           className="mb-3 flex flex-wrap items-center justify-between gap-2"
         >
           <Logo withText />
           <div className="flex flex-wrap items-center justify-end gap-2">
+            <button className={btn} onClick={() => setHistoryOpen(true)}>
+              🕘 {en ? "History" : "历史"}
+            </button>
+            <a className={btn} href={localHref("/templates")}>
+              📚 {messages.common.templates}
+            </a>
+
             <a
               className={btn}
               href={localHref("/stats")}
@@ -1419,14 +1474,14 @@ export default function Home() {
           </div>
         </div>
       )}
-      {!screenshotMode && referralEntry && (
+      {!captureMode && referralEntry && (
         <ReferralWelcomeBanner
           code={referralEntry.code}
           claimed={referralEntry.claimed}
           onLogin={() => setAccountOpen(true)}
         />
       )}
-      {!screenshotMode && !restored && usingTemporaryContext && (
+      {!captureMode && !restored && usingTemporaryContext && (
         <details className="mb-4 rounded-lg border border-line bg-card p-3 text-sm">
           <summary className="cursor-pointer font-semibold">
             {arenaSeedMode === "report"
@@ -1447,13 +1502,13 @@ export default function Home() {
           </button>
         </details>
       )}
-      {toast && (
+      {toast && !captureMode && (
         <p role="status" className="mb-3 text-sm text-accent">
           {toast}
         </p>
       )}
       {/* ===== Prompt 区 ===== */}
-      {!screenshotMode ? (
+      {!captureMode ? (
         <div className="mb-5 rounded-lg border border-line bg-card p-3.5">
           <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
             <label htmlFor="task-prompt" className="font-bold">
@@ -1546,7 +1601,7 @@ export default function Home() {
               {missingModels.join("；")}
             </p>
           )}
-          {!screenshotMode &&
+          {!captureMode &&
             quota != null &&
             activeEndpoints.some((e) => e.enabled && e.shared) && (
               <details className="my-3 text-xs text-faint">
@@ -1704,13 +1759,13 @@ export default function Home() {
           )}
         </div>
       ) : (
-        prompt.trim() && (
+        (restored?.prompt ?? comparison?.prompt ?? prompt).trim() && (
           <div className="mb-5 rounded-lg border border-line bg-card px-4 py-3 text-[13.5px] leading-relaxed whitespace-pre-wrap">
-            {prompt}
-            {image && (
+            {restored?.prompt ?? comparison?.prompt ?? prompt}
+            {(comparison ? comparison.imageDataUrl : image?.dataUrl) && (
               // eslint-disable-next-line @next/next/no-img-element
               <img
-                src={image.dataUrl}
+                src={comparison ? comparison.imageDataUrl : image?.dataUrl}
                 alt={en ? "Comparison image" : "对比用图片"}
                 className="mt-2.5 max-h-44 rounded-md border border-line"
               />
@@ -1720,7 +1775,7 @@ export default function Home() {
       )}
 
       {/* ===== 遥测同意声明（首次出结果后询问一次） ===== */}
-      {!telemetry.choice && hasResults && !screenshotMode && !restored && (
+      {!telemetry.choice && hasResults && !captureMode && !restored && (
         <div
           data-no-export="1"
           className="mb-4 rounded-lg border border-line bg-card px-4 py-3"
@@ -1788,7 +1843,7 @@ export default function Home() {
       )}
 
       {/* ===== 模型条：隐藏/显示与排序（隐藏的模型后台照常跑） ===== */}
-      {!screenshotMode &&
+      {!captureMode &&
         !restored &&
         (hasResults || anyRunning) &&
         enabledEndpoints.length >= 2 && (
@@ -1861,13 +1916,204 @@ export default function Home() {
           </div>
         )}
 
-      {hasResults && comparison && comparison.prompt !== prompt && (
-        <p className="mb-3 rounded border border-line p-3 text-sm">
-          {en
-            ? "Results below belong to the previous task. Start a new comparison to test your edited prompt; retries keep the original task."
-            : "下方结果属于上一次任务。开始对比会测试修改后的 Prompt；单模型重试保留原任务。"}
-        </p>
+      {!captureMode &&
+        hasResults &&
+        comparison &&
+        comparison.prompt !== prompt && (
+          <p className="mb-3 rounded border border-line p-3 text-sm">
+            {en
+              ? "Results below belong to the previous task. Start a new comparison to test your edited prompt; retries keep the original task."
+              : "下方结果属于上一次任务。开始对比会测试修改后的 Prompt；单模型重试保留原任务。"}
+          </p>
+        )}
+      {!captureMode && (hasResults || anyRunning) && (
+        <div
+          role="group"
+          aria-label={en ? "Result tools" : "结果工具"}
+          data-no-export="1"
+          className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card p-3 [&_button]:min-h-11"
+        >
+          <button
+            className={btn}
+            aria-controls="model-outputs"
+            onClick={() => {
+              setCompact(false);
+              setOpenOutputs(
+                Object.fromEntries(enabledEndpoints.map((ep) => [ep.id, true])),
+              );
+            }}
+          >
+            {en ? "Expand all outputs" : "展开全部输出"}
+          </button>
+          <button
+            className={btn}
+            aria-controls="model-outputs"
+            onClick={() => setOpenOutputs({})}
+          >
+            {en ? "Collapse all outputs" : "折叠全部输出"}
+          </button>
+          <button className={btn} onClick={() => setScreenshotMode(true)}>
+            📷 {en ? "Screenshot" : "截图模式"}
+          </button>
+          {hasResults && (
+            <button className={btn} onClick={copyResults}>
+              ⧉ {en ? "Copy Metrics" : "复制指标表"}
+            </button>
+          )}
+          {hasResults && (
+            <button
+              className={btn}
+              onClick={exportImage}
+              disabled={exporting}
+              title={
+                en
+                  ? "Export this comparison as a long image with title, notes, and watermark."
+                  : "把当前对比导出成长图（含标题/备注/水印），直接发文用"
+              }
+            >
+              🖼 {en ? "Export Image" : "导出长图"}
+            </button>
+          )}
+          {hasResults && !restored && (
+            <button
+              className={btn}
+              onClick={openShareConfig}
+              disabled={shareUrl === "loading"}
+              title={
+                en
+                  ? "Generate a read-only share link. Readers can view outputs, metrics, and speed curves. Prompt and model outputs are public; API Keys are not included."
+                  : "生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
+              }
+            >
+              {shareUrl === "loading"
+                ? en
+                  ? "Generating..."
+                  : "生成中…"
+                : `🔗 ${en ? "Share Link" : "分享链接"}`}
+            </button>
+          )}
+          {hasResults && (
+            <button
+              className={btn}
+              onClick={() => setReviewDraftOpen(true)}
+              title={
+                en
+                  ? "Use one of your local-Key models to turn this run's metrics, outputs, and Prompt into a publishable review draft."
+                  : "选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
+              }
+            >
+              ✍️ {en ? "Review Draft" : "生成评测稿"}
+            </button>
+          )}
+          {restored && (
+            <button
+              className={`${btn} text-accent border-accent/40`}
+              onClick={() => {
+                setRestored(null);
+                setRuns({});
+              }}
+            >
+              ← {en ? "Exit History Snapshot" : "退出历史快照"}
+            </button>
+          )}
+          <button
+            className={btn}
+            aria-controls="display-settings"
+            onClick={() => {
+              const panel = displaySettingsRef.current;
+              if (panel) {
+                panel.open = true;
+                panel.scrollIntoView({ behavior: "smooth", block: "start" });
+                panel.querySelector("summary")?.focus({ preventScroll: true });
+              }
+            }}
+          >
+            {en ? "Title / watermark / display" : "标题 / 水印 / 显示设置"}
+          </button>
+        </div>
       )}
+      {/* 分享错误（持久显示） */}
+      {shareError && !captureMode && (
+        <div
+          data-no-export="1"
+          className="mb-4 flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3.5 py-2.5"
+        >
+          <span className="text-[12.5px] text-accent break-all">
+            ⚠ {shareError}
+          </span>
+          <button
+            onClick={() => setShareError(null)}
+            className="ml-auto shrink-0 text-[12px] text-faint hover:text-ink cursor-pointer"
+          >
+            ✕
+          </button>
+        </div>
+      )}
+
+      {/* 分享链接显示（生成后） */}
+      {shareUrl && shareUrl !== "loading" && !captureMode && (
+        <div
+          data-no-export="1"
+          className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2.5"
+        >
+          <span className="text-[12px]" style={{ color: "var(--go)" }}>
+            🔗 {en ? "Read-only link generated" : "只读链接已生成"}
+          </span>
+          <input
+            readOnly
+            value={shareUrl}
+            onFocus={(e) => e.currentTarget.select()}
+            className="num min-w-0 flex-1 rounded-md border border-line bg-paper/60 px-2.5 py-1.5 text-[12px] outline-none"
+          />
+          <button
+            className={btn}
+            onClick={() => {
+              void navigator.clipboard.writeText(shareUrl);
+              flash(arenaText.copied);
+            }}
+          >
+            {messages.common.copy}
+          </button>
+          <a
+            className={btn}
+            href={shareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {en ? "Open" : "打开"}
+          </a>
+          <span className="text-[11px] text-faint/80">
+            {en
+              ? "The link exposes the Prompt and model outputs, but never API Keys."
+              : "链接公开 Prompt 与模型输出，不含 API Key"}
+          </span>
+        </div>
+      )}
+
+      {shareUrl &&
+        shareUrl !== "loading" &&
+        !captureMode &&
+        generatedBadgeMarkdown && (
+          <SocialSharePanel
+            compact
+            className="mb-4"
+            url={shareUrl}
+            title={generatedShareTitle}
+            text={generatedShareText}
+            badgeMarkdown={generatedBadgeMarkdown}
+            badgeHtml={generatedBadgeHtml}
+          />
+        )}
+
+      {referralNudge && !captureMode && (
+        <ReferralShareNudge
+          reason={referralNudge}
+          models={referralModelNames}
+          onOpenAccount={() => setAccountOpen(true)}
+          onClose={() => setReferralNudge(null)}
+        />
+      )}
+
       {hasResults && (
         <ResultSummary
           rows={enabledEndpoints.map((endpoint) => ({
@@ -1912,7 +2158,17 @@ export default function Home() {
           </button>
         </div>
       ) : (
-        <div className={`grid gap-4 ${gridCols}`}>
+        <div
+          id="model-outputs"
+          className={`grid gap-4 ${gridCols}`}
+          style={
+            exporting
+              ? {
+                  gridTemplateColumns: `repeat(${Math.min(visibleEndpoints.length, 3)}, minmax(0, 1fr))`,
+                }
+              : undefined
+          }
+        >
           {visibleEndpoints
             .filter(() => hasResults || anyRunning)
             .map((ep) => {
@@ -1920,7 +2176,16 @@ export default function Home() {
               return (
                 <details
                   key={ep.id}
-                  open={screenshotMode || exporting || undefined}
+                  open={captureMode || !!openOutputs[ep.id]}
+                  onToggle={(event) => {
+                    if (captureMode) return;
+                    const open = event.currentTarget.open;
+                    setOpenOutputs((previous) =>
+                      !!previous[ep.id] === open
+                        ? previous
+                        : { ...previous, [ep.id]: open },
+                    );
+                  }}
                   className="rounded-lg border border-line bg-card"
                 >
                   <summary className="cursor-pointer p-4 text-sm font-semibold">
@@ -1930,7 +2195,7 @@ export default function Home() {
                     endpoint={ep}
                     run={run}
                     markdown={markdown}
-                    screenshotMode={screenshotMode || !!restored}
+                    screenshotMode={captureMode || !!restored}
                     thinkingStats={thinkStats}
                     nowTick={isRunning(run) ? nowTick : 0}
                     onRerun={() => rerunOne(ep)}
@@ -1944,7 +2209,7 @@ export default function Home() {
         </div>
       )}
 
-      {!screenshotMode && !anyRunning && (
+      {!captureMode && !anyRunning && (
         <BatchTests
           endpoints={activeEndpoints}
           params={params}
@@ -1954,53 +2219,19 @@ export default function Home() {
         />
       )}
       <details
+        ref={displaySettingsRef}
+        id="display-settings"
+        data-no-export="1"
+        hidden={captureMode}
         className="my-6 rounded-lg border border-line bg-card p-4"
-        open={screenshotMode || undefined}
       >
         <summary className="mb-4 cursor-pointer font-bold">
-          {en ? "Export, share & display settings" : "导出与分享、显示设置"}
+          {en ? "Title, notes & display settings" : "标题、备注与显示设置"}
         </summary>
-        {/* ===== 标题区（可编辑，截图友好） ===== */}
-        <header className="mb-5">
-          <input
-            className="ghost-input text-[30px] font-black leading-tight"
-            style={{ fontFamily: "var(--font-title)" }}
-            aria-label={en ? "Report title" : "报告标题"}
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder={
-              en
-                ? "Click to enter a title, e.g. Step 3.7 Flash · live speed test"
-                : "点击输入标题，如：Step 3.7 Flash · 实时速度实测"
-            }
-          />
-          <textarea
-            className="ghost-input mt-1 text-[13.5px] leading-relaxed text-faint"
-            rows={Math.max(notes.split("\n").length, 1)}
-            aria-label={en ? "Report notes" : "报告备注"}
-            value={notes}
-            onChange={(e) => setNotes(e.target.value)}
-            placeholder={
-              en
-                ? "Click to add notes, e.g. same Prompt across official APIs; focus on TTFT and throughput..."
-                : "点击输入备注，如：同一 Prompt 直连各家官方接口，主要看首响应与吞吐……"
-            }
-          />
-          <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
-            <span className="num text-[11px] text-faint/70">
-              {restored
-                ? `${arenaText.restoredSnapshot} · ${new Date(restored.at).toLocaleString(en ? "en-US" : "zh-CN", { hour12: false })}`
-                : arenaText.modelCount(
-                    activeEndpoints.filter((e) => e.enabled).length,
-                  )}{" "}
-              · {watermark.trim() || "百模竞速 · TOKRACE"}
-            </span>
-            <Credit compact />
-          </div>
-        </header>
+        {!captureMode && reportHeading}
 
         {/* ===== 工具条 ===== */}
-        {!screenshotMode && (
+        {!captureMode && (
           <div
             data-no-export="1"
             className="mb-4 flex flex-wrap items-center gap-2"
@@ -2009,9 +2240,6 @@ export default function Home() {
             <button className={btn} onClick={() => setSettingsOpen(true)}>
               ⚙ {en ? "Models" : "模型配置"}
             </button>
-            <a className={btn} href={localHref("/templates")}>
-              📚 {messages.common.templates}
-            </a>
             <button
               className={btn}
               onClick={() => setThinkStats((v) => !v)}
@@ -2046,140 +2274,69 @@ export default function Home() {
                   ? "📊 Compact: off"
                   : "📊 紧凑：关"}
             </button>
-            {hasResults && !restored && (
-              <button
-                className={btn}
-                onClick={openShareConfig}
-                disabled={shareUrl === "loading"}
-                title={
-                  en
-                    ? "Generate a read-only share link. Readers can view outputs, metrics, and speed curves. Prompt and model outputs are public; API Keys are not included."
-                    : "生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
-                }
-              >
-                {shareUrl === "loading"
-                  ? en
-                    ? "Generating..."
-                    : "生成中…"
-                  : `🔗 ${en ? "Share Link" : "分享链接"}`}
-              </button>
-            )}
-            {hasResults && (
-              <button
-                className={btn}
-                onClick={() => setReviewDraftOpen(true)}
-                title={
-                  en
-                    ? "Use one of your local-Key models to turn this run's metrics, outputs, and Prompt into a publishable review draft."
-                    : "选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
-                }
-              >
-                ✍️ {en ? "Review Draft" : "生成评测稿"}
-              </button>
-            )}
             <a className={btn} href={localHref("/me")}>
               🗂 {en ? "Mine" : "我的"}
             </a>
+            <button className={btn} onClick={() => setAccountOpen(true)}>
+              👤 {en ? "Account Sync" : "账号同步"}
+            </button>
             <button
               className={btn}
-              onClick={() => setMoreOpen((v) => !v)}
+              onClick={() => setMarkdown((v) => !v)}
               title={
-                en ? "Expand more navigation and options" : "展开更多导航与选项"
+                en
+                  ? "Toggle Markdown rendering / raw text"
+                  : "切换输出区 Markdown 渲染 / 原始文本"
               }
             >
-              {moreOpen ? (en ? "⋯ Less" : "⋯ 收起") : en ? "⋯ More" : "⋯ 更多"}
+              {markdown
+                ? en
+                  ? "MD render: on"
+                  : "MD 渲染：开"
+                : en
+                  ? "MD render: off"
+                  : "MD 渲染：关"}
             </button>
-
-            {/* —— 更多：导航 + 低频选项 —— */}
-            {moreOpen && (
-              <>
-                <button className={btn} onClick={() => setHistoryOpen(true)}>
-                  🕘 {en ? "History" : "历史"}
-                </button>
-                <button className={btn} onClick={() => setAccountOpen(true)}>
-                  👤 {en ? "Account Sync" : "账号同步"}
-                </button>
-                {hasResults && (
-                  <button className={btn} onClick={copyResults}>
-                    ⧉ {en ? "Copy Metrics" : "复制指标表"}
-                  </button>
-                )}
-                {hasResults && (
-                  <button
-                    className={btn}
-                    onClick={exportImage}
-                    disabled={exporting}
-                    title={
-                      en
-                        ? "Export this comparison as a long image with title, notes, and watermark."
-                        : "把当前对比导出成长图（含标题/备注/水印），直接发文用"
-                    }
-                  >
-                    🖼 {en ? "Export Image" : "导出长图"}
-                  </button>
-                )}
-                <button
-                  className={btn}
-                  onClick={() => setMarkdown((v) => !v)}
-                  title={
-                    en
-                      ? "Toggle Markdown rendering / raw text"
-                      : "切换输出区 Markdown 渲染 / 原始文本"
-                  }
-                >
-                  {markdown
-                    ? en
-                      ? "MD render: on"
-                      : "MD 渲染：开"
-                    : en
-                      ? "MD render: off"
-                      : "MD 渲染：关"}
-                </button>
-                <button className={btn} onClick={() => setWmOpen((v) => !v)}>
-                  💧 {en ? "Watermark" : "水印"}
-                  {watermark.trim() ? (en ? ": on" : "：开") : ""}
-                </button>
-                <button className={btn} onClick={() => setScreenshotMode(true)}>
-                  📷 {en ? "Screenshot" : "截图模式"}
-                </button>
-                <button
-                  className={btn}
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                  title={en ? "Toggle light/dark theme" : "切换明暗主题"}
-                >
-                  {theme === "dark"
-                    ? en
-                      ? "☀️ Light"
-                      : "☀️ 浅色"
-                    : en
-                      ? "🌙 Dark"
-                      : "🌙 暗色"}
-                </button>
-                {telemetry.choice && (
-                  <button
-                    className={btn}
-                    onClick={() =>
-                      decideTelemetry(
-                        telemetry.choice === "granted" ? "denied" : "granted",
-                      )
-                    }
-                    title={
-                      en
-                        ? "Anonymously share numeric benchmark metrics only. API Keys and input/output content are never included. You can toggle this anytime."
-                        : "匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
-                    }
-                  >
-                    📡 {en ? "Metrics sharing" : "指标共享"}：
-                    {telemetry.choice === "granted"
-                      ? en
-                        ? "on"
-                        : "开"
-                      : en
-                        ? "off"
-                        : "关"}
-                  </button>
-                )}
-              </>
+            <button className={btn} onClick={() => setWmOpen((v) => !v)}>
+              💧 {en ? "Watermark" : "水印"}
+              {watermark.trim() ? (en ? ": on" : "：开") : ""}
+            </button>
+            <button
+              className={btn}
+              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+              title={en ? "Toggle light/dark theme" : "切换明暗主题"}
+            >
+              {theme === "dark"
+                ? en
+                  ? "☀️ Light"
+                  : "☀️ 浅色"
+                : en
+                  ? "🌙 Dark"
+                  : "🌙 暗色"}
+            </button>
+            {telemetry.choice && (
+              <button
+                className={btn}
+                onClick={() =>
+                  decideTelemetry(
+                    telemetry.choice === "granted" ? "denied" : "granted",
+                  )
+                }
+                title={
+                  en
+                    ? "Anonymously share numeric benchmark metrics only. API Keys and input/output content are never included. You can toggle this anytime."
+                    : "匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
+                }
+              >
+                📡 {en ? "Metrics sharing" : "指标共享"}：
+                {telemetry.choice === "granted"
+                  ? en
+                    ? "on"
+                    : "开"
+                  : en
+                    ? "off"
+                    : "关"}
+              </button>
             )}
 
             {/* —— 上下文：始终可见 —— */}
@@ -2195,105 +2352,12 @@ export default function Home() {
                 {telemetryStatus}
               </span>
             )}
-            {restored && (
-              <button
-                className={`${btn} text-accent border-accent/40`}
-                onClick={() => {
-                  setRestored(null);
-                  setRuns({});
-                }}
-              >
-                ← {en ? "Exit History Snapshot" : "退出历史快照"}
-              </button>
-            )}
             <span className="ml-auto text-[11px] text-accent">{toast}</span>
           </div>
         )}
 
-        {/* 分享错误（持久显示） */}
-        {shareError && !screenshotMode && (
-          <div
-            data-no-export="1"
-            className="mb-4 flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3.5 py-2.5"
-          >
-            <span className="text-[12.5px] text-accent break-all">
-              ⚠ {shareError}
-            </span>
-            <button
-              onClick={() => setShareError(null)}
-              className="ml-auto shrink-0 text-[12px] text-faint hover:text-ink cursor-pointer"
-            >
-              ✕
-            </button>
-          </div>
-        )}
-
-        {/* 分享链接显示（生成后） */}
-        {shareUrl && shareUrl !== "loading" && !screenshotMode && (
-          <div
-            data-no-export="1"
-            className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2.5"
-          >
-            <span className="text-[12px]" style={{ color: "var(--go)" }}>
-              🔗 {en ? "Read-only link generated" : "只读链接已生成"}
-            </span>
-            <input
-              readOnly
-              value={shareUrl}
-              onFocus={(e) => e.currentTarget.select()}
-              className="num min-w-0 flex-1 rounded-md border border-line bg-paper/60 px-2.5 py-1.5 text-[12px] outline-none"
-            />
-            <button
-              className={btn}
-              onClick={() => {
-                void navigator.clipboard.writeText(shareUrl);
-                flash(arenaText.copied);
-              }}
-            >
-              {messages.common.copy}
-            </button>
-            <a
-              className={btn}
-              href={shareUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              {en ? "Open" : "打开"}
-            </a>
-            <span className="text-[11px] text-faint/80">
-              {en
-                ? "The link exposes the Prompt and model outputs, but never API Keys."
-                : "链接公开 Prompt 与模型输出，不含 API Key"}
-            </span>
-          </div>
-        )}
-
-        {shareUrl &&
-          shareUrl !== "loading" &&
-          !screenshotMode &&
-          generatedBadgeMarkdown && (
-            <SocialSharePanel
-              compact
-              className="mb-4"
-              url={shareUrl}
-              title={generatedShareTitle}
-              text={generatedShareText}
-              badgeMarkdown={generatedBadgeMarkdown}
-              badgeHtml={generatedBadgeHtml}
-            />
-          )}
-
-        {referralNudge && !screenshotMode && (
-          <ReferralShareNudge
-            reason={referralNudge}
-            models={referralModelNames}
-            onOpenAccount={() => setAccountOpen(true)}
-            onClose={() => setReferralNudge(null)}
-          />
-        )}
-
         {/* 水印设置 */}
-        {wmOpen && !screenshotMode && (
+        {wmOpen && !captureMode && (
           <div
             data-no-export="1"
             className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-card px-3.5 py-2.5"
@@ -2325,7 +2389,7 @@ export default function Home() {
           </div>
         )}
       </details>
-      {!screenshotMode && !restored && (
+      {!captureMode && !restored && (
         <div className="fixed inset-x-4 bottom-3 z-30 flex justify-end sm:hidden">
           <button
             className="rounded-lg bg-ink px-6 py-3 font-bold text-paper shadow-lg disabled:opacity-40"
@@ -2459,7 +2523,7 @@ export default function Home() {
         verdict={verdict}
       />
 
-      {!screenshotMode && (
+      {!captureMode && (
         <footer
           data-no-export="1"
           className="mt-10 space-y-2 text-center text-[11px] text-faint/70"

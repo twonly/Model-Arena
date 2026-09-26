@@ -14,6 +14,9 @@ export function ResultSummary({
   task?: TaskIdentity;
   en: boolean;
 }) {
+  const title = en
+    ? "This run · quality, latency and cost"
+    : "本轮结果 · 效果、等待与成本";
   const seconds = (n?: number) =>
     n == null ? "—" : `${(n / 1000).toFixed(2)}s`;
   return (
@@ -21,12 +24,11 @@ export function ResultSummary({
       className="my-4 overflow-x-auto rounded-lg border border-line bg-card"
       aria-label={en ? "Result summary" : "结果摘要"}
     >
-      <table className="w-full min-w-[620px] text-left text-sm">
-        <caption className="px-4 py-3 text-left font-bold">
-          {en
-            ? "This run · quality, latency and cost"
-            : "本轮结果 · 效果、等待与成本"}
-        </caption>
+      <h2 className="px-4 py-3 text-left text-sm font-bold">{title}</h2>
+      <table
+        aria-label={title}
+        className="w-full min-w-[620px] text-left text-sm"
+      >
         <thead className="border-y border-line text-faint">
           <tr>
             {(en

@@ -207,9 +207,37 @@ export default async function Landing({
           </article>
         ))}
       </section>
+      <nav
+        aria-label={en ? "More tools" : "更多工具"}
+        className="border-t border-line py-6"
+      >
+        <h2 className="mb-3 font-bold">{en ? "More tools" : "更多工具"}</h2>
+        <div className="flex flex-wrap gap-2">
+          {[
+            ["/templates", en ? "Test templates" : "评测模板"],
+            ["/stats", en ? "Community speed leaderboard" : "社区速度榜"],
+            ["/best/cheapest", en ? "Lowest API prices" : "省钱榜"],
+            ["/board", en ? "Voting board" : "人气投票榜"],
+            ["/gallery", en ? "Showcase" : "作品集"],
+            [
+              "/providers/orcarouter",
+              en ? "Connect OrcaRouter" : "OrcaRouter 接入",
+            ],
+            ["/invite", en ? "Invite rewards" : "邀请奖励"],
+          ].map(([path, label]) => (
+            <Link
+              key={path}
+              href={h(path)}
+              className="rounded-md border border-line bg-card px-3 py-3 text-sm hover:border-ink"
+            >
+              {label}
+            </Link>
+          ))}
+        </div>
+      </nav>
       <footer className="flex flex-wrap justify-between gap-4 border-t border-line pt-6 text-sm">
         <Credit />
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           <Link href={h("/method")}>{en ? "Methodology" : "测试方法"}</Link>
           <Link href={h("/guides/json-extraction")}>
             {en ? "JSON selection guide" : "JSON 抽取选型指南"}
