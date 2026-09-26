@@ -1,6 +1,13 @@
+import { publishedReports } from "@/lib/benchmark-server";
+import { reportPairs } from "@/lib/benchmark-report";
 import type { MetadataRoute } from "next";
 import { BRAND } from "@/lib/brand";
-import { fetchModelStats, modelSlug, comparePairs, type ModelStat } from "@/lib/stats";
+import {
+  fetchModelStats,
+  modelSlug,
+  comparePairs,
+  type ModelStat,
+} from "@/lib/stats";
 import { BEST_METRICS } from "@/lib/best";
 import { PRELAUNCH_MODELS } from "@/lib/seo-models";
 import { LOCALES, localizedPath, type Locale } from "@/lib/i18n";
@@ -38,7 +45,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const localizedEntry = (
     pathname: string,
     locale: Locale,
-    rest: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">
+    rest: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">,
   ): MetadataRoute.Sitemap[number] => ({
     url: `${base}${localizedPath(pathname, locale)}`,
     alternates: {
@@ -53,14 +60,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const allLocales = (
     pathname: string,
-    rest: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">
+    rest: Omit<MetadataRoute.Sitemap[number], "url" | "alternates">,
   ) => LOCALES.map((locale) => localizedEntry(pathname, locale, rest));
 
   const staticRoutes: MetadataRoute.Sitemap = [
     ...allLocales("/", { changeFrequency: "weekly", priority: 1 }),
     ...allLocales("/arena", { changeFrequency: "weekly", priority: 0.9 }),
-    ...allLocales("/stats", { ...dataMod, changeFrequency: "daily", priority: 0.8 }),
-    ...allLocales("/board", { ...dataMod, changeFrequency: "daily", priority: 0.8 }),
+    ...allLocales("/stats", {
+      ...dataMod,
+      changeFrequency: "daily",
+      priority: 0.8,
+    }),
+    ...allLocales("/board", {
+      ...dataMod,
+      changeFrequency: "daily",
+      priority: 0.8,
+    }),
     ...allLocales("/gallery", { changeFrequency: "daily", priority: 0.6 }),
     ...allLocales("/templates", { changeFrequency: "weekly", priority: 0.8 }),
     ...allLocales("/invite", { changeFrequency: "monthly", priority: 0.7 }),
@@ -72,40 +87,61 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.7,
     }),
     ...["/about", "/contact", "/privacy", "/terms"].flatMap((path) =>
-      allLocales(path, { lastModified: new Date("2026-09-09T00:00:00Z"), changeFrequency: "monthly", priority: 0.3 })
+      allLocales(path, {
+        lastModified: new Date("2026-09-09T00:00:00Z"),
+        changeFrequency: "monthly",
+        priority: 0.3,
+      }),
     ),
     ...BEST_METRICS.flatMap((m) =>
-      allLocales(`/best/${m}`, { ...dataMod, changeFrequency: "daily", priority: 0.8 })
+      allLocales(`/best/${m}`, {
+        ...dataMod,
+        changeFrequency: "daily",
+        priority: 0.8,
+      }),
     ),
   ];
 
-  // 每个上榜模型一个永久页（长尾「X 速度」），以及前 8 名两两对比页（高意图「X vs Y」）
-  let dynamicRoutes: MetadataRoute.Sitemap = [];
-  if (stats.length) {
-    const modelRoutes = [...slugLastMod.entries()].flatMap(([slug, lastModified]) =>
-      allLocales(`/model/${slug}`, {
-        lastModified,
-        changeFrequency: "daily" as const,
-        priority: 0.7,
-      })
-    );
-    const compareRoutes = comparePairs(stats, 8).flatMap(([a, b]) => {
-      const atA = slugLastMod.get(a);
-      const atB = slugLastMod.get(b);
-      const at = atA && atB ? (atA > atB ? atA : atB) : (atA ?? atB);
-      return allLocales(`/compare/${a}-vs-${b}`, {
-        ...(at ? { lastModified: at } : {}),
-        changeFrequency: "daily" as const,
-        priority: 0.6,
-      });
-    });
-    dynamicRoutes = [...modelRoutes, ...compareRoutes];
+  // Only pages backed by published, matched evidence are indexed. Legacy URLs remain accessible.
+  const reports = await publishedReports(1000).catch(() => []);
+  const published = new Map<string, string>();
+  for (const report of reports) {
+    published.set(`/reports/${report.id}`, report.publishedAt);
+    for (const model of report.models) {
+      const key = `/model/${model.slug}`;
+      if (!published.has(key)) published.set(key, report.publishedAt);
+    }
+    for (const pair of reportPairs(report)) {
+      const key = `/compare/${pair.join("-vs-")}`;
+      if (!published.has(key)) published.set(key, report.publishedAt);
+    }
   }
-
-  // 精选待实测模型的占位页（发布日即入 sitemap）；已有实测数据的 slug 交给上面的动态路由，避免重复
-  const prelaunchRoutes = PRELAUNCH_MODELS.filter((p) => !slugLastMod.has(p.slug)).flatMap((p) =>
-    allLocales(`/model/${p.slug}`, { changeFrequency: "daily", priority: 0.7 })
+  const dynamicRoutes = [...published].flatMap(([path, modified]) =>
+    allLocales(path, {
+      lastModified: new Date(modified),
+      changeFrequency: "weekly",
+      priority: 0.7,
+    }),
   );
-
-  return [...staticRoutes, ...dynamicRoutes, ...prelaunchRoutes];
+  const sourceProfiles = PRELAUNCH_MODELS.filter(
+    (p) => p.sourceUrl && !published.has(`/model/${p.slug}`),
+  ).flatMap((p) =>
+    allLocales(`/model/${p.slug}`, {
+      ...(p.verifiedOn ? { lastModified: new Date(p.verifiedOn) } : {}),
+      changeFrequency: "monthly",
+      priority: 0.4,
+    }),
+  );
+  return [
+    ...staticRoutes,
+    ...allLocales("/models", { changeFrequency: "weekly", priority: 0.8 }),
+    ...allLocales("/reports", { changeFrequency: "daily", priority: 0.9 }),
+    ...allLocales("/guides/json-extraction", {
+      lastModified: new Date("2026-09-26"),
+      changeFrequency: "monthly",
+      priority: 0.7,
+    }),
+    ...dynamicRoutes,
+    ...sourceProfiles,
+  ];
 }

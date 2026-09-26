@@ -1,0 +1,32 @@
+name: Benchmark scheduler heartbeat
+on:
+  schedule:
+    - cron: "43 * * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  heartbeat:
+    if: vars.BENCHMARK_AUTOMATION_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Check stored scheduler heartbeat
+        env:
+          BENCHMARK_SECRET: ${{ secrets.BENCHMARK_SECRET }}
+        run: |
+          node --input-type=module <<'JS'
+          const secret = process.env.BENCHMARK_SECRET;
+          if (!secret || secret.length < 32) throw new Error('BENCHMARK_SECRET is required');
+          const response = await fetch('https://www.tokrace.com/api/benchmarks', {
+            headers: { Authorization: `Bearer ${secret}` },
+            signal: AbortSignal.timeout(20000),
+          });
+          if (!response.ok) throw new Error(`Status API HTTP ${response.status}`);
+          const status = await response.json();
+          if (status.schedulerStale) throw new Error('SCHEDULER OVERDUE: no discovery heartbeat for more than 8 hours');
+          console.log('Scheduler heartbeat is current; provider failures appear in Standard model benchmarks.');
+          JS

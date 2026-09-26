@@ -64,7 +64,12 @@ export async function generateMetadata({
       url: localizedPath(path, locale),
       images: [OG_IMAGE],
     },
-    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE.url] },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: [OG_IMAGE.url],
+    },
   };
 }
 
@@ -95,7 +100,7 @@ export default async function BestPage({
           "@type": "ListItem",
           position: i + 1,
           name: r.model,
-          url: `${BRAND.url}${h(`/model/${r.slug}`)}`,
+          url: `${BRAND.url}${h(metric === "cheapest" ? "/pricing" : `/model/${r.slug}`)}`,
           description: r.primary,
         })),
       }
@@ -115,7 +120,9 @@ export default async function BestPage({
     mainEntity: [
       {
         "@type": "Question",
-        name: isZh ? "这个排行的数据怎么来的？" : "Where does this ranking come from?",
+        name: isZh
+          ? "这个排行的数据怎么来的？"
+          : "Where does this ranking come from?",
         acceptedAnswer: {
           "@type": "Answer",
           text: isZh
@@ -128,7 +135,9 @@ export default async function BestPage({
         name: isZh ? "多久更新一次？" : "How often is it updated?",
         acceptedAnswer: {
           "@type": "Answer",
-          text: isZh ? "速度数据约每 5 分钟刷新；价格随厂商调整更新。" : "Speed refreshes roughly every 5 minutes; prices update as providers change them.",
+          text: isZh
+            ? "速度数据约每 5 分钟刷新；价格随厂商调整更新。"
+            : "Speed refreshes roughly every 5 minutes; prices update as providers change them.",
         },
       },
     ],
@@ -142,13 +151,19 @@ export default async function BestPage({
 
       <nav className="mb-6 flex items-center justify-between">
         <Logo withText />
-        <Link href={h("/arena")} className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper">
+        <Link
+          href={h("/arena")}
+          className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"
+        >
           {messages.common.testNow} ▶
         </Link>
       </nav>
 
       <header>
-        <h1 className="text-[27px] font-black leading-tight" style={{ fontFamily: "var(--font-title)" }}>
+        <h1
+          className="text-[27px] font-black leading-tight"
+          style={{ fontFamily: "var(--font-title)" }}
+        >
           {page.title}
         </h1>
         <p className="mt-2 text-[13.5px] text-faint">{page.intro}</p>
@@ -160,7 +175,9 @@ export default async function BestPage({
             key={m}
             href={h(`/best/${m}`)}
             className={`rounded-md border px-3 py-1.5 text-[13px] ${
-              m === metric ? "border-ink bg-ink text-paper" : "border-line text-faint hover:text-ink"
+              m === metric
+                ? "border-ink bg-ink text-paper"
+                : "border-line text-faint hover:text-ink"
             }`}
           >
             {isZh ? TAB_LABEL[m].zh : TAB_LABEL[m].en}
@@ -175,16 +192,37 @@ export default async function BestPage({
       ) : (
         <ol className="mt-5 overflow-hidden rounded-lg border border-line bg-card">
           {page.rows.map((r, i) => (
-            <li key={r.slug + i} className="flex items-center gap-3 border-b border-line px-4 py-3 last:border-0">
-              <span className="num w-7 shrink-0 text-[14px] text-faint">{MEDALS[i] ?? i + 1}</span>
+            <li
+              key={r.slug + i}
+              className="flex items-center gap-3 border-b border-line px-4 py-3 last:border-0"
+            >
+              <span className="num w-7 shrink-0 text-[14px] text-faint">
+                {MEDALS[i] ?? i + 1}
+              </span>
               <div className="min-w-0 flex-1">
-                <Link href={h(`/model/${r.slug}`)} className="text-[14px] font-semibold hover:text-accent">
+                <Link
+                  href={h(
+                    metric === "cheapest" ? "/pricing" : `/model/${r.slug}`,
+                  )}
+                  className="text-[14px] font-semibold hover:text-accent"
+                >
                   {r.model}
                 </Link>
-                {r.provider && <span className="ml-2 text-[11px] text-faint">{r.provider}</span>}
-                {r.secondary && <div className="num mt-0.5 text-[11px] text-faint">{r.secondary}</div>}
+                {r.provider && (
+                  <span className="ml-2 text-[11px] text-faint">
+                    {r.provider}
+                  </span>
+                )}
+                {r.secondary && (
+                  <div className="num mt-0.5 text-[11px] text-faint">
+                    {r.secondary}
+                  </div>
+                )}
               </div>
-              <span className="num shrink-0 text-[14px] font-bold" style={{ color: i === 0 ? "var(--accent)" : "var(--ink)" }}>
+              <span
+                className="num shrink-0 text-[14px] font-bold"
+                style={{ color: i === 0 ? "var(--accent)" : "var(--ink)" }}
+              >
                 {r.primary}
               </span>
             </li>
@@ -193,13 +231,22 @@ export default async function BestPage({
       )}
 
       <div className="mt-7 flex flex-wrap gap-2 text-[13px]">
-        <Link href={h("/pricing")} className="rounded-md border border-line px-4 py-2 text-faint hover:text-ink">
+        <Link
+          href={h("/pricing")}
+          className="rounded-md border border-line px-4 py-2 text-faint hover:text-ink"
+        >
           {isZh ? "完整价格表" : "Full pricing"} →
         </Link>
-        <Link href={h("/stats")} className="rounded-md border border-line px-4 py-2 text-faint hover:text-ink">
+        <Link
+          href={h("/stats")}
+          className="rounded-md border border-line px-4 py-2 text-faint hover:text-ink"
+        >
           {isZh ? "速度排行榜" : "Speed leaderboard"} →
         </Link>
-        <Link href={h("/arena")} className="rounded-md bg-ink px-4 py-2 font-bold text-paper">
+        <Link
+          href={h("/arena")}
+          className="rounded-md bg-ink px-4 py-2 font-bold text-paper"
+        >
           {isZh ? "自己实测一轮" : "Run your own test"} ▶
         </Link>
       </div>
@@ -207,10 +254,14 @@ export default async function BestPage({
       {!page.empty && (
         <details className="mt-6 rounded-lg border border-line bg-paper/40 px-4 py-3">
           <summary className="cursor-pointer text-[12.5px] font-medium text-faint hover:text-ink">
-            {isZh ? "📋 把这个榜单嵌到你的网站" : "📋 Embed this ranking on your site"}
+            {isZh
+              ? "📋 把这个榜单嵌到你的网站"
+              : "📋 Embed this ranking on your site"}
           </summary>
           <p className="mt-2 text-[11.5px] text-faint">
-            {isZh ? "复制下面代码（实时数据，自动更新）：" : "Copy the code below (live data, auto-updating):"}
+            {isZh
+              ? "复制下面代码（实时数据，自动更新）："
+              : "Copy the code below (live data, auto-updating):"}
           </p>
           <pre className="num mt-1.5 overflow-x-auto rounded-md bg-ink/90 px-3 py-2 text-[11px] text-paper">
             {`<iframe src="${BRAND.url}/embed/best/${metric}${isZh ? "" : "?lang=en"}" width="400" height="360" style="border:0;border-radius:12px" loading="lazy" title="${page.title}"></iframe>`}

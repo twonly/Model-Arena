@@ -9,6 +9,8 @@
  * 配置来源：各服务商当前可用模型目录。改这里即改共享池。
  */
 export interface SharedModel {
+  version?: string;
+  source?: string;
   /** 稳定 ID，客户端用它请求、服务端用它查配置 */
   id: string;
   /** 映射到服务端 env key 的 provider（见 /api/chat 的 SHARED_PROVIDER_KEY） */
@@ -26,16 +28,18 @@ export interface SharedModel {
 
 export const DEEPSEEK_V41_MODEL_ID = "deepseek-v4.1-flash-expires-on-0910";
 export const DEEPSEEK_V41_AVAILABLE_UNTIL = "2026-09-10T00:00:00+08:00";
-export const SHARED_POOL_VERSION = "2026-09-11-glm-5-3-pool";
+export const SHARED_POOL_VERSION = "2026-09-26-current-identity";
 
 export const SHARED_MODELS: SharedModel[] = [
   {
     id: "deepseek-flash",
     provider: "deepseek",
-    name: "DeepSeek V4 Flash",
+    name: "DeepSeek V4.1 Flash",
+    version: "DeepSeek-V4.1-Flash",
+    source: "https://api-docs.deepseek.com/quick_start/pricing",
     kind: "openai",
     baseUrl: "https://api.deepseek.com/v1",
-    model: "deepseek-v4-flash",
+    model: "deepseek-flash",
   },
   {
     id: "deepseek-v4-1-flash",
@@ -49,7 +53,9 @@ export const SHARED_MODELS: SharedModel[] = [
   {
     id: "deepseek-pro",
     provider: "deepseek",
-    name: "DeepSeek V4 Pro",
+    name: "DeepSeek V4 Pro 0813",
+    version: "DeepSeek-V4-Pro-0813",
+    source: "https://api-docs.deepseek.com/quick_start/pricing",
     kind: "openai",
     baseUrl: "https://api.deepseek.com/v1",
     model: "deepseek-v4-pro",
@@ -111,7 +117,7 @@ export const IP_DAILY_CEILING = 50; // 每 IP 每天总量天花板（防清缓�
 
 export function sharedModelIsAvailable(
   model: SharedModel,
-  now: Date = new Date()
+  now: Date = new Date(),
 ): boolean {
   if (!model.availableUntil) return true;
   const deadline = Date.parse(model.availableUntil);
@@ -120,7 +126,7 @@ export function sharedModelIsAvailable(
 
 export const sharedById = (
   id: string,
-  now: Date = new Date()
+  now: Date = new Date(),
 ): SharedModel | undefined =>
   SHARED_MODELS.find((m) => m.id === id && sharedModelIsAvailable(m, now));
 
@@ -130,17 +136,19 @@ export const sharedById = (
  */
 import type { ModelEndpoint } from "./types";
 export function sharedAsEndpoints(now: Date = new Date()): ModelEndpoint[] {
-  return SHARED_MODELS.filter((m) => sharedModelIsAvailable(m, now)).map((m) => ({
-    id: m.id, // 跑时即 sharedId
-    name: m.name,
-    kind: m.kind,
-    baseUrl: m.baseUrl, // 仅占位/展示；服务端会覆盖
-    apiKey: "",
-    model: m.model,
-    enabled: true,
-    extraBody: m.extraBody,
-    shared: true,
-  }));
+  return SHARED_MODELS.filter((m) => sharedModelIsAvailable(m, now)).map(
+    (m) => ({
+      id: m.id, // 跑时即 sharedId
+      name: m.name,
+      kind: m.kind,
+      baseUrl: m.baseUrl, // 仅占位/展示；服务端会覆盖
+      apiKey: "",
+      model: m.model,
+      enabled: true,
+      extraBody: m.extraBody,
+      shared: true,
+    }),
+  );
 }
 
 /**
@@ -152,9 +160,11 @@ export function sharedAsEndpoints(now: Date = new Date()): ModelEndpoint[] {
 export function reconcileSharedPool(
   endpoints: ModelEndpoint[],
   addMissing: boolean,
-  now: Date = new Date()
+  now: Date = new Date(),
 ): ModelEndpoint[] {
-  const active = new Map(sharedAsEndpoints(now).map((endpoint) => [endpoint.id, endpoint]));
+  const active = new Map(
+    sharedAsEndpoints(now).map((endpoint) => [endpoint.id, endpoint]),
+  );
 
   let changed = false;
   const next = endpoints.flatMap((endpoint) => {

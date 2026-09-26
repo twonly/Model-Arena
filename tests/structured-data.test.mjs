@@ -5,7 +5,7 @@ import test from "node:test";
 import { DATASET_LICENSE_URL } from "../lib/structured-data.ts";
 
 const datasetPages = [
-  "app/[lang]/model/[slug]/page.tsx",
+  "app/[lang]/reports/[id]/page.tsx",
   "app/[lang]/pricing/page.tsx",
   "app/[lang]/stats/page.tsx",
 ];
@@ -13,7 +13,11 @@ const datasetPages = [
 test("Dataset JSON-LD pages use the shared license URL", () => {
   for (const file of datasetPages) {
     const source = readFileSync(file, "utf8");
-    assert.match(source, /DATASET_LICENSE_URL/, `${file} should include a Dataset license`);
+    assert.match(
+      source,
+      /DATASET_LICENSE_URL/,
+      `${file} should include a Dataset license`,
+    );
   }
 });
 
@@ -21,4 +25,3 @@ test("Dataset license is a concrete HTTPS license document", () => {
   assert.match(DATASET_LICENSE_URL, /^https:\/\//);
   assert.match(DATASET_LICENSE_URL, /creativecommons\.org\/licenses\//);
 });
-

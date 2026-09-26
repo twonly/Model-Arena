@@ -1,5 +1,6 @@
 import {
   bestStatForSlug,
+  statSlug,
   fetchModelStats,
   modelSlug,
   type ModelStat,
@@ -105,26 +106,26 @@ export function fmtSeconds(ms: number): string {
 }
 
 export async function loadModelStatsForSlug(
-  slug: string
+  slug: string,
 ): Promise<ModelStat[] | null> {
   let stats: ModelStat[] | null = null;
   try {
-    stats = await fetchModelStats();
+    stats = await fetchModelStats(1, 0);
   } catch {
     return null;
   }
   if (!stats) return null;
-  const hit = stats.filter((s) => modelSlug(s.model) === slug);
+  const hit = stats.filter((s) => statSlug(s) === slug);
   return hit.length ? hit : null;
 }
 
 export async function topModelAlternatives(
   slug: string,
-  limit = 4
+  limit = 4,
 ): Promise<{ slug: string; name: string }[]> {
   let stats: ModelStat[] | null = null;
   try {
-    stats = await fetchModelStats();
+    stats = await fetchModelStats(1, 0);
   } catch {
     return [];
   }
@@ -132,7 +133,7 @@ export async function topModelAlternatives(
   const seen = new Set<string>();
   const out: { slug: string; name: string }[] = [];
   for (const s of stats) {
-    const sl = modelSlug(s.model);
+    const sl = statSlug(s);
     if (sl === slug || seen.has(sl)) continue;
     seen.add(sl);
     out.push({ slug: sl, name: s.model });
@@ -141,27 +142,29 @@ export async function topModelAlternatives(
   return out;
 }
 
-export async function loadComparePair(pairParam: string): Promise<ComparePair | null> {
+export async function loadComparePair(
+  pairParam: string,
+): Promise<ComparePair | null> {
   const parts = pairParam.split("-vs-");
   if (parts.length !== 2 || !parts[0] || !parts[1]) return null;
   let stats: ModelStat[] | null = null;
   try {
-    stats = await fetchModelStats();
+    stats = await fetchModelStats(1, 0);
   } catch {
     return null;
   }
   if (!stats) return null;
   const a = bestStatForSlug(stats, parts[0]);
   const b = bestStatForSlug(stats, parts[1]);
-  if (!a || !b || modelSlug(a.model) === modelSlug(b.model)) return null;
-  const canonical = [modelSlug(a.model), modelSlug(b.model)].sort().join("-vs-");
+  if (!a || !b || statSlug(a) === statSlug(b)) return null;
+  const canonical = [statSlug(a), statSlug(b)].sort().join("-vs-");
   return { a, b, canonical };
 }
 
 export function compareVerdict(
   a: ModelStat,
   b: ModelStat,
-  locale: Locale = DEFAULT_LOCALE
+  locale: Locale = DEFAULT_LOCALE,
 ): string {
   if (locale === "en") {
     const out =

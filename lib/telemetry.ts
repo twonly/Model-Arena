@@ -93,7 +93,7 @@ export async function reportRunMetrics(opts: {
         kind: endpoint.kind,
         model: endpoint.model,
         status: run.status,
-        hasError: run.status === "error",
+        hasError: run.status !== "done",
         hasImage: opts.hasImage,
         promptChars: opts.promptChars,
         outputChars: run.text.length,
@@ -114,7 +114,8 @@ export async function reportRunMetrics(opts: {
         rank: run.rank,
       };
     });
-  if (!records.length) return { ok: false, count: 0, error: "没有可上报的指标" };
+  if (!records.length)
+    return { ok: false, count: 0, error: "没有可上报的指标" };
   const body = JSON.stringify({ type: "metrics", records });
   let lastErr = "网络错误";
   // 弱网下重试一次
@@ -140,7 +141,8 @@ export async function reportRunMetrics(opts: {
       }
       if (j.ok) return { ok: true, count: j.count ?? records.length };
       // 服务端明确的业务错误不重试
-      if (j.disabled) return { ok: false, count: 0, error: "服务端未配置数据库" };
+      if (j.disabled)
+        return { ok: false, count: 0, error: "服务端未配置数据库" };
       lastErr = j.error || "上报失败";
       if (!/超时|timeout|网络|abort/i.test(lastErr))
         return { ok: false, count: 0, error: lastErr };

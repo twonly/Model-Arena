@@ -2,8 +2,13 @@
  * 程序化榜单页 /best/[metric] 的数据聚合：最快 / 最便宜 / 性价比。
  * 速度来自 run_metrics 聚合（lib/stats），成本来自定价表（lib/pricing）。
  */
-import { fetchModelStats, modelSlug, type ModelStat } from "./stats.ts";
-import { MODEL_PRICES, findPrice, toUsdPer1M } from "./pricing.ts";
+import {
+  fetchModelStats,
+  modelSlug,
+  statSlug,
+  type ModelStat,
+} from "./stats.ts";
+import { MODEL_PRICES, findEndpointPrice, toUsdPer1M } from "./pricing.ts";
 import { type Locale } from "./i18n.ts";
 
 export type BestMetric = "fastest" | "cheapest" | "value";
@@ -29,47 +34,93 @@ export interface BestPage {
   asOf: string;
 }
 
-const META: Record<BestMetric, { zh: [string, string]; en: [string, string] }> = {
-  fastest: {
-    zh: ["最快的大模型 API（实测速度排行）", "按真实输出速度（tokens/s）排序的大模型排行，数据来自全网用户匿名实测，持续更新。"],
-    en: ["Fastest LLM APIs (real-world speed ranking)", "LLMs ranked by real output speed (tokens/s), from anonymous community benchmarks, continuously updated."],
-  },
-  cheapest: {
-    zh: ["最便宜的大模型 API（输出价排行）", "按输出价（每百万 token）从低到高排序的大模型，含缓存命中价，标注官方来源。"],
-    en: ["Cheapest LLM APIs (output price ranking)", "LLMs ranked by output price per million tokens, including cache-hit rates, with official sources."],
-  },
-  value: {
-    zh: ["性价比最高的大模型 API（速度 × 成本）", "用实测速度除以输出价得到的性价比排行，找又快又便宜的大模型。"],
-    en: ["Best-value LLM APIs (speed per dollar)", "LLMs ranked by real speed divided by output price — fast and cheap at once."],
-  },
-};
+const META: Record<BestMetric, { zh: [string, string]; en: [string, string] }> =
+  {
+    fastest: {
+      zh: [
+        "最快的大模型 API（实测速度排行）",
+        "按真实输出速度（tokens/s）排序的大模型排行，数据来自全网用户匿名实测，持续更新。",
+      ],
+      en: [
+        "Fastest LLM APIs (real-world speed ranking)",
+        "LLMs ranked by real output speed (tokens/s), from anonymous community benchmarks, continuously updated.",
+      ],
+    },
+    cheapest: {
+      zh: [
+        "最便宜的大模型 API（输出价排行）",
+        "按输出价（每百万 token）从低到高排序的大模型，含缓存命中价，标注官方来源。",
+      ],
+      en: [
+        "Cheapest LLM APIs (output price ranking)",
+        "LLMs ranked by output price per million tokens, including cache-hit rates, with official sources.",
+      ],
+    },
+    value: {
+      zh: [
+        "性价比最高的大模型 API（速度 × 成本）",
+        "用实测速度除以输出价得到的性价比排行，找又快又便宜的大模型。",
+      ],
+      en: [
+        "Best-value LLM APIs (speed per dollar)",
+        "LLMs ranked by real speed divided by output price — fast and cheap at once.",
+      ],
+    },
+  };
 
 export function isBestMetric(v: string): v is BestMetric {
   return (BEST_METRICS as string[]).includes(v);
 }
 
 /** 仅取标题/描述（不拉数据），供 generateMetadata 用 */
-export function bestMeta(metric: BestMetric, locale: Locale): { title: string; description: string } {
-  const [title, description] = locale === "en" ? META[metric].en : META[metric].zh;
+export function bestMeta(
+  metric: BestMetric,
+  locale: Locale,
+): { title: string; description: string } {
+  const [title, description] =
+    locale === "en" ? META[metric].en : META[metric].zh;
   return { title, description };
 }
 
-const fmtUsd = (n: number) => (n < 0.1 ? `$${n.toFixed(3)}` : n < 1 ? `$${n.toFixed(2)}` : `$${n.toFixed(n < 10 ? 1 : 0)}`);
+const fmtUsd = (n: number) =>
+  n < 0.1
+    ? `$${n.toFixed(3)}`
+    : n < 1
+      ? `$${n.toFixed(2)}`
+      : `$${n.toFixed(n < 10 ? 1 : 0)}`;
 const fmtTps = (n: number) => `${Math.round(n)}`;
 
 /** 定价表按模型去重，取该模型 USD 输出价（同模型多区域取较低） */
-function pricedModels(): { model: string; provider: string; outUsd: number; hitUsd?: number }[] {
-  const map = new Map<string, { model: string; provider: string; outUsd: number; hitUsd?: number }>();
-  for (const p of MODEL_PRICES) {
+function pricedModels(): {
+  model: string;
+  provider: string;
+  outUsd: number;
+  hitUsd?: number;
+}[] {
+  const map = new Map<
+    string,
+    { model: string; provider: string; outUsd: number; hitUsd?: number }
+  >();
+  for (const p of MODEL_PRICES.filter((p) => !p.needsConfirm)) {
     const out = toUsdPer1M(p.output, p.currency);
-    const hit = p.inputHit != null ? toUsdPer1M(p.inputHit, p.currency) : undefined;
+    const hit =
+      p.inputHit != null ? toUsdPer1M(p.inputHit, p.currency) : undefined;
     const cur = map.get(p.model);
-    if (!cur || out < cur.outUsd) map.set(p.model, { model: p.model, provider: p.provider, outUsd: out, hitUsd: hit });
+    if (!cur || out < cur.outUsd)
+      map.set(p.model, {
+        model: p.model,
+        provider: p.provider,
+        outUsd: out,
+        hitUsd: hit,
+      });
   }
   return [...map.values()];
 }
 
-export async function getBestPage(metric: BestMetric, locale: Locale): Promise<BestPage> {
+export async function getBestPage(
+  metric: BestMetric,
+  locale: Locale,
+): Promise<BestPage> {
   const isZh = locale === "zh-CN";
   const asOf = new Date().toISOString().slice(0, 10);
   let stats: ModelStat[] | null = null;
@@ -88,7 +139,7 @@ export async function getBestPage(metric: BestMetric, locale: Locale): Promise<B
     const list = (stats ?? []).filter((s) => s.medianContentTps > 0);
     list.sort((a, b) => b.medianContentTps - a.medianContentTps);
     rows = list.slice(0, 15).map((s) => ({
-      slug: modelSlug(s.model),
+      slug: statSlug(s),
       model: s.model,
       provider: s.provider,
       primary: `${fmtTps(s.medianContentTps)} tok/s`,
@@ -105,7 +156,12 @@ export async function getBestPage(metric: BestMetric, locale: Locale): Promise<B
       model: m.model,
       provider: m.provider,
       primary: `${fmtUsd(m.outUsd)}/1M ${isZh ? "输出" : "output"}`,
-      secondary: m.hitUsd != null ? (isZh ? `缓存命中 ${fmtUsd(m.hitUsd)}/1M` : `cache hit ${fmtUsd(m.hitUsd)}/1M`) : undefined,
+      secondary:
+        m.hitUsd != null
+          ? isZh
+            ? `缓存命中 ${fmtUsd(m.hitUsd)}/1M`
+            : `cache hit ${fmtUsd(m.hitUsd)}/1M`
+          : undefined,
     }));
     empty = rows.length === 0;
   } else {
@@ -113,7 +169,7 @@ export async function getBestPage(metric: BestMetric, locale: Locale): Promise<B
     const scored: { s: ModelStat; outUsd: number; score: number }[] = [];
     for (const s of stats ?? []) {
       if (s.medianContentTps <= 0) continue;
-      const p = findPrice(s.model);
+      const p = findEndpointPrice(s.rawModel ?? s.model, s.provider);
       if (!p) continue;
       const outUsd = toUsdPer1M(p.output, p.currency);
       if (outUsd <= 0) continue;
@@ -121,7 +177,7 @@ export async function getBestPage(metric: BestMetric, locale: Locale): Promise<B
     }
     scored.sort((a, b) => b.score - a.score);
     rows = scored.slice(0, 15).map(({ s, outUsd }) => ({
-      slug: modelSlug(s.model),
+      slug: statSlug(s),
       model: s.model,
       provider: s.provider,
       primary: `${fmtTps(s.medianContentTps)} tok/s @ ${fmtUsd(outUsd)}/1M`,

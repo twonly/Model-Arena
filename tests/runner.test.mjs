@@ -9,14 +9,26 @@ test("shared model chat requests include the current auth header", async () => {
 
   globalThis.fetch = async (_url, init = {}) => {
     capturedHeaders = Object.fromEntries(new Headers(init.headers).entries());
-    return new Response('data: {"type":"done"}\n\n', {
-      status: 200,
-      headers: { "Content-Type": "text/event-stream", "X-Quota-Remaining": "14" },
-    });
+    return new Response(
+      'data: {"type":"delta","text":"hello"}\n\ndata: {"type":"usage","promptTokens":-1,"outputTokens":"invalid"}\n\ndata: {"type":"done"}\n\n',
+      {
+        status: 200,
+        headers: {
+          "Content-Type": "text/event-stream",
+          "X-Quota-Remaining": "14",
+        },
+      },
+    );
   };
 
   try {
-    let state = { status: "idle", text: "", reasoning: "", metrics: null, samples: [] };
+    let state = {
+      status: "idle",
+      text: "",
+      reasoning: "",
+      metrics: null,
+      samples: [],
+    };
     await runEndpoint({
       endpoint: {
         id: "deepseek-flash",
@@ -41,6 +53,8 @@ test("shared model chat requests include the current auth header", async () => {
     });
 
     assert.equal(capturedHeaders.authorization, "Bearer user-token");
+    assert.equal(state.metrics.promptTokens, undefined);
+    assert.equal(state.metrics.official, false);
   } finally {
     globalThis.fetch = originalFetch;
   }

@@ -131,7 +131,7 @@ export async function runEndpoint({
 
   const finalize = (
     status: "done" | "stopped" | "truncated",
-    finishReason?: string
+    finishReason?: string,
   ) => {
     const tEnd = now();
     const estReasoning = estimateTokens(reasoning);
@@ -254,7 +254,10 @@ export async function runEndpoint({
           extraBody: endpoint.extraBody,
           imageDataUrl,
         };
-    const headers = { "Content-Type": "application/json", ...(await authHeaders()) };
+    const headers = {
+      "Content-Type": "application/json",
+      ...(await authHeaders()),
+    };
     // 默认 Vercel：直接打 /api/chat，不多打 session（每页只探测一次路由计划并缓存）。
     // 仅当该模型命中 Cloudflare 规则（或全局默认即 CF）时，才按请求签一次性
     // ticket（ticket 绑定 body，无法预签）走 Worker。
@@ -267,7 +270,7 @@ export async function runEndpoint({
           baseUrl: endpoint.baseUrl,
           name: endpoint.name,
         },
-        plan
+        plan,
       ) === "cloudflare";
     const session = useCloudflare
       ? await resolveChatTransport(reqBody, headers, signal)
@@ -293,7 +296,9 @@ export async function runEndpoint({
     // 额度已用完（402）：抛出后端给的友好中文提示
     if (res.status === 402) {
       const j = await res.json().catch(() => null);
-      throw new Error(j?.error || "今日免费额度已用完，请配置你自己的 API Key。");
+      throw new Error(
+        j?.error || "今日免费额度已用完，请配置你自己的 API Key。",
+      );
     }
     if (!res.ok || !res.body) {
       const detail = await res.text().catch(() => "");
@@ -341,17 +346,24 @@ export async function runEndpoint({
           }
           flush();
         } else if (ev.type === "usage") {
+          const count = (value: unknown, previous?: number) =>
+            typeof value === "number" && Number.isFinite(value) && value >= 0
+              ? value
+              : previous;
           usage = {
-            promptTokens: ev.promptTokens ?? usage.promptTokens,
-            outputTokens: ev.outputTokens ?? usage.outputTokens,
-            reasoningTokens: ev.reasoningTokens ?? usage.reasoningTokens,
+            promptTokens: count(ev.promptTokens, usage.promptTokens),
+            outputTokens: count(ev.outputTokens, usage.outputTokens),
+            reasoningTokens: count(ev.reasoningTokens, usage.reasoningTokens),
           };
         } else if (ev.type === "error") {
           throw new Error(ev.message);
         } else if (ev.type === "done") {
           finished = true;
-          cleanFinish = !ev.truncated;
-          finalize(ev.truncated ? "truncated" : "done", ev.finishReason);
+          const truncated =
+            ev.truncated ||
+            ["length", "max_tokens"].includes(ev.finishReason ?? "");
+          cleanFinish = !truncated;
+          finalize(truncated ? "truncated" : "done", ev.finishReason);
         }
       }
     }
@@ -369,14 +381,21 @@ export async function runEndpoint({
     const gotData = tFirst != null;
     // 把浏览器底层的 fetch 失败翻译成可读、可操作的诊断
     let message = raw;
-    if (/Failed to fetch|NetworkError|network error|ERR_|load failed/i.test(raw)) {
+    if (
+      /Failed to fetch|NetworkError|network error|ERR_|load failed/i.test(raw)
+    ) {
       message = gotData
         ? `连接中断：传输途中与服务器的连接断开（多为浏览器↔本站的跨境网络波动，与模型厂商无关）。点「重跑」通常可恢复。原始：${raw}`
         : `无法连接到服务器：浏览器没能连上本站代理（多为本地网络/跨境到 Vercel 不稳定）。请检查网络后点「重跑」。原始：${raw}`;
     } else if (/aborted|timeout/i.test(raw)) {
       message = `请求超时：${raw}`;
     }
-    update((prev) => ({ ...prev, status: "error", error: message, elapsedMs: now() }));
+    update((prev) => ({
+      ...prev,
+      status: "error",
+      error: message,
+      elapsedMs: now(),
+    }));
     onSettled(false);
   }
 }
@@ -422,7 +441,7 @@ function getTransportPlan(): Promise<ChatTransportPlan> {
 async function resolveChatTransport(
   reqBody: unknown,
   headers: Record<string, string>,
-  signal: AbortSignal
+  signal: AbortSignal,
 ): Promise<ChatTransportSession | null> {
   try {
     const res = await fetch("/api/chat/session", {
@@ -433,7 +452,8 @@ async function resolveChatTransport(
     });
     if (!res.ok) return null;
     const j = (await res.json()) as ChatTransportSession;
-    if (j?.ok && j.transport === "cloudflare" && j.workerUrl && j.ticket) return j;
+    if (j?.ok && j.transport === "cloudflare" && j.workerUrl && j.ticket)
+      return j;
     if (j?.ok && j.transport === "vercel") return j;
     return null;
   } catch {

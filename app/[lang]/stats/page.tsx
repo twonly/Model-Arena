@@ -4,7 +4,13 @@ import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
 import { BRAND } from "@/lib/brand";
 import { sampleConfidence } from "@/lib/quickstart";
-import { comparePairs, fetchModelStats, modelSlug, type ModelStat } from "@/lib/stats";
+import {
+  comparePairs,
+  fetchModelStats,
+  modelSlug,
+  statSlug,
+  type ModelStat,
+} from "@/lib/stats";
 import { getMessages } from "@/lib/i18n-messages";
 import { localizedMetadata } from "@/lib/i18n-metadata";
 import {
@@ -13,16 +19,27 @@ import {
   localizedPath,
   normalizeLocale,
 } from "@/lib/i18n";
-import { findPrice, toUsdPer1M, paretoFrontier } from "@/lib/pricing";
+import { findEndpointPrice, toUsdPer1M, paretoFrontier } from "@/lib/pricing";
 import { DATASET_LICENSE_URL } from "@/lib/structured-data";
-import { SpeedCostChart, type CostSpeedPoint } from "@/components/SpeedCostChart";
+import {
+  SpeedCostChart,
+  type CostSpeedPoint,
+} from "@/components/SpeedCostChart";
 
 // 每 5 分钟重新生成
 export const revalidate = 300;
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang } = await params;
-  return localizedMetadata(normalizeLocale(lang) ?? DEFAULT_LOCALE, "stats", "/stats");
+  return localizedMetadata(
+    normalizeLocale(lang) ?? DEFAULT_LOCALE,
+    "stats",
+    "/stats",
+  );
 }
 
 function fmt(n: number, digits = 0): string {
@@ -64,7 +81,7 @@ export default async function StatsPage({
   const seenModel = new Set<string>();
   for (const s of stats ?? []) {
     if (seenModel.has(s.model) || s.medianContentTps <= 0) continue;
-    const price = findPrice(s.model);
+    const price = findEndpointPrice(s.rawModel ?? s.model, s.provider);
     if (!price) continue;
     seenModel.add(s.model);
     costPoints.push({
@@ -96,10 +113,10 @@ export default async function StatsPage({
           description:
             locale === "en"
               ? `Median output ${fmt(s.medianContentTps)} tok/s · Peak ${fmt(
-                  s.maxPeakTps
+                  s.maxPeakTps,
                 )} tok/s · ${s.samples} runs`
               : `中位输出 ${fmt(s.medianContentTps)} tok/s · 峰值 ${fmt(
-                  s.maxPeakTps
+                  s.maxPeakTps,
                 )} tok/s · ${s.samples} 次实测`,
         })),
       }
@@ -110,7 +127,10 @@ export default async function StatsPage({
     ? {
         "@context": "https://schema.org",
         "@type": "Dataset",
-        name: locale === "en" ? "Real-world LLM speed dataset" : "大模型实测速度数据集",
+        name:
+          locale === "en"
+            ? "Real-world LLM speed dataset"
+            : "大模型实测速度数据集",
         description:
           locale === "en"
             ? "Anonymous real-world LLM speed data: TTFT, thinking/output tokens per second, peak speed and token counts."
@@ -118,7 +138,11 @@ export default async function StatsPage({
         url: `${BRAND.url}${h("/stats")}`,
         inLanguage: localeToLanguage(locale),
         isAccessibleForFree: true,
-        creator: { "@type": "Organization", name: BRAND.publisher, url: BRAND.url },
+        creator: {
+          "@type": "Organization",
+          name: BRAND.publisher,
+          url: BRAND.url,
+        },
         license: DATASET_LICENSE_URL,
         variableMeasured:
           locale === "en"
@@ -147,7 +171,12 @@ export default async function StatsPage({
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: BRAND.en, item: BRAND.url },
-      { "@type": "ListItem", position: 2, name: messages.common.stats, item: `${BRAND.url}${h("/stats")}` },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: messages.common.stats,
+        item: `${BRAND.url}${h("/stats")}`,
+      },
     ],
   };
 
@@ -183,8 +212,8 @@ export default async function StatsPage({
         </h1>
         <p className="mt-2 text-[13px] text-faint">
           {locale === "en"
-            ? "Anonymous real-world speed results from TOKRACE, annotated by sample confidence."
-            : "全网用户在「百模竞速」里跑出的真实速度，匿名汇总，并按样本量标注可信度。"}
+            ? "Community submissions from the last 14 days (at most 10,000 attempts). Tasks, regions and settings differ; this is not a standard benchmark."
+            : "最近 14 天的社区自报数据（最多读取 10,000 次尝试）。任务、地区和参数可能不同，不作为标准实测结论。"}
           {stats?.length ? (
             <>
               {" "}
@@ -233,8 +262,12 @@ export default async function StatsPage({
             <span className="w-28 text-right">
               {locale === "en" ? "Median tok/s" : "中位输出 tok/s"}
             </span>
-            <span className="w-16 text-right">{locale === "en" ? "TTFT" : "首响"}</span>
-            <span className="w-16 text-right">{locale === "en" ? "Peak" : "峰值"}</span>
+            <span className="w-16 text-right">
+              {locale === "en" ? "TTFT" : "首响"}
+            </span>
+            <span className="w-16 text-right">
+              {locale === "en" ? "Peak" : "峰值"}
+            </span>
           </div>
           {stats.map((s, i) => {
             const confidence = sampleConfidence(s.samples, locale);
@@ -249,7 +282,7 @@ export default async function StatsPage({
                       {MEDALS[i] ?? `${i + 1}`}
                     </span>
                     <Link
-                      href={h(`/model/${modelSlug(s.model)}`)}
+                      href={h(`/model/${statSlug(s)}`)}
                       className="truncate text-[13.5px] font-semibold hover:text-accent"
                     >
                       {s.model}
@@ -257,10 +290,12 @@ export default async function StatsPage({
                   </div>
                   <div className="num ml-[30px] mt-1 flex flex-wrap items-center gap-2 text-[10.5px] text-faint">
                     <span className="truncate">{s.provider}</span>
-                    <span>· {s.samples} {locale === "en" ? "runs" : "次"}</span>
+                    <span>
+                      · {s.samples} {locale === "en" ? "runs" : "次"}
+                    </span>
                     <span
                       className={`rounded-full border px-1.5 py-0.5 text-[10px] font-semibold ${confidenceClass(
-                        confidence.tone
+                        confidence.tone,
                       )}`}
                       title={confidence.description}
                     >
@@ -287,7 +322,9 @@ export default async function StatsPage({
                   </div>
                 </div>
                 <div className="num w-16 text-right text-[13px]">
-                  {s.avgTtftMs > 0 ? `${(s.avgTtftMs / 1000).toFixed(2)}s` : "—"}
+                  {s.avgTtftMs > 0
+                    ? `${(s.avgTtftMs / 1000).toFixed(2)}s`
+                    : "—"}
                 </div>
                 <div
                   className="num w-16 text-right text-[13px] font-semibold"
@@ -343,7 +380,7 @@ export default async function StatsPage({
               // slug → 榜单里排最前的模型名（用作链接文案）
               const slugName = new Map<string, string>();
               for (const s of stats) {
-                const sl = modelSlug(s.model);
+                const sl = statSlug(s);
                 if (sl && !slugName.has(sl)) slugName.set(sl, s.model);
               }
               return comparePairs(stats, 8).map(([a, b]) => (

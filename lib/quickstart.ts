@@ -34,7 +34,18 @@ export function quickSample(locale: Locale = DEFAULT_LOCALE) {
 }
 
 export interface ArenaSeed {
-  mode: "sample" | "share-full" | "share-prompt";
+  mode: "sample" | "share-full" | "share-prompt" | "report";
+  endpointRefs?: {
+    model: string;
+    provider: string;
+    name?: string;
+    kind?: ModelEndpoint["kind"];
+    extraBody?: string;
+  }[];
+  task?: import("./benchmark-suite").TaskIdentity;
+  params?: import("./types").RunParams;
+  reportId?: string;
+  reportVersion?: string;
   title?: string;
   notes?: string;
   prompt: string;
@@ -44,7 +55,9 @@ export interface ArenaSeed {
   templateTitle?: string;
 }
 
-export function arenaSeedUsesTemporaryEndpoints(_mode: ArenaSeed["mode"]): boolean {
+export function arenaSeedUsesTemporaryEndpoints(
+  _mode: ArenaSeed["mode"],
+): boolean {
   return true;
 }
 
@@ -54,19 +67,26 @@ export function quickSampleEndpoints(): ModelEndpoint[] {
   return all.filter((m) => wanted.has(m.id));
 }
 
-export function sharedEndpointsForModels(models: string[] = []): ModelEndpoint[] {
+export function sharedEndpointsForModels(
+  models: string[] = [],
+): ModelEndpoint[] {
   const wanted = new Set(models.map((m) => m.trim()).filter(Boolean));
   if (!wanted.size) return [];
   const byModel = new Map(SHARED_MODELS.map((m) => [m.model, m.id]));
   const ids = new Set<string>();
   for (const model of wanted) {
-    const id = byModel.get(model);
+    const id =
+      byModel.get(model) ??
+      (model === "deepseek-v4-flash" ? "deepseek-flash" : undefined);
     if (id) ids.add(id);
   }
   return sharedAsEndpoints().filter((m) => ids.has(m.id));
 }
 
-export function sampleConfidence(samples: number, locale: Locale = DEFAULT_LOCALE): {
+export function sampleConfidence(
+  samples: number,
+  locale: Locale = DEFAULT_LOCALE,
+): {
   label: string;
   tone: "low" | "medium" | "high";
   description: string;
@@ -93,7 +113,10 @@ export function sampleConfidence(samples: number, locale: Locale = DEFAULT_LOCAL
   };
 }
 
-export function voteConfidence(votes: number, locale: Locale = DEFAULT_LOCALE): {
+export function voteConfidence(
+  votes: number,
+  locale: Locale = DEFAULT_LOCALE,
+): {
   label: string;
   tone: "low" | "medium" | "high";
   description: string;
@@ -118,4 +141,31 @@ export function voteConfidence(votes: number, locale: Locale = DEFAULT_LOCALE): 
     tone: "low",
     description: messages.voteLow.description,
   };
+}
+
+/** Resolve the exact endpoint. Never substitute another provider or drop a missing model silently. */
+export function resolveSeedEndpoints(
+  refs: NonNullable<ArenaSeed["endpointRefs"]>,
+  available: ModelEndpoint[],
+) {
+  const selected: ModelEndpoint[] = [],
+    missing: string[] = [];
+  const endpointKey = (s: string) => s.trim().replace(/\/+$/, "");
+  for (const ref of refs) {
+    const endpoint = available.find(
+      (e) =>
+        e.model === ref.model &&
+        endpointKey(e.baseUrl) === endpointKey(ref.provider) &&
+        (e.shared || !!e.apiKey.trim()),
+    );
+    if (endpoint)
+      selected.push({
+        ...endpoint,
+        kind: ref.kind ?? endpoint.kind,
+        extraBody: ref.extraBody ?? endpoint.extraBody,
+        enabled: true,
+      });
+    else missing.push(`${ref.name || ref.model} · ${ref.provider}`);
+  }
+  return { selected, missing };
 }

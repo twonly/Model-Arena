@@ -1,6 +1,11 @@
 /** 排行榜聚合：从 Supabase 拉取近期 run_metrics 并按「模型 + 供应商」汇总 */
 
 export interface ModelStat {
+  slug?: string;
+  rawModel?: string;
+  attempts?: number;
+  source?: "community";
+  windowDays?: number;
   model: string;
   provider: string;
   samples: number;
@@ -25,6 +30,7 @@ interface RawRow {
 }
 
 interface RegistryRow {
+  stable_slug?: string;
   id: number;
   raw_id: string;
   display_name: string | null;
@@ -46,12 +52,14 @@ export function modelSlug(model: string): string {
 }
 
 /** 某 slug 在榜单里最可信的一条（样本最多的接入点） */
+export const statSlug = (stat: ModelStat) => stat.slug || modelSlug(stat.model);
+
 export function bestStatForSlug(
   stats: ModelStat[],
-  slug: string
+  slug: string,
 ): ModelStat | undefined {
   return stats
-    .filter((s) => modelSlug(s.model) === slug)
+    .filter((s) => statSlug(s) === slug)
     .sort((a, b) => b.samples - a.samples)[0];
 }
 
@@ -59,14 +67,11 @@ export function bestStatForSlug(
  * 取榜单前 topN 个模型两两组合，返回**字母序规范化**的 slug 对（去重）。
  * 用于 /compare/[a]-vs-[b] 对比页（吃「X vs Y 速度对比」高意图搜索词）。
  */
-export function comparePairs(
-  stats: ModelStat[],
-  topN = 8
-): [string, string][] {
+export function comparePairs(stats: ModelStat[], topN = 8): [string, string][] {
   const slugs: string[] = [];
   const seen = new Set<string>();
   for (const s of stats) {
-    const sl = modelSlug(s.model);
+    const sl = statSlug(s);
     if (sl && !seen.has(sl)) {
       seen.add(sl);
       slugs.push(sl);
@@ -95,7 +100,8 @@ const avg = (xs: number[]) =>
 
 /** 返回 null 表示遥测未配置（无 Supabase 环境变量） */
 export async function fetchModelStats(
-  minSamples = 1
+  minSamples = 1,
+  windowDays = 14,
 ): Promise<ModelStat[] | null> {
   const url = process.env.SUPABASE_URL;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -104,15 +110,19 @@ export async function fetchModelStats(
   const base = url.replace(/\/+$/, "");
   const headers = { apikey: key, Authorization: `Bearer ${key}` };
 
+  const since =
+    windowDays > 0
+      ? `&created_at=gte.${new Date(Date.now() - windowDays * 86400000).toISOString()}`
+      : "";
   // 并行拉 metrics 和 models registry
   const [metricsRes, registryRes] = await Promise.all([
     fetch(
       `${base}/rest/v1/run_metrics` +
         `?select=model,provider,content_tps,avg_tps,ttft_ms,peak_tps,output_tokens,has_error,created_at` +
-        `&has_error=eq.false&order=created_at.desc&limit=10000`,
-      { headers, next: { revalidate: 300 } }
+        `${since}&order=created_at.desc&limit=10000`,
+      { headers, next: { revalidate: 300 } },
     ),
-    fetch(`${base}/rest/v1/models?select=id,raw_id,display_name,hidden,canonical_id`, {
+    fetch(`${base}/rest/v1/models?select=*`, {
       headers,
       next: { revalidate: 60 },
     }),
@@ -150,27 +160,41 @@ export async function fetchModelStats(
     if (!r.model || !r.provider) continue;
     const resolved = resolve(r.model);
     if (resolved.hidden) continue;
-    const k = `${resolved.display}__${r.provider}`;
+    const k = `${r.model}__${r.provider}`;
     (groups.get(k) ?? groups.set(k, []).get(k)!).push(r);
   }
 
   const stats: ModelStat[] = [];
   for (const [, rs] of groups) {
-    const tps = rs
+    const successful = rs.filter((r) => !r.has_error);
+    const tps = successful
       .map((r) => r.content_tps ?? r.avg_tps)
       .filter((v): v is number => v != null && v > 0);
     if (tps.length < minSamples) continue;
-    const ttft = rs.map((r) => r.ttft_ms).filter((v): v is number => v != null && v > 0);
-    const peaks = rs.map((r) => r.peak_tps).filter((v): v is number => v != null && v > 0);
-    const outs = rs
+    const ttft = successful
+      .map((r) => r.ttft_ms)
+      .filter((v): v is number => v != null && v > 0);
+    const peaks = successful
+      .map((r) => r.peak_tps)
+      .filter((v): v is number => v != null && v > 0);
+    const outs = successful
       .map((r) => r.output_tokens)
       .filter((v): v is number => v != null && v > 0);
     stats.push({
       // 展示名走 canonical 注册表（display_name / 合并目标），而非原始 model id，
       // 使 /admin/models 里配置的展示名真正驱动榜单与 SEO 页的标签和 slug。
       model: resolve(rs[0].model).display,
+      rawModel: rs[0].model,
+      slug:
+        (
+          idMap.get(regMap.get(rs[0].model)?.canonical_id ?? -1) ??
+          regMap.get(rs[0].model)
+        )?.stable_slug || modelSlug(resolve(rs[0].model).display),
+      attempts: rs.length,
+      source: "community",
+      windowDays,
       provider: rs[0].provider,
-      samples: rs.length,
+      samples: successful.length,
       avgContentTps: avg(tps),
       medianContentTps: median(tps),
       avgTtftMs: avg(ttft),

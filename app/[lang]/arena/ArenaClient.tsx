@@ -1,5 +1,14 @@
 "use client";
 
+import {
+  BENCHMARK_CASES,
+  BENCHMARK_PARAMS,
+  type TaskIdentity,
+} from "@/lib/benchmark-suite";
+import { resolveSeedEndpoints } from "@/lib/quickstart";
+import { ResultSummary } from "@/components/ResultSummary";
+import { BatchTests } from "@/components/BatchTests";
+
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Credit } from "@/components/Credit";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
@@ -68,7 +77,7 @@ import {
 /* ---------- localStorage 持久化 ---------- */
 function usePersisted<T>(
   key: string,
-  initial: T
+  initial: T,
 ): [T, React.Dispatch<React.SetStateAction<T>>] {
   const [val, setVal] = useState<T>(initial);
   const [ready, setReady] = useState(false);
@@ -93,7 +102,9 @@ function usePersisted<T>(
 }
 
 const isRunning = (r: RunState) =>
-  r.status === "connecting" || r.status === "thinking" || r.status === "streaming";
+  r.status === "connecting" ||
+  r.status === "thinking" ||
+  r.status === "streaming";
 
 /** 稳定引用的空 run：避免每次渲染 new 对象打穿 ModelCard 的 memo */
 const EMPTY_RUN = emptyRun();
@@ -104,34 +115,51 @@ export default function Home() {
   const en = locale === "en";
   const arenaText = {
     telemetryUploading: en ? "Uploading..." : "上报中…",
-    telemetryGranted: en ? "Anonymous metrics sharing enabled" : "已开启匿名指标共享 ❤",
+    telemetryGranted: en
+      ? "Anonymous metrics sharing enabled"
+      : "已开启匿名指标共享 ❤",
     telemetryDenied: en ? "OK, metrics sharing is off" : "好的，不共享",
     templateMode: en ? "Template mode" : "评测模板模式",
     sampleMode: en ? "Quick sample mode" : "快速样例模式",
     shareFullMode: en ? "Copied test mode" : "复制评测模式",
     sharePromptMode: en ? "Prompt rerun mode" : "Prompt 复跑模式",
-    exitTempMode: en ? "Switched back to professional mode with your local model settings" : "已切回专业模式，使用你本地保存的模型配置",
-    quotaEmpty: en ? "Today's free trial quota is used up. Sign in or add your own Key to continue." : "今日免费体验额度已用完——登录或填自己的 Key 继续",
-    quotaOwnOnly: en ? "Free quota is used up. This run will only use models configured with your own Key." : "免费额度已用完，本轮只跑你自己配置的模型",
+    exitTempMode: en
+      ? "Switched back to professional mode with your local model settings"
+      : "已切回专业模式，使用你本地保存的模型配置",
+    quotaEmpty: en
+      ? "Today's free trial quota is used up. Sign in or add your own Key to continue."
+      : "今日免费体验额度已用完——登录或填自己的 Key 继续",
+    quotaOwnOnly: en
+      ? "Free quota is used up. This run will only use models configured with your own Key."
+      : "免费额度已用完，本轮只跑你自己配置的模型",
     noCopyResults: en ? "No copyable results yet" : "还没有可复制的结果",
     markdownCopied: en ? "Markdown table copied" : "已复制 Markdown 表格 ✓",
     exportingImage: en ? "Generating long image..." : "正在生成长图…",
     imageDownloaded: en ? "Long image downloaded" : "长图已下载 ✓",
     imageFailed: en ? "Generation failed. Try again." : "生成失败，请重试",
-    shareNoFinished: en ? "No model has finished yet. Share after metrics appear." : "还没有模型跑完，等出现指标后再分享",
-    shareNoResults: en ? "No shareable results yet. Run a comparison first." : "还没有可分享的结果，请先跑一轮对比",
+    shareNoFinished: en
+      ? "No model has finished yet. Share after metrics appear."
+      : "还没有模型跑完，等出现指标后再分享",
+    shareNoResults: en
+      ? "No shareable results yet. Run a comparison first."
+      : "还没有可分享的结果，请先跑一轮对比",
     sharePartialConfirm: (runningCount: number, rows: number) =>
       en
         ? `${runningCount} model(s) are still running. Sharing now includes only the ${rows} completed result(s).\nIt is better to wait until all models finish. Share now?`
         : `还有 ${runningCount} 个模型在跑，现在分享只会包含已完成的 ${rows} 个。\n建议等全部跑完再分享。确定现在就分享吗？`,
-    shareCopiedPartial: en ? "Link copied. Some models are still running, so the snapshot only includes completed results." : "链接已复制（部分模型仍在跑，快照只含已完成的）✓",
+    shareCopiedPartial: en
+      ? "Link copied. Some models are still running, so the snapshot only includes completed results."
+      : "链接已复制（部分模型仍在跑，快照只含已完成的）✓",
     shareCopied: en ? "Share link copied" : "分享链接已复制 ✓",
     networkError: en ? "Network error" : "网络错误",
     copied: en ? "Copied" : "已复制 ✓",
-    imageReady: en ? "Image is ready and will be sent with the Prompt." : "图片已就绪，将随 Prompt 一起发送 ✓",
+    imageReady: en
+      ? "Image is ready and will be sent with the Prompt."
+      : "图片已就绪，将随 Prompt 一起发送 ✓",
     imageReadFailed: en ? "Failed to read image" : "图片读取失败",
     restoredSnapshot: en ? "History snapshot" : "历史快照",
-    modelCount: (count: number) => (en ? `${count} models in comparison` : `${count} 个模型参与对比`),
+    modelCount: (count: number) =>
+      en ? `${count} models in comparison` : `${count} 个模型参与对比`,
   };
   const consentFields = en
     ? {
@@ -143,23 +171,46 @@ export default function Home() {
           "Run time, success status, and whether an image was included",
           "Anonymous device ID (random ID removable with browser data)",
         ],
-        notCollected: ["API Key", "Prompt content", "Model output/reasoning content", "Uploaded image"],
+        notCollected: [
+          "API Key",
+          "Prompt content",
+          "Model output/reasoning content",
+          "Uploaded image",
+        ],
       }
     : CONSENT_FIELDS;
   /* 持久化状态 */
   const [endpoints, setEndpoints] = usePersisted<ModelEndpoint[]>(
     "ma.endpoints",
-    []
+    [],
   );
-  const [temporaryEndpoints, setTemporaryEndpoints] = useState<ModelEndpoint[] | null>(
-    null
-  );
+  const [temporaryEndpoints, setTemporaryEndpoints] = useState<
+    ModelEndpoint[] | null
+  >(null);
   const [arenaSeedMode, setArenaSeedMode] = useState<ArenaSeed["mode"] | null>(
-    null
+    null,
   );
   const [savedTitle, setSavedTitle] = usePersisted("ma.title", "");
   const [savedNotes, setSavedNotes] = usePersisted("ma.notes", "");
   const [savedPrompt, setSavedPrompt] = usePersisted("ma.prompt", "");
+  const [comparison, setComparison] = useState<{
+    prompt: string;
+    task?: TaskIdentity;
+    params: RunParams;
+    reportId?: string;
+    endpoints: ModelEndpoint[];
+    imageDataUrl?: string;
+  } | null>(null);
+  const comparisonRef = useRef(comparison);
+  comparisonRef.current = comparison;
+  const [task, setTask] = useState<TaskIdentity | undefined>();
+  const [seedRefs, setSeedRefs] = useState<ArenaSeed["endpointRefs"]>();
+  const [missingModels, setMissingModels] = useState<string[]>([]);
+  const [batchBusy, setBatchBusy] = useState(false);
+  const [reportId, setReportId] = useState<string | undefined>();
+  const [temporaryParams, setTemporaryParams] = useState<RunParams | null>(
+    null,
+  );
   const [temporaryDraft, setTemporaryDraft] = useState<{
     title: string;
     notes: string;
@@ -178,7 +229,7 @@ export default function Home() {
               ...prev,
               title: typeof next === "function" ? next(prev.title) : next,
             }
-          : prev
+          : prev,
       );
     } else {
       setSavedTitle(next);
@@ -192,7 +243,7 @@ export default function Home() {
               ...prev,
               notes: typeof next === "function" ? next(prev.notes) : next,
             }
-          : prev
+          : prev,
       );
     } else {
       setSavedNotes(next);
@@ -206,23 +257,26 @@ export default function Home() {
               ...prev,
               prompt: typeof next === "function" ? next(prev.prompt) : next,
             }
-          : prev
+          : prev,
       );
     } else {
       setSavedPrompt(next);
     }
   };
-  const [params, setParams] = usePersisted<RunParams>("ma.params", {
+  const [savedParams, setSavedParams] = usePersisted<RunParams>("ma.params", {
     systemPrompt: "",
     temperature: "",
     maxTokens: "",
   });
+  const params = temporaryParams ?? savedParams;
+  const setParams = (next: RunParams) =>
+    temporaryParams ? setTemporaryParams(next) : setSavedParams(next);
   const [markdown, setMarkdown] = usePersisted("ma.markdown", true);
   const [thinkStats, setThinkStats] = usePersisted("ma.thinkStats", true);
   const [compact, setCompact] = usePersisted("ma.compact", false);
   const [customPrompts, setCustomPrompts] = usePersisted<PromptItem[]>(
     "ma.customPrompts",
-    []
+    [],
   );
   const [history, setHistory] = usePersisted<HistoryEntry[]>("ma.history", []);
   // 共享「体验额度」状态（null = 未知/未启用）
@@ -250,10 +304,17 @@ export default function Home() {
       localStorage.setItem("ma.seededShared", "1");
       localStorage.setItem("ma.sharedPoolVersion", SHARED_POOL_VERSION);
       if (!seeded && existing.length === 0) {
-        setEndpoints(sharedAsEndpoints());
+        setEndpoints(
+          sharedAsEndpoints().map((e) => ({
+            ...e,
+            enabled: quickSampleEndpoints().some((q) => q.id === e.id),
+          })),
+        );
         return;
       }
-      const next = reconcileSharedPool(existing, shouldPromote);
+      const next = reconcileSharedPool(existing, shouldPromote).map((e) =>
+        existing.some((old) => old.id === e.id) ? e : { ...e, enabled: false },
+      );
       if (next !== existing) setEndpoints(next);
     } catch {
       /* ignore */
@@ -299,7 +360,7 @@ export default function Home() {
       const { authHeader } = await import("@/lib/me");
       const res = await fetch(
         `/api/shared/quota?clientId=${encodeURIComponent(getClientId())}`,
-        { headers: await authHeader(), cache: "no-store" }
+        { headers: await authHeader(), cache: "no-store" },
       );
       const j = await res.json();
       if (j.ok)
@@ -367,7 +428,7 @@ export default function Home() {
   const [accountOpen, setAccountOpen] = useState(false);
   /** 视觉对比图片（仅本次会话，不持久化避免撑爆 localStorage） */
   const [image, setImage] = useState<{ dataUrl: string; name: string } | null>(
-    null
+    null,
   );
   /** 前台隐藏的模型（后台照常跑，随时可恢复显示） */
   const [hiddenIds, setHiddenIds] = usePersisted<string[]>("ma.hidden", []);
@@ -443,14 +504,6 @@ export default function Home() {
   useEffect(() => {
     imageRef.current = image;
   }, [image]);
-  const promptRef = useRef(prompt);
-  useEffect(() => {
-    promptRef.current = prompt;
-  }, [prompt]);
-  const paramsRef = useRef(params);
-  useEffect(() => {
-    paramsRef.current = params;
-  }, [params]);
   const restoredRef = useRef(restored);
   useEffect(() => {
     restoredRef.current = restored;
@@ -488,7 +541,7 @@ export default function Home() {
           : `✓ 已上报 ${r.count} 条指标`
         : en
           ? `✗ Upload failed: ${r.error}`
-          : `✗ 上报失败：${r.error}`
+          : `✗ 上报失败：${r.error}`,
     );
     setTimeout(() => setTelemetryStatus(null), 5000);
     return r;
@@ -498,11 +551,19 @@ export default function Home() {
     setTelemetry({ choice, version: CONSENT_VERSION, at: Date.now() });
     void reportConsent(choice);
     // 同意时，把刚跑完的这一轮立刻补报（不必再跑一轮）
-    if (choice === "granted" && lastRunRef.current && !lastRunRef.current.reported) {
+    if (
+      choice === "granted" &&
+      lastRunRef.current &&
+      !lastRunRef.current.reported
+    ) {
       lastRunRef.current.reported = true;
       void reportMetrics(lastRunRef.current);
     } else {
-      flash(choice === "granted" ? arenaText.telemetryGranted : arenaText.telemetryDenied);
+      flash(
+        choice === "granted"
+          ? arenaText.telemetryGranted
+          : arenaText.telemetryDenied,
+      );
     }
   };
 
@@ -520,14 +581,22 @@ export default function Home() {
     setTimeout(() => setToast(""), 1600);
   };
 
-  const shareErrorText = (j: { code?: string; error?: string; disabled?: boolean }) => {
+  const shareErrorText = (j: {
+    code?: string;
+    error?: string;
+    disabled?: boolean;
+  }) => {
     if (j.disabled) {
       return locale === "en"
         ? "Sharing is not enabled: Supabase environment variables are not configured on the server."
         : "分享功能未启用：服务端未配置 Supabase 环境变量";
     }
     const code = j.code as keyof typeof messages.apiErrors | undefined;
-    return (code && messages.apiErrors[code]) || j.error || (locale === "en" ? "Sharing failed. Try again." : "分享失败，请重试");
+    return (
+      (code && messages.apiErrors[code]) ||
+      j.error ||
+      (locale === "en" ? "Sharing failed. Try again." : "分享失败，请重试")
+    );
   };
 
   useEffect(() => {
@@ -563,11 +632,32 @@ export default function Home() {
       setShareError(null);
       setHiddenIds([]);
 
-      const seeded =
-        seed.mode === "sample"
+      setTask(seed.task);
+      setReportId(seed.reportId);
+      if (seed.params) setTemporaryParams(seed.params);
+      let own: ModelEndpoint[] = [];
+      try {
+        own = JSON.parse(localStorage.getItem("ma.endpoints") || "[]");
+      } catch {
+        /* absent local config */
+      }
+      setSeedRefs(seed.endpointRefs);
+      const exact = seed.endpointRefs
+        ? resolveSeedEndpoints(seed.endpointRefs, [
+            ...own,
+            ...sharedAsEndpoints(),
+          ])
+        : null;
+      setMissingModels(exact?.missing ?? []);
+      const seeded = exact
+        ? exact.selected
+        : seed.mode === "sample"
           ? quickSampleEndpoints()
           : sharedEndpointsForModels(seed.models);
-      if (arenaSeedUsesTemporaryEndpoints(seed.mode) && seeded.length >= 2) {
+      if (
+        (exact || arenaSeedUsesTemporaryEndpoints(seed.mode)) &&
+        (exact || seeded.length >= 1)
+      ) {
         setTemporaryEndpoints(seeded);
         setArenaSeedMode(seed.mode);
       } else if (sample) {
@@ -580,23 +670,27 @@ export default function Home() {
 
       if (seedRaw) sessionStorage.removeItem(ARENA_SEED_STORAGE_KEY);
       url.searchParams.delete("sample");
-      window.history.replaceState(null, "", `${url.pathname}${url.search}${url.hash}`);
+      window.history.replaceState(
+        null,
+        "",
+        `${url.pathname}${url.search}${url.hash}`,
+      );
       flash(
         seed.templateId
           ? locale === "en"
             ? "Template loaded. Use your current models to start."
             : "已带入评测模板，使用当前模型即可开跑"
           : seed.mode === "share-full"
-          ? locale === "en"
-            ? "Shared test settings copied. Check models, then start."
-            : "已复制分享里的评测设置，检查模型后即可开跑"
-          : seed.mode === "share-prompt"
             ? locale === "en"
-              ? "Prompt loaded. Choose models, then start."
-              : "已带入同一个 Prompt，选择模型后即可开跑"
-            : locale === "en"
-              ? "Quick sample is ready. Click start to run."
-              : "快速样例已就绪，点击开始对比即可开跑"
+              ? "Shared test settings copied. Check models, then start."
+              : "已复制分享里的评测设置，检查模型后即可开跑"
+            : seed.mode === "share-prompt"
+              ? locale === "en"
+                ? "Prompt loaded. Choose models, then start."
+                : "已带入同一个 Prompt，选择模型后即可开跑"
+              : locale === "en"
+                ? "Quick sample is ready. Click start to run."
+                : "快速样例已就绪，点击开始对比即可开跑",
       );
     } catch {
       /* ignore */
@@ -622,26 +716,42 @@ export default function Home() {
   const updateRun = useCallback(
     (id: string) => (fn: (prev: RunState) => RunState) =>
       setRuns((prev) => ({ ...prev, [id]: fn(prev[id] ?? emptyRun()) })),
-    []
+    [],
   );
 
   const activeEndpoints = temporaryEndpoints ?? endpoints;
   const usingTemporaryEndpoints = temporaryEndpoints != null;
-  const usingTemporaryContext = usingTemporaryEndpoints || temporaryDraft != null;
-  const temporaryModeLabel =
-    temporaryDraft?.templateId
-      ? arenaText.templateMode
-      : arenaSeedMode === "sample"
+  const usingTemporaryContext =
+    usingTemporaryEndpoints || temporaryDraft != null;
+  const temporaryModeLabel = temporaryDraft?.templateId
+    ? arenaText.templateMode
+    : arenaSeedMode === "sample"
       ? arenaText.sampleMode
       : arenaSeedMode === "share-full"
         ? arenaText.shareFullMode
         : arenaText.sharePromptMode;
 
+  useEffect(() => {
+    if (!seedRefs) return;
+    const exact = resolveSeedEndpoints(seedRefs, [
+      ...endpoints.filter((e) => !e.shared),
+      ...sharedAsEndpoints(),
+    ]);
+    setTemporaryEndpoints(exact.selected);
+    setMissingModels(exact.missing);
+  }, [endpoints, seedRefs]);
+
   const exitTemporaryMode = () => {
+    setSeedRefs(undefined);
     setTemporaryEndpoints(null);
+    setTemporaryParams(null);
+    setMissingModels([]);
+    setTask(undefined);
+    setReportId(undefined);
     setArenaSeedMode(null);
     setTemporaryDraft(null);
     setRuns({});
+    setComparison(null);
     setShareUrl(null);
     setShareError(null);
     setHiddenIds([]);
@@ -649,13 +759,23 @@ export default function Home() {
   };
 
   const saveHistory = useCallback(
-    (targets: ModelEndpoint[]) => {
+    (
+      targets: ModelEndpoint[],
+      context: {
+        prompt: string;
+        task?: TaskIdentity;
+        params: RunParams;
+        reportId?: string;
+        imageDataUrl?: string;
+      },
+    ) => {
       const cur = runsRef.current;
       const results = targets.map((t) => {
         const r = cur[t.id] ?? emptyRun();
         return {
           name: t.name,
           model: t.model,
+          provider: t.baseUrl,
           status: r.status,
           rank: r.rank,
           metrics: r.metrics,
@@ -673,18 +793,51 @@ export default function Home() {
         at: Date.now(),
         title,
         notes,
-        prompt,
+        prompt: context.prompt,
+        task: context.task,
+        params: context.params,
+        reportId: context.reportId,
         templateId: temporaryDraft?.templateId,
         templateTitle: temporaryDraft?.templateTitle,
         results,
       };
       setHistory((prev) => [entry, ...prev].slice(0, 24));
+      track("result_save", { models: results.length });
+      const complete = results.filter(
+        (r) => r.status === "done" && r.text.trim(),
+      ).length;
+      track(complete >= 2 ? "comparison_valid" : "run_error", {
+        complete,
+        attempted: results.length,
+        reportId: context.reportId ?? "none",
+      });
+      track("run_complete", { complete, attempted: results.length });
+      if (results.some((r) => r.status !== "done"))
+        track("run_error", {
+          failed: results.filter((r) => r.status !== "done").length,
+        });
+      if (complete >= 2) {
+        try {
+          const previous = Number(
+            localStorage.getItem("ma.lastValidComparisonAt") || 0,
+          );
+          if (
+            previous &&
+            Date.now() - previous >= 86400000 &&
+            Date.now() - previous <= 7 * 86400000
+          )
+            track("comparison_return_7d");
+          localStorage.setItem("ma.lastValidComparisonAt", String(Date.now()));
+        } catch {
+          /* analytics must not block results */
+        }
+      }
       // 暂存本轮，供「同意」时补报
       const info = {
         runId: entry.id,
         targets,
-        promptChars: prompt.length,
-        hasImage: !!imageRef.current,
+        promptChars: context.prompt.length,
+        hasImage: !!context.imageDataUrl,
         reported: false,
       };
       lastRunRef.current = info;
@@ -695,14 +848,35 @@ export default function Home() {
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [title, notes, prompt, setHistory, temporaryDraft?.templateId, temporaryDraft?.templateTitle]
+    [
+      title,
+      notes,
+      prompt,
+      task,
+      params,
+      reportId,
+      setHistory,
+      temporaryDraft?.templateId,
+      temporaryDraft?.templateTitle,
+    ],
   );
 
   const startAll = () => {
     let targets = activeEndpoints.filter((e) => e.enabled);
-    if (!targets.length || !prompt.trim() || anyRunning) return;
+    if (
+      !targets.length ||
+      !prompt.trim() ||
+      anyRunning ||
+      batchBusy ||
+      missingModels.length
+    )
+      return;
     // 免费额度用完：剔除共享模型，只跑用户自带 key 的
     if (quota && quota.remaining <= 0 && targets.some((t) => t.shared)) {
+      if (arenaSeedMode === "report") {
+        flash(arenaText.quotaEmpty);
+        return;
+      }
       targets = targets.filter((t) => !t.shared);
       if (!targets.length) {
         flash(arenaText.quotaEmpty);
@@ -710,6 +884,15 @@ export default function Home() {
       }
       flash(arenaText.quotaOwnOnly);
     }
+    const context = {
+      prompt,
+      task: image ? undefined : task,
+      params: { ...params },
+      reportId,
+      endpoints: targets.map((e) => ({ ...e })),
+      imageDataUrl: image?.dataUrl,
+    };
+    setComparison(context);
     setRestored(null);
     setShareUrl(null); // 新一轮作废旧分享链接
     setShareError(null);
@@ -739,8 +922,7 @@ export default function Home() {
         signal: ctrl.signal,
         update: updateRun(t.id),
         runId,
-        onQuota: (remaining) =>
-          setQuota((q) => (q ? { ...q, remaining } : q)),
+        onQuota: (remaining) => setQuota((q) => (q ? { ...q, remaining } : q)),
         onSettled: (ok) => {
           if (ok) {
             successfulCount += 1;
@@ -753,7 +935,7 @@ export default function Home() {
           }
           pendingCount.current -= 1;
           if (pendingCount.current <= 0) {
-            setTimeout(() => saveHistory(targets), 80);
+            setTimeout(() => saveHistory(targets, context), 80);
             void fetchQuota(); // 跑完同步真实剩余额度
             if (targets.length >= 2 && successfulCount > 0) {
               showReferralNudge("post-run");
@@ -766,7 +948,8 @@ export default function Home() {
 
   const rerunOne = (ep: ModelEndpoint) => {
     // 全部走 ref：此函数可能被 memo 卡片里的旧闭包调用
-    if (!promptRef.current.trim() || restoredRef.current) return;
+    const context = comparisonRef.current;
+    if (!context?.prompt.trim() || restoredRef.current) return;
     const ctrl = new AbortController();
     controllerRef.current = ctrl;
     setRuns((prev) => ({
@@ -776,14 +959,15 @@ export default function Home() {
     setNowTick(Date.now());
     void runEndpoint({
       endpoint: ep,
-      prompt: promptRef.current,
-      params: paramsRef.current,
-      imageDataUrl: imageRef.current?.dataUrl,
+      prompt: context.prompt,
+      params: context.params,
+      imageDataUrl: context.imageDataUrl,
       signal: ctrl.signal,
       update: updateRun(ep.id),
       runId: crypto.randomUUID(),
       onQuota: (remaining) => setQuota((q) => (q ? { ...q, remaining } : q)),
       onSettled: () => {
+        setTimeout(() => saveHistory(context.endpoints, context), 80);
         if (ep.shared) void fetchQuota();
       },
     });
@@ -793,7 +977,7 @@ export default function Home() {
 
   const toggleHidden = (id: string) =>
     setHiddenIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
 
   /** 在「已启用」序列里左右移动模型；样例/分享模式只改临时顺序。 */
@@ -823,11 +1007,11 @@ export default function Home() {
         name: r.name,
         model: r.model,
         kind: "openai" as const,
-        baseUrl: "",
+        baseUrl: r.provider ?? "",
         apiKey: "",
         enabled: true,
       }))
-    : activeEndpoints.filter((e) => e.enabled);
+    : (comparison?.endpoints ?? activeEndpoints.filter((e) => e.enabled));
 
   /* 前台展示 = 启用 − 手动隐藏（隐藏的后台照常跑） */
   const visibleEndpoints = restored
@@ -855,11 +1039,11 @@ export default function Home() {
       buildMarkdown({
         title,
         notes,
-        prompt,
+        prompt: restored?.prompt ?? comparison?.prompt ?? prompt,
         rows,
         watermark,
         thinkingStats: thinkStats,
-      })
+      }),
     );
     flash(arenaText.markdownCopied);
   };
@@ -914,17 +1098,17 @@ export default function Home() {
       .filter(({ run }) => run.metrics || run.error);
     if (!rows.length) {
       setShareError(
-        anyRunning
-          ? arenaText.shareNoFinished
-          : arenaText.shareNoResults
+        anyRunning ? arenaText.shareNoFinished : arenaText.shareNoResults,
       );
       return;
     }
     const runningCount = visibleEndpoints.filter((ep) =>
-      isRunning(runs[ep.id] ?? emptyRun())
+      isRunning(runs[ep.id] ?? emptyRun()),
     ).length;
     if (runningCount > 0) {
-      const ok = confirm(arenaText.sharePartialConfirm(runningCount, rows.length));
+      const ok = confirm(
+        arenaText.sharePartialConfirm(runningCount, rows.length),
+      );
       if (!ok) return;
     }
     setShareCfgOpen(true);
@@ -982,7 +1166,14 @@ export default function Home() {
       const snapshot = buildSnapshot({
         title: src ? src.title : title,
         notes: src ? src.notes : notes,
-        prompt: src ? src.prompt : prompt,
+        prompt: src ? src.prompt : (comparison?.prompt ?? prompt),
+        task: src ? src.task : comparison ? comparison.task : task,
+        params: src ? src.params : (comparison?.params ?? params),
+        reportId: src
+          ? src.reportId
+          : comparison
+            ? comparison.reportId
+            : reportId,
         watermark,
         thinkingStats: thinkStats,
         rows,
@@ -1003,9 +1194,7 @@ export default function Home() {
       });
       await navigator.clipboard.writeText(url).catch(() => {});
       flash(
-        stillRunning
-          ? arenaText.shareCopiedPartial
-          : arenaText.shareCopied
+        stillRunning ? arenaText.shareCopiedPartial : arenaText.shareCopied,
       );
       showReferralNudge("share");
     } catch (e) {
@@ -1013,7 +1202,7 @@ export default function Home() {
       setShareError(
         en
           ? `Sharing failed: ${e instanceof Error ? e.message : arenaText.networkError}. Try again.`
-          : `分享失败：${e instanceof Error ? e.message : "网络错误"}，请重试`
+          : `分享失败：${e instanceof Error ? e.message : "网络错误"}，请重试`,
       );
     } finally {
       setShareSource(null);
@@ -1028,15 +1217,16 @@ export default function Home() {
     setSavedNotes(h.notes);
     setSavedPrompt(h.prompt);
     setRestored(h);
+    setComparison(null);
+    setTask(h.task);
+    if (h.params) setTemporaryParams(h.params);
     setHistoryOpen(false);
     const next: Record<string, RunState> = {};
     h.results.forEach((r, i) => {
       next[`h-${i}`] = {
         ...emptyRun(),
         status:
-          r.status === "error" || r.status === "truncated"
-            ? r.status
-            : "done",
+          r.status === "error" || r.status === "truncated" ? r.status : "done",
         text: r.text,
         reasoning: r.reasoning,
         metrics: r.metrics,
@@ -1060,11 +1250,12 @@ export default function Home() {
         : "md:grid-cols-2 xl:grid-cols-3";
 
   const hasResults = visibleEndpoints.some(
-    (ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error
+    (ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error,
   );
   const reviewDraftRows = enabledEndpoints.map((ep) => ({
     name: ep.name,
     model: ep.model,
+    provider: ep.baseUrl,
     run: runs[ep.id] ?? emptyRun(),
   }));
   const referralModelNames = enabledEndpoints
@@ -1073,7 +1264,9 @@ export default function Home() {
     .slice(0, 2);
 
   // Prompt 含「N 字」要求时，卡片显示字数达成率
-  const wordTarget = extractWordTarget(restored ? restored.prompt : prompt);
+  const wordTarget = extractWordTarget(
+    restored ? restored.prompt : (comparison?.prompt ?? prompt),
+  );
 
   // 实时赛道：流式期间按累计 token 赛跑
   const runners = visibleEndpoints.map((ep) => {
@@ -1083,7 +1276,7 @@ export default function Home() {
     // 思考 token：结束用官方/估算的 reasoningTokens；流式期间按思考正文实时估算
     // （liveTokens 已含思考+输出，二者口径一致）
     const reasoningTokens = m
-      ? m.reasoningTokens ?? 0
+      ? (m.reasoningTokens ?? 0)
       : run.reasoning
         ? estimateTokens(run.reasoning)
         : 0;
@@ -1096,10 +1289,10 @@ export default function Home() {
       ttftMs,
       waitMs:
         ttftMs == null
-          ? run.elapsedMs ??
+          ? (run.elapsedMs ??
             (run.status === "connecting" && run.startedAt && nowTick > 0
               ? Math.max(0, nowTick - run.startedAt)
-              : undefined)
+              : undefined))
           : undefined,
       firstContentMs: m?.firstContentMs,
       done:
@@ -1111,7 +1304,7 @@ export default function Home() {
     };
   });
 
-  // 结算卡：跑完后选出最快/最省/答对/综合推荐（客观题自动判定）
+  // 结算卡：跑完后选出速度/成本/已验证任务效果（客观题自动判定）
   const verdict = computeVerdict(
     enabledEndpoints.map((ep) => {
       const run = runs[ep.id] ?? EMPTY_RUN;
@@ -1119,17 +1312,24 @@ export default function Home() {
         id: ep.id,
         name: ep.name,
         model: ep.model,
+        provider: ep.baseUrl,
         status: run.status,
         metrics: run.metrics,
-        graded: grade(restored ? restored.prompt : prompt, run.text),
+        graded: grade(
+          restored ? restored.prompt : (comparison?.prompt ?? prompt),
+          run.text,
+          restored ? restored.task : comparison ? comparison.task : task,
+        ),
       };
-    })
+    }),
   );
   const generatedShareId =
     shareUrl && shareUrl !== "loading"
       ? (() => {
           try {
-            return new URL(shareUrl).pathname.split("/").filter(Boolean).pop() ?? "";
+            return (
+              new URL(shareUrl).pathname.split("/").filter(Boolean).pop() ?? ""
+            );
           } catch {
             return "";
           }
@@ -1143,12 +1343,13 @@ export default function Home() {
     lastShareSummary?.title.trim() ||
     title.trim() ||
     (en ? "Model speed comparison" : "模型速度对比");
-  const generatedShareModels =
-    lastShareSummary?.models.length
-      ? lastShareSummary.models
-      : visibleEndpoints
-          .filter((ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error)
-          .map((ep) => ep.name || ep.model);
+  const generatedShareModels = lastShareSummary?.models.length
+    ? lastShareSummary.models
+    : visibleEndpoints
+        .filter(
+          (ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error,
+        )
+        .map((ep) => ep.name || ep.model);
   const generatedShareText = buildSharePostText({
     title: generatedShareTitle,
     models: generatedShareModels,
@@ -1195,7 +1396,11 @@ export default function Home() {
               href={localHref("/stats")}
               target="_blank"
               rel="noopener noreferrer"
-              title={en ? "Crowdsourced real-world LLM speed leaderboard" : "全网用户实测的大模型速度排行榜"}
+              title={
+                en
+                  ? "Crowdsourced real-world LLM speed leaderboard"
+                  : "全网用户实测的大模型速度排行榜"
+              }
             >
               🏆 {en ? "Leaderboard" : "排行榜"}
             </a>
@@ -1214,388 +1419,156 @@ export default function Home() {
           </div>
         </div>
       )}
-      {!screenshotMode &&
-        referralEntry && (
-          <ReferralWelcomeBanner
-            code={referralEntry.code}
-            claimed={referralEntry.claimed}
-            onLogin={() => setAccountOpen(true)}
-          />
-        )}
-      {!screenshotMode &&
-        quota != null &&
-        activeEndpoints.some((e) => e.enabled && e.shared) && (
-          <QuotaBanner
-            remaining={quota.remaining}
-            limit={quota.limit}
-            loggedIn={quota.loggedIn}
-            bonusRemaining={quota.bonusRemaining}
-            onLogin={() => setAccountOpen(true)}
-            onInvite={() => setAccountOpen(true)}
-            onConfigure={() => setSettingsOpen(true)}
-          />
-        )}
+      {!screenshotMode && referralEntry && (
+        <ReferralWelcomeBanner
+          code={referralEntry.code}
+          claimed={referralEntry.claimed}
+          onLogin={() => setAccountOpen(true)}
+        />
+      )}
       {!screenshotMode && !restored && usingTemporaryContext && (
-        <div
-          data-no-export="1"
-          className="mb-4 flex flex-wrap items-center justify-between gap-3 rounded-lg border border-line bg-card px-3.5 py-3 text-[12.5px]"
-        >
-          <div className="min-w-0">
-            <div className="font-semibold text-ink">
-              {en ? "Current mode: " : "当前为"}
-              {temporaryModeLabel}
-              {en ? ". Using temporary " : "：使用临时带入的"}
-              {usingTemporaryEndpoints ? (en ? "model list" : "模型列表") : "Prompt"}
-            </div>
-            <div className="mt-0.5 text-faint">
-              {en
-                ? "Temporary content will not overwrite your saved models, Keys, or professional-mode draft. Shared preset models consume free or invite quota. Switch back to professional mode to use your local configuration."
-                : "临时内容不会覆盖你本地保存的模型、Key 和专业模式草稿；共享预置模型会消耗免费/邀请额度，切回专业模式后使用你的本地配置。"}
-            </div>
-          </div>
-          <div className="flex shrink-0 flex-wrap items-center gap-2">
-            <button
-              onClick={exitTemporaryMode}
-              className="rounded-md bg-ink px-3 py-1.5 text-[12px] font-semibold text-paper cursor-pointer"
-            >
-              {en ? "Back to Professional Mode (use my Keys)" : "切回专业模式（用我的 Key）"}
-            </button>
-            <button
-              onClick={() => setSettingsOpen(true)}
-              className="rounded-md border border-line px-3 py-1.5 text-[12px] font-semibold text-faint hover:text-ink cursor-pointer"
-            >
-              {en ? "View Local Model Settings" : "查看本地模型配置"}
-            </button>
-          </div>
-        </div>
-      )}
-      {/* ===== 标题区（可编辑，截图友好） ===== */}
-      <header className="mb-5">
-        <input
-          className="ghost-input text-[30px] font-black leading-tight"
-          style={{ fontFamily: "var(--font-title)" }}
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder={
-            en
-              ? "Click to enter a title, e.g. Step 3.7 Flash · live speed test"
-              : "点击输入标题，如：Step 3.7 Flash · 实时速度实测"
-          }
-        />
-        <textarea
-          className="ghost-input mt-1 text-[13.5px] leading-relaxed text-faint"
-          rows={Math.max(notes.split("\n").length, 1)}
-          value={notes}
-          onChange={(e) => setNotes(e.target.value)}
-          placeholder={
-            en
-              ? "Click to add notes, e.g. same Prompt across official APIs; focus on TTFT and throughput..."
-              : "点击输入备注，如：同一 Prompt 直连各家官方接口，主要看首响应与吞吐……"
-          }
-        />
-        <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
-          <span className="num text-[11px] text-faint/70">
-            {new Date().toLocaleDateString(locale === "en" ? "en-US" : "zh-CN")} ·{" "}
-            {restored
-              ? `${arenaText.restoredSnapshot} · ${new Date(restored.at).toLocaleString(en ? "en-US" : "zh-CN", { hour12: false })}`
-              : arenaText.modelCount(activeEndpoints.filter((e) => e.enabled).length)}{" "}
-            · {watermark.trim() || "百模竞速 · TOKRACE"}
-          </span>
-          <Credit compact />
-        </div>
-      </header>
-
-      {/* ===== 工具条 ===== */}
-      {!screenshotMode && (
-        <div data-no-export="1" className="mb-4 flex flex-wrap items-center gap-2">
-          {/* —— 常驻：高频 / 与当前对比强相关 —— */}
-          <button className={btn} onClick={() => setSettingsOpen(true)}>
-            ⚙ {en ? "Models" : "模型配置"}
-          </button>
-          <a className={btn} href={localHref("/templates")}>
-            📚 {messages.common.templates}
-          </a>
-          <button
-            className={btn}
-            onClick={() => setThinkStats((v) => !v)}
-            title={
-              en
-                ? "When off, reasoning/output are not split: TTFT is based on first content token and speed is calculated only from content tokens."
-                : "关闭后不拆分思考/输出：首Token 按首个正文 token 计（思考计入等待），速度只按正文 token 计算"
-            }
-          >
-            {thinkStats
+        <details className="mb-4 rounded-lg border border-line bg-card p-3 text-sm">
+          <summary className="cursor-pointer font-semibold">
+            {arenaSeedMode === "report"
               ? en
-                ? "Reasoning stats: on"
-                : "思考统计：开"
-              : en
-                ? "Reasoning stats: off"
-                : "思考统计：关"}
-          </button>
-          <button
-            className={btn}
-            onClick={() => setCompact((v) => !v)}
-            title={
-              en
-                ? "Compact mode collapses output content and focuses on metrics."
-                : "紧凑模式：折叠输出内容只看指标，多模型纯竞速一屏看全"
-            }
-          >
-            {compact ? (en ? "📊 Compact: on" : "📊 紧凑：开") : en ? "📊 Compact: off" : "📊 紧凑：关"}
-          </button>
-          {hasResults && !restored && (
-            <button
-              className={btn}
-              onClick={openShareConfig}
-              disabled={shareUrl === "loading"}
-              title={
-                en
-                  ? "Generate a read-only share link. Readers can view outputs, metrics, and speed curves. Prompt and model outputs are public; API Keys are not included."
-                  : "生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
-              }
-            >
-              {shareUrl === "loading" ? (en ? "Generating..." : "生成中…") : `🔗 ${en ? "Share Link" : "分享链接"}`}
-            </button>
-          )}
-          {hasResults && (
-            <button
-              className={btn}
-              onClick={() => setReviewDraftOpen(true)}
-              title={
-                en
-                  ? "Use one of your local-Key models to turn this run's metrics, outputs, and Prompt into a publishable review draft."
-                  : "选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
-              }
-            >
-              ✍️ {en ? "Review Draft" : "生成评测稿"}
-            </button>
-          )}
-          <a className={btn} href={localHref("/me")}>
-            🗂 {en ? "Mine" : "我的"}
-          </a>
-          <button
-            className={btn}
-            onClick={() => setMoreOpen((v) => !v)}
-            title={en ? "Expand more navigation and options" : "展开更多导航与选项"}
-          >
-            {moreOpen ? (en ? "⋯ Less" : "⋯ 收起") : en ? "⋯ More" : "⋯ 更多"}
-          </button>
-
-          {/* —— 更多：导航 + 低频选项 —— */}
-          {moreOpen && (
-            <>
-              <button className={btn} onClick={() => setHistoryOpen(true)}>
-                🕘 {en ? "History" : "历史"}
-              </button>
-              <button className={btn} onClick={() => setAccountOpen(true)}>
-                👤 {en ? "Account Sync" : "账号同步"}
-              </button>
-              {hasResults && (
-                <button className={btn} onClick={copyResults}>
-                  ⧉ {en ? "Copy Metrics" : "复制指标表"}
-                </button>
-              )}
-              {hasResults && (
-                <button
-                  className={btn}
-                  onClick={exportImage}
-                  disabled={exporting}
-                  title={
-                    en
-                      ? "Export this comparison as a long image with title, notes, and watermark."
-                      : "把当前对比导出成长图（含标题/备注/水印），直接发文用"
-                  }
-                >
-                  🖼 {en ? "Export Image" : "导出长图"}
-                </button>
-              )}
-              <button
-                className={btn}
-                onClick={() => setMarkdown((v) => !v)}
-                title={en ? "Toggle Markdown rendering / raw text" : "切换输出区 Markdown 渲染 / 原始文本"}
-              >
-                {markdown ? (en ? "MD render: on" : "MD 渲染：开") : en ? "MD render: off" : "MD 渲染：关"}
-              </button>
-              <button className={btn} onClick={() => setWmOpen((v) => !v)}>
-                💧 {en ? "Watermark" : "水印"}{watermark.trim() ? (en ? ": on" : "：开") : ""}
-              </button>
-              <button className={btn} onClick={() => setScreenshotMode(true)}>
-                📷 {en ? "Screenshot" : "截图模式"}
-              </button>
-              <button
-                className={btn}
-                onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                title={en ? "Toggle light/dark theme" : "切换明暗主题"}
-              >
-                {theme === "dark" ? (en ? "☀️ Light" : "☀️ 浅色") : en ? "🌙 Dark" : "🌙 暗色"}
-              </button>
-              {telemetry.choice && (
-                <button
-                  className={btn}
-                  onClick={() =>
-                    decideTelemetry(
-                      telemetry.choice === "granted" ? "denied" : "granted"
-                    )
-                  }
-                  title={
-                    en
-                      ? "Anonymously share numeric benchmark metrics only. API Keys and input/output content are never included. You can toggle this anytime."
-                      : "匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
-                  }
-                >
-                  📡 {en ? "Metrics sharing" : "指标共享"}：{telemetry.choice === "granted" ? (en ? "on" : "开") : en ? "off" : "关"}
-                </button>
-              )}
-            </>
-          )}
-
-          {/* —— 上下文：始终可见 —— */}
-          {telemetryStatus && (
-            <span
-              className="text-[11.5px]"
-              style={{
-                color: telemetryStatus.startsWith("✗")
-                  ? "var(--accent)"
-                  : "var(--go)",
-              }}
-            >
-              {telemetryStatus}
-            </span>
-          )}
-          {restored && (
-            <button
-              className={`${btn} text-accent border-accent/40`}
-              onClick={() => {
-                setRestored(null);
-                setRuns({});
-              }}
-            >
-              ← {en ? "Exit History Snapshot" : "退出历史快照"}
-            </button>
-          )}
-          <span className="ml-auto text-[11px] text-accent">{toast}</span>
-        </div>
-      )}
-
-      {/* 分享错误（持久显示） */}
-      {shareError && !screenshotMode && (
-        <div
-          data-no-export="1"
-          className="mb-4 flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3.5 py-2.5"
-        >
-          <span className="text-[12.5px] text-accent break-all">
-            ⚠ {shareError}
-          </span>
-          <button
-            onClick={() => setShareError(null)}
-            className="ml-auto shrink-0 text-[12px] text-faint hover:text-ink cursor-pointer"
-          >
-            ✕
-          </button>
-        </div>
-      )}
-
-      {/* 分享链接显示（生成后） */}
-      {shareUrl && shareUrl !== "loading" && !screenshotMode && (
-        <div
-          data-no-export="1"
-          className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2.5"
-        >
-          <span className="text-[12px]" style={{ color: "var(--go)" }}>
-            🔗 {en ? "Read-only link generated" : "只读链接已生成"}
-          </span>
-          <input
-            readOnly
-            value={shareUrl}
-            onFocus={(e) => e.currentTarget.select()}
-            className="num min-w-0 flex-1 rounded-md border border-line bg-paper/60 px-2.5 py-1.5 text-[12px] outline-none"
-          />
-          <button
-            className={btn}
-            onClick={() => {
-              void navigator.clipboard.writeText(shareUrl);
-              flash(arenaText.copied);
-            }}
-          >
-            {messages.common.copy}
-          </button>
-          <a
-            className={btn}
-            href={shareUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {en ? "Open" : "打开"}
-          </a>
-          <span className="text-[11px] text-faint/80">
+                ? "Report configuration loaded"
+                : "已带入原报告配置"
+              : temporaryModeLabel}{" "}
+            · {activeEndpoints.filter((e) => e.enabled).length}{" "}
+            {en ? "models" : "个模型"}
+          </summary>
+          <p className="my-3 text-faint">
             {en
-              ? "The link exposes the Prompt and model outputs, but never API Keys."
-              : "链接公开 Prompt 与模型输出，不含 API Key"}
-          </span>
-        </div>
+              ? "This temporary setup keeps your saved configuration. Review endpoint access and parameters before running."
+              : "本次临时配置保留原有设置。开始前请确认接入权限与参数。"}
+          </p>
+          <button onClick={exitTemporaryMode} className={btn}>
+            {en ? "Use my saved setup" : "使用我的原有配置"}
+          </button>
+        </details>
       )}
-
-      {shareUrl &&
-        shareUrl !== "loading" &&
-        !screenshotMode &&
-        generatedBadgeMarkdown && (
-          <SocialSharePanel
-            compact
-            className="mb-4"
-            url={shareUrl}
-            title={generatedShareTitle}
-            text={generatedShareText}
-            badgeMarkdown={generatedBadgeMarkdown}
-            badgeHtml={generatedBadgeHtml}
-          />
-        )}
-
-      {referralNudge && !screenshotMode && (
-        <ReferralShareNudge
-          reason={referralNudge}
-          models={referralModelNames}
-          onOpenAccount={() => setAccountOpen(true)}
-          onClose={() => setReferralNudge(null)}
-        />
+      {toast && (
+        <p role="status" className="mb-3 text-sm text-accent">
+          {toast}
+        </p>
       )}
-
-      {/* 水印设置 */}
-      {wmOpen && !screenshotMode && (
-        <div data-no-export="1" className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-card px-3.5 py-2.5">
-          <input
-            className="num w-72 rounded-md border border-line px-2.5 py-1.5 text-[12px] outline-none focus:border-ink/40"
-            value={watermark}
-            onChange={(e) => setWatermark(e.target.value)}
-            placeholder={en ? "e.g. X @yourID · Blog @yourname" : "如 小红书 @你的ID · X @yourID"}
-          />
-          <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] text-faint">
-            <input
-              type="checkbox"
-              checked={wmTiled}
-              onChange={(e) => setWmTiled(e.target.checked)}
-              className="accent-[var(--accent)]"
-            />
-            {en ? "Tiled anti-repost watermark" : "平铺防盗水印"}
-          </label>
-          <span className="text-[11px] text-faint/80">
-            {en
-              ? "Shown in the header line and bottom-right badge. Copied Markdown tables also include the credit."
-              : "显示在页头信息行 + 页面右下角徽标，复制的 Markdown 表格也会带上署名"}
-          </span>
-        </div>
-      )}
-
       {/* ===== Prompt 区 ===== */}
       {!screenshotMode ? (
         <div className="mb-5 rounded-lg border border-line bg-card p-3.5">
+          <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+            <label htmlFor="task-prompt" className="font-bold">
+              {en ? "1. Your task" : "1. 输入你的任务"}
+            </label>
+            <select
+              className="max-w-full rounded border border-line p-2 text-sm"
+              aria-label={en ? "Standard test case" : "标准测试案例"}
+              value={
+                BENCHMARK_CASES.some(
+                  (c) => c.id === task?.caseId && c.prompt === prompt,
+                )
+                  ? task?.caseId
+                  : ""
+              }
+              onChange={(e) => {
+                const c = BENCHMARK_CASES.find((c) => c.id === e.target.value);
+                if (c) {
+                  setPrompt(c.prompt);
+                  setTask({ caseId: c.id, version: c.version });
+                  setTemporaryParams(BENCHMARK_PARAMS);
+                } else setTask(undefined);
+              }}
+            >
+              <option value="">
+                {en ? "Custom task · not graded" : "自定义任务 · 尚未评估"}
+              </option>
+              {BENCHMARK_CASES.map((c) => (
+                <option key={c.id} value={c.id}>
+                  {en ? c.titleEn : c.title}
+                </option>
+              ))}
+            </select>
+          </div>
           <textarea
             className="ghost-input text-[14px] leading-relaxed min-h-[64px]"
             rows={3}
+            id="task-prompt"
+            aria-label={en ? "Your task" : "你的任务"}
             value={prompt}
             onChange={(e) => setPrompt(e.target.value)}
-            placeholder={en ? "Enter the Prompt to send to all models..." : "输入要同时发给所有模型的 Prompt……"}
+            placeholder={
+              en
+                ? "Enter the Prompt to send to all models..."
+                : "输入要同时发给所有模型的 Prompt……"
+            }
           />
-          <div data-no-export="1" className="mt-2 flex flex-wrap items-center gap-2 border-t border-line pt-2.5">
+          <div
+            className="my-3 flex flex-wrap items-center gap-2"
+            aria-label={en ? "Selected models" : "已选模型"}
+          >
+            <span className="mr-2 text-sm font-bold">
+              {en ? "2. Models" : "2. 选择模型"}
+            </span>
+            {activeEndpoints
+              .filter((ep) => ep.enabled)
+              .map((ep) => (
+                <label
+                  key={ep.id}
+                  className="flex min-h-11 items-center gap-2 rounded border border-line px-3 text-sm"
+                >
+                  <input
+                    type="checkbox"
+                    checked={ep.enabled}
+                    disabled={anyRunning || batchBusy}
+                    onChange={(e) => {
+                      const change = (list: ModelEndpoint[]) =>
+                        list.map((m) =>
+                          m.id === ep.id
+                            ? { ...m, enabled: e.target.checked }
+                            : m,
+                        );
+                      if (temporaryEndpoints)
+                        setTemporaryEndpoints(change(temporaryEndpoints));
+                      else setEndpoints(change);
+                    }}
+                  />
+                  {ep.name}
+                </label>
+              ))}
+            <button className={btn} onClick={() => setSettingsOpen(true)}>
+              {en ? "Connect / configure" : "接入与配置"}
+            </button>
+          </div>
+          {missingModels.length > 0 && (
+            <p role="alert" className="my-3 text-sm text-accent">
+              {en
+                ? "Connect these exact endpoints before rerunning: "
+                : "复测前请接入这些原始模型，未自动替换："}
+              {missingModels.join("；")}
+            </p>
+          )}
+          {!screenshotMode &&
+            quota != null &&
+            activeEndpoints.some((e) => e.enabled && e.shared) && (
+              <details className="my-3 text-xs text-faint">
+                <summary className="cursor-pointer">
+                  {en ? "Trial quota remaining" : "体验额度剩余"}：
+                  {quota.remaining} · {en ? "Access options" : "接入说明"}
+                </summary>
+                <QuotaBanner
+                  remaining={quota.remaining}
+                  limit={quota.limit}
+                  loggedIn={quota.loggedIn}
+                  bonusRemaining={quota.bonusRemaining}
+                  onLogin={() => setAccountOpen(true)}
+                  onInvite={() => setAccountOpen(true)}
+                  onConfigure={() => setSettingsOpen(true)}
+                />
+              </details>
+            )}
+          <div
+            data-no-export="1"
+            className="mt-2 flex flex-wrap items-center gap-2 border-t border-line pt-2.5"
+          >
             <button
               className={btn}
               onClick={() => setPromptLibOpen(true)}
@@ -1668,7 +1641,12 @@ export default function Home() {
               ) : (
                 <button
                   onClick={startAll}
-                  disabled={!prompt.trim() || !activeEndpoints.some((e) => e.enabled)}
+                  disabled={
+                    batchBusy ||
+                    missingModels.length > 0 ||
+                    !prompt.trim() ||
+                    !activeEndpoints.some((e) => e.enabled)
+                  }
                   className="rounded-md bg-ink px-6 py-2 text-[14px] font-bold text-paper disabled:opacity-35 cursor-pointer"
                 >
                   {en ? "Start Comparison" : "开始对比"} ▶
@@ -1680,7 +1658,10 @@ export default function Home() {
             <div className="mt-2.5 grid gap-2.5 border-t border-line pt-2.5 sm:grid-cols-3">
               <label className="sm:col-span-3 block">
                 <div className="text-[11px] text-faint mb-1">
-                  System Prompt{en ? " (shared by all models, leave blank to omit)" : "（所有模型共用，留空不传）"}
+                  System Prompt
+                  {en
+                    ? " (shared by all models, leave blank to omit)"
+                    : "（所有模型共用，留空不传）"}
                 </div>
                 <textarea
                   className="w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
@@ -1693,7 +1674,8 @@ export default function Home() {
               </label>
               <label className="block">
                 <div className="text-[11px] text-faint mb-1">
-                  Temperature{en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
+                  Temperature
+                  {en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
                 </div>
                 <input
                   className="num w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
@@ -1706,7 +1688,8 @@ export default function Home() {
               </label>
               <label className="block">
                 <div className="text-[11px] text-faint mb-1">
-                  Max Tokens{en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
+                  Max Tokens
+                  {en ? " (blank = provider default)" : "（留空 = 厂商默认）"}
                 </div>
                 <input
                   className="num w-full rounded-md border border-line px-2.5 py-1.5 text-[12.5px] outline-none focus:border-ink/40"
@@ -1738,15 +1721,25 @@ export default function Home() {
 
       {/* ===== 遥测同意声明（首次出结果后询问一次） ===== */}
       {!telemetry.choice && hasResults && !screenshotMode && !restored && (
-        <div data-no-export="1" className="mb-4 rounded-lg border border-line bg-card px-4 py-3">
+        <div
+          data-no-export="1"
+          className="mb-4 rounded-lg border border-line bg-card px-4 py-3"
+        >
           <div className="flex flex-wrap items-center gap-x-3 gap-y-2">
             <span className="text-[13px] font-semibold">
-              📡 {en ? "Share these benchmark metrics anonymously?" : "愿意匿名共享这些评测指标吗？"}
+              📡{" "}
+              {en
+                ? "Share these benchmark metrics anonymously?"
+                : "愿意匿名共享这些评测指标吗？"}
             </span>
             <span className="text-[12px] text-faint">
-              {en ? "Only numeric metrics like speed and tokens are uploaded to help analyze real-world model performance; " : "只上传速度/token 等数字指标，帮助分析各家模型的真实表现；"}
+              {en
+                ? "Only numeric metrics like speed and tokens are uploaded to help analyze real-world model performance; "
+                : "只上传速度/token 等数字指标，帮助分析各家模型的真实表现；"}
               <b className="text-ink">
-                {en ? "API Keys and any input/output content are never uploaded" : "不上传 API Key 和任何输入输出内容"}
+                {en
+                  ? "API Keys and any input/output content are never uploaded"
+                  : "不上传 API Key 和任何输入输出内容"}
               </b>
               {en ? "." : "。"}
             </span>
@@ -1764,7 +1757,10 @@ export default function Home() {
                   ))}
                 </div>
                 <div>
-                  <div className="font-semibold" style={{ color: "var(--accent)" }}>
+                  <div
+                    className="font-semibold"
+                    style={{ color: "var(--accent)" }}
+                  >
                     {en ? "Never stored:" : "永不保存："}
                   </div>
                   {consentFields.notCollected.map((f) => (
@@ -1792,70 +1788,101 @@ export default function Home() {
       )}
 
       {/* ===== 模型条：隐藏/显示与排序（隐藏的模型后台照常跑） ===== */}
-      {!screenshotMode && !restored && enabledEndpoints.length >= 2 && (
-        <div data-no-export="1" className="mb-3 flex flex-wrap items-center gap-1.5">
-          <span className="text-[11px] text-faint shrink-0">
-            {en ? "Visible" : "显示"}
-          </span>
-          {enabledEndpoints.map((ep, idx) => {
-            const run = runs[ep.id] ?? emptyRun();
-            const hidden = hiddenIds.includes(ep.id);
-            return (
-              <span
-                key={ep.id}
-                className={`flex items-center gap-0.5 rounded-md border border-line px-1.5 py-1 text-[11.5px] ${
-                  hidden ? "bg-paper/40 opacity-50" : "bg-card"
-                }`}
+      {!screenshotMode &&
+        !restored &&
+        (hasResults || anyRunning) &&
+        enabledEndpoints.length >= 2 && (
+          <div
+            data-no-export="1"
+            className="mb-3 flex flex-wrap items-center gap-1.5"
+          >
+            <span className="text-[11px] text-faint shrink-0">
+              {en ? "Visible" : "显示"}
+            </span>
+            {enabledEndpoints.map((ep, idx) => {
+              const run = runs[ep.id] ?? emptyRun();
+              const hidden = hiddenIds.includes(ep.id);
+              return (
+                <span
+                  key={ep.id}
+                  className={`flex items-center gap-0.5 rounded-md border border-line px-1.5 py-1 text-[11.5px] ${
+                    hidden ? "bg-paper/40 opacity-50" : "bg-card"
+                  }`}
+                >
+                  <button
+                    onClick={() => toggleHidden(ep.id)}
+                    title={
+                      hidden
+                        ? en
+                          ? "Restore visibility. It has kept running in the background."
+                          : "点击恢复显示（后台一直在跑）"
+                        : en
+                          ? "Hide this model. It keeps running in the background and can be restored anytime."
+                          : "点击隐藏此模型（后台继续跑，随时可恢复）"
+                    }
+                    className="flex items-center gap-1.5 cursor-pointer"
+                  >
+                    <span
+                      className={`inline-block h-1.5 w-1.5 rounded-full ${isRunning(run) ? "pulsing" : ""}`}
+                      style={{ background: STATUS_COLOR[run.status] }}
+                    />
+                    <span className={hidden ? "line-through" : ""}>
+                      {ep.name}
+                    </span>
+                    {run.rank != null && <span>{rankBadge(run.rank)}</span>}
+                  </button>
+                  <button
+                    onClick={() => moveEndpoint(ep.id, -1)}
+                    disabled={idx === 0}
+                    title={en ? "Move left" : "左移"}
+                    className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
+                  >
+                    ◂
+                  </button>
+                  <button
+                    onClick={() => moveEndpoint(ep.id, 1)}
+                    disabled={idx === enabledEndpoints.length - 1}
+                    title={en ? "Move right" : "右移"}
+                    className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
+                  >
+                    ▸
+                  </button>
+                </span>
+              );
+            })}
+            {hiddenIds.length > 0 && (
+              <button
+                onClick={() => setHiddenIds([])}
+                className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
               >
-                <button
-                  onClick={() => toggleHidden(ep.id)}
-                  title={
-                    hidden
-                      ? en
-                        ? "Restore visibility. It has kept running in the background."
-                        : "点击恢复显示（后台一直在跑）"
-                      : en
-                        ? "Hide this model. It keeps running in the background and can be restored anytime."
-                        : "点击隐藏此模型（后台继续跑，随时可恢复）"
-                  }
-                  className="flex items-center gap-1.5 cursor-pointer"
-                >
-                  <span
-                    className={`inline-block h-1.5 w-1.5 rounded-full ${isRunning(run) ? "pulsing" : ""}`}
-                    style={{ background: STATUS_COLOR[run.status] }}
-                  />
-                  <span className={hidden ? "line-through" : ""}>
-                    {ep.name}
-                  </span>
-                  {run.rank != null && <span>{rankBadge(run.rank)}</span>}
-                </button>
-                <button
-                  onClick={() => moveEndpoint(ep.id, -1)}
-                  disabled={idx === 0}
-                  title={en ? "Move left" : "左移"}
-                  className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
-                >
-                  ◂
-                </button>
-                <button
-                  onClick={() => moveEndpoint(ep.id, 1)}
-                  disabled={idx === enabledEndpoints.length - 1}
-                  title={en ? "Move right" : "右移"}
-                  className="px-0.5 text-faint hover:text-ink disabled:opacity-25 cursor-pointer"
-                >
-                  ▸
-                </button>
-              </span>
-            );
-          })}
-          {hiddenIds.length > 0 && (
-            <button
-              onClick={() => setHiddenIds([])}
-              className="text-[11px] text-faint underline hover:text-ink cursor-pointer"
-            >
-              {en ? "Show all" : "全部显示"}
-            </button>
-          )}
+                {en ? "Show all" : "全部显示"}
+              </button>
+            )}
+          </div>
+        )}
+
+      {hasResults && comparison && comparison.prompt !== prompt && (
+        <p className="mb-3 rounded border border-line p-3 text-sm">
+          {en
+            ? "Results below belong to the previous task. Start a new comparison to test your edited prompt; retries keep the original task."
+            : "下方结果属于上一次任务。开始对比会测试修改后的 Prompt；单模型重试保留原任务。"}
+        </p>
+      )}
+      {hasResults && (
+        <ResultSummary
+          rows={enabledEndpoints.map((endpoint) => ({
+            endpoint,
+            run: runs[endpoint.id] ?? EMPTY_RUN,
+          }))}
+          prompt={restored?.prompt ?? comparison?.prompt ?? prompt}
+          task={restored ? restored.task : comparison ? comparison.task : task}
+          en={en}
+        />
+      )}
+      {/* 结算卡：速度 / 成本 / 已验证任务效果 */}
+      {verdict && hasResults && (
+        <div className="mt-4">
+          <VerdictCard verdict={verdict} locale={locale} />
         </div>
       )}
 
@@ -1886,34 +1913,441 @@ export default function Home() {
         </div>
       ) : (
         <div className={`grid gap-4 ${gridCols}`}>
-          {visibleEndpoints.map((ep) => {
-            const run = runs[ep.id] ?? EMPTY_RUN;
-            return (
-              <ModelCard
-                key={ep.id}
-                endpoint={ep}
-                run={run}
-                markdown={markdown}
-                screenshotMode={screenshotMode || !!restored}
-                thinkingStats={thinkStats}
-                nowTick={isRunning(run) ? nowTick : 0}
-                onRerun={() => rerunOne(ep)}
-                onToggleFocus={() => setFocusId(ep.id)}
-                wordTarget={wordTarget}
-                compact={compact}
+          {visibleEndpoints
+            .filter(() => hasResults || anyRunning)
+            .map((ep) => {
+              const run = runs[ep.id] ?? EMPTY_RUN;
+              return (
+                <details
+                  key={ep.id}
+                  open={screenshotMode || exporting || undefined}
+                  className="rounded-lg border border-line bg-card"
+                >
+                  <summary className="cursor-pointer p-4 text-sm font-semibold">
+                    {ep.name} · {en ? "View output" : "查看输出"}
+                  </summary>
+                  <ModelCard
+                    endpoint={ep}
+                    run={run}
+                    markdown={markdown}
+                    screenshotMode={screenshotMode || !!restored}
+                    thinkingStats={thinkStats}
+                    nowTick={isRunning(run) ? nowTick : 0}
+                    onRerun={() => rerunOne(ep)}
+                    onToggleFocus={() => setFocusId(ep.id)}
+                    wordTarget={wordTarget}
+                    compact={compact}
+                  />
+                </details>
+              );
+            })}
+        </div>
+      )}
+
+      {!screenshotMode && !anyRunning && (
+        <BatchTests
+          endpoints={activeEndpoints}
+          params={params}
+          prompt={prompt}
+          en={en}
+          onBusy={setBatchBusy}
+        />
+      )}
+      <details
+        className="my-6 rounded-lg border border-line bg-card p-4"
+        open={screenshotMode || undefined}
+      >
+        <summary className="mb-4 cursor-pointer font-bold">
+          {en ? "Export, share & display settings" : "导出与分享、显示设置"}
+        </summary>
+        {/* ===== 标题区（可编辑，截图友好） ===== */}
+        <header className="mb-5">
+          <input
+            className="ghost-input text-[30px] font-black leading-tight"
+            style={{ fontFamily: "var(--font-title)" }}
+            aria-label={en ? "Report title" : "报告标题"}
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder={
+              en
+                ? "Click to enter a title, e.g. Step 3.7 Flash · live speed test"
+                : "点击输入标题，如：Step 3.7 Flash · 实时速度实测"
+            }
+          />
+          <textarea
+            className="ghost-input mt-1 text-[13.5px] leading-relaxed text-faint"
+            rows={Math.max(notes.split("\n").length, 1)}
+            aria-label={en ? "Report notes" : "报告备注"}
+            value={notes}
+            onChange={(e) => setNotes(e.target.value)}
+            placeholder={
+              en
+                ? "Click to add notes, e.g. same Prompt across official APIs; focus on TTFT and throughput..."
+                : "点击输入备注，如：同一 Prompt 直连各家官方接口，主要看首响应与吞吐……"
+            }
+          />
+          <div className="mt-1 flex flex-wrap items-center gap-x-2 gap-y-1">
+            <span className="num text-[11px] text-faint/70">
+              {restored
+                ? `${arenaText.restoredSnapshot} · ${new Date(restored.at).toLocaleString(en ? "en-US" : "zh-CN", { hour12: false })}`
+                : arenaText.modelCount(
+                    activeEndpoints.filter((e) => e.enabled).length,
+                  )}{" "}
+              · {watermark.trim() || "百模竞速 · TOKRACE"}
+            </span>
+            <Credit compact />
+          </div>
+        </header>
+
+        {/* ===== 工具条 ===== */}
+        {!screenshotMode && (
+          <div
+            data-no-export="1"
+            className="mb-4 flex flex-wrap items-center gap-2"
+          >
+            {/* —— 常驻：高频 / 与当前对比强相关 —— */}
+            <button className={btn} onClick={() => setSettingsOpen(true)}>
+              ⚙ {en ? "Models" : "模型配置"}
+            </button>
+            <a className={btn} href={localHref("/templates")}>
+              📚 {messages.common.templates}
+            </a>
+            <button
+              className={btn}
+              onClick={() => setThinkStats((v) => !v)}
+              title={
+                en
+                  ? "When off, reasoning/output are not split: TTFT is based on first content token and speed is calculated only from content tokens."
+                  : "关闭后不拆分思考/输出：首Token 按首个正文 token 计（思考计入等待），速度只按正文 token 计算"
+              }
+            >
+              {thinkStats
+                ? en
+                  ? "Reasoning stats: on"
+                  : "思考统计：开"
+                : en
+                  ? "Reasoning stats: off"
+                  : "思考统计：关"}
+            </button>
+            <button
+              className={btn}
+              onClick={() => setCompact((v) => !v)}
+              title={
+                en
+                  ? "Compact mode collapses output content and focuses on metrics."
+                  : "紧凑模式：折叠输出内容只看指标，多模型纯竞速一屏看全"
+              }
+            >
+              {compact
+                ? en
+                  ? "📊 Compact: on"
+                  : "📊 紧凑：开"
+                : en
+                  ? "📊 Compact: off"
+                  : "📊 紧凑：关"}
+            </button>
+            {hasResults && !restored && (
+              <button
+                className={btn}
+                onClick={openShareConfig}
+                disabled={shareUrl === "loading"}
+                title={
+                  en
+                    ? "Generate a read-only share link. Readers can view outputs, metrics, and speed curves. Prompt and model outputs are public; API Keys are not included."
+                    : "生成只读分享链接：读者可在线查看本次对比的输出、指标与速度曲线（会公开 Prompt 与模型输出，不含 API Key）"
+                }
+              >
+                {shareUrl === "loading"
+                  ? en
+                    ? "Generating..."
+                    : "生成中…"
+                  : `🔗 ${en ? "Share Link" : "分享链接"}`}
+              </button>
+            )}
+            {hasResults && (
+              <button
+                className={btn}
+                onClick={() => setReviewDraftOpen(true)}
+                title={
+                  en
+                    ? "Use one of your local-Key models to turn this run's metrics, outputs, and Prompt into a publishable review draft."
+                    : "选择你本地已配置 Key 的模型，把本次指标、输出和 Prompt 生成成可发布评测稿"
+                }
+              >
+                ✍️ {en ? "Review Draft" : "生成评测稿"}
+              </button>
+            )}
+            <a className={btn} href={localHref("/me")}>
+              🗂 {en ? "Mine" : "我的"}
+            </a>
+            <button
+              className={btn}
+              onClick={() => setMoreOpen((v) => !v)}
+              title={
+                en ? "Expand more navigation and options" : "展开更多导航与选项"
+              }
+            >
+              {moreOpen ? (en ? "⋯ Less" : "⋯ 收起") : en ? "⋯ More" : "⋯ 更多"}
+            </button>
+
+            {/* —— 更多：导航 + 低频选项 —— */}
+            {moreOpen && (
+              <>
+                <button className={btn} onClick={() => setHistoryOpen(true)}>
+                  🕘 {en ? "History" : "历史"}
+                </button>
+                <button className={btn} onClick={() => setAccountOpen(true)}>
+                  👤 {en ? "Account Sync" : "账号同步"}
+                </button>
+                {hasResults && (
+                  <button className={btn} onClick={copyResults}>
+                    ⧉ {en ? "Copy Metrics" : "复制指标表"}
+                  </button>
+                )}
+                {hasResults && (
+                  <button
+                    className={btn}
+                    onClick={exportImage}
+                    disabled={exporting}
+                    title={
+                      en
+                        ? "Export this comparison as a long image with title, notes, and watermark."
+                        : "把当前对比导出成长图（含标题/备注/水印），直接发文用"
+                    }
+                  >
+                    🖼 {en ? "Export Image" : "导出长图"}
+                  </button>
+                )}
+                <button
+                  className={btn}
+                  onClick={() => setMarkdown((v) => !v)}
+                  title={
+                    en
+                      ? "Toggle Markdown rendering / raw text"
+                      : "切换输出区 Markdown 渲染 / 原始文本"
+                  }
+                >
+                  {markdown
+                    ? en
+                      ? "MD render: on"
+                      : "MD 渲染：开"
+                    : en
+                      ? "MD render: off"
+                      : "MD 渲染：关"}
+                </button>
+                <button className={btn} onClick={() => setWmOpen((v) => !v)}>
+                  💧 {en ? "Watermark" : "水印"}
+                  {watermark.trim() ? (en ? ": on" : "：开") : ""}
+                </button>
+                <button className={btn} onClick={() => setScreenshotMode(true)}>
+                  📷 {en ? "Screenshot" : "截图模式"}
+                </button>
+                <button
+                  className={btn}
+                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  title={en ? "Toggle light/dark theme" : "切换明暗主题"}
+                >
+                  {theme === "dark"
+                    ? en
+                      ? "☀️ Light"
+                      : "☀️ 浅色"
+                    : en
+                      ? "🌙 Dark"
+                      : "🌙 暗色"}
+                </button>
+                {telemetry.choice && (
+                  <button
+                    className={btn}
+                    onClick={() =>
+                      decideTelemetry(
+                        telemetry.choice === "granted" ? "denied" : "granted",
+                      )
+                    }
+                    title={
+                      en
+                        ? "Anonymously share numeric benchmark metrics only. API Keys and input/output content are never included. You can toggle this anytime."
+                        : "匿名共享评测指标数据（仅数字指标，不含 API Key 与输入输出内容），可随时开关"
+                    }
+                  >
+                    📡 {en ? "Metrics sharing" : "指标共享"}：
+                    {telemetry.choice === "granted"
+                      ? en
+                        ? "on"
+                        : "开"
+                      : en
+                        ? "off"
+                        : "关"}
+                  </button>
+                )}
+              </>
+            )}
+
+            {/* —— 上下文：始终可见 —— */}
+            {telemetryStatus && (
+              <span
+                className="text-[11.5px]"
+                style={{
+                  color: telemetryStatus.startsWith("✗")
+                    ? "var(--accent)"
+                    : "var(--go)",
+                }}
+              >
+                {telemetryStatus}
+              </span>
+            )}
+            {restored && (
+              <button
+                className={`${btn} text-accent border-accent/40`}
+                onClick={() => {
+                  setRestored(null);
+                  setRuns({});
+                }}
+              >
+                ← {en ? "Exit History Snapshot" : "退出历史快照"}
+              </button>
+            )}
+            <span className="ml-auto text-[11px] text-accent">{toast}</span>
+          </div>
+        )}
+
+        {/* 分享错误（持久显示） */}
+        {shareError && !screenshotMode && (
+          <div
+            data-no-export="1"
+            className="mb-4 flex items-center gap-2 rounded-lg border border-accent/30 bg-accent/5 px-3.5 py-2.5"
+          >
+            <span className="text-[12.5px] text-accent break-all">
+              ⚠ {shareError}
+            </span>
+            <button
+              onClick={() => setShareError(null)}
+              className="ml-auto shrink-0 text-[12px] text-faint hover:text-ink cursor-pointer"
+            >
+              ✕
+            </button>
+          </div>
+        )}
+
+        {/* 分享链接显示（生成后） */}
+        {shareUrl && shareUrl !== "loading" && !screenshotMode && (
+          <div
+            data-no-export="1"
+            className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card px-3.5 py-2.5"
+          >
+            <span className="text-[12px]" style={{ color: "var(--go)" }}>
+              🔗 {en ? "Read-only link generated" : "只读链接已生成"}
+            </span>
+            <input
+              readOnly
+              value={shareUrl}
+              onFocus={(e) => e.currentTarget.select()}
+              className="num min-w-0 flex-1 rounded-md border border-line bg-paper/60 px-2.5 py-1.5 text-[12px] outline-none"
+            />
+            <button
+              className={btn}
+              onClick={() => {
+                void navigator.clipboard.writeText(shareUrl);
+                flash(arenaText.copied);
+              }}
+            >
+              {messages.common.copy}
+            </button>
+            <a
+              className={btn}
+              href={shareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {en ? "Open" : "打开"}
+            </a>
+            <span className="text-[11px] text-faint/80">
+              {en
+                ? "The link exposes the Prompt and model outputs, but never API Keys."
+                : "链接公开 Prompt 与模型输出，不含 API Key"}
+            </span>
+          </div>
+        )}
+
+        {shareUrl &&
+          shareUrl !== "loading" &&
+          !screenshotMode &&
+          generatedBadgeMarkdown && (
+            <SocialSharePanel
+              compact
+              className="mb-4"
+              url={shareUrl}
+              title={generatedShareTitle}
+              text={generatedShareText}
+              badgeMarkdown={generatedBadgeMarkdown}
+              badgeHtml={generatedBadgeHtml}
+            />
+          )}
+
+        {referralNudge && !screenshotMode && (
+          <ReferralShareNudge
+            reason={referralNudge}
+            models={referralModelNames}
+            onOpenAccount={() => setAccountOpen(true)}
+            onClose={() => setReferralNudge(null)}
+          />
+        )}
+
+        {/* 水印设置 */}
+        {wmOpen && !screenshotMode && (
+          <div
+            data-no-export="1"
+            className="mb-4 flex flex-wrap items-center gap-3 rounded-lg border border-line bg-card px-3.5 py-2.5"
+          >
+            <input
+              className="num w-72 rounded-md border border-line px-2.5 py-1.5 text-[12px] outline-none focus:border-ink/40"
+              value={watermark}
+              onChange={(e) => setWatermark(e.target.value)}
+              placeholder={
+                en
+                  ? "e.g. X @yourID · Blog @yourname"
+                  : "如 小红书 @你的ID · X @yourID"
+              }
+            />
+            <label className="flex cursor-pointer items-center gap-1.5 text-[11.5px] text-faint">
+              <input
+                type="checkbox"
+                checked={wmTiled}
+                onChange={(e) => setWmTiled(e.target.checked)}
+                className="accent-[var(--accent)]"
               />
-            );
-          })}
+              {en ? "Tiled anti-repost watermark" : "平铺防盗水印"}
+            </label>
+            <span className="text-[11px] text-faint/80">
+              {en
+                ? "Shown in the header line and bottom-right badge. Copied Markdown tables also include the credit."
+                : "显示在页头信息行 + 页面右下角徽标，复制的 Markdown 表格也会带上署名"}
+            </span>
+          </div>
+        )}
+      </details>
+      {!screenshotMode && !restored && (
+        <div className="fixed inset-x-4 bottom-3 z-30 flex justify-end sm:hidden">
+          <button
+            className="rounded-lg bg-ink px-6 py-3 font-bold text-paper shadow-lg disabled:opacity-40"
+            disabled={
+              batchBusy ||
+              missingModels.length > 0 ||
+              !prompt.trim() ||
+              !activeEndpoints.some((e) => e.enabled)
+            }
+            onClick={anyRunning ? stopAll : startAll}
+          >
+            {anyRunning
+              ? en
+                ? "Stop"
+                : "停止"
+              : en
+                ? "Start comparison"
+                : "开始对比"}{" "}
+            ▶
+          </button>
         </div>
       )}
-
-      {/* 结算卡：最快 / 最省 / 答对 / 综合推荐 */}
-      {verdict && hasResults && (
-        <div className="mt-4">
-          <VerdictCard verdict={verdict} locale={locale} />
-        </div>
-      )}
-
       {/* ===== 单模型放大视图（其余模型后台继续跑） ===== */}
       {focusEndpoint && (
         <div
@@ -2019,14 +2453,17 @@ export default function Home() {
         rows={reviewDraftRows}
         title={title}
         notes={notes}
-        prompt={prompt}
+        prompt={restored?.prompt ?? comparison?.prompt ?? prompt}
         thinkingStats={thinkStats}
         shareUrl={typeof shareUrl === "string" ? shareUrl : undefined}
         verdict={verdict}
       />
 
       {!screenshotMode && (
-        <footer data-no-export="1" className="mt-10 space-y-2 text-center text-[11px] text-faint/70">
+        <footer
+          data-no-export="1"
+          className="mt-10 space-y-2 text-center text-[11px] text-faint/70"
+        >
           <div>
             {en
               ? "Metric notes: TTFT = time from request sent to first token received, including network round trip and queueing. Reasoning TPS / output TPS each use the active window from first to last token in that phase, excluding gaps and stream tail time. Total Tokens prefer provider official usage; reasoning/output splits are estimated from phase characters and calibrated when official split data is unavailable (≈ marks estimates)."

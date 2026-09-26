@@ -13,11 +13,20 @@ import {
   type Locale,
 } from "@/lib/i18n";
 
-export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ lang: string }>;
+}) {
   const { lang } = await params;
-  return localizedMetadata(normalizeLocale(lang) ?? DEFAULT_LOCALE, "method", "/method", {
-    openGraph: { type: "article" },
-  });
+  return localizedMetadata(
+    normalizeLocale(lang) ?? DEFAULT_LOCALE,
+    "method",
+    "/method",
+    {
+      openGraph: { type: "article" },
+    },
+  );
 }
 
 function articleJsonLd(locale: Locale) {
@@ -26,13 +35,18 @@ function articleJsonLd(locale: Locale) {
   return {
     "@context": "https://schema.org",
     "@type": "TechArticle",
-    headline: locale === "en" ? "LLM speed testing methodology" : "大模型测速方法论",
+    headline:
+      locale === "en" ? "LLM speed testing methodology" : "大模型测速方法论",
     description: messages.metadata.method.description,
     url,
     inLanguage: localeToLanguage(locale),
     isAccessibleForFree: true,
     author: { "@type": "Organization", name: BRAND.publisher },
-    publisher: { "@type": "Organization", name: BRAND.publisher, url: BRAND.url },
+    publisher: {
+      "@type": "Organization",
+      name: BRAND.publisher,
+      url: BRAND.url,
+    },
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
   };
 }
@@ -46,7 +60,9 @@ function faqJsonLd(locale: Locale) {
     mainEntity: [
       {
         "@type": "Question",
-        name: isZh ? "首 Token 时延（TTFT）是怎么测的？" : "How is TTFT measured?",
+        name: isZh
+          ? "首 Token 时延（TTFT）是怎么测的？"
+          : "How is TTFT measured?",
         acceptedAnswer: {
           "@type": "Answer",
           text: isZh
@@ -56,7 +72,9 @@ function faqJsonLd(locale: Locale) {
       },
       {
         "@type": "Question",
-        name: isZh ? "输出速度（tokens/s）用什么口径？" : "Which token/s definition is used?",
+        name: isZh
+          ? "输出速度（tokens/s）用什么口径？"
+          : "Which token/s definition is used?",
         acceptedAnswer: {
           "@type": "Answer",
           text: isZh
@@ -78,7 +96,13 @@ function faqJsonLd(locale: Locale) {
   };
 }
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({
+  title,
+  children,
+}: {
+  title: string;
+  children: React.ReactNode;
+}) {
   return (
     <section className="mt-7">
       <h2 className="text-[17px] font-bold">{title}</h2>
@@ -122,50 +146,94 @@ export default async function MethodPage({
         </h1>
         <p className="mt-2 text-[13.5px] text-faint">
           {isZh
-            ? "我们如何定义和测量大模型速度，以及为什么这套方法是公平、可复现的。"
-            : "How TOKRACE defines and measures LLM speed, and why the method is fair and reproducible."}
+            ? "我们如何测量任务效果、速度和成本，以及哪些结果可以比较。"
+            : "How TOKRACE measures task outcomes, speed and cost, and which results are comparable."}
         </p>
       </header>
 
+      <Section
+        title={
+          isZh
+            ? "标准实测与社区数据"
+            : "Standard tests vs community submissions"
+        }
+      >
+        <p>
+          {isZh
+            ? "标准报告使用香港 hkg1 节点在服务端计时，固定题目版本、模型接入点和参数。每模型 3 类任务 × 5 个案例 × 2 个至少相隔 6 小时的时段，共 30 次尝试。失败、超时和截断都保留，社区自报数据不进入官方证据。"
+            : "Standard reports use server timing in hkg1 with versioned cases, exact endpoints and fixed parameters. Three categories × five cases × two windows at least six hours apart give 30 attempts per model. Failures, timeouts and truncations are retained. Community submissions are not official evidence."}
+        </p>
+        <p>
+          {isZh
+            ? "每类完整成功样本不足 10 条，不判速度胜负；累计达到 100 条完整样本后才显示 P95。首期展示中位数与范围，统一字符吞吐按 Unicode 字符计算，厂商计费 token 单独展示。超过 7 天未复测标记陈旧。"
+            : "No speed ranking is issued below ten completed samples per category. P95 requires 100 completed samples. Initial reports show median and range; Unicode character throughput is separate from provider billing tokens. Reports older than seven days are marked stale."}
+        </p>
+        <p>
+          {isZh
+            ? "输入与输出费用使用对应接入点、版本和核实日期的价格；用量或价格缺失显示未知。JSON 解析或页面渲染成功不等于任务效果通过。只有题目 ID、版本和未修改的 Prompt 才触发标准答案校验，不设置固定权重的综合推荐。"
+            : "Costs use verified endpoint-specific prices; missing price or usage stays unknown. Parsing JSON or rendering HTML is not a quality score. Grading requires the exact case ID, version and unchanged prompt. There is no weighted overall recommendation."}
+        </p>
+        <p>
+          <Link href={h("/reports")}>
+            {isZh
+              ? "查看标准报告和原始证据"
+              : "View standard reports and raw evidence"}
+          </Link>
+        </p>
+      </Section>
       <Section title={isZh ? "为什么并发同测" : "Why concurrent testing"}>
         <p>
           {isZh ? (
             <>
-              所有启用的模型用<strong className="text-ink">同一个 Prompt</strong>、在
-              <strong className="text-ink">同一时刻并发发起</strong>，而不是一个接一个跑。
-              这样每个模型面对的网络环境、时段、提示词完全一致，排除了先后顺序带来的系统性偏差。
+              所有启用的模型用
+              <strong className="text-ink">同一个 Prompt</strong>、在
+              <strong className="text-ink">同一时刻并发发起</strong>
+              ，而不是一个接一个跑。
+              这样每个模型面对的网络环境、时段、提示词完全一致，减少了先后顺序的影响，但无法消除供应商负载和网络差异。
             </>
           ) : (
             <>
-              All enabled models receive <strong className="text-ink">the same prompt</strong>{" "}
-              and are started <strong className="text-ink">at the same time</strong>,
-              instead of one after another. This keeps network conditions, time of day and
-              prompt content aligned.
+              All enabled models receive{" "}
+              <strong className="text-ink">the same prompt</strong> and are
+              started <strong className="text-ink">at the same time</strong>,
+              instead of one after another. This keeps network conditions, time
+              of day and prompt content aligned.
             </>
           )}
         </p>
       </Section>
 
-      <Section title={isZh ? "首 Token 时延 TTFT" : "Time to first token (TTFT)"}>
+      <Section
+        title={isZh ? "首 Token 时延 TTFT" : "Time to first token (TTFT)"}
+      >
         <p>
           {isZh ? (
             <>
-              从请求发出到收到<strong className="text-ink">第一个 token</strong>（思考或正文均算）的毫秒数。
-              计时基准取<strong className="text-ink">服务端</strong>在收到每个增量（delta）时盖的时间戳，
+              从请求发出到收到<strong className="text-ink">第一个 token</strong>
+              （思考或正文均算）的毫秒数。 计时基准取
+              <strong className="text-ink">服务端</strong>
+              在收到每个增量（delta）时盖的时间戳，
               而非浏览器本地时钟——这样浏览器渲染或解析卡顿不会污染测量结果。
             </>
           ) : (
             <>
               TTFT is the milliseconds from sending the request to receiving the
-              <strong className="text-ink"> first token</strong>, including thinking or
-              final content. Timing uses <strong className="text-ink">server</strong>
+              <strong className="text-ink"> first token</strong>, including
+              thinking or final content. Timing uses{" "}
+              <strong className="text-ink">server</strong>
               timestamps for each delta, not browser-local rendering time.
             </>
           )}
         </p>
       </Section>
 
-      <Section title={isZh ? "思考 / 输出速度（tokens per second）" : "Thinking and output speed"}>
+      <Section
+        title={
+          isZh
+            ? "思考 / 输出速度（tokens per second）"
+            : "Thinking and output speed"
+        }
+      >
         <p>
           {isZh
             ? "对会思考的模型，思考阶段与正文阶段分别独立计时：各取该阶段首末增量的活跃窗口，思考时长不含「思考结束→正文开始」的空隙，输出时长不含最后一个 token 之后等待 usage 收尾的时间。"

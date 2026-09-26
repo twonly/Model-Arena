@@ -21,7 +21,8 @@ export type PriceRegion = "global" | "cn";
 export type Currency = "USD" | "CNY";
 
 export interface ModelPrice {
-  /** 匹配运行时 model id（小写「包含」匹配，可多个别名） */
+  rateType?: "upper-bound";
+  /** 精确匹配运行时 model id；别名必须显式维护，不能用子串猜版本。 */
   matchIds: string[];
   provider: string;
   /** 展示名（专有名词，中英通用） */
@@ -55,13 +56,14 @@ export const MODEL_PRICES: ModelPrice[] = rawPrices as ModelPrice[];
  * 返回与输入同序的布尔数组，true = 没有任何点同时更便宜且更快。
  */
 export function paretoFrontier(
-  points: { costUsd: number; speed: number }[]
+  points: { costUsd: number; speed: number }[],
 ): boolean[] {
   const order = points
     .map((_, i) => i)
     .sort(
       (a, b) =>
-        points[a].costUsd - points[b].costUsd || points[b].speed - points[a].speed
+        points[a].costUsd - points[b].costUsd ||
+        points[b].speed - points[a].speed,
     );
   const mask = points.map(() => false);
   let maxSpeed = -Infinity;
@@ -77,17 +79,66 @@ export function paretoFrontier(
 /** 按 model id + 区域找定价；region 优先，找不到再退到另一区域 */
 export function findPrice(
   modelId: string,
-  region: PriceRegion = "global"
+  region: PriceRegion = "global",
 ): ModelPrice | undefined {
   const id = modelId.toLowerCase();
   const hits = MODEL_PRICES.filter((p) =>
     p.matchIds.some((m) => {
       const ml = m.toLowerCase(); // matchId 大小写不敏感（手填 ID 常带大写）
-      return id === ml || id.includes(ml);
-    })
+      return id === ml;
+    }),
   );
   if (!hits.length) return undefined;
   return hits.find((p) => p.region === region) ?? hits[0];
+}
+
+/** 厂商价只适用于对应官方接入点。聚合路由、自建接口和未知接入点不套用原厂价。 */
+export function findEndpointPrice(
+  modelId: string,
+  endpoint?: string,
+): ModelPrice | undefined {
+  if (!endpoint) return undefined;
+  let url: URL;
+  try {
+    url = new URL(endpoint.includes("://") ? endpoint : `https://${endpoint}`);
+  } catch {
+    return undefined;
+  }
+  // Coding subscriptions are not pay-as-you-go API prices.
+  if (url.pathname.includes("/coding/")) return undefined;
+  // Host-only community telemetry cannot distinguish Zhipu subscriptions from pay-as-you-go.
+  if (
+    ["open.bigmodel.cn", "api.z.ai"].includes(url.hostname) &&
+    url.pathname === "/"
+  )
+    return undefined;
+  const sources: Record<string, [string, PriceRegion]> = {
+    "api.orcarouter.ai": ["OrcaRouter", "global"],
+    "api.deepseek.com": ["DeepSeek", "global"],
+    "api.openai.com": ["OpenAI", "global"],
+    "api.anthropic.com": ["Anthropic", "global"],
+    "generativelanguage.googleapis.com": ["Google", "global"],
+    "api.kimi.com": ["Moonshot Kimi", "cn"],
+    "api.moonshot.cn": ["Moonshot Kimi", "cn"],
+    "api.moonshot.ai": ["Moonshot Kimi", "global"],
+    "open.bigmodel.cn": ["智谱 Zhipu", "cn"],
+    "api.z.ai": ["智谱 Zhipu", "global"],
+    "api.minimaxi.com": ["MiniMax", "cn"],
+    "api.minimax.io": ["MiniMax", "global"],
+    "api.xiaomimimo.com": ["小米 MiMo", "cn"],
+    "api.stepfun.com": ["阶跃 StepFun", "cn"],
+    "api.x.ai": ["xAI", "global"],
+    "dashscope-intl.aliyuncs.com": ["通义千问 Qwen", "global"],
+  };
+  const source = sources[url.hostname];
+  if (!source) return undefined;
+  const price = findPrice(modelId, source[1]);
+  return price &&
+    price.provider === source[0] &&
+    price.region === source[1] &&
+    !price.needsConfirm
+    ? price
+    : undefined;
 }
 
 export interface CostBreakdown {
@@ -107,9 +158,21 @@ export function estimateRunCost(
   price: ModelPrice,
   promptTokens: number,
   outputTokens: number,
-  cachedTokens = 0
+  cachedTokens = 0,
 ): CostBreakdown {
-  const miss = Math.max(promptTokens - cachedTokens, 0);
+  if (
+    ![
+      promptTokens,
+      outputTokens,
+      cachedTokens,
+      price.inputMiss,
+      price.output,
+      price.inputHit ?? 0,
+    ].every((n) => Number.isFinite(n) && n >= 0)
+  )
+    throw new Error("Invalid token count or price");
+  cachedTokens = Math.min(cachedTokens, promptTokens);
+  const miss = promptTokens - cachedTokens;
   const hitRate = price.inputHit ?? price.inputMiss;
   const inputNative = (miss * price.inputMiss + cachedTokens * hitRate) / 1e6;
   const outputNative = (outputTokens * price.output) / 1e6;

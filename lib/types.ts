@@ -91,6 +91,7 @@ export const emptyRun = (): RunState => ({
 
 /** 历史记录条目 */
 export interface HistoryResult {
+  provider?: string;
   name: string;
   model: string;
   status: RunStatus;
@@ -106,6 +107,9 @@ export interface HistoryResult {
 }
 
 export interface HistoryEntry {
+  task?: import("./benchmark-suite").TaskIdentity;
+  params?: RunParams;
+  reportId?: string;
   id: string;
   at: number;
   title: string;

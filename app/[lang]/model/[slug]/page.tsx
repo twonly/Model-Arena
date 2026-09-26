@@ -1,754 +1,293 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { Credit } from "@/components/Credit";
-import { Logo } from "@/components/Logo";
-import { JsonLd } from "@/components/JsonLd";
-import { SocialSharePanel } from "@/components/SocialSharePanel";
-import { htmlBadge, markdownBadge } from "@/lib/badge";
-import { BRAND, OG_IMAGE } from "@/lib/brand";
-import { fetchModelStats, modelSlug } from "@/lib/stats";
-import { findPrice } from "@/lib/pricing";
-import { DATASET_LICENSE_URL } from "@/lib/structured-data";
+import { InfoPage, infoMetadata } from "@/components/InfoPage";
+import { RerunButton } from "@/components/RerunButton";
+import { SHARED_MODELS, sharedModelIsAvailable } from "@/lib/shared-models";
+import { loadModelStatsForSlug, prelaunchBySlug } from "@/lib/seo-models";
+import { publishedReports } from "@/lib/benchmark-server";
+import { isStale } from "@/lib/benchmark-report";
 import {
-  fmtMetric as fmt,
-  loadModelStatsForSlug as load,
-  topModelAlternatives as topOthers,
-  PRELAUNCH_MODELS,
-  prelaunchBySlug,
-  type PrelaunchModel,
-} from "@/lib/seo-models";
-import {
-  DEFAULT_LOCALE,
-  localeToLanguage,
-  localeToOg,
-  localizedPath,
-  normalizeLocale,
-  type Locale,
-} from "@/lib/i18n";
-import { getMessages } from "@/lib/i18n-messages";
-
-// 排行榜每 5 分钟更新，模型页同步
-export const revalidate = 300;
-
-/** 上榜模型构建期预渲染（SEO 主力页）；新模型走按需 ISR，拉取失败则全部按需 */
-export async function generateStaticParams() {
-  try {
-    const stats = await fetchModelStats();
-    if (!stats?.length) return [];
-    const seen = new Set<string>();
-    const slugs = stats
-      .map((s) => modelSlug(s.model))
-      .filter((slug) => slug && !seen.has(slug) && (seen.add(slug), true));
-    // 精选待实测模型也预渲染（发布日就有可索引页，攒够样本后自动切真实数据）
-    for (const p of PRELAUNCH_MODELS) if (!seen.has(p.slug)) (seen.add(p.slug), slugs.push(p.slug));
-    return slugs.map((slug) => ({ slug }));
-  } catch {
-    // 拉取失败也要保证精选待实测页可被预渲染
-    return PRELAUNCH_MODELS.map((p) => ({ slug: p.slug }));
-  }
+  BENCHMARK_CASES,
+  BENCHMARK_PARAMS,
+  TASK_LABELS,
+} from "@/lib/benchmark-suite";
+import { findEndpointPrice } from "@/lib/pricing";
+import { normalizeLocale, DEFAULT_LOCALE, localizedPath } from "@/lib/i18n";
+export const dynamic = "force-dynamic";
+async function data(slug: string) {
+  const shared = SHARED_MODELS.find((m) => m.id === slug || m.model === slug),
+    pre = prelaunchBySlug(slug);
+  const stats = (await loadModelStatsForSlug(slug)) ?? [];
+  const reports = (await publishedReports(30, [slug]).catch(() => [])).filter(
+    (r) =>
+      r.models.some(
+        (m) =>
+          m.slug === slug ||
+          m.model === shared?.model ||
+          stats.some((s) => (s.rawModel ?? s.model) === m.model),
+      ),
+  );
+  return { shared, pre, stats, reports };
 }
-
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string; lang?: string }>;
+  params: Promise<{ slug: string; lang: string }>;
 }) {
-  const { slug, lang } = await params;
-  const locale = normalizeLocale(lang) ?? DEFAULT_LOCALE;
-  const messages = getMessages(locale);
-  const hit = await load(slug).catch(() => null);
-  if (!hit) {
-    const pre = prelaunchBySlug(slug);
-    if (pre) {
-      const isZh = locale === "zh-CN";
-      const title = isZh
-        ? pre.metadataTitleZh ?? `${pre.name} 速度实测：数据采集中`
-        : pre.metadataTitleEn ?? `${pre.name} speed test: data collecting`;
-      const description = isZh
-        ? pre.metadataDescriptionZh ?? pre.blurbZh
-        : pre.metadataDescriptionEn ?? pre.blurbEn;
-      const canonical = localizedPath(`/model/${slug}`, locale);
-      return {
-        title,
-        description,
-        alternates: {
-          canonical,
-          languages: {
-            "zh-CN": localizedPath(`/model/${slug}`, "zh-CN"),
-            en: localizedPath(`/model/${slug}`, "en"),
-            "x-default": localizedPath(`/model/${slug}`, "zh-CN"),
-          },
-        },
-        openGraph: {
-          type: "article",
-          title,
-          description,
-          url: canonical,
-          locale: localeToOg(locale),
-          images: [OG_IMAGE],
-        },
-        twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE.url] },
-      };
-    }
-    return {
-      title: messages.metadata.model.fallbackTitle,
-      alternates: { canonical: localizedPath(`/model/${slug}`, locale) },
-    };
-  }
-  const top = hit[0];
-  const tps = Math.round(top.medianContentTps);
-  const ttft = top.avgTtftMs > 0 ? (top.avgTtftMs / 1000).toFixed(2) : null;
-  const total = hit.reduce((a, s) => a + s.samples, 0);
-  const title =
-    locale === "en"
-      ? `${top.model} speed results: output ${tps} tok/s${
-          ttft ? ` · TTFT ${ttft}s` : ""
-        }`
-      : `${top.model} 速度实测：输出 ${tps} tok/s${ttft ? ` · 首Token ${ttft}s` : ""}`;
-  const description =
-    locale === "en"
-      ? `${top.model} real-world speed on TOKRACE: median output ${fmt(
-          top.medianContentTps
-        )} tok/s, peak ${fmt(top.maxPeakTps)} tok/s${
-          ttft ? `, TTFT ${ttft}s` : ""
-        }, based on ${total} anonymous user runs.`
-      : `${top.model} 大模型实测速度：中位输出 ${fmt(
-          top.medianContentTps
-        )} tok/s、峰值 ${fmt(top.maxPeakTps)} tok/s${
-          ttft ? `、首 Token ${ttft}s` : ""
-        }，基于全网用户 ${total} 次真实测试匿名汇总。`;
-  const canonical = localizedPath(`/model/${slug}`, locale);
+  const { slug, lang } = await params,
+    l = normalizeLocale(lang) ?? DEFAULT_LOCALE,
+    en = l === "en",
+    { shared, pre, stats, reports } = await data(slug),
+    name =
+      shared?.name ??
+      pre?.name ??
+      reports[0]?.models.find((m) => m.slug === slug)?.name ??
+      stats[0]?.model ??
+      slug;
   return {
-    title,
-    description,
-    alternates: {
-      canonical,
-      languages: {
-        "zh-CN": localizedPath(`/model/${slug}`, "zh-CN"),
-        en: localizedPath(`/model/${slug}`, "en"),
-        "x-default": localizedPath(`/model/${slug}`, "zh-CN"),
-      },
-    },
-    openGraph: {
-      type: "article",
-      title,
-      description,
-      url: canonical,
-      locale: localeToOg(locale),
-      images: [OG_IMAGE],
-    },
-    twitter: { card: "summary_large_image", title, description, images: [OG_IMAGE.url] },
+    ...infoMetadata(
+      l,
+      `/model/${slug}`,
+      `${name} · TOKRACE`,
+      en
+        ? "Model identity, availability, published test evidence and exact endpoint reruns."
+        : "模型身份、可用状态、已发布实测与准确接入点复测。",
+    ),
+    robots: { index: reports.length > 0 || !!pre?.sourceUrl, follow: true },
   };
 }
-
 export default async function ModelPage({
   params,
 }: {
-  params: Promise<{ slug: string; lang?: string }>;
+  params: Promise<{ slug: string; lang: string }>;
 }) {
-  const { slug, lang } = await params;
-  const locale = normalizeLocale(lang) ?? DEFAULT_LOCALE;
-  const messages = getMessages(locale);
-  const isZh = locale === "zh-CN";
-  const h = (path: string) => localizedPath(path, locale);
-  const hit = await load(slug);
-  if (!hit) {
-    const pre = prelaunchBySlug(slug);
-    if (pre) return <PrelaunchModelPage pre={pre} locale={locale} />;
-    notFound();
-  }
-
-  const top = hit[0];
-  const totalSamples = hit.reduce((a, s) => a + s.samples, 0);
-  const url = `${BRAND.url}${h(`/model/${slug}`)}`;
-  const badgeUrl = `${BRAND.url}/api/badge/model/${slug}?locale=${locale}`;
-  const badgeAlt = isZh
-    ? `${top.model} 在 TOKRACE 上的速度结果`
-    : `${top.model} speed result on TOKRACE`;
-  const badgeMarkdown = markdownBadge({
-    alt: badgeAlt,
-    badgeUrl,
-    targetUrl: url,
-  });
-  const badgeHtml = htmlBadge({
-    alt: badgeAlt,
-    badgeUrl,
-    targetUrl: url,
-  });
-  const others = await topOthers(slug);
-  const faq = [
-    {
-      q: isZh ? `${top.model} 的输出速度是多少？` : `How fast is ${top.model}?`,
-      a: isZh
-        ? `${top.model} 当前中位输出速度约 ${fmt(top.medianContentTps)} tok/s，首 Token 时延约 ${
-            top.avgTtftMs > 0 ? (top.avgTtftMs / 1000).toFixed(2) : "—"
-          }s，基于 ${fmt(totalSamples)} 次匿名实测。`
-        : `${top.model} currently shows about ${fmt(
-            top.medianContentTps
-          )} tok/s median output speed and ${
-            top.avgTtftMs > 0 ? (top.avgTtftMs / 1000).toFixed(2) : "—"
-          }s TTFT, based on ${fmt(totalSamples)} anonymous runs.`,
-    },
-    {
-      q: isZh ? "这些速度数据可以直接当榜单结论吗？" : "Should I treat this as a final benchmark?",
-      a: isZh
-        ? "不建议只看单一数字。不同 Prompt、网络、时段和厂商负载都会影响结果，中位数更适合看长期体感，复测更适合做选型。"
-        : "Use it as directional evidence, not a single final benchmark. Prompt shape, network, time of day and provider load can all change the result.",
-    },
-    {
-      q: isZh ? "可以把这个结果嵌入到文章或 README 吗？" : "Can I embed this result in an article or README?",
-      a: isZh
-        ? `可以。页面提供 Markdown 和 HTML Badge，图片地址为 ${badgeUrl}。`
-        : `Yes. This page provides Markdown and HTML badges. The badge image URL is ${badgeUrl}.`,
-    },
-  ];
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "Dataset",
-        "@id": `${url}#dataset`,
-        name: isZh ? `${top.model} 实测速度数据` : `${top.model} speed dataset`,
-        description: isZh
-          ? `${top.model} 在「${BRAND.zh}」上的真实速度实测：首 Token 时延、输出 tokens/s、峰值速度，全网用户匿名汇总。`
-          : `${top.model} real-world speed results on TOKRACE: TTFT, output tokens/s and peak speed aggregated anonymously.`,
-        url,
-        isAccessibleForFree: true,
-        license: DATASET_LICENSE_URL,
-        creator: {
-          "@type": "Organization",
-          name: BRAND.publisher,
-          url: BRAND.url,
-        },
-        variableMeasured: isZh
-          ? [
-              "首Token时延 (TTFT, ms)",
-              "中位输出速度 (tokens/s)",
-              "峰值输出速度 (tokens/s)",
-              "输出 token 数",
-            ]
-          : [
-              "Time to first token (TTFT, ms)",
-              "Median output speed (tokens/s)",
-              "Peak output speed (tokens/s)",
-              "Output token count",
-            ],
-        measurementTechnique:
-          isZh
-            ? "浏览器端流式逐 token 计时，服务端时间戳校准；token 口径以厂商官方 usage 为准"
-            : "Browser-side streaming token timing calibrated with server timestamps; token accounting prefers official provider usage.",
-      },
-      {
-        "@type": "TechArticle",
-        headline: isZh ? `${top.model} 速度实测` : `${top.model} speed results`,
-        url,
-        inLanguage: localeToLanguage(locale),
-        isAccessibleForFree: true,
-        author: { "@type": "Organization", name: BRAND.publisher },
-        publisher: {
-          "@type": "Organization",
-          name: BRAND.publisher,
-          url: BRAND.url,
-        },
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: faq.map((item) => ({
-          "@type": "Question",
-          name: item.q,
-          acceptedAnswer: { "@type": "Answer", text: item.a },
-        })),
-      },
-    ],
-  };
-  const breadcrumbJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    itemListElement: [
-      { "@type": "ListItem", position: 1, name: BRAND.en, item: BRAND.url },
-      { "@type": "ListItem", position: 2, name: messages.common.stats, item: `${BRAND.url}${h("/stats")}` },
-      { "@type": "ListItem", position: 3, name: top.model, item: url },
-    ],
-  };
-
+  const { slug, lang } = await params,
+    locale = normalizeLocale(lang) ?? DEFAULT_LOCALE,
+    en = locale === "en",
+    h = (p: string) => localizedPath(p, locale);
+  const { shared, pre, stats, reports } = await data(slug);
+  if (!shared && !pre && !stats.length && !reports.length) notFound();
+  const reportModel = reports
+    .flatMap((r) => r.models)
+    .find((m) => m.slug === slug);
+  const name = shared?.name ?? pre?.name ?? reportModel?.name ?? stats[0].model;
+  const until =
+      shared?.availableUntil ??
+      pre?.availableUntil ??
+      reportModel?.availableUntil,
+    expired = !!until && Date.parse(until) <= Date.now();
+  const available = !!shared && sharedModelIsAvailable(shared);
+  const rerunEndpoint = shared
+    ? {
+        model: shared.model,
+        provider: shared.baseUrl,
+        name,
+        kind: shared.kind,
+        extraBody: shared.extraBody ?? "",
+      }
+    : reportModel;
+  const price = shared
+      ? findEndpointPrice(shared.model, shared.baseUrl)
+      : undefined,
+    c = reports[0]?.cases[0] ?? BENCHMARK_CASES[0];
   return (
-    <main className="mx-auto max-w-3xl px-5 py-8">
-      <JsonLd data={jsonLd} />
-      <JsonLd data={breadcrumbJsonLd} />
-
-      <nav className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Logo />
-          <Link href={h("/stats")} className="text-[13px] text-faint hover:text-ink">
-            ← {isZh ? "速度排行榜" : "Speed leaderboard"}
-          </Link>
-        </div>
-        <Link
-          href={h("/arena")}
-          className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"
-        >
-          {isZh ? "测一下" : "Test"} {top.model} ▶
-        </Link>
-      </nav>
-
-      <header className="mb-6">
-        <h1
-          className="text-[28px] font-black leading-tight"
-          style={{ fontFamily: "var(--font-title)" }}
-        >
-          {top.model} {isZh ? "速度实测" : "speed results"}
-        </h1>
-        <p className="mt-2 text-[13.5px] text-faint">
-          {isZh ? `${top.model} 在「${BRAND.zh}」上的真实输出速度与首 Token 时延，基于全网用户 ` : `${top.model} real-world output speed and TTFT on TOKRACE, based on `}
-          <span className="num text-ink">{fmt(totalSamples)}</span>
-          {isZh ? " 次匿名实测汇总。" : " anonymous runs."}
-        </p>
-      </header>
-
-      {/* 概要数字（首个接入点） */}
-      <div className="grid grid-cols-3 gap-3">
-        <Stat
-          label={isZh ? "中位输出" : "Median output"}
-          value={fmt(top.medianContentTps)}
-          unit="tok/s"
-          accent
-        />
-        <Stat
-          label={isZh ? "首 Token" : "TTFT"}
-          value={top.avgTtftMs > 0 ? (top.avgTtftMs / 1000).toFixed(2) : "—"}
-          unit="s"
-        />
-        <Stat label={isZh ? "峰值" : "Peak"} value={fmt(top.maxPeakTps)} unit="tok/s" />
-      </div>
-
-      <SocialSharePanel
-        className="mt-4"
-        url={url}
-        title={isZh ? `${top.model} 速度实测` : `${top.model} speed results`}
-        text={
-          isZh
-            ? `${top.model} 中位输出 ${fmt(top.medianContentTps)} tok/s · TOKRACE`
-            : `${top.model} median output ${fmt(top.medianContentTps)} tok/s · TOKRACE`
-        }
-        badgeMarkdown={badgeMarkdown}
-        badgeHtml={badgeHtml}
-      />
-
-      {/* 各接入点明细 */}
-      {hit.length > 1 && (
-        <p className="mt-5 text-[12px] text-faint">
-          {isZh
-            ? `该模型有 ${hit.length} 个接入点（厂商域名），分开统计：`
-            : `This model has ${hit.length} provider endpoint(s), reported separately:`}
-        </p>
-      )}
-      <div className="mt-3 overflow-hidden rounded-lg border border-line bg-card">
-        <div className="grid grid-cols-[1fr_auto_auto_auto] gap-3 border-b border-line bg-paper/50 px-4 py-2.5 text-[11px] font-semibold text-faint">
-          <span>{isZh ? "接入点" : "Endpoint"}</span>
-          <span className="w-24 text-right">{isZh ? "中位 tok/s" : "Median tok/s"}</span>
-          <span className="w-16 text-right">{isZh ? "首响" : "TTFT"}</span>
-          <span className="w-16 text-right">{isZh ? "峰值" : "Peak"}</span>
-        </div>
-        {hit.map((s) => (
-          <div
-            key={`${s.model}-${s.provider}`}
-            className="grid grid-cols-[1fr_auto_auto_auto] items-center gap-3 border-b border-line px-4 py-3 last:border-0"
-          >
-            <div className="num min-w-0 truncate text-[12.5px]">{s.provider}</div>
-            <div className="num w-24 text-right text-[15px] font-bold">
-              {fmt(s.medianContentTps)}
-            </div>
-            <div className="num w-16 text-right text-[13px]">
-              {s.avgTtftMs > 0 ? `${(s.avgTtftMs / 1000).toFixed(2)}s` : "—"}
-            </div>
-            <div
-              className="num w-16 text-right text-[13px] font-semibold"
-              style={{ color: "var(--accent)" }}
-            >
-              {fmt(s.maxPeakTps)}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <section className="mt-6 rounded-lg border border-line bg-card px-4 py-4">
-        <h2 className="text-[15px] font-bold">
-          {isZh ? "如何解读这组数据" : "How to read these metrics"}
-        </h2>
-        <div className="mt-3 grid gap-3 text-[12.5px] leading-relaxed text-faint sm:grid-cols-3">
-          <p>
-            <span className="font-semibold text-ink">
-              {isZh ? "输出 tok/s：" : "Output tok/s: "}
-            </span>
-            {isZh
-              ? "更接近长文本生成时的体感速度。"
-              : "The clearest signal for long-form generation speed."}
-          </p>
-          <p>
-            <span className="font-semibold text-ink">
-              {isZh ? "TTFT：" : "TTFT: "}
-            </span>
-            {isZh
-              ? "影响聊天、工具调用等短请求的第一响应速度。"
-              : "Matters most for chatty or tool-heavy short requests."}
-          </p>
-          <p>
-            <span className="font-semibold text-ink">
-              {isZh ? "样本数：" : "Samples: "}
-            </span>
-            {isZh
-              ? "样本越多，越能抵消偶发网络和厂商抖动。"
-              : "More samples reduce one-off network and provider jitter."}
-          </p>
-        </div>
-      </section>
-
-      <div className="mt-4 space-y-1 text-[11px] text-faint/80">
+    <InfoPage
+      locale={locale}
+      pathname={`/model/${slug}`}
+      title={name}
+      intro={
+        en
+          ? "Identity and evidence for this model. Performance depends on the endpoint, task and measurement conditions."
+          : "查看这个模型的身份与证据。效果和速度取决于实际接入点、任务与测量条件。"
+      }
+      updatedAt={
+        reports[0]?.publishedAt.slice(0, 10) ?? pre?.verifiedOn ?? "2026-09-26"
+      }
+    >
+      <section>
+        <h2>{en ? "Availability & identity" : "可用状态与模型身份"}</h2>
         <p>
-          {isZh
-            ? "· 数据来自用户自愿匿名共享，仅含速度指标 · 中位数降低偶发抖动 · 每 5 分钟更新"
-            : "· Data comes from voluntary anonymous sharing and contains speed metrics only · Medians reduce one-off jitter · Updates every 5 minutes"}
+          {expired
+            ? en
+              ? "This preview expired on TOKRACE. Historical evidence remains available."
+              : "该预览已超过本站有效期，历史证据仍保留。"
+            : available
+              ? en
+                ? "Configured on TOKRACE; runtime availability is checked when called."
+                : "本站已配置接入，实际可用性以调用结果为准。"
+              : en
+                ? "Not in the current trial pool; connect your own endpoint to test."
+                : "当前体验池未接入，可配置自己的接口测试。"}
         </p>
-        <p>
-          {isZh
-            ? "· 速度受网络、时段、厂商负载影响，仅供参考 · "
-            : "· Speed is affected by network, time of day and provider load · "}
-          <Link href={h("/method")} className="underline hover:text-ink">
-            {isZh ? "测速方法论" : "Methodology"}
-          </Link>
-        </p>
-      </div>
-
-      {others.length > 0 && (
-        <div className="mt-6">
-          <div className="mb-2 text-[12px] font-semibold text-faint">
-            {isZh ? "热门对比" : "Popular comparisons"}
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {others.map((o) => (
-              <Link
-                key={o.slug}
-                href={h(`/compare/${[slug, o.slug].sort().join("-vs-")}`)}
-                className="rounded-md border border-line bg-card px-3 py-1.5 text-[12.5px] text-faint hover:border-ink/30 hover:text-ink"
-              >
-                {top.model} vs {o.name}
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
-
-      <section className="mt-7">
-        <h2 className="mb-2 text-[14px] font-bold">FAQ</h2>
-        <div className="space-y-2">
-          {faq.map((item) => (
-            <details key={item.q} className="rounded-lg border border-line bg-card px-4 py-3">
-              <summary className="cursor-pointer text-[13px] font-semibold">
-                {item.q}
-              </summary>
-              <p className="mt-2 text-[12.5px] leading-relaxed text-faint">
-                {item.a}
-              </p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <div className="mt-7 flex flex-wrap gap-2">
-        <Link
-          href={h("/stats")}
-          className="rounded-md border border-line px-4 py-2 text-[13px] text-faint hover:text-ink"
-        >
-          {isZh ? "看完整排行榜" : "View full leaderboard"} →
-        </Link>
-        <Link
-          href={h("/arena")}
-          className="rounded-md bg-ink px-4 py-2 text-[13px] font-bold text-paper"
-        >
-          {isZh ? "自己跑一轮" : "Run your own test"} ▶
-        </Link>
-      </div>
-
-      <footer className="mt-8 flex justify-center">
-        <Credit compact />
-      </footer>
-    </main>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  unit,
-  accent,
-}: {
-  label: string;
-  value: string;
-  unit: string;
-  accent?: boolean;
-}) {
-  return (
-    <div className="rounded-lg border border-line bg-card px-4 py-3">
-      <div className="text-[11px] text-faint">{label}</div>
-      <div className="num mt-1 flex items-baseline gap-1">
-        <span
-          className="text-[24px] font-black"
-          style={accent ? { color: "var(--accent)" } : undefined}
-        >
-          {value}
-        </span>
-        <span className="text-[11px] text-faint">{unit}</span>
-      </div>
-    </div>
-  );
-}
-
-/**
- * 「已发布、待实测」占位页：新模型进试用池、还没攒够速度样本时渲染。
- * 有真实、可核实的内容（上下文窗口 + 官方定价 + 试跑 CTA），非薄内容；
- * 一旦累积样本，ModelPage 会命中 stats 分支自动切成真实数据版（同 URL）。
- */
-function PrelaunchModelPage({ pre, locale }: { pre: PrelaunchModel; locale: string }) {
-  const isZh = locale === "zh-CN";
-  const h = (path: string) => localizedPath(path, locale as Locale);
-  const url = `${BRAND.url}${h(`/model/${pre.slug}`)}`;
-  const price = findPrice(pre.slug, "cn");
-  const ctx = pre.contextTokens
-    ? pre.contextTokens.toLocaleString("en-US")
-    : null;
-  const isLimitedPreview = Boolean(pre.availableUntil);
-  const previewActive = pre.availableUntil
-    ? Date.now() < Date.parse(pre.availableUntil)
-    : true;
-  const previewDate = pre.availableUntil?.slice(0, 10);
-  const status = isZh
-    ? previewActive
-      ? pre.statusZh ?? "限时预览"
-      : "限时预览已结束"
-    : previewActive
-      ? pre.statusEn ?? "Limited preview"
-      : "Limited preview ended";
-
-  const faq = [
-    ...(pre.apiModelId
-      ? [
-          {
-            q: isZh ? `${pre.name} 的 API model ID 是什么？` : `What is the ${pre.name} API model ID?`,
-            a: isZh
-              ? `本站在 ${pre.verifiedOn ?? "最近一次检查"} 直连验证可调用的临时 ID 是 ${pre.apiModelId}。它没有出现在当日公开 /models 返回列表中，因此应按限时预览而非稳定生产型号使用。`
-              : `TOKRACE directly verified the temporary ID ${pre.apiModelId} on ${pre.verifiedOn ?? "its latest check"}. It was absent from the public /models response that day, so treat it as a limited preview rather than a stable production model.`,
-          },
-          {
-            q: isZh ? `${pre.name} 是正式发布版吗？` : `Is ${pre.name} generally available?`,
-            a: isZh
-              ? `不是。当前可验证的是一个名称带 expires-on-0910 的临时模型 ID；DeepSeek 尚未在公开模型目录、更新日志或价格页单独发布 V4.1 Flash。`
-              : `No. The currently verified model is a temporary ID containing expires-on-0910; DeepSeek has not separately announced V4.1 Flash in its public model catalog, changelog, or pricing page.`,
-          },
-        ]
-      : []),
-    {
-      q: isZh ? `${pre.name} 的速度数据什么时候有？` : `When will ${pre.name} speed data be available?`,
-      a: isZh
-        ? previewActive
-          ? `${pre.name} 已进入本站免费试跑池，速度指标来自用户真实运行的匿名汇总。样本达到阈值后，本页会自动显示中位输出 tok/s、首 Token 时延与峰值速度。你现在就可以来跑第一轮。`
-          : `${pre.name} 的限时试跑入口已经关闭；如果预览期内形成了有效样本，本页会继续保留中位输出 tok/s、首 Token 时延与峰值速度，作为可复查的历史记录。`
-        : previewActive
-          ? `${pre.name} is already in the free trial pool; speed metrics come from anonymized real user runs. Once enough samples accumulate, this page automatically shows median output tok/s, TTFT and peak speed. You can run the first test right now.`
-          : `The limited ${pre.name} trial has ended. If valid samples were collected during the preview, this page will keep the median output tok/s, TTFT and peak speed as a reviewable historical record.`,
-    },
-    ...(price
-      ? [
-          {
-            q: isZh ? `${pre.name} 的 API 价格是多少？` : `How much does the ${pre.name} API cost?`,
-            a: isZh
-              ? `官方定价（每 100 万 token）：输入命中缓存 ¥${price.inputHit}、未命中 ¥${price.inputMiss}、输出 ¥${price.output}。完整对比见价格页。`
-              : `Official pricing (per 1M tokens): cached input ¥${price.inputHit}, uncached ¥${price.inputMiss}, output ¥${price.output}. See the pricing page for full comparison.`,
-          },
-        ]
-      : []),
-  ];
-
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@graph": [
-      {
-        "@type": "WebPage",
-        "@id": `${url}#webpage`,
-        name: isZh ? `${pre.name} 速度实测` : `${pre.name} speed results`,
-        description: isZh ? pre.blurbZh : pre.blurbEn,
-        url,
-        inLanguage: localeToLanguage(locale as Locale),
-        isAccessibleForFree: true,
-        publisher: { "@type": "Organization", name: BRAND.publisher, url: BRAND.url },
-      },
-      {
-        "@type": "FAQPage",
-        mainEntity: faq.map((item) => ({
-          "@type": "Question",
-          name: item.q,
-          acceptedAnswer: { "@type": "Answer", text: item.a },
-        })),
-      },
-    ],
-  };
-
-  return (
-    <main className="mx-auto max-w-3xl px-5 py-8">
-      <JsonLd data={jsonLd} />
-
-      <nav className="mb-6 flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          <Logo />
-          <Link href={h("/stats")} className="text-[13px] text-faint hover:text-ink">
-            ← {isZh ? "速度排行榜" : "Speed leaderboard"}
-          </Link>
-        </div>
-        {previewActive && (
-          <Link
-            href={h("/arena")}
-            className="rounded-md bg-ink px-3.5 py-1.5 text-[13px] font-bold text-paper"
-          >
-            {isZh ? "测一下" : "Test"} {pre.name} ▶
-          </Link>
+        {until && (
+          <p>
+            {en ? "Preview cutoff" : "预览到期"}：{until}
+          </p>
         )}
-      </nav>
-
-      <header className="mb-6">
-        <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-line bg-card px-2.5 py-1 text-[11px] font-semibold text-faint">
-          <span style={{ color: "var(--accent)" }}>●</span>
-          {status}
-        </div>
-        <h1
-          className="text-[28px] font-black leading-tight"
-          style={{ fontFamily: "var(--font-title)" }}
-        >
-          {pre.name} {isZh ? "速度实测" : "speed results"}
-        </h1>
-        <p className="mt-2 text-[13.5px] text-faint">{isZh ? pre.blurbZh : pre.blurbEn}</p>
-      </header>
-
-      {(pre.noticeZh || pre.noticeEn) && (
-        <section className="mb-6 rounded-lg border border-amber-500/30 bg-amber-50/60 px-4 py-3 text-[12.5px] leading-relaxed text-amber-950 dark:bg-amber-950/15 dark:text-amber-100">
-          <strong>{isZh ? "状态说明：" : "Status note: "}</strong>
-          {isZh ? pre.noticeZh : pre.noticeEn}
+        <p>
+          {shared?.baseUrl ??
+            reportModel?.provider ??
+            stats[0]?.provider ??
+            pre?.provider}
+        </p>
+        <details>
+          <summary>
+            {en ? "Version and API identifier" : "版本与 API 标识"}
+          </summary>
+          <p>
+            {shared?.model ??
+              reportModel?.model ??
+              pre?.apiModelId ??
+              stats[0]?.rawModel ??
+              name}
+          </p>
+        </details>
+        {pre?.sourceUrl && (
+          <p>
+            <a href={pre.sourceUrl}>{en ? "Official source" : "官方来源"}</a> ·{" "}
+            {en ? pre.noticeEn : pre.noticeZh}
+          </p>
+        )}
+        {rerunEndpoint && !expired && (
+          <RerunButton
+            locale={locale}
+            seed={{
+              mode: "report",
+              title: `${name} · ${en ? c.titleEn : c.title}`,
+              prompt: c.prompt,
+              task: { caseId: c.id, version: c.version },
+              params: BENCHMARK_PARAMS,
+              endpointRefs: [
+                {
+                  model: rerunEndpoint.model,
+                  provider: rerunEndpoint.provider,
+                  name,
+                },
+              ],
+            }}
+          />
+        )}
+      </section>
+      <section>
+        <h2>{en ? "Endpoint pricing" : "接入点价格"}</h2>
+        {price ? (
+          <p>
+            {price.currency} / 1M tokens · {en ? "Input" : "输入"}{" "}
+            {price.inputMiss} · {en ? "Output" : "输出"} {price.output} ·{" "}
+            <a href={price.sourceUrl}>{en ? "Source" : "来源"}</a> ·{" "}
+            {en ? "Verified" : "核实于"} {price.verified}。
+            {en
+              ? "An estimate from the recorded price, not a live invoice."
+              : "按已记录价格估算，不是实时账单。"}
+          </p>
+        ) : (
+          <p>
+            {en
+              ? "Unknown or not billed per token. No zero-cost assumption is used."
+              : "价格未知或非按 token 计费，不按零成本参加排名。"}
+          </p>
+        )}
+        <Link href={h("/pricing")}>
+          {en ? "Full price table" : "完整价格表"}
+        </Link>
+      </section>
+      <section>
+        <h2>{en ? "Standard test evidence" : "标准实测证据"}</h2>
+        {!reports.length ? (
+          <p>
+            {en
+              ? "No published standard report yet. Task suitability has not been established."
+              : "暂无已发布标准报告，任务适用性尚未评估。"}
+          </p>
+        ) : (
+          reports.map((r) => (
+            <article key={r.id} className="mb-4 rounded border border-line p-4">
+              <Link href={h(`/reports/${r.id}`)}>
+                {r.testedAt.slice(0, 10)} · {r.suiteVersion} ·{" "}
+                {isStale(r.testedAt)
+                  ? en
+                    ? "Stale"
+                    : "数据陈旧"
+                  : en
+                    ? "Recent"
+                    : "近期"}
+              </Link>
+              {r.models
+                .filter(
+                  (m) =>
+                    m.slug === slug ||
+                    m.model === shared?.model ||
+                    stats.some((s) => (s.rawModel ?? s.model) === m.model),
+                )
+                .map((m) => (
+                  <div key={m.id}>
+                    <p>{m.provider}</p>
+                    {(r.summaries[m.id] ?? []).map((s) => (
+                      <p key={s.category}>
+                        {TASK_LABELS[s.category][locale]}：{s.passed}/
+                        {s.attempts} {en ? "passed" : "通过"}
+                      </p>
+                    ))}
+                  </div>
+                ))}
+            </article>
+          ))
+        )}
+      </section>
+      {stats.length > 0 && (
+        <section>
+          <h2>
+            {en ? "Historical community submissions" : "历史社区自报数据"}
+          </h2>
+          <p>
+            {en
+              ? "These unverified submissions mix tasks, regions and settings; they cannot establish a fair model ranking. They are not standard-test evidence."
+              : "未经本站验证的社区提交可能混合任务、地区与参数，不能据此判断模型优劣，也不作为标准报告证据。"}
+          </p>
+          <div className="overflow-x-auto">
+            <table className="min-w-[550px] text-left">
+              <thead>
+                <tr>
+                  {(en
+                    ? [
+                        "Endpoint",
+                        "Completed / attempts",
+                        "Median tok/s",
+                        "Last submitted",
+                      ]
+                    : ["接入点", "完整完成 / 尝试", "中位 tok/s", "最近提交"]
+                  ).map((t) => (
+                    <th className="p-2" key={t}>
+                      {t}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {stats.map((s) => (
+                  <tr key={`${s.rawModel ?? s.model}:${s.provider}`}>
+                    <td className="p-2">{s.provider}</td>
+                    <td className="p-2">
+                      {s.samples}/{s.attempts ?? s.samples}
+                    </td>
+                    <td className="p-2">{s.medianContentTps.toFixed(1)}</td>
+                    <td className="p-2">
+                      {s.lastAt.slice(0, 10)}{" "}
+                      {isStale(s.lastAt) && (en ? "· stale" : "· 陈旧")}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </section>
       )}
-
-      <div className="grid grid-cols-3 gap-3">
-        <Stat label={isZh ? "中位输出" : "Median output"} value="—" unit="tok/s" accent />
-        <Stat label={isZh ? "首 Token" : "TTFT"} value="—" unit="s" />
-        <Stat label={isZh ? "峰值" : "Peak"} value="—" unit="tok/s" />
-      </div>
-      <p className="mt-2 text-[11px] text-faint/80">
-        {isZh
-          ? "· 速度指标待用户实测样本达到阈值后自动显示 · 每 5 分钟更新"
-          : "· Speed metrics appear automatically once user samples reach the threshold · Updates every 5 minutes"}
-      </p>
-
-      <section className="mt-6 rounded-lg border border-line bg-card px-4 py-4">
-        <h2 className="text-[15px] font-bold">{isZh ? "模型规格" : "Model specs"}</h2>
-        <div className="mt-3 grid gap-3 text-[13px] sm:grid-cols-2">
-          <SpecRow label={isZh ? "厂商" : "Provider"} value={pre.provider} />
-          {pre.apiModelId && (
-            <SpecRow label="API model ID" value={pre.apiModelId} />
-          )}
-          {pre.verifiedOn && (
-            <SpecRow
-              label={isZh ? "本站直连验证" : "Direct verification"}
-              value={pre.verifiedOn}
-            />
-          )}
-          {previewDate && (
-            <SpecRow
-              label={isZh ? "ID 标注到期" : "ID-labeled expiry"}
-              value={previewDate}
-            />
-          )}
-          {ctx && (
-            <SpecRow label={isZh ? "上下文窗口" : "Context window"} value={`${ctx} tokens`} />
-          )}
-          {price && (
-            <>
-              <SpecRow
-                label={isZh ? "输入价（命中/未命中）" : "Input (hit / miss)"}
-                value={`¥${price.inputHit} / ¥${price.inputMiss}`}
-              />
-              <SpecRow label={isZh ? "输出价" : "Output price"} value={`¥${price.output}`} />
-            </>
-          )}
-        </div>
-        {price && (
-          <p className="mt-3 text-[11px] text-faint">
-            {isZh ? "单位：每 100 万 token（人民币）· " : "Per 1M tokens (CNY) · "}
-            <Link href={h("/pricing")} className="underline hover:text-ink">
-              {isZh ? "完整价格对比" : "Full pricing comparison"}
-            </Link>
-          </p>
-        )}
-        {pre.sourceUrl && (
-          <p className="mt-3 text-[11px] text-faint">
-            {isZh ? "参考：" : "Reference: "}
-            <a
-              href={pre.sourceUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline hover:text-ink"
-            >
-              {isZh ? pre.sourceNameZh : pre.sourceNameEn}
-            </a>
-          </p>
-        )}
-      </section>
-
-      <div className="mt-7 flex flex-wrap gap-2">
-        {previewActive ? (
-          <Link
-            href={h("/arena")}
-            className="rounded-md bg-ink px-4 py-2 text-[13px] font-bold text-paper"
-          >
-            {isZh ? `限时试跑 ${pre.name}` : `Try ${pre.name} while available`} ▶
-          </Link>
-        ) : (
-          <Link
-            href={h("/model/deepseek-v4-flash")}
-            className="rounded-md bg-ink px-4 py-2 text-[13px] font-bold text-paper"
-          >
-            {isZh ? "查看 DeepSeek V4 Flash 实测" : "View DeepSeek V4 Flash results"} →
-          </Link>
-        )}
-        <Link
-          href={h("/stats")}
-          className="rounded-md border border-line px-4 py-2 text-[13px] text-faint hover:text-ink"
-        >
-          {isZh ? "看完整排行榜" : "View full leaderboard"} →
+      <p>
+        <Link href={h("/models")}>{en ? "All models" : "全部模型"}</Link> ·{" "}
+        <Link href={h("/method")}>
+          {en ? "Method and limitations" : "方法与限制"}
         </Link>
-      </div>
-
-      <section className="mt-7">
-        <h2 className="mb-2 text-[14px] font-bold">FAQ</h2>
-        <div className="space-y-2">
-          {faq.map((item) => (
-            <details key={item.q} className="rounded-lg border border-line bg-card px-4 py-3">
-              <summary className="cursor-pointer text-[13px] font-semibold">{item.q}</summary>
-              <p className="mt-2 text-[12.5px] leading-relaxed text-faint">{item.a}</p>
-            </details>
-          ))}
-        </div>
-      </section>
-
-      <footer className="mt-8 flex justify-center">
-        <Credit compact />
-      </footer>
-    </main>
-  );
-}
-
-function SpecRow({ label, value }: { label: string; value: string }) {
-  return (
-    <div className="flex items-baseline justify-between gap-3 border-b border-line pb-2 last:border-0">
-      <span className="text-[12px] text-faint">{label}</span>
-      <span className="num text-[13px] font-semibold text-ink">{value}</span>
-    </div>
+      </p>
+    </InfoPage>
   );
 }

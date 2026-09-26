@@ -4,7 +4,7 @@
       "MiniMax-M2.7"
     ],
     "provider": "MiniMax",
-    "model": "MiniMax-M3",
+    "model": "MiniMax-M2.7",
     "region": "cn",
     "currency": "CNY",
     "inputMiss": 2.1,
@@ -257,37 +257,39 @@
   },
   {
     "matchIds": [
+      "deepseek-flash",
       "deepseek-v4-flash",
-      "deepseek-chat"
+      "deepseek-v4-flash-vision-exp"
     ],
     "provider": "DeepSeek",
-    "model": "DeepSeek V4 Flash",
+    "model": "DeepSeek V4.1 Flash",
     "region": "global",
     "currency": "USD",
-    "inputMiss": 0.14,
-    "inputHit": 0.0028,
-    "output": 0.28,
+    "inputMiss": 0.3,
+    "inputHit": 0.006,
+    "output": 1.2,
     "sourceName": "DeepSeek API Docs",
-    "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
-    "verified": "2026-06-19",
-    "note": "deepseek-chat=V4 Flash 非思考别名；全球统一价（约 ¥1/¥0.02/¥2）"
+    "sourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
+    "verified": "2026-09-26",
+    "note": "采用高峰价格上限估算；非高峰价格减半。官方说明旧 Flash ID 已转向 V4.1 Flash。汇率按 7.2 CNY/USD 估算。",
+    "rateType": "upper-bound"
   },
   {
     "matchIds": [
-      "deepseek-v4-pro",
-      "deepseek-reasoner"
+      "deepseek-v4-pro"
     ],
     "provider": "DeepSeek",
-    "model": "DeepSeek V4 Pro",
+    "model": "DeepSeek V4 Pro 0813",
     "region": "global",
     "currency": "USD",
-    "inputMiss": 0.435,
-    "inputHit": 0.003625,
-    "output": 0.87,
+    "inputMiss": 1.32,
+    "inputHit": 0.044,
+    "output": 3.96,
     "sourceName": "DeepSeek API Docs",
-    "sourceUrl": "https://api-docs.deepseek.com/zh-cn/quick_start/pricing",
-    "verified": "2026-06-19",
-    "note": "deepseek-reasoner=V4 Pro 思考别名；全球统一价（约 ¥3/¥0.025/¥6）"
+    "sourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
+    "verified": "2026-09-26",
+    "note": "采用高峰价格上限估算；非高峰价格减半。官方说明旧 Flash ID 已转向 V4.1 Flash。汇率按 7.2 CNY/USD 估算。",
+    "rateType": "upper-bound"
   },
   {
     "matchIds": [
@@ -536,5 +538,53 @@
     "sourceUrl": "https://www.aipricing.guru/xai-pricing/",
     "verified": "2026-06-19",
     "note": "grok-4/grok-3 等旧别名现路由至 Grok 4.3"
+  },
+  {
+    "matchIds": [
+      "tencent/hy3-free"
+    ],
+    "provider": "OrcaRouter",
+    "model": "Tencent HY3 Free · OrcaRouter",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0,
+    "inputHit": 0,
+    "output": 0,
+    "sourceName": "OrcaRouter official model catalog",
+    "sourceUrl": "https://api.orcarouter.ai/v1/models",
+    "verified": "2026-09-26",
+    "note": "官方目录给出该免费接入点每次请求价格为 0；可用性仍受账号权限与速率限制影响。"
+  },
+  {
+    "matchIds": [
+      "z-ai/glm-5.3-flash-free"
+    ],
+    "provider": "OrcaRouter",
+    "model": "GLM 5.3 Flash Free · OrcaRouter",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0,
+    "inputHit": 0,
+    "output": 0,
+    "sourceName": "OrcaRouter official model catalog",
+    "sourceUrl": "https://api.orcarouter.ai/v1/models",
+    "verified": "2026-09-26",
+    "note": "官方目录给出该免费接入点每次请求价格为 0；可用性仍受账号权限与速率限制影响。"
+  },
+  {
+    "matchIds": [
+      "deepseek/deepseek-v4-flash-free"
+    ],
+    "provider": "OrcaRouter",
+    "model": "DeepSeek V4 Flash Free · OrcaRouter",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0,
+    "inputHit": 0,
+    "output": 0,
+    "sourceName": "OrcaRouter official model catalog",
+    "sourceUrl": "https://api.orcarouter.ai/v1/models",
+    "verified": "2026-09-26",
+    "note": "官方目录给出该免费接入点每次请求价格为 0；可用性仍受账号权限与速率限制影响。"
   }
 ]

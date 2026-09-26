@@ -22,6 +22,9 @@ export interface VotingConfigLite {
 }
 
 export interface ShareSnapshot {
+  task?: import("./benchmark-suite").TaskIdentity;
+  params?: import("./types").RunParams;
+  reportId?: string;
   v: 1;
   title: string;
   notes: string;
@@ -58,17 +61,26 @@ function capText(text: string): string {
 }
 
 function capReasoning(text: string, finalText: string): string {
-  return capLongText(text, finalText.trim() ? MAX_REASONING : MAX_REASONING_ONLY);
+  return capLongText(
+    text,
+    finalText.trim() ? MAX_REASONING : MAX_REASONING_ONLY,
+  );
 }
 
 /** 速度曲线点过多时等距抽稀，控制 payload / localStorage 体积 */
-export function thinSamples(s: SpeedSample[], max = MAX_SAMPLES): SpeedSample[] {
+export function thinSamples(
+  s: SpeedSample[],
+  max = MAX_SAMPLES,
+): SpeedSample[] {
   if (s.length <= max) return s;
   const step = Math.ceil(s.length / max);
   return s.filter((_, i) => i % step === 0 || i === s.length - 1);
 }
 
 export function buildSnapshot(opts: {
+  task?: import("./benchmark-suite").TaskIdentity;
+  params?: import("./types").RunParams;
+  reportId?: string;
   title: string;
   notes: string;
   prompt: string;
@@ -79,6 +91,9 @@ export function buildSnapshot(opts: {
 }): ShareSnapshot {
   return {
     v: 1,
+    task: opts.task,
+    params: opts.params,
+    reportId: opts.reportId,
     title: opts.title.slice(0, 200),
     notes: opts.notes.slice(0, 1000),
     prompt: opts.prompt.slice(0, 8000),

@@ -4,14 +4,14 @@
   --paper: #f6f5f1;
   --card: #ffffff;
   --ink: #1d1c18;
-  --faint: #8d8a82;
+  --faint: #68665f;
   --line: #e6e4dd;
   --accent: #d9261c;
   --go: #0e7a4e;
   --think: #9a6700;
   --code-bg: #f1efe9;
   --scroll: #d8d5cc;
-  --placeholder: #c4c1b8;
+  --placeholder: #737067;
 }
 
 /* 暗色主题（工具条 🌙 切换，localStorage 记忆） */
@@ -26,7 +26,7 @@
   --think: #d9a73e;
   --code-bg: #262420;
   --scroll: #3c3a33;
-  --placeholder: #4f4d45;
+  --placeholder: #94908a;
 }
 
 @theme inline {
@@ -55,6 +55,11 @@ body {
     -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB",
     "Microsoft YaHei", "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;
+}
+
+/* Opacity on auxiliary text defeated the accessible theme color in older screens. */
+.text-faint\/50, .text-faint\/70, .text-faint\/80 {
+  color: var(--faint);
 }
 
 /* 大数字统一等宽 + 表格数字 */
@@ -250,4 +255,11 @@ body {
 }
 .thin-scroll::-webkit-scrollbar-track {
   background: transparent;
+}
+
+/* Visible keyboard focus and generous mobile controls. */
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+@media (max-width: 639px) {
+  button, .touch-target { min-height: 44px; }
+  .arena-primary-action { position: sticky; bottom: 12px; z-index: 20; box-shadow: 0 3px 16px #0002; }
 }

@@ -72,9 +72,15 @@ export function ShareView({
     modelIndex: number,
     modelId: string,
     sentiment: Sentiment,
-    comment?: string
+    comment?: string,
   ) => {
-    const a = await reactModel({ shareId, modelIndex, modelId, sentiment, comment });
+    const a = await reactModel({
+      shareId,
+      modelIndex,
+      modelId,
+      sentiment,
+      comment,
+    });
     setAgg(a);
   };
 
@@ -96,8 +102,7 @@ export function ShareView({
   snapshot.results.forEach((r, i) => {
     runs[`s-${i}`] = {
       ...emptyRun(),
-      status:
-        r.status === "error" || r.status === "truncated" ? r.status : "done",
+      status: r.status,
       text: r.text,
       reasoning: r.reasoning,
       metrics: r.metrics,
@@ -129,8 +134,8 @@ export function ShareView({
       model: r.model,
       status: r.status,
       metrics: r.metrics,
-      graded: grade(snapshot.prompt, r.text),
-    }))
+      graded: grade(snapshot.prompt, r.text, snapshot.task),
+    })),
   );
   const visible = endpoints.filter((e) => !hidden.includes(e.id));
   const focusEp = focusId ? endpoints.find((e) => e.id === focusId) : null;
@@ -147,7 +152,7 @@ export function ShareView({
       reasoningTokens: m?.reasoningTokens ?? 0,
       tps: m?.contentTps ?? 0,
       ttftMs: m?.ttftMs,
-      waitMs: m?.ttftMs == null ? run.elapsedMs ?? m?.totalMs : undefined,
+      waitMs: m?.ttftMs == null ? (run.elapsedMs ?? m?.totalMs) : undefined,
       firstContentMs: m?.firstContentMs,
       done: run.status === "done" || run.status === "truncated",
       running: false,
@@ -155,8 +160,7 @@ export function ShareView({
     };
   });
   // 至少两条且有人真的跑出 token，才值得展示赛道（避免全 0 的空轨）
-  const showRace =
-    visible.length >= 2 && raceRunners.some((r) => r.tokens > 0);
+  const showRace = visible.length >= 2 && raceRunners.some((r) => r.tokens > 0);
 
   const cols = compact
     ? visible.length <= 2
@@ -196,7 +200,9 @@ export function ShareView({
     targetUrl: shareUrl,
   });
 
-  const seedArena = (mode: Extract<ArenaSeed["mode"], "share-full" | "share-prompt">) => {
+  const seedArena = (
+    mode: Extract<ArenaSeed["mode"], "share-full" | "share-prompt">,
+  ) => {
     const seed: ArenaSeed = {
       mode,
       title: mode === "share-full" ? snapshot.title : "",
@@ -214,7 +220,7 @@ export function ShareView({
       setSeedError(
         isZh
           ? "当前浏览器无法复制评测设置，请手动复制 Prompt 后重试。"
-          : "This browser could not copy the test settings. Copy the prompt manually and try again."
+          : "This browser could not copy the test settings. Copy the prompt manually and try again.",
       );
     }
   };
@@ -256,7 +262,10 @@ export function ShareView({
           <a className={btn} href={href("/me")}>
             🗂 {isZh ? "我的" : "Mine"}
           </a>
-          <button className={primaryBtn} onClick={() => seedArena("share-prompt")}>
+          <button
+            className={primaryBtn}
+            onClick={() => seedArena("share-prompt")}
+          >
             {isZh ? "我也来测" : "Run my test"} ▶
           </button>
         </div>
@@ -310,7 +319,10 @@ export function ShareView({
               <button className={btn} onClick={() => seedArena("share-full")}>
                 {isZh ? "完整复跑" : "Full rerun"}
               </button>
-              <button className={primaryBtn} onClick={() => seedArena("share-prompt")}>
+              <button
+                className={primaryBtn}
+                onClick={() => seedArena("share-prompt")}
+              >
                 {isZh ? "只复用 Prompt" : "Prompt only"}
               </button>
               <button className={btn} onClick={() => setReviewDraftOpen(true)}>
@@ -342,7 +354,7 @@ export function ShareView({
                   setHidden((p) =>
                     p.includes(ep.id)
                       ? p.filter((x) => x !== ep.id)
-                      : [...p, ep.id]
+                      : [...p, ep.id],
                   )
                 }
                 className={`flex items-center gap-1.5 rounded-md border border-line px-1.5 py-1 text-[11.5px] cursor-pointer ${
@@ -353,7 +365,9 @@ export function ShareView({
                   className="inline-block h-1.5 w-1.5 rounded-full"
                   style={{ background: STATUS_COLOR[run.status] }}
                 />
-                <span className={isHidden ? "line-through" : ""}>{ep.name}</span>
+                <span className={isHidden ? "line-through" : ""}>
+                  {ep.name}
+                </span>
                 {run.rank != null && <span>{rankBadge(run.rank)}</span>}
               </button>
             );
@@ -462,9 +476,18 @@ export function ShareView({
       <footer className="mt-10 flex flex-col items-center gap-2 text-center text-[11px] text-faint/70">
         <Credit compact />
         <span>
-          {isZh ? "这是一次对比的只读快照" : "This is a read-only comparison snapshot"} ·{" "}
-          <button onClick={() => seedArena("share-prompt")} className="hover:text-ink">
-            {isZh ? "自己也接入模型跑一轮" : "Connect your own models and run it"} →
+          {isZh
+            ? "这是一次对比的只读快照"
+            : "This is a read-only comparison snapshot"}{" "}
+          ·{" "}
+          <button
+            onClick={() => seedArena("share-prompt")}
+            className="hover:text-ink"
+          >
+            {isZh
+              ? "自己也接入模型跑一轮"
+              : "Connect your own models and run it"}{" "}
+            →
           </button>
         </span>
       </footer>
