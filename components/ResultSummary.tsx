@@ -1,4 +1,5 @@
 "use client";
+import { ProviderIcon } from "./ProviderIcon";
 import { grade } from "@/lib/grade";
 import { findEndpointPrice, estimateRunCost } from "@/lib/pricing";
 import type { TaskIdentity } from "@/lib/benchmark-suite";
@@ -66,7 +67,12 @@ export function ResultSummary({
                 : null;
             return (
               <tr key={e.id} className="border-b border-line last:border-0">
-                <th className="p-3 font-medium">{e.name}</th>
+                <th className="p-3 font-medium">
+                  <span className="flex items-center gap-2">
+                    <ProviderIcon model={e.model} name={e.name} baseUrl={e.baseUrl} size="sm" />
+                    {e.name}
+                  </span>
+                </th>
                 <td className="p-3">
                   {r.status === "done"
                     ? g

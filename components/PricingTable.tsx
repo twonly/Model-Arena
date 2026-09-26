@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ProviderIcon } from "@/components/ProviderIcon";
-import { providerBrandFor } from "@/lib/provider-icons";
+import { modelBrandFor } from "@/lib/provider-icons";
 import type { ModelPrice } from "@/lib/pricing";
 import type { Locale } from "@/lib/i18n";
 
@@ -112,7 +112,7 @@ export function PricingTable({
           </thead>
           <tbody>
             {visible.map((r) => {
-              const brand = providerBrandFor(r.provider);
+              const brand = modelBrandFor(r);
               const notes = [r.global?.note, r.cn?.note].filter(Boolean);
               const uniqNotes = [...new Set(notes)];
               const unconfirmed =
@@ -121,7 +121,7 @@ export function PricingTable({
                 <tr key={`${r.provider}-${r.model}`} className="border-t border-line">
                   <td className="px-3 py-2">
                     <div className="flex items-start gap-2.5">
-                      <ProviderIcon provider={r.provider} brand={brand} />
+                      <ProviderIcon model={r.model} provider={r.provider} brand={brand} />
                       <div className="min-w-0">
                         <div className="font-semibold text-ink">
                           {r.model}

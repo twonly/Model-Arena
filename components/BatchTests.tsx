@@ -1,4 +1,5 @@
 "use client";
+import { ProviderIcon } from "./ProviderIcon";
 import { useEffect, useRef, useState } from "react";
 import { track } from "@vercel/analytics";
 import {
@@ -227,6 +228,7 @@ export function BatchTests({
                   setSelected({ ...selected, [endpoint.id]: e.target.checked })
                 }
               />
+              <ProviderIcon model={endpoint.model} name={endpoint.name} baseUrl={endpoint.baseUrl} size="sm" />
               {endpoint.name}
             </label>
           ))}

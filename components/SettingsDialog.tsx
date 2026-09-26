@@ -1,4 +1,5 @@
 "use client";
+import { ProviderIcon } from "./ProviderIcon";
 
 import { useEffect, useState } from "react";
 import { useI18n } from "@/components/I18nProvider";
@@ -339,6 +340,7 @@ export function SettingsDialog({
         }
         className="accent-[var(--accent)] cursor-pointer"
       />
+      <ProviderIcon model={ep.model} name={ep.name} baseUrl={ep.baseUrl} />
       <div className="min-w-0 flex-1">
         <div className="text-[13px] font-semibold truncate">
           {ep.name}
@@ -514,7 +516,10 @@ export function SettingsDialog({
                     onClick={() => startFromPreset(p)}
                     className="rounded-md border border-line bg-card px-2.5 py-2 text-left text-[12.5px] hover:border-ink/40 cursor-pointer"
                   >
-                    <div className="font-semibold">{p.label}</div>
+                    <div className="flex items-center gap-2 font-semibold">
+                      <ProviderIcon provider={p.id} baseUrl={p.baseUrl} size="sm" />
+                      {p.label}
+                    </div>
                     <div className="num text-[10px] text-faint truncate">
                       {p.exampleModels[0] ?? (en ? "Custom" : "自定义")}
                     </div>
@@ -705,12 +710,13 @@ export function SettingsDialog({
                         <button
                           key={m}
                           onClick={() => setDraft({ ...draft, model: m })}
-                          className={`num rounded border px-1.5 py-0.5 text-[10.5px] cursor-pointer ${
+                          className={`num inline-flex items-center gap-1.5 rounded border px-1.5 py-0.5 text-[10.5px] cursor-pointer ${
                             draft.model === m
                               ? "border-ink bg-ink text-paper"
                               : "border-line text-faint hover:text-ink"
                           }`}
                         >
+                          <ProviderIcon model={m} baseUrl={draft.baseUrl} size="sm" />
                           {m}
                         </button>
                       ))}

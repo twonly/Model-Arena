@@ -4,6 +4,7 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { ChartModal } from "./ChartModal";
 import { Markdown, StreamingMarkdown } from "./Markdown";
 import { Sparkline } from "./Sparkline";
+import { ProviderIcon } from "./ProviderIcon";
 import { useI18n } from "@/components/I18nProvider";
 import {
   countChars,
@@ -315,6 +316,7 @@ export const ModelCard = memo(
       <div className="flex flex-col rounded-lg border border-line bg-card overflow-hidden shadow-[0_1px_2px_rgba(0,0,0,0.03)]">
         {/* 卡片头 */}
         <div className="flex items-center gap-2 px-4 pt-3 pb-2">
+          <ProviderIcon model={endpoint.model} name={endpoint.name} baseUrl={endpoint.baseUrl} />
           <span
             className={`inline-block w-2 h-2 rounded-full shrink-0 ${running ? "pulsing" : ""}`}
             style={{ background: STATUS_COLOR[run.status] }}

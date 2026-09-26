@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProviderIcon } from "@/components/ProviderIcon";
 import { notFound, permanentRedirect } from "next/navigation";
 import { InfoPage, infoMetadata } from "@/components/InfoPage";
 import { RerunButton } from "@/components/RerunButton";
@@ -106,7 +107,10 @@ export default async function ComparePage({
       </p>
       {models.map((m) => (
         <section key={m.id}>
-          <h2>{m.name}</h2>
+          <h2 className="flex items-center gap-2">
+            <ProviderIcon model={m.model} name={m.name} provider={m.provider} />
+            {m.name}
+          </h2>
           <p>
             {m.provider} · {m.version}
           </p>

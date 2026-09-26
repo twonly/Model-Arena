@@ -1,6 +1,7 @@
 "use client";
 
 import { useLayoutEffect, useRef } from "react";
+import { ProviderIcon } from "./ProviderIcon";
 import type { Locale } from "@/lib/i18n";
 import { fmtSeconds } from "@/lib/format";
 import {
@@ -19,6 +20,8 @@ import {
 export interface Runner {
   id: string;
   name: string;
+  model?: string;
+  baseUrl?: string;
   /** 已生成 token，总量（含思考+输出；实时 liveTokens 或最终 outputTokens） */
   tokens: number;
   /** 其中思考 token（0=非思考模型）；粗条里 [思考▕输出] 拆分用 */
@@ -158,10 +161,11 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
             <div
               key={r.id}
               data-runner-id={r.id}
-              className="grid grid-cols-[5.5rem_minmax(0,1fr)_5.75rem] items-center gap-2.5 sm:grid-cols-[7rem_minmax(0,1fr)_6.75rem]"
+              className="grid grid-cols-[6.5rem_minmax(0,1fr)_5.75rem] items-center gap-2.5 sm:grid-cols-[9rem_minmax(0,1fr)_6.75rem]"
             >
-              <div className="truncate text-[12px] font-medium" title={r.name}>
-                {r.name}
+              <div className="flex min-w-0 items-center gap-1.5 text-[12px] font-medium" title={r.name}>
+                <ProviderIcon model={r.model} name={r.name} baseUrl={r.baseUrl} size="sm" />
+                <span className="truncate">{r.name}</span>
               </div>
               {/* 三条并列：token 进度、输出速度、首响等待（越短越好） */}
               <div className="flex flex-col gap-1">

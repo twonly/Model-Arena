@@ -1,4 +1,5 @@
 "use client";
+import { ProviderIcon } from "./ProviderIcon";
 
 import { fmtInt, fmtSeconds, fmtTps, rankBadge } from "@/lib/format";
 import { useI18n } from "@/components/I18nProvider";
@@ -113,8 +114,9 @@ export function HistoryDrawer({
                       key={i}
                       className="flex items-center justify-between text-[11px]"
                     >
-                      <span className="truncate font-medium">
-                        {rankBadge(r.rank)} {r.name}
+                      <span className="flex min-w-0 items-center gap-1.5 font-medium">
+                        <ProviderIcon model={r.model} name={r.name} provider={r.provider} size="sm" />
+                        <span className="truncate">{rankBadge(r.rank)} {r.name}</span>
                       </span>
                       <span className="num text-faint shrink-0">
                         {r.status === "error"

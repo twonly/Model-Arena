@@ -1,4 +1,5 @@
 "use client";
+import { ProviderIcon } from "@/components/ProviderIcon";
 
 import {
   BENCHMARK_CASES,
@@ -1297,6 +1298,8 @@ export default function Home() {
       id: ep.id,
       name: ep.name,
       tokens: m?.outputTokens ?? run.liveTokens ?? 0,
+      model: ep.model,
+      baseUrl: ep.baseUrl,
       reasoningTokens,
       tps: m?.contentTps ?? run.liveTps ?? 0,
       ttftMs,
@@ -1804,6 +1807,7 @@ export default function Home() {
                         else setEndpoints(change);
                       }}
                     />
+                    <ProviderIcon model={ep.model} name={ep.name} baseUrl={ep.baseUrl} size="sm" />
                     {ep.name}
                   </label>
                 ))}
@@ -2103,6 +2107,7 @@ export default function Home() {
                         style={{ background: STATUS_COLOR[run.status] }}
                       />
                       <span className={hidden ? "line-through" : ""}>
+                        <ProviderIcon model={ep.model} name={ep.name} baseUrl={ep.baseUrl} size="sm" className="mr-1.5" />
                         {ep.name}
                       </span>
                       {run.rank != null && <span>{rankBadge(run.rank)}</span>}
@@ -2416,6 +2421,7 @@ export default function Home() {
                     className="rounded-lg border border-line bg-card"
                   >
                     <summary className="cursor-pointer p-4 text-sm font-semibold">
+                      <ProviderIcon model={ep.model} name={ep.name} baseUrl={ep.baseUrl} size="sm" className="mr-2" />
                       {ep.name} · {en ? "View output" : "查看输出"}
                     </summary>
                     <ModelCard

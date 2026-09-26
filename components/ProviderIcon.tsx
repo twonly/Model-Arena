@@ -1,6 +1,7 @@
 import {
-  providerBrandFor,
+  modelBrandFor,
   providerInitials,
+  type ModelBrandInput,
   type ProviderBrand,
 } from "@/lib/provider-icons";
 
@@ -24,39 +25,45 @@ const SIZE = {
 
 export function ProviderIcon({
   provider,
+  model,
+  name,
+  baseUrl,
   size = "md",
   brand,
   className = "",
-}: {
-  provider: string;
+}: ModelBrandInput & {
   size?: keyof typeof SIZE;
   brand?: ProviderBrand | null;
   className?: string;
 }) {
-  const resolved = brand ?? providerBrandFor(provider);
+  const resolved = brand ?? modelBrandFor({ model, name, provider, baseUrl });
   const s = SIZE[size];
+  const label = resolved?.label || name || model || provider || "Unknown provider";
   const title = resolved
-    ? `${provider} · ${resolved.sourceDomain}`
-    : provider || "Unknown provider";
+    ? `${label} · ${resolved.sourceDomain}`
+    : label;
 
   return (
     <span
-      className={`${s.box} inline-flex shrink-0 items-center justify-center border border-line bg-card shadow-[0_1px_2px_rgba(0,0,0,0.04)] ${className}`}
+      className={`${s.box} inline-flex align-middle shrink-0 items-center justify-center border border-line bg-white shadow-[0_1px_2px_rgba(0,0,0,0.04)] ${className}`}
       title={title}
-      aria-label={provider ? `${provider} logo` : "Provider logo"}
+      role="img"
+      aria-label={`${label} logo`}
     >
       {resolved ? (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={resolved.icon}
           alt=""
+          width={28}
+          height={28}
           className={`${s.img} object-contain`}
           loading="lazy"
           decoding="async"
         />
       ) : (
-        <span className={`${s.text} font-black text-faint`}>
-          {providerInitials(provider)}
+        <span className={`${s.text} font-black text-slate-600`}>
+          {providerInitials(label)}
         </span>
       )}
     </span>

@@ -1,6 +1,8 @@
 "use client";
 
 import { useI18n } from "@/components/I18nProvider";
+import { ProviderIcon } from "./ProviderIcon";
+import type { ModelBrandInput } from "@/lib/provider-icons";
 import type { ModelStat, VoteAggregate } from "@/lib/voting";
 
 /** 右侧紧凑总榜：按 Wilson 好评置信下界排名；没人点的归「待评价」 */
@@ -8,10 +10,12 @@ export function Leaderboard({
   agg,
   count,
   label,
+  models,
 }: {
   agg: VoteAggregate | null;
   count: number; // 总模型数（含没人投票的）
   label: (i: number) => string;
+  models: ModelBrandInput[];
 }) {
   const { locale } = useI18n();
   const en = locale === "en";
@@ -53,11 +57,12 @@ export function Leaderboard({
         {rated.map((m, rank) => (
           <div key={m.index}>
             <div className="flex items-center justify-between text-[11.5px]">
-              <span className="min-w-0 truncate font-semibold">
+              <span className="flex min-w-0 items-center gap-1.5 font-semibold">
                 <span className="num mr-1 text-faint">
                   {["🥇", "🥈", "🥉"][rank] ?? `${rank + 1}.`}
                 </span>
-                {label(m.index)}
+                <ProviderIcon {...models[m.index]} size="sm" />
+                <span className="truncate">{label(m.index)}</span>
               </span>
               <span className="num shrink-0 text-faint">
                 {Math.round(m.ratio * 100)}%
@@ -93,8 +98,9 @@ export function Leaderboard({
               {en ? "Pending" : "待评价"} · {pending.length}
             </div>
             {pending.map((m) => (
-              <div key={m.index} className="text-[11px] text-faint/80 truncate">
-                · {label(m.index)}
+              <div key={m.index} className="flex items-center gap-1.5 py-0.5 text-[11px] text-faint/80">
+                <ProviderIcon {...models[m.index]} size="sm" />
+                <span className="truncate">{label(m.index)}</span>
               </div>
             ))}
           </div>

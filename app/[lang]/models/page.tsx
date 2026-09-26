@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProviderIcon } from "@/components/ProviderIcon";
 import { publishedReports } from "@/lib/benchmark-server";
 import { InfoPage, infoMetadata } from "@/components/InfoPage";
 import { SHARED_MODELS, sharedModelIsAvailable } from "@/lib/shared-models";
@@ -49,7 +50,8 @@ export default async function Models({
     >
       {SHARED_MODELS.map((m) => (
         <article key={m.id} className="rounded border border-line p-4">
-          <h2>
+          <h2 className="flex items-center gap-2">
+            <ProviderIcon model={m.model} name={m.name} provider={m.provider} />
             <Link href={localizedPath(`/model/${m.id}`, locale)}>{m.name}</Link>
           </h2>
           <p>
@@ -66,7 +68,8 @@ export default async function Models({
       ))}
       {discovered.map((m) => (
         <article key={m.slug} className="rounded border border-line p-4">
-          <h2>
+          <h2 className="flex items-center gap-2">
+            <ProviderIcon model={m.model} name={m.name} provider={m.provider} />
             <Link href={localizedPath(`/model/${m.slug}`, locale)}>
               {m.name}
             </Link>

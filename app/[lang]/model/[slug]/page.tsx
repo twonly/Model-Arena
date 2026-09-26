@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProviderIcon } from "@/components/ProviderIcon";
 import { notFound } from "next/navigation";
 import { InfoPage, infoMetadata } from "@/components/InfoPage";
 import { RerunButton } from "@/components/RerunButton";
@@ -94,7 +95,12 @@ export default async function ModelPage({
     <InfoPage
       locale={locale}
       pathname={`/model/${slug}`}
-      title={name}
+      title={
+        <span className="flex items-center gap-3">
+          <ProviderIcon model={shared?.model ?? reportModel?.model ?? pre?.apiModelId ?? stats[0]?.rawModel} name={name} size="lg" />
+          {name}
+        </span>
+      }
       intro={
         en
           ? "Identity and evidence for this model. Performance depends on the endpoint, task and measurement conditions."

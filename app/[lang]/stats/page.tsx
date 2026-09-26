@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProviderIcon } from "@/components/ProviderIcon";
 import { Credit } from "@/components/Credit";
 import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
@@ -283,9 +284,10 @@ export default async function StatsPage({
                     </span>
                     <Link
                       href={h(`/model/${statSlug(s)}`)}
-                      className="truncate text-[13.5px] font-semibold hover:text-accent"
+                      className="flex min-w-0 items-center gap-2 text-[13.5px] font-semibold hover:text-accent"
                     >
-                      {s.model}
+                      <ProviderIcon model={s.rawModel ?? s.model} provider={s.provider} size="sm" />
+                      <span className="truncate">{s.model}</span>
                     </Link>
                   </div>
                   <div className="num ml-[30px] mt-1 flex flex-wrap items-center gap-2 text-[10.5px] text-faint">

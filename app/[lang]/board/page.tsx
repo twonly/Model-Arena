@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProviderIcon } from "@/components/ProviderIcon";
 import { Credit } from "@/components/Credit";
 import { Logo } from "@/components/Logo";
 import { JsonLd } from "@/components/JsonLd";
@@ -180,8 +181,9 @@ export default async function BoardPage({
                   {MEDALS[i] ?? `${i + 1}`}
                 </span>
                 <div className="min-w-0 flex-1">
-                  <div className="num truncate text-[13.5px] font-semibold">
-                    {e.model}
+                  <div className="num flex items-center gap-2 text-[13.5px] font-semibold">
+                    <ProviderIcon model={e.model} size="sm" />
+                    <span className="truncate">{e.model}</span>
                   </div>
                   <div className="mt-1 flex flex-wrap items-center gap-2 text-[10px] text-faint">
                     <span>{votes} {locale === "en" ? "votes" : "票"}</span>

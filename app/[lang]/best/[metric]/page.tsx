@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ProviderIcon } from "@/components/ProviderIcon";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { Credit } from "@/components/Credit";
@@ -200,6 +201,7 @@ export default async function BestPage({
                 {MEDALS[i] ?? i + 1}
               </span>
               <div className="min-w-0 flex-1">
+                <ProviderIcon model={r.model} provider={r.provider} size="sm" className="mr-2" />
                 <Link
                   href={h(
                     metric === "cheapest" ? "/pricing" : `/model/${r.slug}`,

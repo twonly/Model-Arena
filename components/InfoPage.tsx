@@ -25,7 +25,7 @@ export function infoMetadata(locale: Locale, pathname: string, title: string, de
 export function InfoPage({ locale, pathname, title, intro, updatedAt, children }: {
   locale: Locale;
   pathname: string;
-  title: string;
+  title: ReactNode;
   intro: string;
   updatedAt?: string;
   children: ReactNode;

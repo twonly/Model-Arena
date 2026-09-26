@@ -1,4 +1,5 @@
 "use client";
+import { ProviderIcon } from "./ProviderIcon";
 
 import { useEffect, useState } from "react";
 import { ModelCard, STATUS_COLOR } from "./ModelCard";
@@ -149,6 +150,7 @@ export function ShareView({
       id: ep.id,
       name: ep.name,
       tokens: m?.outputTokens ?? 0,
+      model: ep.model,
       reasoningTokens: m?.reasoningTokens ?? 0,
       tps: m?.contentTps ?? 0,
       ttftMs: m?.ttftMs,
@@ -366,6 +368,7 @@ export function ShareView({
                   style={{ background: STATUS_COLOR[run.status] }}
                 />
                 <span className={isHidden ? "line-through" : ""}>
+                  <ProviderIcon model={ep.model} name={ep.name} size="sm" className="mr-1.5" />
                   {ep.name}
                 </span>
                 {run.rank != null && <span>{rankBadge(run.rank)}</span>}
@@ -433,6 +436,7 @@ export function ShareView({
               agg={agg}
               count={snapshot.results.length}
               label={voteLabel}
+              models={snapshot.results}
             />
           </aside>
         )}
