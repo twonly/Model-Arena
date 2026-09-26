@@ -65,7 +65,8 @@ export default async function Reports({
         >
           <h2>
             <Link href={localizedPath(`/reports/${r.id}`, locale)}>
-              {r.models.map((m) => m.name).join(" · ")}
+              {r.editorial?.[locale].title ??
+                r.models.map((m) => m.name).join(" · ")}
             </Link>
           </h2>
           <p>
@@ -80,9 +81,10 @@ export default async function Reports({
                 : "近期实测"}
           </p>
           <p>
-            {en
-              ? "JSON extraction · instruction following · grounded QA"
-              : "JSON 抽取 · 指令约束 · 材料问答"}
+            {r.editorial?.[locale].summary ??
+              (en
+                ? "JSON extraction · instruction following · grounded QA"
+                : "JSON 抽取 · 指令约束 · 材料问答")}
           </p>
         </article>
       ))}

@@ -89,8 +89,93 @@ try {
     ),
   );
   assert.equal((await reserve("same", 12)).state, "complete");
+  await db.exec(
+    await readFile(
+      new URL(
+        "../supabase/migrations/006_benchmark_editorial.sql",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  const original = {
+    version: "evidence-1",
+    models: [],
+    attempts: [{ text: "immutable evidence" }],
+  };
+  const content = {
+    "zh-CN": { title: "评测", summary: "摘要", body: "正文" },
+    en: { title: "Review", summary: "Summary", body: "Evidence" },
+  };
+  await db.query(
+    "insert into benchmark_drafts(id,campaign,snapshot,summary,editorial,revision) values('draft-1','campaign',$1,$1,$2,2)",
+    [original, content],
+  );
+  assert.equal(
+    (await db.query("select count(*)::int n from benchmark_reports")).rows[0].n,
+    0,
+  );
+  await assert.rejects(
+    db.query(
+      "select publish_benchmark_draft('draft-1',1,'00000000-0000-0000-0000-000000000001')",
+    ),
+    /draft_conflict/,
+  );
+  await assert.rejects(
+    db.query("select publish_benchmark_draft('draft-1',2,null)"),
+    /review_required/,
+  );
+  const publish = () =>
+    db.query(
+      "select publish_benchmark_draft('draft-1',2,'00000000-0000-0000-0000-000000000001') result",
+    );
+  const published = (await publish()).rows[0].result;
+  assert.equal(published.id, "draft-1-r2");
+  assert.equal((await publish()).rows[0].result.unchanged, true);
+  await db.exec("update benchmark_drafts set revision=3 where id='draft-1'");
+  await db.query(
+    "select publish_benchmark_draft('draft-1',3,'00000000-0000-0000-0000-000000000001')",
+  );
+  const snapshots = (
+    await db.query(
+      "select snapshot,is_current from benchmark_reports order by id",
+    )
+  ).rows;
+  assert.equal(snapshots.length, 2);
+  assert.equal(snapshots[0].is_current, false);
+  assert.equal(snapshots[1].is_current, true);
+  assert.deepEqual(snapshots[0].snapshot.attempts, original.attempts);
+  assert.equal(
+    (
+      await db.query(
+        "select has_table_privilege('anon','benchmark_drafts','select') allowed",
+      )
+    ).rows[0].allowed,
+    false,
+  );
+  assert.equal(
+    (
+      await db.query(
+        "select has_function_privilege('authenticated','publish_benchmark_draft(text,integer,uuid)','execute') allowed",
+      )
+    ).rows[0].allowed,
+    false,
+  );
+  await db.exec(
+    await readFile(
+      new URL(
+        "../supabase/migrations/006_benchmark_editorial.sql",
+        import.meta.url,
+      ),
+      "utf8",
+    ),
+  );
+  assert.equal(
+    (await db.query("select count(*)::int n from benchmark_reports")).rows[0].n,
+    2,
+  );
   console.log(
-    "PASS: SQL migration, deduplication, exact budget boundaries, settlement, access control and preserved legacy rows",
+    "PASS: SQL migrations, budgets, private drafts, revision-bound approval, immutable published revisions, access control and preserved legacy rows",
   );
 } catch (error) {
   console.error(error.message);

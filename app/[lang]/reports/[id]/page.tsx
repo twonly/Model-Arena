@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Markdown } from "@/components/Markdown";
 import { ProviderIcon } from "@/components/ProviderIcon";
 import { notFound } from "next/navigation";
 import { InfoPage, infoMetadata } from "@/components/InfoPage";
@@ -26,13 +27,15 @@ export async function generateMetadata({
     locale,
     `/reports/${id}`,
     r
-      ? `${r.models.map((m) => m.name).join(" · ")} · ${r.testedAt.slice(0, 10)}`
+      ? (r.editorial?.[locale].title ??
+          `${r.models.map((m) => m.name).join(" · ")} · ${r.testedAt.slice(0, 10)}`)
       : en
         ? "Report not found"
         : "报告不存在",
-    en
-      ? "Task outcomes, latency, cost and original evidence under identical conditions."
-      : "相同条件下的任务效果、等待时间、成本与原始证据。",
+    r?.editorial?.[locale].summary ??
+      (en
+        ? "Task outcomes, latency, cost and original evidence under identical conditions."
+        : "相同条件下的任务效果、等待时间、成本与原始证据。"),
   );
   // Let this route's file-based image replace the generic image from infoMetadata.
   if (metadata.openGraph) delete metadata.openGraph.images;
@@ -78,8 +81,13 @@ export default async function ReportPage({
     <InfoPage
       locale={locale}
       pathname={`/reports/${id}`}
-      title={en ? "Task-based model report" : "真实任务模型实测报告"}
-      intro={r.models.map((m) => m.name).join(" · ")}
+      title={
+        r.editorial?.[locale].title ??
+        (en ? "Task-based model report" : "真实任务模型实测报告")
+      }
+      intro={
+        r.editorial?.[locale].summary ?? r.models.map((m) => m.name).join(" · ")
+      }
       updatedAt={r.publishedAt.slice(0, 10)}
     >
       <JsonLd
@@ -106,7 +114,9 @@ export default async function ReportPage({
         data={{
           "@context": "https://schema.org",
           "@type": "TechArticle",
-          headline: r.models.map((m) => m.name).join(" · "),
+          headline:
+            r.editorial?.[locale].title ??
+            r.models.map((m) => m.name).join(" · "),
           datePublished: r.publishedAt,
           dateModified: r.publishedAt,
           author: {
@@ -117,6 +127,18 @@ export default async function ReportPage({
           inLanguage: locale,
         }}
       />
+      {r.stage === "first-look" && (
+        <p className="rounded border border-line bg-card p-4">
+          {en
+            ? "First look: one time window and a small task set. A cross-window retest is pending."
+            : "首测：单一时间段的小样本结果，跨时间段复测待补充。"}
+        </p>
+      )}
+      {r.editorial && (
+        <section>
+          <Markdown text={r.editorial[locale].body} />
+        </section>
+      )}
       <section>
         <h2>{en ? "What this report supports" : "如何使用这份结论"}</h2>
         <RerunButton
@@ -149,9 +171,13 @@ export default async function ReportPage({
               : "7 天内实测"}
         </p>
         <p>
-          {en
-            ? "Generated and checked by deterministic software; no human review is claimed."
-            : "由程序计算并生成，经过自动一致性检查；未标注为人工复核。"}
+          {r.reviewedAt
+            ? en
+              ? "Measured automatically; editorial content confirmed by the site operator before publication."
+              : "测试数据由程序采集，评测内容经运营者确认后发布。"
+            : en
+              ? "Generated and checked by deterministic software; no human review is claimed."
+              : "由程序计算并生成，经过自动一致性检查；未标注为人工复核。"}
         </p>
         <ul className="space-y-3">
           {summaries[0].tasks.map((task, index) => {

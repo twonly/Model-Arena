@@ -1,3 +1,4 @@
+import type { Editorial } from "./benchmark-editorial.ts";
 import {
   BENCHMARK_CASES,
   BENCHMARK_PARAMS,
@@ -57,6 +58,10 @@ export interface BenchmarkAttempt {
   price: BenchmarkPrice;
 }
 export interface BenchmarkReport {
+  stage?: "first-look" | "standard";
+  editorial?: Editorial;
+  reviewedAt?: string;
+  writer?: "codex" | "operator";
   cases: BenchmarkCase[];
   id: string;
   campaign: string;
@@ -197,6 +202,7 @@ export function reportProblems(
   attempts: BenchmarkAttempt[],
   models: BenchmarkModel[],
   now = Date.now(),
+  windows = [0, 1],
 ): string[] {
   const issues: string[] = [];
   if (!models.length || models.length > 6)
@@ -208,7 +214,7 @@ export function reportProblems(
     if (model.availableUntil && Date.parse(model.availableUntil) <= now)
       issues.push(`${model.id}: expired`);
     for (const c of BENCHMARK_CASES)
-      for (const window of [0, 1]) {
+      for (const window of windows) {
         const hits = rows.filter(
           (a) => a.caseId === c.id && a.window === window,
         );
@@ -224,15 +230,23 @@ export function reportProblems(
           .map((a) => Date.parse(a.startedAt)),
       ),
     );
-    if (!times.every(Number.isFinite) || times[1] - times[0] < 6 * 3600000)
+    if (
+      windows.length > 1 &&
+      (!times.every(Number.isFinite) || times[1] - times[0] < 6 * 3600000)
+    )
       issues.push(`${model.id}: two time windows required`);
     for (const a of rows) {
+      if (!windows.includes(a.window))
+        issues.push(`${a.id}: unexpected time window`);
       const c = BENCHMARK_CASES.find((c) => c.id === a.caseId);
       if (
         !c ||
         a.suiteVersion !== SUITE_VERSION ||
         a.region !== BENCHMARK_REGION ||
-        JSON.stringify(a.params) !== JSON.stringify(BENCHMARK_PARAMS)
+        Object.keys(a.params).length !== Object.keys(BENCHMARK_PARAMS).length ||
+        Object.entries(BENCHMARK_PARAMS).some(
+          ([key, value]) => a.params[key as keyof RunParams] !== value,
+        )
       )
         issues.push(`${a.id}: incompatible conditions`);
       if (

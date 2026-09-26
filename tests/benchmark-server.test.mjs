@@ -4,7 +4,11 @@ import {
   discoverModels,
   benchmarkPlan,
   executeBenchmark,
-  publishReport,
+  prepareReport,
+  editorialDraft,
+  saveEditorial,
+  publishDraft,
+  launchCampaigns,
   publishedReport,
   benchmarkStatus,
 } from "../lib/benchmark-server.ts";
@@ -31,6 +35,7 @@ test("discovery → versioned attempts → gated bilingual report is resumable a
       "benchmark_registry",
       "benchmark_campaigns",
       "benchmark_reports",
+      "benchmark_drafts",
       "benchmark_events",
     ].map((t) => [t, []]),
   );
@@ -117,25 +122,67 @@ test("discovery → versioned attempts → gated bilingual report is resumable a
       if (r)
         Object.assign(r, {
           state: "complete",
-          result: body.p_result,
+          result: {
+            ...body.p_result,
+            params: Object.fromEntries(
+              Object.entries(body.p_result.params).reverse(),
+            ),
+          }, // PostgreSQL JSONB reorders object keys.
           spent_cny: body.p_spent,
           finished_at: new Date().toISOString(),
         });
       return Response.json(!!r);
     }
+    if (table === "rpc/publish_benchmark_draft") {
+      const d = tables.benchmark_drafts.find((d) => d.id === body.p_id);
+      assert.equal(d.revision, body.p_revision);
+      const id = `${d.id}-r${d.revision}`,
+        stamp = new Date().toISOString();
+      const snapshot = {
+        ...d.snapshot,
+        id,
+        editorial: d.editorial,
+        reviewedAt: stamp,
+        publishedAt: stamp,
+      };
+      tables.benchmark_reports.push({
+        id,
+        snapshot,
+        index_data: { ...d.summary, id, editorial: d.editorial },
+        is_current: true,
+      });
+      d.published_revision = d.revision;
+      d.published_report_id = id;
+      return Response.json({ state: "published", id });
+    }
     assert.ok(tables[table], table);
     if (init.method === "PATCH") {
-      for (const r of tables[table])
-        if (r.id === url.searchParams.get("id").slice(3))
-          Object.assign(r, body);
-      return new Response(null, { status: 204 });
+      const matched = tables[table].filter((r) =>
+        [...url.searchParams].every(([k, v]) =>
+          v.startsWith("eq.")
+            ? String(r[k]) === v.slice(3)
+            : v === "is.null"
+              ? r[k] == null
+              : true,
+        ),
+      );
+      for (const r of matched) Object.assign(r, body);
+      return init.headers?.Prefer === "return=representation"
+        ? Response.json(matched)
+        : new Response(null, { status: 204 });
     }
     if (init.method === "POST") {
       for (const row of Array.isArray(body) ? body : [body]) {
         const key = table === "benchmark_catalog" ? "provider" : "id";
         const old = row[key] && tables[table].find((r) => r[key] === row[key]);
         if (!old)
-          tables[table].push({ created_at: new Date().toISOString(), ...row });
+          tables[table].push({
+            created_at: new Date().toISOString(),
+            revision: 1,
+            editorial: null,
+            published_revision: 0,
+            ...row,
+          });
         else if (!String(init.headers.Prefer).includes("ignore-duplicates"))
           Object.assign(old, row);
       }
@@ -145,6 +192,12 @@ test("discovery → versioned attempts → gated bilingual report is resumable a
     for (const [key, value] of url.searchParams)
       if (value.startsWith("eq."))
         result = result.filter((r) => String(r[key]) === value.slice(3));
+      else if (value === "is.null")
+        result = result.filter((r) => r[key] == null);
+      else if (value.startsWith("like."))
+        result = result.filter((r) =>
+          String(r[key]).startsWith(value.slice(5, -1)),
+        );
     if (url.searchParams.has("order")) {
       const [key, direction] = url.searchParams.get("order").split(".");
       result.sort(
@@ -167,7 +220,7 @@ test("discovery → versioned attempts → gated bilingual report is resumable a
     let plan = await benchmarkPlan(campaign, 0);
     assert.equal(plan.models.length, 1);
     assert.equal(plan.jobs.length, 15);
-    assert.equal((await publishReport(campaign)).state, "paused");
+    assert.equal((await prepareReport(campaign)).state, "paused");
     assert.equal(
       (await executeBenchmark({ ...plan.jobs[0], window: 1 })).state,
       "paused_time_window",
@@ -177,24 +230,68 @@ test("discovery → versioned attempts → gated bilingual report is resumable a
     assert.equal(calls, 15);
     await executeBenchmark(plan.jobs[0]);
     assert.equal(calls, 15);
-    assert.equal((await publishReport(campaign)).state, "paused");
+    assert.equal((await prepareReport(campaign)).state, "paused");
     clock += 12 * 3600000;
     plan = await benchmarkPlan(campaign, 1);
     for (const job of plan.jobs) await executeBenchmark(job);
+    const prepared = await prepareReport(campaign);
+    assert.equal(prepared.state, "draft");
+    assert.equal(
+      await publishedReport(prepared.id),
+      null,
+      "draft evidence is never public",
+    );
+    assert.equal(tables.benchmark_reports.length, 0);
+    const draft = await editorialDraft(prepared.id);
+    const content = {
+      "zh-CN": {
+        title: "首测",
+        summary: "实测摘要",
+        body: "基于原始记录的分析。",
+      },
+      en: {
+        title: "Review",
+        summary: "Measured outcomes",
+        body: "Analysis of the original evidence.",
+      },
+    };
+    const edited = await saveEditorial(draft.id, 1, content, "codex");
+    await assert.rejects(
+      saveEditorial(draft.id, 1, content, "operator"),
+      /draft_conflict/,
+    );
+    await assert.rejects(
+      saveEditorial(draft.id, 2, content, "codex"),
+      /draft_conflict/,
+      "automation cannot overwrite editorial work",
+    );
+    await assert.rejects(
+      publishDraft(draft.id, 1, "00000000-0000-0000-0000-000000000001"),
+      /draft_conflict/,
+    );
     const savedCatalog = tables.benchmark_catalog[0].models;
     tables.benchmark_catalog[0].models = [];
     assert.equal(
-      (await publishReport(campaign)).state,
+      (
+        await publishDraft(
+          draft.id,
+          edited.revision,
+          "00000000-0000-0000-0000-000000000001",
+        )
+      ).state,
       "paused",
-      "delisted models cannot become newly published recommendations",
     );
     tables.benchmark_catalog[0].models = savedCatalog;
-    const published = await publishReport(campaign);
+    const published = await publishDraft(
+      draft.id,
+      edited.revision,
+      "00000000-0000-0000-0000-000000000001",
+    );
     assert.equal(published.state, "published");
     assert.ok(published.urls.includes(`/en/reports/${published.id}`));
     const report = await publishedReport(published.id);
     assert.equal(report.attempts.length, 30);
-    assert.equal(report.cases[0].prompt, BENCHMARK_CASES[0].prompt);
+    assert.equal(report.editorial.en.title, "Review");
     assert.equal(
       report.attempts.every((a) => a.pass),
       true,
@@ -202,7 +299,17 @@ test("discovery → versioned attempts → gated bilingual report is resumable a
     assert.ok(
       !JSON.stringify(report).includes(process.env.SHARED_KEY_ORCAROUTER),
     );
-    assert.equal((await publishReport(campaign)).unchanged, true);
+    assert.equal((await prepareReport(campaign)).unchanged, true);
+    assert.equal(
+      (
+        await publishDraft(
+          draft.id,
+          edited.revision,
+          "00000000-0000-0000-0000-000000000001",
+        )
+      ).unchanged,
+      true,
+    );
     assert.equal(calls, 30);
     assert.equal(tables.benchmark_reports.length, 1);
     catalog.push({ id: "tencent/hy4-free", pricing: { request: "0" } });
@@ -212,6 +319,19 @@ test("discovery → versioned attempts → gated bilingual report is resumable a
       1,
       "a discovery must not alter the frozen report campaign",
     );
+    const launches = await launchCampaigns();
+    assert.equal(launches.length, 1);
+    const launch = await benchmarkPlan(launches[0], 0);
+    assert.equal(launch.models.at(-1).model, "tencent/hy4-free");
+    for (const job of launch.jobs) await executeBenchmark(job);
+    const firstLook = await prepareReport(launches[0], true);
+    assert.equal(firstLook.state, "draft");
+    assert.equal(
+      (await editorialDraft(firstLook.id)).snapshot.stage,
+      "first-look",
+    );
+    assert.equal((await prepareReport(launches[0])).state, "paused");
+    assert.equal(await publishedReport(firstLook.id), null);
     const next = await benchmarkPlan("weekly-2026-09-28", 0);
     assert.equal(
       next.models.length,
@@ -240,7 +360,7 @@ test("discovery → versioned attempts → gated bilingual report is resumable a
       (await executeBenchmark(next.jobs[0])).state,
       "paused_credentials",
     );
-    assert.equal(calls, 30);
+    assert.equal(calls, 60);
   } finally {
     global.fetch = oldFetch;
     global.Date = OriginalDate;

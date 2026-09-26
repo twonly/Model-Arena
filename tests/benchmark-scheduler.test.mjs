@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 
-test("scheduler catches up after Monday, waits for the second window and indexes only new reports", async () => {
+test("scheduler catches up after Monday, waits for the second window and prepares private drafts without publishing or indexing", async () => {
   const oldFetch = global.fetch,
     OriginalDate = Date,
     env = { ...process.env },
@@ -37,6 +37,8 @@ test("scheduler catches up after Monday, waits for the second window and indexes
       `Bearer ${process.env.BENCHMARK_SECRET}`,
     );
     if (body.action === "discover") return Response.json([{ state: "ok" }]);
+    if (body.action === "launches")
+      return Response.json(["launch-aaaaaaaaaaaaaaaa"]);
     if (body.action === "plan") {
       plans.push(body);
       const id = `${body.campaign}:${body.window}`;
@@ -59,10 +61,10 @@ test("scheduler catches up after Monday, waits for the second window and indexes
       runs.push(body.id);
       return Response.json({ state: "complete", status: "done" });
     }
-    if (body.action === "publish") {
+    if (body.action === "prepare") {
       publicationCalls++;
       return Response.json({
-        state: "published",
+        state: "draft",
         ...(phase === 1
           ? { urls: ["/zh-CN/reports/test", "/en/reports/test"] }
           : { unchanged: true }),
@@ -77,9 +79,9 @@ test("scheduler catches up after Monday, waits for the second window and indexes
       plans.some((p) => p.campaign === "weekly-2026-09-21" && p.window === 0),
     );
     assert.ok(plans.some((p) => p.campaign === "health-2026-09-26"));
-    assert.equal(runs.length, 3);
-    assert.equal(publicationCalls, 2);
-    assert.equal(indexCalls, 1);
+    assert.equal(runs.length, 5);
+    assert.equal(publicationCalls, 10);
+    assert.equal(indexCalls, 0);
   } finally {
     global.fetch = oldFetch;
     global.Date = OriginalDate;

@@ -78,26 +78,44 @@ const report = {
     ),
   ),
 };
-const storage = createServer((req, res) => {
-  assert.equal(req.method, "GET", "production pages must remain read only");
+const draftId = "weekly-2026-09-21-aaaaaaaaaaaaaaaa";
+const snapshot = {...report, id: draftId, version: "aaaaaaaaaaaaaaaa", publishedAt: "", stage: "standard"};
+const draft = {id: draftId, campaign: report.campaign, revision: 1, snapshot,
+  summary: reportSummary(snapshot), editorial: null, writer: null, updated_at: new Date().toISOString(), published_revision: 0, published_report_id: null};
+const reports = [{id:report.id, index_data:reportSummary(report), snapshot:report, is_current:true}];
+const adminId = "00000000-0000-0000-0000-000000000001";
+const adminToken = [Buffer.from('{"alg":"HS256","typ":"JWT"}').toString('base64url'), Buffer.from(JSON.stringify({sub:adminId,exp:Math.floor(Date.now()/1000)+3600})).toString('base64url'), "fixture"].join('.');
+const schedulerToken = "local-scheduler-token-long-enough-for-test";
+const storage = createServer(async (req, res) => {
   const url = new URL(req.url, "http://127.0.0.1");
   res.setHeader("Content-Type", "application/json");
+  const reply = (data) => res.end(JSON.stringify(data));
+  if (url.pathname === "/auth/v1/user") return reply({id: req.headers.authorization === `Bearer ${adminToken}` ? adminId : "00000000-0000-0000-0000-000000000002"});
   if (url.pathname === "/rest/v1/benchmark_reports") {
-    const match = url.searchParams.get("id");
-    res.end(
-      JSON.stringify(
-        match && match !== `eq.${report.id}`
-          ? []
-          : [
-              {
-                id: report.id,
-                index_data: reportSummary(report),
-                snapshot: report,
-              },
-            ],
-      ),
-    );
-  } else res.end("[]");
+    assert.equal(req.method,"GET");
+    return reply(reports.filter(r => (!url.searchParams.has('id') || url.searchParams.get('id') === `eq.${r.id}`) && (!url.searchParams.has('is_current') || r.is_current)));
+  }
+  if (url.pathname === "/rest/v1/benchmark_drafts") {
+    if (req.method === "PATCH") {
+      let raw="";for await (const chunk of req) raw+=chunk;
+      const match = url.searchParams.get('revision') === `eq.${draft.revision}` && (!url.searchParams.has('editorial') || draft.editorial == null);
+      if(match) Object.assign(draft,JSON.parse(raw));
+      return reply(match?[draft]:[]);
+    }
+    return reply(!url.searchParams.has('id') || url.searchParams.get('id') === `eq.${draftId}` ? [draft] : []);
+  }
+  if (url.pathname === "/rest/v1/benchmark_catalog") return reply(models.map(m=>({provider:m.provider,models:models.filter(n=>n.provider===m.provider).map(n=>n.model),checked_at:new Date().toISOString()})));
+  if (url.pathname === "/rest/v1/rpc/publish_benchmark_draft") {
+    let raw="";for await (const chunk of req) raw+=chunk;
+    const body=JSON.parse(raw);assert.equal(body.p_reviewer,adminId);assert.equal(body.p_revision,draft.revision);
+    const id=`${draft.id}-r${draft.revision}`, publishedAt=new Date().toISOString();
+    reports.forEach(r=>{r.is_current=false;});
+    const next={...snapshot,id,editorial:draft.editorial,publishedAt,reviewedAt:publishedAt};
+    reports.push({id,snapshot:next,index_data:reportSummary(next),is_current:true});
+    draft.published_report_id=id;draft.published_revision=draft.revision;
+    return reply({state:"published",id});
+  }
+  return reply([]);
 });
 await new Promise((resolve) => storage.listen(0, "127.0.0.1", resolve));
 const port = Number(process.env.REPORT_TEST_PORT || 3102),
@@ -118,6 +136,10 @@ const next = spawn(
       SUPABASE_URL: `http://127.0.0.1:${storage.address().port}`,
       SUPABASE_SERVICE_ROLE_KEY: "local-fixture-service",
       BENCHMARK_ENABLED: "false",
+      ADMIN_USER_IDS: adminId,
+      BENCHMARK_SECRET: schedulerToken,
+      INDEXNOW_KEY: "",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "local-test-anon",
     },
     stdio: ["ignore", "pipe", "pipe"],
   },
@@ -244,9 +266,47 @@ try {
     await page.getByRole("alert").filter({ hasText: "未自动替换" }).count(),
     0,
   );
+  // Actual Next routes + authenticated browser editing against private local storage.
+  const api = (token, body) => page.request.post(`${base}/api/benchmarks`, {headers:{Authorization:`Bearer ${token}`},data:body});
+  assert.equal((await page.request.get(`${base}/api/benchmarks?draft=${draftId}`)).status(),401);
+  assert.equal((await page.request.get(`${base}/api/benchmarks?draft=${draftId}`,{headers:{Authorization:"Bearer ordinary-viewer"}})).status(),401);
+  assert.equal((await api(schedulerToken,{action:"publish",id:draftId,revision:1})).status(),403);
+  assert.equal((await page.request.get(`${base}/api/reports/${draftId}`)).status(),404);
+  assert.equal((await page.request.get(`${base}/api/badge/report/${draftId}`)).status(),404);
+  assert.ok(!(await (await page.request.get(`${base}/sitemap.xml`)).text()).includes(draftId));
+  const editorial = {"zh-CN":{title:"私有首测评测稿",summary:"根据实测记录生成，等待确认。",body:"## 测试结论\n\n这组测试覆盖 15 道题，原始证据保留。"},en:{title:"Private review draft",summary:"Measured results awaiting confirmation.",body:"## Findings\n\nThis test covers 15 cases. Original evidence is retained."}};
+  const generated=await api(schedulerToken,{action:"save_editorial",id:draftId,revision:1,editorial});
+  assert.equal(generated.status(),200);
+  assert.equal((await api(schedulerToken,{action:"save_editorial",id:draftId,revision:2,editorial})).status(),409);
+  await page.addInitScript(({token,id})=>{
+    localStorage.setItem("sb-auth-auth-token",JSON.stringify({access_token:token,refresh_token:"local-fixture",expires_at:Math.floor(Date.now()/1000)+3600,expires_in:3600,token_type:"bearer",user:{id,aud:"authenticated",email:"operator@example.test"}}));
+  },{token:adminToken,id:adminId});
+  await page.goto(`${base}/zh-CN/operations`);
+  await page.getByRole('button',{name:/私有首测评测稿/}).click();
+  await page.getByLabel('标题 / SEO 标题',{exact:true}).fill('运营者确认的实测报告');
+  await page.getByRole('button',{name:'保存草稿',exact:true}).click();
+  await page.getByRole('status').filter({hasText:'草稿已保存'}).waitFor();
+  assert.equal((await api(adminToken,{action:"publish",id:draftId,revision:2})).status(),409);
+  assert.equal((await page.request.get(`${base}/api/reports/${draftId}-r3`)).status(),404);
+  await page.getByText('检查测试题与原始回答',{exact:true}).click();
+  await page.getByText('联系信息抽取 1',{exact:true}).waitFor();
+  assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+  await page.screenshot({path:'output/playwright/editorial-mobile.png',fullPage:true});
+  await page.setViewportSize({width:1440,height:1050});
+  await page.screenshot({path:'output/playwright/editorial-desktop.png',fullPage:true});
+  await page.getByRole('button',{name:'确认并发布',exact:true}).click();
+  await page.getByRole('status').filter({hasText:'已发布到线上'}).waitFor();
+  assert.equal(reports.length,2);
+  assert.equal((await api(adminToken,{action:"publish",id:draftId,revision:3})).status(),200);
+  assert.equal(reports.length,2,'publication retry must not duplicate evidence');
+  await page.goto(`${base}/zh-CN/reports/${draftId}-r3`);
+  assert.equal(await page.locator('h1').innerText(),'运营者确认的实测报告');
+  assert.ok((await page.title()).includes('运营者确认的实测报告'));
+  assert.equal((await (await page.request.get(`${base}/api/reports/${draftId}-r3`)).json()).attempts.length,60);
+  assert.ok((await (await page.request.get(`${base}/sitemap.xml`)).text()).includes(`${draftId}-r3`));
   assert.deepEqual(errors, []);
   console.log(
-    "PASS: production bilingual reports, mobile layout, original evidence API, report badge, OG image, model/compare pages and exact two-model rerun; local fixtures only",
+    "PASS: private drafts, scheduler cannot publish, authenticated bilingual editor, conflict protection, explicit approval, public SEO/evidence, mobile layout and exact reruns; local fixtures only",
   );
 } finally {
   if (browser) await browser.close();

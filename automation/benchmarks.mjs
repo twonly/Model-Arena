@@ -27,12 +27,13 @@ let issues = discovery.some((row) => row.state !== "ok");
 // Resume both weekly windows on every scheduled run, including after a missed Monday.
 // The server enforces the six-hour gap. Daily health checks have their own deduplicated campaign.
 const mode = process.env.BENCHMARK_MODE || "scheduled";
+const launches = mode === "health" ? [] : await call({ action: "launches" });
 const campaigns =
   mode === "health"
     ? [`health-${day}`]
     : mode === "standard"
-      ? [campaign]
-      : [`health-${day}`, campaign];
+      ? [...launches, campaign]
+      : [...launches, `health-${day}`, campaign];
 for (const activeCampaign of campaigns) {
   const health = activeCampaign.startsWith("health-");
   let waitingForWindow = false;
@@ -63,29 +64,22 @@ for (const activeCampaign of campaigns) {
       )
         issues = true;
     }
+    if (!health && window === 0) {
+      const draft = await call({
+        action: "prepare",
+        campaign: activeCampaign,
+        firstLook: true,
+      });
+      console.log(JSON.stringify(draft));
+      if (draft.state !== "draft") issues = true;
+    }
   }
   if (health || waitingForWindow) continue;
-  const publication = await call({
-    action: "publish",
-    campaign: activeCampaign,
-  });
-  console.log(JSON.stringify(publication));
-  if (publication.state !== "published") issues = true;
-  // IndexNow only receives newly published pages; Google discovers them through the sitemap.
-  if (publication.urls?.length && process.env.INDEXNOW_KEY) {
-    const response = await fetch("https://api.indexnow.org/indexnow", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        host: new URL(base).host,
-        key: process.env.INDEXNOW_KEY,
-        urlList: publication.urls.map((path) => base + path),
-      }),
-    });
-    if (!response.ok) throw new Error(`IndexNow HTTP ${response.status}`);
-  }
+  const draft = await call({ action: "prepare", campaign: activeCampaign });
+  console.log(JSON.stringify(draft));
+  if (draft.state !== "draft") issues = true;
 }
 if (issues)
   throw new Error(
-    "Some models or publication paused; inspect /operations and this run log",
+    "Some models or draft preparation paused; inspect /operations and this run log",
   );

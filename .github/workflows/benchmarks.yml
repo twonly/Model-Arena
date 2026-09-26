@@ -1,7 +1,7 @@
 name: Standard model benchmarks
 on:
   schedule:
-    - cron: "17 */6 * * *"
+    - cron: "7,22,37,52 * * * *"
   workflow_dispatch:
     inputs:
       mode:
@@ -28,5 +28,4 @@ jobs:
         env:
           TOKRACE_URL: https://www.tokrace.com
           BENCHMARK_SECRET: ${{ secrets.BENCHMARK_SECRET }}
-          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
           BENCHMARK_MODE: ${{ inputs.mode }}

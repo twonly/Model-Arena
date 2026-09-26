@@ -1,3 +1,8 @@
+import {
+  draftId,
+  validateEditorial,
+  type BenchmarkDraft,
+} from "./benchmark-editorial.ts";
 import { createHash } from "node:crypto";
 import { sharedAsEndpoints, SHARED_MODELS } from "./shared-models.ts";
 import { sharedKeyFor } from "./shared-server.ts";
@@ -39,7 +44,16 @@ export async function benchmarkDb(path: string, init: RequestInit = {}) {
       ...init.headers,
     },
   });
-  if (!res.ok) throw new Error(`benchmark_database_${res.status}`);
+  if (!res.ok) {
+    const detail = await res.json().catch(() => ({}));
+    if (
+      ["draft_conflict", "draft_not_found", "review_required"].includes(
+        detail.message,
+      )
+    )
+      throw new Error(detail.message);
+    throw new Error(`benchmark_database_${res.status}`);
+  }
   const raw = await res.text();
   return raw ? JSON.parse(raw) : null;
 }
@@ -120,6 +134,8 @@ async function campaignModels(campaign: string): Promise<BenchmarkModel[]> {
     `benchmark_campaigns?id=eq.${campaign}&select=models`,
   );
   if (existing[0]) return existing[0].models;
+  if (campaign.startsWith("launch-"))
+    throw new Error("unknown_launch_campaign");
   const candidates = await benchmarkDb(
     "benchmark_registry?status=eq.ready&select=definition&order=last_tested_at.asc.nullsfirst,discovered_at.desc&limit=1000",
   );
@@ -151,7 +167,9 @@ export async function benchmarkPlan(
   health = false,
 ) {
   if (
-    !/^(weekly|health)-\d{4}-\d{2}-\d{2}$/.test(campaign) ||
+    !/^(?:(weekly|health)-\d{4}-\d{2}-\d{2}|launch-[a-f0-9]{16})$/.test(
+      campaign,
+    ) ||
     ![0, 1].includes(window)
   )
     throw new Error("invalid_campaign");
@@ -565,63 +583,67 @@ export async function discoverModels() {
   await event("discovery", results);
   return results;
 }
-export async function publishReport(campaign: string) {
-  if (!/^weekly-\d{4}-\d{2}-\d{2}$/.test(campaign))
+export async function launchCampaigns() {
+  const rows = await benchmarkDb(
+    "benchmark_registry?status=eq.ready&last_tested_at=is.null&select=definition&order=discovered_at.desc&limit=100",
+  );
+  const configured = configuredModels();
+  // ponytail: at most three new candidates per discovery pass; a queue worker if launch volume grows.
+  const candidates = rows
+    .map((r: { definition: BenchmarkModel }) => r.definition)
+    .filter(
+      (m: BenchmarkModel) =>
+        !configured.some(
+          (c) => c.model === m.model && c.provider === m.provider,
+        ),
+    )
+    .slice(0, 3);
+  for (const model of candidates) {
+    if (!validPrice(await priceFor(model))) continue;
+    const models = [
+      ...configured.filter((m) => m.model !== model.model).slice(0, 2),
+      model,
+    ];
+    const id = `launch-${hash([model.id, model.version, SUITE_VERSION])}`;
+    await benchmarkDb("benchmark_campaigns?on_conflict=id", {
+      method: "POST",
+      headers: { Prefer: "resolution=ignore-duplicates,return=minimal" },
+      body: JSON.stringify({ id, models }),
+    });
+  }
+  const pending = await benchmarkDb(
+    "benchmark_campaigns?id=like.launch-*&drafted_at=is.null&select=id&order=created_at.asc&limit=3",
+  );
+  return pending.map((row: { id: string }) => row.id) as string[];
+}
+
+export async function prepareReport(campaign: string, firstLook = false) {
+  if (!/^(weekly-\d{4}-\d{2}-\d{2}|launch-[a-f0-9]{16})$/.test(campaign))
     throw new Error("invalid_campaign");
   const models = await campaignModels(campaign);
   const rows = await benchmarkDb(
-    `benchmark_attempts?campaign=eq.${campaign}&state=eq.complete&select=result&order=id.asc`,
+    `benchmark_attempts?campaign=eq.${campaign}&state=eq.complete${firstLook ? "&window_index=eq.0" : ""}&select=result&order=id.asc`,
   );
   const attempts: BenchmarkAttempt[] = rows.map(
     (r: { result: BenchmarkAttempt }) => r.result,
   );
-  const problems = reportProblems(attempts, models);
-  if (problems.length) {
-    await event("publication_paused", { campaign, problems });
-    return { state: "paused", problems };
-  }
+  const problems = reportProblems(
+    attempts,
+    models,
+    Date.now(),
+    firstLook ? [0] : [0, 1],
+  );
+  if (problems.length) return { state: "paused", problems };
   const version = hash(attempts),
     id = `${campaign}-${version}`;
-  const old = await benchmarkDb(`benchmark_reports?id=eq.${id}&select=id`);
-  if (old.length) {
-    // Resume bookkeeping after a previous publication succeeded but its final event write failed.
-    for (const model of models)
-      await benchmarkDb(`benchmark_registry?id=eq.${model.id}`, {
-        method: "PATCH",
-        body: JSON.stringify({
-          last_tested_at: attempts
-            .map((a) => a.finishedAt)
-            .sort()
-            .at(-1),
-        }),
-      });
-    return { state: "published", id, unchanged: true };
-  }
-  const catalogs = await benchmarkDb(
-    "benchmark_catalog?select=provider,models,checked_at",
-  );
-  const unavailable = models.filter(
-    (m) =>
-      !catalogs.some(
-        (c: { provider: string; models: string[]; checked_at: string }) =>
-          c.provider === m.provider &&
-          c.models.includes(m.model) &&
-          Date.now() - Date.parse(c.checked_at) <= 86400000,
-      ),
-  );
-  if (unavailable.length) {
-    const problems = unavailable.map(
-      (m) => `${m.id}: current availability unverified`,
-    );
-    await event("publication_paused", { campaign, problems });
-    return { state: "paused", problems };
-  }
+  const old = await benchmarkDb(`benchmark_drafts?id=eq.${id}&select=id`);
   const report: BenchmarkReport = {
     cases: BENCHMARK_CASES,
     id,
     campaign,
     version,
-    publishedAt: new Date().toISOString(),
+    stage: firstLook ? "first-look" : "standard",
+    publishedAt: "",
     testedAt: attempts
       .map((a) => a.finishedAt)
       .sort()
@@ -631,39 +653,135 @@ export async function publishReport(campaign: string) {
     models,
     attempts,
   };
-  await benchmarkDb("benchmark_reports?on_conflict=id", {
+  if (!old.length) {
+    await benchmarkDb("benchmark_drafts?on_conflict=id", {
+      method: "POST",
+      headers: { Prefer: "resolution=ignore-duplicates,return=minimal" },
+      body: JSON.stringify({
+        id,
+        campaign,
+        snapshot: report,
+        summary: reportSummary(report),
+      }),
+    });
+    await event("draft_prepared", { id, stage: report.stage });
+  }
+  if (!firstLook) {
+    await benchmarkDb(`benchmark_campaigns?id=eq.${campaign}`, {
+      method: "PATCH",
+      body: JSON.stringify({ drafted_at: new Date().toISOString() }),
+    });
+    for (const model of models)
+      await benchmarkDb(`benchmark_registry?id=eq.${model.id}`, {
+        method: "PATCH",
+        body: JSON.stringify({ last_tested_at: report.testedAt }),
+      });
+  }
+  return { state: "draft", id, unchanged: !!old.length };
+}
+
+export async function editorialDraft(
+  id: string,
+): Promise<BenchmarkDraft | null> {
+  return (
+    (await benchmarkDb(`benchmark_drafts?id=eq.${draftId(id)}&select=*`))[0] ??
+    null
+  );
+}
+export async function editorialQueue(): Promise<BenchmarkDraft[]> {
+  return benchmarkDb(
+    "benchmark_drafts?select=id,campaign,summary,editorial,writer,revision,updated_at,published_revision,published_report_id&order=updated_at.desc&limit=50",
+  );
+}
+export async function saveEditorial(
+  id: string,
+  revision: number,
+  content: unknown,
+  writer: "codex" | "operator",
+) {
+  if (!Number.isSafeInteger(revision) || revision < 1)
+    throw new Error("invalid_revision");
+  const editorial = validateEditorial(content);
+  const rows = await benchmarkDb(
+    `benchmark_drafts?id=eq.${draftId(id)}&revision=eq.${revision}${writer === "codex" ? "&editorial=is.null" : ""}`,
+    {
+      method: "PATCH",
+      headers: { Prefer: "return=representation" },
+      body: JSON.stringify({
+        editorial,
+        writer,
+        revision: revision + 1,
+        updated_at: new Date().toISOString(),
+      }),
+    },
+  );
+  if (!rows.length) throw new Error("draft_conflict");
+  return rows[0] as BenchmarkDraft;
+}
+export async function publishDraft(
+  id: string,
+  revision: number,
+  reviewer: string,
+) {
+  const draft = await editorialDraft(id);
+  if (!draft?.snapshot) throw new Error("draft_not_found");
+  if (!Number.isSafeInteger(revision) || draft.revision !== revision)
+    throw new Error("draft_conflict");
+  validateEditorial(draft.editorial);
+  const report = draft.snapshot;
+  const problems = reportProblems(
+    report.attempts,
+    report.models,
+    Date.now(),
+    report.stage === "first-look" ? [0] : [0, 1],
+  );
+  if (Date.now() - Date.parse(report.testedAt) > 7 * 86400000)
+    problems.push("evidence_stale");
+  if (problems.length) return { state: "paused", problems };
+  if (draft.published_revision === revision)
+    return {
+      state: "published",
+      id: draft.published_report_id!,
+      unchanged: true,
+      urls: [] as string[],
+    };
+  const catalogs = await benchmarkDb(
+    "benchmark_catalog?select=provider,models,checked_at",
+  );
+  if (
+    report.models.some(
+      (m) =>
+        !catalogs.some(
+          (c: { provider: string; models: string[]; checked_at: string }) =>
+            c.provider === m.provider &&
+            c.models.includes(m.model) &&
+            Date.now() - Date.parse(c.checked_at) <= 86400000,
+        ),
+    )
+  )
+    return { state: "paused", problems: ["current_availability_unverified"] };
+  const result = await benchmarkDb("rpc/publish_benchmark_draft", {
     method: "POST",
-    headers: { Prefer: "resolution=ignore-duplicates,return=minimal" },
     body: JSON.stringify({
-      id,
-      campaign,
-      version,
-      snapshot: report,
-      index_data: reportSummary(report),
+      p_id: id,
+      p_revision: revision,
+      p_reviewer: reviewer,
     }),
   });
-  await event("published", { id, version });
-  for (const model of models) {
-    await benchmarkDb(`benchmark_registry?id=eq.${model.id}`, {
-      method: "PATCH",
-      body: JSON.stringify({ last_tested_at: report.testedAt }),
-    });
-  }
   return {
-    state: "published",
-    id,
+    ...result,
     urls: ["zh-CN", "en"].flatMap((locale) => [
-      `/${locale}`,
       `/${locale}/reports`,
       `/${locale}/models`,
-      `/${locale}/reports/${id}`,
-      ...models.map((m) => `/${locale}/model/${m.slug}`),
+      `/${locale}/reports/${result.id}`,
+      ...report.models.map((m) => `/${locale}/model/${m.slug}`),
       ...reportPairs(report).map(
         (pair) => `/${locale}/compare/${pair.join("-vs-")}`,
       ),
     ]),
   };
 }
+
 export async function publishedReports(
   limit = 30,
   modelSlugs: string[] = [],
@@ -671,7 +789,7 @@ export async function publishedReports(
   if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY)
     return [];
   const rows = await benchmarkDb(
-    `benchmark_reports?select=index_data&order=published_at.desc&limit=${Math.max(1, Math.min(1000, limit))}${modelSlugs.length ? `&index_data->models=cs.${encodeURIComponent(JSON.stringify(modelSlugs.map((slug) => ({ slug }))))}` : ""}`,
+    `benchmark_reports?is_current=eq.true&select=index_data&order=published_at.desc&limit=${Math.max(1, Math.min(1000, limit))}${modelSlugs.length ? `&index_data->models=cs.${encodeURIComponent(JSON.stringify(modelSlugs.map((slug) => ({ slug }))))}` : ""}`,
   );
   return rows.map((r: { index_data: BenchmarkReportSummary }) => r.index_data);
 }
