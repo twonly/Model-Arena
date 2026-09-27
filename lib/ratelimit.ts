@@ -4,7 +4,7 @@ import type { NextRequest } from "next/server";
  * 轻量 IP 限流（滑动窗口，函数实例内存级）。
  * 公网代理若不限流，脚本可白嫖函数额度。Fluid Compute 会复用实例，
  * 内存计数对单实例内的突发滥用足够；跨实例的极端场景交给 Vercel WAF。
- * 仅在托管环境（VERCEL=1）启用，不影响本地开发与测试。
+ * 仅在 Vercel / Railway 托管环境启用，不影响本地开发与测试。
  */
 
 const buckets = new Map<string, number[]>();
@@ -19,7 +19,7 @@ export function rateLimitByKey(
   limit: number,
   windowMs = 60_000
 ): string | null {
-  if (!process.env.VERCEL) return null;
+  if (!process.env.VERCEL && !process.env.RAILWAY_SERVICE_ID) return null;
   const now = Date.now();
   const arr = (buckets.get(bucketKey) ?? []).filter((t) => now - t < windowMs);
   if (arr.length >= limit) {
@@ -45,7 +45,7 @@ export function rateLimit(
   limit: number,
   windowMs = 60_000
 ): string | null {
-  if (!process.env.VERCEL) return null;
+  if (!process.env.VERCEL && !process.env.RAILWAY_SERVICE_ID) return null;
   const ip =
     req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ??
     req.headers.get("x-real-ip") ??

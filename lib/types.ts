@@ -43,7 +43,10 @@ export interface SpeedSample {
 
 /** Durations use their named clock; upstream timings start after proxy preparation. */
 export interface RunDiagnostics {
-  transport?: "vercel" | "cloudflare";
+  /** Hosting edge request ID, for correlating browser failures with HTTP logs. */
+  proxyRequestId?: string;
+  streamResumes?: number;
+  transport?: "vercel" | "cloudflare" | "railway";
   startedAt?: string;
   proxyPrepareMs?: number;
   upstreamHeadersMs?: number;
@@ -144,6 +147,7 @@ export interface HistoryEntry {
 
 /** 服务端代理输出的统一流事件 */
 export type StreamEvent =
+  | { type: "heartbeat" }
   | { type: "diagnostics"; diagnostics: RunDiagnostics }
   /** ts = 代理收到该 delta 时距请求开始的毫秒数（服务端时钟，不受浏览器渲染卡顿影响） */
   | { type: "delta"; text?: string; reasoning?: string; ts?: number }

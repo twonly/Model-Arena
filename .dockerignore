@@ -1,0 +1,13 @@
+node_modules
+.next
+.git
+.env*
+.vercel
+output
+tmp
+scripts
+content
+app/admin
+app/api/admin
+lib/admin*
+.admin-bypass.local.json

@@ -160,11 +160,20 @@ export default async function RootLayout({
         />
         <JsonLd data={siteJsonLd(locale)} />
         <I18nProvider locale={locale} messages={messages}>
+          {process.env.TOKRACE_BETA === "1" && (
+            <div role="status" className="bg-amber-100 px-4 py-2 text-center text-sm text-amber-950">
+              {locale === "en"
+                ? "Railway Beta · Uses your production account and shared quota."
+                : "Railway Beta · 使用正式站账号与共享额度，测试记录会同步。"}
+            </div>
+          )}
           {children}
           <SiteFooter />
         </I18nProvider>
-        <Analytics />
-        <SpeedInsights />
+        {process.env.VERCEL === "1" && process.env.TOKRACE_BETA !== "1" && <>
+          <Analytics />
+          <SpeedInsights />
+        </>}
       </body>
     </html>
   );

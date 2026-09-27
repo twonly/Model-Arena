@@ -106,3 +106,47 @@ test("client waiting stays separate from proxy speed and survives snapshots and 
   assert.equal(state.metrics.diagnostics.requestId, "failed-id");
   assert.equal(state.metrics.ttftMs, undefined, "failure must not invent a token");
 });
+
+test("network failure preserves partial text, timing, and edge request ID without claiming a cause", async (t) => {
+  let pulls = 0, state = { status: "idle", text: "", reasoning: "", metrics: null, samples: [] }, settled = 0;
+  t.mock.method(globalThis, "fetch", async () => new Response(new ReadableStream({ pull(c) {
+    if (pulls++ === 0) c.enqueue(new TextEncoder().encode('data: {"type":"delta","reasoning":"partial thought","ts":123}\n\n'));
+    else c.error(new TypeError("network error"));
+  } }, { highWaterMark: 0 }), { headers: { "x-railway-request-id": "edge-id" } }));
+  await runEndpoint({
+    endpoint: { id: "m", model: "m", name: "m", baseUrl: "https://test.test", apiKey: "key", kind: "openai" },
+    prompt: "hello", params: {}, signal: new AbortController().signal, authHeaders: async () => ({}),
+    update: (fn) => { state = fn(state); }, onSettled: () => { settled++; },
+  });
+  assert.equal(state.status, "error");
+  assert.equal(state.reasoning, "partial thought");
+  assert.equal(state.metrics.ttftMs, 123);
+  assert.ok(state.metrics.outputTokens > 0);
+  assert.equal(state.metrics.diagnostics.proxyRequestId, "edge-id");
+  assert.doesNotMatch(state.error, /与模型厂商无关/);
+  assert.equal(settled, 1);
+});
+
+test("buffered catch-up uses upstream timestamps for speed samples instead of inflating peak TPS", async (t) => {
+  let clock = 0;
+  t.mock.method(performance, "now", () => clock);
+  const delta = (ts) => ({ type: "delta", text: "A ", ts });
+  const frames = [[1000, [delta(1000)]], [2000, [delta(2000)]],
+    [40000, Array.from({ length: 37 }, (_, i) => delta((i + 3) * 1000))],
+    [41000, [delta(40000), { type: "done" }]]];
+  t.mock.method(globalThis, "fetch", async () => new Response(new ReadableStream({ pull(c) {
+    const [ms, events] = frames.shift(); clock = ms;
+    c.enqueue(new TextEncoder().encode(events.map((event) => `data: ${JSON.stringify(event)}\n\n`).join("")));
+    if (!frames.length) c.close();
+  } }, { highWaterMark: 0 })));
+  let state = { status: "idle", text: "", reasoning: "", metrics: null, samples: [] };
+  await runEndpoint({
+    endpoint: { id: "m", model: "m", name: "m", baseUrl: "https://test.test", apiKey: "key", kind: "openai" },
+    prompt: "hello", params: {}, signal: new AbortController().signal, authHeaders: async () => ({}),
+    update: (fn) => { state = fn(state); }, onSettled() {},
+  });
+  assert.equal(state.status, "done");
+  assert.equal(state.metrics.contentMs, 39000);
+  assert.ok(state.metrics.peakTps <= 2, "37 seconds of replay must not become a one-second speed spike");
+  assert.deepEqual(state.samples.map((sample) => sample.t), [1000, 2000, 3000, 40000]);
+});

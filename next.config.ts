@@ -5,6 +5,19 @@ import { fileURLToPath } from "node:url";
 const projectRoot = dirname(fileURLToPath(import.meta.url));
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [{
+      source: "/:path*",
+      has: [{ type: "host", value: "tokrace.com" }],
+      destination: "https://www.tokrace.com/:path*",
+      permanent: true,
+    }];
+  },
+  async headers() {
+    return process.env.TOKRACE_BETA === "1"
+      ? [{ source: "/:path*", headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }] }]
+      : [];
+  },
   turbopack: {
     root: projectRoot,
   },

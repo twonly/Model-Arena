@@ -449,6 +449,10 @@ export async function pipeChat(
   const emitDiagnostics = () => send({ type: "diagnostics", diagnostics: { ...diagnostics }, ts: now() });
   // Open the SSE response immediately; metadata and empty events never count as tokens.
   emitDiagnostics();
+  // Keep idle SSE connections alive while the model thinks; these are not tokens.
+  const heartbeat = setInterval(() => send({ type: "heartbeat" }), 15_000);
+  const stopHeartbeat = () => clearInterval(heartbeat);
+  signal.addEventListener("abort", stopHeartbeat, { once: true });
   const timed: Send = (event) => {
     const ts = now();
     if (event.type === "delta" && (event.text || event.reasoning)) diagnostics.upstreamTtftMs ??= ts;
@@ -470,10 +474,13 @@ export async function pipeChat(
     if (body.kind === "anthropic") await pipeAnthropic(body, ctx);
     else await pipeOpenAI(body, ctx);
   } finally {
+    stopHeartbeat();
+    signal.removeEventListener("abort", stopHeartbeat);
     if (!terminal) emitDiagnostics();
     // Preserve slow upstream receipts in runtime logs, without prompt, output or credentials.
-    if ((diagnostics.proxyPrepareMs ?? 0) + (diagnostics.upstreamTtftMs ?? now()) >= 10_000) {
-      console.info("chat_timing", JSON.stringify(diagnostics));
+    const durationMs = (diagnostics.proxyPrepareMs ?? 0) + now();
+    if (durationMs >= 10_000) {
+      console.info("chat_timing", JSON.stringify({ ...diagnostics, durationMs, aborted: signal.aborted, terminal }));
     }
   }
 }

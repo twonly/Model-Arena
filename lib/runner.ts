@@ -1,3 +1,4 @@
+import { chatEvents } from "./chat-events.ts";
 import { estimateTokens } from "./tokens.ts";
 import { getClientId } from "./telemetry.ts";
 import {
@@ -10,7 +11,6 @@ import type {
   RunState,
   RunDiagnostics,
   SpeedSample,
-  StreamEvent,
 } from "./types.ts";
 
 interface RunOptions {
@@ -90,7 +90,8 @@ export async function runEndpoint({
   const liveTok = () => estLiveTok;
 
   const instantTps = (): number => {
-    const t = now();
+    // Replayed tokens keep their upstream clock; catch-up must not look like a speed burst.
+    const t = Math.max(tLastReasoning ?? 0, tLastContent ?? 0);
     const tok = liveTok();
     checkpoints.push({ t, tok });
     // 找滑动窗口起点
@@ -111,9 +112,10 @@ export async function runEndpoint({
     if (!force && t - lastFlush < FLUSH_MS) return;
     lastFlush = t;
     const tps = instantTps();
-    if (t - lastSample >= SAMPLE_MS) {
-      lastSample = t;
-      samples.push({ t, tps });
+    const sampleTime = Math.max(tLastReasoning ?? 0, tLastContent ?? 0);
+    if (sampleTime - lastSample >= SAMPLE_MS) {
+      lastSample = sampleTime;
+      samples.push({ t: sampleTime, tps });
     }
     const r = reasoning;
     const x = text;
@@ -292,11 +294,13 @@ export async function runEndpoint({
     diagnostics.clientPrepareMs = now();
     const res = await fetch(chatUrl, {
       method: "POST",
-      headers: chatHeaders,
+      headers: { ...chatHeaders, ...(chatUrl === "/api/chat" ? { "X-Chat-Resume": "1" } : {}) },
       signal,
       body: JSON.stringify(chatBody),
     });
     diagnostics.clientHeadersMs = now();
+    const proxyRequestId = res.headers.get("x-railway-request-id") ?? res.headers.get("x-vercel-id");
+    if (proxyRequestId) diagnostics.proxyRequestId = proxyRequestId;
 
     // 额度已用完（402）：抛出后端给的友好中文提示
     if (res.status === 402) {
@@ -312,73 +316,54 @@ export async function runEndpoint({
     const rem = res.headers.get("X-Quota-Remaining");
     if (rem != null && onQuota) onQuota(Number(rem));
 
-    const reader = res.body.getReader();
-    const decoder = new TextDecoder();
-    let buf = "";
-    let finished = false; // 收到 done 事件（无论是否截断）
-    let cleanFinish = false; // 正常完成（用于竞速排名，截断不计）
-
-    while (true) {
-      const { done, value } = await reader.read();
-      if (done) break;
-      buf += decoder.decode(value, { stream: true });
-      const parts = buf.split("\n\n");
-      buf = parts.pop() ?? "";
-      for (const part of parts) {
-        const line = part.trim();
-        if (!line.startsWith("data:")) continue;
-        let ev: StreamEvent;
-        try {
-          ev = JSON.parse(line.slice(5).trim());
-        } catch {
-          continue;
+    let finished = false;
+    let cleanFinish = false;
+    for await (const ev of chatEvents(res, signal)) {
+      if (ev.type === "delta") {
+        // 优先用代理盖的服务端时间戳（不受浏览器渲染/解析卡顿影响）
+        const clientTime = now();
+        const serverTime = typeof ev.ts === "number" && Number.isFinite(ev.ts) && ev.ts >= 0;
+        const t = serverTime ? ev.ts! : clientTime;
+        if (tFirst == null && (ev.text || ev.reasoning)) {
+          tFirst = t;
+          diagnostics.clientTtftMs = clientTime;
+          diagnostics.ttftSource = serverTime ? "proxy" : "client";
         }
-        if (ev.type === "delta") {
-          // 优先用代理盖的服务端时间戳（不受浏览器渲染/解析卡顿影响）
-          const clientTime = now();
-          const serverTime = typeof ev.ts === "number" && Number.isFinite(ev.ts) && ev.ts >= 0;
-          const t = serverTime ? ev.ts! : clientTime;
-          if (tFirst == null && (ev.text || ev.reasoning)) {
-            tFirst = t;
-            diagnostics.clientTtftMs = clientTime;
-            diagnostics.ttftSource = serverTime ? "proxy" : "client";
-          }
-          if (ev.reasoning) {
-            if (tFirstReasoning == null) tFirstReasoning = t;
-            reasoning += ev.reasoning;
-            estLiveTok += estimateTokens(ev.reasoning);
-            tLastReasoning = t;
-          }
-          if (ev.text) {
-            diagnostics.clientFirstContentMs ??= clientTime;
-            if (tFirstContent == null) tFirstContent = t;
-            text += ev.text;
-            estLiveTok += estimateTokens(ev.text);
-            tLastContent = t;
-          }
-          flush();
-        } else if (ev.type === "diagnostics") {
-          diagnostics = { ...diagnostics, ...ev.diagnostics };
-        } else if (ev.type === "usage") {
-          const count = (value: unknown, previous?: number) =>
-            typeof value === "number" && Number.isFinite(value) && value >= 0
-              ? value
-              : previous;
-          usage = {
-            promptTokens: count(ev.promptTokens, usage.promptTokens),
-            outputTokens: count(ev.outputTokens, usage.outputTokens),
-            reasoningTokens: count(ev.reasoningTokens, usage.reasoningTokens),
-          };
-        } else if (ev.type === "error") {
-          throw new Error(ev.message);
-        } else if (ev.type === "done") {
-          finished = true;
-          const truncated =
-            ev.truncated ||
-            ["length", "max_tokens"].includes(ev.finishReason ?? "");
-          cleanFinish = !truncated;
-          finalize(truncated ? "truncated" : "done", ev.finishReason);
+        if (ev.reasoning) {
+          if (tFirstReasoning == null) tFirstReasoning = t;
+          reasoning += ev.reasoning;
+          estLiveTok += estimateTokens(ev.reasoning);
+          tLastReasoning = t;
         }
+        if (ev.text) {
+          diagnostics.clientFirstContentMs ??= clientTime;
+          if (tFirstContent == null) tFirstContent = t;
+          text += ev.text;
+          estLiveTok += estimateTokens(ev.text);
+          tLastContent = t;
+        }
+        flush();
+      } else if (ev.type === "diagnostics") {
+        diagnostics = { ...diagnostics, ...ev.diagnostics };
+      } else if (ev.type === "usage") {
+        const count = (value: unknown, previous?: number) =>
+          typeof value === "number" && Number.isFinite(value) && value >= 0
+            ? value
+            : previous;
+        usage = {
+          promptTokens: count(ev.promptTokens, usage.promptTokens),
+          outputTokens: count(ev.outputTokens, usage.outputTokens),
+          reasoningTokens: count(ev.reasoningTokens, usage.reasoningTokens),
+        };
+      } else if (ev.type === "error") {
+        throw new Error(ev.message);
+      } else if (ev.type === "done") {
+        finished = true;
+        const truncated =
+          ev.truncated ||
+          ["length", "max_tokens"].includes(ev.finishReason ?? "");
+        cleanFinish = !truncated;
+        finalize(truncated ? "truncated" : "done", ev.finishReason);
       }
     }
     // 收到正常 done 事件才算「完成」；否则是流被意外掐断（函数超时/连接断）
@@ -399,11 +384,12 @@ export async function runEndpoint({
       /Failed to fetch|NetworkError|network error|ERR_|load failed/i.test(raw)
     ) {
       message = gotData
-        ? `连接中断：传输途中与服务器的连接断开（多为浏览器↔本站的跨境网络波动，与模型厂商无关）。点「重跑」通常可恢复。原始：${raw}`
-        : `无法连接到服务器：浏览器没能连上本站代理（多为本地网络/跨境到 Vercel 不稳定）。请检查网络后点「重跑」。原始：${raw}`;
+        ? `连接中断：未能接收完整响应，已保留收到的内容。仅凭此错误无法确定是浏览器网络、代理还是服务端断开；请查看「计时详情 → 诊断记录」后重跑。原始：${raw}`
+        : `无法连接到本站代理。请检查网络，并查看「计时详情 → 诊断记录」后重跑。原始：${raw}`;
     } else if (/aborted|timeout/i.test(raw)) {
       message = `请求超时：${raw}`;
     }
+    if (gotData) finalize("truncated");
     update((prev) => ({
       ...prev,
       status: "error",
