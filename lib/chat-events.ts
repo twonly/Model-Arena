@@ -1,10 +1,11 @@
 import type { StreamEvent } from "./types.ts";
 
 /** Resume the same generation, never retry its POST (or charge/start a second model call). */
-export async function* chatEvents(initial: Response, signal: AbortSignal): AsyncGenerator<StreamEvent> {
+export async function* chatEvents(initial: Response, signal: AbortSignal, options: { after?: number; checkpoint?: (after: number, force: boolean) => void } = {}): AsyncGenerator<StreamEvent> {
   const token = initial.headers.get("x-chat-stream");
-  let response = initial, after = 0, resumes = 0, failures = 0;
+  let response = initial, after = options.after ?? 0, resumes = 0, failures = 0;
   let lastReceived = Date.now();
+  let terminal = false;
   try {
     while (true) {
       let rotated = false;
@@ -32,8 +33,10 @@ export async function* chatEvents(initial: Response, signal: AbortSignal): Async
               if (event.seq !== after + 1) throw new Error("续传数据不连续，请重跑。");
               after = event.seq;
             }
+            terminal = event.type === "done" || event.type === "error";
             yield event;
-            if (event.type === "done" || event.type === "error") return;
+            options.checkpoint?.(after, terminal);
+            if (terminal) return;
           }
         }
       } catch (error) {
@@ -44,10 +47,12 @@ export async function* chatEvents(initial: Response, signal: AbortSignal): Async
       }
       signal.throwIfAborted();
       if (!token) return;
+      // Persist the exact reducer state before the server discards acknowledged events.
+      options.checkpoint?.(after, true);
       if (!rotated) failures++;
       while (true) {
         signal.throwIfAborted();
-        if (Date.now() - lastReceived > 75_000) throw new Error("连接中断：自动续传未能恢复，已保留收到的内容。请恢复网络后重跑。");
+        if (Date.now() - lastReceived > 30 * 60_000) throw new Error("连接中断：自动续传未能恢复，已保留收到的内容。请恢复网络后重跑。");
         if (failures) await new Promise<void>((resolve, reject) => {
           const abort = () => { clearTimeout(timer); reject(signal.reason); };
           const timer = setTimeout(() => { signal.removeEventListener("abort", abort); resolve(); }, Math.min(failures * 1000, 5000));
@@ -74,8 +79,8 @@ export async function* chatEvents(initial: Response, signal: AbortSignal): Async
       yield { type: "diagnostics", diagnostics: { streamResumes: ++resumes } };
     }
   } finally {
-    if (token) {
-      // Explicit stop also stops the paid upstream; a lost tab expires server-side in 90s.
+    if (token && (terminal || signal.aborted)) {
+      // A reload/network loss leaves the generation available for the next page.
       void fetch("/api/chat", { method: "DELETE", headers: { "X-Chat-Stream": token }, keepalive: true, signal: AbortSignal.timeout(5000) }).catch(() => {});
     }
   }

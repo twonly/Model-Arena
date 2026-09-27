@@ -177,3 +177,53 @@ test("fragmented thinking never invents content tokens and estimates agree acros
   assert.equal(state.metrics.reasoningTokens, 32);
   assert.equal(state.metrics.contentTokens, 2);
 });
+
+test("refresh resumes from a saved checkpoint without POST, duplicate output or reset timing", async (t) => {
+  const { emptyRun } = await import("../lib/types.ts");
+  let state = emptyRun(), cursor;
+  const requests = [];
+  const before = {
+    token: "a".repeat(64), after: 2, startedAt: Date.now() - 600000,
+    reasoning: "earlier thought", text: "", tFirst: 100, tFirstReasoning: 100, tLastReasoning: 200,
+    diagnostics: { attempts: 1, clientTtftMs: 150, ttftSource: "proxy" },
+    usage: {}, samples: [], checkpoints: [{ t: 200, tok: 4 }],
+  };
+  t.mock.method(globalThis, "fetch", async (url, init = {}) => {
+    requests.push([url, init.method ?? "GET"]);
+    if (init.method === "DELETE") return new Response(null, { status: 204 });
+    assert.equal(url, "/api/chat?after=2");
+    assert.equal(new Headers(init.headers).get("x-chat-stream"), before.token);
+    return new Response([
+      { type: "delta", reasoning: "earlier thought", seq: 2, ts: 200 },
+      { type: "delta", reasoning: " continued", seq: 3, ts: 600000 },
+      { type: "delta", text: "answer", seq: 4, ts: 600100 },
+      { type: "usage", outputTokens: 120, reasoningTokens: 100, seq: 5 },
+      { type: "done", seq: 6 },
+    ].map((event) => `data: ${JSON.stringify(event)}\n\n`).join(""));
+  });
+  await runEndpoint({
+    endpoint: { id: "m", model: "m", name: "m", baseUrl: "", apiKey: "", kind: "openai" },
+    prompt: "", params: {}, resume: before, signal: new AbortController().signal,
+    authHeaders: () => { throw new Error("resume must not request auth or a new upstream"); },
+    update: (fn) => { state = fn(state); }, onSettled() {},
+    onCheckpoint: (checkpoint) => { cursor = structuredClone(checkpoint); },
+  });
+  assert.equal(state.status, "done");
+  assert.equal(state.reasoning, "earlier thought continued");
+  assert.equal(state.text, "answer");
+  assert.equal(state.metrics.thinkingMs, 599900);
+  assert.equal(state.metrics.outputTokens, 120);
+  assert.equal(state.metrics.diagnostics.clientTtftMs, 150);
+  assert.ok(state.metrics.totalMs >= 600000);
+  assert.equal(cursor.after, 6);
+  assert.deepEqual(requests.map((x) => x[1]), ["GET", "DELETE"]);
+
+  t.mock.method(globalThis, "fetch", async () => new Response("service restarted", { status: 410 }));
+  await runEndpoint({
+    endpoint: { id: "m" }, prompt: "", params: {}, resume: before,
+    signal: new AbortController().signal, update: (fn) => { state = fn(state); }, onSettled() {},
+  });
+  assert.equal(state.status, "error");
+  assert.equal(state.reasoning, "earlier thought");
+  assert.match(state.error, /service restarted/);
+});

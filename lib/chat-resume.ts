@@ -2,11 +2,12 @@ import { randomBytes } from "node:crypto";
 
 const encoder = new TextEncoder();
 const encode = (event: Record<string, unknown>) => encoder.encode(`data: ${JSON.stringify(event)}\n\n`);
-const RETENTION_MS = 90_000;
+const RETENTION_MS = 30 * 60_000;
 const CONNECTION_MS = 45_000;
 const MAX_BUFFER = 8 * 1024 * 1024;
 
 type Job = {
+  startedAt: number;
   abort: AbortController;
   events: { seq: number; bytes: Uint8Array }[];
   seq: number;
@@ -19,9 +20,10 @@ type Job = {
 // Tokens are bearer capabilities, never URLs/log fields; buffers expire after disconnect.
 const jobs = new Map<string, Job>();
 
-export function stopChat(token: string): boolean {
+export function stopChat(token: string, reason: "client_stop" | "retention_expired" = "client_stop"): boolean {
   const job = jobs.get(token);
   if (!job) return false;
+  console.info("chat_job_closed", JSON.stringify({ reason, ageMs: Date.now() - job.startedAt, finished: job.done, lastSeq: job.seq, bufferedBytes: job.bytes }));
   jobs.delete(token);
   clearTimeout(job.timer);
   job.abort.abort();
@@ -32,14 +34,14 @@ export function stopChat(token: string): boolean {
 
 function retain(token: string, job: Job) {
   clearTimeout(job.timer);
-  job.timer = setTimeout(() => stopChat(token), RETENTION_MS);
+  job.timer = setTimeout(() => stopChat(token, "retention_expired"), RETENTION_MS);
   job.timer.unref?.();
 }
 
 export function startChat(work: (send: (event: Record<string, unknown>) => void, signal: AbortSignal) => Promise<void>): string | null {
   if (jobs.size >= 16) return null;
   const token = randomBytes(32).toString("hex");
-  const job: Job = { abort: new AbortController(), events: [], seq: 0, bytes: 0, done: false };
+  const job: Job = { startedAt: Date.now(), abort: new AbortController(), events: [], seq: 0, bytes: 0, done: false };
   jobs.set(token, job);
   retain(token, job);
   const send = (event: Record<string, unknown>) => {
@@ -73,7 +75,7 @@ export function startChat(work: (send: (event: Record<string, unknown>) => void,
 
 export function resumeChat(token: string, after: number, signal: AbortSignal, headers: Record<string, string> = {}): Response {
   const job = jobs.get(token);
-  if (!job) return new Response("测试连接已过期或服务已重启；已收到的内容仍保留，请重跑。", { status: 410 });
+  if (!job) return new Response("原测试已不可用（服务重启，或离线超过 30 分钟）。已收内容已保留；模型原连接无法恢复，请重跑。", { status: 410 });
   if (!Number.isSafeInteger(after) || after < 0 || after > job.seq || after < (job.events[0]?.seq ?? job.seq + 1) - 1) {
     return new Response("无效的续传位置", { status: 409 });
   }

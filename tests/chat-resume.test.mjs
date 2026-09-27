@@ -19,6 +19,7 @@ test("same upstream survives disconnect, replays only unacknowledged events, and
   const first = resumeChat(token, 0, signal()).body.getReader();
   assert.equal(parse((await first.read()).value).text, "A");
   await first.cancel();
+  t.mock.timers.tick(120_000); // Longer than the previous 90-second retention.
   assert.equal(upstream.aborted, false);
   send({ type: "delta", text: "B", ts: 1000 });
   assert.equal(resumeChat("wrong", 1, signal()).status, 410);
@@ -35,7 +36,7 @@ test("same upstream survives disconnect, replays only unacknowledged events, and
   assert.equal(parse((await last.read()).value).type, "done");
   assert.equal((await last.read()).done, true);
   assert.equal(calls, 1);
-  t.mock.timers.tick(90_000);
+  t.mock.timers.tick(30 * 60_000);
   assert.equal(upstream.aborted, true);
   assert.equal(resumeChat(token, 3, signal()).status, 410);
 });

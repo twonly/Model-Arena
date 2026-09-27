@@ -13,7 +13,26 @@ import type {
   SpeedSample,
 } from "./types.ts";
 
+export interface RunCheckpoint {
+  token: string;
+  after: number;
+  startedAt: number;
+  reasoning: string;
+  text: string;
+  tFirst?: number;
+  tFirstReasoning?: number;
+  tLastReasoning?: number;
+  tFirstContent?: number;
+  tLastContent?: number;
+  diagnostics: RunDiagnostics;
+  usage: { promptTokens?: number; outputTokens?: number; reasoningTokens?: number };
+  samples: SpeedSample[];
+  checkpoints: { t: number; tok: number }[];
+}
+
 interface RunOptions {
+  resume?: RunCheckpoint;
+  onCheckpoint?: (checkpoint: RunCheckpoint, force: boolean) => void;
   endpoint: ModelEndpoint;
   prompt: string;
   params: RunParams;
@@ -60,33 +79,37 @@ export async function runEndpoint({
   runId,
   onQuota,
   authHeaders = defaultAuthHeaders,
+  resume,
+  onCheckpoint,
 }: RunOptions): Promise<void> {
   const t0 = performance.now();
-  let reasoning = "";
-  let text = "";
-  let tFirst: number | undefined; // 首个 token（思考或正文）
-  let tFirstReasoning: number | undefined; // 思考阶段首末 delta（独立计时窗口）
-  let tLastReasoning: number | undefined;
-  let tFirstContent: number | undefined; // 正文阶段首末 delta
-  let tLastContent: number | undefined;
-  let diagnostics: RunDiagnostics = {};
+  const startedAt = resume?.startedAt ?? Date.now();
+  const elapsedBefore = resume ? Math.max(0, Date.now() - startedAt) : 0;
+  let reasoning = resume?.reasoning ?? "";
+  let text = resume?.text ?? "";
+  let tFirst: number | undefined = resume?.tFirst; // 首个 token（思考或正文）
+  let tFirstReasoning: number | undefined = resume?.tFirstReasoning; // 思考阶段首末 delta（独立计时窗口）
+  let tLastReasoning: number | undefined = resume?.tLastReasoning;
+  let tFirstContent: number | undefined = resume?.tFirstContent; // 正文阶段首末 delta
+  let tLastContent: number | undefined = resume?.tLastContent;
+  let diagnostics: RunDiagnostics = { ...resume?.diagnostics };
   let usage: {
     promptTokens?: number;
     outputTokens?: number;
     reasoningTokens?: number;
-  } = {};
+  } = { ...resume?.usage };
 
   // 实时速度：记录 (时间, 累计估算 tokens) 检查点
-  const checkpoints: { t: number; tok: number }[] = [];
-  const samples: SpeedSample[] = [];
+  const checkpoints: { t: number; tok: number }[] = [...(resume?.checkpoints ?? [])];
+  const samples: SpeedSample[] = [...(resume?.samples ?? [])];
   let lastFlush = -Infinity; // 首个片段立即显示，并建立实时速度的起始采样点。
-  let lastSample = 0;
+  let lastSample = samples.at(-1)?.t ?? 0;
 
-  const now = () => performance.now() - t0;
+  const now = () => elapsedBefore + performance.now() - t0;
 
   // 实时估算用增量累加（O(delta)），避免每次 flush 全文重扫；
   // 最终指标在 finalize 里仍用全文一次性精确估算
-  let estLiveReasoning = 0, estLiveContent = 0;
+  let estLiveReasoning = estimateTokenUnits(reasoning), estLiveContent = estimateTokenUnits(text);
   const liveTok = () => Math.round(estLiveReasoning / 20) + Math.round(estLiveContent / 20);
 
   const instantTps = (): number => {
@@ -102,6 +125,9 @@ export async function runEndpoint({
         break;
       }
     }
+    // Only the current speed window is needed by refresh checkpoints.
+    const baseIndex = checkpoints.indexOf(base);
+    if (baseIndex > 0) checkpoints.splice(0, baseIndex);
     const dt = (t - base.t) / 1000;
     if (dt <= 0.1) return 0;
     return (tok - base.tok) / dt;
@@ -222,8 +248,8 @@ export async function runEndpoint({
   update((prev) => ({
     ...prev,
     status: "connecting",
-    reasoning: "",
-    text: "",
+    reasoning,
+    text,
     error: undefined,
     metrics: null,
     samples: [],
@@ -235,74 +261,85 @@ export async function runEndpoint({
     rank: undefined,
   }));
 
-  try {
-    // 共享「体验额度」模型：不带 key/baseUrl，服务端按 sharedId 注入 + 扣额度
-    const reqBody = endpoint.shared
-      ? {
-          shared: true,
-          sharedId: endpoint.id,
-          clientId: getClientId(),
-          runId,
-          systemPrompt: params.systemPrompt,
-          prompt,
-          temperature: params.temperature,
-          maxTokens: params.maxTokens,
-          imageDataUrl,
-        }
-      : {
-          kind: endpoint.kind,
-          baseUrl: endpoint.baseUrl,
-          apiKey: endpoint.apiKey,
-          model: endpoint.model,
-          systemPrompt: params.systemPrompt,
-          prompt,
-          temperature: params.temperature,
-          maxTokens: params.maxTokens,
-          extraBody: endpoint.extraBody,
-          imageDataUrl,
-        };
-    const headers = {
-      "Content-Type": "application/json",
-      ...(await authHeaders()),
-    };
-    // 默认 Vercel：直接打 /api/chat，不多打 session（每页只探测一次路由计划并缓存）。
-    // 仅当该模型命中 Cloudflare 规则（或全局默认即 CF）时，才按请求签一次性
-    // ticket（ticket 绑定 body，无法预签）走 Worker。
-    const plan = await getTransportPlan();
-    const useCloudflare =
-      resolveEndpointTransport(
-        {
-          id: endpoint.id,
-          model: endpoint.model,
-          baseUrl: endpoint.baseUrl,
-          name: endpoint.name,
-        },
-        plan,
-      ) === "cloudflare";
-    const session = useCloudflare
-      ? await resolveChatTransport(reqBody, headers, signal)
-      : null;
-    const chatUrl =
-      session?.transport === "cloudflare" ? session.workerUrl : "/api/chat";
-    const chatBody =
-      session?.transport === "cloudflare"
-        ? { ticket: session.ticket, body: reqBody }
-        : reqBody;
-    const chatHeaders =
-      session?.transport === "cloudflare"
-        ? { "Content-Type": "application/json" }
-        : headers;
+  if (resume) flush(true);
 
-    diagnostics.clientPrepareMs = now();
-    const res = await fetch(chatUrl, {
-      method: "POST",
-      headers: { ...chatHeaders, ...(chatUrl === "/api/chat" ? { "X-Chat-Resume": "1" } : {}) },
-      signal,
-      body: JSON.stringify(chatBody),
-    });
-    diagnostics.clientHeadersMs = now();
-    const proxyRequestId = res.headers.get("x-railway-request-id") ?? res.headers.get("x-vercel-id");
-    if (proxyRequestId) diagnostics.proxyRequestId = proxyRequestId;
+  try {
+    let res: Response;
+    if (resume) {
+      // Enter the normal bounded GET retry loop, including when refresh happens offline.
+      res = new Response('data: {"type":"rotate"}\n\n', {
+        headers: { "X-Chat-Stream": resume.token },
+      });
+    } else {
+      // 共享「体验额度」模型：不带 key/baseUrl，服务端按 sharedId 注入 + 扣额度
+      const reqBody = endpoint.shared
+        ? {
+            shared: true,
+            sharedId: endpoint.id,
+            clientId: getClientId(),
+            runId,
+            systemPrompt: params.systemPrompt,
+            prompt,
+            temperature: params.temperature,
+            maxTokens: params.maxTokens,
+            imageDataUrl,
+          }
+        : {
+            kind: endpoint.kind,
+            baseUrl: endpoint.baseUrl,
+            apiKey: endpoint.apiKey,
+            model: endpoint.model,
+            systemPrompt: params.systemPrompt,
+            prompt,
+            temperature: params.temperature,
+            maxTokens: params.maxTokens,
+            extraBody: endpoint.extraBody,
+            imageDataUrl,
+          };
+      const headers = {
+        "Content-Type": "application/json",
+        ...(await authHeaders()),
+      };
+      // 默认 Vercel：直接打 /api/chat，不多打 session（每页只探测一次路由计划并缓存）。
+      // 仅当该模型命中 Cloudflare 规则（或全局默认即 CF）时，才按请求签一次性
+      // ticket（ticket 绑定 body，无法预签）走 Worker。
+      const plan = await getTransportPlan();
+      const useCloudflare =
+        resolveEndpointTransport(
+          {
+            id: endpoint.id,
+            model: endpoint.model,
+            baseUrl: endpoint.baseUrl,
+            name: endpoint.name,
+          },
+          plan,
+        ) === "cloudflare";
+      const session = useCloudflare
+        ? await resolveChatTransport(reqBody, headers, signal)
+        : null;
+      const chatUrl =
+        session?.transport === "cloudflare" ? session.workerUrl : "/api/chat";
+      const chatBody =
+        session?.transport === "cloudflare"
+          ? { ticket: session.ticket, body: reqBody }
+          : reqBody;
+      const chatHeaders =
+        session?.transport === "cloudflare"
+          ? { "Content-Type": "application/json" }
+          : headers;
+
+      diagnostics.clientPrepareMs = now();
+      res = await fetch(chatUrl, {
+        method: "POST",
+        headers: { ...chatHeaders, ...(chatUrl === "/api/chat" ? { "X-Chat-Resume": "1" } : {}) },
+        signal,
+        body: JSON.stringify(chatBody),
+      });
+      diagnostics.clientHeadersMs = now();
+      const proxyRequestId = res.headers.get("x-railway-request-id") ?? res.headers.get("x-vercel-id");
+      if (proxyRequestId) diagnostics.proxyRequestId = proxyRequestId;
+
+    }
 
     // 额度已用完（402）：抛出后端给的友好中文提示
     if (res.status === 402) {
@@ -318,9 +355,18 @@ export async function runEndpoint({
     const rem = res.headers.get("X-Quota-Remaining");
     if (rem != null && onQuota) onQuota(Number(rem));
 
+    const token = res.headers.get("x-chat-stream") ?? resume?.token;
+    const checkpoint = (after: number, force: boolean) => {
+      if (token && onCheckpoint) onCheckpoint({
+        token, after, startedAt, reasoning, text, tFirst, tFirstReasoning, tLastReasoning,
+        tFirstContent, tLastContent, diagnostics: { ...diagnostics }, usage: { ...usage },
+        samples, checkpoints,
+      }, force);
+    };
+    checkpoint(resume?.after ?? 0, true);
     let finished = false;
     let cleanFinish = false;
-    for await (const ev of chatEvents(res, signal)) {
+    for await (const ev of chatEvents(res, signal, { after: resume?.after, checkpoint })) {
       if (ev.type === "delta") {
         // 优先用代理盖的服务端时间戳（不受浏览器渲染/解析卡顿影响）
         const clientTime = now();
@@ -328,7 +374,7 @@ export async function runEndpoint({
         const t = serverTime ? ev.ts! : clientTime;
         if (tFirst == null && (ev.text || ev.reasoning)) {
           tFirst = t;
-          diagnostics.clientTtftMs = clientTime;
+          diagnostics.clientTtftMs ??= clientTime;
           diagnostics.ttftSource = serverTime ? "proxy" : "client";
         }
         if (ev.reasoning) {

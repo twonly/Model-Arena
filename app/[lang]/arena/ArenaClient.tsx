@@ -36,7 +36,7 @@ import { buildSharePostText } from "@/lib/social-share";
 import { buildMarkdown, extractWordTarget } from "@/lib/format";
 import { fileToResizedDataUrl } from "@/lib/image";
 import type { PromptItem } from "@/lib/prompts";
-import { prewarmTransportPlan, runEndpoint } from "@/lib/runner";
+import { prewarmTransportPlan, runEndpoint, type RunCheckpoint } from "@/lib/runner";
 import { estimateTokens } from "@/lib/tokens";
 import { rankBadge } from "@/lib/format";
 import { buildSnapshot, thinSamples, type VotingConfigLite } from "@/lib/share";
@@ -493,6 +493,10 @@ export default function Home() {
   })();
 
   const controllerRef = useRef<AbortController | null>(null);
+  const checkpointsRef = useRef<Record<string, RunCheckpoint>>({});
+  const restoredActiveRef = useRef(false);
+  const lastPersistRef = useRef(0);
+  const storageWarningRef = useRef(false);
   const rankCounter = useRef(0);
   const pendingCount = useRef(0);
   const runsRef = useRef(runs);
@@ -623,6 +627,7 @@ export default function Home() {
         seed = JSON.parse(seedRaw) as ArenaSeed;
       }
       if (!seed?.prompt?.trim()) return;
+      restoredActiveRef.current = true; // Explicit seed wins even after its URL/storage marker is consumed.
 
       setTemporaryDraft({
         title: seed.title || sampleCopy.title,
@@ -719,10 +724,52 @@ export default function Home() {
   };
 
   const updateRun = useCallback(
-    (id: string) => (fn: (prev: RunState) => RunState) =>
-      setRuns((prev) => ({ ...prev, [id]: fn(prev[id] ?? emptyRun()) })),
+    (id: string) => (fn: (prev: RunState) => RunState) => {
+      const next = fn(runsRef.current[id] ?? emptyRun());
+      runsRef.current = { ...runsRef.current, [id]: next };
+      setRuns((prev) => ({ ...prev, [id]: next }));
+    },
     [],
   );
+
+  const persistActive = (force = false) => {
+    const context = comparisonRef.current;
+    if (!context || restoredRef.current || (!force && (!Object.values(runsRef.current).some(isRunning) || Date.now() - lastPersistRef.current < 1000))) return;
+    lastPersistRef.current = Date.now();
+    try {
+      // ponytail: same-tab refresh only; sessionStorage quota failure is visible.
+      // Never duplicate API credentials into the resumable task snapshot.
+      sessionStorage.setItem("ma.activeComparison.v1", JSON.stringify({
+        at: Date.now(),
+        context: { ...context, endpoints: context.endpoints.map((ep) => ({ ...ep, apiKey: "", extraBody: undefined })) },
+        runs: runsRef.current, checkpoints: checkpointsRef.current,
+      }));
+    } catch {
+      if (!storageWarningRef.current) {
+        storageWarningRef.current = true;
+        flash(en ? "Could not save refresh recovery. Keep this page open." : "无法保存刷新恢复数据（浏览器存储可能已满），请保持页面打开。");
+      }
+    }
+  };
+  const checkpointFor = (id: string) => (checkpoint: RunCheckpoint, force: boolean) => {
+    checkpointsRef.current[id] = checkpoint;
+    persistActive(force);
+  };
+
+  useEffect(() => {
+    // Flush before refresh and before a hidden tab's timers are throttled.
+    const save = () => persistActive(true);
+    const timer = setInterval(() => persistActive(), 1000);
+    window.addEventListener("pagehide", save);
+    document.addEventListener("visibilitychange", save);
+    return () => {
+      clearInterval(timer);
+      window.removeEventListener("pagehide", save);
+      document.removeEventListener("visibilitychange", save);
+    };
+    // All persisted values are read from refs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const activeEndpoints = temporaryEndpoints ?? endpoints;
   const usingTemporaryEndpoints = temporaryEndpoints != null;
@@ -866,6 +913,65 @@ export default function Home() {
     ],
   );
 
+  useEffect(() => {
+    if (restoredActiveRef.current) return;
+    restoredActiveRef.current = true;
+    // Explicit sample/share navigation takes precedence over a previous local run.
+    if (window.location.search || sessionStorage.getItem(ARENA_SEED_STORAGE_KEY)) return;
+    try {
+      const raw = sessionStorage.getItem("ma.activeComparison.v1");
+      if (!raw) return;
+      const saved = JSON.parse(raw);
+      if (!saved.context?.endpoints?.length || !saved.runs) return;
+      const context = saved.context as NonNullable<typeof comparison>;
+      // Reuse separately saved credentials only for an explicit future rerun.
+      const configured: ModelEndpoint[] = JSON.parse(localStorage.getItem("ma.endpoints") || "[]");
+      context.endpoints = context.endpoints.map((ep) => {
+        const own = configured.find((item) => item.id === ep.id && item.model === ep.model && item.baseUrl === ep.baseUrl);
+        return { ...ep, apiKey: own?.apiKey ?? "", extraBody: own?.extraBody };
+      });
+      comparisonRef.current = context;
+      setComparison(context);
+      setOpenOutputs(Object.fromEntries(context.endpoints.map((ep) => [ep.id, true])));
+      runsRef.current = saved.runs;
+      setRuns(saved.runs);
+      setNowTick(Date.now());
+      checkpointsRef.current = saved.checkpoints ?? {};
+      const targets = context.endpoints.filter((ep) => isRunning(saved.runs[ep.id] ?? emptyRun()));
+      if (!targets.length) return;
+      const ctrl = new AbortController();
+      controllerRef.current = ctrl;
+      let pending = targets.length;
+      rankCounter.current = Math.max(0, ...Object.values(runsRef.current).map((run) => run.rank ?? 0));
+      const settled = () => {
+        persistActive(true);
+        if (--pending === 0) setTimeout(() => saveHistory(context.endpoints, context), 80);
+      };
+      for (const ep of targets) {
+        const resume = checkpointsRef.current[ep.id];
+        if (!resume || !/^[a-f0-9]{64}$/.test(resume.token) || !Number.isSafeInteger(resume.after)) {
+          updateRun(ep.id)((prev) => ({ ...prev, status: "error", error: "刷新前尚未取得可续传的连接，请手动重跑。" }));
+          settled();
+          continue;
+        }
+        void runEndpoint({ endpoint: ep, prompt: context.prompt, params: context.params,
+          signal: ctrl.signal, resume, onCheckpoint: checkpointFor(ep.id),
+          update: updateRun(ep.id), onSettled: (ok) => {
+            if (ok) {
+              const rank = ++rankCounter.current;
+              updateRun(ep.id)((prev) => ({ ...prev, rank }));
+            }
+            settled();
+          } });
+      }
+      flash(en ? "Restoring the original tests; no new model requests." : "正在恢复原测试，刷新不会重新调用模型或扣额度。");
+    } catch {
+      flash(en ? "Could not restore the saved test." : "无法读取已保存的测试，请查看历史记录。");
+    }
+    // Resume exactly once per page, including React StrictMode's effect replay.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const startAll = () => {
     let targets = activeEndpoints.filter((e) => e.enabled);
     if (
@@ -897,6 +1003,8 @@ export default function Home() {
       endpoints: targets.map((e) => ({ ...e })),
       imageDataUrl: image?.dataUrl,
     };
+    comparisonRef.current = context;
+    checkpointsRef.current = {};
     setComparison(context);
     setRestored(null);
     setShareUrl(null); // 新一轮作废旧分享链接
@@ -915,7 +1023,9 @@ export default function Home() {
     const fresh: Record<string, RunState> = {};
     for (const t of targets)
       fresh[t.id] = { ...emptyRun(), startedAt: Date.now() };
+    runsRef.current = fresh;
     setRuns(fresh);
+    persistActive(true);
 
     let successfulCount = 0;
     for (const t of targets) {
@@ -926,6 +1036,7 @@ export default function Home() {
         imageDataUrl: image?.dataUrl,
         signal: ctrl.signal,
         update: updateRun(t.id),
+        onCheckpoint: checkpointFor(t.id),
         runId,
         onQuota: (remaining) => setQuota((q) => (q ? { ...q, remaining } : q)),
         onSettled: (ok) => {
@@ -938,6 +1049,7 @@ export default function Home() {
               [t.id]: { ...(prev[t.id] ?? emptyRun()), rank },
             }));
           }
+          persistActive(true);
           pendingCount.current -= 1;
           if (pendingCount.current <= 0) {
             setTimeout(() => saveHistory(targets, context), 80);
@@ -965,10 +1077,9 @@ export default function Home() {
     if (!context?.prompt.trim() || restoredRef.current) return;
     const ctrl = new AbortController();
     controllerRef.current = ctrl;
-    setRuns((prev) => ({
-      ...prev,
-      [ep.id]: { ...emptyRun(), startedAt: Date.now() },
-    }));
+    delete checkpointsRef.current[ep.id];
+    updateRun(ep.id)(() => ({ ...emptyRun(), startedAt: Date.now() }));
+    persistActive(true);
     setNowTick(Date.now());
     void runEndpoint({
       endpoint: ep,
@@ -977,9 +1088,11 @@ export default function Home() {
       imageDataUrl: context.imageDataUrl,
       signal: ctrl.signal,
       update: updateRun(ep.id),
+      onCheckpoint: checkpointFor(ep.id),
       runId: crypto.randomUUID(),
       onQuota: (remaining) => setQuota((q) => (q ? { ...q, remaining } : q)),
       onSettled: () => {
+        persistActive(true);
         setTimeout(() => saveHistory(context.endpoints, context), 80);
         if (ep.shared) void fetchQuota();
       },
@@ -1933,6 +2046,13 @@ export default function Home() {
                 )}
               </div>
             </div>
+            {anyRunning && Object.keys(checkpointsRef.current).length > 0 && (
+              <p className="mt-2 text-xs text-faint" role="status">
+                {en
+                  ? "Refresh this tab to reconnect. After disconnecting, tests may keep generating for up to 30 minutes; use Stop to end them. Server restarts still interrupt generation."
+                  : "刷新本标签页可接回原测试。断线后最多保留 30 分钟，期间模型可能继续生成并计费；结束测试请点停止。服务重启仍会中断生成。"}
+              </p>
+            )}
             {showAdvanced && (
               <div className="mt-2.5 grid gap-2.5 border-t border-line pt-2.5 sm:grid-cols-3">
                 <label className="sm:col-span-3 block">
