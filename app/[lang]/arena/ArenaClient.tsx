@@ -2536,7 +2536,13 @@ export default function Home() {
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
         endpoints={endpoints}
-        onChange={setEndpoints}
+        onChange={(next) => {
+          setEndpoints(next);
+          // Explicit configuration replaces the sample/report model selection only.
+          setSeedRefs(undefined);
+          setTemporaryEndpoints(null);
+          setMissingModels([]);
+        }}
       />
       <HistoryDrawer
         open={historyOpen}

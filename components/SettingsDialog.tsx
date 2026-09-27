@@ -330,6 +330,7 @@ export function SettingsDialog({
     >
       <input
         type="checkbox"
+        aria-label={ep.name}
         checked={ep.enabled}
         onChange={(e) =>
           onChange(
@@ -406,6 +407,9 @@ export function SettingsDialog({
       onClick={handleClose}
     >
       <div
+        role="dialog"
+        aria-modal="true"
+        aria-label={en ? "Model Connection Manager" : "模型接入管理"}
         className="w-full max-w-2xl max-h-[85vh] overflow-y-auto thin-scroll rounded-xl border border-line bg-paper shadow-xl"
         onClick={(e) => e.stopPropagation()}
       >
@@ -422,6 +426,20 @@ export function SettingsDialog({
           </div>
           <button
             type="button"
+            onClick={() => {
+              if (draft) saveDraft();
+              else onChange(endpoints);
+              handleClose();
+            }}
+            disabled={!!draft && (!draft.name || !draft.baseUrl || !draft.model || !extraValid)}
+            className="ml-3 shrink-0 rounded-md bg-ink px-3 py-2 text-[12px] font-semibold text-paper disabled:opacity-40 cursor-pointer"
+          >
+            {draft
+              ? en ? "Save & return" : "保存并返回"
+              : en ? "Done, back to comparison" : "完成，返回对比"}
+          </button>
+          <button
+            type="button"
             onClick={handleClose}
             title={en ? "Close (Esc)" : "关闭（Esc）"}
             className="text-faint hover:text-ink text-[16px] leading-none cursor-pointer rounded-md border border-line px-2.5 py-1.5 shrink-0 ml-3"
@@ -432,6 +450,11 @@ export function SettingsDialog({
 
         {!draft ? (
           <div className="p-5 space-y-5">
+            <p className="text-[11.5px] text-faint">
+              {en
+                ? "Model selections are saved automatically and applied to the current comparison."
+                : "模型勾选自动保存，并立即应用到当前对比。"}
+            </p>
             {/* 我的模型（自配 / 导入） */}
             {ownEndpoints.length > 0 && (
               <div className="space-y-1.5">
