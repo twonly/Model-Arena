@@ -41,7 +41,28 @@ export interface SpeedSample {
   tps: number;
 }
 
+/** Durations use their named clock; upstream timings start after proxy preparation. */
+export interface RunDiagnostics {
+  transport?: "vercel" | "cloudflare";
+  startedAt?: string;
+  proxyPrepareMs?: number;
+  upstreamHeadersMs?: number;
+  upstreamFirstByteMs?: number;
+  upstreamTtftMs?: number;
+  attempts?: number;
+  upstreamStatus?: number;
+  requestId?: string;
+  completionId?: string;
+  providerTiming?: Record<string, number>;
+  clientPrepareMs?: number;
+  clientHeadersMs?: number;
+  clientTtftMs?: number;
+  clientFirstContentMs?: number;
+  ttftSource?: "proxy" | "client";
+}
+
 export interface RunMetrics {
+  diagnostics?: RunDiagnostics;
   ttftMs?: number; // 首个 token（含思考）时延
   firstContentMs?: number; // 首个正文 token 时延
   thinkingMs?: number; // 思考阶段用时（该阶段首末 delta 的活跃窗口）
@@ -123,6 +144,7 @@ export interface HistoryEntry {
 
 /** 服务端代理输出的统一流事件 */
 export type StreamEvent =
+  | { type: "diagnostics"; diagnostics: RunDiagnostics }
   /** ts = 代理收到该 delta 时距请求开始的毫秒数（服务端时钟，不受浏览器渲染卡顿影响） */
   | { type: "delta"; text?: string; reasoning?: string; ts?: number }
   | {

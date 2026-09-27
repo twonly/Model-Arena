@@ -8,6 +8,7 @@ import type {
   ModelEndpoint,
   RunParams,
   RunState,
+  RunDiagnostics,
   SpeedSample,
   StreamEvent,
 } from "./types.ts";
@@ -46,7 +47,7 @@ const WINDOW_MS = 2000; // 瞬时速度滑动窗口
 
 /**
  * 在客户端发起一次对比请求：经 /api/chat 代理流式拉取，
- * 计时全部在浏览器测量（本地代理开销可忽略）。
+ * 代理时钟用于模型速度；浏览器时钟单独记录实际等待与请求准备时间。
  */
 export async function runEndpoint({
   endpoint,
@@ -68,6 +69,7 @@ export async function runEndpoint({
   let tLastReasoning: number | undefined;
   let tFirstContent: number | undefined; // 正文阶段首末 delta
   let tLastContent: number | undefined;
+  let diagnostics: RunDiagnostics = {};
   let usage: {
     promptTokens?: number;
     outputTokens?: number;
@@ -175,6 +177,7 @@ export async function runEndpoint({
       : undefined;
 
     const metrics = {
+      diagnostics: { ...diagnostics },
       ttftMs: tFirst,
       firstContentMs: tFirstContent,
       thinkingMs,
@@ -286,12 +289,14 @@ export async function runEndpoint({
         ? { "Content-Type": "application/json" }
         : headers;
 
+    diagnostics.clientPrepareMs = now();
     const res = await fetch(chatUrl, {
       method: "POST",
       headers: chatHeaders,
       signal,
       body: JSON.stringify(chatBody),
     });
+    diagnostics.clientHeadersMs = now();
 
     // 额度已用完（402）：抛出后端给的友好中文提示
     if (res.status === 402) {
@@ -330,8 +335,14 @@ export async function runEndpoint({
         }
         if (ev.type === "delta") {
           // 优先用代理盖的服务端时间戳（不受浏览器渲染/解析卡顿影响）
-          const t = ev.ts ?? now();
-          if (tFirst == null && (ev.text || ev.reasoning)) tFirst = t;
+          const clientTime = now();
+          const serverTime = typeof ev.ts === "number" && Number.isFinite(ev.ts) && ev.ts >= 0;
+          const t = serverTime ? ev.ts! : clientTime;
+          if (tFirst == null && (ev.text || ev.reasoning)) {
+            tFirst = t;
+            diagnostics.clientTtftMs = clientTime;
+            diagnostics.ttftSource = serverTime ? "proxy" : "client";
+          }
           if (ev.reasoning) {
             if (tFirstReasoning == null) tFirstReasoning = t;
             reasoning += ev.reasoning;
@@ -339,12 +350,15 @@ export async function runEndpoint({
             tLastReasoning = t;
           }
           if (ev.text) {
+            diagnostics.clientFirstContentMs ??= clientTime;
             if (tFirstContent == null) tFirstContent = t;
             text += ev.text;
             estLiveTok += estimateTokens(ev.text);
             tLastContent = t;
           }
           flush();
+        } else if (ev.type === "diagnostics") {
+          diagnostics = { ...diagnostics, ...ev.diagnostics };
         } else if (ev.type === "usage") {
           const count = (value: unknown, previous?: number) =>
             typeof value === "number" && Number.isFinite(value) && value >= 0
@@ -393,6 +407,7 @@ export async function runEndpoint({
     update((prev) => ({
       ...prev,
       status: "error",
+      metrics: { ...(prev.metrics ?? { official: false }), diagnostics: { ...diagnostics }, totalMs: now() },
       error: message,
       elapsedMs: now(),
     }));

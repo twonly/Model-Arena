@@ -1,4 +1,5 @@
 import type { ChatBody } from "./chat-request";
+import type { RunDiagnostics } from "./types";
 import { createThinkSplitter } from "./think-split.ts";
 import {
   anthropicThinkingMaxTokenErrorMessage,
@@ -51,16 +52,43 @@ async function readErrorMessage(res: Response): Promise<string> {
 
 type Send = (obj: Record<string, unknown>) => void;
 
+interface StreamContext {
+  send: Send;
+  signal: AbortSignal;
+  diagnostics: RunDiagnostics;
+  now: () => number;
+  headers?: Record<string, string>;
+}
+
+function safeRequestId(value: unknown, apiKey: string): string | undefined {
+  return typeof value === "string" && /^[\w.:/-]{1,200}$/.test(value) &&
+    !(apiKey && value.includes(apiKey)) ? value : undefined;
+}
+
+async function fetchUpstream(url: string, init: RequestInit, ctx: StreamContext, apiKey: string) {
+  ctx.diagnostics.attempts = (ctx.diagnostics.attempts ?? 0) + 1;
+  const res = await fetch(url, init);
+  ctx.diagnostics.upstreamHeadersMs = ctx.now();
+  ctx.diagnostics.upstreamStatus = res.status;
+  ctx.diagnostics.requestId = safeRequestId(
+    res.headers.get("x-request-id") ?? res.headers.get("request-id"), apiKey,
+  );
+  ctx.send({ type: "diagnostics", diagnostics: { ...ctx.diagnostics } });
+  return res;
+}
+
 /** 逐行解析上游 SSE，把每个 data: JSON 交给 handler；返回是否见过 [DONE] 终止符 */
 async function consumeSse(
   res: Response,
   signal: AbortSignal,
   onData: (json: unknown) => void,
+  onFirstByte: () => void,
 ): Promise<{ sawDone: boolean }> {
   const reader = res.body!.getReader();
   const decoder = new TextDecoder();
   let buf = "",
     sawDone = false;
+  let sawByte = false;
   const line = (raw: string) => {
     if (!raw.startsWith("data:")) return;
     const payload = raw.slice(5).trim();
@@ -81,6 +109,10 @@ async function consumeSse(
     while (true) {
       if (signal.aborted) return { sawDone };
       const { done, value } = await reader.read();
+      if (!sawByte && value?.byteLength) {
+        sawByte = true;
+        onFirstByte();
+      }
       buf += done ? decoder.decode() : decoder.decode(value, { stream: true });
       let idx: number;
       while ((idx = buf.indexOf("\n")) >= 0) {
@@ -102,6 +134,7 @@ async function consumeSse(
 /* ------------------------- OpenAI 兼容协议 ------------------------- */
 
 interface OpenAIChunk {
+  id?: string;
   choices?: {
     delta?: {
       content?: string | null;
@@ -114,10 +147,12 @@ interface OpenAIChunk {
     prompt_tokens?: number;
     completion_tokens?: number;
     completion_tokens_details?: { reasoning_tokens?: number };
+    pd?: Record<string, unknown>;
   } | null;
 }
 
-async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
+async function pipeOpenAI(body: ChatBody, ctx: StreamContext) {
+  const { send, signal, diagnostics, now } = ctx;
   const url = `${body.baseUrl.replace(/\/+$/, "")}/chat/completions`;
   const messages: { role: string; content: unknown }[] = [];
   if (body.systemPrompt?.trim())
@@ -152,20 +187,25 @@ async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
   };
 
   const doFetch = (withUsage: boolean) =>
-    fetch(url, {
+    fetchUpstream(url, {
       method: "POST",
       signal,
       headers: {
+        ...ctx.headers,
         "Content-Type": "application/json",
         Authorization: `Bearer ${body.apiKey}`,
       },
       body: JSON.stringify(makePayload(withUsage)),
-    });
+    }, ctx, body.apiKey);
 
   let res = await doFetch(true);
   if (!res.ok && (res.status === 400 || res.status === 422)) {
-    // 个别厂商不支持 stream_options，去掉后重试一次
+    // Retry only an explicit usage-option rejection, not every invalid request.
     const firstErr = await readErrorMessage(res);
+    if (!/stream_options|include_usage/i.test(firstErr)) {
+      send({ type: "error", message: firstErr });
+      return;
+    }
     res = await doFetch(false);
     if (!res.ok) {
       send({ type: "error", message: firstErr });
@@ -189,6 +229,7 @@ async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
   try {
     const { sawDone } = await consumeSse(res, signal, (json) => {
       const chunk = json as OpenAIChunk;
+      diagnostics.completionId ??= safeRequestId(chunk.id, body.apiKey);
       const choice = chunk.choices?.[0];
       const delta = choice?.delta;
       if (delta) {
@@ -219,6 +260,15 @@ async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
       }
       if (choice?.finish_reason) finishReason = choice.finish_reason;
       if (chunk.usage) {
+        const pd = chunk.usage.pd;
+        if (pd && typeof pd === "object") {
+          const timing = Object.fromEntries(
+            ["recv_ms", "inject_ms", "compute_wait_ms", "slot_in_use_at_alloc"]
+              .filter((key) => typeof pd[key] === "number" && Number.isFinite(pd[key]) && (pd[key] as number) >= 0)
+              .map((key) => [key, pd[key] as number]),
+          );
+          if (Object.keys(timing).length) diagnostics.providerTiming = timing;
+        }
         send({
           type: "usage",
           promptTokens: chunk.usage.prompt_tokens,
@@ -227,7 +277,7 @@ async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
             chunk.usage.completion_tokens_details?.reasoning_tokens,
         });
       }
-    });
+    }, () => { diagnostics.upstreamFirstByteMs ??= now(); });
     // 冲刷 <think> 拆分器缓冲（未闭合的半截标签 / 缓冲尾巴），没缓冲时返回空
     if (!signal.aborted) {
       const tail = splitter.flush();
@@ -261,7 +311,7 @@ async function pipeOpenAI(body: ChatBody, send: Send, signal: AbortSignal) {
 
 interface AnthropicEvent {
   type: string;
-  message?: { usage?: { input_tokens?: number; output_tokens?: number } };
+  message?: { id?: string; usage?: { input_tokens?: number; output_tokens?: number } };
   delta?: {
     type?: string;
     text?: string;
@@ -272,7 +322,8 @@ interface AnthropicEvent {
   error?: { message?: string };
 }
 
-async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
+async function pipeAnthropic(body: ChatBody, ctx: StreamContext) {
+  const { send, signal, diagnostics, now } = ctx;
   const base = body.baseUrl.replace(/\/+$/, "");
   const url = base.endsWith("/v1") ? `${base}/messages` : `${base}/v1/messages`;
 
@@ -313,16 +364,17 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
     extra,
   });
 
-  const res = await fetch(url, {
+  const res = await fetchUpstream(url, {
     method: "POST",
     signal,
     headers: {
+      ...ctx.headers,
       "Content-Type": "application/json",
       "x-api-key": body.apiKey,
       "anthropic-version": "2023-06-01",
     },
     body: JSON.stringify(payload),
-  });
+  }, ctx, body.apiKey);
   if (!res.ok) {
     send({ type: "error", message: await readErrorMessage(res) });
     return;
@@ -339,6 +391,7 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
     const ev = json as AnthropicEvent;
     switch (ev.type) {
       case "message_start":
+        diagnostics.completionId ??= safeRequestId(ev.message?.id, body.apiKey);
         if (ev.message?.usage?.input_tokens != null) {
           send({ type: "usage", promptTokens: ev.message.usage.input_tokens });
         }
@@ -376,7 +429,7 @@ async function pipeAnthropic(body: ChatBody, send: Send, signal: AbortSignal) {
         });
         break;
     }
-  });
+  }, () => { diagnostics.upstreamFirstByteMs ??= now(); });
 }
 
 /** Shared by interactive requests and trusted server benchmarks. */
@@ -384,17 +437,43 @@ export async function pipeChat(
   body: ChatBody,
   send: Send,
   signal: AbortSignal,
+  options: { headers?: Record<string, string>; transport?: RunDiagnostics["transport"]; proxyPrepareMs?: number } = {},
 ) {
   const started = performance.now();
-  const timed: Send = (event) =>
+  const now = () => Math.round(performance.now() - started);
+  const diagnostics: RunDiagnostics = {
+    startedAt: new Date().toISOString(), attempts: 0,
+    transport: options.transport, proxyPrepareMs: options.proxyPrepareMs,
+  };
+  let terminal = false;
+  const emitDiagnostics = () => send({ type: "diagnostics", diagnostics: { ...diagnostics }, ts: now() });
+  // Open the SSE response immediately; metadata and empty events never count as tokens.
+  emitDiagnostics();
+  const timed: Send = (event) => {
+    const ts = now();
+    if (event.type === "delta" && (event.text || event.reasoning)) diagnostics.upstreamTtftMs ??= ts;
+    if (event.type === "done" || event.type === "error") {
+      terminal = true;
+      emitDiagnostics();
+    }
     send({
       ...event,
       ...(event.type === "done" &&
       ["length", "max_tokens"].includes(String(event.finishReason))
         ? { truncated: true }
         : {}),
-      ts: Math.round(performance.now() - started),
+      ts,
     });
-  if (body.kind === "anthropic") await pipeAnthropic(body, timed, signal);
-  else await pipeOpenAI(body, timed, signal);
+  };
+  const ctx: StreamContext = { send: timed, signal, diagnostics, now, headers: options.headers };
+  try {
+    if (body.kind === "anthropic") await pipeAnthropic(body, ctx);
+    else await pipeOpenAI(body, ctx);
+  } finally {
+    if (!terminal) emitDiagnostics();
+    // Preserve slow upstream receipts in runtime logs, without prompt, output or credentials.
+    if ((diagnostics.proxyPrepareMs ?? 0) + (diagnostics.upstreamTtftMs ?? now()) >= 10_000) {
+      console.info("chat_timing", JSON.stringify(diagnostics));
+    }
+  }
 }

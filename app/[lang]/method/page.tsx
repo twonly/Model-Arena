@@ -209,19 +209,23 @@ export default async function MethodPage({
         <p>
           {isZh ? (
             <>
-              从请求发出到收到<strong className="text-ink">第一个 token</strong>
-              （思考或正文均算）的毫秒数。 计时基准取
-              <strong className="text-ink">服务端</strong>
-              在收到每个增量（delta）时盖的时间戳，
-              而非浏览器本地时钟——这样浏览器渲染或解析卡顿不会污染测量结果。
+              从本站代理准备完成、开始请求上游，到收到
+              <strong className="text-ink">第一个 token</strong>
+              （思考或正文均算）的耗时，使用代理端时间戳。它包含代理到上游的网络、
+              调度、计算和缓冲，不包含此前的客户端与本站准备时间。
+              “实际等待”单独从客户端开始请求计至收到首个 token。
+              旧流缺少代理时间戳时使用客户端计时；历史记录不补造诊断数据。
+              这些指标不能单独证明厂商内部排队。
             </>
           ) : (
             <>
-              TTFT is the milliseconds from sending the request to receiving the
-              <strong className="text-ink"> first token</strong>, including
-              thinking or final content. Timing uses{" "}
-              <strong className="text-ink">server</strong>
-              timestamps for each delta, not browser-local rendering time.
+              TTFT uses proxy timestamps from the upstream request to its
+              <strong className="text-ink"> first token</strong> (reasoning or content).
+              It includes upstream network, scheduling, processing and buffering,
+              excluding earlier client and proxy preparation. Actual wait is measured
+              separately from client start to first token. Older streams without proxy
+              timestamps fall back to client timing; missing historical diagnostics
+              are not reconstructed. These timings alone cannot prove provider queueing.
             </>
           )}
         </p>

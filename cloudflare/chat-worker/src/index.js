@@ -1,11 +1,7 @@
 // 与 Vercel 路由共用同一份源，避免逻辑漂移（wrangler/esbuild 会把这些纯 TS 文件
 // 一起打包进 Worker bundle；它们无 node 内建依赖，Worker 运行时安全）。
 import { PRIVATE_HOST_RE } from "../../../lib/private-host.ts";
-import {
-  DEFAULT_ANTHROPIC_MAX_TOKENS,
-  normalizeAnthropicThinkingPayload,
-  anthropicThinkingMaxTokenErrorMessage,
-} from "../../../lib/anthropic.ts";
+import { pipeChat } from "../../../lib/chat-stream.ts";
 
 const enc = new TextEncoder();
 const sse = (obj) => enc.encode(`data: ${JSON.stringify(obj)}\n\n`);
@@ -54,269 +50,6 @@ function checkUpstreamUrl(baseUrl) {
   return null;
 }
 
-function parseExtra(body) {
-  if (!body.extraBody || !body.extraBody.trim()) return {};
-  try {
-    const j = JSON.parse(body.extraBody);
-    if (j && typeof j === "object" && !Array.isArray(j)) return j;
-  } catch {
-    // handled below
-  }
-  throw new Error("该模型的「额外请求参数」不是合法 JSON 对象，请到模型接入里修改");
-}
-
-function num(v) {
-  if (v == null || String(v).trim() === "") return undefined;
-  const n = Number(v);
-  return Number.isFinite(n) ? n : undefined;
-}
-
-function parseDataUrl(dataUrl) {
-  const m = String(dataUrl || "").match(/^data:([^;,]+);base64,(.+)$/);
-  return m ? { mediaType: m[1], base64: m[2] } : null;
-}
-
-async function readErrorMessage(res) {
-  const raw = await res.text().catch(() => "");
-  try {
-    const j = JSON.parse(raw);
-    const msg = j?.error?.message ?? j?.message ?? j?.error_msg ?? j?.msg ?? raw;
-    return `HTTP ${res.status}：${typeof msg === "string" ? msg : raw}`.slice(0, 500);
-  } catch {
-    return `HTTP ${res.status}：${raw.slice(0, 300) || res.statusText}`;
-  }
-}
-
-async function consumeSse(res, signal, onData) {
-  const reader = res.body.getReader();
-  const decoder = new TextDecoder();
-  let buf = "";
-  let sawDone = false;
-  while (true) {
-    if (signal.aborted) {
-      await reader.cancel().catch(() => {});
-      return { sawDone };
-    }
-    const { done, value } = await reader.read();
-    if (done) break;
-    buf += decoder.decode(value, { stream: true });
-    let idx;
-    while ((idx = buf.indexOf("\n")) >= 0) {
-      const line = buf.slice(0, idx).replace(/\r$/, "");
-      buf = buf.slice(idx + 1);
-      if (!line.startsWith("data:")) continue;
-      const payload = line.slice(5).trim();
-      if (!payload) continue;
-      if (payload === "[DONE]") {
-        sawDone = true;
-        continue;
-      }
-      try {
-        onData(JSON.parse(payload));
-      } catch {
-        // Ignore malformed partial lines.
-      }
-    }
-  }
-  return { sawDone };
-}
-
-async function pipeOpenAI(body, send, signal) {
-  const url = `${body.baseUrl.replace(/\/+$/, "")}/chat/completions`;
-  const messages = [];
-  if (body.systemPrompt && body.systemPrompt.trim()) {
-    messages.push({ role: "system", content: body.systemPrompt });
-  }
-  if (body.imageDataUrl) {
-    messages.push({
-      role: "user",
-      content: [
-        { type: "text", text: body.prompt },
-        { type: "image_url", image_url: { url: body.imageDataUrl } },
-      ],
-    });
-  } else {
-    messages.push({ role: "user", content: body.prompt });
-  }
-
-  const extra = parseExtra(body);
-  const makePayload = (withUsage) => {
-    const p = { model: body.model, messages, stream: true };
-    if (withUsage) p.stream_options = { include_usage: true };
-    const t = num(body.temperature);
-    if (t != null) p.temperature = t;
-    const mt = num(body.maxTokens);
-    if (mt != null) p.max_tokens = mt;
-    Object.assign(p, extra);
-    return p;
-  };
-
-  const doFetch = (withUsage) =>
-    fetch(url, {
-      method: "POST",
-      signal,
-      headers: {
-        ...BROWSER_HINT_HEADERS,
-        "content-type": "application/json",
-        authorization: `Bearer ${body.apiKey}`,
-      },
-      body: JSON.stringify(makePayload(withUsage)),
-    });
-
-  let res = await doFetch(true);
-  if (!res.ok && (res.status === 400 || res.status === 422)) {
-    const firstErr = await readErrorMessage(res);
-    res = await doFetch(false);
-    if (!res.ok) {
-      send({ type: "error", message: firstErr });
-      return;
-    }
-  } else if (!res.ok) {
-    send({ type: "error", message: await readErrorMessage(res) });
-    return;
-  }
-  if (!res.body) {
-    send({ type: "error", message: "上游未返回流式响应体" });
-    return;
-  }
-
-  let finishReason;
-  let gotDelta = false;
-  try {
-    const { sawDone } = await consumeSse(res, signal, (json) => {
-      const choice = json?.choices?.[0];
-      const delta = choice?.delta;
-      if (delta) {
-        const reasoning = delta.reasoning_content ?? delta.reasoning ?? undefined;
-        const text = delta.content ?? undefined;
-        if (reasoning || text) {
-          gotDelta = true;
-          send({
-            type: "delta",
-            ...(text ? { text } : {}),
-            ...(reasoning ? { reasoning } : {}),
-          });
-        }
-      }
-      if (choice?.finish_reason) finishReason = choice.finish_reason;
-      if (json?.usage) {
-        send({
-          type: "usage",
-          promptTokens: json.usage.prompt_tokens,
-          outputTokens: json.usage.completion_tokens,
-          reasoningTokens: json.usage.completion_tokens_details?.reasoning_tokens,
-        });
-      }
-    });
-    if (signal.aborted) return;
-    send({ type: "done", finishReason, truncated: !sawDone && !finishReason });
-  } catch (e) {
-    if (signal.aborted) return;
-    if (gotDelta) send({ type: "done", truncated: true });
-    else {
-      send({
-        type: "error",
-        message: `上游连接中断：${e instanceof Error ? e.message : String(e)}`,
-      });
-    }
-  }
-}
-
-async function pipeAnthropic(body, send, signal) {
-  const base = body.baseUrl.replace(/\/+$/, "");
-  const url = base.endsWith("/v1") ? `${base}/messages` : `${base}/v1/messages`;
-  const extra = parseExtra(body);
-  const formMax = num(body.maxTokens);
-  const img = body.imageDataUrl ? parseDataUrl(body.imageDataUrl) : null;
-  const payload = {
-    model: body.model,
-    max_tokens: formMax ?? DEFAULT_ANTHROPIC_MAX_TOKENS,
-    stream: true,
-    messages: [
-      {
-        role: "user",
-        content: img
-          ? [
-              {
-                type: "image",
-                source: {
-                  type: "base64",
-                  media_type: img.mediaType,
-                  data: img.base64,
-                },
-              },
-              { type: "text", text: body.prompt },
-            ]
-          : body.prompt,
-      },
-    ],
-  };
-  if (body.systemPrompt && body.systemPrompt.trim()) payload.system = body.systemPrompt;
-  const t = num(body.temperature);
-  if (t != null) payload.temperature = t;
-  Object.assign(payload, extra);
-  const thinkingOn = normalizeAnthropicThinkingPayload(payload, { formMax, extra });
-
-  const res = await fetch(url, {
-    method: "POST",
-    signal,
-    headers: {
-      ...BROWSER_HINT_HEADERS,
-      "content-type": "application/json",
-      "x-api-key": body.apiKey,
-      "anthropic-version": "2023-06-01",
-    },
-    body: JSON.stringify(payload),
-  });
-  if (!res.ok) {
-    send({ type: "error", message: await readErrorMessage(res) });
-    return;
-  }
-  if (!res.body) {
-    send({ type: "error", message: "上游未返回流式响应体" });
-    return;
-  }
-
-  let outputTokens;
-  let finishReason;
-  let gotText = false;
-  await consumeSse(res, signal, (json) => {
-    switch (json?.type) {
-      case "message_start":
-        if (json.message?.usage?.input_tokens != null) {
-          send({ type: "usage", promptTokens: json.message.usage.input_tokens });
-        }
-        break;
-      case "content_block_delta":
-        if (json.delta?.type === "text_delta" && json.delta.text) {
-          gotText = true;
-          send({ type: "delta", text: json.delta.text });
-        } else if (json.delta?.type === "thinking_delta" && json.delta.thinking) {
-          send({ type: "delta", reasoning: json.delta.thinking });
-        }
-        break;
-      case "message_delta":
-        if (json.usage?.output_tokens != null) outputTokens = json.usage.output_tokens;
-        if (json.delta?.stop_reason) finishReason = json.delta.stop_reason;
-        break;
-      case "message_stop":
-        if (outputTokens != null) send({ type: "usage", outputTokens });
-        if (finishReason === "max_tokens" && thinkingOn && !gotText) {
-          send({
-            type: "error",
-            message: anthropicThinkingMaxTokenErrorMessage(payload.max_tokens),
-          });
-        } else {
-          send({ type: "done", finishReason });
-        }
-        break;
-      case "error":
-        send({ type: "error", message: json.error?.message ?? "Anthropic 流返回错误" });
-        break;
-    }
-  });
-}
-
 async function exchangeTicket(env, ticket, body) {
   const origin = String(env.TOKRACE_APP_ORIGIN || "").replace(/\/+$/, "");
   const token = env.TOKRACE_WORKER_TOKEN;
@@ -352,6 +85,7 @@ async function exchangeTicket(env, ticket, body) {
 
 export default {
   async fetch(request, env) {
+    const started = performance.now();
     if (request.method === "OPTIONS") {
       return new Response(null, { headers: corsHeaders(env) });
     }
@@ -380,11 +114,9 @@ export default {
     const guardErr = checkUpstreamUrl(body.baseUrl);
     if (guardErr) return json({ ok: false, error: guardErr }, 400, env);
 
-    const started = Date.now();
     const stream = new ReadableStream({
       async start(controller) {
         const send = (obj) => {
-          if (obj.type === "delta") obj.ts = Date.now() - started;
           try {
             controller.enqueue(sse(obj));
           } catch {
@@ -392,8 +124,10 @@ export default {
           }
         };
         try {
-          if (body.kind === "anthropic") await pipeAnthropic(body, send, request.signal);
-          else await pipeOpenAI(body, send, request.signal);
+          await pipeChat(body, send, request.signal, {
+            headers: BROWSER_HINT_HEADERS, transport: "cloudflare",
+            proxyPrepareMs: Math.round(performance.now() - started),
+          });
         } catch (e) {
           if (!request.signal.aborted) {
             send({ type: "error", message: e instanceof Error ? e.message : String(e) });

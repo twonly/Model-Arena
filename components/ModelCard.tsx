@@ -4,6 +4,7 @@ import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { ChartModal } from "./ChartModal";
 import { Markdown, StreamingMarkdown } from "./Markdown";
 import { Sparkline } from "./Sparkline";
+import { TimingDetails } from "./TimingDetails";
 import { ProviderIcon } from "./ProviderIcon";
 import { useI18n } from "@/components/I18nProvider";
 import {
@@ -24,7 +25,7 @@ import type { ModelEndpoint, RunState } from "@/lib/types";
 
 export const STATUS_TEXT: Record<RunState["status"], string> = {
   idle: "待命",
-  connecting: "连接中",
+  connecting: "等待首Token",
   thinking: "思考中",
   streaming: "输出中",
   done: "完成",
@@ -35,7 +36,7 @@ export const STATUS_TEXT: Record<RunState["status"], string> = {
 
 const STATUS_TEXT_EN: Record<RunState["status"], string> = {
   idle: "Idle",
-  connecting: "Connecting",
+  connecting: "Waiting for first token",
   thinking: "Thinking",
   streaming: "Streaming",
   done: "Done",
@@ -654,6 +655,9 @@ export const ModelCard = memo(
               value={ttft != null ? fmtSeconds(ttft) : running ? "…" : "—"}
               unit="s"
               label={en ? "TTFT" : "首Token"}
+              sub={m?.diagnostics?.clientTtftMs != null
+                ? `${en ? "Actual wait" : "实际等待"} ${fmtSeconds(m.diagnostics.clientTtftMs)}s`
+                : undefined}
               highlight={run.status === "connecting"}
             />
             {thinkingStats && (
@@ -692,6 +696,7 @@ export const ModelCard = memo(
               }
             />
           </div>
+          <TimingDetails timing={m?.diagnostics} en={en} />
           <div className="flex items-center justify-between border-t border-line px-4 py-1.5">
             <div className="num text-[11px] text-faint">
               {elapsedMs != null && (

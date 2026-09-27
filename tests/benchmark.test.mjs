@@ -206,7 +206,7 @@ test("shared stream parser handles final lines, token limits and interrupted out
         choices: [{ delta: { content: "Hello" }, finish_reason: "length" }],
       });
     let events = await run(body);
-    assert.equal(events[0].text, "Hello");
+    assert.equal(events.find((e) => e.type === "delta").text, "Hello");
     assert.equal(events.at(-1).truncated, true);
     assert.ok(events[0].ts >= 0);
     events = await run(

@@ -2597,8 +2597,8 @@ export default function Home() {
         >
           <div>
             {en
-              ? "Metric notes: TTFT = time from request sent to first token received, including network round trip and queueing. Reasoning TPS / output TPS each use the active window from first to last token in that phase, excluding gaps and stream tail time. Total Tokens prefer provider official usage; reasoning/output splits are estimated from phase characters and calibrated when official split data is unavailable (≈ marks estimates)."
-              : "指标说明：首Token = 请求发出到收到第一个 token（含网络往返与排队）· 思考TPS / 输出TPS 各按该阶段「首个→末个 token」的活跃窗口独立计时，不含阶段间空隙与流收尾时间 · 总 Tokens 优先采用厂商官方 usage；思考/输出拆分无官方数据时按各阶段字符独立估算后校准（数字前标 ≈）"}
+              ? "Metric notes: TTFT uses proxy timestamps from the upstream request to its first token (reasoning or content); client timing is the fallback for older streams without timestamps. Actual wait is measured separately on the client. Timing details cannot establish provider queueing. Reasoning/output TPS use each phase's first-to-last-token window. Total tokens prefer provider usage; ≈ marks estimated phase splits."
+              : "指标说明：首Token 优先按代理发起上游请求至收到首个 token（含思考）计时；旧流没有时间戳时回退客户端计时。实际等待单独使用客户端时钟，详见计时详情，不能直接据此判断厂商排队。思考/输出 TPS 按各阶段首末 token 的活跃窗口计算；总 Tokens 优先采用厂商 usage，≈ 表示阶段拆分为估算。"}
           </div>
           <div>
             <Credit compact />

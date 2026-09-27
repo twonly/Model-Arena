@@ -8,6 +8,7 @@ const enc = new TextEncoder();
 const sse = (obj: unknown) => enc.encode(`data: ${JSON.stringify(obj)}\n\n`);
 
 export async function POST(req: NextRequest) {
+  const started = performance.now();
   // 每 IP 每分钟最多 60 次对比请求（同时跑多个模型也算多次）
   const limited = rateLimit(req, "chat", 60);
   if (limited) return new Response(limited, { status: 429 });
@@ -36,7 +37,9 @@ export async function POST(req: NextRequest) {
         }
       };
       try {
-        await pipeChat(body, send, req.signal);
+        await pipeChat(body, send, req.signal, {
+          transport: "vercel", proxyPrepareMs: Math.round(performance.now() - started),
+        });
       } catch (err) {
         if (!req.signal.aborted) {
           send({

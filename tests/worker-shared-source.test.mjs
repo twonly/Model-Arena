@@ -4,7 +4,7 @@ import { readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-// 守卫：Cloudflare Worker 与 Vercel 路由必须共用 lib/ 的同一份 anthropic / SSRF 逻辑。
+// 守卫：Cloudflare Worker 与 Vercel 路由必须共用 lib/ 的同一份流解析 / SSRF 逻辑。
 // 以前两边各抄一份导致 max_tokens 默认值漂移（32000 vs 4096）、thinking 归一化逻辑分叉。
 // 本测试在 `npm test` 里盯住「不准再抄回去」。
 const workerUrl = new URL("../cloudflare/chat-worker/src/index.js", import.meta.url);
@@ -12,10 +12,11 @@ const workerSrc = await readFile(workerUrl, "utf8");
 
 test("worker imports shared modules from lib/", () => {
   assert.match(workerSrc, /from "\.\.\/\.\.\/\.\.\/lib\/private-host\.ts"/);
-  assert.match(workerSrc, /from "\.\.\/\.\.\/\.\.\/lib\/anthropic\.ts"/);
+  assert.match(workerSrc, /from "\.\.\/\.\.\/\.\.\/lib\/chat-stream\.ts"/);
 });
 
 test("worker does not re-define forked copies", () => {
+  assert.doesNotMatch(workerSrc, /function pipeOpenAI|function pipeAnthropic/);
   assert.doesNotMatch(workerSrc, /const PRIVATE_HOST_RE\s*=/);
   assert.doesNotMatch(workerSrc, /function normalizeAnthropicThinkingPayload/);
   assert.doesNotMatch(workerSrc, /function anthropicThinkingMaxTokenErrorMessage/);
@@ -24,13 +25,15 @@ test("worker does not re-define forked copies", () => {
 });
 
 test("worker's relative import paths resolve to real files", () => {
-  for (const rel of ["../../../lib/private-host.ts", "../../../lib/anthropic.ts"]) {
+  for (const rel of ["../../../lib/private-host.ts", "../../../lib/chat-stream.ts"]) {
     const target = fileURLToPath(new URL(`../cloudflare/chat-worker/src/${rel}`, import.meta.url));
     assert.ok(existsSync(target), `worker import target missing: ${rel}`);
   }
 });
 
 test("shared lib modules export the symbols the worker imports", async () => {
+  const { pipeChat } = await import("../lib/chat-stream.ts");
+  assert.equal(typeof pipeChat, "function");
   const anthropic = await import("../lib/anthropic.ts");
   assert.equal(typeof anthropic.DEFAULT_ANTHROPIC_MAX_TOKENS, "number");
   assert.equal(typeof anthropic.normalizeAnthropicThinkingPayload, "function");
