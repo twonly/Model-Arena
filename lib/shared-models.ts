@@ -14,7 +14,7 @@ export interface SharedModel {
   /** 稳定 ID，客户端用它请求、服务端用它查配置 */
   id: string;
   /** 映射到服务端 env key 的 provider（见 /api/chat 的 SHARED_PROVIDER_KEY） */
-  provider: "deepseek" | "zhipu" | "orcarouter";
+  provider: "deepseek" | "zhipu" | "orcarouter" | "openrouter";
   /** 展示名 */
   name: string;
   kind: "openai" | "anthropic";
@@ -28,9 +28,23 @@ export interface SharedModel {
 
 export const DEEPSEEK_V41_MODEL_ID = "deepseek-v4.1-flash-expires-on-0910";
 export const DEEPSEEK_V41_AVAILABLE_UNTIL = "2026-09-10T00:00:00+08:00";
-export const SHARED_POOL_VERSION = "2026-09-26-current-identity";
+export const SHARED_POOL_VERSION = "2026-09-27-space-bunny";
 
 export const SHARED_MODELS: SharedModel[] = [
+  {
+    id: "space-bunny-alpha",
+    provider: "openrouter",
+    name: "Space Bunny Alpha",
+    source: "https://openrouter.ai/stealth/space-bunny-alpha",
+    kind: "openai",
+    baseUrl: "https://openrouter.ai/api/v1",
+    model: "stealth/space-bunny-alpha",
+    // Keep the shared preview free if upstream pricing changes. Low effort suits short trial tasks.
+    extraBody: JSON.stringify({
+      reasoning: { effort: "low" },
+      provider: { max_price: { prompt: 0, completion: 0, request: 0, image: 0 } },
+    }),
+  },
   {
     id: "deepseek-flash",
     provider: "deepseek",

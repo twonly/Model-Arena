@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { sharedKeyFor } from "../lib/shared-server.ts";
+import { findEndpointPrice } from "../lib/pricing.ts";
 
 import {
   DEEPSEEK_V41_MODEL_ID,
@@ -30,6 +32,33 @@ const own = (over = {}) => ({
   model: "claude-opus-4-8",
   enabled: true,
   ...over,
+});
+
+test("Space Bunny uses a server-only OpenRouter key, zero-price routing and trial migration", () => {
+  const model = sharedById("space-bunny-alpha");
+  assert.equal(model.model, "stealth/space-bunny-alpha");
+  assert.equal(model.baseUrl, "https://openrouter.ai/api/v1");
+  assert.equal(model.provider, "openrouter");
+  assert.deepEqual(JSON.parse(model.extraBody), {
+    reasoning: { effort: "low" },
+    provider: { max_price: { prompt: 0, completion: 0, request: 0, image: 0 } },
+  });
+  const previous = process.env.SHARED_KEY_OPENROUTER;
+  try {
+    process.env.SHARED_KEY_OPENROUTER = "test-server-key";
+    assert.equal(sharedKeyFor(model.provider), "test-server-key");
+    const migrated = reconcileSharedPool([trial()], true);
+    assert.equal(migrated.find((m) => m.id === model.id)?.apiKey, "");
+    assert.ok(!JSON.stringify(migrated).includes("test-server-key"));
+    assert.ok(!reconcileSharedPool([trial()], false).some((m) => m.id === model.id));
+  } finally {
+    if (previous === undefined) delete process.env.SHARED_KEY_OPENROUTER;
+    else process.env.SHARED_KEY_OPENROUTER = previous;
+  }
+  const price = findEndpointPrice(model.model, model.baseUrl);
+  assert.equal(price.inputMiss, 0);
+  assert.equal(price.output, 0);
+  assert.equal(findEndpointPrice(model.model, "https://api.deepseek.com/v1"), undefined);
 });
 
 test("a usable own model graduates ALL trials off, including non-overlapping providers", () => {
@@ -83,6 +112,7 @@ test("current shared pool keeps DeepSeek and GLM and adds four OrcaRouter free e
   assert.deepEqual(
     sharedAsEndpoints(current).map((endpoint) => endpoint.id),
     [
+      "space-bunny-alpha",
       "deepseek-flash",
       "deepseek-pro",
       "glm-5-3",

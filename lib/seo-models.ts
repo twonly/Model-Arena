@@ -55,6 +55,19 @@ export interface PrelaunchModel {
 
 export const PRELAUNCH_MODELS: PrelaunchModel[] = [
   {
+    slug: "space-bunny-alpha",
+    name: "Space Bunny Alpha",
+    provider: "OpenRouter · Stealth",
+    apiModelId: "stealth/space-bunny-alpha",
+    contextTokens: 1_000_000,
+    verifiedOn: "2026-09-27",
+    sourceUrl: "https://openrouter.ai/stealth/space-bunny-alpha",
+    blurbZh: "Space Bunny Alpha 是由匿名第三方提供、经 OpenRouter 接入的免费预览模型。",
+    blurbEn: "Space Bunny Alpha is a free preview from an anonymous third-party provider, accessed through OpenRouter.",
+    noticeZh: "2026-09-27 官方目录显示输入、输出价格为零，上下文 100 万 token，支持文本、图片和视频输入。本站免费试用沿用现有额度，默认 low 推理强度，仅允许零价格路由；预览可用性和定价可能变化。供应商可能保留输入与输出，但不用于训练。匿名身份、编码与多模态能力不由本站文本测试验证。",
+    noticeEn: "On September 27, 2026, the official catalog lists zero input/output prices, a 1M-token context and text, image and video inputs. TOKRACE trials use existing quotas, low reasoning effort and zero-price routing only. Preview availability and pricing may change. The provider may retain prompts and completions but does not use them for training. Our text tests do not establish its identity, coding or multimodal capabilities.",
+  },
+  {
     slug: "deepseek-v4-1-flash",
     name: "DeepSeek V4.1 Flash",
     provider: "DeepSeek",

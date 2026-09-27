@@ -17,7 +17,7 @@ export interface BenchmarkModel {
   name: string;
   model: string;
   version: string;
-  providerKey?: "deepseek" | "zhipu" | "orcarouter";
+  providerKey?: "deepseek" | "zhipu" | "orcarouter" | "openrouter";
   kind?: "openai" | "anthropic";
   extraBody?: string;
   provider: string;

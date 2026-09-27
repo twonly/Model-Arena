@@ -9,6 +9,7 @@ const PROVIDER_ENV: Record<SharedModel["provider"], string> = {
   deepseek: "SHARED_KEY_DEEPSEEK",
   zhipu: "SHARED_KEY_ZHIPU",
   orcarouter: "SHARED_KEY_ORCAROUTER",
+  openrouter: "SHARED_KEY_OPENROUTER",
 };
 
 export function sharedKeyFor(provider: SharedModel["provider"]): string | undefined {

@@ -113,6 +113,7 @@ export function findEndpointPrice(
   )
     return undefined;
   const sources: Record<string, [string, PriceRegion]> = {
+    "openrouter.ai": ["OpenRouter", "global"],
     "api.orcarouter.ai": ["OrcaRouter", "global"],
     "api.deepseek.com": ["DeepSeek", "global"],
     "api.openai.com": ["OpenAI", "global"],

@@ -1,5 +1,19 @@
 [
   {
+    "matchIds": ["stealth/space-bunny-alpha"],
+    "provider": "OpenRouter",
+    "model": "Space Bunny Alpha",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0,
+    "inputHit": null,
+    "output": 0,
+    "sourceName": "OpenRouter Space Bunny Alpha",
+    "sourceUrl": "https://openrouter.ai/stealth/space-bunny-alpha",
+    "verified": "2026-09-27",
+    "note": "Free anonymous preview; availability and pricing may change."
+  },
+  {
     "matchIds": [
       "MiniMax-M2.7"
     ],
