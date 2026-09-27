@@ -8,6 +8,11 @@ const CJK_RE =
   /[一-鿿㐀-䶿　-〿＀-￯぀-ヿ가-힯]/;
 
 export function estimateTokens(text: string): number {
+  return Math.round(estimateTokenUnits(text) / 20);
+}
+
+/** Integer twentieths of a token: accumulate without per-chunk rounding or float drift. */
+export function estimateTokenUnits(text: string): number {
   if (!text) return 0;
   let cjk = 0;
   let other = 0;
@@ -15,5 +20,5 @@ export function estimateTokens(text: string): number {
     if (CJK_RE.test(ch)) cjk++;
     else other++;
   }
-  return Math.round(cjk * 0.7 + other / 4);
+  return cjk * 14 + other * 5;
 }

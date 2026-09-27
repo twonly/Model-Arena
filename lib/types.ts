@@ -93,6 +93,7 @@ export interface RunState {
   metrics: RunMetrics | null;
   samples: SpeedSample[];
   liveTokens: number;
+  liveReasoningTokens?: number;
   liveTps: number;
   /** 运行中实时显示的首 token 时延 */
   liveTtftMs?: number;

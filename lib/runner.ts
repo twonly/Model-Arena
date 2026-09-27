@@ -1,5 +1,5 @@
 import { chatEvents } from "./chat-events.ts";
-import { estimateTokens } from "./tokens.ts";
+import { estimateTokens, estimateTokenUnits } from "./tokens.ts";
 import { getClientId } from "./telemetry.ts";
 import {
   resolveEndpointTransport,
@@ -79,20 +79,20 @@ export async function runEndpoint({
   // 实时速度：记录 (时间, 累计估算 tokens) 检查点
   const checkpoints: { t: number; tok: number }[] = [];
   const samples: SpeedSample[] = [];
-  let lastFlush = 0;
+  let lastFlush = -Infinity; // 首个片段立即显示，并建立实时速度的起始采样点。
   let lastSample = 0;
 
   const now = () => performance.now() - t0;
 
   // 实时估算用增量累加（O(delta)），避免每次 flush 全文重扫；
   // 最终指标在 finalize 里仍用全文一次性精确估算
-  let estLiveTok = 0;
-  const liveTok = () => estLiveTok;
+  let estLiveReasoning = 0, estLiveContent = 0;
+  const liveTok = () => Math.round(estLiveReasoning / 20) + Math.round(estLiveContent / 20);
 
   const instantTps = (): number => {
     // Replayed tokens keep their upstream clock; catch-up must not look like a speed burst.
-    const t = Math.max(tLastReasoning ?? 0, tLastContent ?? 0);
-    const tok = liveTok();
+    const t = (text ? tLastContent : tLastReasoning) ?? 0;
+    const tok = Math.round((text ? estLiveContent : estLiveReasoning) / 20);
     checkpoints.push({ t, tok });
     // 找滑动窗口起点
     let base = checkpoints[0];
@@ -112,7 +112,7 @@ export async function runEndpoint({
     if (!force && t - lastFlush < FLUSH_MS) return;
     lastFlush = t;
     const tps = instantTps();
-    const sampleTime = Math.max(tLastReasoning ?? 0, tLastContent ?? 0);
+    const sampleTime = (text ? tLastContent : tLastReasoning) ?? 0;
     if (sampleTime - lastSample >= SAMPLE_MS) {
       lastSample = sampleTime;
       samples.push({ t: sampleTime, tps });
@@ -126,6 +126,7 @@ export async function runEndpoint({
       reasoning: r,
       text: x,
       liveTokens: lt,
+      liveReasoningTokens: Math.round(estLiveReasoning / 20),
       liveTps: tps,
       liveTtftMs: ttft,
       samples: [...samples],
@@ -227,6 +228,7 @@ export async function runEndpoint({
     metrics: null,
     samples: [],
     liveTokens: 0,
+    liveReasoningTokens: 0,
     liveTps: 0,
     liveTtftMs: undefined,
     elapsedMs: undefined,
@@ -332,14 +334,17 @@ export async function runEndpoint({
         if (ev.reasoning) {
           if (tFirstReasoning == null) tFirstReasoning = t;
           reasoning += ev.reasoning;
-          estLiveTok += estimateTokens(ev.reasoning);
+          estLiveReasoning += estimateTokenUnits(ev.reasoning);
           tLastReasoning = t;
         }
         if (ev.text) {
           diagnostics.clientFirstContentMs ??= clientTime;
-          if (tFirstContent == null) tFirstContent = t;
+        if (tFirstContent == null) {
+          tFirstContent = t;
+          checkpoints.length = 0; // 正文速度窗口不混入刚结束的思考阶段。
+        }
           text += ev.text;
-          estLiveTok += estimateTokens(ev.text);
+          estLiveContent += estimateTokenUnits(ev.text);
           tLastContent = t;
         }
         flush();

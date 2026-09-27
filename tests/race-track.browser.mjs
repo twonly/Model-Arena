@@ -9,7 +9,7 @@ const browser = await chromium.launch();
 await mkdir("output/playwright", { recursive: true });
 try {
   const page = await browser.newPage();
-  for (const [locale, width] of [["zh-CN", 1280], ["en", 390]]) {
+  for (const [locale, width] of (process.argv.includes("--skip-share") ? [] : [["zh-CN", 1280], ["en", 390]])) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(`${base}/${locale}/r/${shareId}`);
     await page.locator("[data-runner-id]").first().waitFor();
@@ -84,6 +84,7 @@ try {
     window.raceStreamsReady = () => streams.length === 2;
   });
   await live.goto(`${base}/zh-CN/arena`);
+  await live.waitForFunction(() => document.querySelector('[aria-label="已选模型"]')?.textContent?.includes("Test a"));
   await live.getByRole("textbox", { name: "你的任务", exact: true }).fill("Test race speed");
   await live.getByRole("button", { name: /开始对比/ }).first().click();
   await live.waitForFunction(() => window.raceStreamsReady());
@@ -91,17 +92,28 @@ try {
   await live.locator('[data-runner-id="a"]').waitFor();
   await live.evaluate(() => new Promise((resolve) => setTimeout(resolve, 150)));
   await live.evaluate(() => window.emitRaceEvent({ type: "delta", reasoning: "Still thinking ".repeat(50), ts: 300 }));
-  assert.match(await live.locator('[data-runner-id="a"] [data-race-axis="speed"]').getAttribute("aria-label"), /— token\/s/, "thinking TPS must not be presented as output TPS");
+  await live.waitForFunction(() => /^实时思考速度（估算）: [\d,.]+ token\/s/.test(document.querySelector('[data-runner-id="a"] [data-race-axis="speed"]').getAttribute("aria-label")));
+  assert.ok(await live.locator('[data-runner-id="a"] [data-race-axis="speed"] > div > div').first().evaluate((el) => parseFloat(el.style.width) > 0));
+  assert.match(await live.locator('[data-runner-id="a"] [data-race-axis="tokens"]').getAttribute("aria-label"), /正文: 0 token/);
+  assert.equal(await live.locator('[data-runner-id="a"] [data-race-axis="speed"] > div > div').first().evaluate((el) => el.style.background), "var(--think)");
+  await live.locator('[data-runner-id="a"]').locator("../..").screenshot({ path: "output/playwright/race-thinking.png" });
+  await live.setViewportSize({ width: 390, height: 900 });
+  assert.ok(await live.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "thinking phase fits mobile viewport");
+  await live.locator('[data-runner-id="a"]').locator("../..").screenshot({ path: "output/playwright/race-thinking-mobile.png" });
   await live.evaluate(() => new Promise((resolve) => setTimeout(resolve, 150)));
   await live.evaluate(() => window.emitRaceEvent({ type: "delta", text: "Output ".repeat(50), ts: 500 }));
+  await live.evaluate(() => new Promise((resolve) => setTimeout(resolve, 150)));
+  await live.evaluate(() => window.emitRaceEvent({ type: "delta", text: "Output ".repeat(50), ts: 700 }));
   await live.waitForFunction(() => !document.querySelector('[data-runner-id="a"] [data-race-axis="speed"]').getAttribute("aria-label").includes("—"));
+  await live.waitForFunction(() => document.querySelector('[data-runner-id="a"] [data-race-axis="speed"]').getAttribute("aria-label").startsWith("实时输出速度"));
+  assert.equal(await live.locator('[data-runner-id="a"] [data-race-axis="speed"] > div > div').first().evaluate((el) => el.style.background), "var(--go)");
   await live.evaluate(() => {
     window.emitRaceEvent({ type: "delta", text: "more output", ts: 1500 });
     window.emitRaceEvent({ type: "usage", outputTokens: 110, reasoningTokens: 100 });
     window.emitRaceEvent({ type: "done" });
   });
   await live.waitForFunction(() => document.querySelector('[data-runner-id="a"] [data-race-axis="speed"]').getAttribute("aria-label").includes("输出速度（正文阶段）: 10 token/s"));
-  console.log("PASS: mocked live stream — thinking excluded, output speed updates, final usage calibration");
+  console.log("PASS: mocked live stream — thinking speed shown, no phantom content tokens, output phase switches, final usage calibration");
 
 } finally {
   await browser.close();

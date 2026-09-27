@@ -1283,18 +1283,15 @@ export default function Home() {
     restored ? restored.prompt : (comparison?.prompt ?? prompt),
   );
 
-  // 实时赛道：与卡片输出 TPS 使用同一口径，思考速度不混入正文速度。
+  // 当前阶段与卡片使用同一速度口径；颜色区分思考和正文。
   const runners = visibleEndpoints.map((ep) => {
     const run = runs[ep.id] ?? EMPTY_RUN;
     const m = run.metrics;
     const ttftMs = m?.ttftMs ?? run.liveTtftMs;
-    // 思考 token：结束用官方/估算的 reasoningTokens；流式期间按思考正文实时估算
-    // （liveTokens 已含思考+输出，二者口径一致）
+    // 流式总量与思考量都使用 runner 同一组累计值，避免取整差额变成假正文。
     const reasoningTokens = m
       ? (m.reasoningTokens ?? 0)
-      : run.reasoning
-        ? estimateTokens(run.reasoning)
-        : 0;
+      : (run.liveReasoningTokens ?? (run.reasoning ? (run.text ? estimateTokens(run.reasoning) : run.liveTokens) : 0));
     return {
       id: ep.id,
       name: ep.name,
@@ -1302,7 +1299,8 @@ export default function Home() {
       model: ep.model,
       baseUrl: ep.baseUrl,
       reasoningTokens,
-      tps: m?.contentTps ?? (run.status === "streaming" ? run.liveTps : 0),
+      tps: m?.contentTps ?? (["thinking", "streaming"].includes(run.status) ? run.liveTps : 0),
+      phase: run.status === "thinking" ? "thinking" as const : "content" as const,
       ttftMs,
       waitMs:
         ttftMs == null

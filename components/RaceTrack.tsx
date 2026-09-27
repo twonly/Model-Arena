@@ -26,8 +26,9 @@ export interface Runner {
   tokens: number;
   /** 其中思考 token（0=非思考模型）；辅助数量条的拆分用 */
   reasoningTokens: number;
-  /** 与模型卡片一致的实时/最终正文输出速度 token/s */
+  /** 与模型卡片当前阶段一致；已完成时显示最终正文输出速度。 */
   tps: number;
+  phase?: "thinking" | "content";
   /** 首个 token（含思考）的已结算时延 */
   ttftMs?: number;
   /** 尚未收到首 token 时的实时或已定格等待时长 */
@@ -79,7 +80,8 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
         <span className="flex flex-wrap items-center justify-end gap-2.5 text-[10.5px] text-faint">
           <span className="flex items-center gap-1">
             <span className="inline-block h-2.5 w-4 rounded-full bg-go" aria-hidden="true" />
-            {isZh ? "输出速度 token/s · 快的在前" : "Output token/s · fastest first"}
+            <span className="inline-block h-2.5 w-4 rounded-full bg-think" aria-hidden="true" />
+            {isZh ? "当前阶段速度 token/s · 快的在前" : "Current phase token/s · fastest first"}
           </span>
           <span className="flex items-center gap-1">
             <span className="inline-flex h-1 w-4 overflow-hidden rounded-full" aria-hidden="true">
@@ -103,8 +105,8 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
       </div>
       <p className="mb-2 text-[10.5px] text-faint">
         {isZh
-          ? "进行中显示实时估算，结束后与卡片「输出TPS」一致；不代表平均速度、峰值或回答质量。"
-          : "Live estimates while streaming; final values match Output TPS, not average speed, peak speed or answer quality."}
+          ? "黄色显示思考TPS，绿色显示正文输出TPS；进行中为实时估算，结束后与卡片「输出TPS」一致。速度不代表回答质量。"
+          : "Amber: Thinking TPS. Green: Output TPS. Live estimates while running; final values match the card’s Output TPS. Speed is not answer quality."}
       </p>
       <div className="mb-1 grid grid-cols-[6.5rem_minmax(0,1fr)_5.75rem] gap-2.5 text-[10px] text-faint sm:grid-cols-[9rem_minmax(0,1fr)_6.75rem]">
         <span />
@@ -118,7 +120,8 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
           const waitingForFirst = r.running && r.ttftMs == null;
           const reasonShare = reasoningSharePct(r.reasoningTokens, r.tokens);
           const spd = speedBarPct(r.tps, speedFull);
-          const speedTitle = `${isZh ? (r.running ? "实时输出速度（估算）" : "输出速度（正文阶段）") : (r.running ? "Live output speed (estimated)" : "Output speed (content phase)")}: ${fmtTps(r.tps)} token/s · ${isZh ? "参考线" : "Reference"} ${SPEED_BAR_REF} token/s`;
+          const thinking = r.phase === "thinking";
+          const speedTitle = `${thinking ? (isZh ? "实时思考速度（估算）" : "Live thinking speed (estimated)") : isZh ? (r.running ? "实时输出速度（估算）" : "输出速度（正文阶段）") : (r.running ? "Live output speed (estimated)" : "Output speed (content phase)")}: ${fmtTps(r.tps)} token/s · ${isZh ? "参考线" : "Reference"} ${SPEED_BAR_REF} token/s`;
           const tokenTitle = `${isZh ? "总量" : "Total"}: ${fmtInt(r.tokens)} token · ${isZh ? "思考" : "Reasoning"}: ${fmtInt(r.reasoningTokens)} token · ${isZh ? "正文" : "Content"}: ${fmtInt(Math.max(0, r.tokens - r.reasoningTokens))} token`;
           const ttftDurationMs = r.ttftMs ?? r.waitMs;
           const ttftPct = ttftBarPct(ttftDurationMs);
@@ -154,7 +157,7 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                   <div className="relative h-5 overflow-hidden rounded-full bg-paper">
                     <div
                       className={`absolute inset-y-0 left-0 rounded-full transition-[width] duration-300 ease-out ${r.running ? "speed-live" : ""}`}
-                      style={{ width: `${spd}%`, background: "var(--go)", opacity: isFastest ? 0.95 : 0.65 }}
+                      style={{ width: `${spd}%`, background: thinking ? "var(--think)" : "var(--go)", opacity: isFastest ? 0.95 : 0.65 }}
                     />
                     <div
                       className="absolute inset-y-0 border-l-2 border-dashed border-faint/60"
@@ -212,8 +215,9 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
               <div className="num shrink-0 text-right leading-tight tabular-nums">
                 <div
                   className="text-[12px] font-semibold"
-                  style={{ color: isFastest ? "var(--go)" : "var(--ink)" }}
+                  style={{ color: thinking ? "var(--think)" : isFastest ? "var(--go)" : "var(--ink)" }}
                 >
+                  {thinking && <span className="mr-1 text-[10px] font-normal">{isZh ? "思考" : "Think"}</span>}
                   {r.tps > 0 ? (
                     <>
                       {isFastest && "⚡"}

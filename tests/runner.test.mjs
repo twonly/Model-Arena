@@ -3,6 +3,7 @@ import test from "node:test";
 
 import { runEndpoint } from "../lib/runner.ts";
 import { buildSnapshot } from "../lib/share.ts";
+import { estimateTokens } from "../lib/tokens.ts";
 
 test("shared model chat requests include the current auth header", async () => {
   const originalFetch = globalThis.fetch;
@@ -149,4 +150,30 @@ test("buffered catch-up uses upstream timestamps for speed samples instead of in
   assert.equal(state.metrics.contentMs, 39000);
   assert.ok(state.metrics.peakTps <= 2, "37 seconds of replay must not become a one-second speed spike");
   assert.deepEqual(state.samples.map((sample) => sample.t), [1000, 2000, 3000, 40000]);
+});
+
+test("fragmented thinking never invents content tokens and estimates agree across phases", async (t) => {
+  let clock = 0, state = { status: "idle", text: "", reasoning: "", metrics: null, samples: [] };
+  t.mock.method(performance, "now", () => clock);
+  const events = [...Array.from({ length: 45 }, () => ({ type: "delta", reasoning: "汉" })),
+    ...Array.from({ length: 7 }, () => ({ type: "delta", text: "a" })), { type: "done" }];
+  const live = [];
+  t.mock.method(globalThis, "fetch", async () => new Response(new ReadableStream({ pull(c) {
+    clock += 100;
+    c.enqueue(new TextEncoder().encode(`data: ${JSON.stringify({ ...events.shift(), ts: clock })}\n\n`));
+    if (!events.length) c.close();
+  } }, { highWaterMark: 0 })));
+  await runEndpoint({
+    endpoint: { id: "m", model: "m", name: "m", baseUrl: "https://test.test", apiKey: "key", kind: "openai" },
+    prompt: "hello", params: {}, signal: new AbortController().signal, authHeaders: async () => ({}),
+    update: (fn) => { state = fn(state); if (["thinking", "streaming"].includes(state.status)) live.push(state); }, onSettled() {},
+  });
+  for (const sample of live) {
+    assert.equal(sample.liveReasoningTokens, estimateTokens(sample.reasoning));
+    assert.equal(sample.liveTokens - sample.liveReasoningTokens, estimateTokens(sample.text));
+  }
+  assert.equal(live.filter((s) => s.status === "thinking").at(-1).liveTokens, 32);
+  assert.equal(live.find((s) => s.status === "streaming").liveTps, 0, "first content cannot inherit thinking speed");
+  assert.equal(state.metrics.reasoningTokens, 32);
+  assert.equal(state.metrics.contentTokens, 2);
 });
