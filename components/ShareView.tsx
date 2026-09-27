@@ -401,9 +401,9 @@ export function ShareView({
               <VerdictCard verdict={verdict} locale={locale} />
             </div>
           )}
-          <div className={`grid gap-4 ${cols}`}>
+          <div className={`grid grid-cols-1 gap-4 ${cols}`}>
             {visible.map((ep) => (
-              <div key={ep.id}>
+              <div key={ep.id} className="min-w-0">
                 <ModelCard
                   endpoint={ep}
                   run={runs[ep.id] ?? emptyRun()}

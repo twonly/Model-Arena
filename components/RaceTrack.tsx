@@ -3,14 +3,14 @@
 import { useLayoutEffect, useRef } from "react";
 import { ProviderIcon } from "./ProviderIcon";
 import type { Locale } from "@/lib/i18n";
-import { fmtSeconds } from "@/lib/format";
+import { fmtInt, fmtSeconds, fmtTps } from "@/lib/format";
 import {
   fastestTtftId,
   raceProgressPct,
   reasoningSharePct,
   speedBarPct,
   SPEED_BAR_REF,
-  SPEED_REF_PCT,
+  SPEED_BAR_FULL,
   TTFT_BAR_FULL_MS,
   TTFT_BAR_REF_MS,
   TTFT_REF_PCT,
@@ -24,9 +24,9 @@ export interface Runner {
   baseUrl?: string;
   /** 已生成 token，总量（含思考+输出；实时 liveTokens 或最终 outputTokens） */
   tokens: number;
-  /** 其中思考 token（0=非思考模型）；粗条里 [思考▕输出] 拆分用 */
+  /** 其中思考 token（0=非思考模型）；辅助数量条的拆分用 */
   reasoningTokens: number;
-  /** 当前/最终速度 tok/s */
+  /** 与模型卡片一致的实时/最终正文输出速度 token/s */
   tps: number;
   /** 首个 token（含思考）的已结算时延 */
   ttftMs?: number;
@@ -39,20 +39,7 @@ export interface Runner {
   failed?: boolean;
 }
 
-/**
- * 实时赛道：每个模型一条跑道。两条并列的条形分别编码两个维度——
- * 粗条「进度 = 已生成 token」（跑了多远 / 数量），细条「速度 = 实时 tps」（跑得多快 /
- * 速率，按固定基准的绝对刻度）。这样「token 多但慢」与「token 少但快」一眼可辨，
- * 而不只是看谁的 token 多。最快者标 ⚡，token 最多者（领跑）粗条用强调色。
- * 速度条用绝对刻度：跑动中实时 tps 抖动让柱子真实地动、越过基准线即「破线」，跑完即
- * 定格静止（仅跑动中轻微脉冲表示「还在跑」）。
- * 粗条「进度 = token / 全场最高」始终按 token 数成比例：谁 token 多谁更长。代价是当某模型
- * 跑完后、仍在跑的模型继续生成把全场最高顶上去时，已完成的粗条会随之等比变短（被反超就
- * 该落后）——这与「跑完即静止」二选一，这里选「长度忠实反映 token」。
- * 粗条内再按「思考▕输出」两色拆分（思考=琥珀 var(--think)，沿用全站思考色；输出=主色），
- * 让 high-think-budget 模型「想了多少 vs 写了多少」一眼可见。
- * 名次变化时行用 FLIP 动画平滑滑到新位（非瞬跳）。静态截图/录屏友好。
- */
+/** 速度决定主条和排序；token 数量与首响等待仅作辅助。 */
 export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Locale }) {
   const isZh = locale === "zh-CN";
   // 名次变化的 FLIP 动画：记下每行上一帧的 offsetTop，重排后把行瞬移回原位再过渡回 0
@@ -78,15 +65,11 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
   });
   if (runners.length < 2) return null;
   const max = Math.max(1, ...runners.map((r) => r.tokens));
-  // 按 token 降序：领跑者在最上
-  const ordered = [...runners].sort((a, b) => b.tokens - a.tokens);
-  const leaderId = ordered[0]?.tokens > 0 ? ordered[0].id : null;
-  // 全场最快（速率维度，与「token 最多」分开标记）
-  const fastest = ordered.reduce(
-    (best, r) => (r.tps > (best?.tps ?? 0) ? r : best),
-    null as Runner | null
-  );
-  const fastestId = fastest && fastest.tps > 0 ? fastest.id : null;
+  const ordered = [...runners].sort((a, b) => b.tps - a.tps);
+  const fastestId = ordered[0]?.tps > 0 ? ordered[0].id : null;
+  // 常规范围保留绝对刻度；超出时扩展，避免高速模型全部顶格。
+  const speedFull = Math.max(SPEED_BAR_FULL, Math.ceil(ordered[0].tps / 100) * 100);
+  const tooltipClass = "pointer-events-none absolute bottom-full left-0 z-20 mb-1 hidden w-max max-w-[min(18rem,50vw)] whitespace-normal rounded-md bg-ink px-2 py-1 text-[11px] text-paper shadow-md group-hover/axis:block group-focus/axis:block";
   const fastestResponseId = fastestTtftId(ordered);
 
   return (
@@ -95,22 +78,15 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
         <span className="text-[12px] font-semibold">🏁 {isZh ? "实时竞速" : "Live race"}</span>
         <span className="flex flex-wrap items-center justify-end gap-2.5 text-[10.5px] text-faint">
           <span className="flex items-center gap-1">
-            <span
-              className="inline-flex h-2 w-4 overflow-hidden rounded-full"
-              aria-hidden="true"
-            >
-              <span className="h-full w-1/2" style={{ background: "var(--think)" }} />
-              <span className="h-full w-1/2" style={{ background: "var(--ink)", opacity: 0.6 }} />
-            </span>
-            {isZh ? "思考 / 输出 token" : "reasoning / output"}
+            <span className="inline-block h-2.5 w-4 rounded-full bg-go" aria-hidden="true" />
+            {isZh ? "输出速度 token/s · 快的在前" : "Output token/s · fastest first"}
           </span>
           <span className="flex items-center gap-1">
-            <span
-              className="inline-block h-1 w-3.5 rounded-full"
-              style={{ background: "var(--go)" }}
-              aria-hidden="true"
-            />
-            {isZh ? `速度 t/s · 基准 ${SPEED_BAR_REF}` : `speed t/s · ref ${SPEED_BAR_REF}`}
+            <span className="inline-flex h-1 w-4 overflow-hidden rounded-full" aria-hidden="true">
+              <span className="h-full w-1/2 bg-think" />
+              <span className="h-full w-1/2 bg-ink/50" />
+            </span>
+            {isZh ? "思考 / 正文量 · token" : "Reasoning / content · tokens"}
           </span>
           <span
             className="flex items-center gap-1"
@@ -125,18 +101,25 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
           </span>
         </span>
       </div>
+      <p className="mb-2 text-[10.5px] text-faint">
+        {isZh
+          ? "进行中显示实时估算，结束后与卡片「输出TPS」一致；不代表平均速度、峰值或回答质量。"
+          : "Live estimates while streaming; final values match Output TPS, not average speed, peak speed or answer quality."}
+      </p>
+      <div className="mb-1 grid grid-cols-[6.5rem_minmax(0,1fr)_5.75rem] gap-2.5 text-[10px] text-faint sm:grid-cols-[9rem_minmax(0,1fr)_6.75rem]">
+        <span />
+        <div className="flex justify-between"><span>0</span><span>{speedFull} token/s</span></div>
+      </div>
       <div ref={listRef} className="relative flex flex-col gap-2.5">
         {ordered.map((r) => {
           const pct = raceProgressPct(r.tokens, max);
-          const markerPct = r.tokens > 0 ? Math.max(1.5, pct) : 0;
-          const leader = r.id === leaderId;
           const isFastest = r.id === fastestId;
           const isFastestResponse = r.id === fastestResponseId;
           const waitingForFirst = r.running && r.ttftMs == null;
-          const color = leader ? "var(--accent)" : "var(--ink)";
           const reasonShare = reasoningSharePct(r.reasoningTokens, r.tokens);
-          const spd = speedBarPct(r.tps);
-          const aboveRef = r.tps >= SPEED_BAR_REF;
+          const spd = speedBarPct(r.tps, speedFull);
+          const speedTitle = `${isZh ? (r.running ? "实时输出速度（估算）" : "输出速度（正文阶段）") : (r.running ? "Live output speed (estimated)" : "Output speed (content phase)")}: ${fmtTps(r.tps)} token/s · ${isZh ? "参考线" : "Reference"} ${SPEED_BAR_REF} token/s`;
+          const tokenTitle = `${isZh ? "总量" : "Total"}: ${fmtInt(r.tokens)} token · ${isZh ? "思考" : "Reasoning"}: ${fmtInt(r.reasoningTokens)} token · ${isZh ? "正文" : "Content"}: ${fmtInt(Math.max(0, r.tokens - r.reasoningTokens))} token`;
           const ttftDurationMs = r.ttftMs ?? r.waitMs;
           const ttftPct = ttftBarPct(ttftDurationMs);
           const ttftTitle =
@@ -150,13 +133,10 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                 }`
               : waitingForFirst
                 ? `${isZh ? "等待首响" : "Waiting for first token"} ${fmtSeconds(r.waitMs)}s`
-                : r.failed
-                  ? isZh
-                    ? "未收到首 token"
-                    : "No first token received"
-                  : isZh
-                    ? "尚未开始"
-                    : "Not started";
+                : r.waitMs != null
+                  ? `${isZh ? "未收到首 token · 已等待" : "No first token · waited"} ${fmtSeconds(r.waitMs)}s`
+                  : isZh ? "尚无首响数据" : "No TTFT data";
+          const ttftTooltip = `${ttftTitle} · ${isZh ? "参考线" : "Reference"} ${TTFT_BAR_REF_MS / 1000}s · ${isZh ? "满格" : "Full scale"} ${TTFT_BAR_FULL_MS / 1000}s`;
           return (
             <div
               key={r.id}
@@ -167,114 +147,83 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                 <ProviderIcon model={r.model} name={r.name} baseUrl={r.baseUrl} size="sm" />
                 <span className="truncate">{r.name}</span>
               </div>
-              {/* 三条并列：token 进度、输出速度、首响等待（越短越好） */}
-              <div className="flex flex-col gap-1">
-                <div className="relative h-5 overflow-hidden rounded-full bg-paper">
-                  <div className="absolute inset-y-0 right-2 w-px bg-line/80" aria-hidden="true" />
-                  {/* 已填充粗条，内分两段：思考(琥珀) | 输出(主色) */}
-                  <div
-                    className="absolute inset-y-0 left-0 overflow-hidden rounded-full transition-[width] duration-300 ease-out"
-                    style={{ width: `${pct}%`, opacity: leader ? 0.95 : 0.55 }}
-                  >
+              {/* 主条为输出速度，细条分别为 token 数量和首响等待。 */}
+              <div className="flex min-w-0 flex-col gap-1">
+                <div className="group/axis relative" tabIndex={0} role="img" aria-label={speedTitle} data-race-axis="speed">
+                  <span role="tooltip" className={tooltipClass}>{speedTitle}</span>
+                  <div className="relative h-5 overflow-hidden rounded-full bg-paper">
                     <div
-                      className="absolute inset-y-0 left-0 transition-[width] duration-300 ease-out"
-                      style={{ width: `${reasonShare}%`, background: "var(--think)" }}
-                      title={isZh ? "思考 token" : "reasoning tokens"}
+                      className={`absolute inset-y-0 left-0 rounded-full transition-[width] duration-300 ease-out ${r.running ? "speed-live" : ""}`}
+                      style={{ width: `${spd}%`, background: "var(--go)", opacity: isFastest ? 0.95 : 0.65 }}
                     />
                     <div
-                      className="absolute inset-y-0 right-0 transition-[left] duration-300 ease-out"
-                      style={{ left: `${reasonShare}%`, background: color }}
-                      title={isZh ? "输出 token" : "output tokens"}
+                      className="absolute inset-y-0 border-l-2 border-dashed border-faint/60"
+                      style={{ left: `${speedBarPct(SPEED_BAR_REF, speedFull)}%` }}
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-[12px] transition-[left] duration-300 ease-out"
+                      style={{ left: `clamp(8px, ${spd}%, calc(100% - 8px))` }}
+                      aria-hidden="true"
+                    >
+                      {r.done ? "🏁" : waitingForFirst ? "⏳" : r.running ? <span className="race-launch">🏎️</span> : "•"}
+                    </div>
+                  </div>
+                </div>
+                <div className="group/axis relative" tabIndex={0} role="img" aria-label={tokenTitle} data-race-axis="tokens">
+                  <span role="tooltip" className={tooltipClass}>{tokenTitle}</span>
+                  <div className="relative h-1.5 overflow-hidden rounded-full bg-paper">
+                    <div className="absolute inset-y-0 left-0 overflow-hidden rounded-full transition-[width] duration-300 ease-out" style={{ width: `${pct}%` }}>
+                      <div className="absolute inset-y-0 left-0 bg-think" style={{ width: `${reasonShare}%` }} />
+                      <div className="absolute inset-y-0 right-0 bg-ink/40" style={{ left: `${reasonShare}%` }} />
+                    </div>
+                  </div>
+                </div>
+                <div className="group/axis relative" tabIndex={0} role="img" aria-label={ttftTooltip} data-race-axis="ttft">
+                  <span role="tooltip" className={tooltipClass}>{ttftTooltip}</span>
+                  <div
+                    className="relative h-1.5 overflow-hidden rounded-full bg-paper"
+                    data-ttft-bar-id={r.id}
+                    data-ttft-bar-pct={ttftPct.toFixed(1)}
+                  >
+                    <div
+                      className="absolute inset-y-0 z-10 border-l border-dashed border-faint/70"
+                      style={{ left: `${TTFT_REF_PCT}%` }}
+                      aria-hidden="true"
+                    />
+                    <div
+                      className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-100 ease-linear"
+                      style={{
+                        width: `${ttftPct}%`,
+                        minWidth: ttftPct > 0 ? "2px" : undefined,
+                        background: r.failed
+                          ? "var(--accent)"
+                          : isFastestResponse
+                            ? "var(--go)"
+                            : "var(--think)",
+                        opacity: waitingForFirst ? 0.8 : 0.9,
+                      }}
+                      aria-hidden="true"
                     />
                   </div>
-                  <div
-                    className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 text-[12px] transition-[left] duration-300 ease-out"
-                    style={{ left: `${markerPct}%` }}
-                  >
-                    {r.done ? (
-                      "🏁"
-                    ) : waitingForFirst ? (
-                      <span title={ttftTitle}>⏳</span>
-                    ) : r.running ? (
-                      <span className="race-launch" title={ttftTitle}>🏎️</span>
-                    ) : (
-                      "•"
-                    )}
-                  </div>
-                </div>
-                <div className="relative h-2 overflow-hidden rounded-full bg-paper">
-                  {/* 基准参考线：速度越过即「破线」（虚线立于条上） */}
-                  <div
-                    className="absolute inset-y-0 z-10"
-                    style={{
-                      left: `${SPEED_REF_PCT}%`,
-                      borderLeft: "2px dashed var(--faint)",
-                      opacity: 0.6,
-                    }}
-                    aria-hidden="true"
-                  />
-                  <div
-                    className={`absolute inset-y-0 left-0 rounded-full transition-[width] duration-500 ease-out ${
-                      r.running ? "speed-live" : ""
-                    }`}
-                    style={{
-                      // 绝对刻度：宽随真实 tps 动；非零给个下限保证可见
-                      width: r.tps > 0 ? `${Math.max(3, spd)}%` : "0%",
-                      background: "var(--go)",
-                      // 跑动中由脉冲动画控透明度；跑完定格、稍降透明度示「已结算」
-                      ...(r.running ? {} : { opacity: 0.7 }),
-                      // 越过基准线发一点微光，强调「破线」
-                      boxShadow: aboveRef ? "0 0 5px var(--go)" : undefined,
-                    }}
-                  />
-                </div>
-                <div
-                  className="relative h-1.5 overflow-hidden rounded-full bg-paper"
-                  title={`${ttftTitle} · ${
-                    isZh
-                      ? `${TTFT_BAR_FULL_MS / 1000}s 满格，越短越好`
-                      : `${TTFT_BAR_FULL_MS / 1000}s full scale, shorter is better`
-                  }`}
-                  data-ttft-bar-id={r.id}
-                  data-ttft-bar-pct={ttftPct.toFixed(1)}
-                >
-                  <div
-                    className="absolute inset-y-0 z-10 border-l border-dashed border-faint/70"
-                    style={{ left: `${TTFT_REF_PCT}%` }}
-                    aria-hidden="true"
-                  />
-                  <div
-                    className="absolute inset-y-0 left-0 rounded-full transition-[width] duration-100 ease-linear"
-                    style={{
-                      width: `${ttftPct}%`,
-                      minWidth: ttftPct > 0 ? "2px" : undefined,
-                      background: r.failed
-                        ? "var(--accent)"
-                        : isFastestResponse
-                          ? "var(--go)"
-                          : "var(--think)",
-                      opacity: waitingForFirst ? 0.8 : 0.9,
-                    }}
-                    aria-hidden="true"
-                  />
                 </div>
               </div>
-              {/* 数值：token 数 + 实时 t/s + 等待中/已结算的首响 */}
+              {/* 数值主次与条形一致。 */}
               <div className="num shrink-0 text-right leading-tight tabular-nums">
-                <div className="text-[12px] font-semibold text-ink">{Math.round(r.tokens)}</div>
                 <div
-                  className="text-[10.5px]"
-                  style={{ color: isFastest ? "var(--go)" : "var(--faint)" }}
+                  className="text-[12px] font-semibold"
+                  style={{ color: isFastest ? "var(--go)" : "var(--ink)" }}
                 >
                   {r.tps > 0 ? (
                     <>
                       {isFastest && "⚡"}
-                      {Math.round(r.tps)} <span className="text-faint">t/s</span>
+                      {fmtTps(r.tps)} <span className="text-[10px] font-normal text-faint">token/s</span>
                     </>
                   ) : (
                     <span className="text-faint">—</span>
                   )}
                 </div>
+                <div className="text-[10px] text-faint">{fmtInt(r.tokens)} token</div>
                 <div
                   data-ttft-id={r.id}
                   data-ttft-state={

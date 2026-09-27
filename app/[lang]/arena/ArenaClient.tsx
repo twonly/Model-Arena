@@ -1246,6 +1246,7 @@ export default function Home() {
         metrics: r.metrics,
         rank: r.rank,
         samples: r.samples ?? [],
+        elapsedMs: r.elapsedMs,
         error: r.error,
       };
     });
@@ -1282,7 +1283,7 @@ export default function Home() {
     restored ? restored.prompt : (comparison?.prompt ?? prompt),
   );
 
-  // 实时赛道：流式期间按累计 token 赛跑
+  // 实时赛道：与卡片输出 TPS 使用同一口径，思考速度不混入正文速度。
   const runners = visibleEndpoints.map((ep) => {
     const run = runs[ep.id] ?? EMPTY_RUN;
     const m = run.metrics;
@@ -1301,7 +1302,7 @@ export default function Home() {
       model: ep.model,
       baseUrl: ep.baseUrl,
       reasoningTokens,
-      tps: m?.contentTps ?? run.liveTps ?? 0,
+      tps: m?.contentTps ?? (run.status === "streaming" ? run.liveTps : 0),
       ttftMs,
       waitMs:
         ttftMs == null

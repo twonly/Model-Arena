@@ -26,26 +26,17 @@ export function raceProgressPct(tokens: number, maxTokens: number): number {
   return Math.min(RACE_LEADER_MAX_PROGRESS, (tokens / maxTokens) * RACE_LEADER_MAX_PROGRESS);
 }
 
-// 速度细条用「绝对刻度」而非「相对当前最快」。相对刻度下最快者永远 100%、看着不动
-// （正是要修的问题）；绝对刻度下柱长 = 真实 tps / 满格基准，实时 tps 抖动会让柱子
-// 真实地动，跑完即定格（静止）。
-// - SPEED_BAR_FULL：满格对应的 t/s（到此 100%，更快截断）。
-// - SPEED_BAR_REF：参考基准线，越过即「破线」（视觉上越过那条虚线）。
-// 注意：本条吃的是「持续速度」(contentTps/liveTps)，比「峰值」(peakTps，常说的 ~400)
-// 低，故基准取 300 让常见高速模型（实测约 339）能越线；要按峰值口径就把两常量调大。
+// 输出速度默认使用 500 token/s 的绝对刻度；赛道可传入更大的满格值。
+// 300 token/s 为参考线，与峰值速度无关。
 export const SPEED_BAR_FULL = 500;
 export const SPEED_BAR_REF = 300;
-export const SPEED_REF_PCT = (SPEED_BAR_REF / SPEED_BAR_FULL) * 100;
 
 export function speedBarPct(tps: number, full: number = SPEED_BAR_FULL): number {
   if (tps <= 0 || full <= 0) return 0;
   return Math.min(100, (tps / full) * 100);
 }
 
-/**
- * 思考段在「已填充粗条」里占的比例（0–100）。粗条总量 = 思考 token + 输出 token（总
- * token 含思考），这里给出思考那一截的占比，用于把粗条拆成「思考▕输出」两色段。
- */
+/** 辅助数量条中，思考 token 占总 token 的比例（0–100）。 */
 export function reasoningSharePct(reasoningTokens: number, totalTokens: number): number {
   if (reasoningTokens <= 0 || totalTokens <= 0) return 0;
   return Math.min(100, (reasoningTokens / totalTokens) * 100);
