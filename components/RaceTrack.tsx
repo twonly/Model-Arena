@@ -108,8 +108,8 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
           ? "黄色显示思考TPS，绿色显示正文输出TPS；进行中为实时估算，结束后与卡片「输出TPS」一致。速度不代表回答质量。"
           : "Amber: Thinking TPS. Green: Output TPS. Live estimates while running; final values match the card’s Output TPS. Speed is not answer quality."}
       </p>
-      <div className="mb-1 grid grid-cols-[6.5rem_minmax(0,1fr)_5.75rem] gap-2.5 text-[10px] text-faint sm:grid-cols-[9rem_minmax(0,1fr)_6.75rem]">
-        <span />
+      <div className="mb-1 grid grid-cols-[minmax(0,1fr)_7.5rem] gap-2.5 text-[10px] text-faint sm:grid-cols-[9rem_minmax(0,1fr)_8rem]">
+        <span className="hidden sm:block" />
         <div className="flex justify-between"><span>0</span><span>{speedFull} token/s</span></div>
       </div>
       <div ref={listRef} className="relative flex flex-col gap-2.5">
@@ -144,14 +144,14 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
             <div
               key={r.id}
               data-runner-id={r.id}
-              className="grid grid-cols-[6.5rem_minmax(0,1fr)_5.75rem] items-center gap-2.5 sm:grid-cols-[9rem_minmax(0,1fr)_6.75rem]"
+              className="grid grid-cols-[minmax(0,1fr)_7.5rem] grid-rows-[auto_1.25rem_1rem_1rem] items-center gap-x-2.5 gap-y-1 sm:grid-cols-[9rem_minmax(0,1fr)_8rem] sm:grid-rows-[1.25rem_1rem_1rem]"
             >
-              <div className="flex min-w-0 items-center gap-1.5 text-[12px] font-medium" title={r.name}>
+              <div className="col-span-2 flex min-w-0 items-center gap-1.5 text-[12px] font-medium sm:col-span-1 sm:row-span-3" title={r.name}>
                 <ProviderIcon model={r.model} name={r.name} baseUrl={r.baseUrl} size="sm" />
                 <span className="truncate">{r.name}</span>
               </div>
               {/* 主条为输出速度，细条分别为 token 数量和首响等待。 */}
-              <div className="flex min-w-0 flex-col gap-1">
+              <div className="row-span-3 grid min-w-0 grid-rows-subgrid items-center">
                 <div className="group/axis relative" tabIndex={0} role="img" aria-label={speedTitle} data-race-axis="speed">
                   <span role="tooltip" className={tooltipClass}>{speedTitle}</span>
                   <div className="relative h-5 overflow-hidden rounded-full bg-paper">
@@ -212,28 +212,36 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                 </div>
               </div>
               {/* 数值主次与条形一致。 */}
-              <div className="num shrink-0 text-right leading-tight tabular-nums">
+              <div className="num row-span-3 grid grid-rows-subgrid items-center text-right leading-none tabular-nums">
                 <div
-                  className="text-[12px] font-semibold"
+                  data-race-value="speed"
+                  className="flex items-center gap-1 whitespace-nowrap text-[12px] font-semibold"
                   style={{ color: thinking ? "var(--think)" : isFastest ? "var(--go)" : "var(--ink)" }}
                 >
-                  {thinking && <span className="mr-1 text-[10px] font-normal">{isZh ? "思考" : "Think"}</span>}
-                  {r.tps > 0 ? (
-                    <>
-                      {isFastest && "⚡"}
-                      {fmtTps(r.tps)} <span className="text-[10px] font-normal text-faint">token/s</span>
-                    </>
-                  ) : (
-                    <span className="text-faint">—</span>
-                  )}
+                  <span aria-hidden="true" className="-ml-2.5 min-w-2 flex-1 border-t border-dotted border-faint/40" />
+                  <span>
+                    {thinking && <span className="mr-1 text-[10px] font-normal">{isZh ? "思考" : "Think"}</span>}
+                    {r.tps > 0 ? (
+                      <>
+                        {isFastest && "⚡"}
+                        {fmtTps(r.tps)} <span className="text-[10px] font-normal text-faint">token/s</span>
+                      </>
+                    ) : (
+                      <span className="text-faint">—</span>
+                    )}
+                  </span>
                 </div>
-                <div className="text-[10px] text-faint">{fmtInt(r.tokens)} token</div>
+                <div data-race-value="tokens" className="flex items-center gap-1 whitespace-nowrap text-[10px] text-faint">
+                  <span aria-hidden="true" className="-ml-2.5 min-w-2 flex-1 border-t border-dotted border-faint/40" />
+                  <span>{fmtInt(r.tokens)} token</span>
+                </div>
                 <div
+                  data-race-value="ttft"
                   data-ttft-id={r.id}
                   data-ttft-state={
                     waitingForFirst ? "waiting" : r.ttftMs != null ? "ready" : r.failed ? "failed" : "idle"
                   }
-                  className={`mt-0.5 text-[10px] ${waitingForFirst ? "ttft-waiting" : ""}`}
+                  className={`flex items-center gap-1 whitespace-nowrap text-[10px] ${waitingForFirst ? "ttft-waiting" : ""}`}
                   style={{
                     color: waitingForFirst
                       ? "var(--accent)"
@@ -244,18 +252,21 @@ export function RaceTrack({ runners, locale }: { runners: Runner[]; locale: Loca
                   title={ttftTitle}
                   aria-label={ttftTitle}
                 >
-                  {waitingForFirst ? (
-                    <>⏱ {fmtSeconds(r.waitMs)}s…</>
-                  ) : r.ttftMs != null ? (
-                    <>
-                      {isFastestResponse ? "🚦" : isZh ? "首响 " : "TTFT "}
-                      {fmtSeconds(r.ttftMs)}s
-                    </>
-                  ) : r.failed ? (
-                    isZh ? "首响失败" : "TTFT failed"
-                  ) : (
-                    isZh ? "首响 —" : "TTFT —"
-                  )}
+                  <span aria-hidden="true" className="-ml-2.5 min-w-2 flex-1 border-t border-dotted border-faint/40" />
+                  <span>
+                    {waitingForFirst ? (
+                      <>⏱ {fmtSeconds(r.waitMs)}s…</>
+                    ) : r.ttftMs != null ? (
+                      <>
+                        {isFastestResponse ? "🚦" : isZh ? "首响 " : "TTFT "}
+                        {fmtSeconds(r.ttftMs)}s
+                      </>
+                    ) : r.failed ? (
+                      isZh ? "首响失败" : "TTFT failed"
+                    ) : (
+                      isZh ? "首响 —" : "TTFT —"
+                    )}
+                  </span>
                 </div>
               </div>
             </div>

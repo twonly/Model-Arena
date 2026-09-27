@@ -7,9 +7,24 @@ const base = process.argv[2] || "http://localhost:3100";
 const shareId = process.argv[3] || "2npoQ0zdTo";
 const browser = await chromium.launch();
 await mkdir("output/playwright", { recursive: true });
+async function assertAligned(page) {
+  const metrics = await page.locator("[data-runner-id]").evaluateAll((rows) => rows.flatMap((row) =>
+    ["speed", "tokens", "ttft"].map((axis) => {
+      const bar = row.querySelector(`[data-race-axis="${axis}"] > div`).getBoundingClientRect();
+      const value = row.querySelector(`[data-race-value="${axis}"]`).getBoundingClientRect();
+      const guide = row.querySelector(`[data-race-value="${axis}"] > [aria-hidden]`).getBoundingClientRect();
+      return { axis, delta: Math.abs(bar.y + bar.height / 2 - value.y - value.height / 2),
+        guideDelta: Math.abs(bar.y + bar.height / 2 - guide.y - guide.height / 2), guideWidth: guide.width };
+    })));
+  for (const metric of metrics) {
+    assert.ok(metric.delta <= 1, `${metric.axis} value must align with its bar: ${metric.delta}px`);
+    assert.ok(metric.guideDelta <= 1 && metric.guideWidth >= 8, `${metric.axis} guide must connect on the same centerline`);
+  }
+}
+
 try {
   const page = await browser.newPage();
-  for (const [locale, width] of (process.argv.includes("--skip-share") ? [] : [["zh-CN", 1280], ["en", 390]])) {
+  for (const [locale, width] of (process.argv.includes("--skip-share") ? [] : [["zh-CN", 1280], ["en", 390], ["zh-CN", 320]])) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto(`${base}/${locale}/r/${shareId}`);
     await page.locator("[data-runner-id]").first().waitFor();
@@ -25,6 +40,7 @@ try {
       assert.equal(row.speed, cardSpeeds[row.index], "race and model card must show the same Output TPS");
       if (i) assert.ok(rows[i - 1].bar >= row.bar, "faster models must rank first with longer bars");
     });
+    await assertAligned(page);
     for (const axis of ["speed", "tokens", "ttft"]) {
       const bar = page.locator(`[data-race-axis="${axis}"]`).first();
       await bar.hover();
@@ -64,6 +80,12 @@ try {
   assert.match(await restored.nth(2).locator('[data-race-axis="ttft"]').getAttribute("aria-label"), /6\.00s/);
   assert.equal(await restored.nth(0).locator('[data-race-axis="speed"] > div > div').first().evaluate((el) => el.style.width), "100%");
   assert.equal(await restored.nth(1).locator('[data-race-axis="speed"] > div > div').first().evaluate((el) => parseFloat(el.style.width)), 4.6 / 800 * 100);
+  for (const width of [1280, 390, 320]) {
+    await page.setViewportSize({ width, height: 900 });
+    await assertAligned(page);
+    assert.ok(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "restored layout fits viewport");
+    await restored.first().locator("../..").screenshot({ path: `output/playwright/race-alignment-${width}.png` });
+  }
   console.log("PASS: restored history — speed beats token volume, expanded scale, fractional/missing speed, stopped wait");
 
   const live = await browser.newPage();
@@ -96,9 +118,11 @@ try {
   assert.ok(await live.locator('[data-runner-id="a"] [data-race-axis="speed"] > div > div').first().evaluate((el) => parseFloat(el.style.width) > 0));
   assert.match(await live.locator('[data-runner-id="a"] [data-race-axis="tokens"]').getAttribute("aria-label"), /正文: 0 token/);
   assert.equal(await live.locator('[data-runner-id="a"] [data-race-axis="speed"] > div > div').first().evaluate((el) => el.style.background), "var(--think)");
+  await assertAligned(live);
   await live.locator('[data-runner-id="a"]').locator("../..").screenshot({ path: "output/playwright/race-thinking.png" });
   await live.setViewportSize({ width: 390, height: 900 });
   assert.ok(await live.evaluate(() => document.documentElement.scrollWidth <= innerWidth), "thinking phase fits mobile viewport");
+  await assertAligned(live);
   await live.locator('[data-runner-id="a"]').locator("../..").screenshot({ path: "output/playwright/race-thinking-mobile.png" });
   await live.evaluate(() => new Promise((resolve) => setTimeout(resolve, 150)));
   await live.evaluate(() => window.emitRaceEvent({ type: "delta", text: "Output ".repeat(50), ts: 500 }));
