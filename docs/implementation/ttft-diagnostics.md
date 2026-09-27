@@ -37,6 +37,6 @@
 
 ## 发布状态
 
-修复已合入当前工作目录，保留并行完成的模型图标更新。尚未提交、推送或部署。生产生效需分别发布 Next.js 应用和 Cloudflare Worker；新旧客户端/代理通过可选诊断事件兼容。
+修复保留并行完成的模型图标更新；已于 2026-09-27 提交、推送并发布 Next.js 应用和 Cloudflare Worker。新旧客户端/代理通过可选诊断事件兼容。上线六模型验收捕获到 UltraSpeed 的 71.652 秒首响及小米回传的 70.685 秒计算等待字段，见 [发布记录](./ttft-release-2026-09-27.md)。
 
 诊断脚本：`node --env-file=.env.local automation/diagnose-ttft.mjs`。只需离线检查时运行 `node automation/diagnose-ttft.mjs --self-test`。

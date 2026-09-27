@@ -2392,7 +2392,7 @@ export default function Home() {
         ) : (
           <div
             id="model-outputs"
-            className={`grid gap-4 ${gridCols}`}
+            className={`grid grid-cols-1 gap-4 ${gridCols}`}
             style={
               exporting
                 ? {

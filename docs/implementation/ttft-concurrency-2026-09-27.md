@@ -1,5 +1,7 @@
 # 六模型并发实测（2026-09-27）
 
+> 以下是发布前的实验。后续上线验收已捕获 UltraSpeed 长等待及厂商耗时回执，最新证据见 [发布记录](./ttft-release-2026-09-27.md)。
+
 ## 结论
 
 用户分享 https://www.tokrace.com/zh-CN/r/hMqeqf6gVW 中，UltraSpeed 首 Token 为 **38.712 秒**，随后有效输出窗口约 **0.690 秒**。遥测确认对应 `2026-09-26T08:53:44Z` 上报的同一轮六模型结果，MiMo 接口是 `api.xiaomimimo.com`。
