@@ -1,0 +1,121 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1000" width="100%">
+<rect x="0" y="0" width="1080" height="1000" fill="#F6F3E8"/>
+<rect x="1.5" y="1.5" width="1077" height="997" fill="none" stroke="#D9D0BC" stroke-width="3"/>
+<text x="170" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 170 330)">Tokrace 小数据</text>
+<text x="530" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 530 330)">Tokrace 小数据</text>
+<text x="890" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 890 330)">Tokrace 小数据</text>
+<text x="290" y="511" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 290 511)">Tokrace 小数据</text>
+<text x="650" y="511" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 650 511)">Tokrace 小数据</text>
+<text x="1010" y="511" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 1010 511)">Tokrace 小数据</text>
+<text x="170" y="692" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 170 692)">Tokrace 小数据</text>
+<text x="530" y="692" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 530 692)">Tokrace 小数据</text>
+<text x="890" y="692" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 890 692)">Tokrace 小数据</text>
+<text x="290" y="874" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 290 874)">Tokrace 小数据</text>
+<text x="650" y="874" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 650 874)">Tokrace 小数据</text>
+<text x="1010" y="874" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 1010 874)">Tokrace 小数据</text>
+<text x="540.0" y="84.0" font-size="44" fill="#1E1C19" text-anchor="middle" font-weight="700" font-family="'Noto Serif CJK SC','Source Han Serif SC','Songti SC',serif" >国产掉分约是别人的两倍</text>
+<text x="540.0" y="134" font-size="25" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="400" fill="#1E1C19"><tspan fill="#1E1C19">国产平均 </tspan><tspan fill="#C8413A" font-weight="700">-12.4</tspan><tspan fill="#1E1C19"> 分，其他模型平均 </tspan><tspan fill="#1F5F73" font-weight="700">-6.8</tspan><tspan fill="#1E1C19"> 分</tspan></text>
+<line x1="184.2" y1="230" x2="184.2" y2="800" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="184.2" y="830.0" font-size="19" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >-16</text>
+<line x1="332.5" y1="230" x2="332.5" y2="800" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="332.5" y="830.0" font-size="19" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >-12</text>
+<line x1="480.8" y1="230" x2="480.8" y2="800" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="480.8" y="830.0" font-size="19" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >-8</text>
+<line x1="629.2" y1="230" x2="629.2" y2="800" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="629.2" y="830.0" font-size="19" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >-4</text>
+<line x1="777.5" y1="230" x2="777.5" y2="800" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="777.5" y="830.0" font-size="19" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >0</text>
+<line x1="925.8" y1="230" x2="925.8" y2="800" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="925.8" y="830.0" font-size="19" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >+4</text>
+<line x1="777.5" y1="230" x2="777.5" y2="800" stroke="#1E1C19" stroke-width="2"/>
+<text x="777.5" y="862.0" font-size="19" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >分差（v5 − v4.3.2）</text>
+<circle cx="184.2" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="213.8" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="243.5" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="243.5" cy="387" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="273.2" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="273.2" cy="387" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="387" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="353" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="332.5" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="387" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="387" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="353" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="404" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="451.2" cy="370" r="8" fill="#C8413A" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<line x1="317.9" y1="250" x2="317.9" y2="490" stroke="#C8413A" stroke-width="3"/>
+<text x="317.9" y="240.0" font-size="24" fill="#C8413A" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >平均 -12.4</text>
+<text x="90.0" y="220.0" font-size="22" fill="#1E1C19" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >国产模型 17 个</text>
+<circle cx="243.5" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="724" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="656" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="302.8" cy="741" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="332.5" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="332.5" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="724" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="656" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="741" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="639" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="758" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="362.2" cy="622" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="724" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="391.8" cy="656" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="421.5" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="421.5" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="451.2" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="451.2" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="480.8" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="480.8" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="480.8" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="510.5" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="510.5" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="510.5" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="510.5" cy="724" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="510.5" cy="656" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="510.5" cy="741" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="540.2" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="569.8" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="569.8" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="629.2" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="629.2" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="629.2" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="658.8" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="658.8" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="658.8" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="688.5" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="688.5" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="688.5" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="718.2" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="718.2" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="718.2" cy="673" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="777.5" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="807.2" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="807.2" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="836.8" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="836.8" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="866.5" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="896.2" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="925.8" cy="690" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<circle cx="925.8" cy="707" r="8" fill="#B9B2A6" fill-opacity="0.85" stroke="#F6F3E8" stroke-width="1.5"/>
+<line x1="526.3" y1="570" x2="526.3" y2="810" stroke="#1F5F73" stroke-width="3"/>
+<text x="526.3" y="560.0" font-size="24" fill="#1F5F73" text-anchor="middle" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >平均 -6.8</text>
+<text x="90.0" y="540.0" font-size="22" fill="#1E1C19" text-anchor="start" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >其他模型 60 个</text>
+<text x="789.5" y="596.0" font-size="19" fill="#1F5F73" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >涨分的 8 个：</text>
+<text x="789.5" y="622.0" font-size="17" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Opus · Astra · Sol 顶配</text>
+<line x1="40" y1="896" x2="1040" y2="896" stroke="#D8D0C1" stroke-width="1.5"/>
+<text x="40.0" y="926.0" font-size="18" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >注释：每个点是一个模型的一个推理档位；按 0.8 分分箱堆叠。</text>
+<text x="40.0" y="956.0" font-size="18" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >资料来源：Artificial Analysis 官网及 2026-10-26 Wayback 存档（v4.3.2）</text>
+<text x="1040.0" y="972.0" font-size="22" fill="#1E1C19" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Tokrace 小数据</text>
+</svg>

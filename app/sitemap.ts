@@ -11,6 +11,10 @@ import {
 import { BEST_METRICS } from "@/lib/best";
 import { PRELAUNCH_MODELS } from "@/lib/seo-models";
 import { LOCALES, localizedPath, type Locale } from "@/lib/i18n";
+import { FIGURE_FILES as deepseekSuperAgentFigures } from "./[lang]/guides/deepseek-super-agent-diagram/content";
+import { FIGURE_FILES as manusRebuildFigures } from "./[lang]/guides/manus-rebuild-manus-report/content";
+import { FIGURE_FILES as aaV5Figures } from "./[lang]/guides/aa-intelligence-index-v5-chinese-models/content";
+
 
 // 让 sitemap 随排行榜刷新（模型页是动态的）
 export const revalidate = 3600;
@@ -140,6 +144,24 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date("2026-09-26"),
       changeFrequency: "monthly",
       priority: 0.7,
+    }),
+    ...allLocales("/guides/aa-intelligence-index-v5-chinese-models", {
+      lastModified: new Date("2026-11-01T13:00:00Z"),
+      changeFrequency: "monthly",
+      priority: 0.85,
+      images: aaV5Figures.map(f => `${base}/guides/aa-intelligence-index-v5-chinese-models/${f}`),
+    }),
+    ...allLocales("/guides/manus-rebuild-manus-report", {
+      lastModified: new Date("2026-11-01T02:00:00Z"),
+      changeFrequency: "monthly",
+      priority: 0.8,
+      images: manusRebuildFigures.map(f => `${base}/guides/manus-rebuild-manus-report/${f}`),
+    }),
+    ...allLocales("/guides/deepseek-super-agent-diagram", {
+      lastModified: new Date("2026-10-31T17:00:00Z"),
+      changeFrequency: "monthly",
+      priority: 0.8,
+      images: deepseekSuperAgentFigures.map(f => `${base}/guides/deepseek-super-agent-diagram/${f}`),
     }),
     ...dynamicRoutes,
     ...sourceProfiles,

@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1194" width="100%">
+<rect x="0" y="0" width="1080" height="1194" fill="#F6F3E8"/>
+<rect x="1.5" y="1.5" width="1077" height="1191" fill="none" stroke="#D9D0BC" stroke-width="3"/>
+<text x="170" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 170 330)">Tokrace Data</text>
+<text x="530" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 530 330)">Tokrace Data</text>
+<text x="890" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 890 330)">Tokrace Data</text>
+<text x="290" y="572" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 290 572)">Tokrace Data</text>
+<text x="650" y="572" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 650 572)">Tokrace Data</text>
+<text x="1010" y="572" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 1010 572)">Tokrace Data</text>
+<text x="170" y="814" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 170 814)">Tokrace Data</text>
+<text x="530" y="814" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 530 814)">Tokrace Data</text>
+<text x="890" y="814" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 890 814)">Tokrace Data</text>
+<text x="290" y="1056" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 290 1056)">Tokrace Data</text>
+<text x="650" y="1056" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 650 1056)">Tokrace Data</text>
+<text x="1010" y="1056" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 1010 1056)">Tokrace Data</text>
+<text x="540.0" y="84.0" font-size="44" fill="#1E1C19" text-anchor="middle" font-weight="700" font-family="'Noto Serif CJK SC','Source Han Serif SC','Songti SC',serif" >HLE-Diamond: the top rose, Chinese models fell</text>
+<text x="540.0" y="134" font-size="25" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="400" fill="#1E1C19"><tspan fill="#1E1C19">HLE → HLE-Diamond: Chinese average </tspan><tspan fill="#C8413A" font-weight="700">-18.4</tspan><tspan fill="#1E1C19">, others </tspan><tspan fill="#1F5F73" font-weight="700">-8.4</tspan></text>
+<line x1="380.0" y1="240" x2="380.0" y2="984" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="380.0" y="1012.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >0%</text>
+<line x1="504.0" y1="240" x2="504.0" y2="984" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="504.0" y="1012.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >15%</text>
+<line x1="628.0" y1="240" x2="628.0" y2="984" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="628.0" y="1012.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >30%</text>
+<line x1="752.0" y1="240" x2="752.0" y2="984" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="752.0" y="1012.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >45%</text>
+<line x1="876.0" y1="240" x2="876.0" y2="984" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="876.0" y="1012.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >60%</text>
+<line x1="1000.0" y1="240" x2="1000.0" y2="984" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="1000.0" y="1012.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >75%</text>
+<text x="360.0" y="277.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Claude Opus 5.5</text>
+<line x1="887.6" y1="270" x2="941.3" y2="270" stroke="#1F5F73" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="887.6" cy="270" r="8" fill="#F6F3E8" stroke="#1F5F73" stroke-width="3"/>
+<circle cx="941.3" cy="270" r="9" fill="#1F5F73"/>
+<text x="957.3" y="277.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >61.4→67.9</text>
+<text x="360.0" y="339.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >GPT-6 Astra</text>
+<line x1="832.2" y1="332" x2="907.4" y2="332" stroke="#1F5F73" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="832.2" cy="332" r="8" fill="#F6F3E8" stroke="#1F5F73" stroke-width="3"/>
+<circle cx="907.4" cy="332" r="9" fill="#1F5F73"/>
+<text x="923.4" y="339.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >54.7→63.8</text>
+<text x="360.0" y="401.0" font-size="20" fill="#8F887D" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Gemini 4 Argon</text>
+<line x1="852.0" y1="394" x2="848.7" y2="394" stroke="#B9B2A6" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="852.0" cy="394" r="8" fill="#F6F3E8" stroke="#B9B2A6" stroke-width="3"/>
+<circle cx="848.7" cy="394" r="9" fill="#B9B2A6"/>
+<text x="868.0" y="401.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >57.1→56.7</text>
+<text x="360.0" y="463.0" font-size="20" fill="#8F887D" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Meta Muse Wonder Full</text>
+<line x1="823.1" y1="456" x2="780.9" y2="456" stroke="#B9B2A6" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="823.1" cy="456" r="8" fill="#F6F3E8" stroke="#B9B2A6" stroke-width="3"/>
+<circle cx="780.9" cy="456" r="9" fill="#B9B2A6"/>
+<text x="839.1" y="463.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >53.6→48.5</text>
+<text x="360.0" y="525.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Kimi K3.1 Pro</text>
+<line x1="814.0" y1="518" x2="688.3" y2="518" stroke="#C8413A" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="814.0" cy="518" r="8" fill="#F6F3E8" stroke="#C8413A" stroke-width="3"/>
+<circle cx="688.3" cy="518" r="9" fill="#C8413A"/>
+<text x="830.0" y="525.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >52.5→37.3</text>
+<text x="360.0" y="587.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Xiaomi MiMo-V2.6-Pro</text>
+<line x1="788.4" y1="580" x2="505.7" y2="580" stroke="#C8413A" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="788.4" cy="580" r="8" fill="#F6F3E8" stroke="#C8413A" stroke-width="3"/>
+<circle cx="505.7" cy="580" r="9" fill="#C8413A"/>
+<text x="804.4" y="587.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >49.4→15.2</text>
+<text x="360.0" y="649.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >MiniMax-M3.1-Flash</text>
+<line x1="776.8" y1="642" x2="612.3" y2="642" stroke="#C8413A" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="776.8" cy="642" r="8" fill="#F6F3E8" stroke="#C8413A" stroke-width="3"/>
+<circle cx="612.3" cy="642" r="9" fill="#C8413A"/>
+<text x="792.8" y="649.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >48.0→28.1</text>
+<text x="360.0" y="711.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >StepFun Step 5 Preview</text>
+<line x1="764.4" y1="704" x2="580.9" y2="704" stroke="#C8413A" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="764.4" cy="704" r="8" fill="#F6F3E8" stroke="#C8413A" stroke-width="3"/>
+<circle cx="580.9" cy="704" r="9" fill="#C8413A"/>
+<text x="780.4" y="711.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >46.5→24.3</text>
+<text x="360.0" y="773.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >DeepSeek V4.1 Flash</text>
+<line x1="737.9" y1="766" x2="589.1" y2="766" stroke="#C8413A" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="737.9" cy="766" r="8" fill="#F6F3E8" stroke="#C8413A" stroke-width="3"/>
+<circle cx="589.1" cy="766" r="9" fill="#C8413A"/>
+<text x="753.9" y="773.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >43.3→25.3</text>
+<text x="360.0" y="835.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Qwen3.8 Max</text>
+<line x1="736.3" y1="828" x2="578.4" y2="828" stroke="#C8413A" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="736.3" cy="828" r="8" fill="#F6F3E8" stroke="#C8413A" stroke-width="3"/>
+<circle cx="578.4" cy="828" r="9" fill="#C8413A"/>
+<text x="752.3" y="835.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >43.1→24.0</text>
+<text x="360.0" y="897.0" font-size="20" fill="#8F887D" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Grok 4.7</text>
+<line x1="736.3" y1="890" x2="571.8" y2="890" stroke="#B9B2A6" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="736.3" cy="890" r="8" fill="#F6F3E8" stroke="#B9B2A6" stroke-width="3"/>
+<circle cx="571.8" cy="890" r="9" fill="#B9B2A6"/>
+<text x="752.3" y="897.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >43.1→23.2</text>
+<text x="360.0" y="959.0" font-size="20" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >GLM-5.3</text>
+<line x1="729.7" y1="952" x2="528.0" y2="952" stroke="#C8413A" stroke-width="5" stroke-opacity="0.5"/>
+<circle cx="729.7" cy="952" r="8" fill="#F6F3E8" stroke="#C8413A" stroke-width="3"/>
+<circle cx="528.0" cy="952" r="9" fill="#C8413A"/>
+<text x="745.7" y="959.0" font-size="18" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >42.3→17.9</text>
+<text x="380.0" y="236.0" font-size="19" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >○ old HLE   ● HLE-Diamond</text>
+<line x1="40" y1="1090" x2="1040" y2="1090" stroke="#D8D0C1" stroke-width="1.5"/>
+<text x="40.0" y="1120.0" font-size="18" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Note: old HLE was 2,158 text-only questions; Diamond's 1,000 include 272 with images, graded on all 1,000 even for text-only models.</text>
+<text x="40.0" y="1150.0" font-size="18" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Source: Artificial Analysis (both scores published in its model data)</text>
+<text x="1040.0" y="1166.0" font-size="22" fill="#1E1C19" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Tokrace Data</text>
+</svg>

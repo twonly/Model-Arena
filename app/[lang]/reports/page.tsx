@@ -88,6 +88,21 @@ export default async function Reports({
           </p>
         </article>
       ))}
+      <section>
+        <h2>{en ? "Model news and release previews" : "模型动态与发布前瞻"}</h2>
+<article className="mb-4 rounded-lg border border-line bg-card p-5">
+          <h3 className="text-lg font-bold text-ink"><Link href={localizedPath("/guides/aa-intelligence-index-v5-chinese-models", locale)}>{en ? "New exam, 13 points lost: 17 facts about AA Intelligence Index v5" : "换了张考卷，国产模型掉了 13 分：AA v5 的 17 个事实"}</Link></h3>
+          <p className="mt-2">{en ? "2026-11-01 · Only 8 of 77 entries gained; Chinese models averaged -12.4 vs -6.8. Terminal-Bench-Science, HLE-Diamond, the removed tests, Gemini 4 Carbon and cost per task, in 11 charts." : "2026-11-01 · 77 个模型只有 8 个涨分，国产平均 -12.4、其他 -6.8。科学终端题、HLE-Diamond、被删的三项、Gemini 4 Carbon 与单题成本，11 张图。"}</p>
+        </article>
+<article className="mb-4 rounded-lg border border-line bg-card p-5">
+          <h3 className="text-lg font-bold text-ink"><Link href={localizedPath("/guides/manus-rebuild-manus-report", locale)}>{en ? "Rebuilding Manus with Manus, explained in diagrams" : "动态图解：用 Manus 重建 Manus（工程·产品·市场）"}</Link></h3>
+          <p className="mt-2">{en ? "2026-10-31 · 26 animated diagrams of Manus co-founder Tao Zhang's essay: Mono, the three-agent bug loop, merge gates, autonomy limits, PMs shipping, an AI teammate in marketing. Plain-language rewrite—not a Tokrace speed benchmark." : "2026-10-31 · 26 张动图转写 Manus 联合创始人张涛长文：Mono、三 Agent bug 闭环、合并闸门、自主的边界、PM 独立上线、市场部 AI 队友。公开长文人话转写，非速度榜实测。"}</p>
+        </article>
+<article className="mb-4 rounded-lg border border-line bg-card p-5">
+          <h3 className="text-lg font-bold text-ink"><Link href={localizedPath("/guides/deepseek-super-agent-diagram", locale)}>{en ? "DeepSeek Super-agent architecture, explained in diagrams" : "动态图解：DeepSeek Super-agent 架构（连续·高效·主动·持久）"}</Link></h3>
+          <p className="mt-2">{en ? "2026-10-31 · Animated diagrams of Router/Worker, trigger filtering and durable sessions. Plain-language rewrite of public discussion—not a Tokrace speed benchmark." : "2026-10-31 · 用动态图解讲清 Router/Worker、Trigger 过滤与持久会话。公开讨论人话转写，非速度榜实测。"}</p>
+        </article>
+      </section>
       <Link href={localizedPath("/method", locale)}>
         {en ? "Read the method and limitations" : "查看方法与限制"}
       </Link>
