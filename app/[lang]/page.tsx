@@ -135,6 +135,24 @@ export default async function Landing({
             {en ? "All reports" : "全部报告"} →
           </Link>
         </div>
+<article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-11-01 · {en ? "Tokrace Data" : "Tokrace 小数据"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/aa-intelligence-index-v5-chinese-models")}>{en ? "New exam, 13 points lost: 17 facts about AA Intelligence Index v5" : "换了张考卷，国产模型掉了 13 分：AA v5 的 17 个事实"}</Link></h3>
+          <p>{en ? "Only 8 of 77 entries gained on Artificial Analysis v5. Chinese models fell about twice as far as the rest; the new #1 has no public API." : "Artificial Analysis v5 上 77 个模型只有 8 个涨分，国产掉分约是别人的两倍；新榜首调不到 API。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/aa-intelligence-index-v5-chinese-models")}>{en ? "Read the 17 facts" : "看 17 个事实"} →</Link>
+        </article>
+<article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-10-31 · {en ? "Animated explainer" : "动态图解"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/manus-rebuild-manus-report")}>{en ? "Rebuilding Manus with Manus, explained in diagrams" : "动态图解：用 Manus 重建 Manus"}</Link></h3>
+          <p>{en ? "26 animated diagrams of Tao Zhang's essay: Mono, the bug-fix loop, the merge gate, the 200-item weekend, PMs shipping code, and what isn't working yet. Plain-language rewrite, not a speed benchmark." : "26 张动图讲清张涛长文：Mono、bug 修复闭环、合并闸门、周末 200+ 项目、PM 独立上线，以及还没做好的地方。人话转写，非速度实测。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/manus-rebuild-manus-report")}>{en ? "Open the diagram guide" : "打开动态图解"} →</Link>
+        </article>
+<article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-10-31 · {en ? "Architecture diagram explainer" : "架构图解说明"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/deepseek-super-agent-diagram")}>{en ? "DeepSeek Super-agent architecture, explained in diagrams" : "动态图解：DeepSeek Super-agent 架构"}</Link></h3>
+          <p>{en ? "Animated diagrams of Router/Worker, triggers, and durable sessions—from public discussion, not a speed benchmark." : "用动态图解讲清 Router/Worker、Trigger 与持久会话——公开讨论人话转写，非速度实测。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/deepseek-super-agent-diagram")}>{en ? "Open the diagram guide" : "打开动态图解"} →</Link>
+        </article>
         {latest ? (
           <article className="rounded-lg border border-line bg-card p-6">
             <p className="text-sm text-faint">

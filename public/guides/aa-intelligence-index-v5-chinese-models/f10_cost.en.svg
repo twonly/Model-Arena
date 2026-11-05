@@ -1,0 +1,103 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1400" width="100%">
+<rect x="0" y="0" width="1080" height="1400" fill="#F6F3E8"/>
+<rect x="1.5" y="1.5" width="1077" height="1397" fill="none" stroke="#D9D0BC" stroke-width="3"/>
+<text x="170" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 170 330)">Tokrace Data</text>
+<text x="530" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 530 330)">Tokrace Data</text>
+<text x="890" y="330" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 890 330)">Tokrace Data</text>
+<text x="290" y="636" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 290 636)">Tokrace Data</text>
+<text x="650" y="636" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 650 636)">Tokrace Data</text>
+<text x="1010" y="636" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 1010 636)">Tokrace Data</text>
+<text x="170" y="942" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 170 942)">Tokrace Data</text>
+<text x="530" y="942" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 530 942)">Tokrace Data</text>
+<text x="890" y="942" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 890 942)">Tokrace Data</text>
+<text x="290" y="1249" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 290 1249)">Tokrace Data</text>
+<text x="650" y="1249" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 650 1249)">Tokrace Data</text>
+<text x="1010" y="1249" font-size="30" fill="#1E1C19" fill-opacity="0.035" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="700" text-anchor="middle" transform="rotate(-22 1010 1249)">Tokrace Data</text>
+<text x="540.0" y="84.0" font-size="44" fill="#1E1C19" text-anchor="middle" font-weight="700" font-family="'Noto Serif CJK SC','Source Han Serif SC','Songti SC',serif" >Same ~32 score, 17x the price</text>
+<text x="540.0" y="134" font-size="25" text-anchor="middle" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" font-weight="400" fill="#1E1C19"><tspan fill="#1E1C19">DeepSeek V4.1 Flash </tspan><tspan fill="#C8413A" font-weight="700">$0.60</tspan><tspan fill="#1E1C19"> vs Qwen3.8 Max </tspan><tspan fill="#C8413A" font-weight="700">$10.02</tspan><tspan fill="#1E1C19"> per task; Sol is 4 pts off #1 at </tspan><tspan fill="#1F5F73" font-weight="700">$1.27</tspan></text>
+<line x1="120.0" y1="250" x2="120.0" y2="1180" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="120.0" y="1210.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >$0.2</text>
+<line x1="295.1" y1="250" x2="295.1" y2="1180" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="295.1" y="1210.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >$0.5</text>
+<line x1="427.5" y1="250" x2="427.5" y2="1180" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="427.5" y="1210.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >$1</text>
+<line x1="560.0" y1="250" x2="560.0" y2="1180" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="560.0" y="1210.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >$2</text>
+<line x1="735.1" y1="250" x2="735.1" y2="1180" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="735.1" y="1210.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >$5</text>
+<line x1="867.5" y1="250" x2="867.5" y2="1180" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="867.5" y="1210.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >$10</text>
+<line x1="1000.0" y1="250" x2="1000.0" y2="1180" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="1000.0" y="1210.0" font-size="18" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >$20</text>
+<line x1="120" y1="1054.3" x2="1000" y2="1054.3" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="108.0" y="1060.3" font-size="18" fill="#8F887D" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >30</text>
+<line x1="120" y1="803.0" x2="1000" y2="803.0" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="108.0" y="809.0" font-size="18" fill="#8F887D" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >40</text>
+<line x1="120" y1="551.6" x2="1000" y2="551.6" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="108.0" y="557.6" font-size="18" fill="#8F887D" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >50</text>
+<line x1="120" y1="300.3" x2="1000" y2="300.3" stroke="#D8D0C1" stroke-dasharray="3 5"/>
+<text x="108.0" y="306.3" font-size="18" fill="#8F887D" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >60</text>
+<text x="560.0" y="1244.0" font-size="19" fill="#8F887D" text-anchor="middle" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Cost per Intelligence Index task (USD, log scale)</text>
+<text x="120.0" y="230.0" font-size="19" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >v5 score</text>
+<circle cx="819.1" cy="315.4" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="819.1" y1="315.4" x2="805.1" y2="315.4" stroke="#8F887D" stroke-width="1"/>
+<text x="801.1" y="321.4" font-size="16" fill="#1E1C19" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Gemini 4 Carbon $7.76</text>
+<circle cx="868.3" cy="340.5" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="868.3" y1="340.5" x2="854.3" y2="340.5" stroke="#8F887D" stroke-width="1"/>
+<text x="850.3" y="346.5" font-size="16" fill="#1E1C19" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Claude Opus 5.5 $10.04</text>
+<circle cx="777.4" cy="378.2" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="777.4" y1="378.2" x2="763.4" y2="378.2" stroke="#8F887D" stroke-width="1"/>
+<text x="759.4" y="384.2" font-size="16" fill="#1E1C19" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >GPT-6 Astra $6.24</text>
+<circle cx="473.2" cy="438.5" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="473.2" y1="438.5" x2="487.2" y2="430.3" stroke="#8F887D" stroke-width="1"/>
+<text x="491.2" y="436.3" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >GPT-6.1 Sol $1.27</text>
+<circle cx="867.9" cy="446.1" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="867.9" y1="446.1" x2="853.9" y2="454.3" stroke="#8F887D" stroke-width="1"/>
+<text x="849.9" y="460.3" font-size="16" fill="#1E1C19" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Claude Sonnet 5.5 $10.02</text>
+<circle cx="419.7" cy="526.5" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="419.7" y1="526.5" x2="433.7" y2="522.0" stroke="#8F887D" stroke-width="1"/>
+<text x="437.7" y="528.0" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >GPT-6.1 Terra $0.96</text>
+<circle cx="817.1" cy="541.6" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="817.1" y1="541.6" x2="803.1" y2="546.0" stroke="#8F887D" stroke-width="1"/>
+<text x="799.1" y="552.0" font-size="16" fill="#1E1C19" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Gemini 4 Argon $7.68</text>
+<circle cx="917.5" cy="576.8" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="917.5" y1="576.8" x2="903.5" y2="576.8" stroke="#8F887D" stroke-width="1"/>
+<text x="899.5" y="582.8" font-size="16" fill="#1E1C19" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Claude Fable 5.1 $12.99</text>
+<circle cx="676.5" cy="652.2" r="9" fill="#C8413A" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="676.5" y1="652.2" x2="690.5" y2="652.2" stroke="#8F887D" stroke-width="1"/>
+<text x="694.5" y="658.2" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Kimi K3.1 Pro $3.68</text>
+<circle cx="257.2" cy="898.5" r="9" fill="#1F5F73" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="257.2" y1="898.5" x2="271.2" y2="898.5" stroke="#8F887D" stroke-width="1"/>
+<text x="275.2" y="904.5" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Claude Haiku 5.5 $0.41</text>
+<circle cx="812.8" cy="946.2" r="9" fill="#B9B2A6" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="812.8" y1="946.2" x2="798.8" y2="942.3" stroke="#8F887D" stroke-width="1"/>
+<text x="794.8" y="948.3" font-size="16" fill="#8F887D" text-anchor="end" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Grok 4.7 $7.51</text>
+<circle cx="867.9" cy="963.8" r="9" fill="#C8413A" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="867.9" y1="963.8" x2="853.9" y2="966.3" stroke="#8F887D" stroke-width="1"/>
+<text x="849.9" y="972.3" font-size="16" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Qwen3.8 Max $10.02</text>
+<circle cx="329.9" cy="991.5" r="9" fill="#C8413A" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="329.9" y1="991.5" x2="343.9" y2="990.3" stroke="#8F887D" stroke-width="1"/>
+<text x="347.9" y="996.3" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >DeepSeek V4.1 Flash $0.60</text>
+<circle cx="735.5" cy="1011.6" r="9" fill="#C8413A" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="735.5" y1="1011.6" x2="721.5" y2="1014.3" stroke="#8F887D" stroke-width="1"/>
+<text x="717.5" y="1020.3" font-size="16" fill="#1E1C19" text-anchor="end" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >GLM-5.3 $5.01</text>
+<circle cx="170.1" cy="1056.8" r="9" fill="#C8413A" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="170.1" y1="1056.8" x2="184.1" y2="1038.4" stroke="#8F887D" stroke-width="1"/>
+<text x="188.1" y="1044.4" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Xiaomi MiMo-V2.6-Pro $0.26</text>
+<circle cx="291.2" cy="1082.0" r="9" fill="#C8413A" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="291.2" y1="1082.0" x2="305.2" y2="1086.4" stroke="#8F887D" stroke-width="1"/>
+<text x="309.2" y="1092.4" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >MiniMax-M3.1-Flash $0.49</text>
+<circle cx="590.8" cy="1092.0" r="9" fill="#C8413A" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="590.8" y1="1092.0" x2="604.8" y2="1110.4" stroke="#8F887D" stroke-width="1"/>
+<text x="608.8" y="1116.4" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >StepFun Step 5 Preview $2.35</text>
+<circle cx="649.2" cy="1066.9" r="9" fill="#C8413A" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="649.2" y1="1066.9" x2="663.2" y2="1062.4" stroke="#8F887D" stroke-width="1"/>
+<text x="667.2" y="1068.4" font-size="16" fill="#1E1C19" text-anchor="start" font-weight="600" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Ant Ling 3.1 Flash $3.19</text>
+<circle cx="565.6" cy="1154.9" r="9" fill="#B9B2A6" fill-opacity="0.9" stroke="#F6F3E8" stroke-width="2"/>
+<line x1="565.6" y1="1154.9" x2="579.6" y2="1154.9" stroke="#8F887D" stroke-width="1"/>
+<text x="583.6" y="1160.9" font-size="16" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Mistral Large 4 $2.06</text>
+<line x1="40" y1="1296" x2="1040" y2="1296" stroke="#D8D0C1" stroke-width="1.5"/>
+<text x="40.0" y="1326.0" font-size="18" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Note: cost = weighted cost per task from list prices and token use; Muse Wonder Full has no cost data.</text>
+<text x="40.0" y="1356.0" font-size="18" fill="#8F887D" text-anchor="start" font-weight="400" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Source: Artificial Analysis (v5)</text>
+<text x="1040.0" y="1372.0" font-size="22" fill="#1E1C19" text-anchor="end" font-weight="700" font-family="-apple-system,BlinkMacSystemFont,'PingFang SC','Noto Sans CJK SC',sans-serif" >Tokrace Data</text>
+</svg>
