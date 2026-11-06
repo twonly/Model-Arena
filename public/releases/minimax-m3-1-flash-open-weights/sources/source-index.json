@@ -1,0 +1,134 @@
+[
+  {
+    "id": "model-info",
+    "label": "Repository metadata",
+    "url": "https://huggingface.co/api/models/MiniMaxAI/MiniMax-M3.1-Flash/revision/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e?expand%5B%5D=sha&expand%5B%5D=lastModified&expand%5B%5D=private&expand%5B%5D=gated&expand%5B%5D=siblings&expand%5B%5D=cardData",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/hf-model-info.json",
+    "sha256": "db7b52eb72b25f91a3f9b21069a06f50f8208421e848e68529ecf69f35ce748a",
+    "bytes": 3655,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "commits",
+    "label": "Initial repository commit",
+    "url": "https://huggingface.co/api/models/MiniMaxAI/MiniMax-M3.1-Flash/commits/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e?limit=15",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/hf-commits.json",
+    "sha256": "66650c87e5dea628f9bfc9fe896144dfcd3585b753a60e8dccb3583c0a90d122",
+    "bytes": 736,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "tree",
+    "label": "Pinned repository file tree",
+    "url": "https://huggingface.co/api/models/MiniMaxAI/MiniMax-M3.1-Flash/tree/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e?recursive=true&expand=false",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/hf-model-tree.json",
+    "sha256": "e5e403d5d08bb4650273be191d136ef8bcbbc8dc5916e75ae8d655a3ac45172a",
+    "bytes": 18575,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "readme",
+    "label": "Official English model card",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/raw/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/README.md",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/README.md",
+    "sha256": "11a354bec1bb89e6e92b33888dc081e212811c2de437bd64e7521ca22d64b812",
+    "bytes": 23760,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "readme-zh",
+    "label": "Official Chinese model card",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/raw/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/README_zh.md",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/README_zh.md",
+    "sha256": "89f324ecab149acefb120116fb6cd03b3b645031f9fa0589597637f426f4aa36",
+    "bytes": 23407,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "license",
+    "label": "MiniMax Community License",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/raw/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/LICENSE",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/LICENSE.txt",
+    "sha256": "8c4978e3e0fe0349ff929cc8450463cba3039c4c9fc144d8bd5382ab00df247a",
+    "bytes": 3363,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "config",
+    "label": "Official model configuration",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/raw/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/config.json",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/config.json",
+    "sha256": "df6a3668e2de5b8dc0e883e3767495ad17af7e4d69fabe9683088be015fda9ab",
+    "bytes": 9122,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "weight-index",
+    "label": "Main index Git LFS pointer",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/raw/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/model.safetensors.index.json",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/model-index-lfs-pointer.txt",
+    "sha256": "dd69e363eb97ebfe26587fbffb47520189948a1fc9c686d08dab624f6e4e3561",
+    "bytes": 133,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "dspark-index",
+    "label": "DSpark weight index",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/raw/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/dspark/model.safetensors.index.json",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/dspark-model.safetensors.index.json",
+    "sha256": "593f6315b17044d94d5a7e1d231669bcc4dbf9efb06657816d945f1f45c82a6a",
+    "bytes": 11432,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "dspark-config",
+    "label": "DSpark configuration",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/raw/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/dspark/config.json",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/dspark-config.json",
+    "sha256": "d3f2ef9a308be0c5689e98b348d8cff73b90487db22ba79e9269f9b1f25cfa3a",
+    "bytes": 9973,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-response-body"
+  },
+  {
+    "id": "weight-index-prefix",
+    "label": "Main index metadata prefix, bytes 0–2047",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/resolve/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/model.safetensors.index.json",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/model-index-prefix.txt",
+    "sha256": "01c7cd663b3b688fa585cc742f3857a4c70a2815ed8b1dbc7803175c02302fd5",
+    "bytes": 2048,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "unmodified-http-range-body",
+    "httpStatus": 206,
+    "contentRange": "bytes 0-2047/10864357"
+  },
+  {
+    "id": "shard-head",
+    "label": "Anonymous HEAD check of official weight shard",
+    "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/resolve/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/model-00001-of-00048.safetensors",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/weight-shard-head.json",
+    "sha256": "bcdac9683a9326f2d3c064e212a9b9991dc00a3ea0761ff52827f20cda09d6ac",
+    "bytes": 1255,
+    "retrievedAt": "2026-10-24T01:13:00Z",
+    "snapshotKind": "observed-http-headers"
+  },
+  {
+    "id": "link-redirects",
+    "label": "Observed redirects of the supplied official links",
+    "url": "https://t.co/DQcmOjTwhO",
+    "snapshotPath": "/releases/minimax-m3-1-flash-open-weights/sources/official-link-redirects.json",
+    "sha256": "61809fe69ae55a13cc9291dd8ae17a13364a81afe8596a145f85b3d88542c064",
+    "bytes": 1249,
+    "retrievedAt": "2026-10-24T01:14:01Z",
+    "snapshotKind": "observed-http-redirects"
+  }
+]

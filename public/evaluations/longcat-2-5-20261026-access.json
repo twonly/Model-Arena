@@ -1,0 +1,9 @@
+{
+  "capturedAt": "2026-10-26T15:46:31.189Z",
+  "endpoint": "https://api.longcat.chat/openai/v1/models",
+  "status": 200,
+  "body": "{\"object\":\"list\",\"data\":[{\"id\":\"LongCat-2.5-Preview\",\"object\":\"model\",\"owned_by\":\"LongCat\",\"display_name\":\"LongCat-2.5-Preview\",\"context_window\":1048576,\"max_output_tokens\":262144},{\"id\":\"LongCat-2.0\",\"object\":\"model\",\"owned_by\":\"LongCat\",\"display_name\":\"LongCat-2.0\",\"context_window\":1048576,\"max_output_tokens\":131072}]}",
+  "sha256": "a79a5292decff4a27fb37214c40de0d19c553d5e058096c2a3d3264dcd90e4cd",
+  "interpretationZh": "实时模型列表只有Preview与2.0，不是LongCat-2.5正式版的可用性证明。",
+  "interpretationEn": "Only Preview and 2.0 are listed; this does not establish availability of a final LongCat-2.5 model."
+}

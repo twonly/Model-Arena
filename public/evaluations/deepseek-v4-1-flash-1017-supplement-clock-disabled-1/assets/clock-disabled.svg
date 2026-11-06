@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f5f5f0"/>
+
+  <!-- Clock face -->
+  <circle cx="400" cy="280" r="220" fill="#ffffff" stroke="#333333" stroke-width="6"/>
+
+  <!-- Inner circle decoration -->
+  <circle cx="400" cy="280" r="210" fill="none" stroke="#cccccc" stroke-width="1"/>
+
+  <!-- Hour markers -->
+  <!-- 12 -->
+  <line x1="400" y1="70" x2="400" y2="95" stroke="#333333" stroke-width="4"/>
+  <!-- 1 -->
+  <line x1="505" y1="85" x2="492" y2="107" stroke="#333333" stroke-width="3"/>
+  <!-- 2 -->
+  <line x1="590" y1="150" x2="570" y2="165" stroke="#333333" stroke-width="3"/>
+  <!-- 3 -->
+  <line x1="610" y1="280" x2="585" y2="280" stroke="#333333" stroke-width="4"/>
+  <!-- 4 -->
+  <line x1="590" y1="410" x2="570" y2="395" stroke="#333333" stroke-width="3"/>
+  <!-- 5 -->
+  <line x1="505" y1="475" x2="492" y2="453" stroke="#333333" stroke-width="3"/>
+  <!-- 6 -->
+  <line x1="400" y1="490" x2="400" y2="465" stroke="#333333" stroke-width="4"/>
+  <!-- 7 -->
+  <line x1="295" y1="475" x2="308" y2="453" stroke="#333333" stroke-width="3"/>
+  <!-- 8 -->
+  <line x1="210" y1="410" x2="230" y2="395" stroke="#333333" stroke-width="3"/>
+  <!-- 9 -->
+  <line x1="190" y1="280" x2="215" y2="280" stroke="#333333" stroke-width="4"/>
+  <!-- 10 -->
+  <line x1="210" y1="150" x2="230" y2="165" stroke="#333333" stroke-width="3"/>
+  <!-- 11 -->
+  <line x1="295" y1="85" x2="308" y2="107" stroke="#333333" stroke-width="3"/>
+
+  <!-- Numbers -->
+  <text x="400" y="115" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">12</text>
+  <text x="510" y="130" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">1</text>
+  <text x="590" y="200" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">2</text>
+  <text x="620" y="290" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">3</text>
+  <text x="590" y="380" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">4</text>
+  <text x="510" y="450" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">5</text>
+  <text x="400" y="475" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">6</text>
+  <text x="290" y="450" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">7</text>
+  <text x="210" y="380" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">8</text>
+  <text x="180" y="290" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">9</text>
+  <text x="210" y="200" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">10</text>
+  <text x="290" y="130" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="bold" fill="#333333">11</text>
+
+  <!-- Minute hand (pointing at 41 minutes) -->
+  <!-- 41 minutes = 41 * 6 = 246 degrees from 12 o'clock -->
+  <!-- Angle from positive x-axis: 246 - 90 = 156 degrees -->
+  <!-- Length: 160 -->
+  <!-- End point: x = 400 + 160*cos(156°), y = 280 + 160*sin(156°) -->
+  <!-- cos(156°) ≈ -0.9135, sin(156°) ≈ 0.4067 -->
+  <!-- x ≈ 400 - 146.2 = 253.8, y ≈ 280 + 65.1 = 345.1 -->
+  <line x1="400" y1="280" x2="254" y2="345" stroke="#222222" stroke-width="5" stroke-linecap="round"/>
+
+  <!-- Hour hand (between 9 and 10, at 9:41) -->
+  <!-- Hour angle: 9 hours + 41/60 hours = 9.6833 hours -->
+  <!-- 9.6833 * 30 = 290.5 degrees from 12 o'clock -->
+  <!-- Angle from positive x-axis: 290.5 - 90 = 200.5 degrees -->
+  <!-- Length: 100 -->
+  <!-- End point: x = 400 + 100*cos(200.5°), y = 280 + 100*sin(200.5°) -->
+  <!-- cos(200.5°) ≈ -0.9367, sin(200.5°) ≈ -0.3502 -->
+  <!-- x ≈ 400 - 93.7 = 306.3, y ≈ 280 - 35.0 = 245.0 -->
+  <line x1="400" y1="280" x2="306" y2="245" stroke="#222222" stroke-width="7" stroke-linecap="round"/>
+
+  <!-- Center dot -->
+  <circle cx="400" cy="280" r="8" fill="#222222"/>
+  <circle cx="400" cy="280" r="4" fill="#cc3333"/>
+
+  <!-- Label "09:41" below the dial -->
+  <text x="400" y="545" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="bold" fill="#333333">09:41</text>
+</svg>

@@ -6,6 +6,8 @@ import { useI18n } from "@/components/I18nProvider";
 import { OrcaRouterConnectButton } from "@/components/OrcaRouterConnectButton";
 import { PROVIDER_PRESETS, type ProviderPreset } from "@/lib/providers";
 import type { ModelEndpoint } from "@/lib/types";
+import { withThinkingEffort } from "@/lib/extra-params";
+import { validCustomPricing } from "@/lib/pricing";
 
 const KIND_LABEL = { openai: "OpenAI 兼容", anthropic: "Anthropic 原生" } as const;
 const KIND_LABEL_EN = { openai: "OpenAI compatible", anthropic: "Native Anthropic" } as const;
@@ -225,6 +227,7 @@ export function SettingsDialog({
 
   const saveDraft = () => {
     if (!draft) return;
+    if (draft.customPricing && !validCustomPricing(draft.customPricing)) return;
     const exists = endpoints.some((e) => e.id === draft.id);
     // 体验模型的「毕业」（首次有可用自配模型 → 整体取消勾选）由 arena 页统一处理，
     // 这里只负责增改 endpoints 本身。
@@ -306,6 +309,7 @@ export function SettingsDialog({
   };
 
   const extraValid = !draft || isValidExtra(draft.extraBody);
+  const priceValid = !draft?.customPricing || validCustomPricing(draft.customPricing);
 
   const input =
     "w-full rounded-md border border-line bg-card px-2.5 py-1.5 text-[13px] outline-none focus:border-ink/40";
@@ -431,7 +435,7 @@ export function SettingsDialog({
               else onChange(endpoints);
               handleClose();
             }}
-            disabled={!!draft && (!draft.name || !draft.baseUrl || !draft.model || !extraValid)}
+            disabled={!!draft && (!draft.name || !draft.baseUrl || !draft.model || !extraValid || !priceValid)}
             className="ml-3 shrink-0 rounded-md bg-ink px-3 py-2 text-[12px] font-semibold text-paper disabled:opacity-40 cursor-pointer"
           >
             {draft
@@ -747,13 +751,36 @@ export function SettingsDialog({
                 </div>
               )}
             </div>
+            <fieldset className="rounded border border-line p-3">
+              <label className="flex items-center gap-2 text-[12px]">
+                <input type="checkbox" checked={draft.customPricing != null}
+                  onChange={(e) => setDraft({ ...draft, customPricing: e.target.checked ? {} : undefined })} />
+                {en ? "Custom token prices (USD per 1M tokens)" : "自定义单价（美元 / 百万 Token）"}
+              </label>
+              {draft.customPricing && (
+                <div className="mt-2 grid grid-cols-2 gap-2">
+                  {(["input", "output"] as const).map((key) => (
+                    <label key={key} className="text-[11.5px] text-faint">
+                      {key === "input" ? (en ? "Input price" : "输入单价") : (en ? "Output price" : "输出单价")}
+                      <input type="number" min="0" step="any" className={`${input} num`}
+                        value={draft.customPricing?.[key] ?? ""}
+                        onChange={(e) => setDraft({ ...draft, customPricing: { ...draft.customPricing, [key]: e.target.value === "" ? undefined : Number(e.target.value) } })} />
+                    </label>
+                  ))}
+                </div>
+              )}
+              {!priceValid && <p className="mt-1 text-xs text-accent" role="alert">{en ? "Enter both non-negative prices; 0 means free." : "请填写两项非负单价；0 表示免费。"}</p>}
+              <p className="mt-1 text-[11px] text-faint">{en
+                ? "Cost = (input tokens × input price + total output tokens × output price) ÷ 1,000,000. Custom prices override the built-in table and are not sent to the provider. Cache discounts and other fees are not included. Uncheck to restore built-in pricing."
+                : "成本 =（输入 Token × 输入单价 + 总输出 Token × 输出单价）÷ 1,000,000。自定义价优先于内置价格，不发送给模型；不含缓存折扣及其他费用。取消勾选恢复内置价格。"}</p>
+            </fieldset>
             {/* 额外请求参数：think / nothink 等厂商私有开关 */}
             <div className="block">
               <div className="mb-1 flex items-center justify-between">
                 <div className="text-[11.5px] text-faint">
                   {en
-                    ? "Extra request params (JSON, merged into the request body as-is; useful for provider-specific thinking switches)"
-                    : "额外请求参数（JSON，原样合并进请求体；用于思考开关等厂商私有参数）"}
+                    ? "Extra request params (JSON; output limits, thinking switches, etc.)"
+                    : "额外请求参数（JSON；输出上限、思考开关等）"}
                 </div>
                 {draft.extraBody?.trim() && !extraValid && (
                   <span className="text-[10.5px] text-accent">
@@ -762,6 +789,7 @@ export function SettingsDialog({
                 )}
               </div>
               <textarea
+                aria-label={en ? "Extra request params JSON" : "额外请求参数 JSON"}
                 className={`${input} num`}
                 rows={2}
                 value={draft.extraBody ?? ""}
@@ -782,6 +810,53 @@ export function SettingsDialog({
                   </button>
                 ))}
               </div>
+              <details className="mt-2 text-[11px] leading-relaxed text-faint">
+                <summary className="cursor-pointer">{en ? "Optional thinking effort" : "可选 thinking effort（推理强度）"}</summary>
+                <p>{en ? "Unset by default. Choose the syntax supported by your provider; only effort is changed, preserving other JSON parameters. Unsupported values may cause HTTP 400." : "默认不设置。请按厂商支持的格式选择；仅修改 effort，保留 JSON 中其他参数。不支持的值可能导致 HTTP 400。"}</p>
+                {(["reasoning", "reasoning_effort"] as const).map((key) => (
+                  <div key={key} className="mt-1 flex flex-wrap items-center gap-1">
+                    <span>{key === "reasoning" ? "OpenRouter · reasoning.effort" : "OpenAI · reasoning_effort"}</span>
+                    {["low", "medium", "high"].map((effort) => (
+                      <button key={effort} disabled={!extraValid} className="rounded border border-line px-2 py-1 disabled:opacity-40 cursor-pointer"
+                        aria-label={`${key === "reasoning" ? "OpenRouter" : "OpenAI"} effort ${effort}`}
+                        onClick={() => setDraft({ ...draft, extraBody: withThinkingEffort(draft.extraBody ?? "", key, effort) })}>{effort}</button>
+                    ))}
+                  </div>
+                ))}
+                <button disabled={!extraValid} className="mt-1 underline disabled:opacity-40 cursor-pointer"
+                  onClick={() => setDraft({ ...draft, extraBody: withThinkingEffort(draft.extraBody ?? "", "reasoning", "") })}>
+                  {en ? "Use model default effort (remove effort only)" : "恢复模型默认强度（仅移除 effort）"}
+                </button>
+              </details>
+              <details className="mt-2 text-[11px] leading-relaxed text-faint">
+                <summary className="cursor-pointer">
+                  {en ? "max_tokens configuration & reference" : "max_tokens 配置与参考"}
+                </summary>
+                <p className="mt-1">
+                  {en
+                    ? 'Add "max_tokens": 131072 to your existing JSON to set this model’s output budget. It overrides the global Max Tokens setting; preserve your other parameters. Omit it to use the global value, or the provider default when both are unset.'
+                    : '在已有 JSON 中加入 "max_tokens": 131072，可单独设置此模型的输出预算，优先于全局 Max Tokens；请保留其他参数。不填则使用全局设置，两处均不填时使用厂商默认值。'}
+                </p>
+                <p className="mt-1">
+                  {en
+                    ? "The budget usually includes reasoning and visible output. It cannot exceed the provider’s output limit or remaining context. Total Tokens (official) shows reported output usage, not the maximum. Increasing the budget does not fix timeouts or disconnections."
+                    : "预算通常包含思考和正文，不能超过厂商输出上限或剩余上下文。「总Tokens（官方）」是上游报告的已生成用量，不是上限；增大预算不能解决超时或断线。"}
+                </p>
+                <p className="mt-1">
+                  {en
+                    ? "Space Bunny via OpenRouter: try the example below for long tasks. As of Sep 28, 2026, its listed maximum output is 524,288 tokens; check the current model page. Free trial models use server-managed extra parameters; use global Max Tokens for their output budget."
+                    : "OpenRouter 的 Space Bunny 长任务可参考下例。2026-09-28 官方列出的最大输出为 524,288 tokens，以模型页面最新值为准。免费体验模型的额外参数由服务端管理，输出预算请用全局 Max Tokens 设置。"}
+                </p>
+                <pre className="my-1 overflow-x-auto rounded border border-line bg-card p-2 num">{'{"max_tokens": 131072}'}</pre>
+                <p className="mt-1">
+                  {en
+                    ? "Reasoning effort stays at the model default unless you explicitly configure reasoning.effort in your custom model’s JSON. Supported values depend on the provider."
+                    : "推理强度保持模型默认；如需调整，可自行在自配模型的 JSON 中配置 reasoning.effort，支持的值以厂商文档为准。"}
+                </p>
+                <a className="underline" href="https://openrouter.ai/docs/api-reference/parameters" target="_blank" rel="noopener noreferrer">{en ? "OpenRouter parameter reference" : "OpenRouter 参数文档"}</a>
+                {" · "}
+                <a className="underline" href="https://openrouter.ai/stealth/space-bunny-alpha" target="_blank" rel="noopener noreferrer">Space Bunny Alpha</a>
+              </details>
               <div className="mt-1 text-[10.5px] text-faint/80">
                 {en
                   ? "ⓘ Want to compare think vs no-think for the same model? Save it, duplicate it, then configure different params for the two entries."
@@ -797,7 +872,7 @@ export function SettingsDialog({
               <button
                 onClick={saveDraft}
                 disabled={
-                  !draft.name || !draft.baseUrl || !draft.model || !extraValid
+                  !draft.name || !draft.baseUrl || !draft.model || !extraValid || !priceValid
                 }
                 className="rounded-md bg-ink text-paper px-4 py-1.5 text-[13px] font-semibold disabled:opacity-40 cursor-pointer"
               >

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="820" viewBox="0 0 1280 820">
+  <rect width="1280" height="820" fill="#eef3f8"/>
+  <rect x="60" y="50" width="1160" height="720" rx="24" fill="white"/>
+  <g font-family="Arial, sans-serif" fill="#152639">
+    <text x="100" y="112" font-size="34" font-weight="700">NORTH STORE / STOCK CHECK</text>
+    <text x="100" y="153" font-size="20" fill="#52687c">Inventory on 2026-11-05 · Units on hand</text>
+    <path d="M100 190H1180" stroke="#d7e1eb"/>
+    <g font-size="21" font-weight="700" fill="#52687c">
+      <text x="110" y="235">PRODUCT</text><text x="460" y="235">ON HAND</text><text x="700" y="235">SAFETY STOCK</text><text x="1000" y="235">INCOMING</text>
+    </g>
+    <g font-size="32">
+      <text x="110" y="315">Coffee</text><text x="500" y="315">18</text><text x="770" y="315">20</text><text x="1050" y="315">10</text>
+      <text x="110" y="420">Tea</text><text x="500" y="420">32</text><text x="770" y="420">12</text><text x="1050" y="420">0</text>
+      <text x="110" y="525">Cocoa</text><text x="500" y="525">7</text><text x="770" y="525">10</text><text x="1050" y="525">15</text>
+    </g>
+    <path d="M100 350H1180M100 455H1180M100 560H1180" stroke="#d7e1eb"/>
+    <text x="110" y="610" font-size="19" fill="#52687c">Incoming shipments have not arrived and are not included in stock on hand.</text>
+    <text x="110" y="694" font-size="23">SUPPLIER ID:</text>
+    <rect x="295" y="662" width="330" height="47" rx="6" fill="#152639"/>
+    <text x="660" y="693" font-size="20" fill="#52687c">REDACTED</text>
+  </g>
+</svg>

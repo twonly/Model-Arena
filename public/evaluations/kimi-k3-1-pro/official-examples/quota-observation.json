@@ -1,0 +1,26 @@
+{
+  "schemaVersion": 1,
+  "addedAt": "2026-10-24T01:59:04.329Z",
+  "sourceType": "user-provided-screenshot",
+  "historicalSnapshot": true,
+  "image": {
+    "path": "/evaluations/kimi-k3-1-pro/official-examples/pro-quota-console.png",
+    "sha256": "aa4e2f2dc5aec5e155b0b8fc12b26e5851375b0fab13cd90281388f2481b5c32",
+    "bytes": 58924,
+    "width": 2036,
+    "height": 372,
+    "altZh": "Kimi控制台显示Pro会员、本月用量7.15%、频限100%，当时约3小时1分钟后重置",
+    "altEn": "Kimi console snapshot showing Pro membership, 7.15% monthly usage and 100% rate-limit usage, with about 3 hours 1 minute until reset",
+    "captionZh": "用户提供的本次评测控制台快照：本月用量7.15%，频限窗口100%，页面当时显示约3小时1分钟后重置。此图仅展示拍摄时状态。",
+    "captionEn": "User-provided console snapshot from this evaluation: 7.15% monthly usage, 100% rate-limit usage and about 3 hours 1 minute until reset at capture time. This is a historical snapshot."
+  },
+  "observation": {
+    "plan": "Pro",
+    "monthlyUsagePercent": 7.15,
+    "rateLimitPercent": 100,
+    "resetCountdownText": "3h1min",
+    "descriptionZh": "这次用的是Pro会员，但评测还没跑完，就先撞到了5小时窗口的频限，接口返回429。本月用量7.15%与频限100%属于不同计量窗口，不能把这次限流说成月度额度用完。",
+    "descriptionEn": "This evaluation used a Pro membership, yet hit the five-hour usage limit before the suite finished, returning HTTP 429. The 7.15% monthly usage and 100% rate-limit usage describe different windows; this was not monthly-quota exhaustion."
+  },
+  "evaluationEvidencePath": "/evaluations/kimi-k3-1-pro.json"
+}

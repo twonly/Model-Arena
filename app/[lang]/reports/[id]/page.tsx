@@ -55,6 +55,7 @@ export default async function ReportPage({
     en = locale === "en";
   const r = await publishedReport(id);
   if (!r) notFound();
+  const retiredSpaceBunny = r.models.some((m) => m.model === "stealth/space-bunny-alpha");
   const reportUrl = `${BRAND.url}${localizedPath(`/reports/${id}`, locale)}`;
   const badge = {
     alt: `TOKRACE ${r.testedAt.slice(0, 10)}`,
@@ -110,6 +111,13 @@ export default async function ReportPage({
         }}
       />
       <ReportViewEvent id={id} />
+      {retiredSpaceBunny && (
+        <aside className="rounded border border-line bg-card p-4">
+          <h2>{en ? "October 20 update: Space Bunny identity confirmed" : "10 月 20 日更新：Space Bunny 身份已揭晓"}</h2>
+          <p>{en ? "MiniMax identifies Space Bunny as an early version of M3.1 Flash. This report preserves the original anonymous-model results. Our October 20 probe of the old ID returned 404; its trial has been retired." : "MiniMax 官方确认 Space Bunny 是 M3.1 Flash 的早期版本。本报告保留匿名阶段的原始成绩。10 月 20 日探测旧 ID 返回 404，本站已退出该旧试用项。"}</p>
+          <p><Link href={localizedPath("/guides/minimax-m3-1-flash", locale)}>{en ? "Read the released MiniMax M3.1 Flash review and 46 new test attempts" : "阅读 MiniMax M3.1 Flash 正式版介绍与 46 次新测试"}</Link>{" · "}<a href="https://www.minimax.io/blog/minimax-m31f">{en ? "Official identity announcement" : "官方身份说明"}</a></p>
+        </aside>
+      )}
       <JsonLd
         data={{
           "@context": "https://schema.org",
@@ -118,7 +126,7 @@ export default async function ReportPage({
             r.editorial?.[locale].title ??
             r.models.map((m) => m.name).join(" · "),
           datePublished: r.publishedAt,
-          dateModified: r.publishedAt,
+          dateModified: retiredSpaceBunny ? "2026-10-20T03:53:35.368Z" : r.publishedAt,
           author: {
             "@type": "Organization",
             name: "TOKRACE automated benchmark",
@@ -141,7 +149,7 @@ export default async function ReportPage({
       )}
       <section>
         <h2>{en ? "What this report supports" : "如何使用这份结论"}</h2>
-        <RerunButton
+        {!retiredSpaceBunny && (<RerunButton
           locale={locale}
           label={en ? "Rerun the first task" : "先复测一个任务"}
           seed={{
@@ -153,7 +161,7 @@ export default async function ReportPage({
             reportId: r.id,
             reportVersion: r.version,
           }}
-        />
+        />)}
         <p>
           {en
             ? "Choose using task pass counts first, then latency and estimated cost. No overall score is assigned. Failed, incomplete and unmeasured outputs are retained below."
@@ -344,7 +352,7 @@ export default async function ReportPage({
               {en ? c.titleEn : c.title} · {c.id}
             </summary>
             <p className="my-3 whitespace-pre-wrap">{c.prompt}</p>
-            <RerunButton
+            {!retiredSpaceBunny && (<RerunButton
               locale={locale}
               seed={{
                 mode: "report",
@@ -356,7 +364,7 @@ export default async function ReportPage({
                 reportId: r.id,
                 reportVersion: r.version,
               }}
-            />
+            />)}
             {r.attempts
               .filter((a) => a.caseId === c.id)
               .map((a) => (

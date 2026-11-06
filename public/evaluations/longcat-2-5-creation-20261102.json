@@ -1,0 +1,1093 @@
+{
+  "schemaVersion": 1,
+  "model": "LongCat-2.5",
+  "providerLabel": "LongCat API · native Claude Code 2.1.311",
+  "date": "2026-11-02",
+  "publishedAt": "2026-11-02T06:05:30.409889+00:00",
+  "updatedAt": "2026-11-03T17:41:35.640262+08:00",
+  "summaryZh": "LongCat 2.5 能把文字要求做成可编辑的 3D 场景、SVG 和知识视频。整体视觉表达比较完整，但专业细节并不稳：机械运动和科普图示中出现了影响使用的错误，成品仍需要逐项检查。",
+  "summaryEn": "LongCat 2.5 can turn written briefs into editable 3D scenes, SVGs and educational videos. Its visual work is fairly complete, but technical details are less reliable: errors in mechanical motion and explanatory diagrams affect usability and need careful review.",
+  "methodZh": "LongCat-2.5 通过原生 Claude Code 制作作品，使用 Blender、浏览器与视频工具完成渲染。共 6 项 3D、4 项知识视频、4 张静态 SVG 和 1 段动画。",
+  "methodEn": "LongCat-2.5 creates the works through native Claude Code, using Blender, browser and video tools: six 3D tasks, four knowledge videos, four static SVGs and one animation.",
+  "workflowNoteZh": "作品与修正由 LongCat 完成，页面与检查由评测方整理。",
+  "workflowNoteEn": "LongCat authors the works and corrections; the evaluation team prepares the page and checks.",
+  "usageNoteZh": "所列创作会话已知用量，另有 81 个请求缺少最终用量。",
+  "usageNoteEn": "Known usage for the listed creative sessions; final usage is missing for 81 requests.",
+  "billingZh": "输入含缓存，输出含思考；按接口返回用量累计。",
+  "billingEn": "Totals use API-reported usage; input includes cache and output includes thinking.",
+  "limitationsZh": [],
+  "limitationsEn": [],
+  "evidencePath": "/evaluations/longcat-2-5-creation-20261102.json",
+  "totals": {
+    "requests": 1145,
+    "completedResponses": 1064,
+    "promptTokens": 243759098,
+    "outputTokens": 1770481,
+    "errors": 81,
+    "interruptedRequests": 0
+  },
+  "cases": [
+    {
+      "id": "planetary-reducer",
+      "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+      "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+      "category": "blender",
+      "effort": "native Claude Code default",
+      "summaryZh": "整机、爆炸图和视频都交齐了，主要尺寸也对。行星架与输入轮按3.5倍关系转动，但行星轮自转不对，贴图展开还需要整理。",
+      "summaryEn": "The assembly, exploded view and video are complete at the right scale. The main 3.5 reduction is represented, but the planet gears spin incorrectly and some UV faces collapse.",
+      "references": [],
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+        "titleZh": "本题来源与规格",
+        "titleEn": "Case source and requirements",
+        "originalPrompt": "24/18/60齿行星减速器装配与轴向爆炸；太阳24齿/3行星各18齿/内圈60齿；模数2mm/20度压力角/齿宽20mm；行星中心半径42mm与120度均布、理论速比3.5；环外径140mm、输入12/输出20mm、双8mm行星架；真实齿形与静态啮合、轴向爆炸保持同轴；UV/LOD/配合未验证项如实列出；独立重开、4图+144帧视频",
+        "originalPromptSha256": "4b2e0fcc930a262160e2804f8bfbeadc8dc98c1df6f80f8f2a8a64e5133104dd",
+        "changesZh": "由 LongCat 在原生 Claude Code 中编写和渲染，保留可编辑工程。",
+        "changesEn": "Authored and rendered by LongCat in native Claude Code, with editable source projects."
+      },
+      "prompt": "制作24/18/60齿的行星减速器，提供可编辑工程、整机与爆炸等视角，以及6秒机构视频。",
+      "promptSha256": "ca4764af934b1e8afc3d7e18b9e81a6474243746c946641845cdf311a8e9d0cb",
+      "metrics": {
+        "requests": 186,
+        "completedResponses": 186,
+        "promptTokens": 34955332,
+        "outputTokens": 207066,
+        "wallMs": 7477893
+      },
+      "media": [
+        {
+          "type": "image",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "内部齿轮组",
+          "captionEn": "Internal gear assembly",
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/0100f5d6d2f8-iso_meshed.png"
+        },
+        {
+          "type": "image",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "整机视角",
+          "captionEn": "Assembled view",
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/46e0bd58361f-three_quarter.png"
+        },
+        {
+          "type": "image",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "轴向爆炸视图",
+          "captionEn": "Axial exploded view",
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/27ddf51aeb54-exploded.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "俯视齿轮布置",
+          "captionEn": "Top view",
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/857fca5a6760-top_view.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "齿部近景",
+          "captionEn": "Gear close-up",
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/e568cf8907a2-closeup_teeth.png"
+        },
+        {
+          "type": "video",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 6,
+          "captionZh": "6秒行星齿轮机构演示。",
+          "captionEn": "Six-second planetary mechanism demonstration.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/60b9f53432d9-final.mp4",
+          "posterPath": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/3736f839c651-frame-04-2.667s.jpg",
+          "uploadDate": "2026-11-03T17:41:35.640262+08:00"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/84faaa3bc74c-project-source.zip",
+          "labelZh": "Blender工程与源码 ZIP",
+          "labelEn": "Blender project and source ZIP"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/e8d52d586920-independent-geometry-checks.json",
+          "labelZh": "尺寸与运动检查",
+          "labelEn": "Dimensions and motion checks"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/8bc148df9e5a-media-checks.json",
+          "labelZh": "视频检查",
+          "labelEn": "Media checks"
+        }
+      ],
+      "assessmentZh": [
+        "从实际网格轮廓测得24/18/60齿；齿圈外径约140mm，三行星中心半径约42mm、互成120°。中心孔射线检查通过。",
+        "工程的太阳轮/行星架角位移比约3.5；行星轮局部转速多减了一次行星架转速，绝对自转比约−0.952，正确值应为−0.667。",
+        "有可编辑结构与两级LOD。太阳轮96个、每个行星轮144个UV多边形面积为零。"
+      ],
+      "assessmentEn": [
+        "Mesh contours give 24/18/60 teeth, a roughly 140mm ring and 42mm planet-centre radii separated by 120 degrees. Centre-bore rays are clear.",
+        "The sun/carrier angular ratio is about 3.5. Planet spin subtracts carrier rotation twice, yielding an absolute ratio near -0.952 instead of -0.667.",
+        "Editable structure and two LOD levels are present. The sun has 96 zero-area UV polygons and each planet has 144."
+      ],
+      "checks": [
+        {
+          "labelZh": "齿数与主要尺寸",
+          "labelEn": "Tooth counts and dimensions",
+          "status": "pass",
+          "detailZh": "实际轮廓24/18/60齿；外径140mm，行星半径42mm、均布120°。",
+          "detailEn": "Contour counts 24/18/60; 140mm outer diameter, 42mm planet radii and 120-degree spacing."
+        },
+        {
+          "labelZh": "机构运动",
+          "labelEn": "Mechanism motion",
+          "status": "fail",
+          "detailZh": "太阳轮/行星架比3.5成立，行星轮自转关系有误。",
+          "detailEn": "Sun/carrier ratio 3.5 holds, but planet spin is incorrect."
+        },
+        {
+          "labelZh": "UV与LOD",
+          "labelEn": "UV and LOD",
+          "status": "partial",
+          "detailZh": "有两级LOD，部分太阳轮和行星轮UV面积为零。",
+          "detailEn": "Two LOD levels are present; some sun and planet UV faces have zero area."
+        },
+        {
+          "labelZh": "成片与工程",
+          "labelEn": "Video and project",
+          "status": "pass",
+          "detailZh": "工程只读重开；6秒1080p/30fps视频完整解码。",
+          "detailEn": "Read-only project reopen; full decode of a six-second 1080p/30fps video."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "creation",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 186,
+          "completedResponses": 186,
+          "evidencePath": "/evaluations/longcat-2-5-creation-20261102/planetary-reducer/6f8d1dd1abf2-creation-evidence.json",
+          "noteZh": "LongCat 原生 Claude Code 创作记录。",
+          "noteEn": "LongCat creation record from native Claude Code."
+        }
+      ]
+    },
+    {
+      "id": "printer",
+      "titleZh": "手绘风格打印机原理知识视频",
+      "titleEn": "A hand-drawn explainer of printer operation",
+      "category": "knowledge-video",
+      "effort": "native Claude Code default",
+      "summaryZh": "喷墨和激光两条路线讲得清楚，碳粉从鼓面转到纸面、再经热压辊固定，过程能顺着看下来。手绘风格统一，部分字幕略密。",
+      "summaryEn": "A clear walkthrough of inkjet and laser printing: toner moves from drum to paper and is fixed by heated rollers. The hand-drawn style is consistent, though some captions are dense.",
+      "references": [
+        {
+          "url": "https://global.canon/en/technology/s_labo/light/003/07.html",
+          "labelZh": "Canon：曝光、显影、转印与热压定影",
+          "labelEn": "Canon: exposure, development, transfer and fixing"
+        }
+      ],
+      "source": {
+        "url": "https://www.sohu.com/a/1092030580_121675819",
+        "titleZh": "本题来源与规格",
+        "titleEn": "Case source and requirements",
+        "originalPrompt": "手绘风格打印机原理知识视频；90–120s1920x1080 30fps MP4 decodes throughout；Non-silent procedurally generated music and causal SFX with independent stems and timed audio plan; narration/SRT only in narration mode；Complete source, audio, script and at least8 representative frames；Differentiate liquid ink droplets from toner；Laser exposes drum rather than directly burning paper；Exposure, development, transfer and heat/pressure fixing are not conflated；Labels, audio cues and illustrated material/motion agree; narration agrees when requested；Hand-drawn treatment；At least5 explanatory animated scenes rather than a text-only slideshow；Readable Chinese, usable pacing and complete ending；Nonverbal music and content-timed SFX are authored in code, non-silent and objectively measured in final mix; listening unperformed without audio feedback, with independent stems and audio-plan.json；Storyboard and key states are readable; transitions and object/path motion remain continuous; all attempts retained",
+        "originalPromptSha256": "ef251d6c101cd8017f2169ef06b68b5c3eff683b7eea98e1a858ebbc59d802be",
+        "changesZh": "由 LongCat 在原生 Claude Code 中编写和渲染，保留可编辑工程。",
+        "changesEn": "Authored and rendered by LongCat in native Claude Code, with editable source projects."
+      },
+      "prompt": "用手绘动画讲清喷墨与激光打印，演示充电、曝光、显影、转印与热压定影。",
+      "promptSha256": "fc148fff94376675036b38fd2b51cee8003d20ec9d0260d8b0ef56843b83a395",
+      "metrics": {
+        "requests": 81,
+        "completedResponses": 81,
+        "promptTokens": 10060075,
+        "outputTokens": 64483,
+        "wallMs": 2871568
+      },
+      "media": [
+        {
+          "type": "video",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 108,
+          "audioMode": "music-only",
+          "captionZh": "108秒手绘动画：喷墨与激光打印原理。",
+          "captionEn": "A 108-second hand-drawn film explaining inkjet and laser printing.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/printer/02f82d5eab0f-final.mp4",
+          "posterPath": "/evaluations/longcat-2-5-creation-20261102/printer/ee7f855cdaaa-frame-02-24.000s.jpg",
+          "uploadDate": "2026-11-03T17:41:35.640262+08:00"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/printer/8406a1daa4d1-project-source.zip",
+          "labelZh": "原创工程与源码 ZIP",
+          "labelEn": "Source project ZIP"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/printer/328d24e6f5af-creative-checks.json",
+          "labelZh": "视频与内容检查",
+          "labelEn": "Media and content checks"
+        }
+      ],
+      "assessmentZh": [
+        "曝光使打印区域电荷降低，显影时碳粉进入曝光图形，前后解释一致。",
+        "转印和定影通过连续动画呈现，热辊与压力辊形成清楚的辊隙。",
+        "喷墨与激光对比清楚；部分画面文字较多。"
+      ],
+      "assessmentEn": [
+        "Exposure lowers charge in the image area, and development deposits toner there consistently.",
+        "Transfer and fusing are animated as a sequence, with a clear nip between the heated and pressure rollers.",
+        "The two printing technologies are easy to distinguish; some scenes carry dense captions."
+      ],
+      "checks": [
+        {
+          "labelZh": "成片与播放",
+          "labelEn": "Film and playback",
+          "status": "pass",
+          "detailZh": "108秒、1920×1080、30fps，完整解码通过，音轨有信号。",
+          "detailEn": "108s, 1920×1080, 30fps; complete decode passes and the audio track has a signal."
+        },
+        {
+          "labelZh": "原理与画面一致性",
+          "labelEn": "Explanation and visual consistency",
+          "status": "pass",
+          "detailZh": "曝光、显影、转印和定影的文字与画面一致。",
+          "detailEn": "Exposure, development, transfer and fusing are explained consistently with the pictures."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "creation",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 81,
+          "completedResponses": 81,
+          "evidencePath": "/evaluations/longcat-2-5-creation-20261102/printer/92b55570299d-creation-evidence.json",
+          "noteZh": "LongCat 原生 Claude Code 创作记录。",
+          "noteEn": "LongCat creation record from native Claude Code."
+        }
+      ]
+    },
+    {
+      "id": "temple-courtyard",
+      "titleZh": "传统中式寺庙庭院与屋顶结构",
+      "titleEn": "Traditional Chinese temple courtyard and roof structure",
+      "category": "blender",
+      "effort": "native Claude Code default",
+      "summaryZh": "庭院的整体布局和黄昏氛围都成立，石狮、铜钟与结构灰模也交齐了。入口横梁遮住部分视线，石狮造型偏卡通。",
+      "summaryEn": "The courtyard has a clear layout and warm dusk atmosphere, with lion and bell close-ups and clay structural views. The gateway beam obscures part of the central view, and the lions look cartoonish.",
+      "references": [],
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0120/environment/inputs/query.txt",
+        "titleZh": "本题来源与规格",
+        "titleEn": "Case source and requirements",
+        "originalPrompt": "传统中式寺庙庭院与屋顶结构；石狮恰为一对且真实几何；主殿红柱、金色上翘屋檐、台基和柱梁结构；入口—青石步道—主殿方位清楚；铜钟/数盏灯笼可辨；多机位同一真实空间、原生工程可编辑；4图+6秒视频与独立重开",
+        "originalPromptSha256": "a21d6b051543e08ce7b43405090a6ca4f7fd1e1f46f4a4038036f66114c43e11",
+        "changesZh": "由 LongCat 在原生 Claude Code 中编写和渲染，保留可编辑工程。",
+        "changesEn": "Authored and rendered by LongCat in native Claude Code, with editable source projects."
+      },
+      "prompt": "制作黄昏中的中式寺庙庭院，包含主殿、石狮、步道、铜钟和灯笼，提供工程、多个视角与6秒视频。",
+      "promptSha256": "36bdc8df91df5ef8dadff0fb8346ce80cf90069bc24ef270d400def4a1deef95",
+      "metrics": {
+        "requests": 136,
+        "completedResponses": 136,
+        "promptTokens": 23954837,
+        "outputTokens": 189484,
+        "wallMs": 5643726
+      },
+      "media": [
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "庭院侧视角",
+          "captionEn": "Courtyard side view",
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/337c0158bf12-side_aisle.png"
+        },
+        {
+          "type": "image",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "入口与主殿",
+          "captionEn": "Gateway and main hall",
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/865bdcc4a9cd-main_gateway.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "庭院顶视布局",
+          "captionEn": "Courtyard layout from above",
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/00e81bfe0bdf-top_overview.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "柱梁与屋檐灰模",
+          "captionEn": "Clay view of columns and eaves",
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/afdbe682a515-clay_structure.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "铜钟近景",
+          "captionEn": "Bronze bell close-up",
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/59e4dd0b071b-bell_detail.png"
+        },
+        {
+          "type": "video",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": 6,
+          "captionZh": "6秒庭院环绕展示。",
+          "captionEn": "Six-second orbit around the courtyard.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/06b72cbffff2-final.mp4",
+          "posterPath": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/fab5dfb4b859-frame-02-1.333s.jpg",
+          "uploadDate": "2026-11-03T17:41:35.640262+08:00"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/2e1548be5ff2-project-source.zip",
+          "labelZh": "Blender工程与源码 ZIP",
+          "labelEn": "Blender project and source ZIP"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/d6db0b1d46a4-renders.zip",
+          "labelZh": "完整渲染图（10张）",
+          "labelEn": "All 10 final renders"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/1926fafc747e-creative-checks.json",
+          "labelZh": "场景与成片检查",
+          "labelEn": "Scene and media checks"
+        }
+      ],
+      "assessmentZh": [
+        "终稿包含入口、侧视、俯视、石狮、铜钟与结构灰模等10张图片，整体布局和黄昏光照清楚。",
+        "入口横梁遮住部分步道和主殿下部；石狮造型偏卡通，屋面细节较简。",
+        "6秒环绕视频可播放，主殿与步道保持可见。"
+      ],
+      "assessmentEn": [
+        "Ten final images cover the entrance, side, top, lions, bell and clay structure. The layout and dusk lighting are clear.",
+        "The gateway beam blocks part of the path and lower hall; lions are cartoonish and roof detail is simple.",
+        "The six-second orbit plays fully, with the hall and path visible."
+      ],
+      "checks": [
+        {
+          "labelZh": "场景与可编辑工程",
+          "labelEn": "Scene and editable project",
+          "status": "pass",
+          "detailZh": "653个对象的原生工程可只读重开；主殿、石狮、铜钟、灯笼与中轴步道可见。",
+          "detailEn": "The native project reopens with 653 objects; the hall, lions, bell, lanterns and central path are visible."
+        },
+        {
+          "labelZh": "视角与构图",
+          "labelEn": "Views and composition",
+          "status": "partial",
+          "detailZh": "有入口、侧视、俯视和结构灰模等终稿；入口横梁遮挡部分中轴视线。",
+          "detailEn": "Entrance, side, top and clay structural views are delivered; the gateway beam obscures part of the central view."
+        },
+        {
+          "labelZh": "成片与完整解码",
+          "labelEn": "Video and full decode",
+          "status": "pass",
+          "detailZh": "6秒、1280×720、24fps，完整解码通过。",
+          "detailEn": "6s, 1280×720, 24fps; full decode passes."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "creation",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 136,
+          "completedResponses": 136,
+          "evidencePath": "/evaluations/longcat-2-5-creation-20261102/temple-courtyard/69d0775ac4ea-creation-evidence.json",
+          "noteZh": "LongCat 原生 Claude Code 创作记录。",
+          "noteEn": "LongCat creation record from native Claude Code."
+        }
+      ]
+    },
+    {
+      "id": "derivative",
+      "titleZh": "导数：割线怎样变成切线",
+      "titleEn": "Derivatives: a secant approaching the tangent",
+      "category": "knowledge-video",
+      "effort": "native Claude Code default",
+      "summaryZh": "公式和排版清楚，但割线、切线都向右下倾斜，与正斜率相反，割线也没有连上两个点。核心图示错误，不能直接用于教学。",
+      "summaryEn": "The formulas and layout are clear, but both secant and tangent slope downward despite positive values, and the secant misses the second point. The central diagram is wrong, so the film is not ready for teaching.",
+      "references": [],
+      "source": {
+        "url": "https://x.com/LinearUncle/status/2103128559174971663",
+        "titleZh": "本题来源与规格",
+        "titleEn": "Case source and requirements",
+        "originalPrompt": "导数：割线怎样变成切线；P=(1,1)固定，Q满足y=x²；割线确实通过这两点。；正负非零h的差商均为2+h，数值与几何同步。；趋近h=0的极限为2，切线y=2x-1；不能真的计算0/0或宣称所有函数处处可导。；图中Δx=h、Δy=2h+h²，负h的符号与方向正确，坐标单位比例清楚。；Q与割线连续运动，至少展示正h与负h两个方向的趋近。；关键标签与数学状态同步、字号/边距安全、结尾有明确保持；旁白模式另验字幕同步。；从空案例目录生成可复建原创代码，不能拿现成Manim成片工程直接重渲染冒充独立创作。；Nonverbal music and content-timed SFX are authored in code, non-silent and objectively measured in final mix; listening unperformed without audio feedback, with independent stems and audio-plan.json；Storyboard and key states are readable; transitions and object/path motion remain continuous; all attempts retained",
+        "originalPromptSha256": "5287dcf00a500b81f8363e9f8cfebeb93a90fd8f13440efe4ce0425bd0895383",
+        "changesZh": "由 LongCat 在原生 Claude Code 中编写和渲染，保留可编辑工程。",
+        "changesEn": "Authored and rendered by LongCat in native Claude Code, with editable source projects."
+      },
+      "prompt": "以 f(x)=x² 为例，用中文动画演示割线趋于切线、导数与瞬时变化率。",
+      "promptSha256": "e6a71f13c81d7cb244bfbf596287a90b52d1d4beb4ff7435547736d605934b2b",
+      "metrics": {
+        "requests": 80,
+        "completedResponses": 80,
+        "promptTokens": 8430866,
+        "outputTokens": 88121,
+        "wallMs": 2287767
+      },
+      "media": [
+        {
+          "type": "video",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 82,
+          "audioMode": "music-only",
+          "captionZh": "82秒导数动画：公式正确，割线与切线方向画反。",
+          "captionEn": "An 82-second derivative film: correct formulas, reversed secant and tangent slopes.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/derivative/62101c1b3236-final.mp4",
+          "posterPath": "/evaluations/longcat-2-5-creation-20261102/derivative/dd08d43cc2f9-frame-03-27.333s.jpg",
+          "uploadDate": "2026-11-03T17:41:35.640262+08:00"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/derivative/e6745bd0f0ac-project-source.zip",
+          "labelZh": "原创工程与源码 ZIP",
+          "labelEn": "Source project ZIP"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/derivative/787f81cc320a-creative-checks.json",
+          "labelZh": "数学与视频检查",
+          "labelEn": "Mathematics and media checks"
+        }
+      ],
+      "assessmentZh": [
+        "82秒动画完整呈现两侧逼近、极限与瞬时变化率。",
+        "数值 k=2+h 与 f′(1)=2 正确，绘图却反转了斜率方向。",
+        "字幕清楚，几何错误贯穿主要讲解。"
+      ],
+      "assessmentEn": [
+        "The 82-second film covers approach from both sides, limits and instantaneous rate of change.",
+        "The values k=2+h and f′(1)=2 are correct, but the drawing reverses the slope direction.",
+        "Captions are readable; the geometry error persists through the central explanation."
+      ],
+      "checks": [
+        {
+          "labelZh": "成片与播放",
+          "labelEn": "Film and playback",
+          "status": "pass",
+          "detailZh": "82秒、1920×1080、30fps，完整解码通过，含配乐与音效。",
+          "detailEn": "82s, 1920×1080, 30fps; complete decode passes, with music and sound effects."
+        },
+        {
+          "labelZh": "公式与数值",
+          "labelEn": "Formulas and values",
+          "status": "pass",
+          "detailZh": "k=2+h、f′(1)=2 与切线方程正确。",
+          "detailEn": "k=2+h, f′(1)=2 and the written tangent equation are correct."
+        },
+        {
+          "labelZh": "图形与数学一致性",
+          "labelEn": "Visual and mathematical consistency",
+          "status": "fail",
+          "detailZh": "正斜率被画成负斜率，割线未连接 P、Q。",
+          "detailEn": "Positive slopes are drawn as negative; the secant does not join P and Q."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "creation",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 80,
+          "completedResponses": 80,
+          "evidencePath": "/evaluations/longcat-2-5-creation-20261102/derivative/8e51b363f921-creation-evidence.json",
+          "noteZh": "LongCat 原生 Claude Code 创作记录。",
+          "noteEn": "LongCat creation record from native Claude Code."
+        }
+      ]
+    },
+    {
+      "id": "horizontal-steam-engine",
+      "titleZh": "复古卧式蒸汽机、飞轮连杆与Watt调速器",
+      "titleEn": "Horizontal steam engine, flywheel and Watt governor",
+      "category": "blender",
+      "effort": "native Claude Code default",
+      "summaryZh": "外观、主要尺寸和交付都比较完整，但连杆没有接上曲柄销，相差约150mm。部分辐条和附件也悬空，机构连接还需要修。",
+      "summaryEn": "The appearance, main dimensions and deliverables are fairly complete, but the connecting rod misses the crankpin by about 150mm. Some spokes and accessories are also disconnected, so the mechanism still needs repair.",
+      "references": [],
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0105/environment/inputs/query.txt",
+        "titleZh": "本题来源与规格",
+        "titleEn": "Case source and requirements",
+        "originalPrompt": "复古卧式蒸汽机、飞轮连杆与Watt调速器；1800×700×200mm底座、4个22mm地脚孔；缸径150/外径260/行程300、活塞杆40、连杆600、曲柄150、主轴80mm；飞轮1200mm、轮缘宽120mm、6曲辐、轮毂240mm；调速器两80mm重球、250mm摆臂、300:100皮带轮关系；滑阀阀箱、偏心轮、压力表、油杯、紫铜进气管与阀门；功能集合、SM_前缀、origin/empty、材质UV与LOD状态；4图、6秒视频、独立重开与已知局限",
+        "originalPromptSha256": "46f733406de20668bf8ab71825ef43e931d42ca8d62946befaae89be3ae97ff4",
+        "changesZh": "由 LongCat 在原生 Claude Code 中编写和渲染，保留可编辑工程。",
+        "changesEn": "Authored and rendered by LongCat in native Claude Code, with editable source projects."
+      },
+      "prompt": "制作复古卧式蒸汽机游戏资产，包含真实孔洞、飞轮连杆活塞、Watt调速器、材质与LOD，并交付多机位图和六秒机构动画。",
+      "promptSha256": "2b6aecf525eae26cc74ea8652312e03c044c2e8a9144ec6a6c6d6c62e26fbf4e",
+      "metrics": {
+        "requests": 180,
+        "completedResponses": 152,
+        "promptTokens": 49960635,
+        "outputTokens": 430049,
+        "wallMs": 72377927
+      },
+      "media": [
+        {
+          "type": "image",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "整机主图",
+          "captionEn": "Main view",
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/c8022757eb60-hero.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "侧视图",
+          "captionEn": "Side view",
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/78eb4a9c4c2c-side.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "俯视图",
+          "captionEn": "Top view",
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/00e5f7287715-top.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "机构近景",
+          "captionEn": "Mechanism close-up",
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/aebf8b57cb51-mechanism.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "调速器近景",
+          "captionEn": "Governor close-up",
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/3b0f0eea6cea-governor.png"
+        },
+        {
+          "type": "video",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": 6,
+          "audioMode": "music-only",
+          "captionZh": "六秒机构运动视频：飞轮与调速器在动，连杆连接有误。",
+          "captionEn": "A six-second mechanism film: moving flywheel and governor, with incorrect connecting-rod alignment.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/2c54355f7901-final.mp4",
+          "posterPath": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/ba451ceb5da2-frame-01-0.667s.jpg",
+          "uploadDate": "2026-11-03T17:41:35.640262+08:00"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/18a718d40cec-project-source.zip",
+          "labelZh": "原创工程分卷 1/4 ZIP",
+          "labelEn": "Source project ZIP · part 1/4"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/35d98f80f575-project-source-part02.zip",
+          "labelZh": "原创工程分卷 2/4 ZIP",
+          "labelEn": "Source project ZIP · part 2/4"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/bb60c8665fd0-project-source-part03.zip",
+          "labelZh": "原创工程分卷 3/4 ZIP",
+          "labelEn": "Source project ZIP · part 3/4"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/caea4b8dc006-project-source-part04.zip",
+          "labelZh": "原创工程分卷 4/4 ZIP",
+          "labelEn": "Source project ZIP · part 4/4"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/9917e654280d-independent-geometry-checks-v2.json",
+          "labelZh": "尺寸与机构连接测量",
+          "labelEn": "Dimensions and mechanical contact measurements"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/ba1ae788a88e-creative-checks.json",
+          "labelZh": "画面与内容检查",
+          "labelEn": "Visual and content checks"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/78647d224ae3-media-checks.json",
+          "labelZh": "视频检查",
+          "labelEn": "Media checks"
+        }
+      ],
+      "assessmentZh": [
+        "五张正式视图、六秒动画和可编辑工程交齐，绿漆、钢与黄铜材质有区分。",
+        "底座约1800×700×200mm，飞轮直径1200mm、轮缘宽120mm，重球约80mm；四个地脚孔是真实通孔。",
+        "连杆实际环孔中心距600mm，小端跟随十字头，活塞行程300mm；大端却与曲柄销相差150mm，不能正确传递运动。",
+        "部分辐条与轮缘、局部附件的连接在画面中不完整。"
+      ],
+      "assessmentEn": [
+        "Five final views, a six-second film and an editable project are delivered, with distinct green paint, steel and brass materials.",
+        "The base measures about 1800×700×200mm; the flywheel is 1200mm across and 120mm wide, the governor balls are about 80mm, and all four foundation holes are real openings.",
+        "The rod has 600mm between its actual hole centres; its small end follows the crosshead and the piston travels 300mm. Its big end nevertheless misses the crankpin by 150mm, breaking the mechanism.",
+        "Some spoke-to-rim and accessory connections are visibly incomplete."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与播放",
+          "labelEn": "Delivery and playback",
+          "status": "pass",
+          "detailZh": "五张正式图、工程和6秒1280×720/30fps视频交齐，完整解码通过且音轨有信号。",
+          "detailEn": "Five stills, project and a 6s 1280×720/30fps film are present; complete decode passes and the audio track has a signal."
+        },
+        {
+          "labelZh": "主要尺寸与孔洞",
+          "labelEn": "Key dimensions and holes",
+          "status": "pass",
+          "detailZh": "底座、飞轮与重球尺寸符合要求；四个地脚孔的穿透射线通过，实体区域仍有真实表面。",
+          "detailEn": "Base, flywheel and governor-ball dimensions match; rays pass through the four holes while solid regions retain real surfaces."
+        },
+        {
+          "labelZh": "连杆与曲柄销连接",
+          "labelEn": "Connecting-rod and crankpin contact",
+          "status": "fail",
+          "detailZh": "从实际网格环孔提取中心，180帧中连杆大端与曲柄销均相差约150mm。",
+          "detailEn": "Centres derived from actual annular meshes remain about 150mm from the crankpin throughout all 180 frames."
+        },
+        {
+          "labelZh": "部件完整性",
+          "labelEn": "Part connections",
+          "status": "partial",
+          "detailZh": "部分飞轮辐条和附件在画面中悬空，未形成完整连接。",
+          "detailEn": "Some flywheel spokes and accessories are visibly disconnected."
+        },
+        {
+          "labelZh": "工程与资源",
+          "labelEn": "Project and resources",
+          "status": "pass",
+          "detailZh": "原工程无嵌入文本，贴图已打包，含两级LOD；源码分卷已通过字节一致性与ZIP完整性校验。",
+          "detailEn": "The text-free project packs its textures and includes two LOD levels; source parts pass byte-exact reassembly and ZIP integrity checks."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "creation",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 180,
+          "completedResponses": 152,
+          "evidencePath": "/evaluations/longcat-2-5-creation-20261102/horizontal-steam-engine/0b2f56f91314-creation-evidence.json",
+          "noteZh": "LongCat 原生 Claude Code 创作记录。",
+          "noteEn": "LongCat creation record from native Claude Code."
+        }
+      ]
+    },
+    {
+      "id": "circulation",
+      "titleZh": "大气环流：三圈如何转，风为何偏",
+      "titleEn": "Atmospheric circulation: three cells and deflected winds",
+      "category": "knowledge-video",
+      "effort": "native Claude Code default",
+      "summaryZh": "画面干净，受热、气压和风带的讲解完整，北右南左的偏转图也对。但南半球三圈环流的方向画反了，和风带箭头相互冲突，核心示意图需要修改。",
+      "summaryEn": "The clean diagrams cover heating, pressure and wind belts, and correctly show rightward deflection in the north and leftward in the south. But all three Southern Hemisphere circulation loops run backward, contradicting the wind arrows.",
+      "references": [],
+      "source": {
+        "url": "https://x.com/akokoi1/status/2102606609574941028",
+        "titleZh": "本题来源与规格",
+        "titleEn": "Case source and requirements",
+        "originalPrompt": "大气环流：三圈如何转，风为何偏；纬度顺序0、约30、约60、90清楚；说明每个半球三圈，不说全球只有三圈。；北半球Hadley：赤道上升、约30下沉，地表30→0、上空0→30；Ferrel：约30下沉、约60上升，地表30→60、上空60→30；Polar：极地下沉、约60上升，地表90→60、上空60→90。；地表信风/极地东风与西风对应正确；风向名称按来向理解。；Coriolis北偏右/南偏左是相对于运动方向，不能统一画成朝东；路径与画面标签/音效提示一致。；三圈是理想化多年平均示意、边界会移动；不把Ferrel直接说成热驱动对流。；气团连续沿闭合路径运行，不能从端点跳跃，不能只做静态箭头或卡片。；中英关键标签清楚，文字在画内；选旁白模式时字幕/旁白同步；结尾完整保持。；交付可运行原创源码及实际MP4；模板重渲染不算独立生成。；Nonverbal music and content-timed SFX are authored in code, non-silent and objectively measured in final mix; listening unperformed without audio feedback, with independent stems and audio-plan.json；Storyboard and key states are readable; transitions and object/path motion remain continuous; all attempts retained",
+        "originalPromptSha256": "b021ced84260e927afb5f3cc86e16892c9957aa363def7c92ee2f5b012d3e897",
+        "changesZh": "由 LongCat 在原生 Claude Code 中编写和渲染，保留可编辑工程。",
+        "changesEn": "Authored and rendered by LongCat in native Claude Code, with editable source projects."
+      },
+      "prompt": "制作中文知识动画，解释三圈环流、气压带、近地面风带与科里奥利偏转。",
+      "promptSha256": "a1f12f16be4aa5edd70b9bac25973e131033185ced2d97af8f99d0e3859f054e",
+      "metrics": {
+        "requests": 59,
+        "completedResponses": 59,
+        "promptTokens": 8357916,
+        "outputTokens": 130069,
+        "wallMs": 3215690
+      },
+      "media": [
+        {
+          "type": "video",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 80,
+          "audioMode": "music-only",
+          "captionZh": "80秒大气环流动画：南半球环流流向存在错误。",
+          "captionEn": "An 80-second atmospheric circulation film with reversed Southern Hemisphere loops.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/circulation/0cfac3d06ec1-final.mp4",
+          "posterPath": "/evaluations/longcat-2-5-creation-20261102/circulation/1f4f5acd6ad0-frame-05-44.444s.jpg",
+          "uploadDate": "2026-11-03T17:41:35.640262+08:00"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/circulation/784c8134efc8-project-source.zip",
+          "labelZh": "原创工程与源码 ZIP",
+          "labelEn": "Source project ZIP"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/circulation/f9afba2b9579-creative-checks.json",
+          "labelZh": "环流与视频检查",
+          "labelEn": "Circulation and media checks"
+        }
+      ],
+      "assessmentZh": [
+        "80秒成片与配乐交齐，中英标签清楚。",
+        "北半球环流和气压带标注基本正确；南半球环流路径方向反转。",
+        "地转偏向插图能正确区分两个半球，理想模型与真实天气也有区分。"
+      ],
+      "assessmentEn": [
+        "An 80-second film with music and readable bilingual labels.",
+        "Northern Hemisphere loops and pressure labels are broadly correct; Southern Hemisphere loop directions are reversed.",
+        "The Coriolis insets correctly distinguish the hemispheres, and the film separates the idealized model from real weather."
+      ],
+      "checks": [
+        {
+          "labelZh": "成片与播放",
+          "labelEn": "Film and playback",
+          "status": "pass",
+          "detailZh": "80秒、1920×1080、30fps，完整解码通过，音轨有信号。",
+          "detailEn": "80s, 1920×1080, 30fps; complete decode passes and the audio track has a signal."
+        },
+        {
+          "labelZh": "三圈环流流向",
+          "labelEn": "Circulation directions",
+          "status": "fail",
+          "detailZh": "北半球正确，南半球三条环流路径全部反向。",
+          "detailEn": "Northern loops are correct; all three southern loops run backward."
+        },
+        {
+          "labelZh": "科里奥利对照图",
+          "labelEn": "Coriolis comparison",
+          "status": "pass",
+          "detailZh": "相对初始运动方向，正确画出北右、南左。",
+          "detailEn": "Correctly shows rightward and leftward deflection relative to the initial motion."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "creation",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 59,
+          "completedResponses": 59,
+          "evidencePath": "/evaluations/longcat-2-5-creation-20261102/circulation/8c837db3bba5-creation-evidence.json",
+          "noteZh": "LongCat 原生 Claude Code 创作记录。",
+          "noteEn": "LongCat creation record from native Claude Code."
+        }
+      ]
+    },
+    {
+      "id": "two-bedroom-interior",
+      "titleZh": "12×9米两居室装修、多房间与俯视平面",
+      "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+      "category": "blender",
+      "effort": "native Claude Code default",
+      "summaryZh": "两居室的布局和配色完整，床与餐桌尺寸也对。主视角被前景家具占得太满，主卧取景偏近，灰模图噪点明显。",
+      "summaryEn": "The two-bedroom layout and palette are coherent, with the right bed and dining-table dimensions. Foreground furniture crowds the main view, the master-bedroom framing is tight, and the clay image is noisy.",
+      "references": [],
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+        "titleZh": "本题来源与规格",
+        "titleEn": "Case source and requirements",
+        "originalPrompt": "12×9米两居室装修、多房间与俯视平面；外轮廓12×9m、净高2.8m、墙厚240/120mm；西侧客餐厅、L厨房、东北主卧及套卫衣帽间、东南次卧书房、公共卫生间、玄关走廊；1.8×2m主卧床、1.8×0.9m餐桌及6椅、厨卫陈设；真实门窗洞、家具接地、穿插与通路；按房间集合、PBR材质与混合光照；3室内视角、顶视、灰模、6秒视频与独立重开",
+        "originalPromptSha256": "3947abd2d7e39da19d44da55cc45bb9ceeba7220bd9d25b9ba44485f6f3c8579",
+        "changesZh": "由 LongCat 在原生 Claude Code 中编写和渲染，保留可编辑工程。",
+        "changesEn": "Authored and rendered by LongCat in native Claude Code, with editable source projects."
+      },
+      "prompt": "制作现代简约两居室，包含客餐厅、厨房、主次卧与卫浴，核对家具尺寸、门窗洞口，交付多机位图、顶视图、灰模与室内导览视频。",
+      "promptSha256": "6b6ebd544d18e74c078cf90ae195500a028aeee532c06cc628c39ff1dd382c85",
+      "metrics": {
+        "requests": 218,
+        "completedResponses": 193,
+        "promptTokens": 50427952,
+        "outputTokens": 291774,
+        "wallMs": 67491969
+      },
+      "media": [
+        {
+          "type": "image",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "客餐厅主视角。",
+          "captionEn": "Main view of the living and dining area.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/55de287ab850-main.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "客厅第二视角。",
+          "captionEn": "A second view of the living room.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/de26b23af9c0-living.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "主卧视角。",
+          "captionEn": "Master-bedroom view.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/ad3dc094fa0c-master.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "次卧兼书房视角。",
+          "captionEn": "Second bedroom and study.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/256ec26b617c-study.png"
+        },
+        {
+          "type": "image",
+          "width": 1920,
+          "height": 1600,
+          "captionZh": "隐藏顶棚后的正交户型图。",
+          "captionEn": "Orthographic floor plan with the ceiling hidden.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/c8c0590b365a-top.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "南窗洞口与窗框灰模近景。",
+          "captionEn": "Clay close-up of the south window opening and frame.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/2133d5591b8d-grey.png"
+        },
+        {
+          "type": "video",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": 6,
+          "audioMode": "music-only",
+          "captionZh": "六秒室内导览，依次展示客餐厅、主卧和次卧。",
+          "captionEn": "A six-second interior tour showing the living area and both bedrooms.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/a138f36ece66-final.mp4",
+          "posterPath": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/a82b7d06cdca-frame-04-2.667s.jpg",
+          "uploadDate": "2026-11-03T17:41:35.640262+08:00"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/bdfd2b513321-project-source.zip",
+          "labelZh": "原创工程与源码 ZIP",
+          "labelEn": "Source project ZIP"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/d99de3ba0a90-creative-checks.json",
+          "labelZh": "尺寸、洞口与视频检查",
+          "labelEn": "Dimensions, openings and media checks"
+        }
+      ],
+      "assessmentZh": [
+        "客餐厅、两间卧室、厨房与卫浴空间可辨，六张正式图和导览视频交齐。",
+        "床垫1.8×2.0米、餐桌1.8×0.9米和2.8米净高基本符合要求，所查入户与外窗中心未被实心墙堵住。",
+        "主视角前景拥挤，主卧镜头偏近；灰模噪点和简单材质影响成图质感。"
+      ],
+      "assessmentEn": [
+        "The living area, two bedrooms, kitchen and bathrooms are readable, with six final stills and a tour video.",
+        "The 1.8×2.0m mattress, 1.8×0.9m table and 2.8m clear height match the brief. The checked entry and exterior-window centres are clear of solid wall segments.",
+        "Foreground furniture crowds the main shot and the master-bedroom camera is tight. Noisy clay rendering and simple materials reduce the finish."
+      ],
+      "checks": [
+        {
+          "labelZh": "工程、图片与视频",
+          "labelEn": "Project, stills and video",
+          "status": "pass",
+          "detailZh": "可编辑工程、六张正式图和6秒1280×720@24fps含配乐成片交齐，完整解码通过。",
+          "detailEn": "Editable project, six final stills and a 6s 1280×720@24fps film with music are complete; full decode passes."
+        },
+        {
+          "labelZh": "主要家具尺寸与净高",
+          "labelEn": "Key dimensions and clear height",
+          "status": "pass",
+          "detailZh": "主卧床垫约1.8×2.0米、餐桌约1.8×0.9米、室内净高约2.8米。",
+          "detailEn": "Master mattress about 1.8×2.0m, dining table 1.8×0.9m and clear height 2.8m."
+        },
+        {
+          "labelZh": "入户与外窗洞口",
+          "labelEn": "Entry and exterior-window openings",
+          "status": "pass",
+          "detailZh": "入户和五处外窗中心未落在墙体实心段内。",
+          "detailEn": "The entry and five exterior-window centres are clear of solid wall segments."
+        },
+        {
+          "labelZh": "取景与成图质感",
+          "labelEn": "Framing and finish",
+          "status": "partial",
+          "detailZh": "主视角前景拥挤，主卧取景偏近，灰模近景有明显噪点。",
+          "detailEn": "Crowded foreground, tight master-bedroom framing and visible noise in the clay close-up."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "creation",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 218,
+          "completedResponses": 193,
+          "evidencePath": "/evaluations/longcat-2-5-creation-20261102/two-bedroom-interior/a2d05c5df9a2-creation-evidence.json",
+          "noteZh": "LongCat 原生 Claude Code 创作记录。",
+          "noteEn": "LongCat creation record from native Claude Code."
+        }
+      ]
+    },
+    {
+      "id": "jupiter-drydock",
+      "titleZh": "木星轨道巨舰维修船坞",
+      "titleEn": "Jovian orbital starship repair dock",
+      "category": "blender",
+      "effort": "native Claude Code default",
+      "summaryZh": "船坞、木星和维修结构都能看清，四个机位与环绕视频交齐了。船体轮廓偏简单，前景人物穿进平台，细节还不够可信。",
+      "summaryEn": "The dock, Jupiter and repair structures are readable across four views and an orbiting camera shot. The vessel’s silhouette is simple, and the foreground crew intersect the deck.",
+      "references": [],
+      "source": {
+        "url": "https://www.woshipm.com/evaluating/6483980.html",
+        "titleZh": "本题来源与规格",
+        "titleEn": "Case source and requirements",
+        "originalPrompt": "木星轨道巨舰维修船坞；Native project reopens independently；Primary1920x1080 render, two other directions, one neutral close-up；Named editable functional collections and executable source；No linked prebuilt ship or scene dependencies；Distinct bow, habitation, cargo and engine regions；Semi-open orbital dock and identifiable Jupiter backdrop；At least three arms with visible connected segments；Exposed engine area has actual supports, equipment and pipes；Foreground catwalk and two astronauts establish scale；Principal ship framing, direction of light and readable detail",
+        "originalPromptSha256": "93a8724df0253fe95a3864cd8b2b075435b69a499043237ab1bb15971c0ec730",
+        "changesZh": "由 LongCat 在原生 Claude Code 中编写和渲染，保留可编辑工程。",
+        "changesEn": "Authored and rendered by LongCat in native Claude Code, with editable source projects."
+      },
+      "prompt": "制作木星轨道上的巨舰维修船坞，呈现完整船体、暴露发动机、维修机械臂与前景人物，交付多机位图、灰模近景和环绕视频。",
+      "promptSha256": "3dd30d97f7e0c55438e0fb7c35c42689392ce1a257e930b0ddfde3fdf499ef2e",
+      "metrics": {
+        "requests": 205,
+        "completedResponses": 177,
+        "promptTokens": 57611485,
+        "outputTokens": 369435,
+        "wallMs": 70697519
+      },
+      "media": [
+        {
+          "type": "image",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "栈桥主视角：船体、维修设施与木星。",
+          "captionEn": "Main catwalk view of the vessel, repair facilities and Jupiter.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/73792a3a9960-main_1920x1080.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "侧面机位：货运段、发动机与机械臂。",
+          "captionEn": "Side view of the cargo section, engine and repair arms.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/a67a8fff7f90-alt_starboard_1600x900.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "高位机位：整船与船坞结构。",
+          "captionEn": "Elevated view of the vessel and dock structure.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/1f577656991c-alt_high_1600x900.png"
+        },
+        {
+          "type": "image",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "发动机内部结构灰模近景。",
+          "captionEn": "Clay close-up of the exposed engine structure.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/b1fcc15c723b-closeup_engine_clay_1600x900.png"
+        },
+        {
+          "type": "video",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": 6,
+          "audioMode": "music-only",
+          "captionZh": "六秒环绕镜头，含环境配乐。",
+          "captionEn": "A six-second orbiting camera shot with ambient music.",
+          "path": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/9ad26d524066-final.mp4",
+          "posterPath": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/f2c242c50d7e-frame-02-1.333s.jpg",
+          "uploadDate": "2026-11-03T17:41:35.640262+08:00"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/73d98a865320-project-source.zip",
+          "labelZh": "原创工程与源码 ZIP",
+          "labelEn": "Source project ZIP"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/c70713f41a98-creative-checks.json",
+          "labelZh": "几何与视频检查",
+          "labelEn": "Geometry and media checks"
+        }
+      ],
+      "assessmentZh": [
+        "原生工程与四张机位图交齐，发动机近景能看清内部几何。",
+        "船体与船坞的尺寸比例基本正确。",
+        "前景人物穿入平台约1.05米；环绕镜头中船体偏小，部分杆件遮住主体。"
+      ],
+      "assessmentEn": [
+        "The editable project and four views are complete, including a close-up showing real engine geometry.",
+        "The vessel-to-dock dimensions broadly match the brief.",
+        "The foreground crew penetrate the platform by about 1.05m. The vessel looks small in the orbiting shot, with some beams crossing the view."
+      ],
+      "checks": [
+        {
+          "labelZh": "工程、机位与视频",
+          "labelEn": "Project, views and video",
+          "status": "pass",
+          "detailZh": "原生工程、四张正式图与6秒1280×720@24fps成片交齐，完整解码与音轨检查通过。",
+          "detailEn": "Editable project, four final stills and a 6s 1280×720@24fps film are complete; decode and audio checks pass."
+        },
+        {
+          "labelZh": "船体与船坞比例",
+          "labelEn": "Vessel and dock proportions",
+          "status": "pass",
+          "detailZh": "船体约1454.5米，环形结构最大直径约3075.8米，接近1.5公里与3公里要求。",
+          "detailEn": "The vessel is about 1454.5m long and the ring about 3075.8m across, close to the requested 1.5km and 3km."
+        },
+        {
+          "labelZh": "人物与平台接触",
+          "labelEn": "Crew-to-platform contact",
+          "status": "fail",
+          "detailZh": "前景两名人物的四只脚均穿入平台，脚底比表面低约1.05米。",
+          "detailEn": "All four boots of the two foreground crew lie about 1.05m below the platform surface."
+        },
+        {
+          "labelZh": "构图与造型",
+          "labelEn": "Composition and silhouette",
+          "status": "partial",
+          "detailZh": "场景结构可辨，船体轮廓偏简单，环绕镜头中主体较小。",
+          "detailEn": "The scene is readable, but the vessel’s silhouette is simple and looks small in the orbiting shot."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "creation",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 205,
+          "completedResponses": 177,
+          "evidencePath": "/evaluations/longcat-2-5-creation-20261102/jupiter-drydock/10a0ae9748de-creation-evidence.json",
+          "noteZh": "LongCat 原生 Claude Code 创作记录。",
+          "noteEn": "LongCat creation record from native Claude Code."
+        }
+      ]
+    }
+  ],
+  "relatedAssets": []
+}

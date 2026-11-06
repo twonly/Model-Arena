@@ -1,0 +1,189 @@
+[
+  {
+    "id": "official-home",
+    "url": "https://longcat.ai/",
+    "resolvedUrl": "https://longcat.ai/",
+    "bytes": 4315,
+    "sha256": "40d7cf93dac1bc57bdd41f8b05bd66a48317a656cdf5928995f6da004f25f4f2",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/official-home.html"
+  },
+  {
+    "id": "quick-start",
+    "url": "https://longcat.ai/platform/docs/",
+    "resolvedUrl": "https://longcat.ai/platform/docs/",
+    "bytes": 54516,
+    "sha256": "1369317c661910c127fc57d17ad1343b637f7ed876209a6b2d6dbb1faa94559d",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/quick-start.html"
+  },
+  {
+    "id": "change-log",
+    "url": "https://longcat.ai/platform/docs/change-log",
+    "resolvedUrl": "https://longcat.ai/platform/docs/change-log",
+    "bytes": 56597,
+    "sha256": "befbc78efdd35ee7fff1dd2694d30bee30093b5de291f87ad34bb085a45701c6",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/change-log.html"
+  },
+  {
+    "id": "chat-api",
+    "url": "https://longcat.ai/platform/docs/api/chat",
+    "resolvedUrl": "https://longcat.ai/platform/docs/api/chat",
+    "bytes": 50305,
+    "sha256": "0ab7aa4db1d5a8169961830a3b016d90d05c9cedfe277a43ba4d49151c85af1e",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/chat-api.html"
+  },
+  {
+    "id": "model-parameters",
+    "url": "https://longcat.ai/platform/docs/api/model-params",
+    "resolvedUrl": "https://longcat.ai/platform/docs/api/model-params",
+    "bytes": 42773,
+    "sha256": "6b8b5cea4cd6bac28ea7ea1e0e51ec5c529a155c7dfb418cb398e5ee540c575b",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/model-parameters.html"
+  },
+  {
+    "id": "pricing",
+    "url": "https://longcat.ai/platform/docs/pricing/longcat-2.5",
+    "resolvedUrl": "https://longcat.ai/platform/docs/pricing/longcat-2.5",
+    "bytes": 34182,
+    "sha256": "f3895ad14d33510a005c9fb353ad0daec5b6714c5352341e739238dc8b157909",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/pricing.html"
+  },
+  {
+    "id": "quick-start-zh",
+    "url": "https://longcat.ai/platform/docs/zh/",
+    "resolvedUrl": "https://longcat.ai/platform/docs/zh/",
+    "bytes": 54101,
+    "sha256": "72fa41aa44f900a03c0d369f20ecdbe7ecd5cddcec48526a84cfc6931270f25f",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/quick-start-zh.html"
+  },
+  {
+    "id": "model-parameters-zh",
+    "url": "https://longcat.ai/platform/docs/zh/api/model-params",
+    "resolvedUrl": "https://longcat.ai/platform/docs/zh/api/model-params",
+    "bytes": 42695,
+    "sha256": "9f96da9a9c1e1a2d1412ab89b26ad483432a9397db162176d300962dd4c30dab",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/model-parameters-zh.html"
+  },
+  {
+    "id": "pricing-zh",
+    "url": "https://longcat.ai/platform/docs/zh/pricing/longcat-2.5",
+    "resolvedUrl": "https://longcat.ai/platform/docs/zh/pricing/longcat-2.5",
+    "bytes": 34490,
+    "sha256": "986902febe4bfde3ba7d35695f025f05ea3f58cf73770f067eb1aa5077a39667",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/pricing-zh.html"
+  },
+  {
+    "id": "github-organization",
+    "url": "https://github.com/meituan-longcat",
+    "resolvedUrl": "https://github.com/meituan-longcat",
+    "bytes": 288101,
+    "sha256": "621d4f325ff007d88e8733b2eb58897fb2f319b26481d6bd631967ef3aec21c8",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/github-organization.html"
+  },
+  {
+    "id": "huggingface-organization",
+    "url": "https://huggingface.co/meituan-longcat",
+    "resolvedUrl": "https://huggingface.co/meituan-longcat",
+    "bytes": 301806,
+    "sha256": "6ee66f711cf3755bc4461ba460fb2affb5a5384bccb1bfac8d099418b02a7b2a",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/huggingface-organization.html"
+  },
+  {
+    "id": "longcat-2-0-release",
+    "url": "https://tech.meituan.com/2026/06/30/LongCat2.0.html",
+    "resolvedUrl": "https://tech.meituan.com/2026/06/30/LongCat2.0.html",
+    "bytes": 35236,
+    "sha256": "bede9fc9644b2793d4ee3f805ff35d4555caa06cf1dae87c170723b7dfce2054",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/longcat-2-0-release.html"
+  },
+  {
+    "id": "longcat-2-0-readme",
+    "url": "https://raw.githubusercontent.com/meituan-longcat/LongCat-2.0/main/README.md",
+    "resolvedUrl": "https://raw.githubusercontent.com/meituan-longcat/LongCat-2.0/main/README.md",
+    "bytes": 15537,
+    "sha256": "5c3272245c9ed3281fddf8d2834d020aed782fdc57029307b6f85f1cea0e7b62",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true,
+    "localPath": "output/longcat-2-5-20261026/sources/longcat-2-0-readme.md"
+  },
+  {
+    "id": "pricing-cn-domain-zh",
+    "url": "https://longcat.chat/platform/docs/zh/pricing/longcat-2.5",
+    "resolvedUrl": "https://longcat.chat/platform/docs/zh/pricing/longcat-2.5",
+    "localPath": "output/longcat-2-5-20261026/sources/pricing-cn-domain-zh.html",
+    "bytes": 34490,
+    "sha256": "986902febe4bfde3ba7d35695f025f05ea3f58cf73770f067eb1aa5077a39667",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true
+  },
+  {
+    "id": "responses-api",
+    "url": "https://longcat.ai/platform/docs/api/responses",
+    "resolvedUrl": "https://longcat.ai/platform/docs/api/responses",
+    "localPath": "output/longcat-2-5-20261026/sources/responses-api.html",
+    "bytes": 72838,
+    "sha256": "6dc4d8bca3b3e7ff32e4ccb73475dd712191985b960bb0af59e0c006a60d388f",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true
+  },
+  {
+    "id": "codex-integration",
+    "url": "https://longcat.ai/platform/docs/codex",
+    "resolvedUrl": "https://longcat.ai/platform/docs/codex",
+    "localPath": "output/longcat-2-5-20261026/sources/codex-integration.html",
+    "bytes": 41251,
+    "sha256": "b93421b8e3340a4f961e25a65b680ef247b251b52eebfcb1a36889558eda4565",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true
+  },
+  {
+    "id": "claude-code-integration",
+    "url": "https://longcat.ai/platform/docs/claude-code",
+    "resolvedUrl": "https://longcat.ai/platform/docs/claude-code",
+    "localPath": "output/longcat-2-5-20261026/sources/claude-code-integration.html",
+    "bytes": 41036,
+    "sha256": "b6387c291b7df620f1c8e01cee7870fde211201eb6f0bd8c131a078391221aed",
+    "httpStatus": 200,
+    "retrievedAt": "2026-10-26",
+    "originalBytes": true
+  }
+]

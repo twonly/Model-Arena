@@ -1,0 +1,100 @@
+{
+  "model": "dots-studio/dots-3-note-preview:free",
+  "version": "Dots3-Note Preview via OpenRouter, 2026-11-02",
+  "displayName": "Dots3-Note Preview - direct SVG API",
+  "aliases": [
+    "dots-3-note-preview direct SVG"
+  ],
+  "protocol": "openai-chat",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "keyEnv": "SHARED_KEY_OPENROUTER",
+  "expectedReturnedModel": "dots-studio/dots-3-note-preview:free",
+  "billing": "openrouter-free-variant",
+  "modes": {
+    "default": {}
+  },
+  "extraBody": {
+    "provider": {
+      "max_price": {
+        "prompt": 0,
+        "completion": 0
+      }
+    }
+  },
+  "temperature": 0,
+  "maxTokens": 12288,
+  "timeoutMs": 600000,
+  "stopOnAccessErrors": true,
+  "stopOnRateLimit": true,
+  "providerBackoffMs": 60000,
+  "suiteVersion": "visual-svg-v2",
+  "tasks": [
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ]
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ]
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ]
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ]
+    }
+  ],
+  "versionSource": "https://openrouter.ai/dots-studio/dots-3-note-preview:free",
+  "method": "The three current static SVG prompts plus the cycling-pelican animation, via the standard OpenAI-compatible API without tools. Kept separate from the persistent native-agent creation batch because the provider repeatedly returned incomplete/empty tool arguments there. Every attempt is retained; failed SVG generation or rendering is retried in independent evidence files. This does not claim completion of the eleven-case creative suite."
+}

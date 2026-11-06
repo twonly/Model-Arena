@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="dashboard-title dashboard-desc" font-family="Inter, 'Segoe UI', Arial, sans-serif">
+  <title id="dashboard-title">Quarterly Revenue dashboard</title>
+  <desc id="dashboard-desc">A vertical bar chart with a shared zero baseline. Q1 is 12, Q2 is 24, Q3 is 18, and Q4 is 30. Total revenue is 84 and Q4 is the best quarter.</desc>
+
+  <defs>
+    <linearGradient id="barBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#60A5FA"/>
+      <stop offset="100%" stop-color="#2563EB"/>
+    </linearGradient>
+    <linearGradient id="barBest" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#2DD4BF"/>
+      <stop offset="100%" stop-color="#0F766E"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#0F172A" flood-opacity="0.09"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="#F4F7FB"/>
+  <circle cx="730" cy="70" r="120" fill="#DBEAFE" opacity="0.32"/>
+  <circle cx="45" cy="565" r="105" fill="#CCFBF1" opacity="0.28"/>
+
+  <rect x="48" y="36" width="704" height="528" rx="24" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <rect x="48.5" y="36.5" width="703" height="527" rx="23.5" fill="none" stroke="#E8EEF5"/>
+
+  <text x="84" y="88" fill="#0F172A" font-size="27" font-weight="700" letter-spacing="-0.5">Quarterly Revenue</text>
+  <text x="84" y="117" fill="#64748B" font-size="14">Performance overview</text>
+
+  <rect x="466" y="65" width="124" height="36" rx="18" fill="#EFF6FF" stroke="#DBEAFE"/>
+  <text x="528" y="89" text-anchor="middle" fill="#1D4ED8" font-size="14" font-weight="700">Total: 84</text>
+
+  <rect x="602" y="65" width="114" height="36" rx="18" fill="#ECFDF5" stroke="#D1FAE5"/>
+  <text x="659" y="89" text-anchor="middle" fill="#0F766E" font-size="14" font-weight="700">Best: Q4</text>
+
+  <line x1="84" y1="140" x2="716" y2="140" stroke="#EDF1F6"/>
+
+  <g aria-label="Y-axis and grid">
+    <line x1="136" y1="220" x2="704" y2="220" stroke="#E7EDF5"/>
+    <line x1="136" y1="300" x2="704" y2="300" stroke="#E7EDF5"/>
+    <line x1="136" y1="380" x2="704" y2="380" stroke="#E7EDF5"/>
+    <line x1="136" y1="460" x2="704" y2="460" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="136" y1="220" x2="136" y2="460" stroke="#CBD5E1"/>
+
+    <g stroke="#CBD5E1">
+      <line x1="130" y1="220" x2="136" y2="220"/>
+      <line x1="130" y1="300" x2="136" y2="300"/>
+      <line x1="130" y1="380" x2="136" y2="380"/>
+      <line x1="130" y1="460" x2="136" y2="460"/>
+    </g>
+
+    <g text-anchor="end" fill="#64748B" font-size="13" font-weight="500">
+      <text x="114" y="224">30</text>
+      <text x="114" y="304">20</text>
+      <text x="114" y="384">10</text>
+      <text x="114" y="464">0</text>
+    </g>
+  </g>
+
+  <g aria-label="Quarterly revenue bars">
+    <!-- Scale: 8 pixels per revenue unit; every bar ends at the zero baseline y=460. -->
+    <rect x="173" y="364" width="68" height="96" rx="10" fill="url(#barBlue)"/>
+    <rect x="315" y="268" width="68" height="192" rx="10" fill="url(#barBlue)"/>
+    <rect x="457" y="316" width="68" height="144" rx="10" fill="url(#barBlue)"/>
+    <rect x="599" y="220" width="68" height="240" rx="10" fill="url(#barBest)"/>
+
+    <g text-anchor="middle" font-size="16" font-weight="700">
+      <text x="207" y="348" fill="#334155">12</text>
+      <text x="349" y="252" fill="#334155">24</text>
+      <text x="491" y="300" fill="#334155">18</text>
+      <text x="633" y="204" fill="#0F766E">30</text>
+    </g>
+
+    <g text-anchor="middle" font-size="14" font-weight="600">
+      <text x="207" y="492" fill="#475569">Q1</text>
+      <text x="349" y="492" fill="#475569">Q2</text>
+      <text x="491" y="492" fill="#475569">Q3</text>
+      <text x="633" y="492" fill="#0F766E">Q4</text>
+    </g>
+  </g>
+</svg>

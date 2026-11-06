@@ -1,0 +1,20 @@
+{
+  "model": "LongCat-2.5-Preview",
+  "version": "LongCat-2.5-Preview",
+  "endpoint": "https://api.longcat.chat/openai/v1",
+  "keyEnv": "SHARED_KEY_LONGCAT",
+  "modes": {
+    "default": {},
+    "disabled": {
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "extraBody": {},
+  "temperature": 0,
+  "maxTokens": 12288,
+  "timeoutMs": 180000,
+  "versionSource": "https://longcat.chat/platform/docs/zh/ChangeLog.html",
+  "method": "Four fixed SVG prompts; one first attempt per mode, sequential and alternating order. No retries, manual repairs or visual feedback. Preview API ID, not a pinned checkpoint."
+}

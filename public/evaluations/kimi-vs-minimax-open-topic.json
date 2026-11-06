@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 1,
+  "id": "kimi-vs-minimax-open-topic",
+  "titleZh": "Kimi K3.1 Pro vs MiniMax M3.1 Flash：开放主题知识视频",
+  "titleEn": "Kimi K3.1 Pro vs MiniMax M3.1 Flash: open-topic knowledge videos",
+  "summaryZh": "四个开放主题，Claude Code 同条件创作。成片原为纯配乐；本页叠加统一 edge-tts 中文旁白，便于横向观看。评述从简，请自行判断。",
+  "summaryEn": "Four open topics under the same Claude Code conditions. Originals were music-only; this page adds the same edge-tts Chinese narration for side-by-side viewing. Brief notes only—judge for yourself.",
+  "methodZh": "批次 open-topic-claude-code-20261030。模型：Kimi K3.1 Pro（k3.1-pro）与 MiniMax M3.1 Flash。任务只给主题，允许联网检索与实图引用。配音：edge-tts zh-CN-XiaoxiaoNeural，全片同一音色；原配乐压低后混入旁白。",
+  "methodEn": "Batch open-topic-claude-code-20261030. Models: Kimi K3.1 Pro (k3.1-pro) and MiniMax M3.1 Flash. Topic-only briefs with web search and real-image credits. Narration: edge-tts zh-CN-XiaoxiaoNeural (same voice for all); original music ducked under speech.",
+  "audioNoteZh": "旁白为发布侧统一配音（edge-tts），不是模型原生语音能力。",
+  "audioNoteEn": "Narration is a publication-side edge-tts track, not the models’ native voice ability.",
+  "date": "2026-10-30",
+  "publishedAt": "2026-10-31T01:10:18Z",
+  "updatedAt": "2026-10-31T01:10:18Z",
+  "models": [
+    {
+      "id": "kimi-k3-1-pro",
+      "label": "Kimi K3.1 Pro",
+      "apiId": "k3.1-pro"
+    },
+    {
+      "id": "minimax-m3-1-flash",
+      "label": "MiniMax M3.1 Flash",
+      "apiId": "MiniMax-M3.1-Flash"
+    }
+  ],
+  "cases": [
+    {
+      "id": "chaozhou",
+      "titleZh": "潮州",
+      "titleEn": "Chaozhou",
+      "noteZh": "同一开放主题；模型自行检索、选题与成片。",
+      "noteEn": "Same open topic; each model searched, framed, and produced independently.",
+      "media": [
+        {
+          "modelId": "kimi-k3-1-pro",
+          "modelLabel": "Kimi K3.1 Pro",
+          "path": "/evaluations/kimi-vs-minimax-open-topic/kimi-k3-1-pro/chaozhou.mp4",
+          "posterPath": "/evaluations/kimi-vs-minimax-open-topic/posters/kimi-k3-1-pro__chaozhou.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 84.0,
+          "captionZh": "Kimi K3.1 Pro · 潮州（edge-tts 旁白）",
+          "captionEn": "Kimi K3.1 Pro · Chaozhou (edge-tts narration)"
+        },
+        {
+          "modelId": "minimax-m3-1-flash",
+          "modelLabel": "MiniMax M3.1 Flash",
+          "path": "/evaluations/kimi-vs-minimax-open-topic/minimax-m3-1-flash/chaozhou.mp4",
+          "posterPath": "/evaluations/kimi-vs-minimax-open-topic/posters/minimax-m3-1-flash__chaozhou.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 85.0,
+          "captionZh": "MiniMax M3.1 Flash · 潮州（edge-tts 旁白）",
+          "captionEn": "MiniMax M3.1 Flash · Chaozhou (edge-tts narration)"
+        }
+      ]
+    },
+    {
+      "id": "raoping",
+      "titleZh": "饶平",
+      "titleEn": "Raoping",
+      "noteZh": "同一开放主题；模型自行检索、选题与成片。",
+      "noteEn": "Same open topic; each model searched, framed, and produced independently.",
+      "media": [
+        {
+          "modelId": "kimi-k3-1-pro",
+          "modelLabel": "Kimi K3.1 Pro",
+          "path": "/evaluations/kimi-vs-minimax-open-topic/kimi-k3-1-pro/raoping.mp4",
+          "posterPath": "/evaluations/kimi-vs-minimax-open-topic/posters/kimi-k3-1-pro__raoping.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 80.0,
+          "captionZh": "Kimi K3.1 Pro · 饶平（edge-tts 旁白）",
+          "captionEn": "Kimi K3.1 Pro · Raoping (edge-tts narration)"
+        },
+        {
+          "modelId": "minimax-m3-1-flash",
+          "modelLabel": "MiniMax M3.1 Flash",
+          "path": "/evaluations/kimi-vs-minimax-open-topic/minimax-m3-1-flash/raoping.mp4",
+          "posterPath": "/evaluations/kimi-vs-minimax-open-topic/posters/minimax-m3-1-flash__raoping.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 89.0,
+          "captionZh": "MiniMax M3.1 Flash · 饶平（edge-tts 旁白）",
+          "captionEn": "MiniMax M3.1 Flash · Raoping (edge-tts narration)"
+        }
+      ]
+    },
+    {
+      "id": "chaoshan-beef-ball",
+      "titleZh": "潮汕牛肉丸",
+      "titleEn": "Chaoshan beef balls",
+      "noteZh": "同一开放主题；模型自行检索、选题与成片。",
+      "noteEn": "Same open topic; each model searched, framed, and produced independently.",
+      "media": [
+        {
+          "modelId": "kimi-k3-1-pro",
+          "modelLabel": "Kimi K3.1 Pro",
+          "path": "/evaluations/kimi-vs-minimax-open-topic/kimi-k3-1-pro/chaoshan-beef-ball.mp4",
+          "posterPath": "/evaluations/kimi-vs-minimax-open-topic/posters/kimi-k3-1-pro__chaoshan-beef-ball.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 83.0,
+          "captionZh": "Kimi K3.1 Pro · 潮汕牛肉丸（edge-tts 旁白）",
+          "captionEn": "Kimi K3.1 Pro · Chaoshan beef balls (edge-tts narration)"
+        },
+        {
+          "modelId": "minimax-m3-1-flash",
+          "modelLabel": "MiniMax M3.1 Flash",
+          "path": "/evaluations/kimi-vs-minimax-open-topic/minimax-m3-1-flash/chaoshan-beef-ball.mp4",
+          "posterPath": "/evaluations/kimi-vs-minimax-open-topic/posters/minimax-m3-1-flash__chaoshan-beef-ball.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 87.6,
+          "captionZh": "MiniMax M3.1 Flash · 潮汕牛肉丸（edge-tts 旁白）",
+          "captionEn": "MiniMax M3.1 Flash · Chaoshan beef balls (edge-tts narration)"
+        }
+      ]
+    },
+    {
+      "id": "curved-flight-routes",
+      "titleZh": "航线为什么是弯的",
+      "titleEn": "Why flight routes look curved",
+      "noteZh": "同一开放主题；模型自行检索、选题与成片。",
+      "noteEn": "Same open topic; each model searched, framed, and produced independently.",
+      "media": [
+        {
+          "modelId": "kimi-k3-1-pro",
+          "modelLabel": "Kimi K3.1 Pro",
+          "path": "/evaluations/kimi-vs-minimax-open-topic/kimi-k3-1-pro/curved-flight-routes.mp4",
+          "posterPath": "/evaluations/kimi-vs-minimax-open-topic/posters/kimi-k3-1-pro__curved-flight-routes.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 82.0,
+          "captionZh": "Kimi K3.1 Pro · 航线为什么是弯的（edge-tts 旁白）",
+          "captionEn": "Kimi K3.1 Pro · Why flight routes look curved (edge-tts narration)"
+        },
+        {
+          "modelId": "minimax-m3-1-flash",
+          "modelLabel": "MiniMax M3.1 Flash",
+          "path": "/evaluations/kimi-vs-minimax-open-topic/minimax-m3-1-flash/curved-flight-routes.mp4",
+          "posterPath": "/evaluations/kimi-vs-minimax-open-topic/posters/minimax-m3-1-flash__curved-flight-routes.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 88.0,
+          "captionZh": "MiniMax M3.1 Flash · 航线为什么是弯的（edge-tts 旁白）",
+          "captionEn": "MiniMax M3.1 Flash · Why flight routes look curved (edge-tts narration)"
+        }
+      ]
+    }
+  ]
+}

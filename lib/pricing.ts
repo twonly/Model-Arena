@@ -16,6 +16,11 @@
  * 未查到权威来源或近未来型号、待站长手动确认的，UI 上应明确标注「待核实」。
  */
 import rawPrices from "./pricing-data.json" with { type: "json" };
+import type { CustomPricing } from "./types";
+
+export function validCustomPricing(price: CustomPricing): boolean {
+  return !!price && [price.input, price.output].every((n) => typeof n === "number" && Number.isFinite(n) && n >= 0);
+}
 
 export type PriceRegion = "global" | "cn";
 export type Currency = "USD" | "CNY";
@@ -96,7 +101,16 @@ export function findPrice(
 export function findEndpointPrice(
   modelId: string,
   endpoint?: string,
+  customPricing?: CustomPricing,
 ): ModelPrice | undefined {
+  if (customPricing !== undefined) {
+    if (!validCustomPricing(customPricing)) return undefined;
+    return {
+      matchIds: [modelId], provider: "Custom", model: modelId, region: "global", currency: "USD",
+      inputMiss: customPricing.input!, output: customPricing.output!, inputHit: null,
+      sourceName: "User configured", sourceUrl: "", verified: "",
+    };
+  }
   if (!endpoint) return undefined;
   let url: URL;
   try {

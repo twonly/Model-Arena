@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="title description">
+  <title id="title">Quarterly Revenue dashboard</title>
+  <desc id="description">A dashboard card showing quarterly revenue bars for Q1 through Q4. Values are 12, 24, 18, and 30. Total revenue is 84 and the best quarter is Q4.</desc>
+
+  <defs>
+    <linearGradient id="pageBackground" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f3f6fb"/>
+      <stop offset="1" stop-color="#e9eff7"/>
+    </linearGradient>
+
+    <linearGradient id="blueBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7586ff"/>
+      <stop offset="1" stop-color="#5264e6"/>
+    </linearGradient>
+
+    <linearGradient id="greenBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#32c3ad"/>
+      <stop offset="1" stop-color="#149b89"/>
+    </linearGradient>
+
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#253653" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#pageBackground)"/>
+
+  <g filter="url(#cardShadow)">
+    <rect x="40" y="28" width="720" height="544" rx="28" fill="#ffffff"/>
+  </g>
+
+  <g font-family="Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif">
+    <text x="80" y="58" fill="#718096" font-size="10" font-weight="700" letter-spacing="1.8">FINANCIAL OVERVIEW</text>
+    <text x="80" y="90" fill="#17233b" font-size="29" font-weight="750">Quarterly Revenue</text>
+    <text x="80" y="117" fill="#718096" font-size="13.5">Revenue performance across all four quarters</text>
+
+    <g>
+      <rect x="500" y="50" width="110" height="60" rx="16" fill="#f0f2ff" stroke="#dfe3ff"/>
+      <circle cx="520" cy="80" r="9" fill="#5968e8" opacity="0.14"/>
+      <path d="M516 80h8M520 76v8" stroke="#5968e8" stroke-width="1.8" stroke-linecap="round"/>
+      <text x="536" y="85" fill="#4352c5" font-size="14" font-weight="700">Total: 84</text>
+
+      <rect x="624" y="50" width="110" height="60" rx="16" fill="#eaf8f4" stroke="#cfeee5"/>
+      <circle cx="644" cy="80" r="9" fill="#1aa58f" opacity="0.15"/>
+      <path d="M640 81l3 3 6-7" fill="none" stroke="#159b87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="660" y="85" fill="#147b6c" font-size="14" font-weight="700">Best: Q4</text>
+    </g>
+
+    <rect x="72" y="140" width="656" height="376" rx="20" fill="#fbfcfe" stroke="#e8edf4"/>
+
+    <g fill="none" stroke="#e4e9f1" stroke-width="1">
+      <line x1="132" y1="215" x2="690" y2="215"/>
+      <line x1="132" y1="295" x2="690" y2="295"/>
+      <line x1="132" y1="375" x2="690" y2="375"/>
+    </g>
+    <line x1="132" y1="455" x2="690" y2="455" stroke="#9aa7ba" stroke-width="2"/>
+
+    <g stroke="#9aa7ba" stroke-width="1">
+      <line x1="126" y1="215" x2="132" y2="215"/>
+      <line x1="126" y1="295" x2="132" y2="295"/>
+      <line x1="126" y1="375" x2="132" y2="375"/>
+      <line x1="126" y1="455" x2="132" y2="455"/>
+    </g>
+
+    <g fill="#68768c" font-size="12.5" font-weight="550" text-anchor="end" dominant-baseline="middle">
+      <text x="116" y="455">0</text>
+      <text x="116" y="375">10</text>
+      <text x="116" y="295">20</text>
+      <text x="116" y="215">30</text>
+    </g>
+
+    <text x="91" y="335" transform="rotate(-90 91 335)" fill="#94a0b2" font-size="9.5" font-weight="700" letter-spacing="1.8" text-anchor="middle">REVENUE</text>
+
+    <g>
+      <path d="M161 455V367Q161 359 169 359H233Q241 359 241 367V455Z" fill="url(#blueBar)"/>
+      <path d="M301 455V271Q301 263 309 263H373Q381 263 381 271V455Z" fill="url(#blueBar)"/>
+      <path d="M441 455V319Q441 311 449 311H513Q521 311 521 319V455Z" fill="url(#blueBar)"/>
+      <path d="M581 455V223Q581 215 589 215H653Q661 215 661 223V455Z" fill="url(#greenBar)"/>
+    </g>
+
+    <g fill="#2f3c52" font-size="18" font-weight="750" text-anchor="middle">
+      <text x="201" y="340">12</text>
+      <text x="341" y="244">24</text>
+      <text x="481" y="292">18</text>
+      <text x="621" y="196" fill="#118b79">30</text>
+    </g>
+
+    <g fill="#536176" font-size="13.5" font-weight="650" text-anchor="middle">
+      <text x="201" y="486">Q1</text>
+      <text x="341" y="486">Q2</text>
+      <text x="481" y="486">Q3</text>
+      <text x="621" y="486" fill="#147b6c">Q4</text>
+    </g>
+  </g>
+</svg>

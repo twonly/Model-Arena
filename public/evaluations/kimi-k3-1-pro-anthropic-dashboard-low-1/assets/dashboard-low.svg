@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Quarterly Revenue dashboard card</title>
+  <desc id="desc">A vertical bar chart showing Q1 revenue of 12, Q2 of 24, Q3 of 18, and Q4 of 30. Total revenue is 84 and Q4 is the best quarter.</desc>
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="10" stdDeviation="18" flood-color="#172554" flood-opacity="0.09"/>
+    </filter>
+    <linearGradient id="barBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#60A5FA"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+    <linearGradient id="barBest" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#4F46E5"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="#F4F7FB"/>
+  <rect x="40" y="30" width="720" height="540" rx="24" fill="#FFFFFF" filter="url(#cardShadow)"/>
+
+  <g font-family="Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+    <text x="80" y="86" fill="#172033" font-size="27" font-weight="700" letter-spacing="-0.5">Quarterly Revenue</text>
+    <text x="80" y="114" fill="#718096" font-size="14">Performance across all four quarters</text>
+
+    <rect x="478" y="58" width="132" height="42" rx="12" fill="#EFF6FF"/>
+    <text x="544" y="84" text-anchor="middle" fill="#2563EB" font-size="15" font-weight="700">Total: 84</text>
+    <rect x="622" y="58" width="114" height="42" rx="12" fill="#EEF2FF"/>
+    <text x="679" y="84" text-anchor="middle" fill="#4F46E5" font-size="15" font-weight="700">Best: Q4</text>
+
+    <!-- Horizontal gridlines: 9 chart units per revenue unit -->
+    <g stroke="#E7ECF3" stroke-width="1">
+      <line x1="140" y1="180" x2="710" y2="180"/>
+      <line x1="140" y1="270" x2="710" y2="270"/>
+      <line x1="140" y1="360" x2="710" y2="360"/>
+    </g>
+    <line x1="140" y1="180" x2="140" y2="450" stroke="#CBD5E1" stroke-width="1.5"/>
+    <line x1="140" y1="450" x2="710" y2="450" stroke="#CBD5E1" stroke-width="1.5"/>
+
+    <g fill="#718096" font-size="13" text-anchor="end">
+      <text x="122" y="184">30</text>
+      <text x="122" y="274">20</text>
+      <text x="122" y="364">10</text>
+      <text x="122" y="454">0</text>
+    </g>
+    <g stroke="#CBD5E1" stroke-width="1.5">
+      <line x1="134" y1="180" x2="140" y2="180"/>
+      <line x1="134" y1="270" x2="140" y2="270"/>
+      <line x1="134" y1="360" x2="140" y2="360"/>
+      <line x1="134" y1="450" x2="140" y2="450"/>
+    </g>
+
+    <!-- Bar heights: 12×9=108, 24×9=216, 18×9=162, 30×9=270 -->
+    <rect x="192" y="342" width="76" height="108" rx="8" fill="url(#barBlue)"/>
+    <rect x="332" y="234" width="76" height="216" rx="8" fill="url(#barBlue)"/>
+    <rect x="472" y="288" width="76" height="162" rx="8" fill="url(#barBlue)"/>
+    <rect x="612" y="180" width="76" height="270" rx="8" fill="url(#barBest)"/>
+
+    <g fill="#263449" font-size="16" font-weight="700" text-anchor="middle">
+      <text x="230" y="326">12</text>
+      <text x="370" y="218">24</text>
+      <text x="510" y="272">18</text>
+      <text x="650" y="164">30</text>
+    </g>
+
+    <g fill="#526075" font-size="15" font-weight="600" text-anchor="middle">
+      <text x="230" y="482">Q1</text>
+      <text x="370" y="482">Q2</text>
+      <text x="510" y="482">Q3</text>
+      <text x="650" y="482" fill="#4F46E5">Q4</text>
+    </g>
+
+    <line x1="80" y1="512" x2="720" y2="512" stroke="#EDF1F6"/>
+    <circle cx="86" cy="538" r="4" fill="#4F46E5"/>
+    <text x="100" y="543" fill="#718096" font-size="13">Q4 delivered the highest quarterly revenue</text>
+  </g>
+</svg>

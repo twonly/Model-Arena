@@ -1,0 +1,20 @@
+{
+  "model": "deepseek-flash",
+  "version": "DeepSeek-V4.1-Flash-1017",
+  "endpoint": "https://api.deepseek.com/v1",
+  "keyEnv": "SHARED_KEY_DEEPSEEK",
+  "modes": {
+    "default": {},
+    "disabled": {
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "extraBody": {},
+  "temperature": 0,
+  "maxTokens": 12288,
+  "timeoutMs": 180000,
+  "versionSource": "https://api-docs.deepseek.com/updates/",
+  "method": "Four fixed SVG prompts, one first attempt per mode. Alternating order, sequential calls, no retries or visual feedback. Version attribution uses official changelog; deepseek-flash is a mutable alias, not a pinned checkpoint."
+}

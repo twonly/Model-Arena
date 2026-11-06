@@ -1,0 +1,419 @@
+{
+  "schemaVersion": 1,
+  "batchId": "longcat-2-5-20261026",
+  "startedAt": "2026-10-26T15:47:56.181Z",
+  "finishedAt": "2026-10-26T16:14:45.937Z",
+  "updatedAt": "2026-10-26T16:16:58.595Z",
+  "maxConcurrentQueues": 2,
+  "wallClockMs": 1609756,
+  "total": {
+    "requests": 30,
+    "completed": 26,
+    "truncated": 3,
+    "interrupted": 1,
+    "errors": 0,
+    "cumulativeRequestMs": 2416388.917124999,
+    "reportedPromptTokens": 4353,
+    "reportedOutputTokensIncludingReasoning": 144286,
+    "reportedReasoningTokens": 96526,
+    "requestsWithoutFinalUsage": 1
+  },
+  "byScope": {
+    "chat-text": {
+      "requests": 8,
+      "completed": 8,
+      "truncated": 0,
+      "interrupted": 0,
+      "errors": 0,
+      "cumulativeRequestMs": 19501.690376000006,
+      "reportedPromptTokens": 562,
+      "reportedOutputTokensIncludingReasoning": 512,
+      "reportedReasoningTokens": 382,
+      "requestsWithoutFinalUsage": 0
+    },
+    "chat-code": {
+      "requests": 4,
+      "completed": 4,
+      "truncated": 0,
+      "interrupted": 0,
+      "errors": 0,
+      "cumulativeRequestMs": 79275.776458,
+      "reportedPromptTokens": 376,
+      "reportedOutputTokensIncludingReasoning": 3706,
+      "reportedReasoningTokens": 3299,
+      "requestsWithoutFinalUsage": 0
+    },
+    "chat-static": {
+      "requests": 11,
+      "completed": 8,
+      "truncated": 2,
+      "interrupted": 1,
+      "errors": 0,
+      "cumulativeRequestMs": 1215740.415165,
+      "reportedPromptTokens": 1129,
+      "reportedOutputTokensIncludingReasoning": 76155,
+      "reportedReasoningTokens": 55381,
+      "requestsWithoutFinalUsage": 1
+    },
+    "chat-animation": {
+      "requests": 3,
+      "completed": 2,
+      "truncated": 1,
+      "interrupted": 0,
+      "errors": 0,
+      "cumulativeRequestMs": 767104.5299579999,
+      "reportedPromptTokens": 468,
+      "reportedOutputTokensIncludingReasoning": 40253,
+      "reportedReasoningTokens": 34011,
+      "requestsWithoutFinalUsage": 0
+    },
+    "chat-frontend": {
+      "requests": 2,
+      "completed": 2,
+      "truncated": 0,
+      "interrupted": 0,
+      "errors": 0,
+      "cumulativeRequestMs": 325260.799751,
+      "reportedPromptTokens": 667,
+      "reportedOutputTokensIncludingReasoning": 23276,
+      "reportedReasoningTokens": 3173,
+      "requestsWithoutFinalUsage": 0
+    },
+    "responses-diagnostic": {
+      "requests": 2,
+      "completed": 2,
+      "truncated": 0,
+      "interrupted": 0,
+      "errors": 0,
+      "cumulativeRequestMs": 9505.705417,
+      "reportedPromptTokens": 1151,
+      "reportedOutputTokensIncludingReasoning": 384,
+      "reportedReasoningTokens": 280,
+      "requestsWithoutFinalUsage": 0
+    }
+  },
+  "firstAttemptBudget": {
+    "maxTokens": 12288,
+    "timeoutMs": 600000
+  },
+  "retryBudgets": [
+    32768
+  ],
+  "recordKeys": [
+    {
+      "scope": "chat-text",
+      "id": "extract-1",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:00.112Z",
+      "finishedAt": "2026-10-26T15:48:02.039Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-text",
+      "id": "extract-1",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:02.041Z",
+      "finishedAt": "2026-10-26T15:48:05.275Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-text",
+      "id": "format-1",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:05.278Z",
+      "finishedAt": "2026-10-26T15:48:08.176Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-text",
+      "id": "format-1",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:08.178Z",
+      "finishedAt": "2026-10-26T15:48:09.676Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-text",
+      "id": "format-3",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:09.677Z",
+      "finishedAt": "2026-10-26T15:48:12.321Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-text",
+      "id": "format-3",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:12.324Z",
+      "finishedAt": "2026-10-26T15:48:14.612Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-text",
+      "id": "grounded-1",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:14.614Z",
+      "finishedAt": "2026-10-26T15:48:18.088Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-text",
+      "id": "grounded-1",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:18.092Z",
+      "finishedAt": "2026-10-26T15:48:19.631Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-code",
+      "id": "code-money",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:19.636Z",
+      "finishedAt": "2026-10-26T15:48:25.231Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-code",
+      "id": "code-money",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:48:25.234Z",
+      "finishedAt": "2026-10-26T15:49:25.907Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-code",
+      "id": "code-dedupe",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:49:25.910Z",
+      "finishedAt": "2026-10-26T15:49:36.183Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-code",
+      "id": "code-dedupe",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:49:36.188Z",
+      "finishedAt": "2026-10-26T15:49:38.923Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "pelican",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:47:56.181Z",
+      "finishedAt": "2026-10-26T15:48:26.977Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "pelican",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "truncated",
+      "startedAt": "2026-10-26T15:48:26.980Z",
+      "finishedAt": "2026-10-26T15:51:58.161Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "clock",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:51:58.163Z",
+      "finishedAt": "2026-10-26T15:54:18.204Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "clock",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:54:18.207Z",
+      "finishedAt": "2026-10-26T15:55:01.143Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "dashboard",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:55:01.146Z",
+      "finishedAt": "2026-10-26T15:55:17.273Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "dashboard",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:55:17.277Z",
+      "finishedAt": "2026-10-26T15:56:11.144Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "poster",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "truncated",
+      "startedAt": "2026-10-26T15:56:11.148Z",
+      "finishedAt": "2026-10-26T16:00:09.092Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "poster",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T16:00:09.096Z",
+      "finishedAt": "2026-10-26T16:00:27.236Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-animation",
+      "id": "pelican-animation",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T16:00:27.239Z",
+      "finishedAt": "2026-10-26T16:01:19.450Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-animation",
+      "id": "pelican-animation",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "truncated",
+      "startedAt": "2026-10-26T16:01:19.454Z",
+      "finishedAt": "2026-10-26T16:05:16.859Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-static",
+      "id": "pelican",
+      "mode": "default",
+      "attemptNumber": 2,
+      "status": "done",
+      "startedAt": "2026-10-26T16:01:07.695Z",
+      "finishedAt": "2026-10-26T16:06:11.924Z",
+      "outputLimit": 32768
+    },
+    {
+      "scope": "chat-static",
+      "id": "poster",
+      "mode": "default",
+      "attemptNumber": 2,
+      "status": "interrupted",
+      "startedAt": "2026-10-26T16:06:14.740Z",
+      "finishedAt": null,
+      "outputLimit": 32768
+    },
+    {
+      "scope": "chat-static",
+      "id": "poster",
+      "mode": "default",
+      "attemptNumber": 3,
+      "status": "done",
+      "startedAt": "2026-10-26T16:12:04.051Z",
+      "finishedAt": "2026-10-26T16:14:44.594Z",
+      "outputLimit": 32768
+    },
+    {
+      "scope": "chat-animation",
+      "id": "pelican-animation",
+      "mode": "default",
+      "attemptNumber": 2,
+      "status": "done",
+      "startedAt": "2026-10-26T16:06:48.425Z",
+      "finishedAt": "2026-10-26T16:14:45.937Z",
+      "outputLimit": 32768
+    },
+    {
+      "scope": "chat-frontend",
+      "id": "frontend-cycling",
+      "mode": "disabled",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:49:38.993Z",
+      "finishedAt": "2026-10-26T15:52:20.541Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "chat-frontend",
+      "id": "frontend-cycling",
+      "mode": "default",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:52:20.544Z",
+      "finishedAt": "2026-10-26T15:55:04.260Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "responses-diagnostic",
+      "id": "responses-low-extract-1",
+      "mode": "responses-low",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:57:09.793Z",
+      "finishedAt": "2026-10-26T15:57:13.417Z",
+      "outputLimit": 12288
+    },
+    {
+      "scope": "responses-diagnostic",
+      "id": "responses-native-chart",
+      "mode": "responses-low",
+      "attemptNumber": 1,
+      "status": "done",
+      "startedAt": "2026-10-26T15:57:13.417Z",
+      "finishedAt": "2026-10-26T15:57:19.301Z",
+      "outputLimit": 12288
+    }
+  ],
+  "tokenTotalsAreLowerBounds": true,
+  "fullBilledTokenTotal": null,
+  "fullCost": null,
+  "cumulativeRequestTimeIsLowerBound": true,
+  "unknownUsageRequestKeys": [
+    {
+      "scope": "chat-static",
+      "id": "poster",
+      "mode": "default",
+      "attemptNumber": 2,
+      "reason": "Local ENOSPC while saving the request result. Original response, final usage, upstream status and measured duration were not preserved; not a model/provider answer failure."
+    }
+  ],
+  "methodZh": "按唯一LLM请求汇总：Chat基线12条、两档前端2条、视觉原始首轮10条及独立重试、Responses独立小诊断2条。GET/models与官方网页下载不计入LLM请求。累计请求耗时为各次实录时长相加；两个队列重叠，不能与墙钟用时或模型速度排名混淆。输出token包含思考，隐藏思维正文未公开；报错且缺最终usage的真实生成/账单量未知。价格按官方公开口径另列，本表不是可对账账单。",
+  "methodEn": "Unique LLM requests only: 12 Chat baselines, 2 frontend calls, 10 visual first attempts plus independent retries, and 2 separate Responses diagnostics. GET/models and source downloads are excluded. Cumulative request time sums measured durations; two queues overlap, so it differs from elapsed wall-clock time and is not a speed ranking. Output includes reasoning tokens, without publishing private reasoning text. Calls without final usage have unknown actual generation/billing. Official pricing is shown separately; this is not a reconciled invoice."
+}

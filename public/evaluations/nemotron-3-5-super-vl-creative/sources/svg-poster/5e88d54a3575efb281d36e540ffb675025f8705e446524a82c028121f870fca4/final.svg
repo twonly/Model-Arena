@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <style>
+      .bg { fill:#f7f5f0; }
+      .title { font-family:"STHeiti Medium", "Heiti SC", sans-serif; font-weight:bold; fill:#1a1a2e; font-size:48px; text-anchor:start; dominant-baseline:middle; }
+      .subtitle { font-family:"STHeiti Medium", "Heiti SC", sans-serif; font-size:22px; fill:#6e5b55; text-anchor:start; dominant-baseline:middle; }
+      .info { font-family:"STHeiti Medium", "Heiti SC", sans-serif; font-size:24px; fill:#2a2a3a; text-anchor:start; dominant-baseline:middle; }
+      .hint { font-family:"STHeiti Medium", "Heiti SC", sans-serif; font-size:16px; fill:#8a7a72; text-anchor:start; dominant-baseline:middle; }
+      .btn-text { font-family:"STHeiti Medium", "Heiti SC", sans-serif; font-weight:bold; font-size:20px; fill:#ffffff; text-anchor:middle; dominant-baseline:middle; }
+      .bike { fill:none; stroke:#2a2a3a; stroke-linecap:round; stroke-linejoin:round; }
+    </style>
+    <linearGradient id="btnGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#d84315"/>
+      <stop offset="100%" stop-color="#b73d14"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="800" height="600"/>
+
+  <!-- Subtle decorative ring (echoes wheel) -->
+  <circle cx="400" cy="400" r="140" fill="none" stroke="#e6dccf" stroke-width="2"/>
+
+  <!-- Bicycle icon (left side) -->
+  <g transform="translate(110, 330)">
+    <!-- rear wheel -->
+    <circle class="bike" cx="0" cy="0" r="42" stroke-width="4"/>
+    <!-- front wheel -->
+    <circle class="bike" cx="95" cy="0" r="42" stroke-width="4"/>
+    <!-- chainstay -->
+    <line class="bike" x1="0" y1="0" x2="95" y2="0" stroke-width="5"/>
+    <!-- seat tube -->
+    <line class="bike" x1="0" y1="0" x2="6" y2="-52" stroke-width="4"/>
+    <!-- top tube -->
+    <line class="bike" x1="6" y1="-52" x2="74" y2="-44" stroke-width="4"/>
+    <!-- down tube -->
+    <line class="bike" x1="0" y1="0" x2="74" y2="-44" stroke-width="4"/>
+    <!-- head tube -->
+    <line class="bike" x1="74" y1="-44" x2="80" y2="-68" stroke-width="4"/>
+    <!-- fork -->
+    <line class="bike" x1="80" y1="-68" x2="86" y2="0" stroke-width="4"/>
+    <!-- handlebar -->
+    <line class="bike" x1="80" y1="-68" x2="95" y2="-68" stroke-width="4"/>
+    <!-- seat -->
+    <line class="bike" x1="6" y1="-52" x2="-10" y2="-58" stroke-width="4"/>
+    <!-- pedals/crank -->
+    <circle class="bike" cx="30" cy="6" r="6" stroke-width="3"/>
+  </g>
+
+  <!-- Main title -->
+  <text x="300" y="190" class="title">周末骑行计划</text>
+  <!-- Subtitle -->
+  <text x="300" y="240" class="subtitle">慢一点，看见城市</text>
+  <!-- Divider -->
+  <line x1="300" y1="265" x2="440" y2="265" stroke="#d84315" stroke-width="3"/>
+
+  <!-- Time -->
+  <text x="300" y="330" class="info">10月24日 09:00</text>
+  <!-- Location -->
+  <text x="300" y="370" class="info">滨江公园东门</text>
+  <!-- Hint -->
+  <text x="300" y="420" class="hint">自备头盔 · 全程12公里</text>
+
+  <!-- Button -->
+  <rect x="300" y="460" width="200" height="52" rx="26" fill="url(#btnGrad)"/>
+  <text x="400" y="486" class="btn-text">立即报名</text>
+</svg>

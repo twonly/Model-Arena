@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "createdAt": "2026-11-03T23:32:52.440Z",
+  "files": [
+    {
+      "path": "/evaluations/dots3-note-preview/assets/clock-20261103.svg",
+      "sha256": "92300cdf4b2578e268700a2a49908fa99b22b8eb6b3d6defc7a81018bf495dca",
+      "bytes": 1347,
+      "kind": "target-model-source"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/clock-20261103.png",
+      "sha256": "2417e49cdd8ecc6f40e141f7d0bd6790880cb8cdab7b0c7947b4aa70d1456008",
+      "bytes": 38870,
+      "width": 1200,
+      "height": 900,
+      "kind": "rendered-model-output"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/dashboard-20261103.svg",
+      "sha256": "de6b714db246c1f979557b851deade224983c72c2e0fb0bfe55d0c7fbb49b44a",
+      "bytes": 1999,
+      "kind": "target-model-source"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/dashboard-20261103.png",
+      "sha256": "544879a9b6d0644b38299ecadb12db2849ec6c2fd8dc700bf36400dd87c46146",
+      "bytes": 36117,
+      "width": 1200,
+      "height": 900,
+      "kind": "rendered-model-output"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/poster-20261103.svg",
+      "sha256": "cf603eda32ec305c8b1e6e72985b79fd3208eec976fde97ec895f3830e8f7883",
+      "bytes": 1334,
+      "kind": "target-model-source"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/poster-20261103.png",
+      "sha256": "0df959c8b69c896e6f69906fda562831baee527805d893c5612336d09ff17e33",
+      "bytes": 52125,
+      "width": 1200,
+      "height": 900,
+      "kind": "rendered-model-output"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.svg",
+      "sha256": "83ab04bb50ce1505c0b099aa7a8e4f0e7b64de3fe999479714b27ec3de06ffdd",
+      "bytes": 3675,
+      "kind": "target-model-source"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.png",
+      "sha256": "707197be9addaa8f80e66955a6ad7559b7891d8565399d6db571a9ecc64f5d37",
+      "bytes": 19970,
+      "width": 800,
+      "height": 600,
+      "kind": "rendered-model-output"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.webp",
+      "sha256": "f7da3449a06eea4d5241dc7a1710813a936d8026f93d2bf0fd4d228430fd0dd9",
+      "bytes": 189586,
+      "width": 800,
+      "height": 600,
+      "kind": "encoded-model-animation"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/dots-logo.png",
+      "sha256": "aef352ba6f94b478348a5bc74bdb50a1571b09a1c5a636f232702f87c46b637a",
+      "bytes": 41428,
+      "width": 2123,
+      "height": 1031,
+      "kind": "official-logo",
+      "sourcePage": "https://huggingface.co/dots-studio/dots3-note-prev",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev/resolve/main/assets/dots%20logo@3x.png",
+      "copyright": "Dots Studio",
+      "retrievedAt": "2026-11-02"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/official-benchmarks-reasoning.png",
+      "sha256": "9a2f88cde1353884bf9d7c2a47b278debd8c92757dbba9e61dc2dcfe00475fb6",
+      "bytes": 730014,
+      "width": 2692,
+      "height": 1396,
+      "kind": "official-reported-benchmark",
+      "sourcePage": "https://huggingface.co/dots-studio/dots3-note-prev",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev/resolve/main/assets/bench_en1.png",
+      "copyright": "Dots Studio",
+      "retrievedAt": "2026-11-02"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/official-benchmarks-multimodal.png",
+      "sha256": "fcf1d2d99752ae9d36cff2e1e619ca1ef9c23901ac6ede46f1defb990efedda9",
+      "bytes": 299165,
+      "width": 2746,
+      "height": 1088,
+      "kind": "official-reported-benchmark",
+      "sourcePage": "https://huggingface.co/dots-studio/dots3-note-prev",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev/resolve/main/assets/bench_en2.png",
+      "copyright": "Dots Studio",
+      "retrievedAt": "2026-11-02"
+    }
+  ]
+}

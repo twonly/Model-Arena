@@ -1,0 +1,1697 @@
+{
+  "schemaVersion": 1,
+  "model": "Kimi K3.1 Pro · k3.1-pro",
+  "date": "2026-10-27",
+  "publishedAt": "2026-10-26T17:41:22.405631+00:00",
+  "updatedAt": "2026-10-27T03:00:26.857586+00:00",
+  "summaryZh": "十题交付六组Blender场景和四支知识视频。参数书架与行星减速器的核心几何/运动检查表现较好；复杂建筑、机械资产与知识动画仍有尺寸、接触、UV或科学路径错误。每题作品、用量、失败和独立AI点评分别呈现，文件可打开或视频可播放不等于内容全通过。",
+  "summaryEn": "Ten tasks deliver six Blender scenes and four knowledge videos. The parametric bookshelf and reducer do well on core geometry/kinematics, while complex buildings, mechanical assets and explainers retain dimension, contact, UV or scientific-trajectory failures. Work, usage, failures and independent AI findings are reported per case; a playable file is not a content pass.",
+  "methodZh": "2026-10-27，通过Kimi Coding Plan原生Messages接口运行k3.1-pro，272份完整响应均返回该ID。初批4题：书架/邮件/打印机请求max；木星保留max的600/900秒失败，再以high、900秒独立恢复。追加6题统一high、60分钟/50轮、每请求600秒、max_tokens=32768（含思考），本机隔离工具离线执行。4项BlenderWorld采用固定来源规格、Blender5.2.3 EEVEE/2线程与统一交付预算，非官方benchmark得分；两项Opus5.5知识片题意迁移压缩为Pillow/NumPy/FFmpeg原创短片，未复用Manim或原成品。模型自行编写/修正代码、运行shell并看图；独立检查随后进行。两批条件不同、并发共享本机，不作为effort或速度的受控排名。",
+  "methodEn": "Run on 2026-10-27 through the native Kimi Coding Plan Messages endpoint; all 272 complete responses return k3.1-pro. Initial four: bookshelf/email/printer request max; Jupiter retains max failures at 600/900-second deadlines and a separate high recovery at 900 seconds. Six additions request high with 60 minutes/50 turns, 600 seconds per request and max_tokens=32768 including thinking, using isolated offline local tools. Four fixed-source BlenderWorld tasks use Blender 5.2.3 EEVEE/two threads and adapted output budgets, not official benchmark scores. Two Opus 5.5 video briefs are shortened into original Pillow/NumPy/FFmpeg films, without reusing Manim or creator outputs. Kimi writes/revises code, runs shell and inspects images; independent checks follow. The batches differ and share concurrent hardware, so they are not controlled effort or speed rankings.",
+  "billingZh": "消耗 Kimi Coding 订阅额度，没有可逐题对账的按 token 金额账单，实际金额未知。下方 usage 只计收到最终用量的完整响应，失败及中断的额外消耗未知；公开配音替换是另列的发布制作步骤，不计入原 Kimi 评测成绩。",
+  "billingEn": "Requests consume Kimi Coding subscription quota; no reconciled per-task monetary invoice is available, so actual cost is unknown. Usage covers complete responses with final counters only; extra failed/interrupted consumption is unknown. Public narration replacement is a separate publishing step, not part of the original Kimi score.",
+  "limitationsZh": [
+    "十个来源改编任务分属两批不同执行条件，是小样本，不是通用模型排名或max/high受控比较。",
+    "完整来源长提示词与网页正文未转载。公开规格是概要及评测方新增约束；原始完整输入、请求/工具轨迹、失败和不可变预览均本地留档并记录哈希。",
+    "AI 助手定性点评、自动几何/媒体检查与独立真人盲评分开，本次没有宣称独立真人评分或全面主观试听。",
+    "默认播放无口播的原程序配乐／音效版；历史公开 Kokoro 旁白为明确可选项，含加速语句。原始系统音轨仅留本地。音频修订保留 H264 包与时序，不修复原画面或失败结论。",
+    "可变模型路由与返回 ID 不独立证明厂商内部固定 checkpoint；所有状态仅代表本次日期和条件。"
+  ],
+  "limitationsEn": [
+    "Ten source-adapted tasks span two batches with different execution conditions; this small sample is not a general ranking or controlled max/high comparison.",
+    "Long third-party prompts and full source pages are not republished. Public specifications summarize the source and evaluator adaptations; complete inputs, request/tool traces, failures and immutable previews remain hash-bound in the local archive.",
+    "AI qualitative observations and executable geometry/media checks are distinct from independent human blind scoring; no such scoring or exhaustive subjective listening is claimed.",
+    "Playback defaults to original procedural music/effects without speech. Historical public Kokoro narration is an explicit option and includes accelerated speech. Original system voices remain local. Audio revisions preserve H264 packets/timing and do not repair picture defects or revise failure findings.",
+    "A mutable route and returned model ID do not independently establish an internal fixed checkpoint; findings apply to this date and environment."
+  ],
+  "evidencePath": "/evaluations/kimi-k3-1-pro-creative.json",
+  "totals": {
+    "requests": 282,
+    "completedResponses": 272,
+    "errors": 8,
+    "interruptedRequests": 2,
+    "promptTokens": 9044253,
+    "outputTokens": 346996
+  },
+  "cases": [
+    {
+      "id": "planetary-reducer",
+      "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+      "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+      "category": "blender",
+      "effort": "high",
+      "summaryZh": "齿数、尺寸、渐开线、轴向爆炸及解析运动学通过独立抽样检查；行星架与轴的UV有真实重叠，配合公差未验证，不能称生产或引擎就绪。",
+      "summaryEn": "Independent samples verify tooth counts, dimensions, involute profiles, coaxial explosion and analytic kinematics. Carrier/shaft UVs overlap and fit tolerances remain unverified; this is not a production- or engine-ready asset.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+        "titleZh": "公开题目与规格来源",
+        "titleEn": "Published task and specification",
+        "originalPrompt": "来源概要：按公开机械规格制作单级行星减速器、可检查的装配与同轴爆炸。下面给出本次适配规则；不转载原始附件长文。\nSource summary: a specified single-stage planetary reducer with inspectable assembly and coaxial explosion; full source attachments are not republished.",
+        "originalPromptSha256": "4b2e0fcc930a262160e2804f8bfbeadc8dc98c1df6f80f8f2a8a64e5133104dd",
+        "changesZh": "下方是TOKRACE新增执行规格与来源概要，不是完整第三方原提示。离线重做并公开协议差异，未复用原成品；不是官方benchmark分数。",
+        "changesEn": "Below are TOKRACE execution additions and a source summary, not the full third-party prompt. Offline independent generation with disclosed protocol changes; no original output reuse or official benchmark score."
+      },
+      "prompt": "以下为TOKRACE新增执行条件，并非原benchmark协议：本轮离线，仅本题公开输入，不访问公网或外部模型/资产库；k3.1-pro high，60分钟/50次请求/150000输出token，2线程。使用本机Blender5.2.3、EEVEE。原题的Cycles、OptiX、HDRI下载、采样/分辨率要求改为本次统一协议，必须在README披露；不声称官方BlenderWorld分数或严格复现原渲染管线。完整保留几何结构、尺寸、数量、配合、材质区分及原始UV/LOD等资产需求，不能为填任务数量简化；缺项如实列出。\n先分功能块落盘完整可运行源代码，然后实际后台工厂启动建模/渲染，不使用单次巨型响应。交付final.blend、完整源码/资源、1920×1080主图+两张1600×900不同机位+结构/中性灰模近景；另交6秒1280×720/24fps的turntable.mp4（144帧）。减速器/蒸汽机可用机构运动代转台，但必须明确是运动学，非受力仿真，保留静态检查。先真实预览、view_image检查，最多两轮有效视觉修正，程序报错另记；保留首个预览与失败。视频检查至少6时点与首尾。独立进程重开工程，交artifacts.json/README（原题差异、实际命令版本、未完成项）/真实尺寸与对象清单自检JSON。离线程序材料替代外部图片/HDRI时必须说明；不得用平面或贴图代关键实体。\n\n本题新增可测规格：读取asset_budget.json，全部几何/齿数/名义配合/UV/LOD要求保留。两张不同机位至少一张为同轴爆炸图，灰模近景看清太阳—行星—内圈接触。未实际校核的制造公差只能称名义展示。若运动，保持理论运动学关系，非动力学。\n\n公开说明：这是评测方新增约束及来源概要，原始完整输入本地保留并用SHA-256绑定。原输入/附件请从来源固定链接取回；不是完整实际输入逐字副本。原本地系统配音仅作评测证据，公开版由Kokoro替换旁白，未修模型画面。\nPublic note: these are evaluator additions and a source-summary rerun guide, not the full verbatim input. Full local inputs are hash-bound and source attachments must be retrieved separately. Public Kokoro narration replacement does not repair original imagery.",
+      "promptSha256": "6acb4fbd03f76f248c5ed82ba658b89305605037b2c35817f1e702d31bbfeba0",
+      "metrics": {
+        "requests": 38,
+        "completedResponses": 37,
+        "promptTokens": 1307323,
+        "outputTokens": 38117,
+        "wallMs": 3359518.0
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/01_assembly_1920x1080.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "装配主图",
+          "captionEn": "Assembly hero"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/02_exploded_1920x1080.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "同轴爆炸主图",
+          "captionEn": "Coaxial explosion"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/03_exploded_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "轴向爆炸副图",
+          "captionEn": "Axial explosion alternate"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/04_alternate_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "备用侧机位",
+          "captionEn": "Alternate view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/05_mesh_closeup_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "中性灰模啮合近景",
+          "captionEn": "Neutral mesh closeup"
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/turntable.mp4",
+          "posterPath": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/01_assembly_1920x1080.png",
+          "width": 1280,
+          "height": 720,
+          "captionZh": "6秒解析机构运动；非受力仿真",
+          "captionEn": "Six-second analytic mechanism motion; not dynamics"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/final.blend",
+          "labelZh": "公开工程副本（移除来源附件文本）",
+          "labelEn": "Public project copy (source attachment text removed)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/project-provenance.json",
+          "labelZh": "原/公开工程SHA与结构指纹",
+          "labelEn": "Original/public project hashes and structural fingerprints"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/source.zip",
+          "labelZh": "完整绘制/建模源码ZIP（含必要自制纹理，不含原系统音轨）",
+          "labelEn": "Complete artwork source ZIP (required original textures; no original system audio)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/qa-summary.json",
+          "labelZh": "独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "实测24/3×18/60齿、模数约2mm、20mm齿宽、约20°渐开线，行星中心42mm/120°均布。",
+        "7时点42对BVH表面交叠检查为0；22部件爆炸只沿轴线平移。这不是接触应力或承载认证。",
+        "144帧实际太阳轮/行星架角速比约3.5，内圈固定，行星绝对角速比约−7/3；是解析机构动画，不是相机转台或动力学。",
+        "LOD0/1/2实测160930/22120/9218三角；行星架/轴UV各至少25对正面积相交。公差未验，轻微机加工纹理未实际表达；备用图轴顶裁切。",
+        "公开工程仅删除嵌入的来源附件文本，未改几何/材质/相机/动作/代码；原工程和公开副本SHA及保存后重开指纹见下载记录。"
+      ],
+      "assessmentEn": [
+        "Measured 24/3×18/60 teeth, module about 2mm, 20mm face width, approximately 20° involute profiles and a 42mm/120° planet layout.",
+        "Forty-two sampled BVH surface-pair checks over seven times find no intersections; 22 exploded components move only axially. This is not contact-stress or load certification.",
+        "All 144 frame matrices give sun/carrier ≈3.5, a fixed ring and planet/carrier absolute ratio ≈−7/3: analytic mechanism motion rather than a camera orbit or dynamics.",
+        "Evaluated LOD0/1/2 counts are 160930/22120/9218 triangles. Carrier/shaft UVs each have at least 25 positive-area overlaps. Fit tolerances are unverified, machining microtexture is absent and the alternate view crops the shaft top.",
+        "The public project only removes an embedded source-attachment text; geometry/materials/cameras/actions/code remain unchanged. Original/public hashes and reopened structural fingerprints are downloadable."
+      ],
+      "checks": [
+        {
+          "labelZh": "机械几何与解析运动",
+          "labelEn": "Geometry and analytic motion",
+          "status": "pass",
+          "detailZh": "按原始几何、144帧矩阵、7时点BVH和爆炸位移独立检查。",
+          "detailEn": "Independent native geometry, all-frame matrices, seven-time BVH and explosion checks."
+        },
+        {
+          "labelZh": "UV与生产适用性",
+          "labelEn": "UV and production readiness",
+          "status": "fail",
+          "detailZh": "实际UV相交，制造配合与引擎性能未验；不能用LOD存在替代资产全通过。",
+          "detailEn": "UV intersections confirmed; manufacturing fits and engine performance unverified. LOD presence is not a blanket asset pass."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "high",
+          "status": "model_finished",
+          "requests": 38,
+          "completedResponses": 37,
+          "noteZh": "high自主会话完成；1次请求错误、1条运行时traceback保留。模型自行修改、预览和重渲染均计入；不是单次调用。",
+          "noteEn": "Autonomous high session finished with 1 request error(s) and 1 runtime traceback record(s). Model edits, previews and re-renders are included; this was not a single call.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/attempt-01.json"
+        }
+      ],
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "requestedModel": "k3.1-pro",
+      "inputReferences": [
+        {
+          "destination": "inputs/query.txt",
+          "sha256": "4b2e0fcc930a262160e2804f8bfbeadc8dc98c1df6f80f8f2a8a64e5133104dd",
+          "sourceUrl": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/asset_budget.json",
+          "sha256": "794a984e0cb12a3013bf301b7588cea36572fddebb94ecee0877994687ac2262",
+          "sourceUrl": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/attachments/asset_budget.json",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        }
+      ],
+      "batchId": "kimi-creative-expanded-20261027",
+      "factualSources": [],
+      "projectProvenance": {
+        "caseId": "planetary-reducer",
+        "originalSha256": "99f163b50d6c8d11a20e3f4d1b764a4ae92296dbf7dbfeb9d6aa13bd208ca891",
+        "publicSha256": "d16a9a6f9e7d1f293cf7fec2783d96527b25ef6d7b585cdb68c141bd076fdcb0",
+        "publicProject": "publication/planetary-reducer/final.blend",
+        "sourceUnchanged": true,
+        "removedTextBlocks": [
+          {
+            "name": "INPUT · asset_budget.json",
+            "sha256": "fa2ab04b3b758336433b53d2016bfb2f4e89d7451cdf69d0c7cee94a04b870c5",
+            "bytes": 1878,
+            "originalAttachmentSha256": "794a984e0cb12a3013bf301b7588cea36572fddebb94ecee0877994687ac2262",
+            "sameJsonValue": true,
+            "sameBytes": false,
+            "difference": "JSON indentation/serialization"
+          }
+        ],
+        "beforeFingerprint": {
+          "geometry": "39a989c1475506f9aa56b576c09a137a32790f3a7d62bf3aadccad39085354bb",
+          "cameras": "bfa0b2ed45c2f334270029d608abe8083b23d15eab07761f0dcbf0f103b64448",
+          "materials": "6ace017818c0e217eb3dfe9d31abb4dfe340dbed29bfeaa5f388a1485129f7e0",
+          "lights_world": "82500693997fc9c199d6c10a377709f16f73ed75051db59dca355e1f1b49019c",
+          "animation": "29c8ad6adcbe7da4f5f3ed8ca308dd09aed185026977d116ad05062dd6780195",
+          "other_texts": "431f22b9928792c0738fb70dc2a83ecf31e55cdd44c20b6ed71c4e3c938b4e80"
+        },
+        "afterRemovalFingerprint": {
+          "geometry": "39a989c1475506f9aa56b576c09a137a32790f3a7d62bf3aadccad39085354bb",
+          "cameras": "bfa0b2ed45c2f334270029d608abe8083b23d15eab07761f0dcbf0f103b64448",
+          "materials": "6ace017818c0e217eb3dfe9d31abb4dfe340dbed29bfeaa5f388a1485129f7e0",
+          "lights_world": "82500693997fc9c199d6c10a377709f16f73ed75051db59dca355e1f1b49019c",
+          "animation": "29c8ad6adcbe7da4f5f3ed8ca308dd09aed185026977d116ad05062dd6780195",
+          "other_texts": "431f22b9928792c0738fb70dc2a83ecf31e55cdd44c20b6ed71c4e3c938b4e80"
+        },
+        "afterReopenFingerprint": {
+          "geometry": "39a989c1475506f9aa56b576c09a137a32790f3a7d62bf3aadccad39085354bb",
+          "cameras": "bfa0b2ed45c2f334270029d608abe8083b23d15eab07761f0dcbf0f103b64448",
+          "materials": "6ace017818c0e217eb3dfe9d31abb4dfe340dbed29bfeaa5f388a1485129f7e0",
+          "lights_world": "82500693997fc9c199d6c10a377709f16f73ed75051db59dca355e1f1b49019c",
+          "animation": "29c8ad6adcbe7da4f5f3ed8ca308dd09aed185026977d116ad05062dd6780195",
+          "other_texts": "431f22b9928792c0738fb70dc2a83ecf31e55cdd44c20b6ed71c4e3c938b4e80"
+        },
+        "allStructuralFingerprintsEqual": true,
+        "scope": "Publication copy removes only one embedded source-input text. Model geometry, materials, cameras, light/world settings, all-frame object matrices and remaining source text contents are unchanged.",
+        "notAnArtisticCorrection": true,
+        "autoexecDisabled": true,
+        "submittedModelCodeExecuted": false
+      },
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/qa-summary.json"
+    },
+    {
+      "id": "horizontal-steam-engine",
+      "titleZh": "复古卧式蒸汽机、飞轮连杆与Watt调速器",
+      "titleEn": "Horizontal steam engine, flywheel and Watt governor",
+      "category": "blender",
+      "effort": "high",
+      "summaryZh": "行程、连杆、曲柄及3:1传动的解析数值正确，但活塞越出缸体，调速器下连杆也未随重球连接运动；LOD与12张4K贴图真实存在，UV品质仅部分确认，不能称整机运动学与资产质量全通过。",
+      "summaryEn": "Stroke, rod, crank and 3:1 analytic values hold, but the piston leaves the cylinder and static lower governor links do not follow their balls. LODs and twelve 4K textures exist; UV quality is only partly verified. Whole-mechanism motion and asset quality do not fully pass.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0105/environment/inputs/query.txt",
+        "titleZh": "公开题目与规格来源",
+        "titleEn": "Published task and specification",
+        "originalPrompt": "来源概要：有完整机械规格的复古卧式蒸汽机，包含曲柄连杆、飞轮、Watt调速器、管路与资产预算。\nSource summary: a specified horizontal steam engine with crank linkage, flywheel, Watt governor, piping and asset budgets.",
+        "originalPromptSha256": "46f733406de20668bf8ab71825ef43e931d42ca8d62946befaae89be3ae97ff4",
+        "changesZh": "下方是TOKRACE新增执行规格与来源概要，不是完整第三方原提示。离线重做并公开协议差异，未复用原成品；不是官方benchmark分数。",
+        "changesEn": "Below are TOKRACE execution additions and a source summary, not the full third-party prompt. Offline independent generation with disclosed protocol changes; no original output reuse or official benchmark score."
+      },
+      "prompt": "以下为TOKRACE新增执行条件，并非原benchmark协议：本轮离线，仅本题公开输入，不访问公网或外部模型/资产库；k3.1-pro high，60分钟/50次请求/150000输出token，2线程。使用本机Blender5.2.3、EEVEE。原题的Cycles、OptiX、HDRI下载、采样/分辨率要求改为本次统一协议，必须在README披露；不声称官方BlenderWorld分数或严格复现原渲染管线。完整保留几何结构、尺寸、数量、配合、材质区分及原始UV/LOD等资产需求，不能为填任务数量简化；缺项如实列出。\n先分功能块落盘完整可运行源代码，然后实际后台工厂启动建模/渲染，不使用单次巨型响应。交付final.blend、完整源码/资源、1920×1080主图+两张1600×900不同机位+结构/中性灰模近景；另交6秒1280×720/24fps的turntable.mp4（144帧）。减速器/蒸汽机可用机构运动代转台，但必须明确是运动学，非受力仿真，保留静态检查。先真实预览、view_image检查，最多两轮有效视觉修正，程序报错另记；保留首个预览与失败。视频检查至少6时点与首尾。独立进程重开工程，交artifacts.json/README（原题差异、实际命令版本、未完成项）/真实尺寸与对象清单自检JSON。离线程序材料替代外部图片/HDRI时必须说明；不得用平面或贴图代关键实体。\n\n本题新增可测规格：完整读取brief.md，底座、缸径行程、600mm连杆、1200mm飞轮的6条曲辐、离心调速器、滑阀机构和管路等原规格不缩水。4K材质贴图、UV、SM_命名、hero/LOD1/LOD2预算与运动副轴心需求保留；未完成或未烘焙须公开。不得只用彩色圆柱替代机械关系。增加背面、另一侧与中性灰模近景，观察汽缸—活塞杆—十字头—连杆—曲柄连接。视频可为转台或运动学机构；后者保持300mm行程、150mm曲柄、600mm杆长，不称蒸汽或受力仿真。\n\n公开说明：这是评测方新增约束及来源概要，原始完整输入本地保留并用SHA-256绑定。原输入/附件请从来源固定链接取回；不是完整实际输入逐字副本。原本地系统配音仅作评测证据，公开版由Kokoro替换旁白，未修模型画面。\nPublic note: these are evaluator additions and a source-summary rerun guide, not the full verbatim input. Full local inputs are hash-bound and source attachments must be retrieved separately. Public Kokoro narration replacement does not repair original imagery.",
+      "promptSha256": "d13d8511ebab01c1b79a9d657b3a611c41d62ca85bc611c2069469b7747e1064",
+      "metrics": {
+        "requests": 30,
+        "completedResponses": 29,
+        "promptTokens": 880453,
+        "outputTokens": 35172,
+        "wallMs": 3003296.0
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/hero.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "蒸汽机主图",
+          "captionEn": "Steam-engine hero"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/rear_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "背面机位",
+          "captionEn": "Reverse view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/other_side_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "另一侧机位",
+          "captionEn": "Other-side view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/mechanism_clay_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "机构灰模近景",
+          "captionEn": "Mechanism clay closeup"
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/turntable.mp4",
+          "posterPath": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/hero.png",
+          "width": 1280,
+          "height": 720,
+          "captionZh": "6秒解析机构运动；非受力仿真",
+          "captionEn": "Six-second analytic mechanism motion; not dynamics"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/final.blend",
+          "labelZh": "下载原始可编辑工程",
+          "labelEn": "Original editable project"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/source.zip",
+          "labelZh": "完整绘制/建模源码ZIP（含必要自制纹理，不含原系统音轨）",
+          "labelEn": "Complete artwork source ZIP (required original textures; no original system audio)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/qa-summary.json",
+          "labelZh": "独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "独立144帧检查确认300mm行程、600mm连杆、150mm曲柄及3:1解析传动数值；这是运动学，不是蒸汽、受力或控制系统仿真。",
+        "活塞最多越出缸筒145.0mm；即使计入端法兰仍越出102.5mm，33/144帧整枚活塞位于该总包络之外。正确行程数字不能替代正确缸内装配。 调速器两根下连杆保持静止，最近杆端至对应球心仍差28.31–198.65mm。",
+        "真实LOD三角数为115974/29710/9765；12张4096×4096贴图已打包，但文件分辨率不等于UV与材质生产质量。",
+        "UV密度中位约32768px/m，和自报512不符且面内密度不匀；来源的512只是例值，不将它捏造成唯一硬性目标。UV品质仅部分确认。 全资产UV无重叠未验；灰模偏白、机位有裁切，视频为固定相机。",
+        "标为M12/M16的光杆实际直径约9.600/11.520mm，未建螺纹，不能称对应螺栓配合已验证。"
+      ],
+      "assessmentEn": [
+        "Independent checks over 144 frames confirm a 300mm stroke, 600mm rod, 150mm crank and 3:1 analytic transmission. This is kinematics, not steam, force or control-system simulation.",
+        "The piston extends up to 145.0mm beyond the cylinder barrel, or 102.5mm beyond the envelope including end flanges. In 33 of 144 frames the whole piston lies outside that envelope. Correct stroke values do not establish correct containment. Both lower governor links stay static; even their nearest endpoints miss the matching ball centres by 28.31–198.65mm.",
+        "Actual LOD triangle counts are 115974/29710/9765 and twelve 4096×4096 textures are packed. Image resolution alone does not validate UV or production material quality.",
+        "Median UV density is about 32768px/m, differing from the self-reported 512 with variation within faces. The source gives 512 only as an example, not a unique mandatory target; UV quality is only partly verified. Full-asset UV non-overlap is unverified. Bright clay and cropped views limit inspection; the video uses a fixed camera.",
+        "M12/M16-labelled unthreaded shanks measure about 9.600/11.520mm; the corresponding bolt fits are not verified."
+      ],
+      "checks": [
+        {
+          "labelZh": "核心尺寸与解析数值",
+          "labelEn": "Core dimensions and analytic values",
+          "status": "pass",
+          "detailZh": "144帧实测行程/连杆/曲柄与传动比；不称整机运动学或动力学全通过。",
+          "detailEn": "All-frame stroke/rod/crank/transmission values hold; this is not a whole-mechanism or dynamics pass."
+        },
+        {
+          "labelZh": "活塞与调速器连接",
+          "labelEn": "Piston and governor connections",
+          "status": "fail",
+          "detailZh": "活塞最多越出带端法兰包络102.5mm，33帧整枚位于外部；调速器静止下连杆离球心28.31–198.65mm。",
+          "detailEn": "Piston extends 102.5mm beyond the flange-inclusive envelope and lies wholly outside in 33 frames; static lower governor-link endpoints miss ball centres by 28.31–198.65mm."
+        },
+        {
+          "labelZh": "LOD、4K与UV",
+          "labelEn": "LOD, 4K and UV",
+          "status": "partial",
+          "detailZh": "LOD与4K文件真实存在；UV不匀、自报密度不符、全资产无重叠未验。",
+          "detailEn": "LODs and 4K files exist; UV density varies, contradicts the self-report, and full-asset non-overlap is unverified."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "high",
+          "status": "model_finished",
+          "requests": 30,
+          "completedResponses": 29,
+          "noteZh": "high自主会话完成；1次请求错误、3条运行时traceback保留。模型自行修改、预览和重渲染均计入；不是单次调用。",
+          "noteEn": "Autonomous high session finished with 1 request error(s) and 3 runtime traceback record(s). Model edits, previews and re-renders are included; this was not a single call.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/attempt-01.json"
+        }
+      ],
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "requestedModel": "k3.1-pro",
+      "inputReferences": [
+        {
+          "destination": "inputs/query.txt",
+          "sha256": "46f733406de20668bf8ab71825ef43e931d42ca8d62946befaae89be3ae97ff4",
+          "sourceUrl": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0105/environment/inputs/query.txt",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/brief.md",
+          "sha256": "3f49cf3d9a15b6054a0f65eef5a346e2e8a33f5fe6715a1b49f790cd6dd632c8",
+          "sourceUrl": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0105/environment/inputs/attachments/brief.md",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        }
+      ],
+      "batchId": "kimi-creative-expanded-20261027",
+      "factualSources": [],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/qa-summary.json"
+    },
+    {
+      "id": "two-bedroom-interior",
+      "titleZh": "12×9米两居室装修、多房间与俯视平面",
+      "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+      "category": "blender",
+      "effort": "high",
+      "summaryZh": "5张静帧、6秒视频与工程齐全，但外墙包络实际12.24×9.24m，次卧明显偏大，餐椅及床有接地间隙；文件交付不等于户型与家具尺度通过。",
+      "summaryEn": "Five stills, a six-second video and an editable project are delivered, but wall bounds are 12.24×9.24m, the second bedroom is oversized, and chairs/bed float above the floor. Delivery is not a layout or scale pass.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+        "titleZh": "公开题目与规格来源",
+        "titleEn": "Published task and specification",
+        "originalPrompt": "来源概要：带完整布局附件的现代两居室，要求实际墙体门窗、家具、分房间集合与材料。\nSource summary: a modern two-bedroom interior with a layout attachment, actual walls/openings, furniture, room collections and materials.",
+        "originalPromptSha256": "3947abd2d7e39da19d44da55cc45bb9ceeba7220bd9d25b9ba44485f6f3c8579",
+        "changesZh": "下方是TOKRACE新增执行规格与来源概要，不是完整第三方原提示。离线重做并公开协议差异，未复用原成品；不是官方benchmark分数。",
+        "changesEn": "Below are TOKRACE execution additions and a source summary, not the full third-party prompt. Offline independent generation with disclosed protocol changes; no original output reuse or official benchmark score."
+      },
+      "prompt": "以下为TOKRACE新增执行条件，并非原benchmark协议：本轮离线，仅本题公开输入，不访问公网或外部模型/资产库；k3.1-pro high，60分钟/50次请求/150000输出token，2线程。使用本机Blender5.2.3、EEVEE。原题的Cycles、OptiX、HDRI下载、采样/分辨率要求改为本次统一协议，必须在README披露；不声称官方BlenderWorld分数或严格复现原渲染管线。完整保留几何结构、尺寸、数量、配合、材质区分及原始UV/LOD等资产需求，不能为填任务数量简化；缺项如实列出。\n先分功能块落盘完整可运行源代码，然后实际后台工厂启动建模/渲染，不使用单次巨型响应。交付final.blend、完整源码/资源、1920×1080主图+两张1600×900不同机位+结构/中性灰模近景；另交6秒1280×720/24fps的turntable.mp4（144帧）。减速器/蒸汽机可用机构运动代转台，但必须明确是运动学，非受力仿真，保留静态检查。先真实预览、view_image检查，最多两轮有效视觉修正，程序报错另记；保留首个预览与失败。视频检查至少6时点与首尾。独立进程重开工程，交artifacts.json/README（原题差异、实际命令版本、未完成项）/真实尺寸与对象清单自检JSON。离线程序材料替代外部图片/HDRI时必须说明；不得用平面或贴图代关键实体。\n\n本题新增可测规格：完整读取layout.yaml。户型12×9m、净高2.8m、外墙240mm和隔墙120mm、家具空间要求保持。增加三张室内机位、一张正交顶视和一张门窗/隔墙或家具尺度的灰模近景，因此本题至少5张最终静帧。原题4K/OptiX/Cycles改为本次1920主图、1600副图、EEVEE是公开执行差异。按房间分集合，交可核对墙界、门洞、家具数量和尺寸的JSON。南向大窗与附件通用窗台规格若有解释冲突，说明选择，不能假称唯一真值。\n\n公开说明：这是评测方新增约束及来源概要，原始完整输入本地保留并用SHA-256绑定。原输入/附件请从来源固定链接取回；不是完整实际输入逐字副本。原本地系统配音仅作评测证据，公开版由Kokoro替换旁白，未修模型画面。\nPublic note: these are evaluator additions and a source-summary rerun guide, not the full verbatim input. Full local inputs are hash-bound and source attachments must be retrieved separately. Public Kokoro narration replacement does not repair original imagery.",
+      "promptSha256": "a4627ce3158c5672b60d6b51e1d7da605111ff2d3cdd5991ffa201e1854154e8",
+      "metrics": {
+        "requests": 25,
+        "completedResponses": 25,
+        "promptTokens": 688950,
+        "outputTokens": 27942,
+        "wallMs": 1790871.0
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/01_main_living.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "客餐厅主图",
+          "captionEn": "Living/dining hero"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/02_primary.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "主卧机位",
+          "captionEn": "Primary-bedroom view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/03_kitchen.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "厨房机位",
+          "captionEn": "Kitchen view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/04_plan.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "正交顶视平面",
+          "captionEn": "Orthographic floor plan"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/05_detail.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "结构灰模细节",
+          "captionEn": "Neutral structure detail"
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/turntable.mp4",
+          "posterPath": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/01_main_living.png",
+          "width": 1280,
+          "height": 720,
+          "captionZh": "6秒真实相机环绕同一场景",
+          "captionEn": "Six-second real camera orbit around the same scene"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/final.blend",
+          "labelZh": "下载原始可编辑工程",
+          "labelEn": "Original editable project"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/source.zip",
+          "labelZh": "完整绘制/建模源码ZIP（含必要自制纹理，不含原系统音轨）",
+          "labelEn": "Complete artwork source ZIP (required original textures; no original system audio)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/qa-summary.json",
+          "labelZh": "独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "12×9m仅为地板坯；实际外墙包络12.24×9.24m，与外轮廓要求有差异。",
+        "次卧/书房约19.89m²，对比来源约11m²目标；不把来源约数捏造为精确建筑真值。",
+        "独立地板射线确认餐椅腿25–49mm、床平台66–90mm接地间隙。",
+        "工程可重开且5图与144帧6秒视频真实存在；主卧裁切较紧，灰模与环绕偏暗。UV质量未测，LOD/4K纹理不是本题明示要求。"
+      ],
+      "assessmentEn": [
+        "12×9m is the floor slab; actual external wall bounds are 12.24×9.24m, differing from the exterior requirement.",
+        "The second-bedroom/study footprint is about 19.89m² versus the source’s approximate 11m² target; approximate source areas are not treated as exact architectural truth.",
+        "Independent floor rays measure 25–49mm chair-leg gaps and 66–90mm bed-platform gaps.",
+        "The project reopens and contains five stills plus a 144-frame, six-second video. Bedroom framing is tight; clay/orbit views are dark. UV quality was not checked, and LOD/4K textures are not explicit requirements for this case."
+      ],
+      "checks": [
+        {
+          "labelZh": "户型边界与房间尺度",
+          "labelEn": "Bounds and room scale",
+          "status": "fail",
+          "detailZh": "外墙12.24×9.24m，次卧约19.89m²，未满足原规格。",
+          "detailEn": "Wall bounds are 12.24×9.24m and the second room is about 19.89m², differing from the brief."
+        },
+        {
+          "labelZh": "家具接地与视觉",
+          "labelEn": "Furniture contact and presentation",
+          "status": "fail",
+          "detailZh": "餐椅腿与床平台有实测地面间隙；部分机位暗或裁切。",
+          "detailEn": "Measured chair/bed floor gaps; some views are dark or tightly cropped."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "high",
+          "status": "model_finished",
+          "requests": 25,
+          "completedResponses": 25,
+          "noteZh": "high自主会话完成；0次请求错误、1条运行时traceback保留。模型自行修改、预览和重渲染均计入；不是单次调用。",
+          "noteEn": "Autonomous high session finished with 0 request error(s) and 1 runtime traceback record(s). Model edits, previews and re-renders are included; this was not a single call.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/attempt-01.json"
+        }
+      ],
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "requestedModel": "k3.1-pro",
+      "inputReferences": [
+        {
+          "destination": "inputs/query.txt",
+          "sha256": "3947abd2d7e39da19d44da55cc45bb9ceeba7220bd9d25b9ba44485f6f3c8579",
+          "sourceUrl": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/layout.yaml",
+          "sha256": "3c0820af4c02f74bd9a680fb571c7c9d5f9731b9c14493fd66e4b4caddac68da",
+          "sourceUrl": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/attachments/layout.yaml",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        }
+      ],
+      "batchId": "kimi-creative-expanded-20261027",
+      "factualSources": [],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/qa-summary.json"
+    },
+    {
+      "id": "temple-courtyard",
+      "titleZh": "传统中式寺庙庭院与屋顶结构",
+      "titleEn": "Traditional Chinese temple courtyard and roof structure",
+      "category": "blender",
+      "effort": "high",
+      "summaryZh": "红柱、金色上翘屋檐、成对石狮、青石轴线、钟和灯笼齐全，环绕呈现真实三维空间；主殿屋顶与支撑至少分离70.56mm，部分吊杆未接梁，视觉修正也超过两轮。",
+      "summaryEn": "Red columns, upturned golden roof, paired lions, stone axis, bell and lanterns form a real 3D courtyard. The hall roof is separated from supports by at least 70.56mm; some suspension rods miss structure and visual revisions exceed two rounds.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0120/environment/inputs/query.txt",
+        "titleZh": "公开题目与规格来源",
+        "titleEn": "Published task and specification",
+        "originalPrompt": "来源概要：以红柱金顶主殿为中心的传统寺庙庭院，石狮、青石路径、铜钟与灯笼，黄昏入口斜向视角。原文未给精确建筑尺寸。\nSource summary: a dusk temple courtyard around a red-columned golden-roof hall, with lions, stone path, bell and lanterns; no exact architectural dimensions were specified.",
+        "originalPromptSha256": "a21d6b051543e08ce7b43405090a6ca4f7fd1e1f46f4a4038036f66114c43e11",
+        "changesZh": "下方是TOKRACE新增执行规格与来源概要，不是完整第三方原提示。离线重做并公开协议差异，未复用原成品；不是官方benchmark分数。",
+        "changesEn": "Below are TOKRACE execution additions and a source summary, not the full third-party prompt. Offline independent generation with disclosed protocol changes; no original output reuse or official benchmark score."
+      },
+      "prompt": "以下为TOKRACE新增执行条件，并非原benchmark协议：本轮离线，仅本题公开输入，不访问公网或外部模型/资产库；k3.1-pro high，60分钟/50次请求/150000输出token，2线程。使用本机Blender5.2.3、EEVEE。原题的Cycles、OptiX、HDRI下载、采样/分辨率要求改为本次统一协议，必须在README披露；不声称官方BlenderWorld分数或严格复现原渲染管线。完整保留几何结构、尺寸、数量、配合、材质区分及原始UV/LOD等资产需求，不能为填任务数量简化；缺项如实列出。\n先分功能块落盘完整可运行源代码，然后实际后台工厂启动建模/渲染，不使用单次巨型响应。交付final.blend、完整源码/资源、1920×1080主图+两张1600×900不同机位+结构/中性灰模近景；另交6秒1280×720/24fps的turntable.mp4（144帧）。减速器/蒸汽机可用机构运动代转台，但必须明确是运动学，非受力仿真，保留静态检查。先真实预览、view_image检查，最多两轮有效视觉修正，程序报错另记；保留首个预览与失败。视频检查至少6时点与首尾。独立进程重开工程，交artifacts.json/README（原题差异、实际命令版本、未完成项）/真实尺寸与对象清单自检JSON。离线程序材料替代外部图片/HDRI时必须说明；不得用平面或贴图代关键实体。\n\n本题新增可测规格：本题增加对侧、俯视整体与屋顶/柱梁灰模近景。原题未固定长度，按合理古建尺度自主设计并记录，自定尺度不写成原题。石狮为一对实体，红柱/金顶/上翘屋檐、青石直达路径、铜钟与红灯笼应清楚可辨。\n\n公开说明：这是评测方新增约束及来源概要，原始完整输入本地保留并用SHA-256绑定。原输入/附件请从来源固定链接取回；不是完整实际输入逐字副本。原本地系统配音仅作评测证据，公开版由Kokoro替换旁白，未修模型画面。\nPublic note: these are evaluator additions and a source-summary rerun guide, not the full verbatim input. Full local inputs are hash-bound and source attachments must be retrieved separately. Public Kokoro narration replacement does not repair original imagery.",
+      "promptSha256": "b5d50af2e81570240262133a2cf95e210244803feb16a3ad3528c36c8b1f680e",
+      "metrics": {
+        "requests": 26,
+        "completedResponses": 26,
+        "promptTokens": 549262,
+        "outputTokens": 26664,
+        "wallMs": 1887133.0
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/01_main_1920x1080.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "入口望向主殿",
+          "captionEn": "Entry toward main hall"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/02_reverse_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "主殿背侧机位",
+          "captionEn": "Reverse hall view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/03_overview_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "庭院俯视",
+          "captionEn": "Courtyard overview"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/04_structure_clay_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "屋檐柱梁灰模",
+          "captionEn": "Eaves/columns clay closeup"
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/turntable.mp4",
+          "posterPath": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/01_main_1920x1080.png",
+          "width": 1280,
+          "height": 720,
+          "captionZh": "6秒真实相机环绕同一场景",
+          "captionEn": "Six-second real camera orbit around the same scene"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/final.blend",
+          "labelZh": "下载原始可编辑工程",
+          "labelEn": "Original editable project"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/source.zip",
+          "labelZh": "完整绘制/建模源码ZIP（含必要自制纹理，不含原系统音轨）",
+          "labelEn": "Complete artwork source ZIP (required original textures; no original system audio)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/qa-summary.json",
+          "labelZh": "独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "14根红柱、2组可辨石狮、45块步道石板、1个铜钟和10盏灯笼经独立几何/多视角确认；前檐角比中心抬高约0.58m。",
+        "205个主屋顶对象最低Z5.0255566m；347个预期主殿支撑最高Z4.9549999m，全局间隔70.56mm。",
+        "4盏主殿灯笼吊杆向上359–378mm才遇结构；钟亭至少4盏正确接梁，不能说灯笼全缺失或全悬挂正确。",
+        "主图山门遮挡主殿下部和石狮，其他机位补足；1974对象全部同一Collection，3批视觉修正超过冻结的2轮上限。首轮真实预览由harness保留。"
+      ],
+      "assessmentEn": [
+        "Independent geometry and multiple views confirm 14 red columns, two recognizable lions, 45 path slabs, one bell and ten lanterns; eave corners rise about 0.58m above center.",
+        "The 205 roof objects start at Z5.0255566m while 347 intended hall supports end at Z4.9549999m, a 70.56mm global gap.",
+        "Four hall suspension rods have 359–378mm upward structural gaps; at least four pavilion lanterns meet beams. Do not call all lanterns absent or all correctly hung.",
+        "The gate obscures the lower hall/lions in the hero view; other views clarify them. All 1974 objects share one Collection and three visual correction batches exceed the frozen two-round limit. The actual first preview survives in harness evidence."
+      ],
+      "checks": [
+        {
+          "labelZh": "真实形体与主要元素",
+          "labelEn": "Real geometry and required elements",
+          "status": "pass",
+          "detailZh": "石狮、上翘屋顶与空间在侧后及俯视可复核。",
+          "detailEn": "Lions, upturned roof and spatial layout corroborated from reverse and overhead views."
+        },
+        {
+          "labelZh": "支承与修正预算",
+          "labelEn": "Contact and revision budget",
+          "status": "fail",
+          "detailZh": "屋顶70.56mm分离、部分灯笼吊杆不接梁；3批视觉修正。",
+          "detailEn": "70.56mm roof separation, some disconnected suspension rods and three visual correction batches."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "high",
+          "status": "model_finished",
+          "requests": 26,
+          "completedResponses": 26,
+          "noteZh": "high自主会话完成；0次请求错误、3条运行时traceback保留。模型自行修改、预览和重渲染均计入；不是单次调用。",
+          "noteEn": "Autonomous high session finished with 0 request error(s) and 3 runtime traceback record(s). Model edits, previews and re-renders are included; this was not a single call.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/attempt-01.json"
+        }
+      ],
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "requestedModel": "k3.1-pro",
+      "inputReferences": [
+        {
+          "destination": "inputs/query.txt",
+          "sha256": "a21d6b051543e08ce7b43405090a6ca4f7fd1e1f46f4a4038036f66114c43e11",
+          "sourceUrl": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0120/environment/inputs/query.txt",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        }
+      ],
+      "batchId": "kimi-creative-expanded-20261027",
+      "factualSources": [],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/qa-summary.json"
+    },
+    {
+      "id": "jupiter-drydock",
+      "titleZh": "木星轨道巨舰维修船坞",
+      "titleEn": "Jovian orbital starship repair dock",
+      "category": "blender",
+      "effort": "high recovery; max failures retained",
+      "summaryZh": "两次 max 尝试未交付完整场景；独立 high 恢复交付工程和四机位图。结构细节存在，但两名宇航员悬在甲板上方，栏杆比例失真，不能记为几何与尺度全通过。",
+      "summaryEn": "Two max attempts did not deliver a complete scene. A separate high recovery produced the project and four views, but floating crew and oversized handrails prevent a geometry/scale pass.",
+      "source": {
+        "url": "https://www.woshipm.com/evaluating/6483980.html",
+        "titleZh": "题目来源：作者原案例",
+        "titleEn": "Original creator case",
+        "originalPrompt": "来源概要（非原文转载）：以木星为背景，制作巨舰在环形船坞维修的工业科幻场景，交付工程、多机位和内部灰模近景。\nSource summary, not a quotation: an industrial orbital ship-repair scene near Jupiter, with an editable project, multiple views and a neutral internal-structure close-up. See the linked creator report for the full source brief.",
+        "originalPromptSha256": "93a8724df0253fe95a3864cd8b2b075435b69a499043237ab1bb15971c0ec730",
+        "changesZh": "本次新增与改动见下方公开复跑规格；来源演示不是本站实测结果，本站不复用原作者成品。",
+        "changesEn": "The public rerun specification below records our adaptations. Source demonstrations are not TOKRACE results; we generated independent outputs."
+      },
+      "prompt": "评测方公开复跑规格概要（不是原题逐字转载）：在木星轨道创建原创维修船坞，巨舰约 1.5km、半开放船坞约 3km；舰尾暴露真实框架、设备和管线，至少三条有底座/关节/工具的机械臂。前景栈桥含两名宇航员，按人—设施—巨舰—船坞表现尺度。保留功能集合，交付可编辑工程、1920×1080 主图、两个不同方向图和中性内部近景。使用独立后台 Blender 5.2.3 EEVEE；先看灰模预览，最多两轮视觉修正，错误另记。max 的 600/900 秒失败与 high 的 900 秒恢复独立保留，完整原题按链接与哈希查询。\n\n公开说明：上述是评测方适配规格与概要，省略第三方原题长文，不是完整实际输入逐字副本。初始请求使用 k3.1-pro、max_tokens=32768；每题独立空目录与隔离工具环境。模型自行写代码、执行和看图；失败与重试不覆盖。除木星独立 high 恢复外，其余为明确请求 max。使用 Coding 订阅额度，金额和失败请求的最终用量未知。原始完整输入的哈希与每次请求元数据在独立摘要中。\n\nPublic note: this is the evaluator adaptation and source-summary rerun guide, not the full verbatim input. Original complete inputs are retained locally and hash-bound. The original local videos used macOS system voices; public narration replacements are separately identified and are not additional Kimi evaluation calls.",
+      "promptSha256": "100497e84f30f135dcb378b247ad90b7f49662730600e34ec9eb9bd11b4a3e10",
+      "metrics": {
+        "requests": 27,
+        "completedResponses": 22,
+        "promptTokens": 395709,
+        "outputTokens": 25867,
+        "wallMs": 3011244.0
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/01_main.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "主视角：船坞、巨舰与木星",
+          "captionEn": "Main view: dock, starship and Jupiter"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/02_opposite_quarter.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "反向四分之三机位",
+          "captionEn": "Opposite three-quarter view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/03_stern_inspection.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "舰尾检查机位",
+          "captionEn": "Stern inspection view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/04_engine_clay.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "中性灰模：发动机内部结构",
+          "captionEn": "Neutral clay view: internal engine geometry"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/jupiter_drydock.blend",
+          "labelZh": "下载船坞 .blend",
+          "labelEn": "Dock .blend"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/source.zip",
+          "labelZh": "下载原始源码 ZIP",
+          "labelEn": "Original source ZIP"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/qa-summary.json",
+          "labelZh": "下载独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "独立检查发现 673 个对象、9 个功能集合和 4 组完整机械臂；发动机包含 105 个网格与 13 条曲线，细节主要是真实几何。",
+        "沿实际倾斜甲板法线测量，两名宇航员靴底均距甲板顶面约 0.500m；栏杆顶距甲板 17.450m，是 2.068m 人物高度的约 8.44 倍。",
+        "主视角与灰模近景有助于展示结构；部分彩色辅视角偏暗。行星材质只作艺术表现，未按天文准确性评分。"
+      ],
+      "assessmentEn": [
+        "Independent inspection found 673 objects, nine functional collections and four complete arm groups; the engine includes 105 meshes and 13 curves, rather than only painted detail.",
+        "Evaluated geometry along the tilted deck normal places both astronauts' boots about 0.500m above the deck. The handrail top is 17.450m above it, about 8.44× the 2.068m crew height.",
+        "The main view and neutral close-up reveal structure; some colored supporting views are dark. The planet material is artistic and was not graded for astronomical accuracy."
+      ],
+      "checks": [
+        {
+          "labelZh": "工程与真实结构",
+          "labelEn": "Project and actual geometry",
+          "status": "pass",
+          "detailZh": "重开工程并核查对象、集合、机械臂、发动机内部；未发现外部图像/字体/缓存依赖。",
+          "detailEn": "The reopened project contains organized objects, arms and engine geometry, with no external image/font/cache dependencies."
+        },
+        {
+          "labelZh": "接触关系与尺度",
+          "labelEn": "Contact and scale",
+          "status": "fail",
+          "detailZh": "人物离开甲板约 0.500m；栏杆与人物比例失真。实际存在几何不等于工程连接合理。",
+          "detailEn": "Crew float about 0.500m above the deck and handrails are oversized. Geometry presence does not establish plausible engineering connections."
+        }
+      ],
+      "requestedModel": "k3.1-pro",
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "factualSources": [],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "max",
+          "status": "stopped-after-request-timeout",
+          "requests": 6,
+          "completedResponses": 3,
+          "noteZh": "max：保留 600 秒请求超时、一次网络错误及一个中断的自动重试；未交付完整场景。失败/中断的最终用量未知。",
+          "noteEn": "max: a 600-second deadline, a network error and one interrupted automatic retry are retained; no complete scene was delivered. Final failed/interrupted usage is unknown.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/attempt-01.json"
+        },
+        {
+          "id": "attempt-02",
+          "effort": "max",
+          "status": "stopped-after-request-timeout",
+          "requests": 3,
+          "completedResponses": 1,
+          "noteZh": "max：独立恢复提高到 900 秒，仍未交付场景；一个后续请求中断。初始 partial usage 不是最终账单。",
+          "noteEn": "max: a separate 900-second recovery still did not deliver a scene; one later request was interrupted. Initial partial usage is not final consumption.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/attempt-02.json"
+        },
+        {
+          "id": "attempt-03",
+          "effort": "high",
+          "status": "model_finished",
+          "requests": 18,
+          "completedResponses": 18,
+          "noteZh": "high：改档后的独立恢复取得工程和四机位图；不是 max 成功，也不是受控的 effort 优劣比较。运行时文件缺失错误与修复仍保留。",
+          "noteEn": "high: a changed-setting recovery delivered the editable project and four views. This is not a max success or a controlled effort comparison; a runtime missing-file error and repair remain recorded.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/attempt-03.json"
+        }
+      ],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/qa-summary.json"
+    },
+    {
+      "id": "bookshelf",
+      "titleZh": "参数化书架及参数修改",
+      "titleEn": "Parametric bookshelf and parameter revision",
+      "category": "blender",
+      "effort": "max",
+      "summaryZh": "基础版和修改版的尺寸、板厚与等高净空储物格通过独立几何检查。参数由 Python 命令行重建，不能把工程属性面板当成实时参数编辑器。",
+      "summaryEn": "Both variants pass independent dimensions, board-thickness and equal-clearance checks. Parameters rebuild through the Python CLI; the project property panel is not a live parametric editor.",
+      "source": {
+        "url": "https://vercel.com/changelog/kimi-k3-1-pro-and-kimi-k3-1-pro-highspeed-are-available-now-in-ai-gateway",
+        "titleZh": "题目来源：官方示例",
+        "titleEn": "Official integration example",
+        "originalPrompt": "Short source quote: “Write a Blender script that models a parametric bookshelf.”\n来源为 Vercel 的官方接口代码示例，并非一份已公开的渲染作品。 / This is an official API example, not a published rendered artwork.",
+        "originalPromptSha256": "86151fda84cd34fb1612185d4bf3edc051e49c38fd163d190b9acf2ae186f079",
+        "changesZh": "本次新增与改动见下方公开复跑规格；来源演示不是本站实测结果，本站不复用原作者成品。",
+        "changesEn": "The public rerun specification below records our adaptations. Source demonstrations are not TOKRACE results; we generated independent outputs."
+      },
+      "prompt": "保留官方原题，增加下列可验收要求：\n使用Blender原生几何制作可编辑木质书架，交付一个可通过命令行参数重建的Python脚本。\n基础版外框宽800、深300、高1200毫米；全部板厚18毫米；由2块侧板、1块顶板、1块底板、2块内部水平隔板组成，形成3个等高净空储物格；无背板、无额外脚。顶底板嵌在两侧板之间，所有外边界尺寸必须一致。每块板独立命名，集中放在Bookcase集合；展示道具可有少量书，但不得混入Bookcase集合影响测量。\n脚本公开width_mm、depth_mm、height_mm、thickness_mm、compartments、wood_color参数。用同一脚本再生成宽1000、高1200、深300、板厚18、4个等高储物格的修改版，不要另写独立几何代码。\n交付baseline.blend和modified.blend、对应真实尺寸/对象清单JSON、至少3张1920×1080图片（基础版主视角、背面、修改版主视角），和清楚说明层数语义的README。模型背面要可检查，不能用背景平面代替实际建模。\n先渲染低分辨率预览并用view_image检查。最多两轮有效视觉修正；执行报错可以另行修复。最终用独立Blender进程重开两个工程，确认集合、材质、相机和可测尺寸。保留脚本、预览、日志，不制作动画。\n\n公开说明：上述是评测方适配规格与概要，省略第三方原题长文，不是完整实际输入逐字副本。初始请求使用 k3.1-pro、max_tokens=32768；每题独立空目录与隔离工具环境。模型自行写代码、执行和看图；失败与重试不覆盖。除木星独立 high 恢复外，其余为明确请求 max。使用 Coding 订阅额度，金额和失败请求的最终用量未知。原始完整输入的哈希与每次请求元数据在独立摘要中。\n\nPublic note: this is the evaluator adaptation and source-summary rerun guide, not the full verbatim input. Original complete inputs are retained locally and hash-bound. The original local videos used macOS system voices; public narration replacements are separately identified and are not additional Kimi evaluation calls.",
+      "promptSha256": "e70b753db31dae2f8f83a0a1f1f70fa116f19b051f21e3a6b148879fd5f1ea4f",
+      "metrics": {
+        "requests": 28,
+        "completedResponses": 27,
+        "promptTokens": 751885,
+        "outputTokens": 39960,
+        "wallMs": 1506158.0
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/baseline_main.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "基础版主视角：800mm、三格",
+          "captionEn": "Baseline front: 800mm, three compartments"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/baseline_rear.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "基础版背面：检查开放结构",
+          "captionEn": "Baseline rear: exposed open-backed construction"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/modified_main.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "修改版：1000mm、四格",
+          "captionEn": "Modified: 1000mm, four compartments"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/baseline.blend",
+          "labelZh": "下载基础版 .blend",
+          "labelEn": "Baseline .blend"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/modified.blend",
+          "labelZh": "下载修改版 .blend",
+          "labelEn": "Modified .blend"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/source.zip",
+          "labelZh": "下载原始源码 ZIP",
+          "labelEn": "Original source ZIP"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/qa-summary.json",
+          "labelZh": "下载独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "两次独立打开工程，验证 800×300×1200mm / 三格和 1000×300×1200mm / 四格，板厚均为 18mm，容差 0.1mm。",
+        "板件独立命名，展示道具与结构分集合；背面机位可检查开放式结构。",
+        "视觉效果统一、产品展示清楚，但场景复杂度有限；只测试了两组参数。"
+      ],
+      "assessmentEn": [
+        "Independent opens verify 800×300×1200mm / three compartments and 1000×300×1200mm / four compartments, with 18mm boards and 0.1mm tolerance.",
+        "Named panels remain separate from display props; the rear view exposes the open-backed construction.",
+        "The product visualization is coherent, but structurally simple; only two parameter sets were tested."
+      ],
+      "checks": [
+        {
+          "labelZh": "外边界、板厚、净空",
+          "labelEn": "Exterior, thickness and clearances",
+          "status": "pass",
+          "detailZh": "独立检查两版尺寸与等高储物格；不是任意参数空间的保证。",
+          "detailEn": "Both variants pass independent checks; this does not validate arbitrary parameter combinations."
+        },
+        {
+          "labelZh": "可编辑与改稿",
+          "labelEn": "Editability and revision",
+          "status": "partial",
+          "detailZh": "原生板件可编辑；参数修改通过脚本重新生成，UI 自定义属性未驱动实时几何。",
+          "detailEn": "Native panels are editable; parameter changes rebuild via script, while UI custom properties do not drive live geometry."
+        }
+      ],
+      "requestedModel": "k3.1-pro",
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "factualSources": [],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "max",
+          "status": "model_finished",
+          "requests": 28,
+          "completedResponses": 27,
+          "noteZh": "自主会话完成；保留 1 次请求错误和 0 条运行时 traceback 记录，未把整个会话称为一次调用。模型自行修改与重渲染计入本题用量。",
+          "noteEn": "The autonomous session finished with 1 request error(s) and 0 recorded runtime traceback(s). It is not a single model call; autonomous edits and re-renders are included.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/bookshelf/attempt-01.json"
+        }
+      ],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/bookshelf/qa-summary.json"
+    },
+    {
+      "id": "circulation",
+      "titleZh": "大气环流：三圈如何转，风为何偏",
+      "titleEn": "Atmospheric circulation: three cells and deflected winds",
+      "category": "knowledge-video",
+      "effort": "high",
+      "summaryZh": "90秒视频的三圈次序、主要闭合流向及Ferrel间接驱动表述基本正确；Coriolis段南北半球却沿同一有向曲线运动，未画对北右南左，属于科学动画失败。",
+      "summaryEn": "The 90-second film largely gets cell order, closed circulation and indirect Ferrel driving right, but both hemisphere panels follow the same oriented Coriolis curve. It fails to depict northern-right/southern-left deflection.",
+      "source": {
+        "url": "https://x.com/akokoi1/status/2102606609574941028",
+        "titleZh": "创作者公开案例与提示来源",
+        "titleEn": "Creator demo and public prompt",
+        "originalPrompt": "来源概要：作者自述使用Opus 5.5制作大气环流讲解，并公开创作提示；来源视频实测288.133秒。我们仅据公开题意独立生成，没有取用原片工程，未独立确认原作者后台模型身份。\nSource summary: the creator attributes the circulation demo to Opus 5.5; its public video measures 288.133 seconds. We independently generate from the brief without reusing the original project or independently verifying the creator’s backend model identity.",
+        "originalPromptSha256": "b021ced84260e927afb5f3cc86e16892c9957aa363def7c92ee2f5b012d3e897",
+        "changesZh": "下方是TOKRACE新增执行规格与来源概要，不是完整第三方原提示。离线重做并公开协议差异，未复用原成品；不是官方benchmark分数。",
+        "changesEn": "Below are TOKRACE execution additions and a source summary, not the full third-party prompt. Offline independent generation with disclosed protocol changes; no original output reuse or official benchmark score."
+      },
+      "prompt": "本次追加规格（与公开作者原prompt分开；以此消解原prompt中在线TTS配置要求）\n任务：制作75–90秒中文大气环流知识短片，目标约90秒。保留线稿动画、中英双语字幕、合适的轻量程序化音乐，交付可直接导出的完整视频。\n变化说明：原作者案例为Opus5.5、288.133秒1920×1080；本次改用Kimi K3.1 Pro，压缩为75–90秒，TTS换为本地macOS Tingting，因此TTS.md、.env/APIKEY/VOICE和云水印参数均不适用。不是原片逐镜头复刻。\n画幅1920×1080，30fps，有中文配音、烧录中英字幕及SRT。配音只用本地Tingting，不等待key；音乐若制作需程序化且旁白优先。\n内容：解释不均匀加热和理想化三圈环流，重点画北半球0/约30/约60/90度的剖面。气团须沿每个闭合路径连续运动；对应地表信风、西风和极地东风，箭头与旁白一致。另用很短的地球/平面方向图解释北半球偏向运动方向的右侧，而不是‘永远向东’。注明南半球偏左以及真实气流比理想模型复杂、纬度边界会移动。以高中生能理解的方式讲一个实际含义，如副热带下沉与干燥。\n不得把Ferrel环流说成简单独立热对流；不要求完整天气预报或喷流专题。纬度30/60为示意近似，不是固定自然边界。\n执行只用已提供facts、Pillow/NumPy+FFmpeg、本地Tingting；只读inputs，不联网或安装陌生代码。从空目录自行编写原创制片源码。\n交付MP4、旁白WAV、SRT、讲稿、完整源码、重建说明、工具/素材来源、至少8张实际编码成片代表帧（包括三圈路径关键状态和结尾）。每次失败与重试要保留，不手工替模型修动画。\n\n\n公开说明：这是评测方新增约束及来源概要，原始完整输入本地保留并用SHA-256绑定。原输入/附件请从来源固定链接取回；不是完整实际输入逐字副本。原本地系统配音仅作评测证据，公开版由Kokoro替换旁白，未修模型画面。\nPublic note: these are evaluator additions and a source-summary rerun guide, not the full verbatim input. Full local inputs are hash-bound and source attachments must be retrieved separately. Public Kokoro narration replacement does not repair original imagery.",
+      "promptSha256": "54e042555ee878d98e39535585e04fec643e0ce62c3f1b824df591978061fc52",
+      "metrics": {
+        "requests": 21,
+        "completedResponses": 21,
+        "promptTokens": 486031,
+        "outputTokens": 14951,
+        "wallMs": 620127.0
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/circulation/video.mp4",
+          "posterPath": "/evaluations/kimi-k3-1-pro-creative/circulation/poster.jpg",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "默认配乐／音效版；原模型画面未改，历史旁白可主动选择。",
+          "captionEn": "Music/effects by default; original picture unchanged, legacy narration available by explicit choice.",
+          "captionsPath": "/evaluations/kimi-k3-1-pro-creative/circulation/captions.vtt",
+          "captionsLanguage": "zh-CN",
+          "provenance": {
+            "originalSha256": "99acfa844c97c33ad2e7f820c6acc3a792d26c912230120e52f3072f505595a5",
+            "sha256": "3879b0a0c5713022bf1a15931b6871c74b95b8bf217f3b43e75791f590a60a21",
+            "noteZh": "本次只用独立程序背景音替换混合音轨；H264 包字节与时序逐项一致，原画面错误保留。不是 Kimi 重跑或评分修订。历史公开 Kokoro 旁白仍为可选项，原始系统音色仅留本地。",
+            "noteEn": "Only the mixed soundtrack is replaced with independent procedural music/effects. H264 packet bytes and timing match exactly; picture defects remain. This is not a Kimi rerun or rescore. Historical public Kokoro narration is optional; original system voices remain local."
+          },
+          "narrationPath": "/evaluations/kimi-k3-1-pro-creative/circulation/video.mp4",
+          "audioMode": "music-only",
+          "audioNoteZh": "默认无口播；保留原模型代码生成的和弦与低音脉冲。画面文字与字幕保留。",
+          "audioNoteEn": "No speech by default; retains the original model-code chords and soft bass pulses. On-screen text and captions remain."
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/circulation/frame-03-30.000s.jpg",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "三圈实际成片帧",
+          "captionEn": "Actual three-cell frame"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/circulation/coriolis-63.50s.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "失败证据：同向Coriolis曲线",
+          "captionEn": "Failure evidence: identical Coriolis direction"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/circulation/provenance.json",
+          "labelZh": "无口播版音频来源与画面一致性",
+          "labelEn": "Nonverbal audio provenance and picture integrity"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/circulation/public-audio-provenance.json",
+          "labelZh": "公开配音来源与原/派生SHA",
+          "labelEn": "Narration sources and original/derived hashes"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/circulation/captions.srt",
+          "labelZh": "公开配音字幕SRT",
+          "labelEn": "Public narration SRT"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/circulation/captions.vtt",
+          "labelZh": "公开字幕WebVTT",
+          "labelEn": "Public subtitle WebVTT"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/circulation/source.zip",
+          "labelZh": "完整绘制/建模源码ZIP（含必要自制纹理，不含原系统音轨）",
+          "labelEn": "Complete artwork source ZIP (required original textures; no original system audio)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/circulation/qa-summary.json",
+          "labelZh": "独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "0/约30/约60/90的次序与三圈升降/地表/高空方向成立；说明每半球三圈、边界移动及理想多年平均。",
+        "58–69秒南北面板只改文字颜色，同一曲线/气团方向；南半球说向南却也向画面上方运动。正确旁白不能修正错误路径。",
+        "三圈路径闭合连续；另一个开放Coriolis演示约64.25秒回跳。曲线低支在地面基线下约51px，示意清晰度仍有问题。",
+        "中英字幕抽样在画内；英文22px在手机上偏小。未宣称逐词全面试听。公开配音替换保留画面和科学错误。",
+        "播放修订：默认关闭口播并恢复原模型程序背景音；仅换音，不改变上述知识与画面验收。"
+      ],
+      "assessmentEn": [
+        "The 0/about30/about60/90 order and cell rising/sinking/surface/upper directions are consistent; the script states three cells per hemisphere, shifting boundaries and a long-term-average idealization.",
+        "At 58–69s both hemisphere panels reuse the same path/traversal with changed labels/colors; the southern example says southward while moving upward. Correct words do not repair the trajectory.",
+        "Three cell routes close continuously; a separate open Coriolis path jumps back near 64.25s. Lower branches extend about 51px below the drawn ground line.",
+        "Sampled bilingual captions remain on screen, though 22px English can be small on phones. No exhaustive word-level listening is claimed. Public replacement narration preserves picture/scientific errors.",
+        "Playback revision: narration is off by default and original procedural background audio is restored. This changes audio only, not the knowledge or picture findings above."
+      ],
+      "checks": [
+        {
+          "labelZh": "三圈流向与解释边界",
+          "labelEn": "Cell flow and explanatory limits",
+          "status": "pass",
+          "detailZh": "三圈主要路径、次序、Ferrel间接驱动和理想化边界说明成立。",
+          "detailEn": "Main cell directions/order, indirect Ferrel driving and idealization caveats are supported."
+        },
+        {
+          "labelZh": "Coriolis运动",
+          "labelEn": "Coriolis animation",
+          "status": "fail",
+          "detailZh": "北右南左文字正确，但南北气团使用同一有向曲线。",
+          "detailEn": "Correct north-right/south-left wording but identical oriented curves for both hemispheres."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "high",
+          "status": "model_finished",
+          "requests": 21,
+          "completedResponses": 21,
+          "noteZh": "high自主会话完成；0次请求错误、4条运行时traceback保留。模型自行修改、预览和重渲染均计入；不是单次调用。",
+          "noteEn": "Autonomous high session finished with 0 request error(s) and 4 runtime traceback record(s). Model edits, previews and re-renders are included; this was not a single call.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/circulation/attempt-01.json"
+        }
+      ],
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "requestedModel": "k3.1-pro",
+      "inputReferences": [
+        {
+          "destination": "inputs/circulation-original-prompt.txt",
+          "sha256": "b021ced84260e927afb5f3cc86e16892c9957aa363def7c92ee2f5b012d3e897",
+          "sourceUrl": "https://x.com/akokoi1/status/2102606609574941028",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/circulation-additions.txt",
+          "sha256": "5c7779a7171e641a518d2b8f7a7f3ae2b87f0b52836aefe3d11d3adf930c8999",
+          "sourceUrl": "https://x.com/akokoi1/status/2102606609574941028",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/circulation-facts-metoffice-excerpt.txt",
+          "sha256": "bf76dbd471d0f9d9fddf32fd6d3a83d14c8e4e3aa3cf264d5f3ff95b76d7b17a",
+          "sourceUrl": "https://x.com/akokoi1/status/2102606609574941028",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/production-principles.txt",
+          "sha256": "0fc933e1998e4deb9e86a45f8f8022645d6fad39675b2c5c834f39665f730987",
+          "sourceUrl": "https://x.com/akokoi1/status/2102606609574941028",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        }
+      ],
+      "batchId": "kimi-creative-expanded-20261027",
+      "factualSources": [
+        "https://weather.metoffice.gov.uk/learn-about/weather/atmosphere/global-circulation-patterns"
+      ],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/circulation/qa-summary.json"
+    },
+    {
+      "id": "derivative",
+      "titleZh": "导数：割线怎样变成切线",
+      "titleEn": "Derivatives: a secant approaching the tangent",
+      "category": "knowledge-video",
+      "effort": "high",
+      "summaryZh": "89.167秒成片的核心数学通过：P/Q、正负h差商、极限、切线和x=2答案正确。仍有标签碰撞、负h段回跳、缺字与线条越出图面，不能称排版与连续性全通过。",
+      "summaryEn": "Core mathematics in the 89.167-second film passes: P/Q, signed difference quotients, limit, tangent and the x=2 answer are correct. Label collisions, a negative-h reset, a missing glyph and lines crossing plot margins remain.",
+      "source": {
+        "url": "https://x.com/LinearUncle/status/2103128559174971663",
+        "titleZh": "创作者公开案例与提示来源",
+        "titleEn": "Creator demo and public prompt",
+        "originalPrompt": "来源概要：作者自述用Opus 5.5/Manim制作导数学习视频，来源片实测457秒；要求通俗、举例并引发思考。我们保留题意，独立压缩为一个机制，未独立确认原作者后台模型身份。\nSource summary: the creator attributes the derivative demo to Opus 5.5/Manim; its public video measures 457 seconds. We independently shorten its accessible, example-based brief to one mechanism without independently verifying the creator’s backend model identity.",
+        "originalPromptSha256": "5287dcf00a500b81f8363e9f8cfebeb93a90fd8f13440efe4ce0425bd0895383",
+        "changesZh": "下方是TOKRACE新增执行规格与来源概要，不是完整第三方原提示。离线重做并公开协议差异，未复用原成品；不是官方benchmark分数。",
+        "changesEn": "Below are TOKRACE execution additions and a source summary, not the full third-party prompt. Offline independent generation with disclosed protocol changes; no original output reuse or official benchmark score."
+      },
+      "prompt": "本次追加规格（与公开作者原prompt分开）\n制作75–90秒中文导数概念学习短片，目标约90秒。原作者为Opus5.5+Manim、edge-tts，公开视频457秒1920×1080；本次改为Kimi K3.1 Pro，只保留‘通俗易懂、有例子、引人思考’的主题要求，压缩成一个机制并用本地Tingting替换edge-tts。不得称作完整原片复刻或Manim基准。\n本轮不安装Manim/Remotion；使用Pillow、NumPy、FFmpeg离线原创动画。1920×1080、30fps、中文旁白、中文烧录字幕及SRT；轻量程序化音乐可选，旁白优先。\n机制核心：以f(x)=x^2在P=(1,1)处为例。持续移动Q=(1+h,(1+h)^2)，同步更新割线、斜率三角形、h值与差商数值。让正h逐步缩小，随后演示非零负h从另一侧靠近；最后得到斜率2、切线y=2x-1。不得在h=0直接除0，不把多个互不连续的静态卡片当作割线向切线的过程。\n开头提出具体问题‘这一瞬间到底有多陡’，结尾让观众预测f(x)=x^2在x=2的斜率并给短暂停留，随后给答案或明确为思考题。图上刻度、位置、线斜率和数值必须来自同一数学状态；负h的水平与垂直变化要保持符号一致。\n交付MP4、旁白WAV、SRT、讲稿、完整原创源码、可重建命令和环境说明、工具/来源说明，至少8张从实际编码MP4抽取的代表帧，覆盖h较大、趋近、负h、切线、结尾。每次失败/重试保留。\n源事实和技巧已在inputs，执行不得联网或安装陌生代码，不等待key。\n\n\n公开说明：这是评测方新增约束及来源概要，原始完整输入本地保留并用SHA-256绑定。原输入/附件请从来源固定链接取回；不是完整实际输入逐字副本。原本地系统配音仅作评测证据，公开版由Kokoro替换旁白，未修模型画面。\nPublic note: these are evaluator additions and a source-summary rerun guide, not the full verbatim input. Full local inputs are hash-bound and source attachments must be retrieved separately. Public Kokoro narration replacement does not repair original imagery.",
+      "promptSha256": "f331e0e46d1a51df29d0d9610d0b87f1bd8a9365b599b3b277ed29e9b9272279",
+      "metrics": {
+        "requests": 20,
+        "completedResponses": 20,
+        "promptTokens": 346365,
+        "outputTokens": 13161,
+        "wallMs": 1557102.0
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/derivative/video.mp4",
+          "posterPath": "/evaluations/kimi-k3-1-pro-creative/derivative/poster.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "默认配乐／音效版；原模型画面未改，历史旁白可主动选择。",
+          "captionEn": "Music/effects by default; original picture unchanged, legacy narration available by explicit choice.",
+          "captionsPath": "/evaluations/kimi-k3-1-pro-creative/derivative/captions.vtt",
+          "captionsLanguage": "zh-CN",
+          "provenance": {
+            "originalSha256": "f807b3b5f441b26670df6eeda5ff876633cd7df544f5e83bb1a844f64917e575",
+            "sha256": "8ddbd5ae5e2a9dc6b37468508454885cd28e467e900c6f7c19898e079962367d",
+            "noteZh": "本次只用独立程序背景音替换混合音轨；H264 包字节与时序逐项一致，原画面错误保留。不是 Kimi 重跑或评分修订。历史公开 Kokoro 旁白仍为可选项，原始系统音色仅留本地。",
+            "noteEn": "Only the mixed soundtrack is replaced with independent procedural music/effects. H264 packet bytes and timing match exactly; picture defects remain. This is not a Kimi rerun or rescore. Historical public Kokoro narration is optional; original system voices remain local."
+          },
+          "narrationPath": "/evaluations/kimi-k3-1-pro-creative/derivative/video.mp4",
+          "audioMode": "music-only",
+          "audioNoteZh": "默认无口播；保留原模型代码生成的缓慢起伏的三频正弦音床。画面文字与字幕保留。",
+          "audioNoteEn": "No speech by default; retains the original model-code a slowly modulated three-frequency sine bed. On-screen text and captions remain."
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/derivative/content-frame-28.000s.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "差商与标签碰撞实际帧",
+          "captionEn": "Actual quotient and label collision"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/derivative/content-frame-67.200s.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "实际切线章节67.2秒",
+          "captionEn": "Actual tangent chapter at 67.2s"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/derivative/content-frame-89.000s.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "结尾正确答案实际帧",
+          "captionEn": "Actual correct final answer"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/derivative/provenance.json",
+          "labelZh": "无口播版音频来源与画面一致性",
+          "labelEn": "Nonverbal audio provenance and picture integrity"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/derivative/public-audio-provenance.json",
+          "labelZh": "公开配音来源与原/派生SHA",
+          "labelEn": "Narration sources and original/derived hashes"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/derivative/captions.srt",
+          "labelZh": "公开配音字幕SRT",
+          "labelEn": "Public narration SRT"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/derivative/captions.vtt",
+          "labelZh": "公开字幕WebVTT",
+          "labelEn": "Public subtitle WebVTT"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/derivative/source.zip",
+          "labelZh": "完整绘制/建模源码ZIP（含必要自制纹理，不含原系统音轨）",
+          "labelEn": "Complete artwork source ZIP (required original textures; no original system audio)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/derivative/qa-summary.json",
+          "labelZh": "独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "对2675个编码帧状态独立数学检查：非零h、Q=(1+h,(1+h)²)、差商2+h及切线y=2x−1一致；x=2答案为4，实际紫线y=4x−4正确。",
+        "P/Q与Δx/Δy标签多时点重叠；⇒缺字，割线/切线未裁剪到绘图区而穿过图例/边距。",
+        "50.215秒负h从−0.350回到−0.600再靠近0，数学仍正确，但同侧过程有未解释重启。",
+        "模型附带06_tangent取帧落到提问章节；公开采用独立从最终MP4抽的67.2秒实际切线帧。结尾题目停留5秒再给正确答案。",
+        "播放修订：默认关闭口播并恢复原模型程序背景音；仅换音，不改变上述知识与画面验收。"
+      ],
+      "assessmentEn": [
+        "Independent mathematical checks of all 2675 encoded frame states verify nonzero h, Q=(1+h,(1+h)²), quotient 2+h and tangent y=2x−1. The answer at x=2 is 4 and the actual purple line y=4x−4 is correct.",
+        "P/Q labels collide with Δx/Δy at multiple times; ⇒ is a missing glyph and unclipped secant/tangent lines cross legends/margins.",
+        "At 50.215s negative h resets from −0.350 to −0.600 before approaching zero again. Values remain correct but the same-side restart is unexplained.",
+        "The supplied 06_tangent still belongs to the question chapter; public evidence instead uses the independent 67.2s decoded final-video tangent frame. The question holds five seconds before the correct answer.",
+        "Playback revision: narration is off by default and original procedural background audio is restored. This changes audio only, not the knowledge or picture findings above."
+      ],
+      "checks": [
+        {
+          "labelZh": "核心数学",
+          "labelEn": "Core mathematics",
+          "status": "pass",
+          "detailZh": "原生状态表达式与实际关键帧核对，无最终确认数学错误。",
+          "detailEn": "Independent state expressions and targeted decoded frames show no confirmed final core math error."
+        },
+        {
+          "labelZh": "连续性与可读性",
+          "labelEn": "Continuity and legibility",
+          "status": "partial",
+          "detailZh": "负h回跳、标签重叠、缺字和图线布局问题仍保留。",
+          "detailEn": "Negative-h reset, overlapping labels, missing glyph and plot-layout issues remain."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "high",
+          "status": "model_finished",
+          "requests": 20,
+          "completedResponses": 20,
+          "noteZh": "high自主会话完成；0次请求错误、2条运行时traceback保留。模型自行修改、预览和重渲染均计入；不是单次调用。",
+          "noteEn": "Autonomous high session finished with 0 request error(s) and 2 runtime traceback record(s). Model edits, previews and re-renders are included; this was not a single call.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/derivative/attempt-01.json"
+        }
+      ],
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "requestedModel": "k3.1-pro",
+      "inputReferences": [
+        {
+          "destination": "inputs/derivative-original-prompt.txt",
+          "sha256": "5287dcf00a500b81f8363e9f8cfebeb93a90fd8f13440efe4ce0425bd0895383",
+          "sourceUrl": "https://x.com/LinearUncle/status/2103128559174971663",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/derivative-additions.txt",
+          "sha256": "2f4a2d0d1c827463122bed3773c30613aeafa3e3facdaf619f72da8ba2c98dd8",
+          "sourceUrl": "https://x.com/LinearUncle/status/2103128559174971663",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/derivative-facts.txt",
+          "sha256": "d1a346dcca7acd5aa35c4a1e097d501c65934398192b071d3042646e47aed48d",
+          "sourceUrl": "https://x.com/LinearUncle/status/2103128559174971663",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        },
+        {
+          "destination": "inputs/production-principles.txt",
+          "sha256": "0fc933e1998e4deb9e86a45f8f8022645d6fad39675b2c5c834f39665f730987",
+          "sourceUrl": "https://x.com/LinearUncle/status/2103128559174971663",
+          "included": false,
+          "note": "Obtain original input from its source, preserving the fixed revision and SHA. Full third-party input text is excluded."
+        }
+      ],
+      "batchId": "kimi-creative-expanded-20261027",
+      "factualSources": [
+        "https://openstax.org/books/calculus-volume-1/pages/3-1-defining-the-derivative"
+      ],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/derivative/qa-summary.json"
+    },
+    {
+      "id": "printer",
+      "titleZh": "手绘风格打印机原理知识视频",
+      "titleEn": "A hand-drawn explainer of printer operation",
+      "category": "knowledge-video",
+      "effort": "max",
+      "summaryZh": "原评测交付 115.7 秒中文手绘科普视频，媒体技术检查通过；曝光光束穿过感光鼓内部，与讲稿的表面曝光说法矛盾。该原始结果作为失败证据展示，不标为可直接教学。默认播放无口播的程序配乐／音效版，历史旁白可选，未修正模型画面。",
+      "summaryEn": "The original run delivered a technically valid 115.7-second Chinese explainer, but its exposure beam crosses the drum interior despite narration describing surface exposure. It is shown as evaluation evidence, not a teaching-ready asset. Public playback defaults to procedural music/effects, with legacy narration optional; model imagery is not repaired.",
+      "source": {
+        "url": "https://www.sohu.com/a/1092030580_121675819",
+        "titleZh": "题目来源：作者原案例",
+        "titleEn": "Original creator case",
+        "originalPrompt": "来源概要（非长文转载）：以手绘风格讲解打印机原理。作者未公开原片完整工具链、精确时长和画幅。\nSource summary: explain printer operation in a hand-drawn style. The creator did not disclose the complete original toolchain, exact duration or frame format.",
+        "originalPromptSha256": "ef251d6c101cd8017f2169ef06b68b5c3eff683b7eea98e1a858ebbc59d802be",
+        "changesZh": "本次新增与改动见下方公开复跑规格；来源演示不是本站实测结果，本站不复用原作者成品。",
+        "changesEn": "The public rerun specification below records our adaptations. Source demonstrations are not TOKRACE results; we generated independent outputs."
+      },
+      "prompt": "本次新增可验收规格（原作者未披露时长/画幅/工具链，故不是原片逐镜头复制）：\n制作90至120秒、1920×1080、30fps的中文科普MP4，含清晰中文旁白与中文字幕/独立SRT。整体保持手绘线稿风格，至少5个具有因果解释的动态场景，不能仅是文字PPT。\n面向普通读者，区分喷墨和激光两种技术：墨滴如何到纸上、激光如何在感光鼓上形成潜像、显影/转印/热压定影。范围和技术名称要明确；画面、运动方向、材料标签与讲稿一致。\n已提供两份Canon官方事实材料到inputs/，可以阅读并在讲稿说明来源。不得把激光画成直接把文字烧在纸上。\n用系统say的Tingting配音即可，不必下载TTS。所有画面由你写代码绘制和动画；不得调用原生图像/视频模型。交付video.mp4、narration.wav或m4a、captions.srt、script.txt、可完整重新生成的动画源码、至少8张带时间标记的代表帧、README和artifacts.json。\n你要实际完成配音、渲染和混音，检查时长、分辨率、帧率、音轨存在及字幕起止。不要为了省时间缩短到不足90秒；不要把解说字幕当作全部视觉内容。\n\n公开说明：上述是评测方适配规格与概要，省略第三方原题长文，不是完整实际输入逐字副本。初始请求使用 k3.1-pro、max_tokens=32768；每题独立空目录与隔离工具环境。模型自行写代码、执行和看图；失败与重试不覆盖。除木星独立 high 恢复外，其余为明确请求 max。使用 Coding 订阅额度，金额和失败请求的最终用量未知。原始完整输入的哈希与每次请求元数据在独立摘要中。\n\nPublic note: this is the evaluator adaptation and source-summary rerun guide, not the full verbatim input. Original complete inputs are retained locally and hash-bound. The original local videos used macOS system voices; public narration replacements are separately identified and are not additional Kimi evaluation calls.",
+      "promptSha256": "e306e9b72994388452b7673c223b45c7a99369796a5a0f71075f1e5fcf60aa87",
+      "metrics": {
+        "requests": 37,
+        "completedResponses": 36,
+        "promptTokens": 1903164,
+        "outputTokens": 64101,
+        "wallMs": 2863474.0
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/printer/video.mp4",
+          "posterPath": "/evaluations/kimi-k3-1-pro-creative/printer/poster.jpg",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "默认配乐／音效版；原模型画面未改，历史旁白可主动选择。",
+          "captionEn": "Music/effects by default; original picture unchanged, legacy narration available by explicit choice.",
+          "captionsLanguage": "zh-CN",
+          "provenance": {
+            "originalSha256": "d451ac82c8e2e9ab7f1f0de82d21150f203941ff9c1a960bfaf74fd571247f8a",
+            "sha256": "185d1963827bb200ca5dad083994a0f8a8e365aedfdfc1b56e1ce83a57a54303",
+            "noteZh": "本次只用独立程序背景音替换混合音轨；H264 包字节与时序逐项一致，原画面错误保留。不是 Kimi 重跑或评分修订。历史公开 Kokoro 旁白仍为可选项，原始系统音色仅留本地。",
+            "noteEn": "Only the mixed soundtrack is replaced with independent procedural music/effects. H264 packet bytes and timing match exactly; picture defects remain. This is not a Kimi rerun or rescore. Historical public Kokoro narration is optional; original system voices remain local."
+          },
+          "captionsPath": "/evaluations/kimi-k3-1-pro-creative/printer/captions.vtt",
+          "narrationPath": "/evaluations/kimi-k3-1-pro-creative/printer/video.mp4",
+          "audioMode": "music-only",
+          "audioNoteZh": "默认无口播；保留原模型代码生成的五声音阶拨弦、转场与机构提示音。画面文字与字幕保留。",
+          "audioNoteEn": "No speech by default; retains the original model-code pentatonic plucks, transitions and mechanism cues. On-screen text and captions remain."
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/printer/02-25.711s.jpg",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "喷墨流程代表帧",
+          "captionEn": "Inkjet-process frame"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/printer/exposure-55.80s.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "失败证据：55.80 秒曝光光束穿过鼓内部",
+          "captionEn": "Failure evidence: the exposure beam crosses the drum at 55.80s"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/printer/provenance.json",
+          "labelZh": "无口播版音频来源与画面一致性",
+          "labelEn": "Nonverbal audio provenance and picture integrity"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/printer/public-audio-provenance.json",
+          "labelZh": "公开配音与派生关系",
+          "labelEn": "Public narration provenance"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/printer/captions.srt",
+          "labelZh": "下载字幕 SRT",
+          "labelEn": "Caption SRT"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/printer/captions.vtt",
+          "labelZh": "下载字幕 WebVTT",
+          "labelEn": "Caption WebVTT"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/printer/script.txt",
+          "labelZh": "下载原评测讲稿",
+          "labelEn": "Original evaluation script"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/printer/source.zip",
+          "labelZh": "下载原始绘制源码 ZIP（不含音视频）",
+          "labelEn": "Original drawing source ZIP (no audio/video)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/printer/qa-summary.json",
+          "labelZh": "下载独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "原片 1920×1080、30fps、3471 帧；完整解码和 25 条 SRT 时间检查通过。中文可读，喷墨与激光流程有区分。",
+        "55.80 秒和 58.50 秒，红色曝光光束穿过感光鼓内部，直到远侧圆周；这不是正确的表面曝光示意，编码成功不能盖过科学图解错误。",
+        "“扫描镜”的表述与来源中的扫描透镜有歧义；此前疑似文字裁切经原始像素复核后排除。未进行独立真人试听研究。",
+        "播放修订：默认关闭口播并恢复原模型程序背景音；仅换音，不改变上述知识与画面验收。"
+      ],
+      "assessmentEn": [
+        "The original is 1920×1080, 30fps and 3471 frames; full decode and all 25 SRT timing checks pass, with readable Chinese and distinct inkjet/laser processes.",
+        "At 55.80s and 58.50s, the red exposure beam crosses the drum interior to its far-side circumference. This contradicts surface exposure; successful encoding does not override the scientific diagram failure.",
+        "Scanning-mirror terminology is ambiguous against the source's scanning lenses. A suspected text-clipping issue was excluded after original-pixel inspection. No independent human listening study was performed.",
+        "Playback revision: narration is off by default and original procedural background audio is restored. This changes audio only, not the knowledge or picture findings above."
+      ],
+      "checks": [
+        {
+          "labelZh": "原评测媒体规格",
+          "labelEn": "Original evaluation media checks",
+          "status": "pass",
+          "detailZh": "115.7 秒、1920×1080、30fps，完整解码与 25 条字幕时间检查通过。",
+          "detailEn": "115.7 seconds, 1920×1080 and 30fps, with complete decode and 25 valid caption cues."
+        },
+        {
+          "labelZh": "科学动画",
+          "labelEn": "Scientific animation",
+          "status": "fail",
+          "detailZh": "已确认曝光光束穿过鼓内部；公开配音替换不修复此错误。需修正后才能作为准确教学素材。",
+          "detailEn": "The exposure beam crosses the drum interior. Replacing narration does not repair this error; correction is needed before treating it as accurate teaching material."
+        }
+      ],
+      "requestedModel": "k3.1-pro",
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "factualSources": [
+        "https://global.canon/en/technology/canon-tech/tech/ij/",
+        "https://global.canon/en/technology/canon-tech/tech/laser-printer/"
+      ],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "max",
+          "status": "model_finished",
+          "requests": 37,
+          "completedResponses": 36,
+          "noteZh": "自主会话完成；保留 1 次请求错误和 3 条运行时 traceback 记录，未把整个会话称为一次调用。模型自行修改与重渲染计入本题用量。",
+          "noteEn": "The autonomous session finished with 1 request error(s) and 3 recorded runtime traceback(s). It is not a single model call; autonomous edits and re-renders are included.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/printer/attempt-01.json"
+        }
+      ],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/printer/qa-summary.json"
+    },
+    {
+      "id": "phishing",
+      "titleZh": "识别伪造邮件的动态图形知识视频",
+      "titleEn": "A motion-graphics guide to spoofed email",
+      "category": "knowledge-video",
+      "effort": "max",
+      "summaryZh": "原评测交付 81.966 秒英文知识视频，技术检查通过，域名对齐和认证能力边界基本正确；From 字段的措辞与部分界面符号仍需打磨。默认播放无口播的程序配乐／音效版，历史旁白可选，不重新计算模型创作成绩。",
+      "summaryEn": "The original run delivered an 81.966-second English explainer with passing media checks and mostly sound authentication/alignment examples. From-field wording and a UI glyph need refinement. Public playback defaults to procedural music/effects, with legacy narration optional and no re-scoring of the model run.",
+      "source": {
+        "url": "https://x.com/atomtanstudio/status/2113727963472724045",
+        "titleZh": "题目来源：作者原案例",
+        "titleEn": "Original creator case",
+        "originalPrompt": "Short source quote: “Can you create a motion graphic explainer video that talks about How to avoid getting spoofed by fake email?”\n作者此前的 YouTube 风格上下文未公开，本次没有宣称逐镜头复刻。 / The creator’s prior YouTube style context was unavailable; this is not a shot-for-shot style reproduction.",
+        "originalPromptSha256": "1982b9439ae02d4828e0f5aca5cba72618cd25c6462778d7c046bdffd59a9398",
+        "changesZh": "本次新增与改动见下方公开复跑规格；来源演示不是本站实测结果，本站不复用原作者成品。",
+        "changesEn": "The public rerun specification below records our adaptations. Source demonstrations are not TOKRACE results; we generated independent outputs."
+      },
+      "prompt": "Evaluation additions and limits: the source's earlier YouTube style context is unavailable. Create an original visual treatment, not a claimed exact style replica. The original media is about74.2s at1920×1080; this run requires75–85 seconds,1920×1080,30fps, English narration and synchronized English captions/SRT.\nMake a polished motion-graphics explainer for nontechnical viewers, with at least5 animated scenes that explain causality rather than just text slides. Use clearly fictional example.com/example.org addresses and illustrative messages; do not access or send real email.\nRead the supplied official Gmail authentication material and RFC9989 in inputs/ when needed. Explain visible sender identity, trusted original/header information and SPF/DKIM/DMARC at an accessible level; retain the limits of what authentication can prove. Do not imply a pass proves harmless content or a failure proves fraud. If you use Authentication-Results, show results added by the receiving service, not arbitrary untrusted text as authoritative.\nUse the local macOS Samantha voice via say. You must write all visual/animation code yourself and actually render/export. Deliver video.mp4, narration.wav or m4a, captions.srt, script.txt, complete rebuildable source, at least8 timestamped representative frames, README and artifacts.json. Confirm duration, dimensions,30fps, audio presence, captions and complete ending. Do not use image/video/music generation models or download large packages. The base renderer is your choice among installed tools.\n\n公开说明：上述是评测方适配规格与概要，省略第三方原题长文，不是完整实际输入逐字副本。初始请求使用 k3.1-pro、max_tokens=32768；每题独立空目录与隔离工具环境。模型自行写代码、执行和看图；失败与重试不覆盖。除木星独立 high 恢复外，其余为明确请求 max。使用 Coding 订阅额度，金额和失败请求的最终用量未知。原始完整输入的哈希与每次请求元数据在独立摘要中。\n\nPublic note: this is the evaluator adaptation and source-summary rerun guide, not the full verbatim input. Original complete inputs are retained locally and hash-bound. The original local videos used macOS system voices; public narration replacements are separately identified and are not additional Kimi evaluation calls.",
+      "promptSha256": "1567e8e81385ae0f1709b27f4126337857ab012e6cd739c317de74bfbdfe95b0",
+      "metrics": {
+        "requests": 30,
+        "completedResponses": 29,
+        "promptTokens": 1735111,
+        "outputTokens": 61061,
+        "wallMs": 2860247.0
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/phishing/video.mp4",
+          "posterPath": "/evaluations/kimi-k3-1-pro-creative/phishing/poster.jpg",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "默认配乐／音效版；原模型画面未改，历史旁白可主动选择。",
+          "captionEn": "Music/effects by default; original picture unchanged, legacy narration available by explicit choice.",
+          "captionsLanguage": "en",
+          "provenance": {
+            "originalSha256": "bd80f64d6a47aed64fae0601f52a743acadbf240542dee57d589d3d1d957c0f2",
+            "sha256": "762405500d97de58f7b9bce5766cff3a9c5d87d4910218c503db1cbdd1baaa2f",
+            "noteZh": "本次只用独立程序背景音替换混合音轨；H264 包字节与时序逐项一致，原画面错误保留。不是 Kimi 重跑或评分修订。历史公开 Kokoro 旁白仍为可选项，原始系统音色仅留本地。",
+            "noteEn": "Only the mixed soundtrack is replaced with independent procedural music/effects. H264 packet bytes and timing match exactly; picture defects remain. This is not a Kimi rerun or rescore. Historical public Kokoro narration is optional; original system voices remain local."
+          },
+          "captionsPath": "/evaluations/kimi-k3-1-pro-creative/phishing/captions.vtt",
+          "narrationPath": "/evaluations/kimi-k3-1-pro-creative/phishing/video.mp4",
+          "audioMode": "music-only",
+          "audioNoteZh": "默认无口播；保留原模型代码生成的氛围低音、转场钟声与滤波噪声提示。画面文字与字幕保留。",
+          "audioNoteEn": "No speech by default; retains the original model-code atmospheric bass, chimes and filtered-noise cues. On-screen text and captions remain."
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/phishing/03-27.322s.jpg",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "SPF 示例代表帧",
+          "captionEn": "SPF example frame"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/kimi-k3-1-pro-creative/phishing/06-54.644s.jpg",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "认证能力边界代表帧",
+          "captionEn": "Authentication-limits frame"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/phishing/provenance.json",
+          "labelZh": "无口播版音频来源与画面一致性",
+          "labelEn": "Nonverbal audio provenance and picture integrity"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/phishing/public-audio-provenance.json",
+          "labelZh": "公开配音与派生关系",
+          "labelEn": "Public narration provenance"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/phishing/captions.srt",
+          "labelZh": "下载字幕 SRT",
+          "labelEn": "Caption SRT"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/phishing/captions.vtt",
+          "labelZh": "下载字幕 WebVTT",
+          "labelEn": "Caption WebVTT"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/phishing/script.txt",
+          "labelZh": "下载原评测讲稿",
+          "labelEn": "Original evaluation script"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/phishing/source.zip",
+          "labelZh": "下载原始绘制源码 ZIP（不含音视频）",
+          "labelEn": "Original drawing source ZIP (no audio/video)"
+        },
+        {
+          "path": "/evaluations/kimi-k3-1-pro-creative/phishing/qa-summary.json",
+          "labelZh": "下载独立验收摘要",
+          "labelEn": "Independent QA summary"
+        }
+      ],
+      "assessmentZh": [
+        "原片为 1920×1080、30fps、2459 帧；完整视音频解码与 17 条 SRT 时间检查通过，八个场景与结尾可见。",
+        "example.org 的 SPF/DKIM 通过但不与 From example.com 对齐，因此 DMARC 失败；同时保留“认证通过不保证内容安全，失败不证明诈骗”。",
+        "把 From 统称为 display label 不够精确；Gmail 菜单符号呈方框，部分标头与字幕缩写对普通读者偏密。抽帧和技术音频检查不等于独立真人试听。",
+        "播放修订：默认关闭口播并恢复原模型程序背景音；仅换音，不改变上述知识与画面验收。"
+      ],
+      "assessmentEn": [
+        "The original is 1920×1080, 30fps and 2459 frames; full audiovisual decode and all 17 SRT timing checks pass, with eight scenes and an ending.",
+        "SPF/DKIM pass for example.org while From is example.com, correctly causing DMARC failure through nonalignment. The film preserves that pass is not a safety guarantee and failure does not prove fraud.",
+        "Calling From only a display label is imprecise; a Gmail menu glyph appears as a box and dense headers/acronym captions could be clearer. Sampled frames and technical audio checks are not independent human listening.",
+        "Playback revision: narration is off by default and original procedural background audio is restored. This changes audio only, not the knowledge or picture findings above."
+      ],
+      "checks": [
+        {
+          "labelZh": "原评测媒体规格",
+          "labelEn": "Original evaluation media checks",
+          "status": "pass",
+          "detailZh": "81.966 秒、1920×1080、30fps，视音频完整解码、字幕时间有效。公开替换配音版另存哈希。",
+          "detailEn": "81.966 seconds, 1920×1080 and 30fps; complete decode and valid caption timing. The public narration derivative has a separate hash."
+        },
+        {
+          "labelZh": "知识内容与措辞",
+          "labelEn": "Factual content and wording",
+          "status": "partial",
+          "detailZh": "认证对齐与能力边界基本正确；From 字段说法有简化，未做真实 Gmail 交互或真实邮件认证测试。",
+          "detailEn": "Alignment and authentication limits are mostly sound; From wording is simplified. No live Gmail or real-mail authentication was tested."
+        }
+      ],
+      "requestedModel": "k3.1-pro",
+      "billing": {
+        "basis": "subscription quota",
+        "actualMonetaryCost": null
+      },
+      "factualSources": [
+        "https://support.google.com/mail/answer/180707?hl=en",
+        "https://www.rfc-editor.org/rfc/rfc9989.html"
+      ],
+      "attempts": [
+        {
+          "id": "attempt-01",
+          "effort": "max",
+          "status": "model_finished",
+          "requests": 30,
+          "completedResponses": 29,
+          "noteZh": "自主会话完成；保留 1 次请求错误和 2 条运行时 traceback 记录，未把整个会话称为一次调用。模型自行修改与重渲染计入本题用量。",
+          "noteEn": "The autonomous session finished with 1 request error(s) and 2 recorded runtime traceback(s). It is not a single model call; autonomous edits and re-renders are included.",
+          "evidencePath": "/evaluations/kimi-k3-1-pro-creative/phishing/attempt-01.json"
+        }
+      ],
+      "qaPath": "/evaluations/kimi-k3-1-pro-creative/phishing/qa-summary.json"
+    }
+  ],
+  "publicAudioPending": [],
+  "assetManifestPath": "/evaluations/kimi-k3-1-pro-creative/assets.json",
+  "protocolAmendment": {
+    "jupiterRecoveryEffort": "high",
+    "maxFailuresRetained": true,
+    "localAmendmentSha256": "5cdc1d09194a610f939f74bac7d2f9f5e726e4ed3d887b2eda1d1145618c05f3"
+  },
+  "publicSourcePolicy": "Own generated outputs and concise metadata only; copyrighted source pages, long third-party prompts, original system-voice tracks, credentials and private reasoning are excluded.",
+  "scope": {
+    "tasks": 10,
+    "blender": 6,
+    "knowledgeVideos": 4,
+    "batches": [
+      {
+        "id": "kimi-creative-20261027",
+        "cases": 4,
+        "requests": 122,
+        "completedResponses": 114
+      },
+      {
+        "id": "kimi-creative-expanded-20261027",
+        "cases": 6,
+        "requests": 160,
+        "completedResponses": 158
+      }
+    ],
+    "usageFields": {
+      "input_tokens": 643676,
+      "cache_read_input_tokens": 8400577,
+      "cache_creation_input_tokens": 0,
+      "output_tokens": 346996
+    },
+    "ttsCountedAsKimi": false
+  },
+  "publicationAudioSourcePath": "/evaluations/kimi-k3-1-pro-creative/publication-audio-source.zip",
+  "audioPolicy": {
+    "version": "creative-agent-v3",
+    "defaultMode": "music-only",
+    "narrationRequiresExplicitRequest": true,
+    "currentVideosRerun": false,
+    "historicalNarrationAvailable": true,
+    "picturePacketsUnchanged": true,
+    "auditPath": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/audit.json",
+    "sourcePath": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/audio-revision-source.zip",
+    "workflowAuditPath": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/workflow-audit.md"
+  }
+}

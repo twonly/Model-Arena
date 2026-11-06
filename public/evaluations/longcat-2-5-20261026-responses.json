@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "date": "2026-10-26",
+  "protocol": "openai-responses",
+  "endpoint": "https://api.longcat.chat/openai/v1/responses",
+  "model": "LongCat-2.5-Preview",
+  "mode": "requested reasoning.effort=low",
+  "semanticsConfirmed": false,
+  "sourceUrl": "https://longcat.ai/platform/docs/api/responses",
+  "methodZh": "独立Responses接口小诊断，显式reasoning.effort=low；不与Chat Completion两档混合评分或比较时延。使用非流式响应，因此未测流式正文首响。读图输入为公开的旧版LongCat-2.0六图benchmark，仅检验识图和数值抽取，不代表本轮复现benchmark或证明2.5成绩。参考答案在发请求前由AI助手查看原图预设，未放入提示词。请求参数被接受不等于已独立验证实际思考强度。",
+  "methodEn": "Separate Responses diagnostics requesting reasoning.effort=low. Scores and latency are not mixed with the two Chat Completion groups. Non-streaming responses do not measure streaming first-content latency. The vision input is an older public LongCat-2.0 six-chart figure used only for chart reading, not benchmark reproduction or evidence of 2.5 scores. Expected values were read by an AI assistant before dispatch and were not included in the prompt. Parameter acceptance does not independently verify effective reasoning strength.",
+  "attempts": [
+    {
+      "id": "responses-low-extract-1",
+      "category": "text",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "request": {
+        "model": "LongCat-2.5-Preview",
+        "input": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+        "max_output_tokens": 12288,
+        "reasoning": {
+          "effort": "low"
+        },
+        "temperature": 0,
+        "stream": false
+      },
+      "startedAt": "2026-10-26T15:57:09.793Z",
+      "status": "done",
+      "firstContentMs": null,
+      "firstByteMs": 3621.680875,
+      "httpStatus": 200,
+      "text": "{\"name\": \"林桐\", \"age\": 28, \"city\": \"杭州\", \"email\": null}",
+      "returnedModel": "LongCat-2.5-Preview",
+      "usage": {
+        "input_tokens": 82,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 116,
+        "output_tokens_details": {
+          "reasoning_tokens": 88
+        },
+        "total_tokens": 198,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "pass": true,
+      "providerStatus": "completed",
+      "providerError": null,
+      "incompleteDetails": null,
+      "outputItems": [
+        {
+          "id": "rs_resp_a988408a2113465ca1f60e1ea45f9e07",
+          "type": "reasoning"
+        },
+        {
+          "id": "msg_9cc691144fe94263a34302dcc8519a82",
+          "type": "message",
+          "status": "completed"
+        }
+      ],
+      "reasoningContentPublished": false,
+      "promptTokens": 82,
+      "outputTokens": 116,
+      "reasoningTokens": 88,
+      "totalMs": 3622.876584,
+      "finishedAt": "2026-10-26T15:57:13.417Z",
+      "echoedParameters": {
+        "temperature": 0,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        }
+      },
+      "effectiveSamplingConfirmed": false
+    },
+    {
+      "id": "responses-native-chart",
+      "category": "native-vision",
+      "prompt": "只根据这张图片回答。识别底部图例中绿色柱对应的模型名称，并读取六个小图里该绿色柱顶部的数值。只输出JSON对象，恰好包含 model 和 scores。scores 是对象，键分别使用图中的六个benchmark英文名称，值为数字；不能读取其他颜色柱代替。看不清的值用null。不要推断别的模型版本、不要解释、不要Markdown。",
+      "expected": {
+        "model": "LongCat-2.0",
+        "scores": {
+          "Terminal-Bench 2.1": 70.8,
+          "SWE-bench Pro": 59.5,
+          "SWE-bench Multilingual": 77.3,
+          "FORTE": 73.2,
+          "RWSearch": 78.8,
+          "BrowseComp": 79.9
+        }
+      },
+      "image": {
+        "path": "/evaluations/longcat-2-5/sources/longcat-2-0-benchmarks.png",
+        "url": "https://p0.meituan.net/meituantechblog/9d8da6909183ad1a8e591186849c0947457784.png",
+        "sha256": "d9c3190a7ebf9ce385410b28a5b7dc861e0898f402e5df7f6dd8c69c34adcc0c",
+        "width": 1080,
+        "height": 688,
+        "version": "LongCat-2.0 benchmark image used only as a chart-reading input, not as a LongCat-2.5 benchmark"
+      },
+      "request": {
+        "model": "LongCat-2.5-Preview",
+        "input": [
+          {
+            "role": "user",
+            "content": [
+              {
+                "type": "input_text",
+                "text": "只根据这张图片回答。识别底部图例中绿色柱对应的模型名称，并读取六个小图里该绿色柱顶部的数值。只输出JSON对象，恰好包含 model 和 scores。scores 是对象，键分别使用图中的六个benchmark英文名称，值为数字；不能读取其他颜色柱代替。看不清的值用null。不要推断别的模型版本、不要解释、不要Markdown。"
+              },
+              {
+                "type": "input_image",
+                "image_url": "https://p0.meituan.net/meituantechblog/9d8da6909183ad1a8e591186849c0947457784.png"
+              }
+            ]
+          }
+        ],
+        "max_output_tokens": 12288,
+        "reasoning": {
+          "effort": "low"
+        },
+        "temperature": 0,
+        "stream": false
+      },
+      "startedAt": "2026-10-26T15:57:13.417Z",
+      "status": "done",
+      "firstContentMs": null,
+      "firstByteMs": 5881.1865419999995,
+      "httpStatus": 200,
+      "text": "{\"model\":\"LongCat-2.0\",\"scores\":{\"Terminal-Bench 2.1\":70.8,\"SWE-bench Pro\":59.5,\"SWE-bench Multilingual\":77.3,\"FORTE\":73.2,\"RWSearch\":78.8,\"BrowseComp\":79.9}}",
+      "returnedModel": "LongCat-2.5-Preview",
+      "usage": {
+        "input_tokens": 1069,
+        "input_tokens_details": {
+          "cached_tokens": 0
+        },
+        "output_tokens": 268,
+        "output_tokens_details": {
+          "reasoning_tokens": 192
+        },
+        "total_tokens": 1337,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "pass": true,
+      "providerStatus": "completed",
+      "providerError": null,
+      "incompleteDetails": null,
+      "outputItems": [
+        {
+          "id": "rs_resp_20c00c61df344297a0b3a1b5c2ba9bdc",
+          "type": "reasoning"
+        },
+        {
+          "id": "msg_5ba974c45209412db10efc8030ca37ba",
+          "type": "message",
+          "status": "completed"
+        }
+      ],
+      "reasoningContentPublished": false,
+      "promptTokens": 1069,
+      "outputTokens": 268,
+      "reasoningTokens": 192,
+      "checks": [
+        {
+          "name": "model identity from legend",
+          "pass": true
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "pass": true,
+          "expected": 70.8,
+          "actual": 70.8
+        },
+        {
+          "name": "SWE-bench Pro",
+          "pass": true,
+          "expected": 59.5,
+          "actual": 59.5
+        },
+        {
+          "name": "SWE-bench Multilingual",
+          "pass": true,
+          "expected": 77.3,
+          "actual": 77.3
+        },
+        {
+          "name": "FORTE",
+          "pass": true,
+          "expected": 73.2,
+          "actual": 73.2
+        },
+        {
+          "name": "RWSearch",
+          "pass": true,
+          "expected": 78.8,
+          "actual": 78.8
+        },
+        {
+          "name": "BrowseComp",
+          "pass": true,
+          "expected": 79.9,
+          "actual": 79.9
+        }
+      ],
+      "totalMs": 5882.828833,
+      "finishedAt": "2026-10-26T15:57:19.301Z",
+      "echoedParameters": {
+        "temperature": 0,
+        "reasoning": {
+          "effort": "low",
+          "summary": null
+        }
+      },
+      "effectiveSamplingConfirmed": false
+    }
+  ],
+  "evidencePath": "/evaluations/longcat-2-5-20261026-responses.json",
+  "status": "complete",
+  "updatedAt": "2026-10-26T15:57:19.301Z"
+}

@@ -1,0 +1,18 @@
+{
+  "model": "xingchen-agi/xing4.0-29b-a4b:free",
+  "version": "Xing4.0 29B-A4B via OpenRouter free route, verified 2026-11-04",
+  "displayName": "Xing4.0 29B-A4B - free API creation",
+  "aliases": ["xing4-free-creation"],
+  "protocol": "openai-chat",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "keyEnv": "SHARED_KEY_OPENROUTER",
+  "expectedReturnedModel": "xingchen-agi/xing4.0-29b-a4b:free",
+  "billing": "openrouter-free-variant",
+  "vision": "unsupported",
+  "modes": {"default": {}},
+  "extraBody": {"provider": {"max_price": {"prompt": 0, "completion": 0}}},
+  "providerMaxOutputTokens": 235929,
+  "providerContextLength": 262144,
+  "versionSource": "https://openrouter.ai/api/v1/models/xingchen-agi/xing4.0-29b-a4b:free/endpoints",
+  "method": "Persistent isolated OpenAI API tool loop using the frozen November 4 creative-suite-v4 sources. Text-only author model: view_image returns file metadata only, with separate coordinator visual QA. Context length and single-request output maximum are distinct; history is preserved without automatic compaction."
+}

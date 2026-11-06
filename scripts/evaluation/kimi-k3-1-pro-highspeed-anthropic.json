@@ -1,0 +1,16 @@
+{
+  "model": "k3.1-pro-highspeed",
+  "version": "Kimi K3.1 Pro Highspeed",
+  "displayName": "Kimi K3.1 Pro Highspeed",
+  "aliases": ["Kimi k3.1 Pro highspeed", "kimi-k3.1-pro-highspeed"],
+  "endpoint": "https://api.kimi.com/coding",
+  "protocol": "anthropic-messages",
+  "keyEnv": "KIMI_CODING_REVIEW_KEY",
+  "expectedReturnedModel": "k3.1-pro-highspeed",
+  "nativeContextSuffix": "",
+  "modes": {"default": {}},
+  "extraBody": {},
+  "versionSource": "https://www.kimi.com/code/docs/en/kimi-code/models.html",
+  "method": "Kimi Coding Plan native Messages; exact requested and returned model must be k3.1-pro-highspeed. Provider-default reasoning; no model substitution or global Claude settings changes. Native CLI context without a model suffix; no undocumented provider output-token override.",
+  "billing": "subscription-quota"
+}

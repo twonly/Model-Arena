@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-label="Quarterly Revenue dashboard card with bar chart">
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="8" stdDeviation="16" flood-color="#0f172a" flood-opacity="0.08"/>
+    </filter>
+    <linearGradient id="barBlue" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#2563eb"/>
+    </linearGradient>
+    <linearGradient id="barGreen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#34d399"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <rect x="0" y="0" width="800" height="600" fill="#f1f5f9"/>
+
+  <rect x="40" y="30" width="720" height="540" rx="24" fill="#ffffff" stroke="#e2e8f0" stroke-width="1" filter="url(#cardShadow)"/>
+
+  <text x="80" y="90" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="30" font-weight="700" fill="#0f172a" letter-spacing="-0.5">Quarterly Revenue</text>
+  <text x="80" y="118" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="15" fill="#64748b">Revenue performance across FY quarters</text>
+
+  <rect x="474" y="54" width="126" height="42" rx="21" fill="#eff6ff" stroke="#bfdbfe" stroke-width="1"/>
+  <text x="537" y="80" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="16" font-weight="600" fill="#1d4ed8">Total: 84</text>
+
+  <rect x="612" y="54" width="108" height="42" rx="21" fill="#ecfdf5" stroke="#bbf7d0" stroke-width="1"/>
+  <text x="666" y="80" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="16" font-weight="600" fill="#047857">Best: Q4</text>
+
+  <text x="150" y="145" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="13" font-weight="500" fill="#94a3b8">Revenue ($k)</text>
+
+  <line x1="150" y1="170" x2="700" y2="170" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="150" y1="270" x2="700" y2="270" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="150" y1="370" x2="700" y2="370" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="150" y1="470" x2="700" y2="470" stroke="#cbd5e1" stroke-width="2"/>
+
+  <line x1="150" y1="170" x2="150" y2="470" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <line x1="145" y1="170" x2="150" y2="170" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="145" y1="270" x2="150" y2="270" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="145" y1="370" x2="150" y2="370" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="145" y1="470" x2="150" y2="470" stroke="#cbd5e1" stroke-width="1.5"/>
+
+  <text x="138" y="175" text-anchor="end" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="15" fill="#64748b">30</text>
+  <text x="138" y="275" text-anchor="end" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="15" fill="#64748b">20</text>
+  <text x="138" y="375" text-anchor="end" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="15" fill="#64748b">10</text>
+  <text x="138" y="475" text-anchor="end" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="15" fill="#64748b">0</text>
+
+  <path d="M 186 470 L 186 358 Q 186 350 194 350 L 250 350 Q 258 350 258 358 L 258 470 Z" fill="url(#barBlue)"/>
+  <path d="M 316 470 L 316 238 Q 316 230 324 230 L 380 230 Q 388 230 388 238 L 388 470 Z" fill="url(#barBlue)"/>
+  <path d="M 446 470 L 446 298 Q 446 290 454 290 L 510 290 Q 518 290 518 298 L 518 470 Z" fill="url(#barBlue)"/>
+  <path d="M 576 470 L 576 178 Q 576 170 584 170 L 640 170 Q 648 170 648 178 L 648 470 Z" fill="url(#barGreen)"/>
+
+  <text x="222" y="334" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">12</text>
+  <text x="352" y="214" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">24</text>
+  <text x="482" y="274" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="18" font-weight="700" fill="#1e293b">18</text>
+  <text x="612" y="154" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="18" font-weight="700" fill="#047857">30</text>
+
+  <text x="222" y="505" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="16" font-weight="600" fill="#475569">Q1</text>
+  <text x="352" y="505" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="16" font-weight="600" fill="#475569">Q2</text>
+  <text x="482" y="505" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="16" font-weight="600" fill="#475569">Q3</text>
+  <text x="612" y="505" text-anchor="middle" font-family="Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Arial, sans-serif" font-size="16" font-weight="600" fill="#475569">Q4</text>
+</svg>

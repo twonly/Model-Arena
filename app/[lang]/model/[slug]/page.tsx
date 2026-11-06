@@ -49,10 +49,10 @@ export async function generateMetadata({
     ...infoMetadata(
       l,
       `/model/${slug}`,
-      `${name} · TOKRACE`,
-      en
+      (en ? pre?.metadataTitleEn : pre?.metadataTitleZh) ?? `${name} · TOKRACE`,
+      (en ? pre?.metadataDescriptionEn : pre?.metadataDescriptionZh) ?? (en
         ? "Model identity, availability, published test evidence and exact endpoint reruns."
-        : "模型身份、可用状态、已发布实测与准确接入点复测。",
+        : "模型身份、可用状态、已发布实测与准确接入点复测。"),
     ),
     robots: { index: reports.length > 0 || !!pre?.sourceUrl, follow: true },
   };
@@ -107,7 +107,7 @@ export default async function ModelPage({
           : "查看这个模型的身份与证据。效果和速度取决于实际接入点、任务与测量条件。"
       }
       updatedAt={
-        reports[0]?.publishedAt.slice(0, 10) ?? pre?.verifiedOn ?? "2026-09-26"
+        [reports[0]?.publishedAt.slice(0, 10), pre?.verifiedOn].filter(Boolean).sort().at(-1) ?? "2026-09-26"
       }
     >
       <section>
@@ -127,7 +127,7 @@ export default async function ModelPage({
         </p>
         {until && (
           <p>
-            {en ? "Preview cutoff" : "预览到期"}：{until}
+            {en ? "Trial cutoff on TOKRACE" : "本站试用截止"}：{until}
           </p>
         )}
         <p>
@@ -154,6 +154,9 @@ export default async function ModelPage({
             {en ? pre.noticeEn : pre.noticeZh}
           </p>
         )}
+        {pre?.reviewPath && (
+          <p><Link href={h(pre.reviewPath)}>{en ? "Read the first-look review and original answers" : "阅读首测评测与逐题原始回答"}</Link></p>
+        )}
         {rerunEndpoint && !expired && (
           <RerunButton
             locale={locale}
@@ -175,7 +178,7 @@ export default async function ModelPage({
         )}
       </section>
       <section>
-        <h2>{en ? "Endpoint pricing" : "接入点价格"}</h2>
+        <h2>{expired ? (en ? "Historical endpoint pricing" : "历史接入点价格") : (en ? "Endpoint pricing" : "接入点价格")}</h2>
         {price ? (
           <p>
             {price.currency} / 1M tokens · {en ? "Input" : "输入"}{" "}

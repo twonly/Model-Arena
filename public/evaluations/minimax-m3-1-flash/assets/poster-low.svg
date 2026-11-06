@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <rect width="800" height="600" fill="#F7F4EC"/>
+  <path d="M80 72H245" stroke="#E66B4F" stroke-width="4" stroke-linecap="round"/>
+  <path d="M555 72H720" stroke="#E66B4F" stroke-width="4" stroke-linecap="round"/>
+  <circle cx="268" cy="72" r="5" fill="#E66B4F"/>
+  <circle cx="532" cy="72" r="5" fill="#E66B4F"/>
+
+  <text x="400" y="145" text-anchor="middle" font-family="Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif" font-size="56" font-weight="800" letter-spacing="5" fill="#203A3B">周末骑行计划</text>
+  <text x="400" y="190" text-anchor="middle" font-family="Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif" font-size="28" font-weight="400" letter-spacing="4" fill="#5E7774">慢一点，看见城市</text>
+
+  <g font-family="Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif" font-size="23" font-weight="600" fill="#294A49" text-anchor="middle">
+    <text x="400" y="245">10月24日 09:00</text>
+    <text x="400" y="281">滨江公园东门</text>
+  </g>
+
+  <g transform="translate(295 315)" fill="none" stroke="#E66B4F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="55" cy="78" r="43"/>
+    <circle cx="190" cy="78" r="43"/>
+    <path d="M55 78L91 29H143L116 78H55L78 47H137L190 78"/>
+    <path d="M132 29H163"/>
+    <path d="M143 29L190 78"/>
+    <path d="M78 47L55 78"/>
+    <path d="M116 78L143 29"/>
+  </g>
+  <path d="M320 461H480" stroke="#D8DED7" stroke-width="2" stroke-linecap="round"/>
+
+  <text x="400" y="452" text-anchor="middle" font-family="Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif" font-size="16" font-weight="400" letter-spacing="2" fill="#71827E">自备头盔 · 全程12公里</text>
+
+  <rect x="310" y="493" width="180" height="58" rx="29" fill="#E66B4F"/>
+  <rect x="316" y="499" width="168" height="46" rx="23" fill="none" stroke="#F7F4EC" stroke-width="1.5" opacity="0.55"/>
+  <text x="400" y="529" text-anchor="middle" font-family="Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif" font-size="21" font-weight="700" letter-spacing="3" fill="#FFFFFF">立即报名</text>
+</svg>

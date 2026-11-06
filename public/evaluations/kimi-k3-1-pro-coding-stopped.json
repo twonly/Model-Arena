@@ -1,0 +1,1532 @@
+{
+  "model": "k3.1-pro",
+  "version": "Kimi K3.1 Pro",
+  "endpoint": "https://api.kimi.com/coding/v1",
+  "keyEnv": "SHARED_KEY_KIMI",
+  "modes": {
+    "default": {},
+    "low": {
+      "reasoning_effort": "low"
+    },
+    "max": {
+      "reasoning_effort": "max"
+    }
+  },
+  "extraBody": {},
+  "maxTokens": 12288,
+  "timeoutMs": 600000,
+  "versionSource": "https://www.kimi.com/code/docs/en/kimi-code/models",
+  "method": "Local macOS client calls the official Kimi Coding Plan endpoint. 15 fixed text, 3 fixed JavaScript, 4 fixed SVG and 1 SMIL task, three modes: omitted effort (provider default max), explicit low and explicit max. Default and max have the same documented reasoning effort and are independent replicates, not different model capabilities. Off is not supported. Sampling parameters omitted: provider fixed temperature 1.0/top_p 0.95. Sequential alternating mode order; preserve all initial attempts, retry invalid SVG/animation separately without feedback or source edits. Subscription quota consumed; no per-token invoice asserted.",
+  "tasks": [
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      }
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      }
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      }
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      }
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      }
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "format-4",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "format-5",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "grounded-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      }
+    },
+    {
+      "id": "grounded-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      }
+    },
+    {
+      "id": "grounded-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      }
+    },
+    {
+      "id": "grounded-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      }
+    },
+    {
+      "id": "grounded-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      }
+    },
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "category": "coding",
+      "version": "code-small-functions-v1"
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "category": "coding",
+      "version": "code-small-functions-v1"
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "category": "coding",
+      "version": "code-small-functions-v1"
+    },
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ]
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ]
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ]
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ]
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ]
+    }
+  ],
+  "identity": "2381e4c519ce0b4ebbf9b3185eefa065e2d968c534899ae449e86d8ed823e56c",
+  "attempts": [
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:07.244Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "firstContentMs": 3028.7833330000003,
+      "firstReasoningMs": 1662.1906669999998,
+      "firstEventMs": 1662.17075,
+      "usage": {
+        "prompt_tokens": 159,
+        "completion_tokens": 103,
+        "total_tokens": 262,
+        "completion_tokens_details": {
+          "reasoning_tokens": 70
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:10.274Z",
+      "totalMs": 3030.696167,
+      "promptTokens": 159,
+      "outputTokens": 103,
+      "reasoningTokens": 70
+    },
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:10.276Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "low"
+      },
+      "firstContentMs": 2415.690792,
+      "firstReasoningMs": 1479.1090829999998,
+      "firstEventMs": 1479.1046249999995,
+      "usage": {
+        "prompt_tokens": 160,
+        "completion_tokens": 61,
+        "total_tokens": 221,
+        "completion_tokens_details": {
+          "reasoning_tokens": 28
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:12.697Z",
+      "totalMs": 2420.927042,
+      "promptTokens": 160,
+      "outputTokens": 61,
+      "reasoningTokens": 28
+    },
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:12.703Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "max"
+      },
+      "firstContentMs": 3935.069292,
+      "firstReasoningMs": 2723.631292,
+      "firstEventMs": 2723.630959,
+      "usage": {
+        "prompt_tokens": 159,
+        "completion_tokens": 89,
+        "total_tokens": 248,
+        "cached_tokens": 159,
+        "completion_tokens_details": {
+          "reasoning_tokens": 56
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 159
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:16.638Z",
+      "totalMs": 3935.3410000000003,
+      "promptTokens": 159,
+      "outputTokens": 89,
+      "reasoningTokens": 56
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-24T01:11:16.639Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "max"
+      },
+      "firstContentMs": 2684.86075,
+      "firstReasoningMs": 1303.5452079999995,
+      "firstEventMs": 1303.5447079999994,
+      "usage": {
+        "prompt_tokens": 161,
+        "completion_tokens": 113,
+        "total_tokens": 274,
+        "completion_tokens_details": {
+          "reasoning_tokens": 78
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:19.325Z",
+      "totalMs": 2685.1844999999994,
+      "promptTokens": 161,
+      "outputTokens": 113,
+      "reasoningTokens": 78
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-24T01:11:19.327Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "low"
+      },
+      "firstContentMs": 3012.0116670000007,
+      "firstReasoningMs": 1345.4225000000006,
+      "firstEventMs": 1345.4218330000003,
+      "usage": {
+        "prompt_tokens": 162,
+        "completion_tokens": 136,
+        "total_tokens": 298,
+        "completion_tokens_details": {
+          "reasoning_tokens": 101
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:22.345Z",
+      "totalMs": 3017.815042,
+      "promptTokens": 162,
+      "outputTokens": 136,
+      "reasoningTokens": 101
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-24T01:11:22.346Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "firstContentMs": 3173.107833,
+      "firstReasoningMs": 2058.9653750000016,
+      "firstEventMs": 2058.964667000002,
+      "usage": {
+        "prompt_tokens": 161,
+        "completion_tokens": 98,
+        "total_tokens": 259,
+        "cached_tokens": 161,
+        "completion_tokens_details": {
+          "reasoning_tokens": 63
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 161
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:25.569Z",
+      "totalMs": 3222.407792,
+      "promptTokens": 161,
+      "outputTokens": 98,
+      "reasoningTokens": 63
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:25.572Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "firstContentMs": 3097.3274579999998,
+      "firstReasoningMs": 1500.6301249999997,
+      "firstEventMs": 1500.6297080000004,
+      "usage": {
+        "prompt_tokens": 159,
+        "completion_tokens": 107,
+        "total_tokens": 266,
+        "completion_tokens_details": {
+          "reasoning_tokens": 74
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:28.670Z",
+      "totalMs": 3097.5751659999987,
+      "promptTokens": 159,
+      "outputTokens": 107,
+      "reasoningTokens": 74
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:28.671Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "low"
+      },
+      "firstContentMs": 2401.0724160000027,
+      "firstReasoningMs": 1438.3682910000025,
+      "firstEventMs": 1438.3669580000023,
+      "usage": {
+        "prompt_tokens": 160,
+        "completion_tokens": 67,
+        "total_tokens": 227,
+        "completion_tokens_details": {
+          "reasoning_tokens": 34
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:31.153Z",
+      "totalMs": 2481.996750000002,
+      "promptTokens": 160,
+      "outputTokens": 67,
+      "reasoningTokens": 34
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:31.156Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "max"
+      },
+      "firstContentMs": 4290.169082999997,
+      "firstReasoningMs": 2619.8381659999977,
+      "firstEventMs": 2619.837707999999,
+      "usage": {
+        "prompt_tokens": 159,
+        "completion_tokens": 112,
+        "total_tokens": 271,
+        "cached_tokens": 159,
+        "completion_tokens_details": {
+          "reasoning_tokens": 79
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 159
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:35.447Z",
+      "totalMs": 4290.9569999999985,
+      "promptTokens": 159,
+      "outputTokens": 112,
+      "reasoningTokens": 79
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "startedAt": "2026-10-24T01:11:35.451Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "max"
+      },
+      "firstContentMs": 3145.268250000001,
+      "firstReasoningMs": 1514.7437089999985,
+      "firstEventMs": 1514.7430419999982,
+      "usage": {
+        "prompt_tokens": 163,
+        "completion_tokens": 115,
+        "total_tokens": 278,
+        "completion_tokens_details": {
+          "reasoning_tokens": 79
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:38.597Z",
+      "totalMs": 3146.093667000001,
+      "promptTokens": 163,
+      "outputTokens": 115,
+      "reasoningTokens": 79
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "startedAt": "2026-10-24T01:11:38.600Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "low"
+      },
+      "firstContentMs": 2176.1466249999976,
+      "firstReasoningMs": 1470.0065409999988,
+      "firstEventMs": 1470.0062910000015,
+      "usage": {
+        "prompt_tokens": 164,
+        "completion_tokens": 63,
+        "total_tokens": 227,
+        "completion_tokens_details": {
+          "reasoning_tokens": 27
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:40.793Z",
+      "totalMs": 2193.085833000001,
+      "promptTokens": 164,
+      "outputTokens": 63,
+      "reasoningTokens": 27
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "startedAt": "2026-10-24T01:11:40.794Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "firstContentMs": 3894.2790000000023,
+      "firstReasoningMs": 2570.9466669999965,
+      "firstEventMs": 2570.946125000002,
+      "usage": {
+        "prompt_tokens": 163,
+        "completion_tokens": 97,
+        "total_tokens": 260,
+        "cached_tokens": 163,
+        "completion_tokens_details": {
+          "reasoning_tokens": 61
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 163
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:44.689Z",
+      "totalMs": 3894.5561670000025,
+      "promptTokens": 163,
+      "outputTokens": 97,
+      "reasoningTokens": 61
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:44.692Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "firstContentMs": 2806.7676250000004,
+      "firstReasoningMs": 1489.5876669999998,
+      "firstEventMs": 1489.5873329999959,
+      "usage": {
+        "prompt_tokens": 159,
+        "completion_tokens": 92,
+        "total_tokens": 251,
+        "completion_tokens_details": {
+          "reasoning_tokens": 59
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:47.499Z",
+      "totalMs": 2807.2810420000023,
+      "promptTokens": 159,
+      "outputTokens": 92,
+      "reasoningTokens": 59
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:47.502Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "low"
+      },
+      "firstContentMs": 2527.4919999999984,
+      "firstReasoningMs": 1482.1402499999967,
+      "firstEventMs": 1482.1395419999972,
+      "usage": {
+        "prompt_tokens": 160,
+        "completion_tokens": 74,
+        "total_tokens": 234,
+        "completion_tokens_details": {
+          "reasoning_tokens": 41
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:50.108Z",
+      "totalMs": 2606.1539589999957,
+      "promptTokens": 160,
+      "outputTokens": 74,
+      "reasoningTokens": 41
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-24T01:11:50.111Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "max"
+      },
+      "firstContentMs": 4638.805041,
+      "firstReasoningMs": 2872.331790999997,
+      "firstEventMs": 2872.3310409999976,
+      "usage": {
+        "prompt_tokens": 159,
+        "completion_tokens": 113,
+        "total_tokens": 272,
+        "cached_tokens": 159,
+        "completion_tokens_details": {
+          "reasoning_tokens": 80
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 159
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:54.751Z",
+      "totalMs": 4639.317499999997,
+      "promptTokens": 159,
+      "outputTokens": 113,
+      "reasoningTokens": 80
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "max",
+      "status": "done",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-24T01:11:54.754Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "max"
+      },
+      "firstContentMs": 2222.952916000002,
+      "firstReasoningMs": 1321.6292499999981,
+      "firstEventMs": 1321.6290000000008,
+      "usage": {
+        "prompt_tokens": 124,
+        "completion_tokens": 90,
+        "total_tokens": 214,
+        "completion_tokens_details": {
+          "reasoning_tokens": 67
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:56.995Z",
+      "totalMs": 2241.395749999996,
+      "promptTokens": 124,
+      "outputTokens": 90,
+      "reasoningTokens": 67
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "low",
+      "status": "done",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-24T01:11:57.048Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "low"
+      },
+      "firstContentMs": 1800.5522500000006,
+      "firstReasoningMs": 1250.2221250000002,
+      "firstEventMs": 1250.221832999996,
+      "usage": {
+        "prompt_tokens": 125,
+        "completion_tokens": 55,
+        "total_tokens": 180,
+        "completion_tokens_details": {
+          "reasoning_tokens": 32
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:11:58.859Z",
+      "totalMs": 1811.0144999999975,
+      "promptTokens": 125,
+      "outputTokens": 55,
+      "reasoningTokens": 32
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "status": "done",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-24T01:11:58.861Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "firstContentMs": 3501.715833000002,
+      "firstReasoningMs": 2179.2666669999962,
+      "firstEventMs": 2179.2663329999996,
+      "usage": {
+        "prompt_tokens": 124,
+        "completion_tokens": 119,
+        "total_tokens": 243,
+        "cached_tokens": 124,
+        "completion_tokens_details": {
+          "reasoning_tokens": 96
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 124
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:12:02.363Z",
+      "totalMs": 3502.524958000002,
+      "promptTokens": 124,
+      "outputTokens": 119,
+      "reasoningTokens": 96
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "status": "done",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-24T01:12:02.366Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "firstContentMs": 2603.0756249999977,
+      "firstReasoningMs": 1501.1552500000034,
+      "firstEventMs": 1501.1549579999992,
+      "usage": {
+        "prompt_tokens": 125,
+        "completion_tokens": 77,
+        "total_tokens": 202,
+        "completion_tokens_details": {
+          "reasoning_tokens": 53
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:12:04.969Z",
+      "totalMs": 2603.288124999999,
+      "promptTokens": 125,
+      "outputTokens": 77,
+      "reasoningTokens": 53
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "low",
+      "status": "done",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-24T01:12:04.971Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "low"
+      },
+      "firstContentMs": 2223.8822080000027,
+      "firstReasoningMs": 1415.6855830000059,
+      "firstEventMs": 1415.6851670000033,
+      "usage": {
+        "prompt_tokens": 126,
+        "completion_tokens": 54,
+        "total_tokens": 180,
+        "completion_tokens_details": {
+          "reasoning_tokens": 30
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:12:07.198Z",
+      "totalMs": 2227.4775420000005,
+      "promptTokens": 126,
+      "outputTokens": 54,
+      "reasoningTokens": 30
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "max",
+      "status": "done",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-24T01:12:07.201Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "max"
+      },
+      "firstContentMs": 3620.3262079999986,
+      "firstReasoningMs": 2634.3734170000025,
+      "firstEventMs": 2634.3731249999983,
+      "usage": {
+        "prompt_tokens": 125,
+        "completion_tokens": 72,
+        "total_tokens": 197,
+        "cached_tokens": 125,
+        "completion_tokens_details": {
+          "reasoning_tokens": 48
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 125
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:12:10.823Z",
+      "totalMs": 3622.701291999998,
+      "promptTokens": 125,
+      "outputTokens": 72,
+      "reasoningTokens": 48
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "max",
+      "status": "done",
+      "text": "[3, 8, 12, 25]",
+      "startedAt": "2026-10-24T01:12:10.827Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_effort": "max"
+      },
+      "firstContentMs": 1759.4513329999972,
+      "firstReasoningMs": 873.8170409999948,
+      "firstEventMs": 873.8167079999985,
+      "usage": {
+        "prompt_tokens": 116,
+        "completion_tokens": 69,
+        "total_tokens": 185,
+        "completion_tokens_details": {
+          "reasoning_tokens": 42
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:12:12.665Z",
+      "totalMs": 1838.1057079999955,
+      "promptTokens": 116,
+      "outputTokens": 69,
+      "reasoningTokens": 42
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "low",
+      "status": "interrupted",
+      "text": "",
+      "startedAt": "2026-10-24T01:12:12.666Z"
+    }
+  ],
+  "suiteVersion": "visual-svg-v1"
+}

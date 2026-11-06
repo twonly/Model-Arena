@@ -1,0 +1,173 @@
+{
+  "schema": "tokrace-official-release-assets-v1",
+  "updatedAt": "2026-11-04T07:26:40.341742+00:00",
+  "sources": [
+    {
+      "url": "https://hy.tencent.ai/research/hy4?langVersion=en",
+      "title": "Tencent Hy4 official launch article"
+    },
+    {
+      "url": "https://x.com/TencentHunyuan/status/2117870250838630539",
+      "title": "Tencent Hy official launch post"
+    },
+    {
+      "url": "https://x.com/TencentAI_News/status/2117872859834110067",
+      "title": "Tencent AI official launch film"
+    }
+  ],
+  "images": [
+    {
+      "id": "overview",
+      "path": "/articles/tencent-hy4-release/official-benchmark-overview.png",
+      "sourcePage": "https://hy.tencent.ai/research/hy4?langVersion=en",
+      "sourceUrl": "https://hy-model-ap-prod-1258344703.cos.ap-guangzhou.myqcloud.com/llm-blog/default/9a5ea02f/2026110413013841_c7b0f472f484b23cc564fd19c3fba30d.png",
+      "sourceDate": "2026-11-04",
+      "width": 8148,
+      "height": 6110,
+      "bytes": 2097514,
+      "sha256": "b644de1a935ea2b1dfcc65403d1fabdba97ff50d2f629e7b756a490ba5f1812d",
+      "originalBytes": true,
+      "credit": "Tencent Hy / 腾讯混元",
+      "altZh": "Hy4 官方综合基准图：编码、Agent、科研与 Computer Use",
+      "altEn": "Official Hy4 benchmark overview: coding, agents, research and computer use",
+      "titleZh": "Hy4 官方综合基准图：编码、Agent、科研与 Computer Use",
+      "titleEn": "Official Hy4 benchmark overview: coding, agents, research and computer use",
+      "selected": true,
+      "webPreviewPath": "/articles/tencent-hy4-release/official-benchmark-overview-preview.webp",
+      "webPreview": {
+        "width": 1800,
+        "height": 1350,
+        "bytes": 92540,
+        "sha256": "78db2c2c2252cd352bde620d027f1062de342bfe87a7067b6b860e93759ad7c3",
+        "originalBytes": false,
+        "derivation": "WebP preview resized to 1800px width without upscaling, quality 88. Full-resolution original retained unchanged."
+      }
+    },
+    {
+      "id": "hard-benchmarks",
+      "path": "/articles/tencent-hy4-release/official-hard-benchmarks.jpg",
+      "sourcePage": "https://hy.tencent.ai/research/hy4?langVersion=en",
+      "sourceUrl": "https://hy-model-ap-prod-1258344703.cos.ap-guangzhou.myqcloud.com/llm-blog/default/9a5ea02f/2026110402015231_ac89ad6ff52f8d565fa568ebfa6928d4.jpg",
+      "sourceDate": "2026-11-04",
+      "width": 16300,
+      "height": 4334,
+      "bytes": 3854391,
+      "sha256": "df94924560faa2adb3c2046a4fb40f603a8f3b3593b8d4f4ee9d97a49ba8cab1",
+      "originalBytes": true,
+      "credit": "Tencent Hy / 腾讯混元",
+      "altZh": "Hy4 官方高难基准差距图：研究数学、长程编码、基础模型改进与无工具视觉问答",
+      "altEn": "Official hard-benchmark gaps: research mathematics, long-horizon coding, foundation-model improvement and vision without tools",
+      "titleZh": "Hy4 官方高难基准差距图：研究数学、长程编码、基础模型改进与无工具视觉问答",
+      "titleEn": "Official hard-benchmark gaps: research mathematics, long-horizon coding, foundation-model improvement and vision without tools",
+      "selected": true,
+      "webPreviewPath": "/articles/tencent-hy4-release/official-hard-benchmarks-preview.webp",
+      "webPreview": {
+        "width": 1800,
+        "height": 478,
+        "bytes": 32646,
+        "sha256": "51a92b8ffbc824760e536560ef6d2f8f15b43b152c2f304a281f78d706ea719e",
+        "originalBytes": false,
+        "derivation": "WebP preview resized to 1800px width without upscaling, quality 88. Full-resolution original retained unchanged."
+      }
+    },
+    {
+      "id": "appendix",
+      "path": "/articles/tencent-hy4-release/official-benchmark-appendix.jpg",
+      "sourcePage": "https://hy.tencent.ai/research/hy4?langVersion=en",
+      "sourceUrl": "https://hy-model-ap-prod-1258344703.cos.ap-guangzhou.myqcloud.com/llm-blog/default/9a5ea02f/2026110402023072_85b416b6484a88ef96ef6edda563b560.jpg",
+      "sourceDate": "2026-11-04",
+      "width": 1965,
+      "height": 3756,
+      "bytes": 2276799,
+      "sha256": "8fc24d0f588e6069919da6859445d79852b5484eb6352ea367caa5954bb4c960",
+      "originalBytes": true,
+      "credit": "Tencent Hy / 腾讯混元",
+      "altZh": "Hy4 官方完整基准附表与测试条件脚注",
+      "altEn": "Official full benchmark appendix and methodology footnotes",
+      "titleZh": "Hy4 官方完整基准附表与测试条件脚注",
+      "titleEn": "Official full benchmark appendix and methodology footnotes",
+      "selected": true,
+      "webPreviewPath": "/articles/tencent-hy4-release/official-benchmark-appendix-preview.webp",
+      "webPreview": {
+        "width": 1800,
+        "height": 3441,
+        "bytes": 501492,
+        "sha256": "f5e5cf778bdc650b8dfaad2fb4ae2841746caeca1d7a4f9e84751a34fa3aeecb",
+        "originalBytes": false,
+        "derivation": "WebP preview resized to 1800px width without upscaling, quality 88. Full-resolution original retained unchanged."
+      }
+    },
+    {
+      "id": "x-overview",
+      "path": "/articles/tencent-hy4-release/official-benchmark-x.jpg",
+      "sourcePage": "https://x.com/TencentHunyuan/status/2117870250838630539",
+      "sourceUrl": "https://pbs.twimg.com/media/HWQvvEraQAAjwKn.jpg?format=jpg&name=orig",
+      "sourceDate": "2026-11-04",
+      "width": 4096,
+      "height": 3071,
+      "bytes": 511912,
+      "sha256": "554b6a981ce8e28ae42223d934da15724a3854e49c649b7276339d151224cfe5",
+      "originalBytes": true,
+      "credit": "Tencent Hy / 腾讯混元",
+      "altZh": "腾讯混元官方 X 发布的综合基准图",
+      "altEn": "Benchmark overview posted by official Tencent Hy on X",
+      "titleZh": "腾讯混元官方 X 发布的综合基准图",
+      "titleEn": "Benchmark overview posted by official Tencent Hy on X",
+      "selected": false
+    }
+  ],
+  "video": {
+    "id": "launch-film",
+    "path": "/articles/tencent-hy4-release/official-launch-film.mp4",
+    "posterPath": "/articles/tencent-hy4-release/official-launch-poster.jpg",
+    "sourcePost": "https://x.com/TencentAI_News/status/2117872859834110067",
+    "sourceUrl": "https://video.twimg.com/amplify_video/2117872726555889664/vid/avc1/1280x720/bmkXlySAI_ea20d9.mp4",
+    "sourcePosterUrl": "https://pbs.twimg.com/amplify_video_thumb/2117872726555889664/img/XKpZ0VxvWG8ZmcBK.jpg",
+    "publishedAt": "2026-11-04T06:53:32.000Z",
+    "durationSeconds": 70.133,
+    "containerDurationSeconds": 70.193923,
+    "width": 1280,
+    "height": 720,
+    "bytes": 11249081,
+    "sha256": "1b7ce796d77b1e9411ebd9947d3d5d831c6ed88896e7034bb1c219f47a54d24b",
+    "originalBytes": true,
+    "credit": "Tencent AI / Tencent Hy",
+    "videoCodec": "h264",
+    "audioCodec": "aac",
+    "frameRate": "30/1",
+    "faststart": true,
+    "variantNote": "Untouched official 1280×720 X variant. The 2560×1440 original variant is 57,606,545 bytes and remains in private research storage, above the current 50 MiB media-bucket limit.",
+    "poster": {
+      "width": 1200,
+      "height": 675,
+      "bytes": 40484,
+      "sha256": "23750c4c15c7d9d310f2ed670a9adf9b235122f338abe18bbc73aa855ad1c245",
+      "originalBytes": true
+    },
+    "visibleScenesZh": [
+      "以视觉拼合图像碎片与拼图",
+      "从概念图到角色多视角与游戏画面",
+      "通过 Computer Use 在 Blender 中依据户型图建模、布光并渲染",
+      "复杂工作上下文与办公界面",
+      "科学研究与模型结果对照"
+    ],
+    "visibleScenesEn": [
+      "Vision tasks assembling image fragments and puzzle pieces",
+      "Concept drawings, character views and game scenes",
+      "Computer use in Blender to model, light and render a floor plan",
+      "Complex workplace context and office interfaces",
+      "Scientific-research model comparisons"
+    ]
+  },
+  "inspection": {
+    "images": "All three official site figures and the X overview visually inspected, including full legends and methodology footnotes. Original bytes retained.",
+    "video": "Official film contact sheet inspected; visible-scene descriptions are promotional demonstrations, not independently reproduced tasks or audio transcription."
+  },
+  "benchmarkCaveats": [
+    "Figures are Tencent-reported results, not independently reproduced by TOKRACE.",
+    "Benchmark-name asterisks indicate first evaluation upon release; model-cell asterisks in the appendix indicate Tencent testing.",
+    "OSWorld 2.1 uses Full, partial score; 78.9 must not be described as a full-task completion percentage.",
+    "Model comparisons use the highest available reasoning setting; harnesses, budgets and judge systems vary as detailed in the appendix.",
+    "Hy4 Preview scores may differ from earlier releases after evaluation-harness, judge-model and anti-hacking updates."
+  ]
+}

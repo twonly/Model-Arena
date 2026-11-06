@@ -10,7 +10,7 @@ import {
 
 test("findPrice matches aliases and respects region", () => {
   const flash = findPrice("deepseek-flash");
-  assert.equal(flash?.model, "DeepSeek V4.1 Flash");
+  assert.equal(flash?.model, "DeepSeek V4.1 Flash 1017");
   assert.equal(flash?.currency, "USD");
   assert.equal(flash?.output, 1.2);
 
@@ -95,4 +95,21 @@ test("host-only Zhipu telemetry never borrows subscription pricing", async () =>
   assert.ok(
     findEndpointPrice("glm-5.2", "https://open.bigmodel.cn/api/paas/v4"),
   );
+});
+
+test('custom USD rates override built-in and unknown endpoints without requiring backend pricing', async () => {
+  const { findEndpointPrice, validCustomPricing } = await import('../lib/pricing.ts');
+  const custom = { input: 2, output: 6 };
+  for (const endpoint of ['https://gateway.test/v1', 'https://api.deepseek.com']) {
+    const price = findEndpointPrice('deepseek-flash', endpoint, custom);
+    assert.equal(price.currency, 'USD');
+    assert.equal(estimateRunCost(price, 1000, 500).totalUsd, 0.005);
+  }
+  const free = findEndpointPrice('unknown', '', { input: 0, output: 0 });
+  assert.equal(estimateRunCost(free, 100, 500).totalUsd, 0);
+  for (const invalid of [{}, { input: 1 }, { input: -1, output: 1 }, { input: Infinity, output: 1 }, { input: '2', output: 1 }]) {
+    assert.equal(validCustomPricing(invalid), false);
+    assert.equal(findEndpointPrice('deepseek-flash', 'https://api.deepseek.com', invalid), undefined);
+  }
+  assert.equal(findEndpointPrice('deepseek-flash', 'https://api.deepseek.com').inputMiss, 0.3);
 });

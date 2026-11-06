@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- 浅色背景 -->
+  <rect width="800" height="600" fill="#F5F9F5"/>
+  
+  <!-- 装饰圆环 -->
+  <circle cx="680" cy="100" r="60" fill="none" stroke="#B8D9B8" stroke-width="2" opacity="0.5"/>
+  <circle cx="100" cy="500" r="40" fill="none" stroke="#B8D9B8" stroke-width="2" opacity="0.5"/>
+  
+  <!-- 自行车图标 -->
+  <g transform="translate(400, 180)">
+    <!-- 后轮 -->
+    <circle cx="-60" cy="40" r="35" fill="none" stroke="#4A7C59" stroke-width="4"/>
+    <!-- 前轮 -->
+    <circle cx="60" cy="40" r="35" fill="none" stroke="#4A7C59" stroke-width="4"/>
+    <!-- 车架 -->
+    <line x1="-60" y1="40" x2="-20" y2="-20" stroke="#4A7C59" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-20" y1="-20" x2="60" y2="40" stroke="#4A7C59" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-20" y1="-20" x2="-10" y2="40" stroke="#4A7C59" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-10" y1="40" x2="60" y2="40" stroke="#4A7C59" stroke-width="4" stroke-linecap="round"/>
+    <!-- 车把和座椅 -->
+    <line x1="-20" y1="-20" x2="-25" y2="-35" stroke="#4A7C59" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-35" y1="-35" x2="-15" y2="-35" stroke="#4A7C59" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-10" y1="40" x2="-5" y2="30" stroke="#4A7C59" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-10" y1="25" x2="-15" y2="30" stroke="#4A7C59" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  
+  <!-- 主标题 -->
+  <text x="400" y="300" font-family="sans-serif" font-size="56" font-weight="bold" fill="#2C5F2D" text-anchor="middle">周末骑行计划</text>
+  
+  <!-- 副标题 -->
+  <text x="400" y="350" font-family="sans-serif" font-size="24" fill="#5A8F5A" text-anchor="middle">慢一点，看见城市</text>
+  
+  <!-- 时间 -->
+  <text x="400" y="410" font-family="sans-serif" font-size="28" font-weight="500" fill="#3D6B3D" text-anchor="middle">10月24日 09:00</text>
+  
+  <!-- 地点 -->
+  <text x="400" y="450" font-family="sans-serif" font-size="28" font-weight="500" fill="#3D6B3D" text-anchor="middle">滨江公园东门</text>
+  
+  <!-- 说明 -->
+  <text x="400" y="490" font-family="sans-serif" font-size="18" fill="#6B9E6B" text-anchor="middle">自备头盔 · 全程12公里</text>
+  
+  <!-- 按钮 -->
+  <rect x="320" y="520" width="160" height="50" rx="25" fill="#4A7C59"/>
+  <text x="400" y="552" font-family="sans-serif" font-size="22" fill="#FFFFFF" text-anchor="middle">立即报名</text>
+</svg>

@@ -170,7 +170,7 @@ export default async function RootLayout({
           {children}
           <SiteFooter />
         </I18nProvider>
-        {process.env.VERCEL === "1" && process.env.TOKRACE_BETA !== "1" && <>
+        {process.env.TOKRACE_BETA !== "1" && <>
           <Analytics />
           <SpeedInsights />
         </>}

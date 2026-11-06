@@ -1,0 +1,369 @@
+{
+  "display": {
+    "vendor": "Dots Studio",
+    "officialDate": "2026-11-04",
+    "previousAttempts": 0,
+    "modeLabels": {
+      "default": {
+        "zh": "OpenRouter 免费路由",
+        "en": "OpenRouter free route"
+      }
+    },
+    "methodZh": "实测于 2026 年 11 月 3 日；固定提示词、温度 0、600 秒请求超时。推理费用报告为 $0；免费路由的额度与可用性可能变化。输出 token 已包含提供商报告的思考 token。",
+    "methodEn": "Tested November 3, 2026, with fixed prompts, temperature 0 and a 600-second request timeout. Reported inference cost is $0; free-route quotas and availability can change. Completion tokens already include reported reasoning tokens.",
+    "officialIntroZh": "以下为 Dots Studio 官方模型卡图表，原字节保存并注明来源，2026-11-04 核对；未独立复现，与上方 TOKRACE 作品区分。",
+    "officialIntroEn": "The following original-byte figures come from the Dots Studio model card, checked November 4, 2026. They are vendor-reported and not independently reproduced, separate from TOKRACE outputs."
+  },
+  "date": "2026-11-03",
+  "evidencePath": "/evaluations/dots3-note-preview-evidence.json",
+  "tasks": [
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ]
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ]
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ]
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ]
+    }
+  ],
+  "attempts": [
+    {
+      "id": "clock",
+      "mode": "default",
+      "status": "done",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:45:49.058Z",
+      "totalMs": 68874.214542,
+      "outputTokens": 5863,
+      "firstContentMs": 62861.112292000005,
+      "pngPath": "/evaluations/dots3-note-preview/assets/clock-20261103.png",
+      "svgPath": "/evaluations/dots3-note-preview/assets/clock-20261103.svg",
+      "width": 1200,
+      "height": 900,
+      "assessmentZh": "12 个数字齐全，时针 290.556°、分针 246.005°，与 9:41 的目标位置相符；时针也短于分针。画面简洁，标签清楚。",
+      "assessmentEn": "All twelve numbers are present. The hour hand is at 290.556° and the minute hand at 246.005°, matching 9:41 within coordinate rounding; the hour hand is shorter. The layout is simple and clear.",
+      "history": [],
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/dots3-note-preview-evidence.json",
+      "altZh": "9:41 模拟钟表",
+      "altEn": "An analog clock at 9:41"
+    },
+    {
+      "id": "dashboard",
+      "mode": "default",
+      "status": "done",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:46:57.934Z",
+      "totalMs": 116215.37641599998,
+      "outputTokens": 10376,
+      "firstContentMs": 106923.625791,
+      "pngPath": "/evaluations/dots3-note-preview/assets/dashboard-20261103.png",
+      "svgPath": "/evaluations/dots3-note-preview/assets/dashboard-20261103.svg",
+      "width": 1200,
+      "height": 900,
+      "assessmentZh": "四根柱共用零基线，高度比例 2:4:3:5 正确，总计 84、最佳 Q4 也正确。遗漏 Q1–Q4 横轴标签，读者无法直接辨认每根柱所属季度。",
+      "assessmentEn": "The four bars share a zero baseline and the correct 2:4:3:5 ratio. Total 84 and Best Q4 are correct, but Q1–Q4 labels are missing from the horizontal axis.",
+      "history": [],
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/dots3-note-preview-evidence.json",
+      "altZh": "数据图表与比例",
+      "altEn": "Data chart and proportional bars"
+    },
+    {
+      "id": "poster",
+      "mode": "default",
+      "status": "done",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:48:54.153Z",
+      "totalMs": 48782.456167,
+      "outputTokens": 4172,
+      "firstContentMs": 43413.48637499998,
+      "pngPath": "/evaluations/dots3-note-preview/assets/poster-20261103.png",
+      "svgPath": "/evaluations/dots3-note-preview/assets/poster-20261103.svg",
+      "width": 1200,
+      "height": 900,
+      "assessmentZh": "六段指定中文各出现一次，没有缺字、重叠或出界。标题和按钮层次清楚，自行车图标较简略，留白较多。",
+      "assessmentEn": "All six exact Chinese strings appear once, without missing characters, overlap or clipping. Heading and button hierarchy are clear; the bicycle icon is rudimentary and the layout has generous whitespace.",
+      "history": [],
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/dots3-note-preview-evidence.json",
+      "altZh": "中文海报与排版约束",
+      "altEn": "Chinese poster and layout constraints"
+    },
+    {
+      "id": "pelican-animation",
+      "mode": "default",
+      "status": "done",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:52:39.740Z",
+      "totalMs": 203030.253041,
+      "outputTokens": 16247,
+      "firstContentMs": 188541.767375,
+      "pngPath": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.png",
+      "svgPath": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.svg",
+      "width": 800,
+      "height": 600,
+      "assessmentZh": "轮辐和脚踏确实转动，主体留在画布内，已导出可播放的 4 秒循环。腿被画成绕身体旋转的直杆，缺少屈膝关节，踩踏姿势不自然；车架也很简略。",
+      "assessmentEn": "Spokes and pedals visibly rotate, the subject stays on canvas, and a playable four-second loop is delivered. The legs are rigid rods rotating around the body rather than articulated knees, so pedaling looks unnatural; the frame is rudimentary.",
+      "history": [
+        {
+          "status": "truncated",
+          "totalMs": 150620.12262500002,
+          "startedAt": "2026-11-03T15:49:42.938Z",
+          "error": null,
+          "interruptionReason": "Output token allowance reached before SVG content was returned."
+        }
+      ],
+      "attemptNumber": 2,
+      "sourceEvidence": "/evaluations/dots3-note-preview-evidence.json",
+      "animationRender": {
+        "path": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.webp",
+        "sha256": "f7da3449a06eea4d5241dc7a1710813a936d8026f93d2bf0fd4d228430fd0dd9",
+        "durationSeconds": 4,
+        "fps": 10,
+        "frames": 40,
+        "width": 800,
+        "height": 600,
+        "uniqueFrames": 39,
+        "loopBoundaryMatchesStart": false,
+        "loopBoundaryMeanAbsoluteError": 0.012997916666666666,
+        "frameHashes": [
+          "ab43311c27d905bbe28db362a948cabb344ed59ffca1eb0e5171d16c05718f95",
+          "9a15a47f92c8a46acf27c4bfff5185b4d5a3b2384cfbb60c8050a5840b376ccf",
+          "491252ff3bad133479fb792bbc3fa8353bb61a4372dfe50f10419449e1072f91",
+          "eecfa1926a99b6edeaaba812b814afcffe8f29193bdc1a3a9ca57d0f0b23462e",
+          "dfcf0b83f9bfefcf597d677a8457ee03e8268cdbdd32bde2fa98cb61a7943477",
+          "75aebb9da1c2adcb2b87f55690aa1329975e64310795bd662604c3769730a191",
+          "60dac67c864b61a3514de6fd064212b675fcda18fbfd560c829bd17bf031154f",
+          "82b5fc9a78669b150a38f831f11520b8ab447b9ae4e8158b8ae2ae77e3c3284f",
+          "fdc8a08350f9c0ec7a3f43b8401b0192f59e304efe3d0799a03662e2b32839e5",
+          "08f9bf444f07a5412a29b23408ff669fb3255db446281457c2490fadb88a995c",
+          "7f418b4b6320ea5003fd5df53fd1867f0153e8b1863af0a740a2a9b6ab775aeb",
+          "9659bfb4d2821cf6350d56923447345900b6fc67565387432b6c258f41a261f4",
+          "a2b396ddf8edbc1cb86c7976b3a3f6160b096d32cc03d4545ef0ce018a424920",
+          "f36e5a2b8f78262f05a393e688d79e35454e0edcc206f0c8533b0d7878f5c487",
+          "704b47485a97e285d16df4595131d0abe7c03fd5a003d8eeaed210b2268e2dd8",
+          "e460fc097b39b9bcfcf2e459887055a0f011858c580e6b5e9cdc939c42aaa7a6",
+          "c33c27825de0a29a6ca4d8531a90208d48c91796b37bc5aee6e9bce6a396826f",
+          "92d1ce3028028215f3103b43dc9d23a94ef57e1074274e9a97d65099ec67f1c7",
+          "b858b46c3fe521dfe42230c394b033ba0453f1fa4fb10cf059d9b6463a7647d2",
+          "f58f6e6986e36511eb6a9aba99c4c64de6abcef65f75823079ac5d0343eb90d6",
+          "45bf37466e7dcf26af1e93a8e4a60569f20f23cc1e56e8156c66213076b90155",
+          "6fe591a8943f7aa213b115cbeb75c0d7432907693777df087e2e6bfedb3ca01e",
+          "9965d618ef25c01fe3258aaa75847f9014edac3e2addd019de2b7fe955d3259b",
+          "c927ffb42ca5a8b215486cac7a640b59fdf174ffa9f637a451403590afdbf01e",
+          "bd288bd4e7468313674423b423af7748015384c0a38dee5bc305ec2c0bb32895",
+          "8e76d1e888f8daf0aa57449b83ce7873e13223300eb9de3fe17d239d12aac258",
+          "4618d0b96e661f846499ac086b172204fd2469e6e9bdd285d3fcedc3b6b59399",
+          "97757eefcce68bb168274061206acbc1d1cf32df3926c7ee0064886a677aed88",
+          "cc738926237d34f92ce53f9a156b287e9593a8ce07720b569655f98bbd4f8e43",
+          "7791cc84540031849c17f2cd153f54d410b0674e9fdb0beaed87fceac8c32b31",
+          "7f418b4b6320ea5003fd5df53fd1867f0153e8b1863af0a740a2a9b6ab775aeb",
+          "7be7b9b3c224251752fc86147ecd3b8a1ac2895ef7a831e0d2d4f99a6e730b9e",
+          "80fa8c117b83ec9c9c81687ff52a62c2d5202408843ad29808473ef992de986c",
+          "cc0a2d49fa95bf58ea2a71b6b6ef044bed522256b12ab1ca193d7c7c28e34b16",
+          "01b3cb8817f7f4732a3a498c6310579b401e0b8c73d77272ed5b72171c443f0a",
+          "2ac7ef57f09d1e38715a689617f3c9d9dc14d1209080025e278140f1e47f394e",
+          "f1b665f7eb5ca81b85be01718392ced846eea79d25502d6e1846ed70b83e2c19",
+          "81cbd94e971b455d415e8a066a436e96e7bce221780fb8f98ea2ac259f9dbbca",
+          "a9daad3397e64470326aed19d1dc4c25bb8cd12c971c787a9fe0c39851ef1e7e",
+          "9f3fafc656dc3518eeee132662fdff5b32dba1b8994b2854c787b499a9b516b6"
+        ],
+        "renderer": "Chromium SMIL fixed-time capture, 0.0–3.9 seconds; animated WebP, no source edits",
+        "browserVersion": "148.0.7778.96"
+      },
+      "altZh": "鹈鹕骑车动画",
+      "altEn": "Animated cycling pelican"
+    }
+  ],
+  "official": [
+    {
+      "path": "/evaluations/dots3-note-preview/assets/official-benchmarks-reasoning.png",
+      "sha256": "9a2f88cde1353884bf9d7c2a47b278debd8c92757dbba9e61dc2dcfe00475fb6",
+      "bytes": 730014,
+      "width": 2692,
+      "height": 1396,
+      "kind": "official-reported-benchmark",
+      "sourcePage": "https://huggingface.co/dots-studio/dots3-note-prev",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev/resolve/main/assets/bench_en1.png",
+      "copyright": "Dots Studio",
+      "retrievedAt": "2026-11-02",
+      "id": "reasoning",
+      "titleZh": "官方通用推理与 Agent 跑分",
+      "titleEn": "Official reasoning and agent benchmarks",
+      "captionZh": "Dots Studio 官方模型卡原图；保留原图条件、图例与脚注。属于厂商报告成绩，TOKRACE 未独立复现。",
+      "captionEn": "Original figure from the Dots Studio model card, with conditions, legend and footnotes retained. Vendor-reported results, not independently reproduced by TOKRACE."
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/official-benchmarks-multimodal.png",
+      "sha256": "fcf1d2d99752ae9d36cff2e1e619ca1ef9c23901ac6ede46f1defb990efedda9",
+      "bytes": 299165,
+      "width": 2746,
+      "height": 1088,
+      "kind": "official-reported-benchmark",
+      "sourcePage": "https://huggingface.co/dots-studio/dots3-note-prev",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev/resolve/main/assets/bench_en2.png",
+      "copyright": "Dots Studio",
+      "retrievedAt": "2026-11-02",
+      "id": "multimodal",
+      "titleZh": "官方多模态理解跑分",
+      "titleEn": "Official multimodal benchmarks",
+      "captionZh": "Dots Studio 官方模型卡原图；保留原图条件、图例与脚注。属于厂商报告成绩，TOKRACE 未独立复现。",
+      "captionEn": "Original figure from the Dots Studio model card, with conditions, legend and footnotes retained. Vendor-reported results, not independently reproduced by TOKRACE."
+    }
+  ],
+  "officialSources": [
+    {
+      "nameZh": "Dots Studio 模型卡与权重",
+      "nameEn": "Dots Studio model card and weights",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev"
+    },
+    {
+      "nameZh": "官方代码仓库与许可证",
+      "nameEn": "Official repository and license",
+      "url": "https://github.com/studio-dots-ai/dots3-note-prev"
+    },
+    {
+      "nameZh": "OpenRouter 免费模型接口",
+      "nameEn": "OpenRouter free model route",
+      "url": "https://openrouter.ai/dots-studio/dots-3-note-preview:free"
+    }
+  ]
+}

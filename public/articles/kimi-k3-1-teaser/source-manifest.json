@@ -1,0 +1,87 @@
+{
+  "title": "Kimi K3.1 official teaser source and media attribution",
+  "sourceUrl": "https://x.com/Kimi_Moonshot/status/2113445757185606062",
+  "sourceAccount": "Kimi_Moonshot",
+  "sourcePublishedAt": "2026-10-23T01:41:49Z",
+  "retrievedAt": "2026-10-23T07:09:31.472309+00:00",
+  "metadataRecovery": "https://api.fxtwitter.com/Kimi_Moonshot/status/2113445757185606062",
+  "videoSourceUrl": "https://video.twimg.com/amplify_video/2113445550087708673/vid/avc1/1920x1080/vCo3DeWLOC3E0IuX.mp4?tag=29",
+  "credit": "Kimi / Moonshot AI",
+  "scope": "Official promotional material, not an independent TOKRACE model evaluation.",
+  "video": {
+    "width": 1920,
+    "height": 1080,
+    "videoDurationSeconds": 24.033333,
+    "containerDurationSeconds": 24.085333,
+    "codecs": [
+      "h264",
+      "aac"
+    ],
+    "fullDecode": "passed"
+  },
+  "frameMethod": "FFmpeg fps=1 full-decode sampling; timestamps are approximate. Opening terminal detail is a crop.",
+  "officialPagesChecked": [
+    "https://www.kimi.com/code",
+    "https://www.kimi.com/news/"
+  ],
+  "assets": [
+    {
+      "file": "branching-tree.jpg",
+      "bytes": 201657,
+      "sha256": "a6761ae79393a310091120eac42b781bd90db2ae29e718e5b02870c7c42b9ecd",
+      "approximateSecond": 4,
+      "fpsSample": 5
+    },
+    {
+      "file": "kimi-k3-1-official-teaser.mp4",
+      "bytes": 24972820,
+      "sha256": "0e7b184354715efb5304a56b38e49bee0c6f9f860fcf3d8330926ab1d17101e2"
+    },
+    {
+      "file": "model-detail.png",
+      "bytes": 126880,
+      "sha256": "f424fd23ff646053dd47845499885e7b536bc6753d88dbece6f3506beaecab0a",
+      "approximateSecond": 0,
+      "crop": [
+        580,
+        165,
+        720,
+        280
+      ]
+    },
+    {
+      "file": "moon.jpg",
+      "bytes": 119893,
+      "sha256": "a886a244e13ff0d340088cb0944f9105638ecb2593f961714a880bbc04be4a91",
+      "approximateSecond": 20,
+      "fpsSample": 21
+    },
+    {
+      "file": "particle-fish.jpg",
+      "bytes": 219166,
+      "sha256": "1bacd21f0f7e1940918599cc9852bb26369272dbfca0b79440ff0c65982ab5bc",
+      "approximateSecond": 10,
+      "fpsSample": 11
+    },
+    {
+      "file": "satellite.jpg",
+      "bytes": 230197,
+      "sha256": "8c054317145317ee9956df71301551e5b017f2e8eafc7e1341d8f646d600078f",
+      "approximateSecond": 3,
+      "fpsSample": 4
+    },
+    {
+      "file": "spiral.jpg",
+      "bytes": 487023,
+      "sha256": "247c8b08c21a7662d037d26f432e57f995e3b4112aa151d824374bf88ebecf22",
+      "approximateSecond": 9,
+      "fpsSample": 10
+    },
+    {
+      "file": "terminal.jpg",
+      "bytes": 167115,
+      "sha256": "d5ab472a7a0b5156a7a772ee64265212b32918238c0a4c17601eed1ac583e6c5",
+      "approximateSecond": 0
+    }
+  ]
+}

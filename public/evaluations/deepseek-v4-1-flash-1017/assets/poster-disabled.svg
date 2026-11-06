@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f0f7f4"/>
+      <stop offset="100%" stop-color="#e8f0ec"/>
+    </linearGradient>
+    <linearGradient id="btnGrad" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#2d8a6e"/>
+      <stop offset="100%" stop-color="#3aa882"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="800" height="600" fill="url(#bgGrad)"/>
+
+  <!-- 装饰性圆形 -->
+  <circle cx="680" cy="120" r="180" fill="#d4e8df" opacity="0.4"/>
+  <circle cx="120" cy="500" r="140" fill="#d4e8df" opacity="0.3"/>
+
+  <!-- 自行车图标 -->
+  <g transform="translate(400, 175)" stroke="#2d8a6e" stroke-width="3.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- 后轮 -->
+    <circle cx="-55" cy="30" r="28"/>
+    <!-- 前轮 -->
+    <circle cx="55" cy="30" r="28"/>
+    <!-- 车架 -->
+    <line x1="-55" y1="30" x2="-15" y2="-15"/>
+    <line x1="-15" y1="-15" x2="30" y2="-15"/>
+    <line x1="30" y1="-15" x2="55" y2="30"/>
+    <line x1="-15" y1="-15" x2="10" y2="30"/>
+    <line x1="10" y1="30" x2="-55" y2="30"/>
+    <!-- 座管 -->
+    <line x1="-15" y1="-15" x2="-20" y2="-30"/>
+    <!-- 车座 -->
+    <line x1="-28" y1="-32" x2="-12" y2="-32" stroke-width="4"/>
+    <!-- 车把 -->
+    <line x1="30" y1="-15" x2="38" y2="-30"/>
+    <line x1="32" y1="-30" x2="44" y2="-30" stroke-width="4"/>
+    <!-- 脚踏 -->
+    <circle cx="10" cy="30" r="4" fill="#2d8a6e"/>
+    <line x1="10" y1="30" x2="10" y2="42"/>
+    <line x1="4" y1="42" x2="16" y2="42" stroke-width="3"/>
+  </g>
+
+  <!-- 主标题 -->
+  <text x="400" y="270" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif" font-size="52" font-weight="700" fill="#1a3a2e" letter-spacing="6">周末骑行计划</text>
+
+  <!-- 副标题 -->
+  <text x="400" y="320" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif" font-size="22" fill="#5a7a6e" letter-spacing="4">慢一点，看见城市</text>
+
+  <!-- 分隔线 -->
+  <line x1="300" y1="350" x2="500" y2="350" stroke="#b8d4c8" stroke-width="1.5"/>
+
+  <!-- 时间 -->
+  <g transform="translate(400, 395)">
+    <text text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif" font-size="26" font-weight="600" fill="#2d8a6e" letter-spacing="2">10月24日 09:00</text>
+  </g>
+
+  <!-- 地点 -->
+  <g transform="translate(400, 440)">
+    <text text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif" font-size="26" font-weight="600" fill="#2d8a6e" letter-spacing="2">滨江公园东门</text>
+  </g>
+
+  <!-- 说明 -->
+  <text x="400" y="485" text-anchor="middle" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif" font-size="15" fill="#8aa89a" letter-spacing="2">自备头盔 · 全程12公里</text>
+
+  <!-- 按钮 -->
+  <g transform="translate(400, 535)">
+    <rect x="-90" y="-22" width="180" height="44" rx="22" fill="url(#btnGrad)"/>
+    <text text-anchor="middle" y="6" font-family="'PingFang SC','Microsoft YaHei','Noto Sans SC',sans-serif" font-size="20" font-weight="600" fill="#ffffff" letter-spacing="4">立即报名</text>
+  </g>
+</svg>

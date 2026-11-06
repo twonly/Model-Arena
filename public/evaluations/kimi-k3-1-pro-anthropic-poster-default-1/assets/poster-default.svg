@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="800" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FBF8F1"/>
+      <stop offset="1" stop-color="#F1F5EE"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="150%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#173F35" flood-opacity="0.07"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#background)"/>
+  <path d="M0 532C140 500 255 574 414 548C561 524 676 548 800 500V600H0Z" fill="#E9EEE5" opacity="0.75"/>
+
+  <circle cx="610" cy="248" r="146" fill="#E2ECE4"/>
+  <circle cx="704" cy="144" r="11" fill="#E66F4A"/>
+  <circle cx="496" cy="168" r="5" fill="#8CA99A"/>
+
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="526" cy="274" r="55" stroke="#21493E" stroke-width="5"/>
+    <circle cx="690" cy="274" r="55" stroke="#21493E" stroke-width="5"/>
+    <path d="M526 274L572 204L600 274L526 274M572 204L650 216L600 274M650 216L690 274" stroke="#E66F4A" stroke-width="6"/>
+    <path d="M572 204L566 186M548 186H580M650 216L644 192L668 184M668 184L680 190" stroke="#21493E" stroke-width="5"/>
+    <circle cx="600" cy="274" r="9" stroke="#21493E" stroke-width="4"/>
+    <path d="M600 274L616 288H630" stroke="#21493E" stroke-width="4"/>
+  </g>
+
+  <rect x="64" y="58" width="48" height="6" rx="3" fill="#E66F4A"/>
+  <circle cx="124" cy="61" r="3" fill="#9EB5A7"/>
+
+  <rect x="52" y="224" width="372" height="190" rx="28" fill="#FFFEFB" stroke="#E8E8DE" filter="url(#cardShadow)"/>
+
+  <g fill="none" stroke="#E66F4A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="76" y="248" width="24" height="24" rx="6"/>
+    <path d="M76 256H100M83 245V251M93 245V251"/>
+    <path d="M88 294C81.4 294 76 299.4 76 306C76 315 88 326 88 326C88 326 100 315 100 306C100 299.4 94.6 294 88 294Z"/>
+    <circle cx="88" cy="306" r="4"/>
+  </g>
+
+  <line x1="76" y1="347" x2="400" y2="347" stroke="#E8E8DE"/>
+
+  <rect x="64" y="450" width="176" height="58" rx="29" fill="#E66F4A"/>
+
+  <path d="M452 482C500 438 552 452 574 486C598 524 660 520 680 478C696 450 718 448 736 462" fill="none" stroke="#9DB6A7" stroke-width="2.5" stroke-dasharray="2 10" stroke-linecap="round"/>
+  <circle cx="452" cy="482" r="5" fill="#21493E"/>
+  <circle cx="736" cy="462" r="8" fill="#E66F4A"/>
+  <circle cx="736" cy="462" r="3" fill="#F7F6EF"/>
+
+  <g font-family="'Noto Sans SC','PingFang SC','Microsoft YaHei',sans-serif">
+    <text x="64" y="140" fill="#173F35" font-size="56" font-weight="700" letter-spacing="2">周末骑行计划</text>
+    <text x="66" y="184" fill="#5F746B" font-size="22" font-weight="400" letter-spacing="1.5">慢一点，看见城市</text>
+    <text x="116" y="272" fill="#223F37" font-size="28" font-weight="600">10月24日 09:00</text>
+    <text x="116" y="324" fill="#223F37" font-size="28" font-weight="600">滨江公园东门</text>
+    <text x="76" y="382" fill="#6E7B74" font-size="16" font-weight="400" letter-spacing="0.3">自备头盔 · 全程12公里</text>
+    <text x="152" y="486" fill="#FFFFFF" font-size="20" font-weight="600" letter-spacing="2" text-anchor="middle">立即报名</text>
+  </g>
+</svg>

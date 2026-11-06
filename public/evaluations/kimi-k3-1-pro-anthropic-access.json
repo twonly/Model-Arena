@@ -1,0 +1,256 @@
+{
+  "protocol": "anthropic-messages",
+  "checkedAt": "2026-10-24T01:48:24.652Z",
+  "connection": {
+    "endpoint": "https://api.kimi.com/coding/v1/messages",
+    "request": {
+      "model": "k3.1-pro",
+      "max_tokens": 1024,
+      "messages": [
+        {
+          "role": "user",
+          "content": "Reply with exactly the ASCII text KIMI_ANTHROPIC_OK and no other visible text."
+        }
+      ]
+    },
+    "startedAt": "2026-10-24T01:24:25.448Z",
+    "finishedAt": "2026-10-24T01:24:30.016Z",
+    "totalMs": 4566.952832999999,
+    "httpStatus": 200,
+    "returnedModel": "k3.1-pro",
+    "role": "assistant",
+    "text": "KIMI_ANTHROPIC_OK",
+    "contentBlockTypes": [
+      "thinking",
+      "text"
+    ],
+    "stopReason": "end_turn",
+    "usage": {
+      "input_tokens": 105,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "output_tokens": 185,
+      "output_tokens_details": {
+        "thinking_tokens": 162
+      },
+      "service_tier": "standard",
+      "inference_geo": "not_available"
+    },
+    "error": null
+  },
+  "effortProbe": {
+    "model": "k3.1-pro",
+    "version": "Kimi K3.1 Pro",
+    "endpoint": "https://api.kimi.com/coding",
+    "keyEnv": "KIMI_CODING_REVIEW_KEY",
+    "modes": {
+      "low": {
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "off": {
+        "output_config": {
+          "effort": "none"
+        }
+      }
+    },
+    "extraBody": {},
+    "maxTokens": 1024,
+    "timeoutMs": 600000,
+    "versionSource": "https://www.kimi.com/code/docs/en/kimi-code/models.html",
+    "method": "User-requested review through the official Kimi Coding Plan native Anthropic Messages protocol; x-api-key and anthropic-version, no client identity override. Default effort omitted (documented max), explicit output_config.effort low/max. max_tokens=12288 includes reasoning and final output; no independent thinking budget supplied. Temperature/top_p omitted. Local macOS client, separate from prior stopped batch and metered authentication failures; consumption is subscription quota, not a metered invoice.",
+    "tasks": [
+      {
+        "id": "effort-access-probe",
+        "prompt": "Reply exactly: NATIVE_EFFORT_OK"
+      }
+    ],
+    "executionStatus": "ready",
+    "protocol": "anthropic-messages",
+    "parameterSource": "https://platform.kimi.com/docs/openapi.json",
+    "providerBackoffMs": 0,
+    "stopOnAccessErrors": false,
+    "identity": "cafbb1dcbac1270295138aeda92116d94f8ca766f5dd969a187dec70a5c90d5e",
+    "attempts": [
+      {
+        "id": "effort-access-probe",
+        "prompt": "Reply exactly: NATIVE_EFFORT_OK",
+        "mode": "low",
+        "status": "done",
+        "text": "NATIVE_EFFORT_OK",
+        "startedAt": "2026-10-24T01:25:38.281Z",
+        "request": {
+          "model": "k3.1-pro",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Reply exactly: NATIVE_EFFORT_OK"
+            }
+          ],
+          "max_tokens": 1024,
+          "stream": true,
+          "output_config": {
+            "effort": "low"
+          }
+        },
+        "firstContentMs": 2511.4792089999996,
+        "firstReasoningMs": 1783.0141250000001,
+        "firstEventMs": 1783.011375,
+        "usage": {
+          "input_tokens": 95,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 50,
+          "service_tier": "standard",
+          "inference_geo": "not_available",
+          "output_tokens_details": {
+            "thinking_tokens": 29
+          }
+        },
+        "finishReason": "end_turn",
+        "error": null,
+        "returnedModel": "k3.1-pro",
+        "httpStatus": 200,
+        "transport": "node:https",
+        "finishedAt": "2026-10-24T01:25:40.806Z",
+        "totalMs": 2525.2484999999997,
+        "promptTokens": 95,
+        "outputTokens": 50,
+        "reasoningTokens": 29
+      },
+      {
+        "id": "effort-access-probe",
+        "prompt": "Reply exactly: NATIVE_EFFORT_OK",
+        "mode": "off",
+        "status": "done",
+        "text": "NATIVE_EFFORT_OK",
+        "startedAt": "2026-10-24T01:25:40.809Z",
+        "request": {
+          "model": "k3.1-pro",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Reply exactly: NATIVE_EFFORT_OK"
+            }
+          ],
+          "max_tokens": 1024,
+          "stream": true,
+          "output_config": {
+            "effort": "none"
+          }
+        },
+        "firstContentMs": 1475.4012080000002,
+        "firstReasoningMs": null,
+        "firstEventMs": 1475.3810830000002,
+        "usage": {
+          "input_tokens": 27,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 16,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "finishReason": "end_turn",
+        "error": null,
+        "returnedModel": "k3.1-pro",
+        "httpStatus": 200,
+        "transport": "node:https",
+        "finishedAt": "2026-10-24T01:25:42.302Z",
+        "totalMs": 1493.438458,
+        "promptTokens": 27,
+        "outputTokens": 16,
+        "reasoningTokens": null
+      }
+    ],
+    "suiteVersion": "visual-svg-v1"
+  },
+  "disabledProbe": {
+    "id": "thinking-disabled-probe",
+    "prompt": "Reply exactly: NATIVE_OFF_PROBE",
+    "mode": "off",
+    "status": "error",
+    "text": "",
+    "startedAt": "2026-10-24T01:34:25.711Z",
+    "request": {
+      "model": "k3.1-pro",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Reply exactly: NATIVE_OFF_PROBE"
+        }
+      ],
+      "max_tokens": 1024,
+      "stream": true,
+      "thinking": {
+        "type": "disabled"
+      }
+    },
+    "firstContentMs": null,
+    "firstReasoningMs": null,
+    "firstEventMs": null,
+    "usage": null,
+    "finishReason": null,
+    "error": "HTTP 400: {\"error\":{\"type\":\"invalid_request_error\",\"message\":\"K3.1 Pro does not support disabled thinking mode. Please enable thinking and try again, or choose another model.\"},\"type\":\"error\"}",
+    "returnedModel": null,
+    "httpStatus": 400,
+    "transport": "node:https",
+    "errorCode": null,
+    "finishedAt": "2026-10-24T01:34:26.309Z",
+    "totalMs": 598.542542,
+    "promptTokens": null,
+    "outputTokens": null,
+    "reasoningTokens": null
+  },
+  "invalidEffortProbe": {
+    "id": "invalid-effort-probe",
+    "prompt": "Reply exactly: NATIVE_INVALID_EFFORT_PROBE",
+    "mode": "invalid",
+    "status": "done",
+    "text": "NATIVE_INVALID_EFFORT_PROBE",
+    "startedAt": "2026-10-24T01:34:26.452Z",
+    "request": {
+      "model": "k3.1-pro",
+      "messages": [
+        {
+          "role": "user",
+          "content": "Reply exactly: NATIVE_INVALID_EFFORT_PROBE"
+        }
+      ],
+      "max_tokens": 1024,
+      "stream": true,
+      "output_config": {
+        "effort": "invalid-evaluation-probe"
+      }
+    },
+    "firstContentMs": 2369.947584,
+    "firstReasoningMs": 1698.294459,
+    "firstEventMs": 1698.291334,
+    "usage": {
+      "input_tokens": 95,
+      "cache_creation_input_tokens": 0,
+      "cache_read_input_tokens": 0,
+      "output_tokens": 48,
+      "service_tier": "standard",
+      "inference_geo": "not_available",
+      "output_tokens_details": {
+        "thinking_tokens": 26
+      }
+    },
+    "finishReason": "end_turn",
+    "error": null,
+    "returnedModel": "k3.1-pro",
+    "httpStatus": 200,
+    "transport": "node:https",
+    "finishedAt": "2026-10-24T01:34:28.834Z",
+    "totalMs": 2381.915084,
+    "promptTokens": 95,
+    "outputTokens": 48,
+    "reasoningTokens": 26
+  },
+  "effortFieldValidated": false,
+  "notes": {
+    "zh": "服务端接受了非法 effort 负向探针，因此无法独立确认 low/max 实际生效。本页仅按实际请求参数分组，不称为已确认的有效档位比较。",
+    "en": "The server accepted the invalid-effort negative control, so the effective low/max semantics are not independently confirmed. Results are grouped by requested parameters, not claimed as a verified effort-level comparison."
+  }
+}

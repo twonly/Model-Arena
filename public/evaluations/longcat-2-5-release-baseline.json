@@ -1,0 +1,763 @@
+{
+  "date": "2026-11-02",
+  "updatedAt": "2026-11-02T03:03:25.158Z",
+  "model": "LongCat-2.5",
+  "evidencePath": "/evaluations/longcat-2-5-release-baseline.json",
+  "method": "Paired thinking-off/on direct OpenAI-compatible baseline, alternating order. Temperature=0 is submitted but overridden by the provider to 0.7 off / 1.0 on. Low/max effort are not documented model controls and are not tested. Every first attempt is preserved; retries, if required for rendering, use separate records.",
+  "selection": "Four fixed text tasks and two fixed JavaScript tasks; a diagnostic subset, not the full task suite.",
+  "summaryZh": "直连基线中，文本 8/8 次通过预定答案检查，代码 4/4 次通过固定执行用例。每题分别请求关闭与开启思考；样本规模不足以推出通用排名。",
+  "summaryEn": "The direct baseline passed predetermined checks in 8/8 text responses and fixed executable cases in 4/4 code responses. Every task requested thinking off and on separately; this small sample does not establish a general ranking.",
+  "attempts": [
+    {
+      "id": "extract-1",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "category": "text",
+      "mode": "disabled",
+      "status": "done",
+      "text": "{\"name\": \"林桐\", \"age\": 28, \"city\": \"杭州\", \"email\": null}",
+      "startedAt": "2026-11-02T02:55:41.244Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1221.957875,
+      "firstReasoningMs": null,
+      "firstEventMs": 1221.956917,
+      "usage": {
+        "completion_tokens": 26,
+        "prompt_tokens": 85,
+        "total_tokens": 111,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:55:42.993Z",
+      "totalMs": 1749.3990000000001,
+      "promptTokens": 85,
+      "outputTokens": 26,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "extract-1",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "category": "text",
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-11-02T02:55:42.997Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 2694.4368329999998,
+      "firstReasoningMs": 911.5586660000001,
+      "firstEventMs": 911.5540830000002,
+      "usage": {
+        "completion_tokens": 112,
+        "prompt_tokens": 82,
+        "total_tokens": 194,
+        "completion_tokens_details": {
+          "reasoning_tokens": 90
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:55:45.940Z",
+      "totalMs": 2943.7929159999994,
+      "promptTokens": 82,
+      "outputTokens": 112,
+      "reasoningTokens": 90,
+      "pass": true
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "category": "text",
+      "mode": "default",
+      "status": "done",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-11-02T02:55:45.943Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 3562.623125,
+      "firstReasoningMs": 1556.6768329999995,
+      "firstEventMs": 1556.6759999999995,
+      "usage": {
+        "completion_tokens": 112,
+        "prompt_tokens": 46,
+        "total_tokens": 158,
+        "completion_tokens_details": {
+          "reasoning_tokens": 101
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:55:50.493Z",
+      "totalMs": 4549.467624999999,
+      "promptTokens": 46,
+      "outputTokens": 112,
+      "reasoningTokens": 101,
+      "pass": true
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "category": "text",
+      "mode": "disabled",
+      "status": "done",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-11-02T02:55:50.495Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1132.2834590000002,
+      "firstReasoningMs": null,
+      "firstEventMs": 1132.2827089999992,
+      "usage": {
+        "completion_tokens": 9,
+        "prompt_tokens": 49,
+        "total_tokens": 58,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:55:51.924Z",
+      "totalMs": 1428.9052089999986,
+      "promptTokens": 49,
+      "outputTokens": 9,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "category": "text",
+      "mode": "disabled",
+      "status": "done",
+      "text": "[3,8,12,25]",
+      "startedAt": "2026-11-02T02:55:51.926Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1217.3311250000006,
+      "firstReasoningMs": null,
+      "firstEventMs": 1217.3304580000004,
+      "usage": {
+        "completion_tokens": 12,
+        "prompt_tokens": 43,
+        "total_tokens": 55,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:55:53.484Z",
+      "totalMs": 1557.1432079999995,
+      "promptTokens": 43,
+      "outputTokens": 12,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "category": "text",
+      "mode": "default",
+      "status": "done",
+      "text": "[3, 8, 12, 25]",
+      "startedAt": "2026-11-02T02:55:53.485Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 2285.2126660000013,
+      "firstReasoningMs": 1040.2530830000014,
+      "firstEventMs": 1040.251875,
+      "usage": {
+        "completion_tokens": 100,
+        "prompt_tokens": 40,
+        "total_tokens": 140,
+        "completion_tokens_details": {
+          "reasoning_tokens": 83
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:55:55.946Z",
+      "totalMs": 2460.7430000000004,
+      "promptTokens": 40,
+      "outputTokens": 100,
+      "reasoningTokens": 83,
+      "pass": true
+    },
+    {
+      "id": "grounded-1",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "category": "text",
+      "mode": "default",
+      "status": "done",
+      "text": "{\"usable\": 9, \"nextDelivery\": \"周二\", \"manager\": null}",
+      "startedAt": "2026-11-02T02:55:55.948Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 2641.3268750000007,
+      "firstReasoningMs": 1075.3334169999998,
+      "firstEventMs": 1075.3321670000005,
+      "usage": {
+        "completion_tokens": 132,
+        "prompt_tokens": 107,
+        "total_tokens": 239,
+        "completion_tokens_details": {
+          "reasoning_tokens": 111
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:55:58.749Z",
+      "totalMs": 2801.210250000002,
+      "promptTokens": 107,
+      "outputTokens": 132,
+      "reasoningTokens": 111,
+      "pass": true
+    },
+    {
+      "id": "grounded-1",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "category": "text",
+      "mode": "disabled",
+      "status": "done",
+      "text": "{\"usable\": 9, \"nextDelivery\": \"周二\", \"manager\": null}",
+      "startedAt": "2026-11-02T02:55:58.751Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 776.3746250000004,
+      "firstReasoningMs": null,
+      "firstEventMs": 776.3732500000006,
+      "usage": {
+        "completion_tokens": 19,
+        "prompt_tokens": 110,
+        "total_tokens": 129,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:55:59.956Z",
+      "totalMs": 1205.4329169999983,
+      "promptTokens": 110,
+      "outputTokens": 19,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "code-money",
+      "title": "金额解析与安全整数",
+      "titleEn": "Money parsing and safe integers",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "category": "coding",
+      "mode": "disabled",
+      "status": "done",
+      "text": "```javascript\nfunction parseCents(value) {\n  if (typeof value !== 'string') return null;\n  \n  const trimmed = value.trim();\n  if (trimmed === '') return null;\n  \n  if (!/^\\d+(\\.\\d{1,2})?$/.test(trimmed)) return null;\n  \n  const parts = trimmed.split('.');\n  const integerPart = parts[0];\n  const decimalPart = parts[1] || '';\n  \n  const paddedDecimal = decimalPart.padEnd(2, '0');\n  const centsString = integerPart + paddedDecimal;\n  \n  const cents = Number(centsString);\n  \n  if (!Number.isSafeInteger(cents)) return null;\n  \n  return cents;\n}\n```",
+      "startedAt": "2026-11-02T02:55:59.959Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 2705.4776249999995,
+      "firstReasoningMs": null,
+      "firstEventMs": 2705.4766660000023,
+      "usage": {
+        "completion_tokens": 152,
+        "prompt_tokens": 110,
+        "total_tokens": 262,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:56:04.716Z",
+      "totalMs": 4756.9878750000025,
+      "promptTokens": 110,
+      "outputTokens": 152,
+      "reasoningTokens": null,
+      "executable": "function parseCents(value) {\n  if (typeof value !== 'string') return null;\n  \n  const trimmed = value.trim();\n  if (trimmed === '') return null;\n  \n  if (!/^\\d+(\\.\\d{1,2})?$/.test(trimmed)) return null;\n  \n  const parts = trimmed.split('.');\n  const integerPart = parts[0];\n  const decimalPart = parts[1] || '';\n  \n  const paddedDecimal = decimalPart.padEnd(2, '0');\n  const centsString = integerPart + paddedDecimal;\n  \n  const cents = Number(centsString);\n  \n  if (!Number.isSafeInteger(cents)) return null;\n  \n  return cents;\n}",
+      "pass": true,
+      "checkError": null,
+      "checkCount": 18,
+      "execution": {
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "elapsedMs": 121,
+        "stdout": "CODE_ASSERTIONS_OK\n",
+        "stderr": "",
+        "descendantsKilled": 0,
+        "profileSha256": "8dfd96397c348d309b5943c98a3331e2dd37b42dafb956e426bb149e1ae6ee69"
+      }
+    },
+    {
+      "id": "code-money",
+      "title": "金额解析与安全整数",
+      "titleEn": "Money parsing and safe integers",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "category": "coding",
+      "mode": "default",
+      "status": "done",
+      "text": "function parseCents(value) {\n  if (typeof value !== 'string') return null;\n  const s = value.trim();\n  if (!/^\\d+(\\.\\d{1,2})?$/.test(s)) return null;\n  const dot = s.indexOf('.');\n  const intPart = dot === -1 ? s : s.slice(0, dot);\n  const fracPart = dot === -1 ? '' : s.slice(dot + 1);\n  const cents = BigInt(intPart + (fracPart + '00').slice(0, 2));\n  if (cents > BigInt(Number.MAX_SAFE_INTEGER)) return null;\n  return Number(cents);\n}",
+      "startedAt": "2026-11-02T02:56:04.719Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 16919.015333000003,
+      "firstReasoningMs": 1149.5822920000028,
+      "firstEventMs": 1149.5819580000025,
+      "usage": {
+        "completion_tokens": 1267,
+        "prompt_tokens": 107,
+        "total_tokens": 1374,
+        "completion_tokens_details": {
+          "reasoning_tokens": 1125
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:56:23.633Z",
+      "totalMs": 18913.52775,
+      "promptTokens": 107,
+      "outputTokens": 1267,
+      "reasoningTokens": 1125,
+      "executable": "function parseCents(value) {\n  if (typeof value !== 'string') return null;\n  const s = value.trim();\n  if (!/^\\d+(\\.\\d{1,2})?$/.test(s)) return null;\n  const dot = s.indexOf('.');\n  const intPart = dot === -1 ? s : s.slice(0, dot);\n  const fracPart = dot === -1 ? '' : s.slice(dot + 1);\n  const cents = BigInt(intPart + (fracPart + '00').slice(0, 2));\n  if (cents > BigInt(Number.MAX_SAFE_INTEGER)) return null;\n  return Number(cents);\n}",
+      "pass": true,
+      "checkError": null,
+      "checkCount": 18,
+      "execution": {
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "elapsedMs": 108,
+        "stdout": "CODE_ASSERTIONS_OK\n",
+        "stderr": "",
+        "descendantsKilled": 0,
+        "profileSha256": "3720df4c078c4311c44e38a3d26903dea173a5634d0c56c86d6cfe6968957c68"
+      }
+    },
+    {
+      "id": "code-dedupe",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "category": "coding",
+      "title": "保序去重与对象身份",
+      "titleEn": "Stable deduplication and object identity",
+      "mode": "disabled",
+      "status": "done",
+      "text": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "startedAt": "2026-11-02T02:57:46.967Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 2995.6699160000003,
+      "firstReasoningMs": null,
+      "firstEventMs": 2995.666166,
+      "usage": {
+        "completion_tokens": 57,
+        "prompt_tokens": 81,
+        "total_tokens": 138,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:57:50.928Z",
+      "totalMs": 3961.5750000000003,
+      "promptTokens": 81,
+      "outputTokens": 57,
+      "reasoningTokens": null,
+      "executable": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "pass": true,
+      "checkError": null,
+      "checkCount": 3,
+      "execution": {
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "elapsedMs": 109,
+        "stdout": "CODE_ASSERTIONS_OK\n",
+        "stderr": "",
+        "descendantsKilled": 0,
+        "profileSha256": "7b06a8e02011edd66b4e87177230459715982e622b8830c0c2e269edfe6cf24a"
+      }
+    },
+    {
+      "id": "code-dedupe",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "category": "coding",
+      "title": "保序去重与对象身份",
+      "titleEn": "Stable deduplication and object identity",
+      "mode": "default",
+      "status": "done",
+      "text": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "startedAt": "2026-11-02T02:57:50.931Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 9476.154083,
+      "firstReasoningMs": 1083.6544159999999,
+      "firstEventMs": 1083.6503749999997,
+      "usage": {
+        "completion_tokens": 458,
+        "prompt_tokens": 78,
+        "total_tokens": 536,
+        "completion_tokens_details": {
+          "reasoning_tokens": 399
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:58:00.981Z",
+      "totalMs": 10050.574416,
+      "promptTokens": 78,
+      "outputTokens": 458,
+      "reasoningTokens": 399,
+      "executable": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "pass": true,
+      "checkError": null,
+      "checkCount": 3,
+      "execution": {
+        "exitCode": 0,
+        "signal": null,
+        "timedOut": false,
+        "elapsedMs": 109,
+        "stdout": "CODE_ASSERTIONS_OK\n",
+        "stderr": "",
+        "descendantsKilled": 0,
+        "profileSha256": "c6980c77e2f3e415088a47e85d277c5945cc7187598744f422dc3778ba215824"
+      }
+    }
+  ],
+  "totals": {
+    "requests": 12,
+    "promptTokens": 938,
+    "outputTokens": 2456
+  }
+}

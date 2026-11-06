@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#f0f8ff"/>
+  <g id="bicycle">
+    <!-- rear wheel -->
+    <g transform="translate(200,450)">
+      <circle r="50" stroke="black" stroke-width="2" fill="none"/>
+      <g>
+        <line x1="0" y1="0" x2="45" y2="0" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="22.5" y2="38.97" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="-22.5" y2="38.97" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="-45" y2="0" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="-22.5" y2="-38.97" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="22.5" y2="-38.97" stroke="black" stroke-width="1"/>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
+      </g>
+    </g>
+    <!-- front wheel -->
+    <g transform="translate(500,450)">
+      <circle r="50" stroke="black" stroke-width="2" fill="none"/>
+      <g>
+        <line x1="0" y1="0" x2="45" y2="0" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="22.5" y2="38.97" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="-22.5" y2="38.97" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="-45" y2="0" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="-22.5" y2="-38.97" stroke="black" stroke-width="1"/>
+        <line x1="0" y1="0" x2="22.5" y2="-38.97" stroke="black" stroke-width="1"/>
+        <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
+      </g>
+    </g>
+    <!-- frame -->
+    <line x1="200" y1="450" x2="350" y2="380" stroke="black" stroke-width="3"/>
+    <line x1="350" y1="380" x2="500" y2="450" stroke="black" stroke-width="3"/>
+    <line x1="350" y1="380" x2="350" y2="450" stroke="black" stroke-width="3"/>
+    <!-- saddle -->
+    <ellipse cx="350" cy="380" rx="20" ry="10" fill="gray" stroke="black"/>
+    <!-- handlebar -->
+    <line x1="500" y1="450" x2="520" y2="400" stroke="black" stroke-width="3"/>
+    <line x1="520" y1="400" x2="550" y2="390" stroke="black" stroke-width="3"/>
+    <line x1="520" y1="400" x2="550" y2="410" stroke="black" stroke-width="3"/>
+  </g>
+  <!-- pelican -->
+  <g id="pelican">
+    <ellipse cx="350" cy="380" rx="40" ry="70" fill="white" stroke="black" stroke-width="2"/>
+    <line x1="350" y1="310" x2="350" y2="250" stroke="black" stroke-width="5" stroke-linecap="round"/>
+    <circle cx="350" cy="230" r="20" fill="white" stroke="black" stroke-width="2"/>
+    <circle cx="360" cy="225" r="3" fill="black"/>
+    <polygon points="370,230 410,220 370,250" fill="orange" stroke="black" stroke-width="1"/>
+    <path d="M370,250 Q390,280 370,300 Q350,280 370,250" fill="orange" stroke="black" stroke-width="1"/>
+  </g>
+  <!-- hip joint -->
+  <circle cx="350" cy="450" r="5" fill="black"/>
+  <!-- left leg -->
+  <g transform="translate(350,450)">
+    <g>
+      <line x1="0" y1="0" x2="40" y2="0" stroke="black" stroke-width="4" stroke-linecap="round"/>
+      <rect x="35" y="-5" width="10" height="10" fill="gray"/>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
+    </g>
+  </g>
+  <!-- right leg -->
+  <g transform="translate(350,450)">
+    <g>
+      <line x1="0" y1="0" x2="40" y2="0" stroke="black" stroke-width="4" stroke-linecap="round"/>
+      <rect x="35" y="-5" width="10" height="10" fill="gray"/>
+      <animateTransform attributeName="transform" type="rotate" from="180" to="540" dur="4s" repeatCount="indefinite"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,1872 @@
+{
+  "schemaVersion": 1,
+  "model": "LongCat-2.5-Preview",
+  "providerLabel": "LongCat API · Claude Code 2.1.311",
+  "workflowNoteZh": "LongCat 负责写代码、看预览和修正；Codex 负责环境、留档和独立验收。EEVEE 隔离环境故障后改用 Cycles CPU，并保留早期尝试；这不是与历史 Kimi 完全同条件的对比。",
+  "workflowNoteEn": "LongCat writes, previews and revises artwork; Codex orchestrates and independently checks outputs. A sandbox EEVEE fault led to Cycles CPU continuation, with earlier attempts preserved. This is not an identical-condition comparison with historical Kimi runs.",
+  "date": "2026-10-27",
+  "publishedAt": "2026-10-27T03:49:04.028864+00:00",
+  "updatedAt": "2026-10-27T03:49:04.028864+00:00",
+  "summaryZh": "用本地Claude Code实际驱动LongCat完成15题制作流程：6项Blender／3D、4项知识视频、4张静态SVG和1段SVG动画。7个模型会话正常结束，8个触及请求、时间或保守预算限制；会话结束状态不是作品通过率。四张静态图基本满足明确要求，参数化书架两组尺寸通过独立检查；3D复杂工程多为部分交付，三段知识视频有成片但各有边界或错误，邮件视频未完成，骑行鹈鹕动画有脚踏脱离问题。",
+  "summaryEn": "Local Claude Code drove LongCat through 15 production tasks: six Blender/3D scenes, four knowledge videos, four static SVGs and one SVG animation. Seven sessions ended normally; eight reached request, time or conservative usage limits. Session completion is not an artifact pass rate. The four static images meet the principal explicit requirements, and two bookshelf variants pass independent dimensional checks. Complex 3D scenes are mostly partial deliveries; three knowledge films exist with documented issues or limits, the email film is incomplete, and the cycling pelican has detached feet.",
+  "methodZh": "15 题：6 项 Blender／3D、4 项知识视频、4 张 SVG 与 1 段 SMIL 动画。实际使用本地 Claude Code，仅开放离线隔离的 shell、图片反馈和 SVG 渲染工具，最多两题并行。所有作品代码与修改由 LongCat 生成。",
+  "methodEn": "15 tasks: six Blender/3D scenes, four knowledge videos, four static SVGs and one SMIL animation. Local Claude Code uses isolated offline shell, pixel feedback and SVG rendering tools, with at most two concurrent cases. LongCat generates and revises all artwork code.",
+  "billingZh": "使用已配置的 LongCat API。下表累计所有尝试收到的最终 usage（含缓存字段和思考），不含独立配置探针；缺失 usage 另记未知。Claude Code 的美元估价不作为 LongCat 账单。固定本地 Kokoro 配音另记，不算模型原生语音。",
+  "billingEn": "The configured LongCat API supplies generation. Totals sum final usage across all attempts, including cache fields and thinking, excluding separate configuration probes. Missing usage remains unknown. Claude Code USD estimates are not LongCat invoices. Fixed local Kokoro narration is infrastructure, not native model speech.",
+  "limitationsZh": [
+    "实际模型标识为LongCat-2.5-Preview，不能把本次结果写成正式LongCat 2.5版本结论。Claude Code请求adaptive思考，但上游如何映射未经独立确认；没有伪造off／low／max对照。",
+    "每题每次尝试上限60分钟、50请求，每次响应上限32,768输出token；已知输出预算150,000，未知用量保守预留。早期两题因可复现的EEVEE隔离环境故障改为Cycles CPU并保留原尝试，累计时间与用量包含这些尝试；缺失usage不计零。",
+    "保留的输入含历史评审提示，木星船坞提示里的0.500m不是本次测量。打印机和邮件题的旧成片通过声明已在首次派发前移除，并保留原稿与新哈希。任务、渲染器和工具循环与历史Kimi实验不同，不作同条件或盲测排名。",
+    "LongCat负责作品代码、预览反馈与修正，Codex负责环境、隔离、留档、独立检查和页面。配音来自固定本地Kokoro；大气视频README披露1.63倍变速，未评价自然度。宿主捕获的SVG动画视频不算模型原生视频生成。",
+    "独立验收包括原文件重新打开、尺寸与局部几何、媒体解码、抽帧和动画脚踏检查，并非完整工程、物理仿真或科学准确性认证。明确保留打印机光束穿鼓、原始SRT格式错误、导数切换显示问题、邮件视频超时等失败；展示用WebP和打印机VTT是单独派生文件，原始作品未修正。"
+  ],
+  "limitationsEn": [
+    "The actual API model is LongCat-2.5-Preview. These results do not establish a final LongCat 2.5 release. Claude Code requested adaptive thinking; the upstream mapping is unverified. No off/low/max comparison is invented.",
+    "Each attempt was capped at 60 minutes and 50 requests, with at most 32,768 output tokens per response and a 150,000 known-output budget with conservative reservations for missing usage. A reproducible sandbox EEVEE fault led to CPU continuations for the first two tasks; earlier attempts and cumulative time/usage remain included. Missing usage is not zero.",
+    "Frozen inputs include historical review guidance. The Jupiter prompt’s 0.500m value is not a current measurement. Old film-pass assertions for printer and phishing were removed before their first dispatch, preserving originals and replacement hashes. Tasks, renderer and tool loop differ from historical Kimi runs; no controlled or blind ranking is claimed.",
+    "LongCat generated and revised artwork; Codex handled infrastructure, isolation, archival, independent checks and publication. Fixed local Kokoro supplied narration. The circulation README discloses 1.63x audio acceleration, with no naturalness score. Host-captured SVG animation is not native video generation.",
+    "Checks cover reopening original files, selected dimensions/geometry, decoding, sampled frames and pedal attachment, rather than comprehensive engineering or scientific certification. Documented failures remain visible, including the printer beam crossing the drum and malformed raw SRT, derivative transition display and unfinished email film. Display WebP files and the printer VTT are separately derived; original artwork was not repaired."
+  ],
+  "evidencePath": "/evaluations/longcat-2-5-claude-code.json",
+  "totals": {
+    "requests": 502,
+    "completedResponses": 497,
+    "promptTokens": 27939033,
+    "outputTokens": 774219,
+    "errors": 2,
+    "interruptedRequests": 2
+  },
+  "cases": [
+    {
+      "id": "planetary-reducer",
+      "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+      "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+      "category": "blender",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "工程与预览已生成；受早期渲染故障及保守预算停止影响，未完成整套交付。",
+      "summaryEn": "Scene and preview generated; early renderer faults and conservative budgeting prevented the full delivery.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "24/18/60-tooth planetary reducer and axial explosion. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "4b2e0fcc930a262160e2804f8bfbeadc8dc98c1df6f80f8f2a8a64e5133104dd",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "以下为TOKRACE新增执行条件，并非原benchmark协议：本轮离线，仅本题公开输入，不访问公网或外部模型/资产库；本批冻结的模型与参数，60分钟/50次请求/150000输出token，2线程。使用本机Blender5.2.3、EEVEE。原题的Cycles、OptiX、HDRI下载、采样/分辨率要求改为本次统一协议，必须在README披露；不声称官方BlenderWorld分数或严格复现原渲染管线。完整保留几何结构、尺寸、数量、配合、材质区分及原始UV/LOD等资产需求，不能为填任务数量简化；缺项如实列出。\n先分功能块落盘完整可运行源代码，然后实际后台工厂启动建模/渲染，不使用单次巨型响应。交付final.blend、完整源码/资源、1920×1080主图+两张1600×900不同机位+结构/中性灰模近景；另交6秒1280×720/24fps的turntable.mp4（144帧）。减速器/蒸汽机可用机构运动代转台，但必须明确是运动学，非受力仿真，保留静态检查。先真实预览、view_image检查，最多两轮有效视觉修正，程序报错另记；保留首个预览与失败。视频检查至少6时点与首尾。独立进程重开工程，交artifacts.json/README（原题差异、实际命令版本、未完成项）/真实尺寸与对象清单自检JSON。离线程序材料替代外部图片/HDRI时必须说明；不得用平面或贴图代关键实体。\n\n本题新增可测规格：读取asset_budget.json，全部几何/齿数/名义配合/UV/LOD要求保留。两张不同机位至少一张为同轴爆炸图，灰模近景看清太阳—行星—内圈接触。未实际校核的制造公差只能称名义展示。若运动，保持理论运动学关系，非动力学。\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "4fe0a986df9baf3fd9f6d8be5fe1ea19510f2cc1e9ae22136301cf9ab95a6a70",
+      "metrics": {
+        "requests": 29,
+        "completedResponses": 27,
+        "promptTokens": 546479,
+        "outputTokens": 53744,
+        "wallMs": 1714241
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "减速器部分预览：内部齿轮被端板遮挡",
+          "captionEn": "Partial reducer preview: end plates obscure the internal gears",
+          "provenance": {
+            "originalSha256": "5121c72e2467665498df2e33619f4b3f2c28c4de4cdc9d128b2ccd8f0db9960a",
+            "sha256": "365dcc768ab9b75f42e00398397ce29deafe0df33a2b097f2d4672c6f6749d3e",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/planetary-reducer/preview_main.webp",
+          "width": 960,
+          "height": 540
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/planetary-reducer/project-source.zip",
+          "labelZh": "下载工程与实际源码（含未完成项说明）",
+          "labelEn": "Download scene and actual source, including limitations"
+        }
+      ],
+      "assessmentZh": [
+        "工程可独立重开；现有预览中，端板遮住太阳轮和行星轮，不能凭该图确认齿数与啮合。",
+        "未交付完整图组、爆炸视角和144帧视频；UV、LOD、接触及运动学未完成独立验收。"
+      ],
+      "assessmentEn": [
+        "The scene reopens independently. End plates obscure the sun and planet gears in the preview, so this view cannot establish tooth counts or engagement.",
+        "The full still set, exploded view and 144-frame film were not delivered. UV, LOD, contact and kinematics remain unverified."
+      ],
+      "checks": [
+        {
+          "labelZh": "独立重开工程",
+          "labelEn": "Independent scene reopen",
+          "status": "pass",
+          "detailZh": "独立Blender进程禁用自动执行后重开，源文件哈希不变。",
+          "detailEn": "Reopened in an independent Blender process with auto-execution disabled; source hashes remain unchanged."
+        },
+        {
+          "labelZh": "完整媒体交付",
+          "labelEn": "Complete media delivery",
+          "status": "fail",
+          "detailZh": "未交付本题要求的完整最终图组和视频，或缺少最终视频。",
+          "detailEn": "The complete required final still set and film, or the final film, was not delivered."
+        },
+        {
+          "labelZh": "专项结构或尺寸验收",
+          "labelEn": "Detailed geometry or dimension acceptance",
+          "status": "not-tested",
+          "detailZh": "场景清单与实际图片已检查，尚未完成全部专项结构、尺寸和接触验证。",
+          "detailEn": "Scene inventories and actual images were reviewed; not all detailed geometry, dimensions or contact checks are complete."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "infrastructure_interrupted",
+          "requests": 14,
+          "completedResponses": 12,
+          "noteZh": "早期EEVEE基础设施中断；全部原始记录保留。",
+          "noteEn": "Early EEVEE infrastructure interruption; original evidence retained.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/planetary-reducer/attempt-1.json"
+        },
+        {
+          "id": "attempt-2",
+          "effort": "Claude Code requested adaptive",
+          "status": "failed",
+          "requests": 15,
+          "completedResponses": 15,
+          "noteZh": "Cycles CPU续跑，因历史未知用量的保守预算占位停止，保留部分成果。",
+          "noteEn": "Cycles CPU continuation stopped under conservative reservations for prior unknown usage; partial artifacts retained.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/planetary-reducer/attempt-2.json"
+        }
+      ]
+    },
+    {
+      "id": "horizontal-steam-engine",
+      "titleZh": "复古卧式蒸汽机、飞轮连杆与Watt调速器",
+      "titleEn": "Horizontal steam engine, flywheel and Watt governor",
+      "category": "blender",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "已有可重开的工程与局部预览，完整图组和视频未交付。",
+      "summaryEn": "A reopenable scene and partial preview exist; the complete still set and film were not delivered.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0105/environment/inputs/query.txt",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Horizontal steam engine, flywheel and Watt governor. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "46f733406de20668bf8ab71825ef43e931d42ca8d62946befaae89be3ae97ff4",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "以下为TOKRACE新增执行条件，并非原benchmark协议：本轮离线，仅本题公开输入，不访问公网或外部模型/资产库；本批冻结的模型与参数，60分钟/50次请求/150000输出token，2线程。使用本机Blender5.2.3、EEVEE。原题的Cycles、OptiX、HDRI下载、采样/分辨率要求改为本次统一协议，必须在README披露；不声称官方BlenderWorld分数或严格复现原渲染管线。完整保留几何结构、尺寸、数量、配合、材质区分及原始UV/LOD等资产需求，不能为填任务数量简化；缺项如实列出。\n先分功能块落盘完整可运行源代码，然后实际后台工厂启动建模/渲染，不使用单次巨型响应。交付final.blend、完整源码/资源、1920×1080主图+两张1600×900不同机位+结构/中性灰模近景；另交6秒1280×720/24fps的turntable.mp4（144帧）。减速器/蒸汽机可用机构运动代转台，但必须明确是运动学，非受力仿真，保留静态检查。先真实预览、view_image检查，最多两轮有效视觉修正，程序报错另记；保留首个预览与失败。视频检查至少6时点与首尾。独立进程重开工程，交artifacts.json/README（原题差异、实际命令版本、未完成项）/真实尺寸与对象清单自检JSON。离线程序材料替代外部图片/HDRI时必须说明；不得用平面或贴图代关键实体。\n\n本题新增可测规格：完整读取brief.md，底座、缸径行程、600mm连杆、1200mm飞轮的6条曲辐、离心调速器、滑阀机构和管路等原规格不缩水。4K材质贴图、UV、SM_命名、hero/LOD1/LOD2预算与运动副轴心需求保留；未完成或未烘焙须公开。不得只用彩色圆柱替代机械关系。增加背面、另一侧与中性灰模近景，观察汽缸—活塞杆—十字头—连杆—曲柄连接。视频可为转台或运动学机构；后者保持300mm行程、150mm曲柄、600mm杆长，不称蒸汽或受力仿真。\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "408ff3a68c0d6d7c7011009f947598bc3b267d2ae19c01862c5a97d49ef3b58e",
+      "metrics": {
+        "requests": 57,
+        "completedResponses": 56,
+        "promptTokens": 3510963,
+        "outputTokens": 99546,
+        "wallMs": 1498510
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "蒸汽机局部预览：管线与金属表面，完整交付未完成",
+          "captionEn": "Partial steam-engine preview: pipes and metal surfaces; full delivery incomplete",
+          "provenance": {
+            "originalSha256": "95af6b3809b0418eb53f8abe894fc79f3576338b26386bef803f5262cc97f810",
+            "sha256": "136969ba2195bdcc30aa76dd61cdf171e3f5f3be7913a348d1d8d216f1ff2d65",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/horizontal-steam-engine/p1_hero.webp",
+          "width": 640,
+          "height": 360
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/horizontal-steam-engine/project-source.zip",
+          "labelZh": "下载工程与实际源码（含未完成项说明）",
+          "labelEn": "Download scene and actual source, including limitations"
+        }
+      ],
+      "assessmentZh": [
+        "预览可见管线、立柱与金属材质，但未完整呈现飞轮和连杆机构，无法据此确认配合。",
+        "早期EEVEE故障消耗了调用；CPU续跑因历史未知用量的保守预算占位停止，不能将其全部归因于模型能力。"
+      ],
+      "assessmentEn": [
+        "Pipes, columns and metal materials are visible, but the preview does not show the whole flywheel/linkage mechanism and cannot establish its fit.",
+        "Early EEVEE faults consumed calls. CPU continuation stopped under conservative reservations for prior unknown usage, so this outcome cannot be attributed entirely to model capability."
+      ],
+      "checks": [
+        {
+          "labelZh": "独立重开工程",
+          "labelEn": "Independent scene reopen",
+          "status": "pass",
+          "detailZh": "独立Blender进程禁用自动执行后重开，源文件哈希不变。",
+          "detailEn": "Reopened in an independent Blender process with auto-execution disabled; source hashes remain unchanged."
+        },
+        {
+          "labelZh": "完整媒体交付",
+          "labelEn": "Complete media delivery",
+          "status": "fail",
+          "detailZh": "未交付本题要求的完整最终图组和视频，或缺少最终视频。",
+          "detailEn": "The complete required final still set and film, or the final film, was not delivered."
+        },
+        {
+          "labelZh": "专项结构或尺寸验收",
+          "labelEn": "Detailed geometry or dimension acceptance",
+          "status": "not-tested",
+          "detailZh": "场景清单与实际图片已检查，尚未完成全部专项结构、尺寸和接触验证。",
+          "detailEn": "Scene inventories and actual images were reviewed; not all detailed geometry, dimensions or contact checks are complete."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "infrastructure_interrupted",
+          "requests": 50,
+          "completedResponses": 49,
+          "noteZh": "早期EEVEE基础设施中断；全部原始记录保留。",
+          "noteEn": "Early EEVEE infrastructure interruption; original evidence retained.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/horizontal-steam-engine/attempt-1.json"
+        },
+        {
+          "id": "attempt-2",
+          "effort": "Claude Code requested adaptive",
+          "status": "failed",
+          "requests": 7,
+          "completedResponses": 7,
+          "noteZh": "Cycles CPU续跑，因历史未知用量的保守预算占位停止，保留部分成果。",
+          "noteEn": "Cycles CPU continuation stopped under conservative reservations for prior unknown usage; partial artifacts retained.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/horizontal-steam-engine/attempt-2.json"
+        }
+      ]
+    },
+    {
+      "id": "two-bedroom-interior",
+      "titleZh": "12×9米两居室装修、多房间与俯视平面",
+      "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+      "category": "blender",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "交付工程与五张最终图；50次请求后会话结束，未生成最终视频。",
+      "summaryEn": "Scene and five final stills delivered; the session reached 50 requests without a final film.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "12×9m two-bedroom interior, rooms and floor plan. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "3947abd2d7e39da19d44da55cc45bb9ceeba7220bd9d25b9ba44485f6f3c8579",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "以下为TOKRACE新增执行条件，并非原benchmark协议：本轮离线，仅本题公开输入，不访问公网或外部模型/资产库；本批冻结的模型与参数，60分钟/50次请求/150000输出token，2线程。使用本机Blender5.2.3、EEVEE。原题的Cycles、OptiX、HDRI下载、采样/分辨率要求改为本次统一协议，必须在README披露；不声称官方BlenderWorld分数或严格复现原渲染管线。完整保留几何结构、尺寸、数量、配合、材质区分及原始UV/LOD等资产需求，不能为填任务数量简化；缺项如实列出。\n先分功能块落盘完整可运行源代码，然后实际后台工厂启动建模/渲染，不使用单次巨型响应。交付final.blend、完整源码/资源、1920×1080主图+两张1600×900不同机位+结构/中性灰模近景；另交6秒1280×720/24fps的turntable.mp4（144帧）。减速器/蒸汽机可用机构运动代转台，但必须明确是运动学，非受力仿真，保留静态检查。先真实预览、view_image检查，最多两轮有效视觉修正，程序报错另记；保留首个预览与失败。视频检查至少6时点与首尾。独立进程重开工程，交artifacts.json/README（原题差异、实际命令版本、未完成项）/真实尺寸与对象清单自检JSON。离线程序材料替代外部图片/HDRI时必须说明；不得用平面或贴图代关键实体。\n\n本题新增可测规格：完整读取layout.yaml。户型12×9m、净高2.8m、外墙240mm和隔墙120mm、家具空间要求保持。增加三张室内机位、一张正交顶视和一张门窗/隔墙或家具尺度的灰模近景，因此本题至少5张最终静帧。原题4K/OptiX/Cycles改为本次1920主图、1600副图、EEVEE是公开执行差异。按房间分集合，交可核对墙界、门洞、家具数量和尺寸的JSON。南向大窗与附件通用窗台规格若有解释冲突，说明选择，不能假称唯一真值。\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "0fb2e735ddb6f50f6ce3688cd537d6ed5214e64ab5529147d158520182297114",
+      "metrics": {
+        "requests": 50,
+        "completedResponses": 50,
+        "promptTokens": 3449819,
+        "outputTokens": 84885,
+        "wallMs": 1974607
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "客厅主视角",
+          "captionEn": "Living-room view",
+          "provenance": {
+            "originalSha256": "4d3a6984d40c13253d40354467b92199f4141ecc7bb09b4964b719ef4b18f3d2",
+            "sha256": "c60e2fe98a1dfa176f496c40e0c07ee36b15d299b1aadfa247307205c2ae7323",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/two-bedroom-interior/still_main_1920.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "厨房近景",
+          "captionEn": "Kitchen close-up",
+          "provenance": {
+            "originalSha256": "895c30555ead1dbf9d64b0e70787da2bccf3740b682d3edcaeedde6fdf7e77ec",
+            "sha256": "f2cc83b93f43fdc8c077a3bf1ae6c63e3d6822f18e284b83bbeb125d4f5aa7cd",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/two-bedroom-interior/still_kitchen_1600.webp",
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "type": "image",
+          "captionZh": "主卧视角",
+          "captionEn": "Main bedroom",
+          "provenance": {
+            "originalSha256": "668efc6f3c6e513350e6cbc5fbcc7c8a9f57b5f06bd801aa18c37e06c48a5076",
+            "sha256": "53eb0014348e136ef46e2025c71df4f5d2205dcdb13118c62c05e58211d9baf2",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/two-bedroom-interior/still_master_1600.webp",
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "type": "image",
+          "captionZh": "户型俯视图",
+          "captionEn": "Apartment top view",
+          "provenance": {
+            "originalSha256": "f29345131d920ca1d8ca6d8bd80f5f6023cb3179157732f1cb889937f4cf799d",
+            "sha256": "0a93dbe31faaba6d244caa8cdd8ade1ceaf9fbe10e619af15ca4d4c99b22c0fe",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/two-bedroom-interior/still_toportho_1920.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "灰模近景：机位贴近墙面",
+          "captionEn": "Clay close-up: camera close to a wall",
+          "provenance": {
+            "originalSha256": "0577df26b96c7e303654694a249e08ade9f8fc9ba31201cc5274f915585dcb25",
+            "sha256": "f12afc9d87e133d4b473d6796a1e430dc05fa1a88e4526c7c0dd5830dd4e0540",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/two-bedroom-interior/still_graymodel_1920.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/two-bedroom-interior/project-source.zip",
+          "labelZh": "下载工程与实际源码（含未完成项说明）",
+          "labelEn": "Download scene and actual source, including limitations"
+        }
+      ],
+      "assessmentZh": [
+        "最终图中地面显示较早期预览改善，客厅、厨房和卧室可辨认，但家具造型较简化、部分机位偏紧。",
+        "灰模机位贴近墙面，无法充分展示结构；没有最终MP4。后台渲染的具体退出原因未确定。",
+        "独立重开不等于户型、开间、动线和家具尺寸全部通过；这些专项检查仍未完成。"
+      ],
+      "assessmentEn": [
+        "The final floor appearance improves on early previews. Living room, kitchen and bedroom are recognizable, with simplified furniture and tight framing.",
+        "The clay camera is close to a wall and provides little structural evidence. No final MP4 exists; the background renderer's exact exit cause remains undetermined.",
+        "Independent reopen is not acceptance of the entire floor plan, circulation or furniture dimensions; those specific checks remain incomplete."
+      ],
+      "checks": [
+        {
+          "labelZh": "独立重开工程",
+          "labelEn": "Independent scene reopen",
+          "status": "pass",
+          "detailZh": "独立Blender进程禁用自动执行后重开，源文件哈希不变。",
+          "detailEn": "Reopened in an independent Blender process with auto-execution disabled; source hashes remain unchanged."
+        },
+        {
+          "labelZh": "完整媒体交付",
+          "labelEn": "Complete media delivery",
+          "status": "fail",
+          "detailZh": "未交付本题要求的完整最终图组和视频，或缺少最终视频。",
+          "detailEn": "The complete required final still set and film, or the final film, was not delivered."
+        },
+        {
+          "labelZh": "专项结构或尺寸验收",
+          "labelEn": "Detailed geometry or dimension acceptance",
+          "status": "not-tested",
+          "detailZh": "场景清单与实际图片已检查，尚未完成全部专项结构、尺寸和接触验证。",
+          "detailEn": "Scene inventories and actual images were reviewed; not all detailed geometry, dimensions or contact checks are complete."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "failed",
+          "requests": 50,
+          "completedResponses": 50,
+          "noteZh": "CLI达到50次请求上限；已有交付物按独立检查评价，不把退出码当作作品质量分数。",
+          "noteEn": "CLI reached 50 requests. Delivered artifacts are assessed independently; the exit code is not a quality score.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/two-bedroom-interior/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "temple-courtyard",
+      "titleZh": "传统中式寺庙庭院与屋顶结构",
+      "titleEn": "Traditional Chinese temple courtyard and roof structure",
+      "category": "blender",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "工程、四张最终图、6秒环绕视频与说明文件已交付；CLI仍在50次请求处退出。",
+      "summaryEn": "Scene, four final stills, a six-second orbit film and documentation were delivered; the CLI still exited at its 50-request limit.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0120/environment/inputs/query.txt",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Traditional Chinese temple courtyard and roof structure. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "a21d6b051543e08ce7b43405090a6ca4f7fd1e1f46f4a4038036f66114c43e11",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "以下为TOKRACE新增执行条件，并非原benchmark协议：本轮离线，仅本题公开输入，不访问公网或外部模型/资产库；本批冻结的模型与参数，60分钟/50次请求/150000输出token，2线程。使用本机Blender5.2.3、EEVEE。原题的Cycles、OptiX、HDRI下载、采样/分辨率要求改为本次统一协议，必须在README披露；不声称官方BlenderWorld分数或严格复现原渲染管线。完整保留几何结构、尺寸、数量、配合、材质区分及原始UV/LOD等资产需求，不能为填任务数量简化；缺项如实列出。\n先分功能块落盘完整可运行源代码，然后实际后台工厂启动建模/渲染，不使用单次巨型响应。交付final.blend、完整源码/资源、1920×1080主图+两张1600×900不同机位+结构/中性灰模近景；另交6秒1280×720/24fps的turntable.mp4（144帧）。减速器/蒸汽机可用机构运动代转台，但必须明确是运动学，非受力仿真，保留静态检查。先真实预览、view_image检查，最多两轮有效视觉修正，程序报错另记；保留首个预览与失败。视频检查至少6时点与首尾。独立进程重开工程，交artifacts.json/README（原题差异、实际命令版本、未完成项）/真实尺寸与对象清单自检JSON。离线程序材料替代外部图片/HDRI时必须说明；不得用平面或贴图代关键实体。\n\n本题新增可测规格：本题增加对侧、俯视整体与屋顶/柱梁灰模近景。原题未固定长度，按合理古建尺度自主设计并记录，自定尺度不写成原题。石狮为一对实体，红柱/金顶/上翘屋檐、青石直达路径、铜钟与红灯笼应清楚可辨。\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "038b0b7a257d216edda4c93d4c9e6ce06f1a210cd4d3af500616617444ae3435",
+      "metrics": {
+        "requests": 50,
+        "completedResponses": 50,
+        "promptTokens": 3472854,
+        "outputTokens": 79835,
+        "wallMs": 2581260
+      },
+      "media": [
+        {
+          "type": "video",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": 6,
+          "captionsLanguage": "zh",
+          "captionZh": "6秒庭院环绕；含固定Kokoro中文配音，可切换字幕。",
+          "captionEn": "Six-second courtyard orbit with fixed Kokoro Chinese narration and optional subtitles.",
+          "path": "/evaluations/longcat-2-5-claude-code/temple-courtyard/turntable.mp4",
+          "posterPath": "/evaluations/longcat-2-5-claude-code/temple-courtyard/video-poster.webp",
+          "captionsPath": "/evaluations/longcat-2-5-claude-code/temple-courtyard/captions.vtt"
+        },
+        {
+          "type": "image",
+          "captionZh": "从入口望向主殿",
+          "captionEn": "Main hall viewed from the entrance",
+          "provenance": {
+            "originalSha256": "58182ded4f558d494a0d759c74f46bc2e8e468339225f4343b6d8f8cb0e9d6ed",
+            "sha256": "d3c72464249d2d06519b5428f247f0b499e443c13dfd2d18ebf83008cfdc9415",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/temple-courtyard/still_main_1920x1080.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "庭院侧向机位",
+          "captionEn": "Side view of the courtyard",
+          "provenance": {
+            "originalSha256": "bde33dc6fecf6062e9d1d64fac302423d3dffe5469f3808215ef15c704962c30",
+            "sha256": "826bf7fe1448400f89a6834502b61f6c1cfd4b5941f9b6fd89f079024139fef6",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/temple-courtyard/still_side_1600x900.webp",
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "type": "image",
+          "captionZh": "俯视图：左右留黑较多",
+          "captionEn": "Top view with large black side margins",
+          "provenance": {
+            "originalSha256": "98e1ac4997dd7e33054f87f01b006664a1f1c4eb5f5633e433e3c60385dcf999",
+            "sha256": "7af2276f86befade71e6117fb6ed2b4cd4d1d33e78457156f257fbdfe62dee50",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/temple-courtyard/still_top_1600x900.webp",
+          "width": 1600,
+          "height": 900
+        },
+        {
+          "type": "image",
+          "captionZh": "屋檐和柱梁灰模近景",
+          "captionEn": "Clay close-up of the eaves and beams",
+          "provenance": {
+            "originalSha256": "181fb957fc08c117f4bb19aaffeb21ac35a970ef847343ad63b5d3feac9eed34",
+            "sha256": "d2e1d9dd9096ac95490456784264db0f5c9f088f3ec845ab81fb756dd62b491e",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/temple-courtyard/still_structure_clay_1600x900.webp",
+          "width": 1600,
+          "height": 900
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/temple-courtyard/project-source.zip",
+          "labelZh": "下载工程与实际源码（含未完成项说明）",
+          "labelEn": "Download scene and actual source, including limitations"
+        }
+      ],
+      "assessmentZh": [
+        "主殿、左右廊庑、中轴道路、铜钟和两侧石狮形成可辨认的庭院空间；古建细部和雕塑较简化。",
+        "视频实测6秒、1280×720、24fps、144帧，完整解码通过，并在Chrome实际播放。约2.7至3.3秒时背墙遮住大部分庭院。",
+        "俯视图左右留黑较多；灰模近景能看到屋檐与柱梁。未作古建规范或制造精度认证。",
+        "配音由固定本地Kokoro生成，不是LongCat原生语音；原始交付MP4按字节保留。"
+      ],
+      "assessmentEn": [
+        "The main hall, side galleries, central path, bell and paired stone lions form a recognizable courtyard, with simplified architectural and sculptural detail.",
+        "Measured at six seconds, 1280×720, 24fps and 144 frames; full decode and actual Chrome playback succeeded. The rear wall obscures much of the courtyard around 2.7–3.3 seconds.",
+        "The top view has large black side margins. The clay close-up exposes eaves and beams; no architectural-code or manufacturing certification is claimed.",
+        "Fixed local Kokoro produces narration, not LongCat native speech. The delivered MP4 remains byte-identical."
+      ],
+      "checks": [
+        {
+          "labelZh": "独立重开工程",
+          "labelEn": "Independent scene reopen",
+          "status": "pass",
+          "detailZh": "独立Blender进程禁用自动执行后重开，源文件哈希不变。",
+          "detailEn": "Reopened in an independent Blender process with auto-execution disabled; source hashes remain unchanged."
+        },
+        {
+          "labelZh": "最终视频与实际播放",
+          "labelEn": "Final video and actual playback",
+          "status": "pass",
+          "detailZh": "6秒、1280×720、24fps、144帧，完整解码及Chrome播放通过。",
+          "detailEn": "Six seconds, 1280×720, 24fps and 144 frames; full decode and Chrome playback pass."
+        },
+        {
+          "labelZh": "专项结构或尺寸验收",
+          "labelEn": "Detailed geometry or dimension acceptance",
+          "status": "not-tested",
+          "detailZh": "场景清单与实际图片已检查，尚未完成全部专项结构、尺寸和接触验证。",
+          "detailEn": "Scene inventories and actual images were reviewed; not all detailed geometry, dimensions or contact checks are complete."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "failed",
+          "requests": 50,
+          "completedResponses": 50,
+          "noteZh": "CLI达到50次请求上限；已有交付物按独立检查评价，不把退出码当作作品质量分数。",
+          "noteEn": "CLI reached 50 requests. Delivered artifacts are assessed independently; the exit code is not a quality score.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/temple-courtyard/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "jupiter-drydock",
+      "titleZh": "木星轨道巨舰维修船坞",
+      "titleEn": "Jovian orbital starship repair dock",
+      "category": "blender",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "已有可重开的船坞工程和四张预览；50次请求内未完成最终图组、视频与说明。",
+      "summaryEn": "A reopenable drydock scene and four previews exist; final stills, film and documentation were not completed within 50 requests.",
+      "source": {
+        "url": "https://www.woshipm.com/evaluating/6483980.html",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Jovian orbital starship repair dock. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "93a8724df0253fe95a3864cd8b2b075435b69a499043237ab1bb15971c0ec730",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "本次来源复跑说明：仅运行本批指定的一款模型，不与原作者K3桌面产品结果混为同条件排名。原题中的旧机器路径与测试根目录已替换为当前路径，其他场景与交付要求保留；固定EEVEE与本次工具预算属于本次条件。任务根目录就是当前工作目录，允许其下work/和outputs/。静态主图、两张不同角度图、灰模近景和可编辑工程均需完成，不能以单张概念图代替。\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "b6a4b6ed33b05f86761e07619bf0167adbe122d10e95c06d62245300dd69e1d9",
+      "metrics": {
+        "requests": 50,
+        "completedResponses": 48,
+        "promptTokens": 3528203,
+        "outputTokens": 83627,
+        "wallMs": 1596143
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "舰体与检修栈桥主预览",
+          "captionEn": "Main preview of the ship and maintenance deck",
+          "provenance": {
+            "originalSha256": "a4e3630784cc2ddefd067c1bc3bf1036a6260f4dc67b854d7606935587d85574",
+            "sha256": "c30bd9f4dd021e2ea59079fd31cbe7b03f814595baa2d2da6adfc531eb90a889",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/jupiter-drydock/preview_main.webp",
+          "width": 800,
+          "height": 450
+        },
+        {
+          "type": "image",
+          "captionZh": "船坞远景预览",
+          "captionEn": "Wide drydock preview",
+          "provenance": {
+            "originalSha256": "ac6190c417065a6023af9f168ec91f975b7a4a778a96d9692d2c9ce31e04faa6",
+            "sha256": "6163da64d999fea8d88deee1ddcec40533f842a1b58259f0ebab6e7621adb5e5",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/jupiter-drydock/preview_wide.webp",
+          "width": 800,
+          "height": 450
+        },
+        {
+          "type": "image",
+          "captionZh": "尾部发动机口预览",
+          "captionEn": "Stern and engine-opening preview",
+          "provenance": {
+            "originalSha256": "c3dbeef3e4ee62efa891027c337c837a67cae16f91c26115cd3ebf57768e848c",
+            "sha256": "de1e67b1bdba728458b79ef46cb8cdd6ec42427c183b3419c68af211fd8bbf53",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/jupiter-drydock/preview_stern.webp",
+          "width": 800,
+          "height": 450
+        },
+        {
+          "type": "image",
+          "captionZh": "侧舷近景：仍含发光材质",
+          "captionEn": "Hull close-up, with emissive materials still visible",
+          "provenance": {
+            "originalSha256": "d6f7c1d703d40bac2f5e2d1807b427ac84e54968a5e9fd8b3776ab34e59d0df9",
+            "sha256": "687b5f51f0443fdcde58c8d9b4b70534222bf88c988ea7713d4500da6df6d980",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/jupiter-drydock/preview_gray.webp",
+          "width": 800,
+          "height": 450
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/jupiter-drydock/project-source.zip",
+          "labelZh": "下载工程与实际源码（含未完成项说明）",
+          "labelEn": "Download scene and actual source, including limitations"
+        }
+      ],
+      "assessmentZh": [
+        "舰体、分段船坞、人物与条纹木星可辨认，尾部视角有发动机圆口；现有画面不足以确认内部机构或连接合理性。",
+        "远景主体较小、留白多；预览仍不等于目标分辨率的最终交付，且没有最终视频。",
+        "本题提示含历史参考问题。提示中的人物离地0.500m不是本轮测量，不能当作本次发现或盲测结论。"
+      ],
+      "assessmentEn": [
+        "The ship, segmented dock, figures and striped Jupiter are recognizable, with engine openings in the stern view. These images do not establish internal mechanisms or sound connections.",
+        "The wide view makes the subject small and leaves much empty space. Previews are not the required final-resolution delivery, and no final film exists.",
+        "The prompt contains historical review guidance. Its 0.500m deck-separation value is not a measurement from this run and must not be presented as a new finding or blind-test result."
+      ],
+      "checks": [
+        {
+          "labelZh": "独立重开工程",
+          "labelEn": "Independent scene reopen",
+          "status": "pass",
+          "detailZh": "独立Blender进程禁用自动执行后重开，源文件哈希不变。",
+          "detailEn": "Reopened in an independent Blender process with auto-execution disabled; source hashes remain unchanged."
+        },
+        {
+          "labelZh": "完整媒体交付",
+          "labelEn": "Complete media delivery",
+          "status": "fail",
+          "detailZh": "未交付本题要求的完整最终图组和视频，或缺少最终视频。",
+          "detailEn": "The complete required final still set and film, or the final film, was not delivered."
+        },
+        {
+          "labelZh": "专项结构或尺寸验收",
+          "labelEn": "Detailed geometry or dimension acceptance",
+          "status": "not-tested",
+          "detailZh": "场景清单与实际图片已检查，尚未完成全部专项结构、尺寸和接触验证。",
+          "detailEn": "Scene inventories and actual images were reviewed; not all detailed geometry, dimensions or contact checks are complete."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "failed",
+          "requests": 50,
+          "completedResponses": 48,
+          "noteZh": "CLI达到50次请求上限；已有交付物按独立检查评价，不把退出码当作作品质量分数。",
+          "noteEn": "CLI reached 50 requests. Delivered artifacts are assessed independently; the exit code is not a quality score.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/jupiter-drydock/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "bookshelf",
+      "titleZh": "参数化书架及参数修改",
+      "titleEn": "Parametric bookshelf and parameter revision",
+      "category": "blender",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "同一参数化脚本生成两版书架，独立几何检查与多机位图通过本题固定规格。",
+      "summaryEn": "One parametric script produces both variants; independent geometry checks and multi-view images satisfy the fixed specifications.",
+      "source": {
+        "url": "https://vercel.com/changelog/kimi-k3-1-pro-and-kimi-k3-1-pro-highspeed-are-available-now-in-ai-gateway",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Parametric bookshelf and parameter revision. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "86151fda84cd34fb1612185d4bf3edc051e49c38fd163d190b9acf2ae186f079",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "保留官方原题，增加下列可验收要求：\n使用Blender原生几何制作可编辑木质书架，交付一个可通过命令行参数重建的Python脚本。\n基础版外框宽800、深300、高1200毫米；全部板厚18毫米；由2块侧板、1块顶板、1块底板、2块内部水平隔板组成，形成3个等高净空储物格；无背板、无额外脚。顶底板嵌在两侧板之间，所有外边界尺寸必须一致。每块板独立命名，集中放在Bookcase集合；展示道具可有少量书，但不得混入Bookcase集合影响测量。\n脚本公开width_mm、depth_mm、height_mm、thickness_mm、compartments、wood_color参数。用同一脚本再生成宽1000、高1200、深300、板厚18、4个等高储物格的修改版，不要另写独立几何代码。\n交付baseline.blend和modified.blend、对应真实尺寸/对象清单JSON、至少3张1920×1080图片（基础版主视角、背面、修改版主视角），和清楚说明层数语义的README。模型背面要可检查，不能用背景平面代替实际建模。\n先渲染低分辨率预览并用view_image检查。最多两轮有效视觉修正；执行报错可以另行修复。最终用独立Blender进程重开两个工程，确认集合、材质、相机和可测尺寸。保留脚本、预览、日志，不制作动画。\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "84b4b32f2cbc33747cefca2f98ceb8003bdc0a71c79b266de9d5bdea6334b246",
+      "metrics": {
+        "requests": 19,
+        "completedResponses": 19,
+        "promptTokens": 640480,
+        "outputTokens": 31919,
+        "wallMs": 686553
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "基础版三格正面：宽800mm",
+          "captionEn": "Three-compartment baseline, 800mm wide",
+          "provenance": {
+            "originalSha256": "7a87421eba2fdc70cf047bc7b8317826092ec9077de199b22f30b9a640e2d201",
+            "sha256": "06d039764c28360501e15c9db538aff482155283b75629577a1dc005354ad517",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/bookshelf/baseline_front.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "基础版背面：真实开口",
+          "captionEn": "Baseline rear view with an open back",
+          "provenance": {
+            "originalSha256": "73538435f2cf47b1a2da44bb0d456a1889c08b9ecd6c5b9993cafb21122f2ccf",
+            "sha256": "5ee40e3d29afd04b21eb5ed7670b367e8c657968392541c744d1cd17de557a6f",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/bookshelf/baseline_back.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "修改版四格正面：宽1000mm",
+          "captionEn": "Four-compartment revision, 1000mm wide",
+          "provenance": {
+            "originalSha256": "c6164fe6a0e2a7066427bd33d0c4711d2bd3f5c1e83cb0a75d9ad3cb987cbb23",
+            "sha256": "c939309ae9e3668bbbf7be7306ff9eadb79af57b14bcf655a02f4ca0fc8ae718",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/bookshelf/modified_front.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "基础版斜视",
+          "captionEn": "Baseline oblique view",
+          "provenance": {
+            "originalSha256": "09d7ae1e845196ed61bbc8c718690abe87282772abdc3ac6ddd4da47b9c2a736",
+            "sha256": "e593e43dd307679178b2042deb5dcb280b7c6446851ced94ac863f9eb9cb6441",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/bookshelf/baseline_hero.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "修改版斜视",
+          "captionEn": "Revised oblique view",
+          "provenance": {
+            "originalSha256": "d295fa036abe0ce08a8bdb99a7e94375332d6c4ab5eafa531db24e65f1c0cd7e",
+            "sha256": "e2721389d03751e7813a8afa7bd33c146c5e6deb170a7fadbcb7c2e11811d1b9",
+            "noteZh": "网页展示版仅做WebP编码压缩；原始PNG在本地证据中保留。",
+            "noteEn": "Web display uses WebP encoding only; original PNGs remain in the local evidence archive."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/bookshelf/modified_hero.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/bookshelf/project-source.zip",
+          "labelZh": "下载工程与实际源码（含未完成项说明）",
+          "labelEn": "Download scene and actual source, including limitations"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/bookshelf/parametric-checks.json",
+          "labelZh": "下载独立尺寸检查",
+          "labelEn": "Download independent dimension checks"
+        }
+      ],
+      "assessmentZh": [
+        "独立测量外框约800×300×1200mm与1000×300×1200mm；分别6块和7块板，板厚18mm。",
+        "净空分别约376mm×3格与277.5mm×4格；无额外背板，背面图能看到真实开口，Props未计入板件测量。",
+        "脚本公开宽、深、高、板厚、格数与木色参数；通过重新运行脚本改变几何。未验证任意参数组合，也不声称GUI属性实时驱动。"
+      ],
+      "assessmentEn": [
+        "Independent measurements are approximately 800×300×1200mm and 1000×300×1200mm, with six and seven panels respectively, each 18mm thick.",
+        "Clear heights are approximately 376mm across three compartments and 277.5mm across four. The back is open, and Props are excluded from panel measurements.",
+        "Width, depth, height, thickness, compartment count and wood color are script parameters. Geometry changes through script regeneration; arbitrary parameter combinations and live GUI-driven geometry were not verified."
+      ],
+      "checks": [
+        {
+          "labelZh": "独立重开工程",
+          "labelEn": "Independent scene reopen",
+          "status": "pass",
+          "detailZh": "独立Blender进程禁用自动执行后重开，源文件哈希不变。",
+          "detailEn": "Reopened in an independent Blender process with auto-execution disabled; source hashes remain unchanged."
+        },
+        {
+          "labelZh": "两组固定参数的几何",
+          "labelEn": "Geometry of both fixed variants",
+          "status": "pass",
+          "detailZh": "实际网格边界、板件数量、板厚与等高净空通过检查；范围仅为这两版。",
+          "detailEn": "Actual mesh bounds, panel counts, thickness and equal clear heights pass for these two variants only."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "model_finished",
+          "requests": 19,
+          "completedResponses": 19,
+          "noteZh": "模型正常结束交付；独立检查另列。",
+          "noteEn": "Model session finished normally; independent checks are separate.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/bookshelf/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "circulation",
+      "titleZh": "大气环流：三圈如何转，风为何偏",
+      "titleEn": "Atmospheric circulation: three cells and deflected winds",
+      "category": "knowledge-video",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "89.84秒环流动画已生成，关键图示与字幕基本一致；CLI达到50次请求，部分交付清单未补全。",
+      "summaryEn": "An 89.84-second circulation film was generated with broadly consistent key diagrams and subtitles; the CLI reached 50 requests before completing every delivery manifest.",
+      "source": {
+        "url": "https://x.com/akokoi1/status/2102606609574941028",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Atmospheric circulation: three cells and deflected winds. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "b021ced84260e927afb5f3cc86e16892c9957aa363def7c92ee2f5b012d3e897",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "本次追加规格（与公开作者原prompt分开；以此消解原prompt中在线TTS配置要求）\n任务：制作75–90秒中文大气环流知识短片，目标约90秒。保留线稿动画、中英双语字幕、合适的轻量程序化音乐，交付可直接导出的完整视频。\n变化说明：原作者案例为Opus5.5、288.133秒1920×1080；本次使用本批指定模型，压缩为75–90秒，TTS换为本地固定Kokoro中文音色，因此TTS.md、.env/APIKEY/VOICE和云水印参数均不适用。不是原片逐镜头复刻。\n画幅1920×1080，30fps，有中文配音、烧录中英字幕及SRT。配音只用本地固定Kokoro中文音色，不等待key；音乐若制作需程序化且旁白优先。\n内容：解释不均匀加热和理想化三圈环流，重点画北半球0/约30/约60/90度的剖面。气团须沿每个闭合路径连续运动；对应地表信风、西风和极地东风，箭头与旁白一致。另用很短的地球/平面方向图解释北半球偏向运动方向的右侧，而不是‘永远向东’。注明南半球偏左以及真实气流比理想模型复杂、纬度边界会移动。以高中生能理解的方式讲一个实际含义，如副热带下沉与干燥。\n不得把Ferrel环流说成简单独立热对流；不要求完整天气预报或喷流专题。纬度30/60为示意近似，不是固定自然边界。\n执行只用已提供facts、Pillow/NumPy+FFmpeg、本地固定Kokoro中文音色；只读inputs，不联网或安装陌生代码。从空目录自行编写原创制片源码。\n交付MP4、旁白WAV、SRT、讲稿、完整源码、重建说明、工具/素材来源、至少8张实际编码成片代表帧（包括三圈路径关键状态和结尾）。每次失败与重试要保留，不手工替模型修动画。\n\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "9bcc49b2a402611500adfc2051ece2827dacd16062f8181d1b9e370bd8562fa3",
+      "metrics": {
+        "requests": 50,
+        "completedResponses": 50,
+        "promptTokens": 3486505,
+        "outputTokens": 62110,
+        "wallMs": 1322835
+      },
+      "media": [
+        {
+          "type": "video",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 89.841,
+          "captionsLanguage": "zh",
+          "captionZh": "大气三圈环流知识动画，含固定Kokoro中文配音与中英字幕。",
+          "captionEn": "Three-cell atmospheric circulation with fixed Kokoro Chinese narration and bilingual subtitles.",
+          "path": "/evaluations/longcat-2-5-claude-code/circulation/video.mp4",
+          "posterPath": "/evaluations/longcat-2-5-claude-code/circulation/frame-06.webp",
+          "captionsPath": "/evaluations/longcat-2-5-claude-code/circulation/captions.vtt"
+        },
+        {
+          "type": "image",
+          "captionZh": "成片抽帧：59.894秒",
+          "captionEn": "Actual film frame: 59.894s",
+          "provenance": {
+            "originalSha256": "e550646caa12abd8d6eb451037b173428f0c0af4fef27acf37606f6aeb7d06a9",
+            "sha256": "50b5e64a51dc8f25b32351e414f1ceb3102ce18a675f87ee5c119ccb21bd947c",
+            "noteZh": "从原始MP4抽帧后编码为WebP，未改动画面内容；原片保持原字节。",
+            "noteEn": "Frame extracted from the original MP4 and encoded as WebP; content is not edited and original film bytes are retained."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/circulation/frame-06.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "成片抽帧：69.876秒",
+          "captionEn": "Actual film frame: 69.876s",
+          "provenance": {
+            "originalSha256": "095376c5530926350373bacaa349f6e821f640457079c1c505914ba6eef979a9",
+            "sha256": "af39897b328d5e4234f3de24564aaa44514ca71bdaddefa5521ceee0ef3ca766",
+            "noteZh": "从原始MP4抽帧后编码为WebP，未改动画面内容；原片保持原字节。",
+            "noteEn": "Frame extracted from the original MP4 and encoded as WebP; content is not edited and original film bytes are retained."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/circulation/frame-07.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/circulation/project-source.zip",
+          "labelZh": "下载实际源码、讲稿与制作资料",
+          "labelEn": "Download actual source, script and production materials"
+        }
+      ],
+      "assessmentZh": [
+        "关键画面明确每个半球三圈，并区分Hadley、Ferrel、Polar环流、近地面风带与相对运动方向的偏转；以理想化多年平均示意解释。",
+        "成片实测89.841秒、1920×1080、30fps、2695帧；视音频完整解码，18条字幕时间有效。",
+        "模型README披露配音经1.63倍保调加速；未做人声自然度评分。片头片尾淡入淡出阶段对比度偏低，英文字幕较小。",
+        "这是关键帧和讲稿的科学抽查，没有逐气团追踪全部帧，也不等于真实气象仿真。"
+      ],
+      "assessmentEn": [
+        "Key frames state three cells per hemisphere and distinguish Hadley, Ferrel and Polar cells, surface wind belts and deflection relative to motion, as an idealized long-term mean.",
+        "Measured at 89.841 seconds, 1920×1080, 30fps and 2695 frames. Full audio/video decode and timing of 18 subtitle cues pass.",
+        "The model README discloses 1.63× pitch-preserving narration speed-up; naturalness was not scored. Opening/closing fades have low contrast, and English subtitles are small.",
+        "Science review covers key frames and the script, not full-frame particle tracking or a real atmospheric simulation."
+      ],
+      "checks": [
+        {
+          "labelZh": "最终视音频与字幕时间",
+          "labelEn": "Final audio/video and subtitle timing",
+          "status": "pass",
+          "detailZh": "89.841秒、1080p/30fps、2695帧；18条字幕时间有效。",
+          "detailEn": "89.841s, 1080p/30fps, 2695 frames; 18 timed cues pass."
+        },
+        {
+          "labelZh": "关键环流状态抽查",
+          "labelEn": "Key circulation-state review",
+          "status": "pass",
+          "detailZh": "抽查的升降、风带、纬度标注和讲稿基本一致；范围是理想化示意。",
+          "detailEn": "Reviewed ascent/descent, wind belts and latitude labels agree with the script within an idealized schematic."
+        },
+        {
+          "labelZh": "完整连续物理轨迹",
+          "labelEn": "Full continuous physical trajectories",
+          "status": "not-tested",
+          "detailZh": "没有逐气团做全帧轨迹或物理仿真验证。",
+          "detailEn": "No full-frame particle tracking or physical simulation validation."
+        }
+      ],
+      "references": [
+        {
+          "url": "https://weather.metoffice.gov.uk/learn-about/weather/atmosphere/global-circulation-patterns",
+          "labelZh": "科学核验：英国气象局全球环流说明",
+          "labelEn": "Science reference: Met Office global circulation"
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "failed",
+          "requests": 50,
+          "completedResponses": 50,
+          "noteZh": "CLI达到50次请求；成片及README已交付，未补全所有交付清单。",
+          "noteEn": "CLI reached 50 requests. Film and README exist, but not every delivery manifest was completed.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/circulation/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "derivative",
+      "titleZh": "导数：割线怎样变成切线",
+      "titleEn": "Derivatives: a secant approaching the tangent",
+      "category": "knowledge-video",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "81.9秒成片与源码已交付；核心公式正确，正负h切换和局部标签可读性有问题。",
+      "summaryEn": "An 81.9-second film and source were delivered. Core formulas are correct, with issues in the sign transition and local label readability.",
+      "source": {
+        "url": "https://x.com/LinearUncle/status/2103128559174971663",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Derivatives: a secant approaching the tangent. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "5287dcf00a500b81f8363e9f8cfebeb93a90fd8f13440efe4ce0425bd0895383",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "本次追加规格（与公开作者原prompt分开）\n制作75–90秒中文导数概念学习短片，目标约90秒。原作者为Opus5.5+Manim、edge-tts，公开视频457秒1920×1080；本次使用本批指定模型，只保留‘通俗易懂、有例子、引人思考’的主题要求，压缩成一个机制并用本地固定Kokoro中文音色替换edge-tts。不得称作完整原片复刻或Manim基准。\n本轮不安装Manim/Remotion；使用Pillow、NumPy、FFmpeg离线原创动画。1920×1080、30fps、中文旁白、中文烧录字幕及SRT；轻量程序化音乐可选，旁白优先。\n机制核心：以f(x)=x^2在P=(1,1)处为例。持续移动Q=(1+h,(1+h)^2)，同步更新割线、斜率三角形、h值与差商数值。让正h逐步缩小，随后演示非零负h从另一侧靠近；最后得到斜率2、切线y=2x-1。不得在h=0直接除0，不把多个互不连续的静态卡片当作割线向切线的过程。\n开头提出具体问题‘这一瞬间到底有多陡’，结尾让观众预测f(x)=x^2在x=2的斜率并给短暂停留，随后给答案或明确为思考题。图上刻度、位置、线斜率和数值必须来自同一数学状态；负h的水平与垂直变化要保持符号一致。\n交付MP4、旁白WAV、SRT、讲稿、完整原创源码、可重建命令和环境说明、工具/来源说明，至少8张从实际编码MP4抽取的代表帧，覆盖h较大、趋近、负h、切线、结尾。每次失败/重试保留。\n源事实和技巧已在inputs，执行不得联网或安装陌生代码，不等待key。\n\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "8d3372c2200bbf52b2161241fb0d71b5211590524f606f51b11aa93ac3456a88",
+      "metrics": {
+        "requests": 40,
+        "completedResponses": 40,
+        "promptTokens": 2583691,
+        "outputTokens": 58564,
+        "wallMs": 1348759
+      },
+      "media": [
+        {
+          "type": "video",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 81.9,
+          "captionsLanguage": "zh",
+          "captionZh": "割线趋近切线的数学动画，含固定Kokoro中文配音与中文字幕。",
+          "captionEn": "Secants approaching a tangent, with fixed Kokoro Chinese narration and Chinese subtitles.",
+          "path": "/evaluations/longcat-2-5-claude-code/derivative/video.mp4",
+          "posterPath": "/evaluations/longcat-2-5-claude-code/derivative/frame-02.webp",
+          "captionsPath": "/evaluations/longcat-2-5-claude-code/derivative/captions.vtt"
+        },
+        {
+          "type": "image",
+          "captionZh": "成片抽帧：18.2秒",
+          "captionEn": "Actual film frame: 18.2s",
+          "provenance": {
+            "originalSha256": "741b3193d823a8a236a1bd8ebdf93aaed3a8da2b19f56830f9ae2299b2b04626",
+            "sha256": "7e7bf432f3f1613a86aac304234a39bb8407bbe92036530ffc50f4efc2fe6481",
+            "noteZh": "从原始MP4抽帧后编码为WebP，未改动画面内容；原片保持原字节。",
+            "noteEn": "Frame extracted from the original MP4 and encoded as WebP; content is not edited and original film bytes are retained."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/derivative/frame-02.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "显示精度问题：37.4秒",
+          "captionEn": "Display precision issue: 37.4s",
+          "provenance": {
+            "originalSha256": "4cdf34711025423ecc53f362ccae22a68758d74bfb6011d35748a0bb3edb13f6",
+            "sha256": "8b81bd1260bb42ce367f5471753d7db99ab5830a98cf1ac40cc1ed377b3dfbd8",
+            "noteZh": "从原始MP4抽帧后编码为WebP，未改动画面内容；原片保持原字节。",
+            "noteEn": "Frame extracted from the original MP4 and encoded as WebP; content is not edited and original film bytes are retained."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/derivative/zero-display-37-4s.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/derivative/project-source.zip",
+          "labelZh": "下载实际源码、讲稿与制作资料",
+          "labelEn": "Download actual source, script and production materials"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/derivative/transition-checks.json",
+          "labelZh": "下载独立过渡帧检查",
+          "labelEn": "Download independent transition-frame checks"
+        }
+      ],
+      "assessmentZh": [
+        "P=(1,1)、Q=(1+h,(1+h)²)及非零h时的斜率2+h相互对应；展示正负两侧趋近、切线y=2x−1和x=2处斜率4。",
+        "约37.4秒的实际第1122帧中，h≈0.003047显示为+0.00，而字幕说h取负值。源码使用闭式2+h，没有实际执行0/0；这是过渡同步与显示精度问题。",
+        "P点附近的Δx、Δy、P/Q标签在部分时段重叠，数学数值清楚但局部图形可读性下降。",
+        "独立媒体检查为81.9秒、1080p、30fps、2457帧，10条字幕时间有效；模型自检的通过声明与本次独立发现分别保留。"
+      ],
+      "assessmentEn": [
+        "P=(1,1), Q=(1+h,(1+h)²) and the nonzero-h slope 2+h agree. Both signs, the tangent y=2x−1 and slope four at x=2 are demonstrated.",
+        "Actual frame 1122 around 37.4 seconds displays h≈0.003047 as +0.00 while the subtitle says h is negative. The source uses closed-form 2+h and does not execute 0/0; this is a transition/precision issue.",
+        "Near P, Δx, Δy and P/Q labels overlap during parts of the film, reducing local readability.",
+        "Independent media checks show 81.9 seconds, 1080p, 30fps and 2457 frames, with ten valid subtitle cues. Model self-check claims and independent findings remain separate."
+      ],
+      "checks": [
+        {
+          "labelZh": "最终视音频与字幕时间",
+          "labelEn": "Final audio/video and subtitle timing",
+          "status": "pass",
+          "detailZh": "81.9秒、1080p/30fps、2457帧；10条字幕时间有效。",
+          "detailEn": "81.9s, 1080p/30fps, 2457 frames; ten timed cues pass."
+        },
+        {
+          "labelZh": "非零h的主公式",
+          "labelEn": "Main formulas for nonzero h",
+          "status": "pass",
+          "detailZh": "P、Q、Δx、Δy与2+h的关系和主切线公式一致。",
+          "detailEn": "P, Q, Δx, Δy, 2+h and the principal tangent formulas agree."
+        },
+        {
+          "labelZh": "显示与过渡同步",
+          "labelEn": "Display and transition synchronization",
+          "status": "partial",
+          "detailZh": "37.4秒附近显示+0.00时字幕已说h取负，且部分标签重叠；不是实际0/0计算。",
+          "detailEn": "Around 37.4s, +0.00 is displayed while the subtitle says h is negative; some labels overlap. This is not an actual 0/0 calculation."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "model_finished",
+          "requests": 40,
+          "completedResponses": 40,
+          "noteZh": "模型正常结束交付；独立检查发现显示精度问题，未直接采信模型自检的全部通过声明。",
+          "noteEn": "Model session finished normally. Independent review finds a display-precision issue rather than accepting every self-check claim.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/derivative/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "printer",
+      "titleZh": "手绘风格打印机原理知识视频",
+      "titleEn": "A hand-drawn explainer of printer operation",
+      "category": "knowledge-video",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "117秒打印机成片已交付，但曝光光路画错，原SRT时间码也存在兼容性问题。",
+      "summaryEn": "A 117-second printer film was delivered, with an incorrect exposure beam and an interoperability problem in the original SRT timestamps.",
+      "source": {
+        "url": "https://www.sohu.com/a/1092030580_121675819",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "A hand-drawn explainer of printer operation. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "ef251d6c101cd8017f2169ef06b68b5c3eff683b7eea98e1a858ebbc59d802be",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "本次新增可验收规格（原作者未披露时长/画幅/工具链，故不是原片逐镜头复制）：\n制作90至120秒、1920×1080、30fps的中文科普MP4，含清晰中文旁白与中文字幕/独立SRT。整体保持手绘线稿风格，至少5个具有因果解释的动态场景，不能仅是文字PPT。\n面向普通读者，区分喷墨和激光两种技术：墨滴如何到纸上、激光如何在感光鼓上形成潜像、显影/转印/热压定影。范围和技术名称要明确；画面、运动方向、材料标签与讲稿一致。\n已提供两份Canon官方事实材料到inputs/，可以阅读并在讲稿说明来源。不得把激光画成直接把文字烧在纸上。\n使用统一条件中的固定Kokoro配音命令，不下载新TTS。所有画面由你写代码绘制和动画；不得调用原生图像/视频模型。交付video.mp4、narration.wav或m4a、captions.srt、script.txt、可完整重新生成的动画源码、至少8张带时间标记的代表帧、README和artifacts.json。\n你要实际完成配音、渲染和混音，检查时长、分辨率、帧率、音轨存在及字幕起止。不要为了省时间缩短到不足90秒；不要把解说字幕当作全部视觉内容。\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "ad8a621c8c582fcf70027266562b5d2ac027abefaa50b39536aec1e3b165c61b",
+      "metrics": {
+        "requests": 50,
+        "completedResponses": 50,
+        "promptTokens": 3442469,
+        "outputTokens": 88463,
+        "wallMs": 2034612
+      },
+      "media": [
+        {
+          "type": "video",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 117,
+          "captionsLanguage": "zh",
+          "captionZh": "评测原片：曝光光路有错误。含固定Kokoro中文配音；网页另供按脚本意图标准化的VTT。",
+          "captionEn": "Original evaluation film, with an incorrect exposure diagram. Fixed Kokoro Chinese narration; a separate web VTT normalizes timestamps to the script intention.",
+          "path": "/evaluations/longcat-2-5-claude-code/printer/video.mp4",
+          "posterPath": "/evaluations/longcat-2-5-claude-code/printer/frame-01.webp",
+          "captionsPath": "/evaluations/longcat-2-5-claude-code/printer/captions.vtt"
+        },
+        {
+          "type": "image",
+          "captionZh": "13秒抽帧：喷墨与激光打印分类卡",
+          "captionEn": "13s frame: inkjet and laser family cards",
+          "provenance": {
+            "originalSha256": "8ff93afec4e116b587411602470e75650b709103832b9810a499e78775e24edf",
+            "sha256": "f95fca7b6341519c0efdff06402a774ec5def5be6a35a10649721beb66d89f1c",
+            "noteZh": "从原MP4抽帧并编码WebP，未改画面内容。",
+            "noteEn": "Frame extracted from the original MP4 and encoded as WebP; content is not edited."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/printer/frame-01.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "78秒抽帧：光束穿过感光鼓，未止于表面",
+          "captionEn": "78s frame: the beam passes through the photoconductor drum",
+          "provenance": {
+            "originalSha256": "f4eb29d674eeb24c7900f0fd49410b9501db48a49a975a320fdaaf5a86a31ebd",
+            "sha256": "1d9d5418cd193ae88458ed75631beb193f6ea5fe7ec9174c0b87632dbd5b87a1",
+            "noteZh": "从原MP4抽帧并编码WebP，未改画面内容。",
+            "noteEn": "Frame extracted from the original MP4 and encoded as WebP; content is not edited."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/printer/frame-06.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/printer/project-source.zip",
+          "labelZh": "下载原始源码与制作资料",
+          "labelEn": "Download original source and production materials"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/printer/original-captions.srt",
+          "labelZh": "下载原SRT（含时间码问题）",
+          "labelEn": "Download raw SRT with timestamp issue"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/printer/independent-defects.json",
+          "labelZh": "下载独立缺陷检查",
+          "labelEn": "Download independent defect checks"
+        }
+      ],
+      "assessmentZh": [
+        "手绘风格覆盖喷墨、热泡/压电、四色叠加以及激光打印的充电、曝光、显影、转印和定影，讲稿与主要阶段对应。",
+        "约78秒的实际画面中，曝光光束穿过鼓体并延伸到下方；源码用900像素射线，未在鼓面截断，且光点与光路位置不一致。不能作为准确曝光原理演示。",
+        "原SRT使用两位小数，模型自检按百分秒读取后宣称通过。实际FFmpeg将首条读取为0.05秒开始，而脚本意图为0.50秒；网页VTT按脚本意图标准化，原SRT仍保留。",
+        "MP4实测117秒、1080p、30fps、3510帧，视音频完整解码通过。分类卡部分文字越过边框；原视频画面和音轨没有被修复。"
+      ],
+      "assessmentEn": [
+        "The hand-drawn film covers inkjet, thermal/piezo mechanisms, CMYK, and laser charging, exposure, development, transfer and fusing; narration broadly follows those stages.",
+        "Around 78 seconds, the exposure ray passes through the drum and extends below it. Source uses a 900-pixel ray without surface clipping, and the highlight does not follow its intersection. This is not an accurate exposure demonstration.",
+        "Original SRT uses two fraction digits and its self-check interprets them as centiseconds. FFmpeg reads the first cue at 0.05s rather than the intended 0.50s. WebVTT is standardized to the script intention; original SRT remains available.",
+        "The MP4 measures 117s, 1080p, 30fps and 3510 frames, with full audio/video decode. Some family-card text crosses the border; original picture and audio are not repaired."
+      ],
+      "checks": [
+        {
+          "labelZh": "视音频容器与完整解码",
+          "labelEn": "Audio/video container and full decode",
+          "status": "pass",
+          "detailZh": "117秒、1920×1080、30fps、3510帧，音轨存在且完整解码无错误。",
+          "detailEn": "117s, 1920×1080, 30fps, 3510 frames; audio exists and full decode is error-free."
+        },
+        {
+          "labelZh": "曝光光路",
+          "labelEn": "Exposure beam geometry",
+          "status": "fail",
+          "detailZh": "实际光束穿过鼓体，未止于表面，与画面中的表面光点也不一致。",
+          "detailEn": "The actual ray passes through the drum instead of stopping at the surface, and does not match the highlighted surface point."
+        },
+        {
+          "labelZh": "原始SRT的时间解释",
+          "labelEn": "Original SRT timestamp interpretation",
+          "status": "fail",
+          "detailZh": "两位小数被FFmpeg按毫秒解释，首条开始为0.05秒而非意图0.50秒。网页另供标准化VTT，不算模型原字幕通过。",
+          "detailEn": "FFmpeg interprets two digits as milliseconds: first cue starts at 0.05s rather than intended 0.50s. A separate standardized web VTT does not turn the model's raw SRT into a pass."
+        }
+      ],
+      "references": [
+        {
+          "url": "https://downloads.canon.com/bisg2016/manuals/irbw/imageRUNNER_2530_2525_SM_rev9_100416.pdf",
+          "labelZh": "原理核验：Canon技术手册中的鼓面曝光与转印",
+          "labelEn": "Principle reference: Canon technical manual on surface exposure and transfer"
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "failed",
+          "requests": 50,
+          "completedResponses": 50,
+          "noteZh": "CLI在50次请求处结束。成片、源码、自检和说明存在；独立检查没有采信其全部通过声明。",
+          "noteEn": "CLI ended at 50 requests. Film, source, self-checks and documentation exist; independent review does not accept every pass claim.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/printer/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "phishing",
+      "titleZh": "识别伪造邮件的动态图形知识视频",
+      "titleEn": "A motion-graphics guide to spoofed email",
+      "category": "knowledge-video",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "交付多张UI预览与生成源码；60分钟上限到达，未产出要求的75—85秒完整视频。",
+      "summaryEn": "UI previews and generated source are available. The 60-minute limit ended the run without the required 75–85-second complete film.",
+      "source": {
+        "url": "https://x.com/atomtanstudio/status/2113727963472724045",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "A motion-graphics guide to spoofed email. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": "1982b9439ae02d4828e0f5aca5cba72618cd25c6462778d7c046bdffd59a9398",
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "Evaluation additions and limits: the source's earlier YouTube style context is unavailable. Create an original visual treatment, not a claimed exact style replica. The original media is about74.2s at1920×1080; this run requires75–85 seconds,1920×1080,30fps, English narration and synchronized English captions/SRT.\nMake a polished motion-graphics explainer for nontechnical viewers, with at least5 animated scenes that explain causality rather than just text slides. Use clearly fictional example.com/example.org addresses and illustrative messages; do not access or send real email.\nRead the supplied official Gmail authentication material and RFC9989 in inputs/ when needed. Explain visible sender identity, trusted original/header information and SPF/DKIM/DMARC at an accessible level; retain the limits of what authentication can prove. Do not imply a pass proves harmless content or a failure proves fraud. If you use Authentication-Results, show results added by the receiving service, not arbitrary untrusted text as authoritative.\nUse the fixed Kokoro English narration command in the shared runtime conditions. You must write all visual/animation code yourself and actually render/export. Deliver video.mp4, narration.wav or m4a, captions.srt, script.txt, complete rebuildable source, at least8 timestamped representative frames, README and artifacts.json. Confirm duration, dimensions,30fps, audio presence, captions and complete ending. Do not use image/video/music generation models or download large packages. The base renderer is your choice among installed tools.\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "3ef2665d13d52a3faacd9cdef32edf2c62e137de578fb8d0c97cbeb6b731fc43",
+      "metrics": {
+        "requests": 44,
+        "completedResponses": 44,
+        "promptTokens": 2514719,
+        "outputTokens": 73072,
+        "wallMs": 3600169
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "未完成工程的独立预览：邮件辨伪标题页；不是完整成片。",
+          "captionEn": "Standalone preview from the incomplete project: Email-authentication title. Not a completed film.",
+          "provenance": {
+            "originalSha256": "bc1be9468c46221074dd2d937719b0daccb4ae15015782ab4c85a7006c0ec755",
+            "sha256": "2d87180275fadd12f8103fd44ca526480c6d69aa2bd026c3d0c5e445d8a642bb",
+            "noteZh": "原始预览仅转换WebP，画面内容未修正。",
+            "noteEn": "Original preview converted to WebP without content correction."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/phishing/f0060.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "未完成工程的独立预览：SPF、DKIM与DMARC卡片；不是完整成片。",
+          "captionEn": "Standalone preview from the incomplete project: SPF, DKIM and DMARC cards. Not a completed film.",
+          "provenance": {
+            "originalSha256": "fb2d92bec5cd39c09a9b4784355653ee4f05f389f209b86eb3f35de2a5c995bb",
+            "sha256": "86efac593454e44a217adfdb4580b6eb6885c79f2303e2f05200636701734b2a",
+            "noteZh": "原始预览仅转换WebP，画面内容未修正。",
+            "noteEn": "Original preview converted to WebP without content correction."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/phishing/f1000.webp",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "type": "image",
+          "captionZh": "未完成工程的独立预览：认证通过与内容安全的区别；不是完整成片。",
+          "captionEn": "Standalone preview from the incomplete project: Authentication versus content safety. Not a completed film.",
+          "provenance": {
+            "originalSha256": "f6ee6371d02da16cde7192b3aae9eaea47084cc310f8dff226be23f65d88db4d",
+            "sha256": "efbd754181f638b930b2c1be4055e6f4705bca6a8e72255a7d938916dbd2f7df",
+            "noteZh": "原始预览仅转换WebP，画面内容未修正。",
+            "noteEn": "Original preview converted to WebP without content correction."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/phishing/f1750.webp",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/phishing/project-source.zip",
+          "labelZh": "下载未完成工程的实际源码与资料",
+          "labelEn": "Download actual source and materials from the incomplete project"
+        }
+      ],
+      "assessmentZh": [
+        "模型采用Blender制作暗色邮件界面与SPF、DKIM、DMARC说明卡片；本页展示独立预览图，不能据此认定连续动画和字幕同步合格。",
+        "讲稿区分认证身份与内容安全，并提醒认证失败不等于诈骗；From地址与问号提示的说法有简化，未执行真实Gmail交互、邮件头解析或认证服务测试。",
+        "大量时间用于CPU渲染性能试验，只留下短小或不完整的profiling片段；未保存.blend场景，也没有完成最终README与交付清单。",
+        "本题44次API请求，最终收到73,072个输出token；60分钟预算到达后停止，不续跑挑选成功结果。"
+      ],
+      "assessmentEn": [
+        "The model used Blender for dark email UI scenes and SPF, DKIM and DMARC cards. Standalone previews do not establish continuous animation or subtitle synchronization.",
+        "The script separates authenticated identity from safe content and says failed authentication does not prove fraud. From-address and question-mark explanations are simplified. No real Gmail interaction, header parsing or authentication-service test was performed.",
+        "Much of the run profiled CPU rendering, leaving short or incomplete clips. No .blend scene was saved, and final README and delivery manifests are absent.",
+        "This task dispatched 44 requests and received 73,072 output tokens. It stopped at the 60-minute cap; no extra runs were made to select a successful result."
+      ],
+      "checks": [
+        {
+          "labelZh": "完整75—85秒视频",
+          "labelEn": "Complete 75–85-second film",
+          "status": "fail",
+          "detailZh": "无完整成片；预览图和性能测试短片不能替代交付。",
+          "detailEn": "No complete film. Previews and profiling clips do not satisfy delivery."
+        },
+        {
+          "labelZh": "讲稿与静态界面",
+          "labelEn": "Script and static interface",
+          "status": "partial",
+          "detailZh": "可查看界面与认证说明，连续性、字幕同步和真实邮件处理均未验收。",
+          "detailEn": "UI and authentication explanations can be inspected; continuity, subtitle sync and real email processing are unverified."
+        }
+      ],
+      "references": [
+        {
+          "url": "https://support.google.com/mail/answer/180707?hl=en",
+          "labelZh": "Gmail官方：检查邮件是否经过身份验证",
+          "labelEn": "Gmail: check whether an email is authenticated"
+        },
+        {
+          "url": "https://support.google.com/mail/answer/14229414?hl=en",
+          "labelZh": "Gmail官方：发件人要求与域名对齐",
+          "labelEn": "Gmail: sender requirements and domain alignment"
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "failed",
+          "requests": 44,
+          "completedResponses": 44,
+          "noteZh": "60分钟上限停止；44次请求，未生成完整成片。",
+          "noteEn": "Stopped at the 60-minute limit after 44 requests; no complete film.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/phishing/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-pelican",
+      "titleZh": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "category": "svg",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "鹈鹕与自行车可辨认，长喙、喉囊、前叉与车架结构在本图中连贯。",
+      "summaryEn": "Recognizable pelican and bicycle, with a long bill, throat pouch, connected fork and frame.",
+      "source": {
+        "url": "https://www.tokrace.com/zh-CN/guides/longcat-2-5",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Pelican riding a bicycle. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": null,
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "Generate an SVG of a pelican riding a bicycle\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "2310a3a36c4b8999751f7562e91ef2991fb424faa7f9207aa414190c597436bf",
+      "metrics": {
+        "requests": 14,
+        "completedResponses": 14,
+        "promptTokens": 164618,
+        "outputTokens": 13954,
+        "wallMs": 253435
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "本题实际SVG渲染预览",
+          "captionEn": "Actual SVG render from this case",
+          "provenance": {
+            "originalSha256": "ede5d8a31550b1494f87845f7103cfbf51a4e40bd9e3785ae1d9417a380aae89",
+            "sha256": "6bbcc3f74ffe1d69dd75f3be0a81ecd82f085b6131b0b56e257c58301b496467",
+            "noteZh": "模型原SVG经栅格化和WebP编码展示；源SVG未改写。",
+            "noteEn": "The model SVG is rasterized and encoded as WebP for display; source SVG is not rewritten."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican/preview.webp",
+          "width": 1200,
+          "height": 900
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican/final.svg",
+          "labelZh": "下载模型原SVG",
+          "labelEn": "Download original model SVG"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican/project-source.zip",
+          "labelZh": "下载原始源码与尝试文件",
+          "labelEn": "Download source and preserved attempt files"
+        }
+      ],
+      "assessmentZh": [
+        "两轮、前叉、三角车架及脚踏关系可辨认；翅膀握把和坐垫位置采用图标化简化。",
+        "自包含SVG通过解析与实际渲染；这是本图的AI定性观察，未给独立人工评分。"
+      ],
+      "assessmentEn": [
+        "Wheels, fork, triangular frame and pedals are recognizable; wing/grip and saddle placement are stylized.",
+        "Self-contained SVG parsing and actual rendering pass. This is a qualitative AI observation of this image, not an independent human score."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含SVG与实际渲染",
+          "labelEn": "Self-contained SVG and actual render",
+          "status": "pass",
+          "detailZh": "严格语法与自包含检查通过，实际预览已检查。",
+          "detailEn": "Strict syntax/self-containment validation passes and actual pixels were inspected."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "model_finished",
+          "requests": 14,
+          "completedResponses": 14,
+          "noteZh": "模型正常结束；保留首次SVG与修订，语义检查另列。",
+          "noteEn": "Model session finished normally; first SVG and revisions are preserved, with semantic checks reported separately.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/svg-pelican/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-clock",
+      "titleZh": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "category": "svg",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "09:41时钟的数字、指针角度和长短关系通过独立SVG坐标检查。",
+      "summaryEn": "The 09:41 clock passes independent SVG checks for numbers, hand angles and relative lengths.",
+      "source": {
+        "url": "https://www.tokrace.com/zh-CN/guides/longcat-2-5",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "An analog clock at 9:41. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": null,
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "e237e133ad6988ea13a95c43e5bdab8b286d2c4670a8e42e9e24d8875441dedc",
+      "metrics": {
+        "requests": 7,
+        "completedResponses": 7,
+        "promptTokens": 40818,
+        "outputTokens": 5392,
+        "wallMs": 85918
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "本题实际SVG渲染预览",
+          "captionEn": "Actual SVG render from this case",
+          "provenance": {
+            "originalSha256": "76058fb8a4ae8bba802965b315c27de143fd0241cf72f0cac6fa4d72aadd5b86",
+            "sha256": "e40d23458a57012558e87926d2902ef5941bbb9d3325c9837067dd2f31a2a7c9",
+            "noteZh": "模型原SVG经栅格化和WebP编码展示；源SVG未改写。",
+            "noteEn": "The model SVG is rasterized and encoded as WebP for display; source SVG is not rewritten."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/svg-clock/preview.webp",
+          "width": 1200,
+          "height": 900
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-clock/final.svg",
+          "labelZh": "下载模型原SVG",
+          "labelEn": "Download original model SVG"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-clock/project-source.zip",
+          "labelZh": "下载原始源码与尝试文件",
+          "labelEn": "Download source and preserved attempt files"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-clock/independent-svg-checks.json",
+          "labelZh": "下载独立检查",
+          "labelEn": "Download independent checks"
+        }
+      ],
+      "assessmentZh": [
+        "12个数字各出现一次，时针旋转290.5°、长度93；分针旋转246°、长度147，无秒针。",
+        "实际预览能清楚读出09:41，所有数字与下方时间标签在画布内。"
+      ],
+      "assessmentEn": [
+        "Numbers 1–12 appear once each. The hour hand rotates 290.5° with length 93; minute hand 246° with length 147, and no second hand.",
+        "The actual preview clearly shows 09:41, with numbers and the lower time label inside the canvas."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含SVG与实际渲染",
+          "labelEn": "Self-contained SVG and actual render",
+          "status": "pass",
+          "detailZh": "严格语法与自包含检查通过，实际预览已检查。",
+          "detailEn": "Strict syntax/self-containment validation passes and actual pixels were inspected."
+        },
+        {
+          "labelZh": "09:41指针与数字",
+          "labelEn": "09:41 hands and numbers",
+          "status": "pass",
+          "detailZh": "12个数字各出现一次，时针旋转290.5°、长度93；分针旋转246°、长度147，无秒针。",
+          "detailEn": "Numbers 1–12 appear once each. The hour hand rotates 290.5° with length 93; minute hand 246° with length 147, and no second hand."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "model_finished",
+          "requests": 7,
+          "completedResponses": 7,
+          "noteZh": "模型正常结束；保留首次SVG与修订，语义检查另列。",
+          "noteEn": "Model session finished normally; first SVG and revisions are preserved, with semantic checks reported separately.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/svg-clock/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-dashboard",
+      "titleZh": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "category": "svg",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "四柱共用零基线，高度比例、数值、总计与最佳季度通过独立检查。",
+      "summaryEn": "Shared zero baseline, proportional bar heights, values, total and best quarter pass independent checks.",
+      "source": {
+        "url": "https://www.tokrace.com/zh-CN/guides/longcat-2-5",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Data chart and proportional bars. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": null,
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "882c407247829aa8ef726fef5bcfeb8f9a4df8bbe701974d065ce807e5b64a14",
+      "metrics": {
+        "requests": 21,
+        "completedResponses": 21,
+        "promptTokens": 320841,
+        "outputTokens": 18003,
+        "wallMs": 405208
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "本题实际SVG渲染预览",
+          "captionEn": "Actual SVG render from this case",
+          "provenance": {
+            "originalSha256": "bd10e6fca8fddb1dfd9ebfe7b34e5b8c7f4cb4f5b67d961782d9f1d2593c4194",
+            "sha256": "9d55e7e5d53aa465fa95ca4f886971d243768584c55342a5cf2e4de1b7734012",
+            "noteZh": "模型原SVG经栅格化和WebP编码展示；源SVG未改写。",
+            "noteEn": "The model SVG is rasterized and encoded as WebP for display; source SVG is not rewritten."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/svg-dashboard/preview.webp",
+          "width": 1200,
+          "height": 900
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-dashboard/final.svg",
+          "labelZh": "下载模型原SVG",
+          "labelEn": "Download original model SVG"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-dashboard/project-source.zip",
+          "labelZh": "下载原始源码与尝试文件",
+          "labelEn": "Download source and preserved attempt files"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-dashboard/independent-svg-checks.json",
+          "labelZh": "下载独立检查",
+          "labelEn": "Download independent checks"
+        }
+      ],
+      "assessmentZh": [
+        "柱形路径高度为120、240、180、300，共用y=460基线；比例为2:4:3:5。",
+        "Q1至Q4的实际横向位置、柱顶12/24/18/30、Total:84和Best:Q4一致，预览层次清楚。"
+      ],
+      "assessmentEn": [
+        "Bar paths have heights 120, 240, 180 and 300 with a common y=460 baseline, a 2:4:3:5 ratio.",
+        "Actual quarter positions, value labels 12/24/18/30, Total:84 and Best:Q4 agree; the preview is clearly organized."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含SVG与实际渲染",
+          "labelEn": "Self-contained SVG and actual render",
+          "status": "pass",
+          "detailZh": "严格语法与自包含检查通过，实际预览已检查。",
+          "detailEn": "Strict syntax/self-containment validation passes and actual pixels were inspected."
+        },
+        {
+          "labelZh": "比例与标签",
+          "labelEn": "Proportions and labels",
+          "status": "pass",
+          "detailZh": "柱形路径高度为120、240、180、300，共用y=460基线；比例为2:4:3:5。",
+          "detailEn": "Bar paths have heights 120, 240, 180 and 300 with a common y=460 baseline, a 2:4:3:5 ratio."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "model_finished",
+          "requests": 21,
+          "completedResponses": 21,
+          "noteZh": "模型正常结束；保留首次SVG与修订，语义检查另列。",
+          "noteEn": "Model session finished normally; first SVG and revisions are preserved, with semantic checks reported separately.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/svg-dashboard/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-poster",
+      "titleZh": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "category": "svg",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "六段中文固定文案各出现一次，版式与自行车图标可辨认。",
+      "summaryEn": "All six fixed Chinese strings appear once, with a readable hierarchy and recognizable bicycle icon.",
+      "source": {
+        "url": "https://www.tokrace.com/zh-CN/guides/longcat-2-5",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Chinese poster and layout constraints. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": null,
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "6a1d4abaaf4e555ed8610782705bf065c14630467dd4dc8436079f6c56d44655",
+      "metrics": {
+        "requests": 13,
+        "completedResponses": 13,
+        "promptTokens": 188283,
+        "outputTokens": 15447,
+        "wallMs": 261280
+      },
+      "media": [
+        {
+          "type": "image",
+          "captionZh": "固定六段中文文案海报测试图",
+          "captionEn": "Fixed six-string Chinese poster test",
+          "provenance": {
+            "originalSha256": "1d705628971d3ec35bef94355da1bf1ca0e3902f88c73d734ed2b300162a177d",
+            "sha256": "97aff205866557fe037259f2cfbe4bc60f81409b2ff5dfcb7925bf490940cddb",
+            "noteZh": "模型原SVG经栅格化和WebP编码展示；源SVG未改写。",
+            "noteEn": "The model SVG is rasterized and encoded as WebP for display; source SVG is not rewritten."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/svg-poster/preview.webp",
+          "width": 1200,
+          "height": 900
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-poster/final.svg",
+          "labelZh": "下载模型原SVG",
+          "labelEn": "Download original model SVG"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-poster/project-source.zip",
+          "labelZh": "下载原始源码与尝试文件",
+          "labelEn": "Download source and preserved attempt files"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-poster/independent-svg-checks.json",
+          "labelZh": "下载独立检查",
+          "labelEn": "Download independent checks"
+        }
+      ],
+      "assessmentZh": [
+        "逐字检查六段文字及数字、标点通过；没有添加额外可见文字。",
+        "主标题、时间地点、说明和按钮层次清楚，当前渲染中未见文字重叠或出界。海报日期属于固定测试题，不是真实报名活动。"
+      ],
+      "assessmentEn": [
+        "Exact checks pass for all six strings, numbers and punctuation, with no extra visible text.",
+        "Title, event details, description and button have a clear hierarchy, without observed text overlap or clipping in this render. The date belongs to a fixed test, not a live registration event."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含SVG与实际渲染",
+          "labelEn": "Self-contained SVG and actual render",
+          "status": "pass",
+          "detailZh": "严格语法与自包含检查通过，实际预览已检查。",
+          "detailEn": "Strict syntax/self-containment validation passes and actual pixels were inspected."
+        },
+        {
+          "labelZh": "六段固定文字",
+          "labelEn": "Six fixed strings",
+          "status": "pass",
+          "detailZh": "逐字检查六段文字及数字、标点通过；没有添加额外可见文字。",
+          "detailEn": "Exact checks pass for all six strings, numbers and punctuation, with no extra visible text."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "model_finished",
+          "requests": 13,
+          "completedResponses": 13,
+          "noteZh": "模型正常结束；保留首次SVG与修订，语义检查另列。",
+          "noteEn": "Model session finished normally; first SVG and revisions are preserved, with semantic checks reported separately.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/svg-poster/attempt-1.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-pelican-animation",
+      "titleZh": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "category": "svg-animation",
+      "effort": "Claude Code requested adaptive",
+      "summaryZh": "4秒SVG动画可渲染并有运动，但腿部未持续连接脚踏。",
+      "summaryEn": "The four-second SVG renders and moves, but legs do not remain attached to the pedals.",
+      "source": {
+        "url": "https://www.tokrace.com/zh-CN/guides/longcat-2-5",
+        "titleZh": "题目来源与复跑规格",
+        "titleEn": "Task source and rerun specification",
+        "originalPrompt": "Animated cycling pelican. Source inputs remain archived locally and are identified by hashes.",
+        "originalPromptSha256": null,
+        "changesZh": "保留原任务规格，离线独立制作；使用 Claude Code 工具循环和 Cycles CPU，不是原 benchmark 协议。",
+        "changesEn": "Independent offline generation preserving task requirements; Claude Code tool loop and Cycles CPU differ from the source benchmark."
+      },
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.\n\nCPU protocol: Cycles CPU, 2 threads. Full private source inputs remain archived locally; source links and hashes identify them.",
+      "promptSha256": "54ff24c0b7a505c1b309f411ef8d8fd1741cb633219cbe6ea179fb7e6ae85dd9",
+      "metrics": {
+        "requests": 8,
+        "completedResponses": 8,
+        "promptTokens": 48291,
+        "outputTokens": 5658,
+        "wallMs": 89556
+      },
+      "media": [
+        {
+          "type": "video",
+          "width": 800,
+          "height": 600,
+          "durationSeconds": 4,
+          "captionZh": "原SVG的4秒捕获预览（10fps）；脚与脚踏存在脱离，源文件未修复。",
+          "captionEn": "Four-second capture of the original SVG at 10fps; feet detach from pedals and source is not repaired.",
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/animation.mp4",
+          "posterPath": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/preview.webp"
+        },
+        {
+          "type": "image",
+          "captionZh": "本题实际SVG渲染预览",
+          "captionEn": "Actual SVG render from this case",
+          "provenance": {
+            "originalSha256": "7d58cea1377d42cf0b56c7ab35be478cb08550a7b559d9e684ae8e41163e45e5",
+            "sha256": "2408206842ca1c54c049303848f48e092d1eec59f983a13c552d127039005f95",
+            "noteZh": "模型原SVG经栅格化和WebP编码展示；源SVG未改写。",
+            "noteEn": "The model SVG is rasterized and encoded as WebP for display; source SVG is not rewritten."
+          },
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/preview.webp",
+          "width": 800,
+          "height": 600
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/final.svg",
+          "labelZh": "下载模型原SVG",
+          "labelEn": "Download original model SVG"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/project-source.zip",
+          "labelZh": "下载原始源码与尝试文件",
+          "labelEn": "Download source and preserved attempt files"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/animation-checks.json",
+          "labelZh": "下载动画捕获检查",
+          "labelEn": "Download animation capture checks"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/joint-checks.json",
+          "labelZh": "下载独立关节检查",
+          "labelEn": "Download independent joint checks"
+        },
+        {
+          "path": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/animation.webp",
+          "labelZh": "下载循环WebP预览",
+          "labelEn": "Download looping WebP preview"
+        }
+      ],
+      "assessmentZh": [
+        "独立Chromium捕获40个不同画面；4秒边界平均像素差0.00085，抽帧未见明显循环跳切，原SVG未改动。",
+        "轮辐与曲柄在转，腿部路径却独立摆动。8个采样时点中有7个至少一只脚与两个脚踏的包围盒均有超过2像素的间隔，不能判定连接正确。",
+        "主体在采样画面中保持在画布内。网页MP4是主机按10fps捕获的单周期预览，原始SMIL SVG另供下载。"
+      ],
+      "assessmentEn": [
+        "Independent Chromium capture produces 40 distinct frames. Mean pixel difference at the four-second boundary is 0.00085 with no obvious sampled loop jump; the SVG is unchanged.",
+        "Spokes and crank rotate while leg paths swing independently. At seven of eight sampled phases, at least one foot has an AABB gap over two pixels from both pedals, so attachment does not pass.",
+        "The subject stays inside the sampled canvas. The web MP4 is a host-captured single-cycle preview at 10fps; original SMIL SVG is downloadable."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含SVG与实际渲染",
+          "labelEn": "Self-contained SVG and actual render",
+          "status": "pass",
+          "detailZh": "严格语法与自包含检查通过，实际预览已检查。",
+          "detailEn": "Strict syntax/self-containment validation passes and actual pixels were inspected."
+        },
+        {
+          "labelZh": "运动与循环边界抽查",
+          "labelEn": "Motion and sampled loop boundary",
+          "status": "pass",
+          "detailZh": "40个不同帧，4秒边界平均像素差0.00085，原SVG哈希不变。",
+          "detailEn": "Forty distinct frames; four-second boundary mean pixel error 0.00085; source SVG hash unchanged."
+        },
+        {
+          "labelZh": "脚与脚踏连接",
+          "labelEn": "Foot-to-pedal attachment",
+          "status": "fail",
+          "detailZh": "8个采样时点中7个存在明确间隔；包围盒检查采用保守判据。",
+          "detailEn": "Seven of eight sampled phases show definite gaps under a conservative bounding-box test."
+        }
+      ],
+      "references": [],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "Claude Code requested adaptive",
+          "status": "model_finished",
+          "requests": 8,
+          "completedResponses": 8,
+          "noteZh": "模型正常结束；保留首次SVG与修订，语义检查另列。",
+          "noteEn": "Model session finished normally; first SVG and revisions are preserved, with semantic checks reported separately.",
+          "evidencePath": "/evaluations/longcat-2-5-claude-code/svg-pelican-animation/attempt-1.json"
+        }
+      ]
+    }
+  ]
+}

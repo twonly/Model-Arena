@@ -14,18 +14,36 @@ export interface ProviderPreset {
 
 export const PROVIDER_PRESETS: ProviderPreset[] = [
   {
+    id: "longcat",
+    label: "美团 LongCat",
+    kind: "openai",
+    baseUrl: "https://api.longcat.chat/openai/v1",
+    exampleModels: ["LongCat-2.5-Preview", "LongCat-2.0"],
+    note: "使用 LongCat 的 OpenAI 兼容接口。LongCat-2.5-Preview 也已加入体验模型，无需填写 API Key 即可使用网站免费额度。",
+  },
+  {
     id: "deepseek",
     label: "DeepSeek",
     kind: "openai",
     baseUrl: "https://api.deepseek.com/v1",
-    exampleModels: ["deepseek-chat", "deepseek-reasoner"],
+    exampleModels: ["deepseek-flash", "deepseek-v4-pro"],
+    note: "deepseek-flash 当前对应 DeepSeek V4.1 Flash 1017（2026-10-18 核实）；默认开启思考，可用 thinking.type=disabled 关闭。",
   },
   {
     id: "moonshot",
     label: "Kimi 月之暗面",
     kind: "openai",
     baseUrl: "https://api.moonshot.cn/v1",
-    exampleModels: ["kimi-k2-turbo-preview", "kimi-latest"],
+    exampleModels: ["kimi-k3.1-pro", "kimi-k3.1-pro-highspeed"],
+    note: "Kimi 按量 API 使用 kimi-k3.1-pro；Kimi Coding 订阅使用下方独立预设和不同模型 ID。K3.1 Pro 始终思考，支持 low / high / max，默认 max。在 Arena 将温度留空；本站固定温度 0 的标准批测不适用于此模型。",
+  },
+  {
+    id: "kimi-coding",
+    label: "Kimi Coding 订阅",
+    kind: "anthropic",
+    baseUrl: "https://api.kimi.com/coding/",
+    exampleModels: ["k3.1-pro", "k3.1-pro-highspeed"],
+    note: "使用 Anthropic Messages 原生规范，模型 ID 为 k3.1-pro，温度留空。Coding 文档对默认值的说明有 high / max 冲突；可发送 output_config.effort=low / high / max，但本轮未独立确认档位生效。订阅额度与 Moonshot 按量 API 价格分开。",
   },
   {
     id: "zhipu",
@@ -61,9 +79,9 @@ export const PROVIDER_PRESETS: ProviderPreset[] = [
     label: "MiniMax",
     kind: "anthropic",
     baseUrl: "https://api.minimaxi.com/anthropic",
-    exampleModels: ["MiniMax-M3", "MiniMax-M2"],
+    exampleModels: ["MiniMax-M3.1-Flash", "MiniMax-M3"],
     extraBody: '{"thinking":{"type":"enabled"}}',
-    note: "默认走原生 Anthropic 协议，思考会单独输出（已默认开启思考）。也提供 OpenAI 兼容接口 https://api.minimaxi.com/v1，但该接口会把思考混在正文里",
+    note: "MiniMax M3.1 Flash（Space Bunny 早期版本的正式发布）默认 max 思考，支持 low 至 max，不能关闭。也可用 OpenAI 兼容接口 https://api.minimax.io/v1；M3.1 Flash 单独返回 reasoning_content。",
   },
   {
     id: "xiaomi",

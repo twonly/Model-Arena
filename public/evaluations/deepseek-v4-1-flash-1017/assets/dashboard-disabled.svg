@@ -1,0 +1,96 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <filter id="cardShadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="2" stdDeviation="6" flood-color="#00000020"/>
+    </filter>
+    <linearGradient id="barGrad1" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A90D9"/>
+      <stop offset="100%" stop-color="#357ABD"/>
+    </linearGradient>
+    <linearGradient id="barGrad2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5BA0E9"/>
+      <stop offset="100%" stop-color="#4A90D9"/>
+    </linearGradient>
+    <linearGradient id="barGrad3" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#4A90D9"/>
+      <stop offset="100%" stop-color="#357ABD"/>
+    </linearGradient>
+    <linearGradient id="barGrad4" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#2E6DA4"/>
+      <stop offset="100%" stop-color="#1F5A8A"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#F0F2F5" rx="0"/>
+
+  <!-- Card -->
+  <rect x="40" y="30" width="720" height="540" rx="16" fill="#FFFFFF" filter="url(#cardShadow)"/>
+
+  <!-- Title -->
+  <text x="80" y="85" font-family="'Segoe UI', Arial, Helvetica, sans-serif" font-size="26" font-weight="700" fill="#1A1A2E">Quarterly Revenue</text>
+
+  <!-- Divider -->
+  <line x1="80" y1="105" x2="720" y2="105" stroke="#E8E8E8" stroke-width="1.5"/>
+
+  <!-- Chart area -->
+  <!-- Chart area bounds: x=160 to x=680, y=140 to y=460 -->
+  <!-- Baseline y=460, max value 30 maps to y=140 (height 320) -->
+  <!-- Scale: 320px / 30 = 10.6667 px per unit -->
+
+  <!-- Y-axis grid lines and labels -->
+  <!-- 0 -->
+  <line x1="160" y1="460" x2="680" y2="460" stroke="#D0D0D0" stroke-width="1.5"/>
+  <text x="145" y="465" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#888" text-anchor="end">0</text>
+
+  <!-- 10 -->
+  <line x1="160" y1="353.33" x2="680" y2="353.33" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="145" y="358.33" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#888" text-anchor="end">10</text>
+
+  <!-- 20 -->
+  <line x1="160" y1="246.67" x2="680" y2="246.67" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="145" y="251.67" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#888" text-anchor="end">20</text>
+
+  <!-- 30 -->
+  <line x1="160" y1="140" x2="680" y2="140" stroke="#E8E8E8" stroke-width="1" stroke-dasharray="4,4"/>
+  <text x="145" y="145" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="#888" text-anchor="end">30</text>
+
+  <!-- Y-axis line -->
+  <line x1="160" y1="140" x2="160" y2="460" stroke="#D0D0D0" stroke-width="1.5"/>
+
+  <!-- Bars -->
+  <!-- Bar width: 80, gap between bars: 40 -->
+  <!-- Bar centers: Q1=240, Q2=360, Q3=480, Q4=600 -->
+  <!-- Bar x positions: Q1=200, Q2=320, Q3=440, Q4=560 -->
+
+  <!-- Q1 = 12, height = 12 * 10.6667 = 128, y = 460 - 128 = 332 -->
+  <rect x="200" y="332" width="80" height="128" rx="4" fill="url(#barGrad1)"/>
+  <text x="240" y="322" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#357ABD" text-anchor="middle">12</text>
+  <text x="240" y="485" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="500" fill="#555" text-anchor="middle">Q1</text>
+
+  <!-- Q2 = 24, height = 24 * 10.6667 = 256, y = 460 - 256 = 204 -->
+  <rect x="320" y="204" width="80" height="256" rx="4" fill="url(#barGrad2)"/>
+  <text x="360" y="194" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#4A90D9" text-anchor="middle">24</text>
+  <text x="360" y="485" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="500" fill="#555" text-anchor="middle">Q2</text>
+
+  <!-- Q3 = 18, height = 18 * 10.6667 = 192, y = 460 - 192 = 268 -->
+  <rect x="440" y="268" width="80" height="192" rx="4" fill="url(#barGrad3)"/>
+  <text x="480" y="258" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#357ABD" text-anchor="middle">18</text>
+  <text x="480" y="485" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="500" fill="#555" text-anchor="middle">Q3</text>
+
+  <!-- Q4 = 30, height = 30 * 10.6667 = 320, y = 460 - 320 = 140 -->
+  <rect x="560" y="140" width="80" height="320" rx="4" fill="url(#barGrad4)"/>
+  <text x="600" y="130" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#1F5A8A" text-anchor="middle">30</text>
+  <text x="600" y="485" font-family="'Segoe UI', Arial, sans-serif" font-size="15" font-weight="500" fill="#555" text-anchor="middle">Q4</text>
+
+  <!-- Summary section -->
+  <line x1="80" y1="510" x2="720" y2="510" stroke="#E8E8E8" stroke-width="1.5"/>
+
+  <!-- Total label -->
+  <rect x="80" y="525" width="160" height="36" rx="8" fill="#EBF3FB"/>
+  <text x="160" y="549" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#357ABD" text-anchor="middle">Total: 84</text>
+
+  <!-- Best label -->
+  <rect x="260" y="525" width="160" height="36" rx="8" fill="#EBF3FB"/>
+  <text x="340" y="549" font-family="'Segoe UI', Arial, sans-serif" font-size="16" font-weight="600" fill="#1F5A8A" text-anchor="middle">Best: Q4</text>
+</svg>

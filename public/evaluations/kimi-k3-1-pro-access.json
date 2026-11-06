@@ -1,0 +1,869 @@
+{
+  "checkedAt": "2026-10-24T01:13:40.480Z",
+  "checks": [
+    {
+      "endpoint": "https://api.moonshot.cn/v1",
+      "startedAt": "2026-10-24T01:10:16.134Z",
+      "httpStatus": 401,
+      "body": {
+        "error": {
+          "message": "Invalid Authentication",
+          "type": "invalid_authentication_error"
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.moonshot.ai/v1",
+      "startedAt": "2026-10-24T01:10:16.631Z",
+      "httpStatus": 401,
+      "body": {
+        "error": {
+          "message": "Invalid Authentication",
+          "type": "invalid_authentication_error"
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.kimi.com/coding/v1",
+      "startedAt": "2026-10-24T01:10:32.542Z",
+      "httpStatus": 200,
+      "body": {
+        "data": [
+          {
+            "id": "kimi-for-coding",
+            "created": 1761264000,
+            "created_at": "2025-10-24T00:00:00Z",
+            "object": "model",
+            "display_name": "K2.8 Preview",
+            "type": "model",
+            "context_length": 1048576,
+            "supports_reasoning": true,
+            "supports_image_in": true,
+            "supports_video_in": true,
+            "supports_dynamic_tools": true,
+            "supports_thinking_type": "only",
+            "think_efforts": {
+              "support": true,
+              "valid_efforts": [
+                "low",
+                "high",
+                "max"
+              ],
+              "default_effort": "max"
+            },
+            "modalities": {
+              "input": [
+                "text",
+                "image",
+                "video"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "reasoning": {
+              "type": "only",
+              "effort": {
+                "valid": [
+                  "low",
+                  "high",
+                  "max"
+                ],
+                "default": "max"
+              }
+            },
+            "tools": {
+              "dynamic_load": true
+            },
+            "limit": {
+              "context": 1048576
+            }
+          },
+          {
+            "id": "kimi-for-coding-highspeed",
+            "created": 1761264000,
+            "created_at": "2025-10-24T00:00:00Z",
+            "object": "model",
+            "display_name": "K2.7 Code Highspeed",
+            "type": "model",
+            "context_length": 262144,
+            "supports_reasoning": true,
+            "supports_image_in": true,
+            "supports_video_in": true,
+            "supports_dynamic_tools": false,
+            "supports_thinking_type": "only",
+            "modalities": {
+              "input": [
+                "text",
+                "image",
+                "video"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "reasoning": {
+              "type": "only"
+            },
+            "tools": {
+              "dynamic_load": false
+            },
+            "limit": {
+              "context": 262144
+            }
+          },
+          {
+            "id": "k3",
+            "created": 1761264000,
+            "created_at": "2025-10-24T00:00:00Z",
+            "object": "model",
+            "display_name": "K3",
+            "type": "model",
+            "context_length": 1048576,
+            "supports_reasoning": true,
+            "supports_image_in": true,
+            "supports_video_in": true,
+            "supports_dynamic_tools": true,
+            "supports_thinking_type": "only",
+            "think_efforts": {
+              "support": true,
+              "valid_efforts": [
+                "low",
+                "high",
+                "max"
+              ],
+              "default_effort": "high"
+            },
+            "modalities": {
+              "input": [
+                "text",
+                "image",
+                "video"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "reasoning": {
+              "type": "only",
+              "effort": {
+                "valid": [
+                  "low",
+                  "high",
+                  "max"
+                ],
+                "default": "high"
+              }
+            },
+            "tools": {
+              "dynamic_load": true
+            },
+            "limit": {
+              "context": 1048576
+            }
+          },
+          {
+            "id": "k3-256k",
+            "created": 1761264000,
+            "created_at": "2025-10-24T00:00:00Z",
+            "object": "model",
+            "display_name": "K3-256k",
+            "type": "model",
+            "context_length": 262144,
+            "supports_reasoning": true,
+            "supports_image_in": true,
+            "supports_video_in": false,
+            "supports_dynamic_tools": true,
+            "supports_thinking_type": "only",
+            "think_efforts": {
+              "support": true,
+              "valid_efforts": [
+                "low",
+                "high",
+                "max"
+              ],
+              "default_effort": "high"
+            },
+            "modalities": {
+              "input": [
+                "text",
+                "image"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "reasoning": {
+              "type": "only",
+              "effort": {
+                "valid": [
+                  "low",
+                  "high",
+                  "max"
+                ],
+                "default": "high"
+              }
+            },
+            "tools": {
+              "dynamic_load": true
+            },
+            "limit": {
+              "context": 262144
+            }
+          },
+          {
+            "id": "k3.1-pro",
+            "created": 1761264000,
+            "created_at": "2025-10-24T00:00:00Z",
+            "object": "model",
+            "display_name": "K3.1 Pro",
+            "type": "model",
+            "context_length": 1048576,
+            "supports_reasoning": true,
+            "supports_image_in": true,
+            "supports_video_in": true,
+            "supports_dynamic_tools": true,
+            "supports_thinking_type": "only",
+            "think_efforts": {
+              "support": true,
+              "valid_efforts": [
+                "low",
+                "high",
+                "max"
+              ],
+              "default_effort": "max"
+            },
+            "modalities": {
+              "input": [
+                "text",
+                "image",
+                "video"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "reasoning": {
+              "type": "only",
+              "effort": {
+                "valid": [
+                  "low",
+                  "high",
+                  "max"
+                ],
+                "default": "max"
+              }
+            },
+            "tools": {
+              "dynamic_load": true
+            },
+            "limit": {
+              "context": 1048576
+            }
+          },
+          {
+            "id": "k3.1-pro-highspeed",
+            "created": 1761264000,
+            "created_at": "2025-10-24T00:00:00Z",
+            "object": "model",
+            "display_name": "K3.1 Pro Highspeed",
+            "type": "model",
+            "context_length": 1048576,
+            "supports_reasoning": true,
+            "supports_image_in": true,
+            "supports_video_in": true,
+            "supports_dynamic_tools": true,
+            "supports_thinking_type": "only",
+            "think_efforts": {
+              "support": true,
+              "valid_efforts": [
+                "low",
+                "high",
+                "max"
+              ],
+              "default_effort": "max"
+            },
+            "modalities": {
+              "input": [
+                "text",
+                "image",
+                "video"
+              ],
+              "output": [
+                "text"
+              ]
+            },
+            "reasoning": {
+              "type": "only",
+              "effort": {
+                "valid": [
+                  "low",
+                  "high",
+                  "max"
+                ],
+                "default": "max"
+              }
+            },
+            "tools": {
+              "dynamic_load": true
+            },
+            "limit": {
+              "context": 1048576
+            }
+          }
+        ],
+        "object": "list",
+        "first_id": "kimi-for-coding",
+        "last_id": "k3.1-pro-highspeed",
+        "has_more": false
+      }
+    },
+    {
+      "endpoint": "https://api.kimi.com/coding/v1",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply exactly: OK"
+          }
+        ],
+        "reasoning_effort": "low",
+        "max_tokens": 256
+      },
+      "startedAt": "2026-10-24T01:10:43.271Z",
+      "totalMs": 2288.363916,
+      "httpStatus": 200,
+      "body": {
+        "id": "chatcmpl-3iAMuTM9OYrJ9rDyR4vQf5xr",
+        "object": "chat.completion",
+        "created": 1792804244,
+        "model": "k3.1-pro",
+        "choices": [
+          {
+            "index": 0,
+            "message": {
+              "role": "assistant",
+              "content": "OK"
+            },
+            "finish_reason": "stop"
+          }
+        ],
+        "usage": {
+          "prompt_tokens": 90,
+          "completion_tokens": 43,
+          "total_tokens": 133,
+          "completion_tokens_details": {
+            "reasoning_tokens": 27
+          }
+        }
+      }
+    },
+    {
+      "url": "https://openrouter.ai/api/v1/models",
+      "httpStatus": 200,
+      "body": {
+        "data": [
+          {
+            "id": "moonshotai/kimi-k3.1-pro",
+            "canonical_slug": "moonshotai/kimi-k3.1-pro-20261023",
+            "hugging_face_id": null,
+            "name": "MoonshotAI: Kimi K3.1 Pro",
+            "created": 1792778188,
+            "description": "Kimi K3.1 Pro is Moonshot AI's flagship open-weight multimodal reasoning model and a post-trained successor to Kimi K3, with a 1M-token context window. It is built for long-horizon coding, 3D...",
+            "context_length": 1048576,
+            "architecture": {
+              "modality": "text+image+video->text",
+              "input_modalities": [
+                "text",
+                "image",
+                "video"
+              ],
+              "output_modalities": [
+                "text"
+              ],
+              "tokenizer": "Other",
+              "instruct_type": null
+            },
+            "pricing": {
+              "prompt": "0.000002",
+              "completion": "0.00001",
+              "input_cache_read": "0.0000002"
+            },
+            "top_provider": {
+              "context_length": 1048576,
+              "max_completion_tokens": 943718,
+              "is_moderated": false
+            },
+            "per_request_limits": null,
+            "supported_parameters": [
+              "frequency_penalty",
+              "include_reasoning",
+              "max_tokens",
+              "presence_penalty",
+              "reasoning",
+              "reasoning_effort",
+              "response_format",
+              "stop",
+              "structured_outputs",
+              "tool_choice",
+              "tools"
+            ],
+            "default_parameters": {
+              "top_p": 0.95
+            },
+            "supported_voices": null,
+            "knowledge_cutoff": null,
+            "expiration_date": null,
+            "links": {
+              "details": "/api/v1/models/moonshotai/kimi-k3.1-pro-20261023/endpoints"
+            },
+            "benchmarks": {
+              "design_arena": [],
+              "artificial_analysis": {
+                "intelligence_index": 55.1,
+                "coding_index": null,
+                "agentic_index": null
+              }
+            },
+            "reasoning": {
+              "mandatory": false,
+              "default_enabled": true,
+              "supported_efforts": [
+                "max",
+                "high",
+                "low",
+                "none"
+              ],
+              "default_effort": "max"
+            }
+          }
+        ],
+        "total_count": 469,
+        "links": {
+          "next": null
+        }
+      }
+    },
+    {
+      "url": "https://openrouter.ai/api/v1/models/moonshotai/kimi-k3.1-pro/endpoints",
+      "httpStatus": 200,
+      "body": {
+        "data": {
+          "id": "moonshotai/kimi-k3.1-pro",
+          "name": "MoonshotAI: Kimi K3.1 Pro",
+          "created": 1792778188,
+          "description": "Kimi K3.1 Pro is Moonshot AI's flagship open-weight multimodal reasoning model and a post-trained successor to Kimi K3, with a 1M-token context window. It is built for long-horizon coding, 3D...",
+          "architecture": {
+            "tokenizer": "Other",
+            "instruct_type": null,
+            "modality": "text+image+video->text",
+            "input_modalities": [
+              "text",
+              "image",
+              "video"
+            ],
+            "output_modalities": [
+              "text"
+            ]
+          },
+          "endpoints": [
+            {
+              "name": "Moonshot AI | moonshotai/kimi-k3.1-pro-20261023",
+              "model_id": "moonshotai/kimi-k3.1-pro",
+              "model_name": "MoonshotAI: Kimi K3.1 Pro",
+              "context_length": 1048576,
+              "pricing": {
+                "prompt": "0.000002",
+                "completion": "0.00001",
+                "input_cache_read": "0.0000002",
+                "discount": 0
+              },
+              "provider_name": "Moonshot AI",
+              "tag": "moonshotai/mxfp4",
+              "service_tier": null,
+              "quantization": "mxfp4",
+              "max_completion_tokens": 943718,
+              "max_prompt_tokens": null,
+              "supported_parameters": [
+                "reasoning",
+                "include_reasoning",
+                "max_tokens",
+                "stop",
+                "frequency_penalty",
+                "presence_penalty",
+                "structured_outputs",
+                "response_format",
+                "tool_choice",
+                "tools",
+                "reasoning_effort"
+              ],
+              "supports_tool_choice": {
+                "none": true,
+                "auto": true,
+                "required": true,
+                "function": false
+              },
+              "status": 0,
+              "uptime_last_30m": 100,
+              "uptime_last_5m": 100,
+              "uptime_last_1d": 100,
+              "supports_implicit_caching": true,
+              "native_tools": {},
+              "supports_voice_cloning": false,
+              "supports_multiple_audio_references": false,
+              "supports_image_reference": false,
+              "supports_diarization": false,
+              "latency_last_30m": null,
+              "throughput_last_30m": null
+            },
+            {
+              "name": "Moonshot AI | moonshotai/kimi-k3.1-pro-20261023",
+              "model_id": "moonshotai/kimi-k3.1-pro",
+              "model_name": "MoonshotAI: Kimi K3.1 Pro",
+              "context_length": 1048576,
+              "pricing": {
+                "prompt": "0.000004",
+                "completion": "0.00002",
+                "input_cache_read": "0.0000002",
+                "discount": 0
+              },
+              "provider_name": "Moonshot AI",
+              "tag": "moonshotai/highspeed",
+              "service_tier": "priority",
+              "quantization": "mxfp4",
+              "max_completion_tokens": 943718,
+              "max_prompt_tokens": null,
+              "supported_parameters": [
+                "reasoning",
+                "include_reasoning",
+                "max_tokens",
+                "stop",
+                "frequency_penalty",
+                "presence_penalty",
+                "structured_outputs",
+                "response_format",
+                "tool_choice",
+                "tools",
+                "reasoning_effort"
+              ],
+              "supports_tool_choice": {
+                "none": true,
+                "auto": true,
+                "required": true,
+                "function": false
+              },
+              "status": 0,
+              "uptime_last_30m": 100,
+              "uptime_last_5m": 100,
+              "uptime_last_1d": 100,
+              "supports_implicit_caching": true,
+              "native_tools": {},
+              "supports_voice_cloning": false,
+              "supports_multiple_audio_references": false,
+              "supports_image_reference": false,
+              "supports_diarization": false,
+              "latency_last_30m": null,
+              "throughput_last_30m": null
+            }
+          ]
+        }
+      }
+    },
+    {
+      "endpoint": "https://openrouter.ai/api/v1",
+      "request": {
+        "model": "moonshotai/kimi-k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply exactly: OK"
+          }
+        ],
+        "reasoning_effort": "low",
+        "max_tokens": 256,
+        "provider": {
+          "only": [
+            "moonshotai/mxfp4"
+          ],
+          "allow_fallbacks": false,
+          "require_parameters": true
+        }
+      },
+      "startedAt": "2026-10-24T01:12:48.586Z",
+      "httpStatus": 401,
+      "totalMs": 610.824417,
+      "body": {
+        "error": {
+          "message": "User not found.",
+          "code": 401
+        }
+      }
+    },
+    {
+      "endpoint": "https://api.orcarouter.ai/v1",
+      "httpStatus": 200,
+      "body": {
+        "data": [],
+        "object": "list",
+        "success": true
+      }
+    },
+    {
+      "endpoint": "https://api.orcarouter.ai/v1",
+      "httpStatus": 200,
+      "body": {
+        "data": [
+          {
+            "id": "kimi/kimi-k2.5",
+            "object": "model",
+            "created": 1626777600,
+            "owned_by": "Moonshot",
+            "supported_endpoint_types": [
+              "openai"
+            ],
+            "endpoint_capabilities": [
+              "chat_completions"
+            ],
+            "description": "Moonshot Kimi K2 (0905 baseline) — 1T-param MoE chat model with 32B active per pass, 256k context, balanced performance.",
+            "context_length": 262144,
+            "max_completion_tokens": 32768,
+            "architecture": {
+              "modality": "text+image->text",
+              "input_modalities": [
+                "text",
+                "image"
+              ],
+              "output_modalities": [
+                "text"
+              ]
+            },
+            "top_provider": {
+              "context_length": 262144,
+              "max_completion_tokens": 32768
+            },
+            "pricing": {
+              "prompt": "0.0000006000",
+              "completion": "0.0000030000",
+              "prompt_per_million": "0.600000",
+              "completion_per_million": "3.000000",
+              "input_cache_read": "0.00000010000000019999999"
+            },
+            "supported_parameters": [
+              "frequency_penalty",
+              "include_reasoning",
+              "max_completion_tokens",
+              "max_tokens",
+              "n",
+              "presence_penalty",
+              "prompt_cache_key",
+              "reasoning",
+              "response_format",
+              "safety_identifier",
+              "stop",
+              "stream",
+              "stream_options",
+              "temperature",
+              "thinking",
+              "tools",
+              "top_p"
+            ]
+          },
+          {
+            "id": "kimi/kimi-k2.6",
+            "object": "model",
+            "created": 1626777600,
+            "owned_by": "Moonshot",
+            "supported_endpoint_types": [
+              "openai"
+            ],
+            "endpoint_capabilities": [
+              "chat_completions"
+            ],
+            "description": "Moonshot Kimi K2 Thinking — most advanced open reasoning model in the K2 series, agentic long-horizon tasks, 256k context.",
+            "context_length": 262144,
+            "max_completion_tokens": 32768,
+            "architecture": {
+              "modality": "text+image+video->text",
+              "input_modalities": [
+                "text",
+                "image",
+                "video"
+              ],
+              "output_modalities": [
+                "text"
+              ]
+            },
+            "top_provider": {
+              "context_length": 262144,
+              "max_completion_tokens": 32768
+            },
+            "pricing": {
+              "prompt": "0.0000009500",
+              "completion": "0.000003999999984999999",
+              "prompt_per_million": "0.950000",
+              "completion_per_million": "4.000000",
+              "input_cache_read": "0.00000016000000034999997"
+            },
+            "supported_parameters": [
+              "frequency_penalty",
+              "include_reasoning",
+              "max_completion_tokens",
+              "max_tokens",
+              "n",
+              "presence_penalty",
+              "prompt_cache_key",
+              "reasoning",
+              "response_format",
+              "safety_identifier",
+              "stop",
+              "stream",
+              "stream_options",
+              "temperature",
+              "thinking",
+              "tools",
+              "top_p"
+            ]
+          },
+          {
+            "id": "kimi/kimi-k2.7-code",
+            "object": "model",
+            "created": 1626777600,
+            "owned_by": "Moonshot",
+            "supported_endpoint_types": [
+              "openai"
+            ],
+            "endpoint_capabilities": [
+              "chat_completions"
+            ],
+            "name": "MoonshotAI: Kimi K2.7 Code",
+            "description": "Kimi K2.7 Code is Moonshot AI's strongest coding model to date - a coding-focused agentic model built on Kimi K2.6, with a 1T-parameter Mixture-of-Experts architecture (32B active per pass) and a 256K-token context window. It delivers substantial gains on real-world long-horizon coding: stronger end-to-end task completion across complex software-engineering workflows, while cutting thinking-token usage by roughly 30% versus K2.6 for better token efficiency.\n\nThe model is natively multimodal via the MoonViT vision encoder, accepting text, image, and video inputs with text output, and runs with thinking always on for deep agentic reasoning. It is purpose-built for autonomous coding agents and long-horizon software work - large multi-file changes, production-grade engineering tasks, and multi-step tool use - and integrates cleanly with agent harnesses and coding-agent frameworks.",
+            "context_length": 262144,
+            "max_completion_tokens": 262144,
+            "architecture": {
+              "modality": "text+image+video->text",
+              "input_modalities": [
+                "text",
+                "image",
+                "video"
+              ],
+              "output_modalities": [
+                "text"
+              ]
+            },
+            "top_provider": {
+              "context_length": 262144,
+              "max_completion_tokens": 262144
+            },
+            "pricing": {
+              "prompt": "0.0000009500",
+              "completion": "0.000003999999984999999",
+              "prompt_per_million": "0.950000",
+              "completion_per_million": "4.000000",
+              "input_cache_read": "0.0000001900"
+            },
+            "supported_parameters": [
+              "frequency_penalty",
+              "logit_bias",
+              "logprobs",
+              "max_tokens",
+              "presence_penalty",
+              "reasoning",
+              "response_format",
+              "seed",
+              "stop",
+              "stream",
+              "structured_outputs",
+              "temperature",
+              "tool_choice",
+              "tools",
+              "top_logprobs",
+              "top_p"
+            ]
+          },
+          {
+            "id": "kimi/kimi-k3",
+            "object": "model",
+            "created": 1626777600,
+            "owned_by": "Moonshot",
+            "supported_endpoint_types": [
+              "openai",
+              "openai-response"
+            ],
+            "endpoint_capabilities": [
+              "chat_completions",
+              "openai_responses"
+            ],
+            "name": "MoonshotAI: Kimi K3",
+            "description": "Kimi K3 is Moonshot AI's flagship model and its most capable release to date — a 2.8-trillion-parameter Mixture-of-Experts model built for long-horizon coding and end-to-end knowledge work. It pairs a 1M-token context window with native visual understanding, accepting text and image input with text output, and is designed to stay coherent across very long agentic sessions.\n\nMoonshot positions K3 for programming-agent scenarios such as Codex, Claude Code, Cline, and RooCode, as well as deep reasoning and knowledge work. It exposes a top-level reasoning_effort control and native tool calling, and speaks the OpenAI API format for drop-in integration. Note that K3 does not accept sampling parameters (no temperature / top_p / seed) — reasoning depth is controlled through reasoning_effort instead.",
+            "context_length": 1048576,
+            "architecture": {
+              "modality": "text+image->text",
+              "input_modalities": [
+                "text",
+                "image"
+              ],
+              "output_modalities": [
+                "text"
+              ]
+            },
+            "top_provider": {
+              "context_length": 1048576,
+              "max_completion_tokens": 0
+            },
+            "pricing": {
+              "prompt": "0.0000030000",
+              "completion": "0.0000150000",
+              "prompt_per_million": "3.000000",
+              "completion_per_million": "15.000000",
+              "input_cache_read": "0.0000003000"
+            },
+            "supported_parameters": [
+              "frequency_penalty",
+              "include_reasoning",
+              "max_tokens",
+              "presence_penalty",
+              "reasoning",
+              "reasoning_effort",
+              "response_format",
+              "stop",
+              "structured_outputs",
+              "tool_choice",
+              "tools"
+            ]
+          }
+        ],
+        "object": "list",
+        "success": true
+      }
+    },
+    {
+      "endpoint": "https://api.orcarouter.ai/v1",
+      "request": {
+        "model": "moonshotai/kimi-k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply exactly: OK"
+          }
+        ],
+        "reasoning_effort": "low",
+        "max_tokens": 256
+      },
+      "startedAt": "2026-10-24T01:13:17.614Z",
+      "httpStatus": 404,
+      "totalMs": 236.97187500000018,
+      "body": {
+        "error": {
+          "code": "model_not_found",
+          "message": "No available capacity for model moonshotai/kimi-k3.1-pro right now. Please try again later. Models you can call: https://www.orcarouter.ai/console/models?ref=err_model_unknown (request id: 202610240113175856961878268d9d61UjDqR6b)",
+          "metadata": {
+            "catalog_url": "https://www.orcarouter.ai/console/models?ref=err_model_unknown",
+            "reason": "err_model_unknown"
+          },
+          "type": "orcarouter_api_error"
+        }
+      }
+    }
+  ]
+}

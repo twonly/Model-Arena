@@ -1,0 +1,1491 @@
+{
+  "generatedAt": "2026-10-27T03:00:26.857586+00:00",
+  "scope": "Ten cases: six Blender scenes and four knowledge videos; two separately disclosed batches",
+  "files": [
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/attempt-01.json",
+      "bytes": 35184,
+      "sha256": "549224a96781cd1e06fae0182c65e7fdd9581adbfae5a9f0a999225034cd405b",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/01_assembly_1920x1080.png",
+      "bytes": 1190378,
+      "sha256": "d2909b4d0ad41a0d9a9a2187b23a471c43b5b51225f03e107b1d1b80cad960e7",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/planetary-reducer/renders/01_assembly_1920x1080.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d2909b4d0ad41a0d9a9a2187b23a471c43b5b51225f03e107b1d1b80cad960e7"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/02_exploded_1920x1080.png",
+      "bytes": 1298283,
+      "sha256": "cd4151df571bb36a30ff7684f409f320907dade667d55c0744d12e579285ebc1",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/planetary-reducer/renders/02_exploded_1920x1080.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "cd4151df571bb36a30ff7684f409f320907dade667d55c0744d12e579285ebc1"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/03_exploded_1600x900.png",
+      "bytes": 923026,
+      "sha256": "50f16862d309e43276abfd2f359ec5e15edb5f36d0ab4529e1817a09e65a6ac9",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/planetary-reducer/renders/03_exploded_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "50f16862d309e43276abfd2f359ec5e15edb5f36d0ab4529e1817a09e65a6ac9"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/04_alternate_1600x900.png",
+      "bytes": 905671,
+      "sha256": "b3842ece82746e912cdcab15be1a20cddde0ff0c87a67fde745f6e330796ee4c",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/planetary-reducer/renders/04_alternate_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "b3842ece82746e912cdcab15be1a20cddde0ff0c87a67fde745f6e330796ee4c"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/05_mesh_closeup_1600x900.png",
+      "bytes": 948781,
+      "sha256": "89d9e30d9e05d5aa2a59e5859ed02c5158cad879160e99a044dbf75ded3d154b",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/planetary-reducer/renders/05_mesh_closeup_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "89d9e30d9e05d5aa2a59e5859ed02c5158cad879160e99a044dbf75ded3d154b"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/turntable.mp4",
+      "bytes": 453954,
+      "sha256": "d7473b75534f66342c95bebcb7a05513dbfaeffb33861df80b2ecee4663a1b59",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/planetary-reducer/turntable.mp4",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d7473b75534f66342c95bebcb7a05513dbfaeffb33861df80b2ecee4663a1b59"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/final.blend",
+      "bytes": 1330426,
+      "sha256": "d16a9a6f9e7d1f293cf7fec2783d96527b25ef6d7b585cdb68c141bd076fdcb0",
+      "kind": "publication-input-text-removal-derivative",
+      "localSource": "publication/planetary-reducer/final.blend",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d16a9a6f9e7d1f293cf7fec2783d96527b25ef6d7b585cdb68c141bd076fdcb0",
+      "evaluatedOriginalSha256": "99f163b50d6c8d11a20e3f4d1b764a4ae92296dbf7dbfeb9d6aa13bd208ca891",
+      "derivativeSha256": "d16a9a6f9e7d1f293cf7fec2783d96527b25ef6d7b585cdb68c141bd076fdcb0",
+      "derivation": "Only one embedded source-attachment text removed; structural fingerprints unchanged."
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/project-provenance.json",
+      "bytes": 2690,
+      "sha256": "d2884900a7311ee8b4ecb3f1c28650b422bb05b24220f2284eebab1b118b682a",
+      "kind": "unchanged-model-output",
+      "localSource": "publication/planetary-reducer/provenance.json",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d2884900a7311ee8b4ecb3f1c28650b422bb05b24220f2284eebab1b118b682a"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/source.zip",
+      "bytes": 41036,
+      "sha256": "1f64d2bfeed019db52f46ee02ca1939f8d6111144e498be4f1ba7831314815a8",
+      "kind": "source-bundle-original-bytes-with-packaging",
+      "sourceEntryCount": 17,
+      "sourceEntries": [
+        {
+          "path": "README.md",
+          "bytes": 6920,
+          "sha256": "dec4cb24d1f9bbffdf174b60f778166079aa1597265758792c9261c5b60516e0",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/video_overlay.png",
+          "bytes": 17206,
+          "sha256": "f8260a7d0f6382cecdf58a1b667f42accb8d0305f2d06e8c372c1d2b9cd39df0",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/build.py",
+          "bytes": 1167,
+          "sha256": "39245ad772e01e7a2840f5c18952527985b2fb9779dd64ab5161fb8191f97c2e",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/check_mesh.py",
+          "bytes": 1098,
+          "sha256": "44913291157a9ad82669cc8819192ccd7143633fa7d388ddb115d3ca7019faf6",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/check_mesh_base.py",
+          "bytes": 995,
+          "sha256": "4a53565e3e2272a389a4d9d666425bac9501d809aeb156c9afa8fef15dadd6fc",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/check_motion_mesh.py",
+          "bytes": 1104,
+          "sha256": "2bdb35cf266a98f25f29f83b07cb9b1db6aaa7f051f64df1353096ab06659e62",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/debug_overlap.py",
+          "bytes": 797,
+          "sha256": "83931a0329419b0c15eeca67aed0ddaf4052ca49419609b2ac5733bb7d9445aa",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/embed_source.py",
+          "bytes": 974,
+          "sha256": "a779607b57dedb13dba1ad85b1b0e00aa7af99d952b672232a0a205ecb766614",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/geometry.py",
+          "bytes": 6585,
+          "sha256": "be7bf6fc8a2e613ab59bb6cce53d51aa1995db6ab645ca3d9f1d06fff5268376",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/make_artifacts.py",
+          "bytes": 2656,
+          "sha256": "f267f0e47c1983d500b697a499c6ba11a90d29f4de26a7685342dcc3c0b3c70d",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/postprocess.py",
+          "bytes": 4220,
+          "sha256": "3e4792f9746dbf41dda6cc71ec5ec39d555286df9f1f5ff5093ece53b00fc4ab",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/preview_views.py",
+          "bytes": 1225,
+          "sha256": "1fc124bb6fc473eaa63e4fb104e2c905d98ba00c621c90013caeac01772ee5da",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/render_stills.py",
+          "bytes": 1683,
+          "sha256": "e569b7ef5a635d07522903d7bb3539fea077ca4273d537d5b812a29f57925e01",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/render_video.py",
+          "bytes": 1366,
+          "sha256": "d7a59368514fdb310858bbb319cdae65f94eced32b9cebc5ba4f6b026e484225",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/scene.py",
+          "bytes": 11384,
+          "sha256": "6e309a8565a4e24026e6ae558db26e5a34fbd1a3f6338f988fa6eddaa0908a88",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/spec.py",
+          "bytes": 737,
+          "sha256": "c996cf856c242967a1cdf19c2d9553d89afb788c23092e52706f0f581f421b35",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/verify.py",
+          "bytes": 6601,
+          "sha256": "e080b6c936f30cac2d2423c2898c2cd4d00daabd1eed6b91277fdef01d9b0ebe",
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/planetary-reducer/qa-summary.json",
+      "bytes": 17392,
+      "sha256": "c24f77577716eb15df51b7d3eb432eaf7e3bd945e94935b4ab2176a838c44c10",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/attempt-01.json",
+      "bytes": 28030,
+      "sha256": "915feee84694c4b5a603e1cbef065fffd07d84dbe14108d01acfdaa9fc73dcbc",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/hero.png",
+      "bytes": 2815271,
+      "sha256": "5b76e3caa2348354ee08f01f2adaa39f7aac068eac5772f3fdb7de5cab27849b",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/horizontal-steam-engine/output/hero.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "5b76e3caa2348354ee08f01f2adaa39f7aac068eac5772f3fdb7de5cab27849b"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/rear_1600x900.png",
+      "bytes": 2292567,
+      "sha256": "f336916936be868c7fc9f0828fbf5ae9b38bafdefc61bf170350635ddadab009",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/horizontal-steam-engine/output/rear_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "f336916936be868c7fc9f0828fbf5ae9b38bafdefc61bf170350635ddadab009"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/other_side_1600x900.png",
+      "bytes": 2212552,
+      "sha256": "3fe443b7eac0b1dcf1a6b3a362e44ea0f0799527453d546627703b02d00ab59a",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/horizontal-steam-engine/output/other_side_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "3fe443b7eac0b1dcf1a6b3a362e44ea0f0799527453d546627703b02d00ab59a"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/mechanism_clay_1600x900.png",
+      "bytes": 1932552,
+      "sha256": "c5f68a9132baff7f48c2d539050399e0507035675f5042539a50192263947c56",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/horizontal-steam-engine/output/mechanism_clay_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "c5f68a9132baff7f48c2d539050399e0507035675f5042539a50192263947c56"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/turntable.mp4",
+      "bytes": 1979624,
+      "sha256": "9240c6df39da84c4604e8adb33774eb86130cba9144af9f2cee91da4ff9ff5f2",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/horizontal-steam-engine/output/turntable.mp4",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "9240c6df39da84c4604e8adb33774eb86130cba9144af9f2cee91da4ff9ff5f2"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/final.blend",
+      "bytes": 44598175,
+      "sha256": "ddb615a0797375f347157e55ea4a9cd246f86e7cac4b30c90402a256df95af1a",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/horizontal-steam-engine/final.blend",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "ddb615a0797375f347157e55ea4a9cd246f86e7cac4b30c90402a256df95af1a"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/source.zip",
+      "bytes": 43542224,
+      "sha256": "bf74f92f3ad4b9fd57dcaf4098e2116c104dff5cc25578fcddf4995d5f07f50c",
+      "kind": "source-bundle-original-bytes-with-packaging",
+      "sourceEntryCount": 24,
+      "sourceEntries": [
+        {
+          "path": "README.md",
+          "bytes": 5853,
+          "sha256": "0a47fa4ac9704947cac8c2553ca779e75a4e2a9eff8fdc8f94281db64d69155f",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/brass_basecolor_4k.png",
+          "bytes": 5292520,
+          "sha256": "ef03c0ec5479b3f87845da4330605750303c9651c906bd2d690b90e1274e29fe",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/brass_normal_4k.png",
+          "bytes": 2107517,
+          "sha256": "a54bc47dca748b1fc156c291f1bd704b227ee20919046e59098dd8be37da7591",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/brass_roughness_4k.png",
+          "bytes": 2553832,
+          "sha256": "b0927c46baecc0a189d31f36653a646771ac0ca8b057ea5570ff6f52f44dff66",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/cast_iron_basecolor_4k.png",
+          "bytes": 4025005,
+          "sha256": "88f554fbbd38719d9ad4aaee7c4eadcab47d35f6e6fa94efc16cdf1aa83eeeec",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/cast_iron_normal_4k.png",
+          "bytes": 4177550,
+          "sha256": "c75b7e0f0d9f17aa70abce91274d42eeee034050dd8f2c18621c919775bd8612",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/cast_iron_roughness_4k.png",
+          "bytes": 5346880,
+          "sha256": "41adaae22f1faec88144290b43dc4492fbda2efe4b1d3805c5ab7bef3c5ea8d7",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/copper_basecolor_4k.png",
+          "bytes": 4438487,
+          "sha256": "3401f9d4ab1e7663ef1607f64df4224bd1dae681c7f80d6609f6d899d1a05056",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/copper_normal_4k.png",
+          "bytes": 2108199,
+          "sha256": "6c1aae2563dadd9db45005c7977cc0793559602e25910e9dac7e802020a2f428",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/copper_roughness_4k.png",
+          "bytes": 2533110,
+          "sha256": "0d8ddfdd58eb1fae502003c617a74aebd73f5e6cdd649ddb4a21cbe047634ae0",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/steel_basecolor_4k.png",
+          "bytes": 6289220,
+          "sha256": "1f8e8a2537938f52c2b09da2ce80fa85cf9a2b288c2d69493579c36b2af2cc0c",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/steel_normal_4k.png",
+          "bytes": 2104458,
+          "sha256": "e4454fe49dbdba9b264aecef1cc6bcfe954d5d1e29ecfd26284d82f3a78af5c9",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "assets/textures/steel_roughness_4k.png",
+          "bytes": 2522637,
+          "sha256": "94000ba876c15852686eccb67b7055e11546fc62ece446bcd7d0985888516f60",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "run_all.sh",
+          "bytes": 907,
+          "sha256": "93b6a51c06e65ac41d3336fb6469a2573d6f5d3e95fcf6b6039f25c12affd945",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/build.py",
+          "bytes": 25509,
+          "sha256": "db878765c92796117960f214efb7724e4b7a61d328c4d410d5960fc35db09839",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/geometry.py",
+          "bytes": 4613,
+          "sha256": "a33b4d322714f0a0cf68e5f686cb765a91a42959e9ad2d50f9aab2380d95a61e",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/lods.py",
+          "bytes": 2110,
+          "sha256": "ffaae757d30a7ae290432fe050671a229bc2820090949964d83c33c695bd3f1b",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/make_artifacts.py",
+          "bytes": 2283,
+          "sha256": "cbe8508cd71d96a3da324fd1c555c22327172c22d4960f69ef41814b6103fd7d",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/make_textures.py",
+          "bytes": 2607,
+          "sha256": "24133ad16e6f17d97f05bbb4ea36718051863cf023501747f1f626d21468d9ac",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render_preview.py",
+          "bytes": 533,
+          "sha256": "0df3b1fe5c9f5ae3097ed319411f83a36a88c3e4518a696b7a2822caf0f25eb8",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render_video.py",
+          "bytes": 1393,
+          "sha256": "f3462009134a697bb3faa3d832f47e40c8208cd12383547ff98dc9214682ba4e",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render_views.py",
+          "bytes": 1524,
+          "sha256": "37aa7da9563cb3e5e268e610ea8e54d3b632a8e777e481e570afb52977675a25",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/rig.py",
+          "bytes": 1477,
+          "sha256": "d98219e1845a849672a82ff59a14f35ffe92ff75a354c90f2d0b1ec853108447",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/validate.py",
+          "bytes": 4872,
+          "sha256": "8454a224206f5c4181f828fc4993dcf634a38cbf8eefa1f041ed9f185ae3c602",
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/horizontal-steam-engine/qa-summary.json",
+      "bytes": 32198,
+      "sha256": "9c22464417e51e4de8997a09f193df81c4e74ae1a81aead21f877ddf52cf8775",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/attempt-01.json",
+      "bytes": 23955,
+      "sha256": "c1a5dae17a537cb327ca77b3dac77cf565e82e2cd08d50227d549cf3c8354755",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/01_main_living.png",
+      "bytes": 10080881,
+      "sha256": "fc6ad73c3f27b46b5d00c0a792e7e50af55c76999741f5683c47fe934e20acc3",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/two-bedroom-interior/output/final/01_main_living.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "fc6ad73c3f27b46b5d00c0a792e7e50af55c76999741f5683c47fe934e20acc3"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/02_primary.png",
+      "bytes": 6988049,
+      "sha256": "9f85d0b058cce9ef11d7c7c9f287241fa57e1a062099ce2ce9f3126186e3c218",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/two-bedroom-interior/output/final/02_primary.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "9f85d0b058cce9ef11d7c7c9f287241fa57e1a062099ce2ce9f3126186e3c218"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/03_kitchen.png",
+      "bytes": 7037362,
+      "sha256": "c2f82a76cd03a162f02f526265a8c972b09ed9f581617ba11a0ea94b3c034e96",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/two-bedroom-interior/output/final/03_kitchen.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "c2f82a76cd03a162f02f526265a8c972b09ed9f581617ba11a0ea94b3c034e96"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/04_plan.png",
+      "bytes": 6172549,
+      "sha256": "8a5b8ab2af4888c43ee2a3a42cc3851b33333c561aa866172393c41439ed549e",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/two-bedroom-interior/output/final/04_plan.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "8a5b8ab2af4888c43ee2a3a42cc3851b33333c561aa866172393c41439ed549e"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/05_detail.png",
+      "bytes": 5003668,
+      "sha256": "d8e821dfea0434f68b6f9d10f53dedda7e7fd41b25444d1e1cca990c029881de",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/two-bedroom-interior/output/final/05_detail.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d8e821dfea0434f68b6f9d10f53dedda7e7fd41b25444d1e1cca990c029881de"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/turntable.mp4",
+      "bytes": 1317157,
+      "sha256": "d2b61c5b2bbabced339335d8ee30e347aded245b75ec4e9788cdeea0352c42fe",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/two-bedroom-interior/output/video/turntable.mp4",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d2b61c5b2bbabced339335d8ee30e347aded245b75ec4e9788cdeea0352c42fe"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/final.blend",
+      "bytes": 778311,
+      "sha256": "4f89e2b7093eae6c6bcc237d67ed306d0754447ad44fc02422aed2b3cac96a7e",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/two-bedroom-interior/final.blend",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "4f89e2b7093eae6c6bcc237d67ed306d0754447ad44fc02422aed2b3cac96a7e"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/source.zip",
+      "bytes": 22779,
+      "sha256": "74c9486911beb7cc0abd379787fdf26386c88f4b0e3db48e4c9c1c475d38a259",
+      "kind": "source-bundle-original-bytes-with-packaging",
+      "sourceEntryCount": 10,
+      "sourceEntries": [
+        {
+          "path": "README.md",
+          "bytes": 5522,
+          "sha256": "29aaa8916c8538c38cd452238613ae5f36e36063dcf92c165e8b9ea8d335b756",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/architecture.py",
+          "bytes": 7380,
+          "sha256": "552d539bc8607e07bd17f6b0576f78199032d417d7703aa9165b13b44480e773",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/build_scene.py",
+          "bytes": 5416,
+          "sha256": "caf27379574e52ef8b27287bcfec6a5cba93dd38c09b087eebd6c8876ca83a99",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/diagnose.py",
+          "bytes": 600,
+          "sha256": "e89029a2bf2c86a5be97b0bf6e8b66713c4ade6d978f37f78aa14b381d38c1c6",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/finalize.py",
+          "bytes": 850,
+          "sha256": "4d9a1285dc803a1471d07dfdda790a4f4a2b7c95893ac22fb178d63733df81f9",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/furniture.py",
+          "bytes": 12161,
+          "sha256": "357d24dbfd5822fd9c5750b1540e5f7c7f8a268babcd633f7c3186f9ab3e6c4d",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/geo.py",
+          "bytes": 2461,
+          "sha256": "d3d4206dbb21d467c4209a8cc4af4dba385e4d516b96d22e4e7aa716c183c1bb",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/materials.py",
+          "bytes": 2908,
+          "sha256": "7e657f49465e105cc71e017388d1aef95b194dfed7241f611fa3759ba4a53059",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render.py",
+          "bytes": 4262,
+          "sha256": "8e367a2669f08a738e1d0af9b6317c9c3a71cf471705125694009d8bf5153c72",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/verify.py",
+          "bytes": 2911,
+          "sha256": "55f82e60560f7f857510deb5ce2848bae50a61800f3592d3e53e7b58c9848b70",
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/two-bedroom-interior/qa-summary.json",
+      "bytes": 13677,
+      "sha256": "60f4a93bd231d7964065dd57d1a347457ce03aed2bcc93994730ef9dda9ed817",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/attempt-01.json",
+      "bytes": 24863,
+      "sha256": "366fc01845c6e42750550ad9709bd3d438f1120ab39b91a2de248ea5e5a730e2",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/01_main_1920x1080.png",
+      "bytes": 2255448,
+      "sha256": "db3501704a97ec42998e84f1e4a23ede0bf742c24f5627221e6178d4c0f0932e",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/temple-courtyard/renders/01_main_1920x1080.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "db3501704a97ec42998e84f1e4a23ede0bf742c24f5627221e6178d4c0f0932e"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/02_reverse_1600x900.png",
+      "bytes": 2009289,
+      "sha256": "0e5d8d3092f5e2890727dc49f62a9d862c76e099a7e01933b4df75cc84c9eec3",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/temple-courtyard/renders/02_reverse_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "0e5d8d3092f5e2890727dc49f62a9d862c76e099a7e01933b4df75cc84c9eec3"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/03_overview_1600x900.png",
+      "bytes": 1787131,
+      "sha256": "e1d62fe9e95e157685acbe0e55653285d0e8858dcb8a30b81ee601b0b9c639db",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/temple-courtyard/renders/03_overview_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "e1d62fe9e95e157685acbe0e55653285d0e8858dcb8a30b81ee601b0b9c639db"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/04_structure_clay_1600x900.png",
+      "bytes": 1330144,
+      "sha256": "de843b87f71016d436e3498b64750bc1261c70d1814e06980cd62ce1f9306918",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/temple-courtyard/renders/04_structure_clay_1600x900.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "de843b87f71016d436e3498b64750bc1261c70d1814e06980cd62ce1f9306918"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/turntable.mp4",
+      "bytes": 3827480,
+      "sha256": "78eccaeb05c29110cd9b80e0d800539a7a035fa59b0f53d326031f13629cf5c3",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/temple-courtyard/turntable.mp4",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "78eccaeb05c29110cd9b80e0d800539a7a035fa59b0f53d326031f13629cf5c3"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/final.blend",
+      "bytes": 28698148,
+      "sha256": "1f71a8724a39c9d5c8ca001d1b31b7f13916564a37921cc035c641f393cd9b73",
+      "kind": "unchanged-model-output",
+      "localSource": "cases/temple-courtyard/final.blend",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "1f71a8724a39c9d5c8ca001d1b31b7f13916564a37921cc035c641f393cd9b73"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/source.zip",
+      "bytes": 22560,
+      "sha256": "1da3288944da44ce7668c72acc94337f097e2119c46139ca844477e05cdeb73f",
+      "kind": "source-bundle-original-bytes-with-packaging",
+      "sourceEntryCount": 12,
+      "sourceEntries": [
+        {
+          "path": "README.md",
+          "bytes": 5396,
+          "sha256": "256906bdc90a3695a2cc49949e7abb28ca9d6b137e7e2e18fbc8db6558edd505",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/architecture.py",
+          "bytes": 9753,
+          "sha256": "839c9635e53b1ed72ebdb7b435f21db9124b1dbb74c42ba0c8c772ca27119a56",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/audit.py",
+          "bytes": 3289,
+          "sha256": "5cfea313679a9384c13af86142d987b5cfd3ae3d81ce2f1a1f83bad6f4efe505",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/generate_delivery.py",
+          "bytes": 2351,
+          "sha256": "7a7ab36c9ce4333c281f224b7958509e5485aa9fd0054b714a7f68a3789edb60",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/geometry.py",
+          "bytes": 3667,
+          "sha256": "4d0f860c3fd8c99eb5ffc28f9c2d6d069f4c0d004fd0e922d8d0f51737cea052",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/materials.py",
+          "bytes": 3236,
+          "sha256": "63172ea9544d378715fa3bf7330f544e9c925835753a2b74d9a41d1579f70fb2",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/props.py",
+          "bytes": 7033,
+          "sha256": "934f891ad8a0f6dcd6968bb9bd8b5e69e9bbc43f19dbf7647e859abfe939b6e2",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render_archive_preview.py",
+          "bytes": 567,
+          "sha256": "2194c43ff54a6d35e337195e462bc0abd2bba9bcab0ebfca271524c84c4d3292",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render_preview.py",
+          "bytes": 364,
+          "sha256": "4023a27732a09f9ef1906e85b0c0afb9226be9019d1d0d1c569badecba0cb9f8",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render_stills.py",
+          "bytes": 1367,
+          "sha256": "1c0ce64168bda8d8cc63de9bc5d4aa111a25df10cdc269dd965060d3eebb2393",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render_video.py",
+          "bytes": 1355,
+          "sha256": "42a349bfc0cc620dd1cfe9b695adc1b04f17882a81630586faa580badbcfd0cc",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/scene.py",
+          "bytes": 4646,
+          "sha256": "db4fc04cdb4b487174b936063e49a6720a53e9b36486a51461a48751dc83de5a",
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/temple-courtyard/qa-summary.json",
+      "bytes": 18583,
+      "sha256": "b83c6076b5df12de778547b9d2e35be199de28d44324e2427fe9ae7865737f51",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/attempt-01.json",
+      "bytes": 20367,
+      "sha256": "a999a95af3eea3af2f4cbe233bf02b0568fe4065ce353e920cfce12ec2eebd1d",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/poster.jpg",
+      "bytes": 175459,
+      "sha256": "f226b0548b6d033d0c71ac2018a16d56c097b7d97bd818ce26ae3edccbaafcfb",
+      "kind": "unchanged-model-output",
+      "localSource": "qa/circulation/frame-02-20.000s.jpg",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "f226b0548b6d033d0c71ac2018a16d56c097b7d97bd818ce26ae3edccbaafcfb"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/captions.vtt",
+      "bytes": 2926,
+      "sha256": "8d73af4738d76787500a4b806ff044e30db97b1130c6f665f5ac75230f10781a",
+      "kind": "derived-subtitle-format",
+      "localSource": "public-audio/circulation/captions.srt",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d2e1eee52378baee855f4cd4764d6031b778beed4f8000249aceef974c665f99"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/video.mp4",
+      "bytes": 5706173,
+      "sha256": "d01ef625efecd0031ae04bfce0817ac0cab878ed86033d7240bd37c62edab7ae",
+      "kind": "unchanged-public-narration-derivative",
+      "localSource": "public-audio/circulation/video.mp4",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d01ef625efecd0031ae04bfce0817ac0cab878ed86033d7240bd37c62edab7ae",
+      "evaluatedOriginalSha256": "99acfa844c97c33ad2e7f820c6acc3a792d26c912230120e52f3072f505595a5",
+      "derivativeSha256": "d01ef625efecd0031ae04bfce0817ac0cab878ed86033d7240bd37c62edab7ae",
+      "derivation": "Kokoro soundtrack replacement; original picture bitstream and timing unchanged."
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/public-audio-provenance.json",
+      "bytes": 2262,
+      "sha256": "850c18978d2aa7126b88657d94eeaa8d7726ac07268587d4ef5b4c1a53abd3d3",
+      "kind": "unchanged-model-output",
+      "localSource": "public-audio/circulation/provenance.json",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "850c18978d2aa7126b88657d94eeaa8d7726ac07268587d4ef5b4c1a53abd3d3"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/captions.srt",
+      "bytes": 2918,
+      "sha256": "d2e1eee52378baee855f4cd4764d6031b778beed4f8000249aceef974c665f99",
+      "kind": "unchanged-model-output",
+      "localSource": "public-audio/circulation/captions.srt",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "d2e1eee52378baee855f4cd4764d6031b778beed4f8000249aceef974c665f99"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/frame-03-30.000s.jpg",
+      "bytes": 193734,
+      "sha256": "9dcc137135974535239dbad0a90976c92efa3fd8b0f534ba50252e318cd5f5aa",
+      "kind": "unchanged-model-output",
+      "localSource": "qa/circulation/frame-03-30.000s.jpg",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "9dcc137135974535239dbad0a90976c92efa3fd8b0f534ba50252e318cd5f5aa"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/coriolis-63.50s.png",
+      "bytes": 314101,
+      "sha256": "df4c1bcd1238922531cc3bf933100f6c394798083671e8522e1d8c23c197b06b",
+      "kind": "unchanged-model-output",
+      "localSource": "qa/circulation/coriolis-63.50s.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "df4c1bcd1238922531cc3bf933100f6c394798083671e8522e1d8c23c197b06b"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/source.zip",
+      "bytes": 17750,
+      "sha256": "16385e432a9bd8b970d0f384523f82a7ba07355022dd28e1f6859f900aa7c7aa",
+      "kind": "source-bundle-original-bytes-with-packaging",
+      "sourceEntryCount": 6,
+      "sourceEntries": [
+        {
+          "path": "README.md",
+          "bytes": 3421,
+          "sha256": "ff21d266976bc4da200eb75084fa87439b9cd482c2bed3d44582b633e09149de",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "deliverables/script.txt",
+          "bytes": 3111,
+          "sha256": "f68d8147304bec779c9d63c1cd09a14a444c256afaf6608d8be2cb73771938b4",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "deliverables/subtitles.srt",
+          "bytes": 2918,
+          "sha256": "d2e1eee52378baee855f4cd4764d6031b778beed4f8000249aceef974c665f99",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/content.py",
+          "bytes": 4008,
+          "sha256": "67d8535392934ea9e9c2daca9aa16a68a87a20e1f0c3cc2b62610d315801a055",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/make_audio.py",
+          "bytes": 3396,
+          "sha256": "b6c5ba84e78e7a48ecded67e69f6181360e21e9f45ede82e899987da019b8ae1",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render.py",
+          "bytes": 10992,
+          "sha256": "f1260d1c277ef5a1c479a242334d4a0e890925cb6bea3e6b94b388132b4539e1",
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/circulation/qa-summary.json",
+      "bytes": 14203,
+      "sha256": "36cda4b768adf84793af9d5394027c47c7b9b3116aca4b979c0796b86f421afa",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/attempt-01.json",
+      "bytes": 19484,
+      "sha256": "572ab9494f2978c10cee2073f8c2b38b6670c4ea9e5e9dbf4be419363d2a26f2",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/poster.png",
+      "bytes": 351963,
+      "sha256": "c2434f0bddbf2e929f1834ed19accd0d4bbad782624d311ab5aca67e8d1b790a",
+      "kind": "unchanged-model-output",
+      "localSource": "qa/derivative/content-frame-28.000s.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "c2434f0bddbf2e929f1834ed19accd0d4bbad782624d311ab5aca67e8d1b790a"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/captions.vtt",
+      "bytes": 2488,
+      "sha256": "ef2c629b37b4bac93f0ca3fe6068e234af5d0ab68daf21ad6b75dcce82657e9e",
+      "kind": "derived-subtitle-format",
+      "localSource": "public-audio/derivative/captions.srt",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "03ec85c03017110de4dcfb4d3747266598cc8b834770fae5e7a07781150d24fe"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/video.mp4",
+      "bytes": 5383179,
+      "sha256": "a5e4947dc1f250c3b8a32e8f700d0bc7295cd9565de3c7f7a692919cf15f66b5",
+      "kind": "unchanged-public-narration-derivative",
+      "localSource": "public-audio/derivative/video.mp4",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "a5e4947dc1f250c3b8a32e8f700d0bc7295cd9565de3c7f7a692919cf15f66b5",
+      "evaluatedOriginalSha256": "f807b3b5f441b26670df6eeda5ff876633cd7df544f5e83bb1a844f64917e575",
+      "derivativeSha256": "a5e4947dc1f250c3b8a32e8f700d0bc7295cd9565de3c7f7a692919cf15f66b5",
+      "derivation": "Kokoro soundtrack replacement; original picture bitstream and timing unchanged."
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/public-audio-provenance.json",
+      "bytes": 2268,
+      "sha256": "1e9ad3225cc8428bb2b71fdb438fbedf25c19c3d5e1852b5514a7d180281213b",
+      "kind": "unchanged-model-output",
+      "localSource": "public-audio/derivative/provenance.json",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "1e9ad3225cc8428bb2b71fdb438fbedf25c19c3d5e1852b5514a7d180281213b"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/captions.srt",
+      "bytes": 2480,
+      "sha256": "03ec85c03017110de4dcfb4d3747266598cc8b834770fae5e7a07781150d24fe",
+      "kind": "unchanged-model-output",
+      "localSource": "public-audio/derivative/captions.srt",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "03ec85c03017110de4dcfb4d3747266598cc8b834770fae5e7a07781150d24fe"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/content-frame-28.000s.png",
+      "bytes": 351963,
+      "sha256": "c2434f0bddbf2e929f1834ed19accd0d4bbad782624d311ab5aca67e8d1b790a",
+      "kind": "unchanged-model-output",
+      "localSource": "qa/derivative/content-frame-28.000s.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "c2434f0bddbf2e929f1834ed19accd0d4bbad782624d311ab5aca67e8d1b790a"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/content-frame-67.200s.png",
+      "bytes": 362231,
+      "sha256": "6f8d7e3a8cc2c0089fd7d6747f998568dc28687af165ec8c1739d60d571d785f",
+      "kind": "unchanged-model-output",
+      "localSource": "qa/derivative/content-frame-67.200s.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "6f8d7e3a8cc2c0089fd7d6747f998568dc28687af165ec8c1739d60d571d785f"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/content-frame-89.000s.png",
+      "bytes": 267844,
+      "sha256": "dc989c4ff59c027ddf8d772e5fb6fc7ca0230cea71e0fd6353baf73a6f36c090",
+      "kind": "unchanged-model-output",
+      "localSource": "qa/derivative/content-frame-89.000s.png",
+      "sourceBatch": "kimi-creative-20261027-expanded",
+      "originalSha256": "dc989c4ff59c027ddf8d772e5fb6fc7ca0230cea71e0fd6353baf73a6f36c090"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/source.zip",
+      "bytes": 16994,
+      "sha256": "d59450ff31b0f71fdae7d5186e33bbffe3f4200084c37c342390d4889a684c4b",
+      "kind": "source-bundle-original-bytes-with-packaging",
+      "sourceEntryCount": 7,
+      "sourceEntries": [
+        {
+          "path": "README.md",
+          "bytes": 3218,
+          "sha256": "19afc2eab981b4592e0f61fac1a6baee1a16595ae9d897d075a560e06cbe000e",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "output/script.txt",
+          "bytes": 1721,
+          "sha256": "4233a9ea8ba2bddf4dd825c289fd72ddd839a26e7eae5b0e737e151ea2b0f7f5",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "output/subtitles.srt",
+          "bytes": 2480,
+          "sha256": "03ec85c03017110de4dcfb4d3747266598cc8b834770fae5e7a07781150d24fe",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "output/timeline.json",
+          "bytes": 2956,
+          "sha256": "25682a19059becdc9d53918f1cfcccb36e9bfb1671b81f75950734965aa66470",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/finalize.py",
+          "bytes": 3509,
+          "sha256": "7f1eb3912f4a9666ecf3b6d9410e8ec493bf0b3af0a74983254b3fbc25dbb7a3",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/make_narration.py",
+          "bytes": 4264,
+          "sha256": "07f40b5370919223466082d6e9ed714f0bc80d031e84a0db35b822e20e2b2c45",
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render.py",
+          "bytes": 9211,
+          "sha256": "0fa9b5f9915a55d086c72870ba460ecc70110b36b3248ec743138d620029b1c4",
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/derivative/qa-summary.json",
+      "bytes": 14712,
+      "sha256": "2e64a96d5c25832a9f0eb192694c375e9c9c5e63d960369c7afe30f77f97172e",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/attempt-01.json",
+      "bytes": 26352,
+      "sha256": "c83ff01704bc7cd5a21cc3c86cfea918e7ac44d3b85b317447932a307db67cf3",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/baseline.blend",
+      "bytes": 136024,
+      "sha256": "8adc3c52646ab6b481f6ee4c7bb62fe672ccacd779b3e01d388ca77c46273945",
+      "kind": "unchanged-original",
+      "localSource": "cases/bookshelf/baseline.blend",
+      "originalSha256": "8adc3c52646ab6b481f6ee4c7bb62fe672ccacd779b3e01d388ca77c46273945"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/baseline_main.png",
+      "bytes": 1840681,
+      "sha256": "796ae647211a08bcf5bd9335fb1b743d70f4279c0877e4fb31cddce53d35b5b6",
+      "kind": "unchanged-original",
+      "localSource": "cases/bookshelf/renders/baseline_main.png",
+      "originalSha256": "796ae647211a08bcf5bd9335fb1b743d70f4279c0877e4fb31cddce53d35b5b6"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/baseline_rear.png",
+      "bytes": 1830423,
+      "sha256": "79a877081347997f2c411a1e55b6b4ff8d895c605deb61c50da60c9bf54fee3f",
+      "kind": "unchanged-original",
+      "localSource": "cases/bookshelf/renders/baseline_rear.png",
+      "originalSha256": "79a877081347997f2c411a1e55b6b4ff8d895c605deb61c50da60c9bf54fee3f"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/modified.blend",
+      "bytes": 136595,
+      "sha256": "066afa272fd1a03727e33940bbd488dceee39ef6658ff21c262c82273073ac81",
+      "kind": "unchanged-original",
+      "localSource": "cases/bookshelf/modified.blend",
+      "originalSha256": "066afa272fd1a03727e33940bbd488dceee39ef6658ff21c262c82273073ac81"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/modified_main.png",
+      "bytes": 1909318,
+      "sha256": "bac3d1bdaa8959deff5f19ce1f17502b40b7db919946dc5ab0a14c8599555967",
+      "kind": "unchanged-original",
+      "localSource": "cases/bookshelf/renders/modified_main.png",
+      "originalSha256": "bac3d1bdaa8959deff5f19ce1f17502b40b7db919946dc5ab0a14c8599555967"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/qa-summary.json",
+      "bytes": 2955,
+      "sha256": "3c1657884c65dbe8222be118d0c8b291b920c141fec0b1987f6abeab48d2151c",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/bookshelf/source.zip",
+      "bytes": 12733,
+      "sha256": "3bc5710e21dff0bf5049d1f0516756502c7fa4a2975a47bac0491b2821942b3a",
+      "kind": "source-bundle-original-code-with-packaging-note",
+      "sourceEntryCount": 2,
+      "sourceEntries": [
+        {
+          "path": "src/bookshelf.py",
+          "sha256": "9e13b5aade610459d57dde201dc8794260c0999d798c0768f8cfdd156ffca6fd",
+          "bytes": 23808,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/verify_scene.py",
+          "sha256": "f7f6fa40c29a4dc7abe297e9d5e4fe2ffad3a1104af1c036858519ef0acb4d7a",
+          "bytes": 9878,
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/01_main.png",
+      "bytes": 2766563,
+      "sha256": "764ffc6e635a8413354ac1aba193ac731f380c1c576dbd8ad094752da56f6a76",
+      "kind": "unchanged-original",
+      "localSource": "cases/jupiter-drydock/outputs/blender-benchmark/jovian-20261027-004900-f47438/01_main.png",
+      "originalSha256": "764ffc6e635a8413354ac1aba193ac731f380c1c576dbd8ad094752da56f6a76"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/02_opposite_quarter.png",
+      "bytes": 1772683,
+      "sha256": "8bcd9b57fe9e0209ee806a956ad153a66d922a121861d260205caa6fa3b338af",
+      "kind": "unchanged-original",
+      "localSource": "cases/jupiter-drydock/outputs/blender-benchmark/jovian-20261027-004900-f47438/02_opposite_quarter.png",
+      "originalSha256": "8bcd9b57fe9e0209ee806a956ad153a66d922a121861d260205caa6fa3b338af"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/03_stern_inspection.png",
+      "bytes": 1703904,
+      "sha256": "8bd468fd3d6bae18635a91b979ccb9f231f425cf967a60bd27407c8925a9b80c",
+      "kind": "unchanged-original",
+      "localSource": "cases/jupiter-drydock/outputs/blender-benchmark/jovian-20261027-004900-f47438/03_stern_inspection.png",
+      "originalSha256": "8bd468fd3d6bae18635a91b979ccb9f231f425cf967a60bd27407c8925a9b80c"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/04_engine_clay.png",
+      "bytes": 1979113,
+      "sha256": "4c575c3e444b987254e6e8a15000ee53e326038ccbc4ebd599ba5bb1a4122266",
+      "kind": "unchanged-original",
+      "localSource": "cases/jupiter-drydock/outputs/blender-benchmark/jovian-20261027-004900-f47438/04_engine_clay.png",
+      "originalSha256": "4c575c3e444b987254e6e8a15000ee53e326038ccbc4ebd599ba5bb1a4122266"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/attempt-01.json",
+      "bytes": 5715,
+      "sha256": "50fd4130ff40d1892b3064196cf7e2c3df0caa0aff99d17ca7c0cb4cad3ef198",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/attempt-02.json",
+      "bytes": 3656,
+      "sha256": "92c0d8e76db1072dfb3a8d770eeecbb6f1cc48cee5866392ee6ae00029de957a",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/attempt-03.json",
+      "bytes": 17917,
+      "sha256": "4fc1f70bd5c2fdbb5dab84d74282c4f7ecb29890311d616f3887cf9c554afe8d",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/jupiter_drydock.blend",
+      "bytes": 617835,
+      "sha256": "d6091fc61d27c995294aaf536300eb51c91ec8e8677453914015b8aaf1fd73e6",
+      "kind": "unchanged-original",
+      "localSource": "cases/jupiter-drydock/outputs/blender-benchmark/jovian-20261027-004900-f47438/jupiter_drydock.blend",
+      "originalSha256": "d6091fc61d27c995294aaf536300eb51c91ec8e8677453914015b8aaf1fd73e6"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/qa-summary.json",
+      "bytes": 2901,
+      "sha256": "39e3785eeec491858b0f65c1274d258e85f7791b226f6bdd17ff312d9481b8e4",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/jupiter-drydock/source.zip",
+      "bytes": 11598,
+      "sha256": "492fae7e2b281664e637933a75f283b6b84e86206973787fd8b598c9a1f32192",
+      "kind": "source-bundle-original-code-with-packaging-note",
+      "sourceEntryCount": 3,
+      "sourceEntries": [
+        {
+          "path": "source/build_scene.py",
+          "sha256": "4427889a68546e5032866292660b81e287dadbfff962419c6bb6ed541bd43587",
+          "bytes": 22045,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/render_view.py",
+          "sha256": "513d0a23aebc856dfb85461bf0b9440b4af576703279e43ace30a28895c426ff",
+          "bytes": 1797,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "source/verify_scene.py",
+          "sha256": "b05b854b475e966611b12e9caab7349e215e5c879f4d9ce960a9f730e50cb2c2",
+          "bytes": 1345,
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/03-27.322s.jpg",
+      "bytes": 241241,
+      "sha256": "ee178d12e45d4d64b242517510d86e93417b829d461b63ac5548f5d85771f494",
+      "kind": "unchanged-original",
+      "localSource": "qa/phishing/frames/03-27.322s.jpg",
+      "originalSha256": "ee178d12e45d4d64b242517510d86e93417b829d461b63ac5548f5d85771f494"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/06-54.644s.jpg",
+      "bytes": 245549,
+      "sha256": "2828de35b43bca637668b02a6fb44e23d7e9ddd3eeb5792df68d131e78829b64",
+      "kind": "unchanged-original",
+      "localSource": "qa/phishing/frames/06-54.644s.jpg",
+      "originalSha256": "2828de35b43bca637668b02a6fb44e23d7e9ddd3eeb5792df68d131e78829b64"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/attempt-01.json",
+      "bytes": 28131,
+      "sha256": "d6e8f7a0a6eea388cc5076744a6312136bebea24b5683f40ff9443535184545c",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/captions.srt",
+      "bytes": 1970,
+      "sha256": "5fd7c80c4b3056db85c32a2427f7970bbd7373ea4cc13ed015d26fff7240389c",
+      "kind": "unchanged-original",
+      "localSource": "public-audio/phishing/captions.srt",
+      "originalSha256": "5fd7c80c4b3056db85c32a2427f7970bbd7373ea4cc13ed015d26fff7240389c"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/captions.vtt",
+      "bytes": 1978,
+      "sha256": "307873ac71457dc9fad98404cc28b5dc9f1cde56d0e5297c42816a9feb7151cb",
+      "kind": "derived-subtitle-format",
+      "localSource": "public-audio/phishing/captions.srt",
+      "originalSha256": "5fd7c80c4b3056db85c32a2427f7970bbd7373ea4cc13ed015d26fff7240389c"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/poster.jpg",
+      "bytes": 201749,
+      "sha256": "f7f0d7bc869def4375478ed9fe0070dad46048a971b990a0fc4dd26431169245",
+      "kind": "unchanged-original",
+      "localSource": "qa/phishing/frames/01-9.107s.jpg",
+      "originalSha256": "f7f0d7bc869def4375478ed9fe0070dad46048a971b990a0fc4dd26431169245"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/public-audio-provenance.json",
+      "bytes": 2268,
+      "sha256": "a9c12518a94bceab651294cebc39cd2e55dddee2921612294f2af1577862767f",
+      "kind": "unchanged-original",
+      "localSource": "public-audio/phishing/provenance.json",
+      "originalSha256": "a9c12518a94bceab651294cebc39cd2e55dddee2921612294f2af1577862767f"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/qa-summary.json",
+      "bytes": 5182,
+      "sha256": "9493c44b56c107a78cf8b843f2247522098183ebd0c908adb3d1281d7d244050",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/script.txt",
+      "bytes": 2729,
+      "sha256": "349c7772c77498cbc13310571eeb15f55c4f080d39e81bcf25a5d54fbefc527c",
+      "kind": "unchanged-original",
+      "localSource": "cases/phishing/script.txt",
+      "originalSha256": "349c7772c77498cbc13310571eeb15f55c4f080d39e81bcf25a5d54fbefc527c"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/source.zip",
+      "bytes": 29958,
+      "sha256": "6f55b38f94a0978ddb73c3f8bfa46069364606dd67136b2e0783cc6165eef89b",
+      "kind": "source-bundle-original-code-with-packaging-note",
+      "sourceEntryCount": 7,
+      "sourceEntries": [
+        {
+          "path": "src/build_all.py",
+          "sha256": "359bf1c6c40a7d3bbc2f8f17e513be9272d0aa5c2525de6332b15c0eb73a4de4",
+          "bytes": 521,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/package.py",
+          "sha256": "379f259c539e8e7c79f3b6ba6399f3328d957300efe8f33b698c9f08fd7a33e2",
+          "bytes": 7331,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/prepare.py",
+          "sha256": "c1132a1ae7e8f0febcbb6157db4312d28ff97d6aae90c2648334a83ee671cc48",
+          "bytes": 13925,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render.py",
+          "sha256": "9ee099df304c9ff21f1c666f92aade1ad0778600fb57796dce83e9d26a2e03f9",
+          "bytes": 40576,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/verify.py",
+          "sha256": "882729e2315cc6ae952a0c4c5a0d809ed18e0ae949a242eac49f26d9b27326c4",
+          "bytes": 9212,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "script.txt",
+          "sha256": "349c7772c77498cbc13310571eeb15f55c4f080d39e81bcf25a5d54fbefc527c",
+          "bytes": 2729,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "captions.srt",
+          "sha256": "5fd7c80c4b3056db85c32a2427f7970bbd7373ea4cc13ed015d26fff7240389c",
+          "bytes": 1970,
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/phishing/video.mp4",
+      "bytes": 8886595,
+      "sha256": "a2dde1505372dbbe55424384650776da1769d8b1af951af708e8ed987f168d2f",
+      "kind": "unchanged-public-audio-derivative",
+      "localSource": "public-audio/phishing/video.mp4",
+      "originalSha256": "a2dde1505372dbbe55424384650776da1769d8b1af951af708e8ed987f168d2f"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/02-25.711s.jpg",
+      "bytes": 232320,
+      "sha256": "48429b091f9bbf378169ff93515861798bd8589e1046444731b5cefd89cde09d",
+      "kind": "unchanged-original",
+      "localSource": "qa/printer/frames/02-25.711s.jpg",
+      "originalSha256": "48429b091f9bbf378169ff93515861798bd8589e1046444731b5cefd89cde09d"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/attempt-01.json",
+      "bytes": 34397,
+      "sha256": "d343624b5c785e8f04f7d86cd56f1da17b46f9a9dbe5819c45c75fc5855e40f9",
+      "kind": "concise-public-request-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/captions.srt",
+      "bytes": 2710,
+      "sha256": "a963dcfd8370162e637cb632ce50b5e661d5af28335e50b0741f3aa3338a5b38",
+      "kind": "unchanged-original",
+      "localSource": "public-audio/printer/captions.srt",
+      "originalSha256": "a963dcfd8370162e637cb632ce50b5e661d5af28335e50b0741f3aa3338a5b38"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/captions.vtt",
+      "bytes": 2718,
+      "sha256": "1f13a0243fc63fcc3b3a607601cc35c2699b9a8635f8958cc4ad5b7947e8cbee",
+      "kind": "derived-subtitle-format",
+      "localSource": "public-audio/printer/captions.srt",
+      "originalSha256": "a963dcfd8370162e637cb632ce50b5e661d5af28335e50b0741f3aa3338a5b38"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/exposure-55.80s.png",
+      "bytes": 983553,
+      "sha256": "4cd4bdb1c7a46fbca71ee7e6c35141bebbad1075fd9a50137dab8b96fe5b31af",
+      "kind": "unchanged-original",
+      "localSource": "qa/printer/exposure-55.80s.png",
+      "originalSha256": "4cd4bdb1c7a46fbca71ee7e6c35141bebbad1075fd9a50137dab8b96fe5b31af"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/poster.jpg",
+      "bytes": 193208,
+      "sha256": "b13019470587f5f526432543b193a93c6d07a9c7e5efbc27bcf60ab07446778f",
+      "kind": "unchanged-original",
+      "localSource": "qa/printer/frames/00-0.200s.jpg",
+      "originalSha256": "b13019470587f5f526432543b193a93c6d07a9c7e5efbc27bcf60ab07446778f"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/public-audio-provenance.json",
+      "bytes": 2255,
+      "sha256": "c08d5605b7ec9e7e552d861bcd625767be4f3778c75a66f607efbdd5c6d87cfd",
+      "kind": "unchanged-original",
+      "localSource": "public-audio/printer/provenance.json",
+      "originalSha256": "c08d5605b7ec9e7e552d861bcd625767be4f3778c75a66f607efbdd5c6d87cfd"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/qa-summary.json",
+      "bytes": 5455,
+      "sha256": "4dc6517371e9b4953e20716a535aa9bafd9f92a2de25618558ebc82456b6f38c",
+      "kind": "concise-independent-qa-summary"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/script.txt",
+      "bytes": 3467,
+      "sha256": "60cf336ab3ab6eec56b52ef564060f3e004286028b26624bef4fa27507c1da59",
+      "kind": "unchanged-original",
+      "localSource": "cases/printer/script.txt",
+      "originalSha256": "60cf336ab3ab6eec56b52ef564060f3e004286028b26624bef4fa27507c1da59"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/source.zip",
+      "bytes": 37367,
+      "sha256": "fa03a7ea3285ec3dbaaec803ba23e25979d849684765fae02786b255d3662dc2",
+      "kind": "source-bundle-original-code-with-packaging-note",
+      "sourceEntryCount": 10,
+      "sourceEntries": [
+        {
+          "path": "src/audio_build.py",
+          "sha256": "53b927b21010c105373fdcc33d33c4c3b11169bd481de2f96cfc2e3a65f31d34",
+          "bytes": 9378,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/content.py",
+          "sha256": "c5b3ad7479489713f2bb43fe754e9e88976edc12518430dce79f17d52ada293a",
+          "bytes": 4844,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/drawing.py",
+          "sha256": "a4c7e81782d4f51a37f3d9129432e3df3773ac496722ab792a61928cc88f384d",
+          "bytes": 8965,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/metadata.py",
+          "sha256": "5909bde3a2087d04fbbaa98c62fe913226223171cf5ffd0e50628b5c48ce509a",
+          "bytes": 6603,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/render.py",
+          "sha256": "bd3d60c19cc72a93b5793b89607ab749320338ca2d8fbd614556f85fb4ccd247",
+          "bytes": 7676,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/scenes.py",
+          "sha256": "981de25fb8969d3c2a5fe0179ab93b2a731f36a263e3ea73c1c93ca40a9f469e",
+          "bytes": 30026,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "src/verify.py",
+          "sha256": "6df0e8089b8db58604c5d3d4fa12ccfcd82cd94d8ebedc2221835035b7efec7d",
+          "bytes": 8007,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "build.py",
+          "sha256": "9c73e2a713b92e46cd6c111c740996c1f7464c65ee93ae165cbed9a29f45da61",
+          "bytes": 1816,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "script.txt",
+          "sha256": "60cf336ab3ab6eec56b52ef564060f3e004286028b26624bef4fa27507c1da59",
+          "bytes": 3467,
+          "unchangedModelSource": true
+        },
+        {
+          "path": "captions.srt",
+          "sha256": "a963dcfd8370162e637cb632ce50b5e661d5af28335e50b0741f3aa3338a5b38",
+          "bytes": 2710,
+          "unchangedModelSource": true
+        }
+      ]
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/printer/video.mp4",
+      "bytes": 12864688,
+      "sha256": "75f56efbccffccf3daca49c1ab48803828a214be46116f88e384303ef1c75acd",
+      "kind": "unchanged-public-audio-derivative",
+      "localSource": "public-audio/printer/video.mp4",
+      "originalSha256": "75f56efbccffccf3daca49c1ab48803828a214be46116f88e384303ef1c75acd"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/publication-audio-source.zip",
+      "bytes": 21191,
+      "sha256": "6a8c195ba69abf6cd98976c09696f058cccd5dbff39b45fc3f22cb62ed17af45",
+      "kind": "root-managed-publication-asset"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/audio-revision-source.zip",
+      "bytes": 9415,
+      "sha256": "7ea19cfcd3cf69d4bc202ecee122805e366ba327da96a98d874dc0a62f1f0736",
+      "kind": "publication-audio-revision-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/audit.json",
+      "bytes": 19333,
+      "sha256": "2d24621a0cc7aeeacd97a554d54974f75b5b81387fb6161c243f3d1fa8767ec9",
+      "kind": "publication-audio-revision-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/circulation/provenance.json",
+      "bytes": 4197,
+      "sha256": "215a345850dd3d14331a22682ac5bd0f7d78657d1533b29cb17ed09d314d594b",
+      "kind": "publication-audio-revision-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/circulation/video.mp4",
+      "bytes": 5690586,
+      "sha256": "3879b0a0c5713022bf1a15931b6871c74b95b8bf217f3b43e75791f590a60a21",
+      "kind": "publication-nonverbal-audio-derivative"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/derivative/provenance.json",
+      "bytes": 4218,
+      "sha256": "e9988941b31c87cb6d00396b6989f59e41f27f8e028081bb15246265dae7c655",
+      "kind": "publication-audio-revision-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/derivative/video.mp4",
+      "bytes": 6086057,
+      "sha256": "8ddbd5ae5e2a9dc6b37468508454885cd28e467e900c6f7c19898e079962367d",
+      "kind": "publication-nonverbal-audio-derivative"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/phishing/provenance.json",
+      "bytes": 4023,
+      "sha256": "11529473df06e8d44d790c72c6fb2c1b81d21aeef1baaca1a042ac069ccc6bee",
+      "kind": "publication-audio-revision-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/phishing/video.mp4",
+      "bytes": 8922049,
+      "sha256": "762405500d97de58f7b9bce5766cff3a9c5d87d4910218c503db1cbdd1baaa2f",
+      "kind": "publication-nonverbal-audio-derivative"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/printer/provenance.json",
+      "bytes": 4897,
+      "sha256": "97cb33a14fbc6ed9318a77c88315277f2be347b77c75952975ecb3e9030d2f41",
+      "kind": "publication-audio-revision-evidence"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/printer/video.mp4",
+      "bytes": 13674352,
+      "sha256": "185d1963827bb200ca5dad083994a0f8a8e365aedfdfc1b56e1ce83a57a54303",
+      "kind": "publication-nonverbal-audio-derivative"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-creative/audio-policy-v3/workflow-audit.md",
+      "bytes": 7943,
+      "sha256": "a4b7cb76686fca01dfb7e057f68cf899b9f517c7730c29625eb1d130b94ca568",
+      "kind": "publication-audio-revision-evidence"
+    }
+  ],
+  "bytes": 270452262,
+  "originalRestrictedVoiceMediaCopied": false,
+  "publicAudioPending": [],
+  "audioPolicy": {
+    "defaultMode": "music-only",
+    "previousPublicationDatasetSha256": "a5b5eb398e25b0ed363a53363aab83682c4fe00016b9011169717a9c4103bf73",
+    "previousAssetsRetainedUnchanged": true
+  }
+}

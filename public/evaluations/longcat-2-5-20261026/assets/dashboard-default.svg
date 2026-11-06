@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" font-family="Segoe UI, Arial, Helvetica, sans-serif">
+  <!-- Page background -->
+  <rect width="800" height="600" fill="#f1f5f9"/>
+
+  <!-- Dashboard card -->
+  <rect x="30" y="30" width="740" height="540" rx="16" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- Title -->
+  <text x="60" y="88" font-size="24" font-weight="700" fill="#1e293b">Quarterly Revenue</text>
+  <text x="60" y="110" font-size="13" fill="#94a3b8">2024 · values in USD thousands</text>
+
+  <!-- Summary pills -->
+  <rect x="534" y="62" width="106" height="30" rx="15" fill="#eff6ff"/>
+  <text x="587" y="82" font-size="13" font-weight="600" fill="#1d4ed8" text-anchor="middle">Total: 84</text>
+  <rect x="648" y="62" width="94" height="30" rx="15" fill="#ecfdf5"/>
+  <text x="695" y="82" font-size="13" font-weight="600" fill="#047857" text-anchor="middle">Best: Q4</text>
+
+  <!-- Gridlines (0, 10, 20, 30) -->
+  <line x1="130" y1="160" x2="730" y2="160" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="130" y1="260" x2="730" y2="260" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="130" y1="360" x2="730" y2="360" stroke="#e2e8f0" stroke-width="1"/>
+
+  <!-- Y-axis labels -->
+  <text x="112" y="165" font-size="13" fill="#64748b" text-anchor="end">30</text>
+  <text x="112" y="265" font-size="13" fill="#64748b" text-anchor="end">20</text>
+  <text x="112" y="365" font-size="13" fill="#64748b" text-anchor="end">10</text>
+  <text x="112" y="465" font-size="13" fill="#64748b" text-anchor="end">0</text>
+
+  <!-- Axes -->
+  <line x1="130" y1="150" x2="130" y2="460" stroke="#cbd5e1" stroke-width="1.5"/>
+  <line x1="130" y1="460" x2="730" y2="460" stroke="#94a3b8" stroke-width="2"/>
+
+  <!-- Bars (baseline y=460, scale: 10px per unit) -->
+  <!-- Q1 = 12 -> height 120 -->
+  <path d="M 155 460 L 155 348 Q 155 340 163 340 L 227 340 Q 235 340 235 348 L 235 460 Z" fill="#3b82f6"/>
+  <!-- Q2 = 24 -> height 240 -->
+  <path d="M 305 460 L 305 228 Q 305 220 313 220 L 377 220 Q 385 220 385 228 L 385 460 Z" fill="#3b82f6"/>
+  <!-- Q3 = 18 -> height 180 -->
+  <path d="M 455 460 L 455 288 Q 455 280 463 280 L 527 280 Q 535 280 535 288 L 535 460 Z" fill="#3b82f6"/>
+  <!-- Q4 = 30 -> height 300 (best, highlighted) -->
+  <path d="M 605 460 L 605 168 Q 605 160 613 160 L 677 160 Q 685 160 685 168 L 685 460 Z" fill="#10b981"/>
+
+  <!-- Value labels above bars -->
+  <text x="195" y="328" font-size="15" font-weight="700" fill="#1e293b" text-anchor="middle">12</text>
+  <text x="345" y="208" font-size="15" font-weight="700" fill="#1e293b" text-anchor="middle">24</text>
+  <text x="495" y="268" font-size="15" font-weight="700" fill="#1e293b" text-anchor="middle">18</text>
+  <text x="645" y="148" font-size="15" font-weight="700" fill="#047857" text-anchor="middle">30</text>
+
+  <!-- X-axis category labels -->
+  <text x="195" y="490" font-size="14" font-weight="600" fill="#475569" text-anchor="middle">Q1</text>
+  <text x="345" y="490" font-size="14" font-weight="600" fill="#475569" text-anchor="middle">Q2</text>
+  <text x="495" y="490" font-size="14" font-weight="600" fill="#475569" text-anchor="middle">Q3</text>
+  <text x="645" y="490" font-size="14" font-weight="600" fill="#047857" text-anchor="middle">Q4</text>
+</svg>

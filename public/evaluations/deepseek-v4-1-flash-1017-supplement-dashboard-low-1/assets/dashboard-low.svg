@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="100%" height="100%">
+  <defs>
+    <!-- Shadow for the card -->
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="12" flood-color="#000000" flood-opacity="0.05"/>
+    </filter>
+    
+    <!-- Gradient for standard bars -->
+    <linearGradient id="barGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#6366F1"/>
+      <stop offset="100%" stop-color="#8B5CF6"/>
+    </linearGradient>
+    
+    <!-- Gradient for the best performance bar -->
+    <linearGradient id="bestBarGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#F97316"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Light background -->
+  <rect width="800" height="600" fill="#F8FAFC" />
+
+  <!-- Dashboard Card -->
+  <rect x="40" y="40" width="720" height="520" rx="16" fill="#FFFFFF" filter="url(#shadow)" stroke="#E2E8F0" stroke-width="1"/>
+
+  <!-- Title -->
+  <text x="80" y="100" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="bold" fill="#1E293B">Quarterly Revenue</text>
+
+  <!-- Summary Labels -->
+  <text x="540" y="100" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#64748B">Total: <tspan font-weight="bold" fill="#1E293B">84</tspan></text>
+  <text x="700" y="100" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#64748B">Best: <tspan font-weight="bold" fill="#1E293B">Q4</tspan></text>
+
+  <!-- Y-axis Grid Lines and Labels -->
+  <!-- 30 -->
+  <line x1="120" y1="160" x2="700" y2="160" stroke="#F1F5F9" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="100" y="165" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#64748B">30</text>
+  
+  <!-- 20 -->
+  <line x1="120" y1="266.67" x2="700" y2="266.67" stroke="#F1F5F9" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="100" y="271.67" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#64748B">20</text>
+  
+  <!-- 10 -->
+  <line x1="120" y1="373.33" x2="700" y2="373.33" stroke="#F1F5F9" stroke-width="2" stroke-dasharray="4 4"/>
+  <text x="100" y="378.33" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#64748B">10</text>
+  
+  <!-- 0 (Baseline) -->
+  <line x1="120" y1="480" x2="700" y2="480" stroke="#CBD5E1" stroke-width="2"/>
+  <text x="100" y="485" text-anchor="end" font-family="system-ui, -apple-system, sans-serif" font-size="16" fill="#64748B">0</text>
+
+  <!-- Y-axis Vertical Line -->
+  <line x1="120" y1="160" x2="120" y2="480" stroke="#CBD5E1" stroke-width="2"/>
+
+  <!-- Bar Chart Data -->
+  <!-- Q1: 12 (Height = 128, Y = 352) -->
+  <rect x="183.75" y="352" width="70" height="128" rx="4" fill="url(#barGrad)"/>
+  <text x="218.75" y="340" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="bold" fill="#334155">12</text>
+
+  <!-- Q2: 24 (Height = 256, Y = 224) -->
+  <rect x="321.25" y="224" width="70" height="256" rx="4" fill="url(#barGrad)"/>
+  <text x="356.25" y="212" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="bold" fill="#334155">24</text>
+
+  <!-- Q3: 18 (Height = 192, Y = 288) -->
+  <rect x="458.75" y="288" width="70" height="192" rx="4" fill="url(#barGrad)"/>
+  <text x="493.75" y="276" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="bold" fill="#334155">18</text>
+
+  <!-- Q4: 30 (Height = 320, Y = 160) -->
+  <rect x="596.25" y="160" width="70" height="320" rx="4" fill="url(#bestBarGrad)"/>
+  <text x="631.25" y="148" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="bold" fill="#334155">30</text>
+
+  <!-- X-axis Labels -->
+  <text x="218.75" y="510" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#475569">Q1</text>
+  <text x="356.25" y="510" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#475569">Q2</text>
+  <text x="493.75" y="510" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#475569">Q3</text>
+  <text x="631.25" y="510" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" fill="#475569">Q4</text>
+</svg>

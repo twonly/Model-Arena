@@ -1,0 +1,135 @@
+{
+  "updatedAt": "2026-11-04T07:27:42Z",
+  "publishedAt": "2026-11-03T13:40:50Z",
+  "date": "2026-11-04",
+  "titleZh": "腾讯 Hy4 正式发布：视觉、电脑操作与 Benchmark 解读",
+  "titleEn": "Tencent Hy4 launches: vision, agents and benchmarks",
+  "summaryZh": "腾讯混元 Hy4 正式版于 11 月 4 日发布，新增视觉理解与 Computer Use。附官方 Benchmark 原图与解读、API 规格和价格、权重开放进度，以及新宣传片在线播放。",
+  "summaryEn": "Tencent Hy4 launches with vision and computer use. Explore official benchmark figures, analysis, API pricing, weight-release plans and the new launch film.",
+  "images": [
+    "/articles/tencent-hy4-release/social-card.png",
+    "/articles/tencent-hy4-release/official-benchmark-overview.png",
+    "/articles/tencent-hy4-release/official-hard-benchmarks.jpg",
+    "/articles/tencent-hy4-release/official-benchmark-appendix.jpg"
+  ],
+  "video": {
+    "path": "/articles/tencent-hy4-release/official-launch-film.mp4",
+    "posterPath": "/articles/tencent-hy4-release/official-launch-poster.jpg",
+    "titleEn": "Tencent Hy4 official launch film",
+    "descriptionEn": "Tencent Hy4 official promotional film showing vision and computer-use demonstrations.",
+    "descriptionZh": "腾讯 Hy4 正式发布宣传片，展示视觉理解与电脑操作案例。",
+    "uploadDate": "2026-11-04T06:53:32Z",
+    "duration": "PT70S",
+    "width": 1280,
+    "height": 720
+  },
+  "sources": [
+    {
+      "titleZh": "腾讯 Hy4 官方发布说明",
+      "titleEn": "Official Hy4 launch announcement",
+      "url": "https://hy.tencent.ai/research/hy4?langVersion=en"
+    },
+    {
+      "titleZh": "腾讯混元官方 X 发布与成绩图",
+      "titleEn": "Tencent Hunyuan launch post and benchmark figure",
+      "url": "https://x.com/TencentHunyuan/status/2117870250838630539"
+    },
+    {
+      "titleZh": "Tencent AI 官方新宣传片",
+      "titleEn": "Tencent AI official launch film",
+      "url": "https://x.com/TencentAI_News/status/2117872859834110067"
+    },
+    {
+      "titleZh": "腾讯云：模型列表与 API 规格",
+      "titleEn": "Tencent Cloud model list and specifications",
+      "url": "https://cloud.tencent.com/document/product/1823/130051"
+    },
+    {
+      "titleZh": "腾讯云：后付费 API 价格与优惠期限",
+      "titleEn": "Tencent Cloud API pricing and promotion period",
+      "url": "https://cloud.tencent.com/document/product/1823/130055"
+    }
+  ],
+  "editorial": {
+    "zh-CN": [
+      {
+        "id": "vision",
+        "title": "这次升级，把“看见”接到了“行动”上",
+        "body": "11 月 4 日，腾讯发布混元 Hy4 正式版。它在 Hy4 Preview 的基础上扩展训练，首次加入视觉感知与 Computer Use，强调把图像理解、推理和工具调用连成工作流程。模型已可通过腾讯云、OpenRouter，以及 CodeBuddy、WorkBuddy、元宝、ima 等产品使用。[官方发布说明](https://hy.tencent.ai/research/hy4?langVersion=en)\n\n这对 Agent 的意义很具体：代码报错可以从终端读，界面布局还需要看屏幕；文档里的文字可以检索，图表中的位置、趋势与单位也需要理解。视觉输入补上了后半部分，Computer Use 则把观察结果接到 CLI 和 GUI 操作。腾讯还提到对 Blender、CAD 与跨应用长程任务进行训练。\n\n因此，正式版值得关注的变化，是模型能否根据当前界面继续工作、检查结果并修改。图片理解本身不能直接证明操作正确；官方宣传片展示的是经过选取的演示案例，下面的图表提供了另一组需要按口径阅读的证据。"
+      },
+      {
+        "id": "benchmarks",
+        "title": "官方 Benchmark：先看完整图，再看三个落点",
+        "figureId": "overview",
+        "body": "以下图表由腾讯发布，TOKRACE 尚未独立复现。蓝色柱为 Hy4，青色虚线为 Hy4 Preview。图中标注 internal 的项目属于内部评测；名称旁的星号表示该基准在此次发布时首次评测，不等同于所有模型成绩均由第三方测得。"
+      },
+      {
+        "id": "benchmark-reading",
+        "title": "电脑操作接近第一梯队，长程编程仍有差距",
+        "body": "| 官方项目 | Hy4 | 同图对照 | 应当怎样读 |\n| --- | ---: | --- | --- |\n| OSWorld 2.1 | 78.9 | Kimi K3.1 Pro 79.6；Claude Opus 5.5 81.8 | 附录口径为 Full、partial score；不能写成完成了 78.9% 的整项任务。 |\n| Terminal-Bench 4.0 | 44.4 | Kimi K3.1 Pro 66.8；Claude Opus 5.5 66.4 | 同图差距仍大；“会操作电脑”不能直接推成复杂编程任务同样领先。 |\n| 3DArena-Modeling（内部） | 37.1 | Kimi K3.1 Pro 36.1；Claude Opus 5.5 43.4 | 是专业工具任务的一个信号，仍受内部题集与执行框架影响。 |\n| AutomationBench v1.0.6 | 56.2 | GPT 6.1 Sol 51.4；Kimi K3.1 Pro 65.6 | 办公自动化有竞争力，但并非图内最高。 |\n\n我们的解读是，Hy4 的亮点更接近“补齐视觉以后，能进入更多操作流程”。OSWorld 的位置有说服力，但 partial score 衡量的是带部分得分的表现，和整项工作交付率不是同一件事。\n\n编程一侧也要看具体任务。ProgramBench 图里的指标明确写着 almost solved，Hy4 为 30.0；FrontierCode 2.0 为 31.0。这些名称和阈值应连同成绩一起保留。Terminal-Bench 4.0 的附录还列出了 Claude Code、每次试验最多 500 轮及 13 小时等执行条件。它们是成绩的一部分，不能据此推断普通聊天窗口里的首轮表现、速度或成本。"
+      },
+      {
+        "id": "limits",
+        "title": "腾讯也把与顶级闭源模型的差距放进了发布稿",
+        "figureId": "hard-benchmarks",
+        "body": "官方第二组图选了四项内部难题：研究级数学、长程代码库任务、基础模型研发和不调用工具的困难视觉问答。Hy4 在这些项目上仍落后于图中的顶级闭源模型。例如 Goal2Repo 为 23.2，Claude Opus 5.5 为 74.0；BuddyVQA-Atlas（无工具）为 55.6，Claude 为 75.3。\n\n这张图让前面的“生产力升级”更容易定位：图像、屏幕和工具之间的衔接取得进展，不代表最难的推理与长程执行问题已经解决。选型时应把自己工作的输入、工具、失败恢复和最终交付放到同一个流程里看，而不是把几项最高分拼成一个总冠军。"
+      },
+      {
+        "id": "office",
+        "title": "金融与办公：要看成品质量，也要看评审条件",
+        "body": "腾讯称，金融工作评测邀请了 213 名专业人士，覆盖 579 项任务，Hy4 平均分为 3.04，DeepSeek-V4.1-Flash-1017 为 2.97。这是腾讯组织的评测结果；公开发布稿没有给出足以在本文判断统计显著性的全部信息。[来源](https://hy.tencent.ai/research/hy4?langVersion=en)\n\n对办公用户，更实际的关注点是：生成的表格是否保留公式与单位，报告能否交叉核对来源，修改一页内容后其余部分是否仍一致。平均分有助于理解官方优化方向，具体成品与修改过程则决定它是否适合自己的工作。"
+      },
+      {
+        "id": "access",
+        "title": "怎么使用：正式版 API 已上线，权重仍待后续开放",
+        "body": "腾讯云的正式模型 ID 是 `hy4`。当前文档列出 **1M 上下文、最大输入 960K、最大输出 64K**，支持深度思考、结构化输出、Function Calling、缓存与图片理解。[模型列表](https://cloud.tencent.com/document/product/1823/130051)\n\n正式版与 `hy4-preview` 是两个条目。发布稿表示，Hy4 的模型权重计划后续开放，完整系统卡将随权重一同发布；Hy4 Flash 也计划稍后推出。因此，“正式版 API 已可用”和“正式版权重已经可以下载”需要分别判断。本文也不把 Preview 的参数量与 Apache 2.0 许可直接移到正式版。\n\n腾讯云后付费 API 的目录价如下，单位为人民币／百万 tokens：\n\n| 项目 | 目录价 | 限时五折折算价 |\n| --- | ---: | ---: |\n| 普通输入 | 6 元 | 3 元 |\n| 输出 | 18 元 | 9 元 |\n| 缓存命中输入 | 0.3 元 | 0.15 元 |\n\n官方说明：自优惠说明发布之日起至 **2026 年 12 月 31 日 23:59:59（北京时间）**，符合期间的 Hy4 实际用量按目录价的 50% 结算；右列据此计算。**0.3 元是缓存命中目录价，不是普通输入价。** Token Plan 的积分与优惠另有规则，不能与这张后付费表混用。[官方价格页](https://cloud.tencent.com/document/product/1823/130055)"
+      },
+      {
+        "id": "appendix",
+        "title": "完整成绩与评测口径，放在一起看",
+        "figureId": "appendix",
+        "body": "附录保留了模型版本、任务配置与成绩标记。模型名称旁的星号代表腾讯自行测试的成绩；不同基准的分数也不适合直接平均。官方注明，Harness、Judge 或防作弊设置更新可能使 Preview 历史成绩发生变化。\n\n下图提供未裁切原图，便于核对模型档位、题集与备注。本文的结论是对官方材料的解读，尚未形成 TOKRACE 的 Hy4 独立实测排名。"
+      }
+    ],
+    "en": [
+      {
+        "id": "vision",
+        "title": "Vision connects perception to action",
+        "body": "Tencent released Hy4 on November 4. The general release adds visual perception and computer use to the Preview generation, connecting image understanding, reasoning and tools. Access is available through Tencent Cloud, OpenRouter, CodeBuddy, WorkBuddy, Yuanbao and ima. [Official announcement](https://hy.tencent.ai/research/hy4?langVersion=en)\n\nFor an agent, that connection matters. A terminal exposes errors as text, while layout and on-screen state require vision. A document may contain searchable prose alongside charts whose units and spatial relationships also matter. Tencent describes training for CLI and GUI workflows, including Blender, CAD and tasks spanning applications.\n\nOur reading is that Hy4 can enter a wider range of workflows by observing the current state before choosing its next action. Understanding an image does not establish that the resulting action is correct. The promotional film shows selected demonstrations; the benchmark figures offer another kind of evidence, with their own conditions."
+      },
+      {
+        "id": "benchmarks",
+        "title": "Official benchmarks: the complete figure first",
+        "figureId": "overview",
+        "body": "These are Tencent-published results, not an independent TOKRACE reproduction. Solid blue bars represent Hy4; dotted cyan marks show Preview. Projects labelled internal are internal evaluations. An asterisk on a benchmark name means it was first evaluated for this release; it does not mean every result is third-party measured."
+      },
+      {
+        "id": "benchmark-reading",
+        "title": "Strong GUI results, with a substantial coding gap",
+        "body": "| Official task | Hy4 | Comparisons in the same figure | How to read it |\n| --- | ---: | --- | --- |\n| OSWorld 2.1 | 78.9 | Kimi K3.1 Pro 79.6; Claude Opus 5.5 81.8 | The appendix specifies Full, partial score. This is not 78.9% fully completed tasks. |\n| Terminal-Bench 4.0 | 44.4 | Kimi K3.1 Pro 66.8; Claude Opus 5.5 66.4 | Computer use does not establish equivalent performance on difficult coding workflows. |\n| 3DArena-Modeling (internal) | 37.1 | Kimi K3.1 Pro 36.1; Claude Opus 5.5 43.4 | A signal about specialist tools, within an internal task set and harness. |\n| AutomationBench v1.0.6 | 56.2 | GPT 6.1 Sol 51.4; Kimi K3.1 Pro 65.6 | Competitive office automation, but not the highest score shown. |\n\nOur interpretation is a broader operating range after adding vision. OSWorld is a useful signal, but a partial-credit score and the completion rate of an entire work assignment measure different things.\n\nCoding results also need their exact task labels. ProgramBench explicitly uses the almost solved metric, with Hy4 at 30.0; FrontierCode 2.0 is 31.0. The appendix lists Claude Code, up to 500 turns and 13 hours per Terminal-Bench 4.0 trial. Those execution conditions belong with the scores. They do not establish first-response behavior, speed or cost in a normal chat window."
+      },
+      {
+        "id": "limits",
+        "title": "Tencent also publishes the gap to leading proprietary models",
+        "figureId": "hard-benchmarks",
+        "body": "The second official figure covers four internal challenges: research mathematics, long-horizon repository work, foundation-model development and difficult visual QA without tools. Hy4 remains behind the leading proprietary models shown. Goal2Repo is 23.2 for Hy4 versus 74.0 for Claude Opus 5.5; BuddyVQA-Atlas without tools is 55.6 versus Claude's 75.3.\n\nThis helps locate the productivity claim. Better connections between images, screens and tools can expand useful work without solving the hardest reasoning and execution problems. An evaluation should follow inputs, tool use, recovery and the final artifact through the same task, rather than combine selected high scores into an overall winner."
+      },
+      {
+        "id": "office",
+        "title": "Office work needs artifacts and evaluation conditions",
+        "body": "Tencent reports a finance evaluation involving 213 professionals and 579 tasks, with average scores of 3.04 for Hy4 and 2.97 for DeepSeek-V4.1-Flash-1017. This was organized by Tencent; the public announcement does not provide enough information here to establish statistical significance. [Source](https://hy.tencent.ai/research/hy4?langVersion=en)\n\nFor office users, useful questions include whether a spreadsheet preserves formulas and units, whether a report's sources can be checked, and whether a revision remains consistent with the rest of the file. An average score describes the direction of optimization; inspectable work and revisions determine suitability for a particular workflow."
+      },
+      {
+        "id": "access",
+        "title": "API access is live; model weights are planned for later",
+        "body": "Tencent Cloud lists the general-release model as `hy4`, with **1M context, 960K maximum input and 64K maximum output**. It supports reasoning, structured output, function calling, caching and image understanding. [Model list](https://cloud.tencent.com/document/product/1823/130051)\n\nIt is a separate entry from `hy4-preview`. Tencent plans to release Hy4 weights later, with a comprehensive system card, and says Hy4 Flash will follow. API availability should therefore be distinguished from downloadable general-release weights. Preview's parameter count and Apache 2.0 license are not automatically specifications for this release.\n\nTencent Cloud's postpaid list prices, in RMB per million tokens:\n\n| Category | List price | Calculated temporary 50% price |\n| --- | ---: | ---: |\n| Uncached input | 6 | 3 |\n| Output | 18 | 9 |\n| Cached input | 0.3 | 0.15 |\n\nThe official notice applies a 50% settlement discount to eligible Hy4 usage from the notice's publication through **December 31, 2026, 23:59:59 Beijing time**. The right column is calculated from that rule. **RMB 0.3 is the cached-input list price, not ordinary input.** Token Plan credits and promotions follow separate rules. [Official pricing](https://cloud.tencent.com/document/product/1823/130055)"
+      },
+      {
+        "id": "appendix",
+        "title": "Keep the scores and evaluation notes together",
+        "figureId": "appendix",
+        "body": "The appendix retains model versions, task configurations and result markers. Asterisks on model cells denote Tencent's own testing; scores from different benchmarks should not be averaged into one number. Tencent also notes that harness, judge or anti-hacking updates may change historical Preview results.\n\nThe complete, uncropped original below provides those details. This article interprets official material; it does not establish an independent TOKRACE ranking for Hy4."
+      }
+    ]
+  }
+}

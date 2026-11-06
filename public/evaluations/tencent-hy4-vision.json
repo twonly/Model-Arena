@@ -1,0 +1,335 @@
+{
+  "protocol": "tokrace-vision-addon-v1",
+  "model": "tencent/hy4",
+  "evaluationDate": "2026-11-04",
+  "timezone": "Asia/Shanghai",
+  "status": "completed",
+  "title": {
+    "zh": "HY4 视觉理解实测：5题、6张合成输入图",
+    "en": "HY4 image understanding: five tasks, six synthetic inputs"
+  },
+  "method": {
+    "zh": "OpenRouter直接图像输入，无工具、外部OCR或标准答案；每题独立一条消息，保留首个完整回答。温度沿用提供商默认，单次输出上限65536。协调AI按预先冻结的25项真值检查评分。",
+    "en": "Direct OpenRouter image input with no tools, external OCR, or answer key. Each task has an independent one-message request; the first complete response is retained. Provider-default temperature and a 65,536-token output limit. A coordinating AI scores 25 checks against ground truth frozen before responses."
+  },
+  "totals": {
+    "requests": 5,
+    "cases": 5,
+    "inputImages": 6,
+    "score": 25,
+    "maxPoints": 25,
+    "promptTokens": 10643,
+    "completionTokensIncludingReasoning": 26245,
+    "reasoningTokens": 24673,
+    "totalTokens": 36888,
+    "reportedCostUsd": 0.036884928465,
+    "reportedCostUsdExact": "0.036884928465",
+    "sumRequestMs": 302691,
+    "usageSource": "OpenRouter per-response usage, including usage.cost; this is the API-reported cost, not a reconciled invoice."
+  },
+  "caseSetSha256": "83d7379879458a17866b1c5016f31433c174b5bf973ede795ca08359614c22fe",
+  "limits": {
+    "zh": "5道题、6张程序合成PNG，均为无工具首个完整回答。中文表单、图表、平面图、双图和明确提示的遮挡边界全部通过固定25项检查。这组小样本没有覆盖自然照片、真实扫描长文档、视频理解或无提示的幻觉压力测试，也没有提供与Hy4 Preview同题读图对照。",
+    "en": "Five tasks use six programmatically drawn PNGs, with no tools and the first complete response retained. The model passes all 25 fixed checks across a Chinese sheet, chart, floorplan, image pair, and explicitly instructed occlusion boundary. This small set does not cover natural photos, long real scans, video understanding, uninstructed hallucination stress tests, or a matched Hy4 Preview image-input comparison."
+  },
+  "cases": [
+    {
+      "id": "vision-warehouse",
+      "title": "中文表单与计量核算",
+      "titleEn": "Chinese sheet and unit-aware arithmetic",
+      "prompt": "请仅依据附件图像，读取这张待出库复核单。1）抄出 K-18 的品名和单价/件；2）找出同时满足“未复核”和“优先=是”的所有行，给出货号、实际件数和金额；3）汇总这些行的实际总件数、总金额。请写出包装数和每包件数的换算过程，金额保留两位小数。不要把表中的包装数直接当件数。\n请按问题编号简洁作答，保留可核对的计算或路径。",
+      "images": [
+        {
+          "path": "inputs/warehouse-sheet.png",
+          "sha256": "48035df4f424714042c09a1491fc74d511c849346e2989aff37f8facf34360f7",
+          "bytes": 113291,
+          "width": 1600,
+          "height": 1080,
+          "origin": "TOKRACE synthetic fixture, generated with Pillow; no external image or real personal data"
+        }
+      ],
+      "answer": "1）**K-18**：品名「透明收纳盒」；单价/件 **15.80 元/件**。\n\n2）筛选“复核=未复核”且“优先=是”，得到 **K-17、C-09**：\n\n| 货号 | 包装数 × 每包件数 → 实际件数 | 金额 |\n|---|---|---|\n| K-17 | 6 × 4 = 24 件 | 24 × 29.50 = **708.00 元** |\n| C-09 | 15 × 20 = 300 件 | 300 × 3.60 = **1,080.00 元** |\n\n3）汇总：\n\n- 实际总件数：`(6×4) + (15×20) = 24 + 300 = 324 件`\n- 总金额：`(6×4×29.50) + (15×20×3.60) = 708.00 + 1,080.00 = 1,788.00 元`\n",
+      "answerSha256": "d96bb46d2f326679fd674afdff7f212a0791c3526abafcfcde98de52742ed1cd",
+      "score": 5,
+      "maxPoints": 5,
+      "observation": {
+        "zh": "中文品名、单价与双条件筛选都正确，能把包装数换算为件数，合计324件、1788.00元。",
+        "en": "Correctly reads Chinese labels and prices, applies both row filters, and converts packages into units: 324 items and CNY 1,788.00."
+      },
+      "requestedModel": "tencent/hy4",
+      "returnedModel": "tencent/hy4",
+      "provider": "Tencent",
+      "startedAt": "2026-11-04T07:32:27.131Z",
+      "finishedAt": "2026-11-04T07:32:51.823Z",
+      "totalMs": 24692,
+      "usage": {
+        "prompt_tokens": 1864,
+        "completion_tokens": 2239,
+        "total_tokens": 4103,
+        "cost": 0.003541385925,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0035771575,
+          "upstream_inference_prompt_cost": 0.000777288,
+          "upstream_inference_completions_cost": 0.0027998695
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 2011,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "requestSha256": "b3b426ee65712118ed4f311baed19bd17139a89cfbfe30428691c7eb92207f3c",
+      "responseId": "gen-1793777548-KEPWgvwenNSv70kx6rgF",
+      "httpStatus": 200,
+      "finishReason": "stop",
+      "promptSha256": "b29aab3516daee73bf34195d128d72e17e5b8e5ac5866c0ee679eec3c8e5ffdd"
+    },
+    {
+      "id": "vision-dual-axis",
+      "title": "双轴图表与加权推理",
+      "titleEn": "Dual-axis chart and weighted reasoning",
+      "prompt": "请仅依据附件图表回答：1）6月订单量和退货率各是多少，分别用什么单位？2）估算退货量最高的是哪个月，是多少千单？3）5月到6月订单量环比增长百分之几？4）这6个月合计的退货率是多少？请解释为何不能把6个百分数直接求平均，列出所读到的每月数据和计算过程，百分比四舍五入到小数点后两位。\n请按问题编号简洁作答，保留可核对的计算或路径。",
+      "images": [
+        {
+          "path": "inputs/orders-returns.png",
+          "sha256": "87ae914e35737630c7c64a83ea48cc5492fe5587005a6d17162be31f56cece0e",
+          "bytes": 75577,
+          "width": 1600,
+          "height": 1080,
+          "origin": "TOKRACE synthetic fixture, generated with Pillow; no external image or real personal data"
+        }
+      ],
+      "answer": "1）6月订单量为 **180千单**（蓝柱/左轴，单位“千单”，即18万单）；退货率为 **2.00%**（红线/右轴，单位“%”/百分比）。\n\n2）按图注“估算退货量＝当月订单量×当月退货率”，逐月读数及计算如下（订单量、退货量单位：千单）：\n\n| 月份 | 订单量 | 退货率 | 估算退货量 |\n|---|---:|---:|---:|\n| 1月 | 80 | 5.00% | 80×5.00%＝4.00 |\n| 2月 | 120 | 4.00% | 120×4.00%＝4.80 |\n| 3月 | 100 | 6.00% | 100×6.00%＝6.00 |\n| 4月 | 160 | 3.00% | 160×3.00%＝4.80 |\n| 5月 | 140 | 4.00% | 140×4.00%＝5.60 |\n| 6月 | 180 | 2.00% | 180×2.00%＝3.60 |\n\n最高是 **3月，6.00千单**。\n\n3）5月到6月订单量环比增长：\n\\[\n\\frac{180-140}{140}\\times100\\%=28.5714\\%\\approx\\boxed{28.57\\%}\n\\]\n\n4）合计订单量：\n\\[\n80+120+100+160+140+180=780.00\\text{千单}\n\\]\n\n合计估算退货量：\n\\[\n4.00+4.80+6.00+4.80+5.60+3.60=28.80\\text{千单}\n\\]\n\n按图注以订单量加权，整体退货率：\n\\[\n\\frac{28.80}{780.00}\\times100\\%\n=\\frac{\\sum(\\text{月订单量}\\times\\text{月退货率})}{\\sum\\text{月订单量}}\n\\approx\\boxed{3.69\\%}\n\\]\n\n不能直接平均，因为每个月退货率的分母——订单量——不同；直接平均相当于假定各月订单量相同。直接平均为：\n\\[\n\\frac{5.00\\%+4.00\\%+6.00\\%+3.00\\%+4.00\\%+2.00\\%}{6}=4.00\\%\n\\]\n它不等于按订单量加权后的整体退货率 **3.69%**。\n",
+      "answerSha256": "75d94c9ec3ca42ae097834e3efaa4fd72f4c75469be18cb4a11d99fc4fd37f47",
+      "score": 5,
+      "maxPoints": 5,
+      "observation": {
+        "zh": "六个月的双轴数值全部读对；退货量峰值、28.57%的环比与3.69%的加权整体退货率均正确。",
+        "en": "Reads all six months on both axes correctly; identifies the returned-volume peak and computes 28.57% growth and a 3.69% weighted overall return rate."
+      },
+      "requestedModel": "tencent/hy4",
+      "returnedModel": "tencent/hy4",
+      "provider": "Tencent",
+      "startedAt": "2026-11-04T07:32:51.825Z",
+      "finishedAt": "2026-11-04T07:33:38.002Z",
+      "totalMs": 46177,
+      "usage": {
+        "prompt_tokens": 1861,
+        "completion_tokens": 4240,
+        "total_tokens": 6101,
+        "cost": 0.00601737543,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.006078157,
+          "upstream_inference_prompt_cost": 0.000776037,
+          "upstream_inference_completions_cost": 0.00530212
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3706,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "requestSha256": "7d4d816149bedfd7e453b674a56015d249346a90ead308011a3be29d8626c24e",
+      "responseId": "gen-1793777572-mXGI5jOLPdFvuX9HoFxY",
+      "httpStatus": 200,
+      "finishReason": "stop",
+      "promptSha256": "890dcfc967a773d51160674d22744a5df57d32ebcf4607866e495fcbed08b08f"
+    },
+    {
+      "id": "vision-floorplan",
+      "title": "平面图计数与通路",
+      "titleEn": "Floorplan counting and route planning",
+      "prompt": "请看附件仓库巡检平面图：1）蓝色传感器共有几个？2）在E列以东且出口以北的传感器有几个，各在哪一格？3）从入口A1到出口G6，在图示规则下最短需要移动几步？给出一条最短路线的逐格坐标，并解释必须绕过的主要障碍。传感器所在白格可以通行；不许穿过深色格或斜走。\n请按问题编号简洁作答，保留可核对的计算或路径。",
+      "images": [
+        {
+          "path": "inputs/inspection-floorplan.png",
+          "sha256": "2bb2550aaecfe63d947c795bb6b4d9ac591e2c2fe602a6852a2467d8fd1f9ccb",
+          "bytes": 70005,
+          "width": 1600,
+          "height": 1080,
+          "origin": "TOKRACE synthetic fixture, generated with Pillow; no external image or real personal data"
+        }
+      ],
+      "answer": "1）**6个**：B1、D1、F1、B4、D5、G5。\n\n2）**2个：F1、G5**。E列以东为F/G列，出口G6以北为第1–5行。\n\n3）**最短17步**（18个坐标、17次上下左右移动）：\n\nA1→A2→A3→A4→B4→B5→C5→D5→D4→D3→D2→E2→F2→F3→G3→G4→G5→G6\n\n步数核验：A1→D5为7步，D5→D2为3步，D2→G3为4步，G3→G6为3步，共  \n\\[\n7+3+4+3=17.\n\\]\n\n**主要绕障**：C1、B2/C2、B3/C3、C4形成左上暗格墙，须下到B4/B5、经C5绕至D5；E3–E6及F4/F5又形成中央墙，D侧只能在第1、2行向东，故沿D列北上至D2，经E2、F2、F3转入G列。F6受E6/F5封成死端，因此须从G5进入出口；B4、D5、G5虽为传感器格，但可通行。四邻接BFS中两个关口距离分别为 \\(d(E2)=11,d(E1)=12\\)，而E2到G6的曼哈顿下界为6步且上述路线达到，故17步确为最短。\n",
+      "answerSha256": "1f885022ce364c5cfe13bf8387b0d91987f081abbfd99e61a898d3f07d48ef8e",
+      "score": 5,
+      "maxPoints": 5,
+      "observation": {
+        "zh": "6个传感器与空间筛选正确；给出的17步逐格路线通过邻接和障碍检查，与固定图的最短通路一致。",
+        "en": "Correctly counts six sensors and applies the spatial filter. Its 17-move coordinate route passes adjacency and obstacle checks and matches the shortest path."
+      },
+      "requestedModel": "tencent/hy4",
+      "returnedModel": "tencent/hy4",
+      "provider": "Tencent",
+      "startedAt": "2026-11-04T07:33:38.004Z",
+      "finishedAt": "2026-11-04T07:36:10.853Z",
+      "totalMs": 152849,
+      "usage": {
+        "prompt_tokens": 1853,
+        "completion_tokens": 13219,
+        "total_tokens": 15072,
+        "cost": 0.017130029895,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0173030605,
+          "upstream_inference_prompt_cost": 0.000772701,
+          "upstream_inference_completions_cost": 0.0165303595
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 12861,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "requestSha256": "5abcfebe0f61b55c99d4dc9c8bb9e84efdc8ea8233a96d02946b90d1fa6cf4e8",
+      "responseId": "gen-1793777618-agQA7ZtpFAUlgFP6Uuxr",
+      "httpStatus": 200,
+      "finishReason": "stop",
+      "promptSha256": "6f25ec71108b557e2b865e72d1f90c97056d635822e478bec31765b97f131267"
+    },
+    {
+      "id": "vision-multi-image",
+      "title": "双图细节变化定位",
+      "titleEn": "Multi-image visual change localization",
+      "prompt": "第一张是工位调整前，第二张是调整后。请比较两张图像，逐条列出所有明确可见的变化。每条说明所在区域、具体物件或文字、调整前和调整后的状态；把同一物件的文字及颜色改变算作一处变化。不要推断画面没有显示的故障原因或生产结果。\n请按问题编号简洁作答，保留可核对的计算或路径。",
+      "images": [
+        {
+          "path": "inputs/workstation-before.png",
+          "sha256": "61d398d1c8a9d99db2e187fdea14b8068978d3f4255fc3150fd7ea6bdb6a474b",
+          "bytes": 78096,
+          "width": 1600,
+          "height": 1080,
+          "origin": "TOKRACE synthetic fixture, generated with Pillow; no external image or real personal data"
+        },
+        {
+          "path": "inputs/workstation-after.png",
+          "sha256": "4640c8d2562589c9af181cadb6bba4db55ee7876cc4f73e38348fc6084f88128",
+          "bytes": 78319,
+          "width": 1600,
+          "height": 1080,
+          "origin": "TOKRACE synthetic fixture, generated with Pillow; no external image or real personal data"
+        }
+      ],
+      "answer": "1. **控制台／“本周完成”显示值**：`128 → 132`，`132−128=4`。\n2. **控制台／状态按钮（文字与颜色合并计一处）**：浅绿色“运行” → 橙黄色“待检”。\n3. **控制台／台面红色圆形按钮**：由台面左端、左支腿内侧上方 → 台面右端、右支腿内侧上方（左侧 → 右侧）。\n4. **周转料架／下层料盒**：调整前0个，调整后左侧有1个蓝色带白色短线的料盒；上层为3个不变，总数 `3 → 4`，`4−3=1`。\n5. **气路阀门／橙色长条阀柄**：横向 → 纵向，方向相差90°；中央深棕圆点仍在圆心，顺/逆时针旋转方向无法由两图判定。\n",
+      "answerSha256": "e264658e125fe2f914eab9d40f5c52f8020a4a74ab50f60809ea455d1ff97a32",
+      "score": 5,
+      "maxPoints": 5,
+      "observation": {
+        "zh": "找齐显示数字、状态、按钮位置、料盒数量和阀柄方向五处变化，没有额外编造；也没有从两帧推断旋转方向。",
+        "en": "Finds all five changes in the display, status, button position, box count, and valve orientation without inventing extras or a direction of rotation."
+      },
+      "requestedModel": "tencent/hy4",
+      "returnedModel": "tencent/hy4",
+      "provider": "Tencent",
+      "startedAt": "2026-11-04T07:36:10.855Z",
+      "finishedAt": "2026-11-04T07:37:17.623Z",
+      "totalMs": 66768,
+      "usage": {
+        "prompt_tokens": 3573,
+        "completion_tokens": 5438,
+        "total_tokens": 9011,
+        "cost": 0.0082072584,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.00829016,
+          "upstream_inference_prompt_cost": 0.001489941,
+          "upstream_inference_completions_cost": 0.006800219
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 5249,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "requestSha256": "7d5ae788ae64a46708e9df7030cfeb56bce9e6ae202620e5d9454c4beed80d27",
+      "responseId": "gen-1793777771-Rj76QPkkrwY7YE6izhRi",
+      "httpStatus": 200,
+      "finishReason": "stop",
+      "promptSha256": "e65856329af9e28714fa9e5d64d0a0560cb86d267c42f59acdaa54358c0f9a47"
+    },
+    {
+      "id": "vision-occlusion",
+      "title": "遮挡信息与不确定边界",
+      "titleEn": "Occlusion and uncertainty boundaries",
+      "prompt": "请仅根据附件标签读取：收件城市、收件区域、分拣区码、件序，以及完整运单号。对每一项标明能否从图像确定。若某项被遮挡，分别抄出可见片段并说明哪些内容无法判断，不要猜测或按格式补齐。\n请按问题编号简洁作答，保留可核对的计算或路径。",
+      "images": [
+        {
+          "path": "inputs/partially-occluded-label.png",
+          "sha256": "541fe3f948d1127c88b3aff5ca16f0caa928f5235a46adce18f147b57321ff42",
+          "bytes": 94294,
+          "width": 1400,
+          "height": 1000,
+          "origin": "TOKRACE synthetic fixture, generated with Pillow; no external image or real personal data"
+        }
+      ],
+      "answer": "1. **收件城市：能确定** → 南京市（标签第 1 行「收件城市：南京市」）。\n2. **收件区域：能确定** → 鼓楼区（第 2 行「收件区域：鼓楼区」）。\n3. **分拣区码：能确定** → A-204（第 3 行左侧「分拣区码：A-204」）。\n4. **件序：能确定** → 2/3（第 3 行右侧「件序：2/3」）。\n5. **完整运单号：不能确定**。第 4 行「运单号：」后的可见片段仅为：左段「XH 5271」、右段「83」；两段之间为深色遮挡矩形，无可见像素。依标签说明「遮挡区域没有可恢复的信息；只依据可见像素回答」，无法判断遮挡部分的字符个数与内容，也无法判断整号总长度、左右片段之间是否另有字符或分隔符，故不拼接、不按格式补齐，完整运单号不可读。\n\n核对路径：按标签正文自上而下逐行读取；仅第 4 行存在遮挡，其余四行均无遮挡。\n",
+      "answerSha256": "54778c310690a21f3f24caf07a7994ae2766e31294868820fda11af8767bf6f7",
+      "score": 5,
+      "maxPoints": 5,
+      "observation": {
+        "zh": "可见字段和运单片段读取正确，没有补齐遮挡字符。图中明确提示遮挡内容不可恢复，因此本题只支持该提示条件下的边界遵循。",
+        "en": "Reads the visible fields and tracking fragments without inventing hidden characters. The image explicitly says the covered content is unrecoverable, so this checks boundary-following under that instruction."
+      },
+      "requestedModel": "tencent/hy4",
+      "returnedModel": "tencent/hy4",
+      "provider": "Tencent",
+      "startedAt": "2026-11-04T07:37:17.624Z",
+      "finishedAt": "2026-11-04T07:37:29.829Z",
+      "totalMs": 12205,
+      "usage": {
+        "prompt_tokens": 1492,
+        "completion_tokens": 1109,
+        "total_tokens": 2601,
+        "cost": 0.001988878815,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0.0020089685,
+          "upstream_inference_prompt_cost": 0.000622164,
+          "upstream_inference_completions_cost": 0.0013868045
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 846,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "requestSha256": "b5c4f7f5a27ef147af8a627392765c8cdb373b9a1523d1241da46098914265a7",
+      "responseId": "gen-1793777838-VjoxurG5UnUUWUVlaaDl",
+      "httpStatus": 200,
+      "finishReason": "stop",
+      "promptSha256": "94d648bc25cbb33499880b59365d6033db83d67b3de45259e2235e63351f1f54"
+    }
+  ]
+}

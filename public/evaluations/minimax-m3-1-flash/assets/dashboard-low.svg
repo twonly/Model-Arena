@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-labelledby="title desc">
+  <title id="title">Quarterly Revenue dashboard card</title>
+  <desc id="desc">A vertical bar chart showing quarterly revenue: Q1 equals 12, Q2 equals 24, Q3 equals 18, and Q4 equals 30. Total revenue is 84 and the best quarter is Q4.</desc>
+
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4f7fb"/>
+      <stop offset="1" stop-color="#e9eff7"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#4f7cff"/>
+      <stop offset="1" stop-color="#315edb"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#1b3158" flood-opacity="0.12"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#background)"/>
+  <rect x="44" y="34" width="712" height="532" rx="22" fill="#ffffff" filter="url(#shadow)"/>
+
+  <g font-family="Inter, Segoe UI, Arial, sans-serif">
+    <text x="80" y="88" fill="#17233b" font-size="28" font-weight="700">Quarterly Revenue</text>
+    <text x="80" y="113" fill="#718096" font-size="14">Performance by quarter</text>
+
+    <g transform="translate(502 72)">
+      <rect width="96" height="42" rx="12" fill="#edf3ff"/>
+      <text x="48" y="27" text-anchor="middle" fill="#315edb" font-size="16" font-weight="700">Total: 84</text>
+    </g>
+    <g transform="translate(608 72)">
+      <rect width="112" height="42" rx="12" fill="#eaf8f1"/>
+      <text x="56" y="27" text-anchor="middle" fill="#16835b" font-size="16" font-weight="700">Best: Q4</text>
+    </g>
+
+    <g fill="none" stroke="#dfe6ef" stroke-width="1">
+      <path d="M104 460H716"/>
+      <path d="M104 340H716"/>
+      <path d="M104 220H716"/>
+      <path d="M104 100H716"/>
+    </g>
+
+    <g fill="#7b879c" font-size="13" text-anchor="end" dominant-baseline="middle">
+      <text x="88" y="460">0</text>
+      <text x="88" y="340">10</text>
+      <text x="88" y="220">20</text>
+      <text x="88" y="100">30</text>
+    </g>
+
+    <g>
+      <rect x="142" y="316" width="82" height="144" rx="8" fill="url(#bar)"/>
+      <rect x="286" y="172" width="82" height="288" rx="8" fill="url(#bar)"/>
+      <rect x="430" y="244" width="82" height="216" rx="8" fill="url(#bar)"/>
+      <rect x="574" y="100" width="82" height="360" rx="8" fill="url(#bar)"/>
+    </g>
+
+    <g fill="#24324d" font-size="17" font-weight="700" text-anchor="middle">
+      <text x="183" y="299">12</text>
+      <text x="327" y="155">24</text>
+      <text x="471" y="227">18</text>
+      <text x="615" y="83">30</text>
+    </g>
+
+    <g fill="#526077" font-size="15" font-weight="600" text-anchor="middle">
+      <text x="183" y="490">Q1</text>
+      <text x="327" y="490">Q2</text>
+      <text x="471" y="490">Q3</text>
+      <text x="615" y="490">Q4</text>
+    </g>
+
+    <path d="M104 460H716" fill="none" stroke="#9aa8ba" stroke-width="2"/>
+  </g>
+</svg>

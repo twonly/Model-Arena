@@ -14,6 +14,7 @@ import {
 } from "@/lib/i18n";
 import { fetchRecentVisualShares } from "@/lib/share-server";
 import type { Metadata } from "next";
+import { connection } from "next/server";
 
 export const revalidate = 300;
 
@@ -64,6 +65,8 @@ export default async function GalleryPage({
   const isZh = locale === "zh-CN";
   const messages = getMessages(locale);
   const h = (p: string) => localizedPath(p, locale);
+  // Query live shares at request time; the fetch retains its five-minute cache.
+  await connection();
   const items = await fetchRecentVisualShares(18);
   const url = `${BRAND.url}${h("/gallery")}`;
 

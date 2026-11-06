@@ -1,0 +1,1300 @@
+{
+  "model": "LongCat-2.5-Preview",
+  "endpoint": "https://api.longcat.chat/openai/v1",
+  "suiteVersion": "tasks-2026-09-26.1",
+  "params": {
+    "systemPrompt": "",
+    "temperature": "0",
+    "maxTokens": "2048"
+  },
+  "measurementOrigin": "Local macOS client calling the official API via the TOKRACE streaming parser; provider region unverified. Not hkg1 or browser timing.",
+  "design": "One attempt per text case per mode; sequential pairs; mode order alternates by case. No retries or discarded failures. Cache and service load uncontrolled.",
+  "modes": {
+    "default": {},
+    "disabled": {
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "id": "extract-1",
+      "mode": "default",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-10T03:49:41.487Z",
+      "finishedAt": "2026-10-10T03:49:49.015Z",
+      "firstContentMs": 7108.1485,
+      "firstReasoningMs": 4307.461458,
+      "totalMs": 7526.669541,
+      "promptTokens": 82,
+      "outputTokens": 147,
+      "reasoningTokens": 125,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:49:41.487Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 4305,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 4306,
+        "completionId": "7c0125ee9c8541dbbfa0b71dc94eee91",
+        "upstreamTtftMs": 4307
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "extract-1",
+      "mode": "disabled",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-10T03:49:49.016Z",
+      "finishedAt": "2026-10-10T03:49:53.086Z",
+      "firstContentMs": 3468.284291,
+      "totalMs": 4070.3726659999993,
+      "promptTokens": 85,
+      "outputTokens": 20,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:49:49.016Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 3464,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 3468,
+        "completionId": "d8df1f984dcf4f1b8ded81d236554ecf",
+        "upstreamTtftMs": 3468
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "extract-2",
+      "mode": "disabled",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-10T03:49:53.087Z",
+      "finishedAt": "2026-10-10T03:49:54.648Z",
+      "firstContentMs": 1066.4100839999992,
+      "totalMs": 1560.0728749999998,
+      "promptTokens": 87,
+      "outputTokens": 21,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:49:53.087Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1066,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1066,
+        "completionId": "5d91537bd1c341629073ac3dc8c32191",
+        "upstreamTtftMs": 1066
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "extract-2",
+      "mode": "default",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-10T03:49:54.649Z",
+      "finishedAt": "2026-10-10T03:49:58.376Z",
+      "firstContentMs": 3442.3410409999997,
+      "firstReasoningMs": 1426.145375,
+      "totalMs": 3727.281082999998,
+      "promptTokens": 84,
+      "outputTokens": 169,
+      "reasoningTokens": 146,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:49:54.649Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1425,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1426,
+        "completionId": "a785fc3e8fbe4457aa1fc21dece278c7",
+        "upstreamTtftMs": 1426
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "extract-3",
+      "mode": "default",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-10T03:49:58.378Z",
+      "finishedAt": "2026-10-10T03:50:03.169Z",
+      "firstContentMs": 4509.945874999998,
+      "firstReasoningMs": 2311.9667090000003,
+      "totalMs": 4790.590833999999,
+      "promptTokens": 82,
+      "outputTokens": 153,
+      "reasoningTokens": 131,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:49:58.378Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 2311,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 2312,
+        "completionId": "2c225bacf72a479cbdf942377033750f",
+        "upstreamTtftMs": 2312
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "extract-3",
+      "mode": "disabled",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-10T03:50:03.170Z",
+      "finishedAt": "2026-10-10T03:50:04.643Z",
+      "firstContentMs": 991.8292500000025,
+      "totalMs": 1472.9448330000014,
+      "promptTokens": 85,
+      "outputTokens": 20,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:03.170Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 992,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 992,
+        "completionId": "30d32ac0fdd44b3f8fd4fe35c247a6c9",
+        "upstreamTtftMs": 992
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "extract-4",
+      "mode": "disabled",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "category": "extraction",
+      "text": "{\"name\": \"周舟\", \"age\": 41, \"city\": \"苏州\", \"email\": \"zhou@example.test\"}",
+      "startedAt": "2026-10-10T03:50:04.644Z",
+      "finishedAt": "2026-10-10T03:50:06.328Z",
+      "firstContentMs": 1093.7208339999997,
+      "totalMs": 1683.770916999998,
+      "promptTokens": 89,
+      "outputTokens": 29,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:04.644Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1093,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1094,
+        "completionId": "fd96fc3c2fb84491a9f9f4bd7b0daec1",
+        "upstreamTtftMs": 1094
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "extract-4",
+      "mode": "default",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "startedAt": "2026-10-10T03:50:06.329Z",
+      "finishedAt": "2026-10-10T03:50:09.963Z",
+      "firstContentMs": 3380.7395419999993,
+      "firstReasoningMs": 1000.947833000002,
+      "totalMs": 3633.763500000001,
+      "promptTokens": 86,
+      "outputTokens": 161,
+      "reasoningTokens": 137,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:06.329Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 999,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1001,
+        "completionId": "2329e9ff8ce2413998fdfc9a640e3735",
+        "upstreamTtftMs": 1001
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "extract-5",
+      "mode": "default",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-10T03:50:09.975Z",
+      "finishedAt": "2026-10-10T03:50:14.168Z",
+      "firstContentMs": 3845.079125,
+      "firstReasoningMs": 1175.3542909999996,
+      "totalMs": 4192.594540999999,
+      "promptTokens": 82,
+      "outputTokens": 153,
+      "reasoningTokens": 131,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:09.975Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1175,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1175,
+        "completionId": "ee337201ad8a4016ba5f5a2b9685bfaf",
+        "upstreamTtftMs": 1175
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "extract-5",
+      "mode": "disabled",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "category": "extraction",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-10T03:50:14.168Z",
+      "finishedAt": "2026-10-10T03:50:15.999Z",
+      "firstContentMs": 1221.0770420000044,
+      "totalMs": 1830.4872499999983,
+      "promptTokens": 85,
+      "outputTokens": 20,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:14.168Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1221,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1221,
+        "completionId": "6c006b7b7a784628af32dcde08c619b7",
+        "upstreamTtftMs": 1221
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "format-1",
+      "mode": "disabled",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-10T03:50:16.000Z",
+      "finishedAt": "2026-10-10T03:50:17.492Z",
+      "firstContentMs": 1167.1083329999965,
+      "totalMs": 1491.583166999997,
+      "promptTokens": 49,
+      "outputTokens": 9,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:16.000Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1167,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1167,
+        "completionId": "ce73513e26c348b4b581f7d603e3fc6b",
+        "upstreamTtftMs": 1167
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "format-1",
+      "mode": "default",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-10T03:50:17.493Z",
+      "finishedAt": "2026-10-10T03:50:20.244Z",
+      "firstContentMs": 2703.9466669999965,
+      "firstReasoningMs": 1135.1339579999985,
+      "totalMs": 2750.9720000000016,
+      "promptTokens": 46,
+      "outputTokens": 87,
+      "reasoningTokens": 76,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:17.493Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1135,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1135,
+        "completionId": "a0656a3f2d9c4ebdbd92806358d6b34f",
+        "upstreamTtftMs": 1135
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "format-2",
+      "mode": "default",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-10T03:50:20.245Z",
+      "finishedAt": "2026-10-10T03:50:57.997Z",
+      "firstContentMs": 37620.951375000004,
+      "firstReasoningMs": 36537.562167,
+      "totalMs": 37751.358875000005,
+      "promptTokens": 50,
+      "outputTokens": 61,
+      "reasoningTokens": 49,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:20.245Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 36537,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 36537,
+        "completionId": "486b3c087a114b49b5f840cd99798b8d",
+        "upstreamTtftMs": 36538
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "format-2",
+      "mode": "disabled",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-10T03:50:57.999Z",
+      "finishedAt": "2026-10-10T03:51:06.646Z",
+      "firstContentMs": 8335.096708000012,
+      "totalMs": 8646.662083000003,
+      "promptTokens": 53,
+      "outputTokens": 10,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:50:57.999Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 8334,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 8335,
+        "completionId": "f80260e64cda42b0903f8df573aa5e17",
+        "upstreamTtftMs": 8335
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "format-3",
+      "mode": "disabled",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "text": "[3, 8, 12, 25]",
+      "startedAt": "2026-10-10T03:51:06.648Z",
+      "finishedAt": "2026-10-10T03:51:08.214Z",
+      "firstContentMs": 1119.8191670000087,
+      "totalMs": 1566.1051670000015,
+      "promptTokens": 43,
+      "outputTokens": 15,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:06.648Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1119,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1120,
+        "completionId": "51d24e906ad54b729a447336a8d275f9",
+        "upstreamTtftMs": 1120
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "format-3",
+      "mode": "default",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "text": "[3,8,12,25]",
+      "startedAt": "2026-10-10T03:51:08.215Z",
+      "finishedAt": "2026-10-10T03:51:11.158Z",
+      "firstContentMs": 2839.795750000005,
+      "firstReasoningMs": 1564.4075000000012,
+      "totalMs": 2942.7644169999985,
+      "promptTokens": 40,
+      "outputTokens": 71,
+      "reasoningTokens": 57,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:08.215Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1564,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1564,
+        "completionId": "ad6643c5f0de422c8b3c7397232d0a96",
+        "upstreamTtftMs": 1564
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "format-4",
+      "mode": "default",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "text": "APPLE\nPEAR\nPLUM",
+      "startedAt": "2026-10-10T03:51:11.160Z",
+      "finishedAt": "2026-10-10T03:51:19.483Z",
+      "firstContentMs": 8163.4181249999965,
+      "firstReasoningMs": 6286.734333999993,
+      "totalMs": 8322.947166999991,
+      "promptTokens": 41,
+      "outputTokens": 96,
+      "reasoningTokens": 86,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:11.160Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 6286,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 6287,
+        "completionId": "af021322cd33480885d3f782798da2ce",
+        "upstreamTtftMs": 6287
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "format-4",
+      "mode": "disabled",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "text": "APPLE\nPEAR\nPLUM",
+      "startedAt": "2026-10-10T03:51:19.484Z",
+      "finishedAt": "2026-10-10T03:51:20.841Z",
+      "firstContentMs": 1198.161500000002,
+      "totalMs": 1356.8209579999966,
+      "promptTokens": 44,
+      "outputTokens": 8,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:19.484Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1198,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1198,
+        "completionId": "4f39f665f743489391eee4cceb54946a",
+        "upstreamTtftMs": 1198
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "format-5",
+      "mode": "disabled",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "text": "TX-103|TX-207|TX-309",
+      "startedAt": "2026-10-10T03:51:20.844Z",
+      "finishedAt": "2026-10-10T03:51:22.597Z",
+      "firstContentMs": 1224.1165000000037,
+      "totalMs": 1753.3983750000043,
+      "promptTokens": 66,
+      "outputTokens": 18,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:20.844Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1224,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1224,
+        "completionId": "36862fa5b50f42cf8d0f645744ff803b",
+        "upstreamTtftMs": 1224
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "format-5",
+      "mode": "default",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "text": "TX-103|TX-207|TX-309",
+      "startedAt": "2026-10-10T03:51:22.598Z",
+      "finishedAt": "2026-10-10T03:51:26.816Z",
+      "firstContentMs": 3966.8606660000078,
+      "firstReasoningMs": 2831.646583000009,
+      "totalMs": 4217.949541000009,
+      "promptTokens": 63,
+      "outputTokens": 69,
+      "reasoningTokens": 49,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:22.598Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 2831,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 2832,
+        "completionId": "a9034099aa7a4bbc8d35c27d3ce620a4",
+        "upstreamTtftMs": 2832
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "grounded-1",
+      "mode": "default",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\":9,\"nextDelivery\":\"周二\",\"manager\":null}",
+      "startedAt": "2026-10-10T03:51:26.818Z",
+      "finishedAt": "2026-10-10T03:51:32.035Z",
+      "firstContentMs": 5047.858375000011,
+      "firstReasoningMs": 2863.605708000003,
+      "totalMs": 5217.2011660000135,
+      "promptTokens": 107,
+      "outputTokens": 110,
+      "reasoningTokens": 93,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:26.818Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 2863,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 2863,
+        "completionId": "9f938446df21486d91634376289d0196",
+        "upstreamTtftMs": 2864
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "grounded-1",
+      "mode": "disabled",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\": 9, \"nextDelivery\": \"周二\", \"manager\": null}",
+      "startedAt": "2026-10-10T03:51:32.036Z",
+      "finishedAt": "2026-10-10T03:51:35.509Z",
+      "firstContentMs": 2926.1246249999967,
+      "totalMs": 3472.3641659999994,
+      "promptTokens": 110,
+      "outputTokens": 19,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:32.036Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 2924,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 2926,
+        "completionId": "4d207f1a302c44829442c4465c6291ef",
+        "upstreamTtftMs": 2926
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "grounded-2",
+      "mode": "disabled",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\": 16, \"nextDelivery\": \"周三\", \"manager\": null}",
+      "startedAt": "2026-10-10T03:51:35.510Z",
+      "finishedAt": "2026-10-10T03:51:37.132Z",
+      "firstContentMs": 996.0345830000006,
+      "totalMs": 1621.9040410000016,
+      "promptTokens": 110,
+      "outputTokens": 20,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:35.511Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 996,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 996,
+        "completionId": "22157c37c09f4b9bb05f5d6bfa3c0bee",
+        "upstreamTtftMs": 996
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "grounded-2",
+      "mode": "default",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\":16,\"nextDelivery\":\"周三\",\"manager\":null}",
+      "startedAt": "2026-10-10T03:51:37.134Z",
+      "finishedAt": "2026-10-10T03:51:55.497Z",
+      "firstContentMs": 18102.732292,
+      "firstReasoningMs": 14446.811792000008,
+      "totalMs": 18362.915792000014,
+      "promptTokens": 107,
+      "outputTokens": 189,
+      "reasoningTokens": 171,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:37.134Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 14447,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 14447,
+        "completionId": "a11b4e4ab36b4274b430a66072256bcb",
+        "upstreamTtftMs": 14447
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "grounded-3",
+      "mode": "default",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\":12,\"nextDelivery\":\"周四\",\"manager\":null}",
+      "startedAt": "2026-10-10T03:51:55.499Z",
+      "finishedAt": "2026-10-10T03:52:00.352Z",
+      "firstContentMs": 4578.133000000002,
+      "firstReasoningMs": 1292.691125000012,
+      "totalMs": 4852.930332999997,
+      "promptTokens": 107,
+      "outputTokens": 145,
+      "reasoningTokens": 127,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:51:55.499Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1292,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1293,
+        "completionId": "d57e46fc6b644f9bba56be16173a9617",
+        "upstreamTtftMs": 1293
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "grounded-3",
+      "mode": "disabled",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\": 12, \"nextDelivery\": \"周四\", \"manager\": null}",
+      "startedAt": "2026-10-10T03:52:00.352Z",
+      "finishedAt": "2026-10-10T03:52:03.763Z",
+      "firstContentMs": 2794.7700000000186,
+      "totalMs": 3410.9985420000157,
+      "promptTokens": 110,
+      "outputTokens": 20,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:52:00.352Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 2794,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 2795,
+        "completionId": "e66949ad0b0948ecbf351f5e0063e9b7",
+        "upstreamTtftMs": 2795
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "grounded-4",
+      "mode": "disabled",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\": 20, \"nextDelivery\": \"周五\", \"manager\": null}",
+      "startedAt": "2026-10-10T03:52:03.764Z",
+      "finishedAt": "2026-10-10T03:52:05.724Z",
+      "firstContentMs": 1352.7351250000065,
+      "totalMs": 1960.1794579999987,
+      "promptTokens": 110,
+      "outputTokens": 20,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:52:03.764Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1352,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1353,
+        "completionId": "aa219dda4af648f6b23c1faee7fa92b0",
+        "upstreamTtftMs": 1353
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    },
+    {
+      "id": "grounded-4",
+      "mode": "default",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\":20,\"nextDelivery\":\"周五\",\"manager\":null}",
+      "startedAt": "2026-10-10T03:52:05.726Z",
+      "finishedAt": "2026-10-10T03:52:10.497Z",
+      "firstContentMs": 4485.402417000005,
+      "firstReasoningMs": 1438.878166999988,
+      "totalMs": 4770.394499999995,
+      "promptTokens": 107,
+      "outputTokens": 160,
+      "reasoningTokens": 142,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:52:05.726Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1438,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1439,
+        "completionId": "16256d9c81f84295b5b2b67753f291b2",
+        "upstreamTtftMs": 1439
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "grounded-5",
+      "mode": "default",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\":14,\"nextDelivery\":\"周一\",\"manager\":null}",
+      "startedAt": "2026-10-10T03:52:10.498Z",
+      "finishedAt": "2026-10-10T03:52:16.915Z",
+      "firstContentMs": 6193.274083999975,
+      "firstReasoningMs": 3125.596499999985,
+      "totalMs": 6416.694666999974,
+      "promptTokens": 107,
+      "outputTokens": 134,
+      "reasoningTokens": 116,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:52:10.498Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 3125,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 3126,
+        "completionId": "d6b733dfaa2542d8979a7c400d4ab142",
+        "upstreamTtftMs": 3126
+      },
+      "pass": true,
+      "error": null
+    },
+    {
+      "id": "grounded-5",
+      "mode": "disabled",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      },
+      "category": "grounded-qa",
+      "text": "{\"usable\": 14, \"nextDelivery\": \"周一\", \"manager\": null}",
+      "startedAt": "2026-10-10T03:52:16.917Z",
+      "finishedAt": "2026-10-10T03:52:18.766Z",
+      "firstContentMs": 1365.0007500000065,
+      "totalMs": 1848.9396669999987,
+      "promptTokens": 110,
+      "outputTokens": 20,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:52:16.917Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1365,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1365,
+        "completionId": "a75c54e03101414c9e48b722b83278e1",
+        "upstreamTtftMs": 1365
+      },
+      "pass": true,
+      "error": null,
+      "firstReasoningMs": null,
+      "reasoningTokens": null
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "text": "",
+      "startedAt": "2026-10-10T03:52:18.767Z",
+      "finishedAt": "2026-10-10T03:53:36.553Z",
+      "firstReasoningMs": 6953.368875000015,
+      "totalMs": 77785.40229200001,
+      "promptTokens": 107,
+      "outputTokens": 4096,
+      "reasoningTokens": 4095,
+      "finishReason": "length",
+      "status": "truncated",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:52:18.767Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 6953,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 6953,
+        "completionId": "dd073dd52f244ccb87b327205f25940e",
+        "upstreamTtftMs": 6953
+      },
+      "executable": "",
+      "params": {
+        "systemPrompt": "",
+        "temperature": "0",
+        "maxTokens": "4096"
+      },
+      "mode": "default",
+      "pass": false,
+      "checkError": "Incomplete response",
+      "error": null,
+      "firstContentMs": null
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "text": "function uniqueById(items) {\n  const seen = new Map();\n  const result = [];\n  for (const item of items) {\n    const id = item.id;\n    if (!seen.has(id)) {\n      seen.set(id, true);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "startedAt": "2026-10-10T03:53:36.556Z",
+      "finishedAt": "2026-10-10T03:53:55.102Z",
+      "firstContentMs": 17450.068042,
+      "firstReasoningMs": 6429.065667000017,
+      "totalMs": 18546.177167000016,
+      "promptTokens": 78,
+      "outputTokens": 562,
+      "reasoningTokens": 496,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:53:36.556Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 6429,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 6429,
+        "completionId": "c2a9897d5bf0491cba9de78befc2aeca",
+        "upstreamTtftMs": 6429
+      },
+      "executable": "function uniqueById(items) {\n  const seen = new Map();\n  const result = [];\n  for (const item of items) {\n    const id = item.id;\n    if (!seen.has(id)) {\n      seen.set(id, true);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "params": {
+        "systemPrompt": "",
+        "temperature": "0",
+        "maxTokens": "4096"
+      },
+      "mode": "default",
+      "pass": true,
+      "error": null,
+      "checkError": null
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "text": "function mergeIntervals(intervals) {\n  if (intervals.length === 0) {\n    return [];\n  }\n  const sorted = intervals.slice().sort((a, b) => a[0] - b[0]);\n  const merged = [];\n  let currentStart = sorted[0][0];\n  let currentEnd = sorted[0][1];\n  for (let i = 1; i < sorted.length; i++) {\n    const start = sorted[i][0];\n    const end = sorted[i][1];\n    if (start <= currentEnd) {\n      if (end > currentEnd) {\n        currentEnd = end;\n      }\n    } else {\n      merged.push([currentStart, currentEnd]);\n      currentStart = start;\n      currentEnd = end;\n    }\n  }\n  merged.push([currentStart, currentEnd]);\n  return merged;\n}",
+      "startedAt": "2026-10-10T03:53:55.111Z",
+      "finishedAt": "2026-10-10T03:54:17.542Z",
+      "firstContentMs": 18211.138000000006,
+      "firstReasoningMs": 1671.607290999993,
+      "totalMs": 22430.585624999978,
+      "promptTokens": 83,
+      "outputTokens": 995,
+      "reasoningTokens": 812,
+      "finishReason": "stop",
+      "status": "done",
+      "diagnostics": {
+        "startedAt": "2026-10-10T03:53:55.111Z",
+        "attempts": 1,
+        "upstreamHeadersMs": 1671,
+        "upstreamStatus": 200,
+        "upstreamFirstByteMs": 1671,
+        "completionId": "d1c605c5680541c4b561ae93c3463f56",
+        "upstreamTtftMs": 1672
+      },
+      "executable": "function mergeIntervals(intervals) {\n  if (intervals.length === 0) {\n    return [];\n  }\n  const sorted = intervals.slice().sort((a, b) => a[0] - b[0]);\n  const merged = [];\n  let currentStart = sorted[0][0];\n  let currentEnd = sorted[0][1];\n  for (let i = 1; i < sorted.length; i++) {\n    const start = sorted[i][0];\n    const end = sorted[i][1];\n    if (start <= currentEnd) {\n      if (end > currentEnd) {\n        currentEnd = end;\n      }\n    } else {\n      merged.push([currentStart, currentEnd]);\n      currentStart = start;\n      currentEnd = end;\n    }\n  }\n  merged.push([currentStart, currentEnd]);\n  return merged;\n}",
+      "params": {
+        "systemPrompt": "",
+        "temperature": "0",
+        "maxTokens": "4096"
+      },
+      "mode": "default",
+      "pass": true,
+      "error": null,
+      "checkError": null
+    }
+  ],
+  "catalog": {
+    "checkedAt": "2026-10-10T03:49:41.481Z",
+    "status": 200,
+    "modelIds": [
+      "LongCat-2.5-Preview",
+      "LongCat-2.0"
+    ]
+  },
+  "date": "2026-10-10",
+  "publishedAt": "2026-10-10T11:59:38.543089+08:00",
+  "sources": [
+    {
+      "name": "Quick start",
+      "url": "https://longcat.ai/platform/docs/zh/"
+    },
+    {
+      "name": "Chat Completions",
+      "url": "https://longcat.ai/platform/docs/zh/api/chat"
+    },
+    {
+      "name": "Model pricing",
+      "url": "https://longcat.ai/platform/docs/zh/pricing/longcat-2.5"
+    },
+    {
+      "name": "Changelog",
+      "url": "https://longcat.chat/platform/docs/zh/ChangeLog.html"
+    },
+    {
+      "name": "Thinking defaults",
+      "url": "https://longcat.chat/platform/docs/zh/OpenCode.html"
+    }
+  ],
+  "editorial": {
+    "zh-CN": {
+      "title": "LongCat 2.5 Preview 评测：思考开关、代码边界与免费体验",
+      "summary": "TOKRACE 实测美团 LongCat-2.5-Preview：两种思考模式均通过 15 道文本题，正文首响中位 4.510 秒与 1.221 秒；代码题 2/3 完成，金额题输出截断。附 33 次原始记录、API、价格与免费复测。",
+      "sections": [
+        {
+          "id": "verdict",
+          "title": "LongCat 2.5 Preview 评测结论：文本全对，代码遇到预算边界",
+          "body": "对准备接入美团 LongCat 的开发者，这份评测给出一个有边界的答案：**在本次 15 道短文本题中，默认思考通过 15/15，关闭思考通过 15/15**；三道 JavaScript 题中两道完成，通过 8 项预定检查，另一道耗尽输出预算，没有返回正文代码。默认思考的正文首响中位数为 **4.510 秒**，关闭思考为 **1.221 秒**。它能处理这组短小的格式任务，但代码生成不能只看两道成功案例。\n\n更值得关注的是等待差异：文本最慢一次正文首响达到 **37.621 秒**，结果仍然正确。金额转换代码题则思考至截断。“能答对”“及时返回”和“预算内完成”需要分别看。下文保留了全部 33 次请求、原题与回答，读者可以检查慢请求，也可以在 TOKRACE 免费复测默认模式。\n\n这不是多轮代理或仓库级开发评测。文章的价值在于把准确 API ID、思考参数、测试输出与官方价格放到同一份可核对的记录里，帮助你决定接入后还要验证什么。"
+        },
+        {
+          "id": "identity",
+          "title": "LongCat-2.5-Preview 是什么，API 怎么配置？",
+          "body": "本文测试的是美团 `LongCat-2.5-Preview`，不是早期 LongCat-Flash 系列，也不是 `LongCat-2.0`。[官方更新日志](https://longcat.chat/platform/docs/zh/ChangeLog.html)将 2.5 Preview 上线日期标为 2026 年 9 月 25 日，并介绍图片理解与编码相关能力；本次只验证文本和小函数，不能把厂商描述当成本站测得的成绩。\n\n[快速开始](https://longcat.ai/platform/docs/zh/)列出 1M 上下文和 128K 输出上限，并支持 OpenAI、Anthropic 两种 API 格式。这两项容量是官方规格；我们没有发送百万 token 输入，也没有验证极长输出是否稳定。TOKRACE 的接入地址使用 `https://api.longcat.chat/openai/v1`，完整请求地址是在后面追加 `/chat/completions`。\n\n2026 年 10 月 10 日，本次凭据查询模型目录返回 HTTP 200，包含准确 ID `LongCat-2.5-Preview`。自行接入可在“接入与配置”选择“美团 LongCat”，保留 OpenAI 兼容协议、上述 Base URL 和准确模型名，再填写自己的 Key。[模型资料页](/zh-CN/model/longcat-2-5-preview)保留接入身份及评测入口。"
+        },
+        {
+          "id": "method",
+          "title": "怎么测：同一组题，交替测试两种思考模式",
+          "body": "测试集为 TOKRACE 的 `tasks-2026-09-26.1`：JSON 抽取、格式指令和材料问答各五题。每个题目在默认思考与关闭思考下各请求一次，共 30 次文本请求；每对请求顺序交替，奇数题先默认、偶数题先关闭。temperature 为 0、max_tokens 为 2048、系统提示词为空；没有增加热身请求，也没有重试后挑选更好结果。\n\n默认组不发送思考覆盖参数。关闭组只增加 `{\"thinking\":{\"type\":\"disabled\"}}`；[官方接口文档](https://longcat.ai/platform/docs/zh/api/chat)列出该字段，[OpenCode 配置文档](https://longcat.chat/platform/docs/zh/OpenCode.html)说明默认开启思考。测试记录区分第一段思考与第一段正文到达的时间；文章表格展示正文首响，包含正文之前的思考等待。\n\n文本请求从 `2026-10-10T03:49:41.487Z` 到 `2026-10-10T03:52:18.766Z`（UTC；北京时间加八小时），由本地 macOS 客户端直连官方 API，复用 TOKRACE 流式解析器。**这不是香港标准评测节点数据，也不是浏览器总等待。** 请求串行执行，缓存命中、网络和服务负载未受控；每个模式每题仅一次，因此模式差异只能描述这批观测，不能视为普遍加速比例。三道代码题保留默认思考，输出上限为 4096，结果单列。"
+        },
+        {
+          "id": "text",
+          "title": "15 道文本题：关闭思考仍然全对，但不能承诺稳定提速",
+          "body": "| 模式 | 通过 / 请求 | 正文首响中位 | 完成耗时中位 | 总输出 token |\n| --- | --- | --- | --- | --- |\n| 默认思考 | 15 / 15 | 4.510 s | 4.791 s | 1,905 |\n| 关闭思考 | 15 / 15 | 1.221 s | 1.753 s | 269 |\n\n\n默认组的上游总输出为 1,905 token，其中明确报告思考 token 1,636；关闭组总输出为 269 token，未观察到独立思考片段。思考属于总输出的明细，不能重复相加；关闭组未返回思考用量明细时，下方证据用“—”表示，不把缺失字段改成接口报告的零。\n\n**抽取题选对现居地点，并保留未知邮箱。** 资料包含“现居杭州”和“曾去北京出差”，两种模式都返回 `{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}`。[默认回答](#evidence-extract-1-default) · [关闭思考回答](#evidence-extract-1-disabled)。**去重题遵守了输出约束。** 两组都只输出 `B2,A1,C3,D4`，没有额外标题或解释。[原题与回答](#evidence-format-1-default)。**材料问答没有沿用作废计划。** 北区收到 12 件、3 件损坏，结果可用 9 件、周二送货、负责人为 null。[对应证据](#evidence-grounded-1-default)。\n\n最慢的 `format-2` / `default` 请求正文首响为 37.621 秒。这是一个很简单的限定字段任务；诊断显示约 36.537 秒后才收到上游响应头，但仅凭这个时间不能判断是厂商排队、网络还是其他处理等待。该慢请求没有被排除，关闭模式同题的等待也明显高于其组内中位数。[慢请求证据](#evidence-format-2-default)。\n\n这批题目短、结构相似，满分主要说明格式、类型和少量材料事实符合检查。遇到扫描文档、含糊指令、跨段引用或真实业务噪声，仍需要额外样本。对于已经通过检查的固定格式任务，可以把关闭思考作为下一步验证的候选；复杂任务是否损失质量，本次没有测出答案。"
+        },
+        {
+          "id": "coding",
+          "title": "代码评测：2/3 完成，金额题思考至输出截断",
+          "body": "| 任务 | 本次检查 | 正文首响 |\n| --- | --- | --- |\n| 金额转换：拒绝非法输入，避免浮点误差 | 输出截断 · 18 项未执行 | — |\n| 保序去重：安全处理特殊键且不修改输入 | 通过 · 3 项 | 17.450 s |\n| 区间合并：乱序、相邻区间与输入不可变 | 通过 · 5 项 | 18.211 s |\n\n\n代码检查在请求生成之前确定，共计划 26 项。去重函数通过 3 项，覆盖 `__proto__`、`constructor`、空 id 和原对象身份；区间函数通过 5 项，覆盖乱序、相接、嵌套、负数、空数组和冻结输入。金额函数的 18 项检查包含 `0.29`、空白、非法格式和安全整数边界，但没有得到完整代码，因此未执行。不能把“未执行”写成通过，也不能说代码在这 18 项检查上报错。\n\n金额题约 77.785 秒后以 `finish_reason=length` 结束，正文为空。接口报告总输出 4096 token，其中思考 4095 token，恰好触及本次 `max_tokens=4096` 上限。这说明在这道题、这次默认思考请求上，该预算不足以获得答案；不代表模型永远做不出金额转换，也不能保证增大预算就一定成功。将这个请求排除后给出“代码全部通过”，会掩盖接入时可能遇到的问题。\n\n三个回答分别附在[金额证据](#evidence-code-money)、[去重证据](#evidence-code-dedupe)、[区间证据](#evidence-code-intervals)中。完成的回答使用独立 JavaScript 上下文和 1 秒执行时限检查，不注入凭据或网络接口；只在开头、结尾移除代码围栏，不修改函数逻辑。原始回答、截断状态和检查脚本一起保留，成功结果可以重新执行核对。\n\n这些题不包含依赖安装、跨文件修改、测试失败后的迭代或真实工具调用，所以不能换算成 SWE-bench 等标准成绩。生产接入时还需要验证错误处理、权限限制、长任务中断恢复以及项目自己的回归测试。"
+        },
+        {
+          "id": "access",
+          "title": "免费体验、思考开关与官方 API 价格",
+          "body": "TOKRACE 已提供有额度限制的免 Key 体验：未登录基础 5 次、登录后共 15 次，同一轮比较算一次。点击下方“免费复测第一题”会准备任务和准确模型，随后由你点击开始；不会自动请求其他模型。共享试用由服务器注入 Key，并保持默认思考，自配接口才可用自己的 Key 测试关闭模式。\n\n在自己的模型配置中，关闭思考的额外参数为：\n\n```json\n{\"thinking\":{\"type\":\"disabled\"}}\n```\n\n[官方价格页](https://longcat.ai/platform/docs/zh/pricing/longcat-2.5)在 2026 年 10 月 10 日列出的人民币限时价是：未命中缓存输入 **¥2 / 百万 token**，命中缓存输入 **¥0.04 / 百万 token**，输出 **¥8 / 百万 token**。官网同时列出美元口径 $0.30、$0.006 和 $1.20；它们分别按官网币种表陈述，不是本站计算的汇率换算。\n\n例如，假设一次调用有 1,000 个未缓存输入 token 和 1,000 个计费输出 token，按人民币列价估算为 ¥0.010。这是说明公式的假设例子，不是本次账单。折扣有时效，实际费用以平台结算为准；用户在 TOKRACE 免费体验也不代表上游永久免费。当前本站该接入未配置自动单价时仍显示“未知”，不能据此做零成本排名。"
+        },
+        {
+          "id": "faq",
+          "title": "LongCat 2.5 Preview 常见问题",
+          "body": "### 关闭思考一定更快吗？\n\n本次关闭思考组的正文首响中位更低，但每题每模式只跑一次，缓存与服务负载未控制。我们观察到关闭模式也有慢请求，因此不承诺每次加速；也没有在难题上验证两种模式的质量差异。\n\n### 支持图片、百万上下文和 Agent 工具调用吗？\n\n官方介绍了图片理解、长上下文与开发工具适配。本文没有做图片、百万 token 或工具循环测试，不能用这 33 次短任务担保这些场景。你应在相同接入点用自己的输入和工具协议验证。\n\n### 它比 DeepSeek、MiniMax 更好吗？\n\n本次没有同时间、同参数的对照模型。其他文章的历史测量路径和时段不同，也不能直接排名。可以在[竞速场](/zh-CN/arena)选择模型并使用相同任务复测，测试方法见[测量说明](/zh-CN/method)。\n\n### 无需 Key 的免费入口在哪里？\n\n点击下方免费复测按钮，或在竞速场的接入管理中选择“美团 LongCat 2.5 Preview”体验模型。选择厂商预设是配置自己凭据的入口；体验模型才使用本站额度。供应商限流或账户额度变化会影响可用性。"
+        },
+        {
+          "id": "limits",
+          "title": "这份评测能支持哪些选择？",
+          "body": "对短文本抽取、严格格式和小函数实现，本次结果支持把 LongCat 2.5 Preview 加入候选，并用自己的业务数据继续验证。对要求稳定低延迟的产品，应单独记录慢请求和跨时段表现；单看中位数会漏掉本文出现的等待波动。需要复杂推理时，不应仅凭这些简单题全对就关闭思考。\n\n本次 33 个回答都来自同一模型接入点、一个短时间窗口，代码题没有测试关闭思考。我们没有验证长上下文、图像、工具循环、并发负载、长期稳定性或真实账单，也没有给予综合评分或“最强模型”称号。不同 tokenizer、缓存和网络路径会影响观测，不将短答案折算成宣传用 tok/s 或小样本 P95。\n\n下方是全部原始证据和复测入口。想找更多样本，可以查看[实测报告目录](/zh-CN/reports)；本文与香港节点的标准报告分别标注，避免把本地首测混进服务器榜单。"
+        }
+      ]
+    },
+    "en": {
+      "title": "LongCat 2.5 Preview review: thinking modes and free trial",
+      "summary": "30 text attempts passed; 2/3 coding tasks completed, one hit its token limit. Original LongCat 2.5 Preview evidence, thinking modes, API settings and free trial.",
+      "sections": [
+        {
+          "id": "verdict",
+          "title": "LongCat 2.5 Preview review: text passes, a coding budget limit",
+          "body": "For developers considering Meituan LongCat, this review offers a bounded answer. On 15 short text tasks, **default thinking passed 15/15 and disabled thinking passed 15/15**. Two of three JavaScript tasks completed, passing 8 predetermined checks. The third exhausted its output budget without returning code. Median time to first visible content was **4.510 seconds** with default thinking and **1.221 seconds** with thinking disabled. Successful formatting does not erase the coding failure or establish a general advantage over other models.\n\nWaiting time deserves separate attention: the slowest text first-content observation was **37.621 seconds**, despite a correct answer. Correctness, responsiveness and completion within a token budget are separate concerns. All 33 attempts, prompts and answers are retained below, including the slow text request and truncated coding task.\n\nThis is a first look at short text and small functions. It connects verified endpoint settings to actual outputs and documented pricing, while leaving sustained agent work and repository-level development for separate tests."
+        },
+        {
+          "id": "identity",
+          "title": "Exact model identity and API setup",
+          "body": "The model tested is Meituan `LongCat-2.5-Preview`, distinct from LongCat-2.0 and the older Flash models. The [official changelog](https://longcat.chat/platform/docs/zh/ChangeLog.html) dates its introduction to September 25, 2026 and describes image understanding and coding capabilities. Our tests cover text and small functions; those broader descriptions are vendor claims, not measured results here.\n\nThe [quick-start guide](https://longcat.ai/platform/docs/zh/) lists 1M context, 128K maximum output and OpenAI/Anthropic formats. Those capacities were not stress-tested. TOKRACE uses base URL `https://api.longcat.chat/openai/v1`; appending `/chat/completions` gives the complete request URL.\n\nOn October 10, 2026, the catalog returned HTTP 200 and included the exact requested model ID. To configure your own connection, choose the Meituan LongCat preset, keep the OpenAI-compatible protocol and exact model name, and supply your own key. The [model profile](/en/model/longcat-2-5-preview) preserves endpoint identity and the review link."
+        },
+        {
+          "id": "method",
+          "title": "Test design: paired modes with alternating request order",
+          "body": "We used TOKRACE suite `tasks-2026-09-26.1`: five JSON-extraction cases, five formatting cases and five grounded-QA cases. Each task ran once in each mode, producing 30 text attempts. Pair order alternated: default first for odd-numbered tasks, disabled first for even-numbered tasks. Temperature was 0, max_tokens 2048 and the system prompt empty. There were no warm-up requests, retries or discarded failures.\n\nThe default group supplied no thinking override. The disabled group added only `{\"thinking\":{\"type\":\"disabled\"}}`. The [API reference](https://longcat.ai/platform/docs/zh/api/chat) defines the switch, and the [OpenCode guide](https://longcat.chat/platform/docs/zh/OpenCode.html) documents thinking as enabled by default. We recorded first reasoning and first visible content separately; the table reports the latter, including preceding thinking time.\n\nText attempts ran from `2026-10-10T03:49:41.487Z` to `2026-10-10T03:52:18.766Z` in UTC (Beijing time is UTC+8). A local macOS client called the official API using TOKRACE's streaming parser. **These are not Hong Kong benchmark-node results or total browser waiting times.** Calls were sequential; caching, network conditions and service load were uncontrolled. One observation per task per mode cannot establish a universal speedup. Coding tasks used default thinking and a separate 4096-token output limit."
+        },
+        {
+          "id": "text",
+          "title": "Text results: both modes passed; latency remains an observation",
+          "body": "| Mode | Passed / attempted | Median first content | Median completion | Total completion tokens |\n| --- | --- | --- | --- | --- |\n| Default thinking | 15 / 15 | 4.510 s | 4.791 s | 1,905 |\n| Thinking disabled | 15 / 15 | 1.221 s | 1.753 s | 269 |\n\n\nThe default group reported 1,905 total completion tokens, including 1,636 reasoning tokens. The disabled group reported 269 completion tokens and emitted no separate reasoning chunks. Reasoning is a completion detail and must not be added again. Missing reasoning-usage fields are displayed as a dash, rather than relabeled as a reported zero.\n\nExtraction selected Hangzhou as the current city, ignored a historic Beijing trip and retained a null email. [Default answer](#evidence-extract-1-default) · [Disabled answer](#evidence-extract-1-disabled). Stable deduplication returned exactly `B2,A1,C3,D4`, without commentary. [Evidence](#evidence-format-1-default). Grounded QA calculated nine usable warehouse items, selected Tuesday over a superseded Sunday plan and left the manager unknown. [Evidence](#evidence-grounded-1-default).\n\nThe slowest attempt, `format-2` in `default` mode, took 37.621 seconds to first content on a simple exact-fields task. Response headers arrived after approximately 36.537 seconds. That timing alone cannot identify queuing, network delay or another cause. We retained the observation; the disabled counterpart was also substantially above its own group median. [Slow attempt](#evidence-format-2-default).\n\nThe cases are short and structurally similar. Full marks verify these fields, types and small factual constraints, not arbitrary business documents. Disabled thinking is a candidate to test on already validated structured tasks, but quality on harder reasoning tasks remains unknown."
+        },
+        {
+          "id": "coding",
+          "title": "Coding: two completed tasks; money parsing exhausted the budget",
+          "body": "| Task | Checks in this test | First content |\n| --- | --- | --- |\n| Money parsing without rounding invalid inputs | Truncated · 18 checks not run | — |\n| Stable deduplication with special property names | Passed · 3 checks | 17.450 s |\n| Interval merging, touching intervals and immutability | Passed · 5 checks | 18.211 s |\n\n\nWe planned 26 checks before generation. Deduplication passed three, covering special IDs, original object identity and frozen input. Interval merging passed five, covering unordered touching intervals, nesting, negatives and empty arrays. The money task's 18 checks were not run because no complete code arrived. Unexecuted checks are neither passes nor failed assertions.\n\nMoney parsing ended after approximately 77.785 seconds with `finish_reason=length` and an empty final answer. The API reported 4096 completion tokens, including 4095 reasoning tokens, reaching the configured 4096-token limit. That budget was insufficient for this particular default-thinking attempt. It does not prove the task impossible, or guarantee success with a larger budget. Omitting this attempt would hide a practical integration issue.\n\nSee [money evidence](#evidence-code-money), [deduplication evidence](#evidence-code-dedupe) and [interval evidence](#evidence-code-intervals). Completed answers were checked in a separate JavaScript context with a one-second timeout and no supplied credentials or network APIs. Only outer code fences were removed; function logic was not repaired. Original answers, termination state and check programs are retained for inspection.\n\nThere was no dependency installation, cross-file editing, tool loop or iterative repair. These functions cannot be converted into a SWE-bench score. Production adoption still requires the project's own regression suite and operational checks."
+        },
+        {
+          "id": "access",
+          "title": "Free trial, thinking control and official API prices",
+          "body": "TOKRACE offers quota-limited trials without your own key: five anonymous base runs or fifteen after sign-in; a comparison round counts once. The button below prepares the exact task and model, then waits for you to start. Shared trials use a server-side key and default thinking. Testing disabled thinking requires your own configured endpoint and key.\n\nFor your own model, the extra request parameter is:\n\n```json\n{\"thinking\":{\"type\":\"disabled\"}}\n```\n\nOn October 10, 2026, the [official price page](https://longcat.ai/platform/docs/zh/pricing/longcat-2.5) listed promotional CNY rates of ¥2 per million uncached input tokens, ¥0.04 per million cached input tokens and ¥8 per million output tokens. Its separate USD table lists $0.30, $0.006 and $1.20 respectively; these are documented currency schedules, not our exchange-rate conversion.\n\nA hypothetical request with 1,000 uncached input tokens and 1,000 billable output tokens would cost approximately ¥0.010 at the listed CNY rates. This illustrates arithmetic, not an observed invoice. Discounts can change and platform settlement determines actual charges. TOKRACE's free quota does not imply permanently free upstream access. Until a price is configured for this endpoint, the site's automatic cost display remains unknown rather than zero."
+        },
+        {
+          "id": "faq",
+          "title": "Frequently asked questions",
+          "body": "### Is disabling thinking always faster?\n\nThe disabled group had a lower first-content median here. Each mode ran only once per task, and caching and service load were uncontrolled. A slow disabled request also occurred. We cannot promise a speedup for every call or infer its quality on difficult tasks.\n\n### Were images, million-token context or agent tools tested?\n\nNo. Official documentation describes those broader capabilities. These 33 short-task attempts do not validate them. Use your own input and tool protocol against the same endpoint before depending on those scenarios.\n\n### Is it better than DeepSeek or MiniMax?\n\nThere is no matched competitor in this review. Historical tests used different time windows and routes, so they cannot provide a fair ranking. Compare the same tasks in the [arena](/en/arena) and consult the [measurement method](/en/method).\n\n### Where is the trial without an API key?\n\nUse the rerun button below or enable the LongCat 2.5 Preview trial in connection settings. A provider preset configures your own credential; a trial model uses TOKRACE's quota. Provider limits and account availability can still interrupt access."
+        },
+        {
+          "id": "limits",
+          "title": "What these results support",
+          "body": "LongCat 2.5 Preview is a candidate for further testing on exact extraction, formatting and small functions. Products requiring predictable responsiveness should measure slow requests across time windows, rather than rely on a median alone. Simple tasks passing in both modes are insufficient grounds to disable thinking on complex workloads.\n\nAll 33 answers came from one endpoint in one short window; coding used only default thinking. Long context, images, tool loops, concurrency, sustained reliability and invoices remain unverified. There is no overall intelligence score, general winner, short-output throughput headline or small-sample P95.\n\nAll original evidence and the rerun entry appear below. Browse the [report directory](/en/reports) for further tests. This local first look is labeled separately from standard Hong Kong-node reports, so its timing is not silently mixed into the server leaderboard."
+        }
+      ]
+    }
+  }
+}

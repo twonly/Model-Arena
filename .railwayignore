@@ -1,0 +1,32 @@
+# Local dependency and build directories are not production source.
+/node_modules/
+/.next/
+
+# Public evaluation URLs are proxied to the verified object-storage snapshot.
+# Keep local originals for evidence and development; do not put binary media in the source upload.
+/public/evaluations/kimi-k3-1-pro-creative/
+/public/articles/kimi-k3-1-teaser/kimi-k3-1-official-teaser.mp4
+/public/articles/tencent-hy4/hy4-official-teaser.mp4
+/public/articles/tencent-hy4-release/official-launch-film.mp4
+/public/articles/tencent-hy4-release/official-benchmark-overview.png
+/public/articles/tencent-hy4-release/official-hard-benchmarks.jpg
+/public/articles/tencent-hy4-release/official-benchmark-appendix.jpg
+/public/articles/tencent-hy4-release/official-benchmark-x.jpg
+/public/evaluations/kimi-k3-1-pro/official-examples/*.mp4
+
+/public/evaluations/longcat-2-5-claude-code/
+/public/evaluations/longcat-2-5-release/
+/public/evaluations/longcat-2-5-creation-20261102/
+
+# Standalone Remotion projects have their own dependencies and build commands.
+/animations/
+
+# Verified immutable Crouton media snapshot.
+/public/evaluations/crouton-alpha-creative/
+
+# Verified immutable Hy4 creative media snapshot.
+/public/evaluations/tencent-hy4-creative/
+
+# Verified immutable Gemini creative media snapshots.
+/public/evaluations/gemini-3-8-flash-creative/
+/public/evaluations/gemini-4-argon-creative/

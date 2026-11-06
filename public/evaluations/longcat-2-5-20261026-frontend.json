@@ -1,0 +1,530 @@
+{
+  "schemaVersion": 1,
+  "status": "complete",
+  "date": "2026-10-26",
+  "updatedAt": "2026-10-26T15:57:37.821Z",
+  "model": "LongCat-2.5-Preview",
+  "endpoint": "https://api.longcat.chat/openai/v1",
+  "evidencePath": "/evaluations/longcat-2-5-20261026-frontend.json",
+  "methodZh": "API单轮生成同一响应式骑行活动网页任务，两档均使用12,288输出token、600秒。不是Claude Code/Codex多轮编程智能体基准，也没有人工修改输出。原始HTML以.html.txt发布，截图和交互在无真实会话、所有外网请求阻断的隔离Chromium中进行；报名仅为本地演示。",
+  "methodEn": "One-turn API generation of the same responsive cycling-club website in both thinking modes: 12,288 output tokens, 600 seconds. This is not a multi-turn Claude Code/Codex agent benchmark. No manual source edits. Original HTML is served as .html.txt; screenshots and interaction checks use isolated Chromium with no real session and every network request blocked. Signup is a local demonstration.",
+  "attempts": [
+    {
+      "id": "frontend-cycling",
+      "category": "frontend",
+      "title": "城市骑行活动网页",
+      "titleEn": "Urban cycling event website",
+      "prompt": "Build a polished responsive Chinese website for a weekend urban cycling club named「慢骑城市」. Return only one complete self-contained HTML document with all CSS and JavaScript inline, no Markdown. No external assets, fonts, libraries, URLs, network calls, storage or permissions. Use local SVG/CSS illustrations. This is a practical product page, not a wireframe. Requirements: (1) a top navigation with working anchor links to routes, schedule and signup; (2) a strong editorial hero; (3) a route grid containing exactly these three cards: 滨江轻骑—休闲—12公里, 老城漫游—休闲—8公里, 山脊挑战—进阶—35公里; (4) real filter buttons named 全部 / 休闲 / 进阶 that change visible route cards; (5) a schedule with 09:00集合、09:15出发、11:30结束; (6) a signup section with a labelled name input, an experience select, a button named 确认报名 and an on-page success message after a valid submit, no navigation; (7) readable, accessible layout at both 1440px desktop and 390px mobile, without horizontal overflow. Use excellent spacing, restrained typography, a warm light palette, one bold accent, clear focus styles and reduced-motion support. Do not fabricate testimonials, attendee counts or external sponsors. All key content and interactions must fit in this single file. The signup is explicitly a local demonstration; do not imply an actual booking.",
+      "mode": "disabled",
+      "status": "done",
+      "text": "<!DOCTYPE html>\n<html lang=\"zh-CN\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>慢骑城市 · 周末城市骑行俱乐部</title>\n<style>\n  :root{\n    --bg:#FAF6EF;\n    --bg-soft:#F3EDE1;\n    --surface:#FFFDF9;\n    --ink:#2B2620;\n    --ink-soft:#6B6257;\n    --line:#E4DCCB;\n    --accent:#D4552A;\n    --accent-deep:#B2431F;\n    --accent-soft:#FBE3D8;\n    --green:#3E7C59;\n    --radius:14px;\n    --maxw:1120px;\n    --serif:\"Songti SC\",\"Noto Serif SC\",\"STSong\",Georgia,\"Times New Roman\",serif;\n    --sans:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Hiragino Sans GB\",\"Microsoft YaHei\",\"Source Han Sans SC\",sans-serif;\n  }\n  *{box-sizing:border-box;margin:0;padding:0}\n  html{scroll-behavior:smooth}\n  @media (prefers-reduced-motion:reduce){\n    html{scroll-behavior:auto}\n    *,*::before,*::after{animation:none!important;transition:none!important}\n  }\n  body{\n    font-family:var(--sans);\n    background:var(--bg);\n    color:var(--ink);\n    line-height:1.75;\n    font-size:16px;\n    -webkit-font-smoothing:antialiased;\n    overflow-x:hidden;\n  }\n  a{color:inherit}\n  img,svg{max-width:100%;display:block}\n  :focus-visible{\n    outline:3px solid var(--accent);\n    outline-offset:3px;\n    border-radius:4px;\n  }\n  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}\n  .skip{\n    position:absolute;left:-9999px;top:0;background:var(--accent);color:#fff;\n    padding:10px 16px;border-radius:0 0 8px 0;z-index:200;font-weight:600;\n  }\n  .skip:focus{left:0}\n\n  /* ---------- NAV ---------- */\n  header{\n    position:sticky;top:0;z-index:100;\n    background:rgba(250,246,239,.92);\n    backdrop-filter:blur(10px);\n    -webkit-backdrop-filter:blur(10px);\n    border-bottom:1px solid var(--line);\n  }\n  .nav{\n    display:flex;align-items:center;justify-content:space-between;\n    height:68px;gap:16px;\n  }\n  .brand{\n    display:flex;align-items:center;gap:10px;\n    text-decoration:none;font-weight:700;font-size:1.15rem;letter-spacing:.02em;\n  }\n  .brand svg{width:34px;height:34px;flex:none}\n  .brand em{font-style:normal;color:var(--accent)}\n  .nav-links{display:flex;gap:6px;list-style:none}\n  .nav-links a{\n    text-decoration:none;font-size:.95rem;font-weight:500;\n    padding:8px 14px;border-radius:999px;color:var(--ink-soft);\n    transition:color .2s,background .2s;\n  }\n  .nav-links a:hover{color:var(--ink);background:var(--bg-soft)}\n  .nav-cta{\n    text-decoration:none;background:var(--accent);color:#fff!important;\n    font-weight:600;font-size:.9rem;padding:9px 18px;border-radius:999px;\n    transition:background .2s;\n  }\n  .nav-cta:hover{background:var(--accent-deep)}\n  .nav-toggle{\n    display:none;background:none;border:1px solid var(--line);\n    border-radius:10px;padding:8px 10px;cursor:pointer;\n  }\n  .nav-toggle svg{width:22px;height:22px}\n\n  /* ---------- HERO ---------- */\n  .hero{\n    padding:72px 0 64px;\n    border-bottom:1px solid var(--line);\n    position:relative;overflow:hidden;\n  }\n  .hero-grid{\n    display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;\n  }\n  .kicker{\n    display:inline-flex;align-items:center;gap:8px;\n    font-size:.8rem;font-weight:700;letter-spacing:.18em;\n    color:var(--accent);text-transform:uppercase;margin-bottom:18px;\n  }\n  .kicker::before{content:\"\";width:28px;height:2px;background:var(--accent)}\n  h1{\n    font-family:var(--serif);\n    font-size:clamp(2.1rem,5vw,3.4rem);\n    line-height:1.25;font-weight:700;letter-spacing:.01em;\n    margin-bottom:20px;\n  }\n  h1 .hl{color:var(--accent)}\n  .hero p.lead{\n    font-size:1.08rem;color:var(--ink-soft);max-width:34em;margin-bottom:32px;\n  }\n  .hero-actions{display:flex;gap:14px;flex-wrap:wrap}\n  .btn{\n    display:inline-flex;align-items:center;gap:8px;\n    text-decoration:none;font-weight:600;font-size:.98rem;\n    padding:13px 26px;border-radius:999px;border:1px solid transparent;\n    cursor:pointer;font-family:inherit;transition:background .2s,color .2s,border-color .2s;\n  }\n  .btn-primary{background:var(--accent);color:#fff}\n  .btn-primary:hover{background:var(--accent-deep)}\n  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}\n  .btn-ghost:hover{border-color:var(--ink);background:var(--surface)}\n  .hero-note{\n    margin-top:26px;font-size:.85rem;color:var(--ink-soft);\n    display:flex;align-items:center;gap:8px;\n  }\n  .hero-note svg{width:16px;height:16px;flex:none}\n  .hero-art{\n    background:var(--surface);border:1px solid var(--line);\n    border-radius:20px;padding:20px;\n  }\n  .hero-art svg{width:100%;height:auto;border-radius:12px}\n\n  /* ---------- SECTIONS ---------- */\n  section{padding:72px 0}\n  .sec-head{margin-bottom:40px;max-width:44em}\n  .sec-head h2{\n    font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);\n    line-height:1.3;margin-bottom:12px;\n  }\n  .sec-head p{color:var(--ink-soft)}\n\n  /* ---------- ROUTES ---------- */\n  #routes{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}\n  .filters{\n    display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;\n  }\n  .filter-btn{\n    font-family:inherit;font-size:.92rem;font-weight:600;\n    padding:9px 20px;border-radius:999px;cursor:pointer;\n    border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);\n    transition:all .2s;\n  }\n  .filter-btn:hover{border-color:var(--ink);color:var(--ink)}\n  .filter-btn[aria-pressed=\"true\"]{\n    background:var(--accent);border-color:var(--accent);color:#fff;\n  }\n  .route-grid{\n    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;\n  }\n  .route-card{\n    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);\n    overflow:hidden;display:flex;flex-direction:column;\n    transition:transform .25s,box-shadow .25s;\n  }\n  .route-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(43,38,32,.08)}\n  .route-card[hidden]{display:none}\n  .route-art{aspect-ratio:16/9;position:relative;overflow:hidden}\n  .route-art svg{width:100%;height:100%}\n  .tag{\n    position:absolute;top:12px;left:12px;\n    font-size:.75rem;font-weight:700;letter-spacing:.06em;\n    padding:5px 12px;border-radius:999px;\n  }\n  .tag-easy{background:#E4F0E7;color:var(--green)}\n  .tag-hard{background:var(--accent-soft);color:var(--accent-deep)}\n  .route-body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:12px;flex:1}\n  .route-body h3{\n    font-family:var(--serif);font-size:1.3rem;font-weight:700;\n  }\n  .route-meta{\n    display:flex;align-items:center;gap:14px;\n    font-size:.88rem;color:var(--ink-soft);\n  }\n  .route-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--line)}\n  .route-body p{font-size:.93rem;color:var(--ink-soft);flex:1}\n  .route-link{\n    font-size:.9rem;font-weight:600;color:var(--accent);text-decoration:none;\n    display:inline-flex;align-items:center;gap:6px;\n  }\n  .route-link:hover{text-decoration:underline}\n\n  /* ---------- SCHEDULE ---------- */\n  .timeline{\n    list-style:none;max-width:640px;\n    border-left:2px solid var(--line);margin-left:8px;\n  }\n  .timeline li{\n    position:relative;padding:0 0 32px 32px;\n  }\n  .timeline li:last-child{padding-bottom:0}\n  .timeline li::before{\n    content:\"\";position:absolute;left:-8px;top:8px;\n    width:14px;height:14px;border-radius:50%;\n    background:var(--bg);border:3px solid var(--accent);\n  }\n  .timeline time{\n    font-family:var(--serif);font-size:1.25rem;font-weight:700;\n    display:block;margin-bottom:4px;\n  }\n  .timeline .t-label{font-weight:600}\n  .timeline .t-desc{font-size:.9rem;color:var(--ink-soft)}\n  .sched-aside{\n    margin-top:44px;background:var(--bg-soft);border-radius:var(--radius);\n    padding:24px 28px;display:flex;gap:18px;align-items:flex-start;max-width:640px;\n  }\n  .sched-aside svg{width:26px;height:26px;flex:none;margin-top:3px}\n  .sched-aside p{font-size:.92rem;color:var(--ink-soft)}\n  .sched-aside strong{color:var(--ink)}\n\n  /* ---------- SIGNUP ---------- */\n  #signup{background:var(--surface);border-top:1px solid var(--line)}\n  .signup-grid{\n    display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start;\n  }\n  .signup-info h2{\n    font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);\n    line-height:1.3;margin-bottom:16px;\n  }\n  .signup-info p{color:var(--ink-soft);margin-bottom:24px}\n  .demo-badge{\n    display:inline-flex;align-items:center;gap:8px;\n    background:var(--accent-soft);color:var(--accent-deep);\n    font-size:.82rem;font-weight:700;padding:8px 16px;border-radius:999px;\n    margin-bottom:20px;\n  }\n  .demo-badge svg{width:15px;height:15px}\n  .signup-facts{list-style:none;display:flex;flex-direction:column;gap:14px}\n  .signup-facts li{\n    display:flex;gap:12px;align-items:flex-start;font-size:.93rem;color:var(--ink-soft);\n  }\n  .signup-facts svg{width:18px;height:18px;flex:none;margin-top:4px}\n  .signup-facts strong{color:var(--ink)}\n\n  form{\n    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);\n    padding:32px;\n  }\n  .field{margin-bottom:22px}\n  .field label{\n    display:block;font-weight:600;font-size:.92rem;margin-bottom:8px;\n  }\n  .field label .req{color:var(--accent);margin-left:2px}\n  .field input,.field select{\n    width:100%;font-family:inherit;font-size:1rem;color:var(--ink);\n    background:var(--surface);border:1px solid var(--line);border-radius:10px;\n    padding:12px 14px;transition:border-color .2s;\n    appearance:none;-webkit-appearance:none;\n  }\n  .field select{\n    background-image:url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236B6257' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E\");\n    background-repeat:no-repeat;background-position:right 14px center;\n    padding-right:38px;\n  }\n  .field input:focus,.field select:focus{\n    border-color:var(--accent);outline:none;\n    box-shadow:0 0 0 3px var(--accent-soft);\n  }\n  .field .hint{font-size:.8rem;color:var(--ink-soft);margin-top:6px}\n  .field .err{\n    display:none;font-size:.82rem;color:var(--accent-deep);margin-top:6px;font-weight:600;\n  }\n  .field.invalid .err{display:block}\n  .field.invalid input{border-color:var(--accent-deep)}\n  .submit-btn{\n    width:100%;justify-content:center;font-size:1.02rem;padding:14px;\n    background:var(--accent);color:#fff;border:none;border-radius:10px;\n    font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;\n  }\n  .submit-btn:hover{background:var(--accent-deep)}\n  .form-foot{\n    margin-top:16px;font-size:.8rem;color:var(--ink-soft);text-align:center;\n  }\n  .success{\n    display:none;margin-top:20px;background:#E4F0E7;border:1px solid #BCD9C4;\n    border-radius:10px;padding:16px 18px;\n  }\n  .success.show{display:block}\n  .success h3{\n    color:var(--green);font-size:1rem;margin-bottom:6px;\n    display:flex;align-items:center;gap:8px;\n  }\n  .success h3 svg{width:18px;height:18px}\n  .success p{font-size:.88rem;color:var(--ink-soft)}\n\n  /* ---------- FOOTER ---------- */\n  footer{\n    border-top:1px solid var(--line);padding:40px 0;\n    background:var(--bg-soft);\n  }\n  .foot-grid{\n    display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;\n  }\n  footer p{font-size:.85rem;color:var(--ink-soft)}\n  footer .foot-brand{font-weight:700;color:var(--ink)}\n\n  /* ---------- RESPONSIVE ---------- */\n  @media (max-width:900px){\n    .hero-grid{grid-template-columns:1fr;gap:40px}\n    .route-grid{grid-template-columns:1fr 1fr}\n    .signup-grid{grid-template-columns:1fr;gap:40px}\n  }\n  @media (max-width:640px){\n    .wrap{padding:0 18px}\n    .nav{height:60px}\n    .nav-toggle{display:block}\n    .nav-links{\n      display:none;position:absolute;top:60px;left:0;right:0;\n      background:var(--surface);border-bottom:1px solid var(--line);\n      flex-direction:column;padding:12px 18px 18px;gap:4px;\n    }\n    .nav-links.open{display:flex}\n    .nav-links a{padding:12px 14px;border-radius:10px}\n    .nav-cta{margin-top:6px;text-align:center}\n    .hero{padding:48px 0 44px}\n    .hero-actions .btn{width:100%;justify-content:center}\n    section{padding:52px 0}\n    .route-grid{grid-template-columns:1fr}\n    form{padding:24px 20px}\n    .filters{gap:8px}\n    .filter-btn{flex:1;text-align:center;padding:9px 10px}\n    .foot-grid{flex-direction:column;align-items:flex-start}\n  }\n</style>\n</head>\n<body>\n\n<a class=\"skip\" href=\"#main\">跳到主要内容</a>\n\n<!-- ============ NAV ============ -->\n<header>\n  <div class=\"wrap\">\n    <nav class=\"nav\" aria-label=\"主导航\">\n      <a class=\"brand\" href=\"#top\" aria-label=\"慢骑城市 首页\">\n        <svg viewBox=\"0 0 40 40\" fill=\"none\" aria-hidden=\"true\">\n          <circle cx=\"11\" cy=\"28\" r=\"7\" stroke=\"#2B2620\" stroke-width=\"2.4\"/>\n          <circle cx=\"29\" cy=\"28\" r=\"7\" stroke=\"#2B2620\" stroke-width=\"2.4\"/>\n          <path d=\"M11 28 L18 16 H24 L29 28 M18 16 L15 11 H19\" stroke=\"#D4552A\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\"/>\n        </svg>\n        <span>慢骑<em>城市</em></span>\n      </a>\n      <button class=\"nav-toggle\" id=\"navToggle\" aria-expanded=\"false\" aria-controls=\"navLinks\" aria-label=\"打开菜单\">\n        <svg viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n          <path d=\"M4 7h16M4 12h16M4 17h16\" stroke=\"#2B2620\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n        </svg>\n      </button>\n      <ul class=\"nav-links\" id=\"navLinks\">\n        <li><a href=\"#routes\">骑行路线</a></li>\n        <li><a href=\"#schedule\">活动安排</a></li>\n        <li><a class=\"nav-cta\" href=\"#signup\">立即报名</a></li>\n      </ul>\n    </nav>\n  </div>\n</header>\n\n<main id=\"main\">\n\n<!-- ============ HERO ============ -->\n<section class=\"hero\" id=\"top\">\n  <div class=\"wrap hero-grid\">\n    <div>\n      <span class=\"kicker\">周末城市骑行俱乐部</span>\n      <h1>不赶时间，<br>用两个轮子<span class=\"hl\">慢慢读完</span>一座城。</h1>\n      <p class=\"lead\">\n        每周六上午，我们沿着江边、穿过老街、翻过山脊——\n        以每小时十五公里的速度，重新认识脚下这座熟悉又陌生的城市。\n        无需专业装备，带上好奇心即可出发。\n      </p>\n      <div class=\"hero-actions\">\n        <a class=\"btn btn-primary\" href=\"#routes\">查看本周路线</a>\n        <a class=\"btn btn-ghost\" href=\"#schedule\">了解活动安排</a>\n      </div>\n      <p class=\"hero-note\">\n        <svg viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\">\n          <circle cx=\"8\" cy=\"8\" r=\"7\" stroke=\"#3E7C59\" stroke-width=\"1.6\"/>\n          <path d=\"M5.5 8.2l1.8 1.8 3.2-3.4\" stroke=\"#3E7C59\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n        </svg>\n        免费参与 · 自备自行车与头盔 · 全程有领队陪同\n      </p>\n    </div>\n    <div class=\"hero-art\" aria-hidden=\"true\">\n      <!-- 本地 SVG 插画：城市天际线 + 骑行者 -->\n      <svg viewBox=\"0 0 480 300\" role=\"img\">\n        <defs>\n          <linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n            <stop offset=\"0\" stop-color=\"#FDF3E3\"/>\n            <stop offset=\"1\" stop-color=\"#F6E7D2\"/>\n          </linearGradient>\n        </defs>\n        <rect width=\"480\" height=\"300\" fill=\"url(#sky)\" rx=\"12\"/>\n        <!-- 太阳 -->\n        <circle cx=\"390\" cy=\"62\" r=\"26\" fill=\"#F2C879\"/>\n        <!-- 云 -->\n        <g fill=\"#FFFFFF\" opacity=\".85\">\n          <ellipse cx=\"110\" cy=\"60\" rx=\"34\" ry=\"12\"/>\n          <ellipse cx=\"140\" cy=\"54\" rx=\"24\" ry=\"10\"/>\n          <ellipse cx=\"250\" cy=\"88\" rx=\"26\" ry=\"9\"/>\n        </g>\n        <!-- 远景楼群 -->\n        <g fill=\"#E7DCC6\">\n          <rect x=\"20\" y=\"130\" width=\"44\" height=\"110\"/>\n          <rect x=\"72\" y=\"108\" width=\"38\" height=\"132\"/>\n          <rect x=\"118\" y=\"142\" width=\"52\" height=\"98\"/>\n          <rect x=\"330\" y=\"120\" width=\"46\" height=\"120\"/>\n          <rect x=\"384\" y=\"148\" width=\"40\" height=\"92\"/>\n          <rect x=\"432\" y=\"132\" width=\"34\" height=\"108\"/>\n        </g>\n        <!-- 中景楼群 -->\n        <g fill=\"#D8CCB4\">\n          <rect x=\"178\" y=\"150\" width=\"40\" height=\"90\"/>\n          <rect x=\"226\" y=\"132\" width=\"34\" height=\"108\"/>\n          <rect x=\"268\" y=\"158\" width=\"44\" height=\"82\"/>\n        </g>\n        <!-- 窗户 -->\n        <g fill=\"#FAF6EF\" opacity=\".8\">\n          <rect x=\"30\" y=\"142\" width=\"8\" height=\"8\"/><rect x=\"46\" y=\"142\" width=\"8\" height=\"8\"/>\n          <rect x=\"30\" y=\"160\" width=\"8\" height=\"8\"/><rect x=\"46\" y=\"160\" width=\"8\" height=\"8\"/>\n          <rect x=\"82\" y=\"122\" width=\"8\" height=\"8\"/><rect x=\"96\" y=\"122\" width=\"8\" height=\"8\"/>\n          <rect x=\"82\" y=\"140\" width=\"8\" height=\"8\"/><rect x=\"96\" y=\"140\" width=\"8\" height=\"8\"/>\n          <rect x=\"236\" y=\"146\" width=\"8\" height=\"8\"/><rect x=\"236\" y=\"164\" width=\"8\" height=\"8\"/>\n          <rect x=\"340\" y=\"134\" width=\"8\" height=\"8\"/><rect x=\"356\" y=\"134\" width=\"8\" height=\"8\"/>\n          <rect x=\"340\" y=\"152\" width=\"8\" height=\"8\"/><rect x=\"356\" y=\"152\" width=\"8\" height=\"8\"/>\n        </g>\n        <!-- 树 -->\n        <g>\n          <circle cx=\"160\" cy=\"216\" r=\"16\" fill=\"#9DBB8E\"/>\n          <rect x=\"157\" y=\"226\" width=\"6\" height=\"18\" fill=\"#8A6F52\"/>\n          <circle cx=\"316\" cy=\"220\" r=\"13\" fill=\"#9DBB8E\"/>\n          <rect x=\"313\" y=\"230\" width=\"6\" height=\"14\" fill=\"#8A6F52\"/>\n        </g>\n        <!-- 道路 -->\n        <rect x=\"0\" y=\"240\" width=\"480\" height=\"60\" fill=\"#CFC3AC\"/>\n        <rect x=\"0\" y=\"240\" width=\"480\" height=\"5\" fill=\"#BFAF93\"/>\n        <g stroke=\"#FAF6EF\" stroke-width=\"3\" stroke-dasharray=\"16 14\">\n          <line x1=\"20\" y1=\"270\" x2=\"460\" y2=\"270\"/>\n        </g>\n        <!-- 骑行者 -->\n        <g stroke=\"#2B2620\" stroke-width=\"3\" stroke-linecap=\"round\" fill=\"none\">\n          <circle cx=\"150\" cy=\"278\" r=\"15\"/>\n          <circle cx=\"212\" cy=\"278\" r=\"15\"/>\n          <path d=\"M150 278 L172 244 H196 L212 278 M172 244 L164 232 H178\"/>\n        </g>\n        <g stroke=\"#D4552A\" stroke-width=\"3\" stroke-linecap=\"round\" fill=\"none\">\n          <circle cx=\"182\" cy=\"224\" r=\"6\" fill=\"#D4552A\" stroke=\"none\"/>\n          <path d=\"M182 230 L176 246 M182 230 L196 240 M176 246 L168 258 M176 246 L188 258\"/>\n        </g>\n        <!-- 速度线 -->\n        <g stroke=\"#D8CCB4\" stroke-width=\"3\" stroke-linecap=\"round\">\n          <line x1=\"96\" y1=\"252\" x2=\"126\" y2=\"252\"/>\n          <line x1=\"86\" y1=\"262\" x2=\"112\" y2=\"262\"/>\n          <line x1=\"100\" y1=\"272\" x2=\"122\" y2=\"272\"/>\n        </g>\n      </svg>\n    </div>\n  </div>\n</section>\n\n<!-- ============ ROUTES ============ -->\n<section id=\"routes\">\n  <div class=\"wrap\">\n    <div class=\"sec-head\">\n      <span class=\"kicker\">本周路线</span>\n      <h2>三条路线，三种城市读法</h2>\n      <p>从平缓的江边步道到略有爬升的山脊公路，每条路线都经过领队实地踩线。选择适合你的那一条。</p>\n    </div>\n\n    <div class=\"filters\" role=\"group\" aria-label=\"按难度筛选路线\">\n      <button class=\"filter-btn\" data-filter=\"all\" aria-pressed=\"true\">全部</button>\n      <button class=\"filter-btn\" data-filter=\"easy\" aria-pressed=\"false\">休闲</button>\n      <button class=\"filter-btn\" data-filter=\"hard\" aria-pressed=\"false\">进阶</button>\n    </div>\n\n    <div class=\"route-grid\" id=\"routeGrid\">\n\n      <!-- 路线 1 -->\n      <article class=\"route-card\" data-level=\"easy\">\n        <div class=\"route-art\">\n          <svg viewBox=\"0 0 400 225\" preserveAspectRatio=\"xMidYMid slice\" aria-hidden=\"true\">\n            <rect width=\"400\" height=\"225\" fill=\"#EAF1F4\"/>\n            <circle cx=\"330\" cy=\"46\" r=\"22\" fill=\"#F2C879\"/>\n            <path d=\"M0 120 Q100 100 200 118 T400 112 V225 H0 Z\" fill=\"#BFD8DE\"/>\n            <path d=\"M0 150 Q100 132 200 148 T400 142 V225 H0 Z\" fill=\"#9CC3CD\"/>\n            <path d=\"M0 185 Q120 168 240 182 T400 176 V225 H0 Z\" fill=\"#7FAEBB\"/>\n            <rect x=\"30\" y=\"70\" width=\"26\" height=\"52\" fill=\"#D8CCB4\"/>\n            <rect x=\"62\" y=\"58\" width=\"20\" height=\"64\" fill=\"#CFC3AC\"/>\n            <rect x=\"88\" y=\"76\" width=\"30\" height=\"46\" fill=\"#E0D5BE\"/>\n            <g stroke=\"#2B2620\" stroke-width=\"2.4\" stroke-linecap=\"round\" fill=\"none\">\n              <circle cx=\"250\" cy=\"196\" r=\"12\"/><circle cx=\"300\" cy=\"196\" r=\"12\"/>\n              <path d=\"M250 196 L268 170 H286 L300 196 M268 170 L262 160 H274\"/>\n            </g>\n            <circle cx=\"276\" cy=\"152\" r=\"5\" fill=\"#D4552A\"/>\n            <path d=\"M276 157 L271 171 M276 157 L287 166 M271 171 L264 181 M271 171 L281 181\" stroke=\"#D4552A\" stroke-width=\"2.4\" stroke-linecap=\"round\" fill=\"none\"/>\n          </svg>\n          <span class=\"tag tag-easy\">休闲</span>\n        </div>\n        <div class=\"route-body\">\n          <h3>滨江轻骑</h3>\n          <div class=\"route-meta\">\n            <span>12 公里</span><span class=\"dot\"></span><span>约 1.5 小时</span><span class=\"dot\"></span><span>平路</span>\n          </div>\n          <p>沿着滨江步道一路向南，江风、芦苇与对岸的天际线。全程无机动车，适合第一次参加的朋友。</p>\n          <a class=\"route-link\" href=\"#signup\">报名这条路线 →</a>\n        </div>\n      </article>\n\n      <!-- 路线 2 -->\n      <article class=\"route-card\" data-level=\"easy\">\n        <div class=\"route-art\">\n          <svg viewBox=\"0 0 400 225\" preserveAspectRatio=\"xMidYMid slice\" aria-hidden=\"true\">\n            <rect width=\"400\" height=\"225\" fill=\"#F6EBDD\"/>\n            <rect x=\"0\" y=\"150\" width=\"400\" height=\"75\" fill=\"#D9C6A8\"/>\n            <!-- 老街建筑 -->\n            <g>\n              <rect x=\"20\" y=\"80\" width=\"70\" height=\"72\" fill=\"#C9A87C\"/>\n              <path d=\"M14 80 L55 52 L96 80 Z\" fill=\"#A8845E\"/>\n              <rect x=\"100\" y=\"92\" width=\"60\" height=\"60\" fill=\"#B9976B\"/>\n              <path d=\"M94 92 L130 68 L166 92 Z\" fill=\"#96714A\"/>\n              <rect x=\"170\" y=\"76\" width=\"76\" height=\"76\" fill=\"#C9A87C\"/>\n              <path d=\"M164 76 L208 46 L252 76 Z\" fill=\"#A8845E\"/>\n              <rect x=\"256\" y=\"94\" width=\"56\" height=\"58\" fill=\"#B9976B\"/>\n              <path d=\"M250 94 L284 72 L318 94 Z\" fill=\"#96714A\"/>\n              <rect x=\"322\" y=\"82\" width=\"62\" height=\"70\" fill=\"#C9A87C\"/>\n              <path d=\"M316 82 L353 56 L390 82 Z\" fill=\"#A8845E\"/>\n            </g>\n            <!-- 门窗 -->\n            <g fill=\"#FAF6EF\">\n              <rect x=\"38\" y=\"98\" width=\"12\" height=\"16\"/><rect x=\"60\" y=\"98\" width=\"12\" height=\"16\"/>\n              <rect x=\"38\" y=\"124\" width=\"12\" height=\"16\"/><rect x=\"60\" y=\"124\" width=\"12\" height=\"16\"/>\n              <rect x=\"186\" y=\"94\" width=\"12\" height=\"16\"/><rect x=\"210\" y=\"94\" width=\"12\" height=\"16\"/>\n              <rect x=\"186\" y=\"120\" width=\"12\" height=\"16\"/><rect x=\"210\" y=\"120\" width=\"12\" height=\"16\"/>\n              <rect x=\"338\" y=\"100\" width=\"12\" height=\"16\"/><rect x=\"360\" y=\"100\" width=\"12\" height=\"16\"/>\n            </g>\n            <!-- 灯笼 -->\n            <g>\n              <line x1=\"112\" y1=\"104\" x2=\"112\" y2=\"112\" stroke=\"#8A6F52\" stroke-width=\"1.6\"/>\n              <ellipse cx=\"112\" cy=\"120\" rx=\"8\" ry=\"10\" fill=\"#D4552A\"/>\n              <line x1=\"240\" y1=\"104\" x2=\"240\" y2=\"112\" stroke=\"#8A6F52\" stroke-width=\"1.6\"/>\n              <ellipse cx=\"240\" cy=\"120\" rx=\"8\" ry=\"10\" fill=\"#D4552A\"/>\n            </g>\n            <!-- 石板路 -->\n            <g stroke=\"#C4AF8D\" stroke-width=\"1.4\">\n              <line x1=\"0\" y1=\"170\" x2=\"400\" y2=\"170\"/>\n              <line x1=\"0\" y1=\"195\" x2=\"400\" y2=\"195\"/>\n              <line x1=\"0\" y1=\"215\" x2=\"400\" y2=\"215\"/>\n            </g>\n            <!-- 骑行者 -->\n            <g stroke=\"#2B2620\" stroke-width=\"2.4\" stroke-linecap=\"round\" fill=\"none\">\n              <circle cx=\"150\" cy=\"206\" r=\"12\"/><circle cx=\"200\" cy=\"206\" r=\"12\"/>\n              <path d=\"M150 206 L168 180 H186 L200 206 M168 180 L162 170 H174\"/>\n            </g>\n            <circle cx=\"176\" cy=\"162\" r=\"5\" fill=\"#D4552A\"/>\n            <path d=\"M176 167 L171 181 M176 167 L187 176 M171 181 L164 191 M171 181 L181 191\" stroke=\"#D4552A\" stroke-width=\"2.4\" stroke-linecap=\"round\" fill=\"none\"/>\n          </svg>\n          <span class=\"tag tag-easy\">休闲</span>\n        </div>\n        <div class=\"route-body\">\n          <h3>老城漫游</h3>\n          <div class=\"route-meta\">\n            <span>8 公里</span><span class=\"dot\"></span><span>约 1 小时</span><span class=\"dot\"></span><span>平路</span>\n          </div>\n          <p>穿过骑楼老街与巷弄之间，在青石板路上听车轮碾过的声音，顺路经过本地人的早餐铺。</p>\n          <a class=\"route-link\" href=\"#signup\">报名这条路线 →</a>\n        </div>\n      </article>\n\n      <!-- 路线 3 -->\n      <article class=\"route-card\" data-level=\"hard\">\n        <div class=\"route-art\">\n          <svg viewBox=\"0 0 400 225\" preserveAspectRatio=\"xMidYMid slice\" aria-hidden=\"true\">\n            <rect width=\"400\" height=\"225\" fill=\"#EDF2E4\"/>\n            <circle cx=\"70\" cy=\"48\" r=\"24\" fill=\"#F2C879\"/>\n            <!-- 远山 -->\n            <path d=\"M0 130 L80 60 L150 120 L230 44 L320 118 L400 70 V225 H0 Z\" fill=\"#A9C39A\"/>\n            <path d=\"M0 160 L100 100 L190 156 L290 92 L400 150 V225 H0 Z\" fill=\"#8BAE7C\"/>\n            <!-- 盘山公路 -->\n            <path d=\"M0 225 C120 210 160 190 200 182 C260 170 320 178 400 160 L400 225 Z\" fill=\"#CFC3AC\"/>\n            <path d=\"M0 225 C120 210 160 190 200 182 C260 170 320 178 400 160\" fill=\"none\" stroke=\"#BFAF93\" stroke-width=\"3\"/>\n            <g stroke=\"#FAF6EF\" stroke-width=\"2.4\" stroke-dasharray=\"12 12\">\n              <path d=\"M10 214 C130 200 170 184 210 176 C270 164 330 172 390 154\" fill=\"none\"/>\n            </g>\n            <!-- 松树 -->\n            <g>\n              <path d=\"M52 190 L64 164 L76 190 Z\" fill=\"#5E8A5A\"/>\n              <rect x=\"62\" y=\"190\" width=\"4\" height=\"10\" fill=\"#8A6F52\"/>\n              <path d=\"M330 180 L341 156 L352 180 Z\" fill=\"#5E8A5A\"/>\n              <rect x=\"339\" y=\"180\" width=\"4\" height=\"9\" fill=\"#8A6F52\"/>\n            </g>\n            <!-- 骑行者 -->\n            <g stroke=\"#2B2620\" stroke-width=\"2.4\" stroke-linecap=\"round\" fill=\"none\">\n              <circle cx=\"230\" cy=\"200\" r=\"12\"/><circle cx=\"280\" cy=\"200\" r=\"12\"/>\n              <path d=\"M230 200 L248 174 H266 L280 200 M248 174 L242 164 H254\"/>\n            </g>\n            <circle cx=\"256\" cy=\"156\" r=\"5\" fill=\"#D4552A\"/>\n            <path d=\"M256 161 L251 175 M256 161 L267 170 M251 175 L244 185 M251 175 L261 185\" stroke=\"#D4552A\" stroke-width=\"2.4\" stroke-linecap=\"round\" fill=\"none\"/>\n          </svg>\n          <span class=\"tag tag-hard\">进阶</span>\n        </div>\n        <div class=\"route-body\">\n          <h3>山脊挑战</h3>\n          <div class=\"route-meta\">\n            <span>35 公里</span><span class=\"dot\"></span><span>约 3 小时</span><span class=\"dot\"></span><span>含爬升</span>\n          </div>\n          <p>盘山公路直达山脊观景台，累计爬升约 400 米。需要一定体力与变速车，领队会控制节奏、中途休整。</p>\n          <a class=\"route-link\" href=\"#signup\">报名这条路线 →</a>\n        </div>\n      </article>\n\n    </div>\n  </div>\n</section>\n\n<!-- ============ SCHEDULE ============ -->\n<section id=\"schedule\">\n  <div class=\"wrap\">\n    <div class=\"sec-head\">\n      <span class=\"kicker\">活动安排</span>\n      <h2>一个上午的完整节奏</h2>\n      <p>每周六固定流程，风雨无阻（极端天气除外，将提前通知）。</p>\n    </div>\n\n    <ol class=\"timeline\">\n      <li>\n        <time datetime=\"09:00\">09:00</time>\n        <span class=\"t-label\">集合</span>\n        <p class=\"t-desc\">江畔公园东门集合签到，检查刹车与胎压，认识同行的骑友。</p>\n      </li>\n      <li>\n        <time datetime=\"09:15\">09:15</time>\n        <span class=\"t-label\">出发</span>\n        <p class=\"t-desc\">领队带领热身，按路线分组出发，全程单列骑行、保持车距。</p>\n      </li>\n      <li>\n        <time datetime=\"11:30\">11:30</time>\n        <span class=\"t-label\">结束</span>\n        <p class=\"t-desc\">返回集合点，自由交流，可一同前往附近小店用餐（费用自理）。</p>\n      </li>\n    </ol>\n\n    <div class=\"sched-aside\">\n      <svg viewBox=\"0 0 24 24\" fill=\"none\" aria-hidden=\"true\">\n        <circle cx=\"12\" cy=\"12\" r=\"9\" stroke=\"#D4552A\" stroke-width=\"1.8\"/>\n        <path d=\"M12 7v5l3.5 2\" stroke=\"#D4552A\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n      </svg>\n      <p><strong>建议提前 10 分钟到达。</strong>请自备饮用水、防晒用品与简易补胎工具；现场不提供车辆租赁，请确保自己的自行车状态良好。</p>\n    </div>\n  </div>\n</section>\n\n<!-- ============ SIGNUP ============ -->\n<section id=\"signup\">\n  <div class=\"wrap signup-grid\">\n    <div class=\"signup-info\">\n      <span class=\"demo-badge\">\n        <svg viewBox=\"0 0 16 16\" fill=\"none\" aria-hidden=\"true\">\n          <circle cx=\"8\" cy=\"8\" r=\"7\" stroke=\"currentColor\" stroke-width=\"1.5\"/>\n          <path d=\"M8 5v3.5l2.4 1.6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\"/>\n        </svg>\n        本地演示 · 不会提交到任何服务器\n      </span>\n      <h2>报名本周骑行</h2>\n      <p>填写下方表单即可完成本周活动的报名登记。提交后页面会即时显示确认信息，无需跳转。</p>\n      <ul class=\"signup-facts\">\n        <li>\n          <svg viewBox=\"0 0 18 18\" fill=\"none\" aria-hidden=\"true\">\n            <circle cx=\"9\" cy=\"9\" r=\"8\" stroke=\"#3E7C59\" stroke-width=\"1.5\"/>\n            <path d=\"M5.5 9.2l2.2 2.2 4.4-4.6\" stroke=\"#3E7C59\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n          </svg>\n          <span><strong>免费参与</strong>，无需任何费用或押金。</span>\n        </li>\n        <li>\n          <svg viewBox=\"0 0 18 18\" fill=\"none\" aria-hidden=\"true\">\n            <circle cx=\"9\" cy=\"9\" r=\"8\" stroke=\"#3E7C59\" stroke-width=\"1.5\"/>\n            <path d=\"M5.5 9.2l2.2 2.2 4.4-4.6\" stroke=\"#3E7C59\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n          </svg>\n          <span><strong>自备车辆与头盔</strong>，建议携带饮用水。</span>\n        </li>\n        <li>\n          <svg viewBox=\"0 0 18 18\" fill=\"none\" aria-hidden=\"true\">\n            <circle cx=\"9\" cy=\"9\" r=\"8\" stroke=\"#3E7C59\" stroke-width=\"1.5\"/>\n            <path d=\"M5.5 9.2l2.2 2.2 4.4-4.6\" stroke=\"#3E7C59\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n          </svg>\n          <span><strong>领队全程陪同</strong>，第一次参加也无需担心。</span>\n        </li>\n      </ul>\n    </div>\n\n    <form id=\"signupForm\" novalidate>\n      <div class=\"field\" id=\"nameField\">\n        <label for=\"nameInput\">姓名<span class=\"req\" aria-hidden=\"true\">*</span></label>\n        <input type=\"text\" id=\"nameInput\" name=\"name\" autocomplete=\"name\"\n               placeholder=\"请输入你的姓名\" aria-describedby=\"nameErr\" required>\n        <p class=\"err\" id=\"nameErr\">请填写姓名后再提交。</p>\n      </div>\n\n      <div class=\"field\" id=\"expField\">\n        <label for=\"expSelect\">骑行经验<span class=\"req\" aria-hidden=\"true\">*</span></label>\n        <select id=\"expSelect\" name=\"experience\" aria-describedby=\"expErr\" required>\n          <option value=\"\" selected disabled>请选择你的骑行经验</option>\n          <option value=\"beginner\">第一次参加 / 新手</option>\n          <option value=\"casual\">偶尔骑行，有一定基础</option>\n          <option value=\"regular\">经常骑行，体力较好</option>\n        </select>\n        <p class=\"err\" id=\"expErr\">请选择一项骑行经验。</p>\n      </div>\n\n      <button type=\"submit\" class=\"submit-btn\">确认报名</button>\n      <p class=\"form-foot\">本表单仅为本地功能演示，数据不会离开你的浏览器。</p>\n\n      <div class=\"success\" id=\"successMsg\" role=\"status\" aria-live=\"polite\">\n        <h3>\n          <svg viewBox=\"0 0 18 18\" fill=\"none\" aria-hidden=\"true\">\n            <circle cx=\"9\" cy=\"9\" r=\"8\" stroke=\"currentColor\" stroke-width=\"1.5\"/>\n            <path d=\"M5.5 9.2l2.2 2.2 4.4-4.6\" stroke=\"currentColor\" stroke-width=\"1.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n          </svg>\n          报名成功\n        </h3>\n        <p id=\"successText\">感谢你的报名！</p>\n      </div>\n    </form>\n  </div>\n</section>\n\n</main>\n\n<!-- ============ FOOTER ============ -->\n<footer>\n  <div class=\"wrap foot-grid\">\n    <p class=\"foot-brand\">慢骑城市 · 周末城市骑行俱乐部</p>\n    <p>每周六上午 09:00 · 江畔公园东门 · 免费参与</p>\n  </div>\n</footer>\n\n<script>\n(function(){\n  \"use strict\";\n\n  /* ---------- 移动端导航 ---------- */\n  var toggle = document.getElementById('navToggle');\n  var links = document.getElementById('navLinks');\n  toggle.addEventListener('click', function(){\n    var open = links.classList.toggle('open');\n    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');\n    toggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');\n  });\n  links.addEventListener('click', function(e){\n    if(e.target.tagName === 'A'){\n      links.classList.remove('open');\n      toggle.setAttribute('aria-expanded','false');\n    }\n  });\n\n  /* ---------- 路线筛选 ---------- */\n  var filterBtns = document.querySelectorAll('.filter-btn');\n  var cards = document.querySelectorAll('.route-card');\n\n  filterBtns.forEach(function(btn){\n    btn.addEventListener('click', function(){\n      var level = btn.getAttribute('data-filter');\n\n      filterBtns.forEach(function(b){ b.setAttribute('aria-pressed','false'); });\n      btn.setAttribute('aria-pressed','true');\n\n      cards.forEach(function(card){\n        var match = (level === 'all') || (card.getAttribute('data-level') === level);\n        card.hidden = !match;\n      });\n    });\n  });\n\n  /* ---------- 报名表单 ---------- */\n  var form = document.getElementById('signupForm');\n  var nameInput = document.getElementById('nameInput');\n  var expSelect = document.getElementById('expSelect');\n  var nameField = document.getElementById('nameField');\n  var expField = document.getElementById('expField');\n  var successMsg = document.getElementById('successMsg');\n  var successText = document.getElementById('successText');\n\n  function validate(){\n    var ok = true;\n    var nameVal = nameInput.value.trim();\n    var expVal = expSelect.value;\n\n    if(nameVal === ''){\n      nameField.classList.add('invalid');\n      ok = false;\n    } else {\n      nameField.classList.remove('invalid');\n    }\n\n    if(expVal === ''){\n      expField.classList.add('invalid');\n      ok = false;\n    } else {\n      expField.classList.remove('invalid');\n    }\n    return ok;\n  }\n\n  nameInput.addEventListener('input', function(){\n    if(nameInput.value.trim() !== '') nameField.classList.remove('invalid');\n  });\n  expSelect.addEventListener('change', function(){\n    if(expSelect.value !== '') expField.classList.remove('invalid');\n  });\n\n  form.addEventListener('submit', function(e){\n    e.preventDefault();\n    if(!validate()){\n      var firstInvalid = form.querySelector('.field.invalid input, .field.invalid select');\n      if(firstInvalid) firstInvalid.focus();\n      return;\n    }\n\n    var nameVal = nameInput.value.trim();\n    var expText = expSelect.options[expSelect.selectedIndex].text;\n\n    successText.textContent = nameVal + '，已为你登记本周骑行（' + expText + '）。请周六 09:00 前到江畔公园东门集合，带上自行车与头盔。本页面为本地演示，未发送任何数据。';\n    successMsg.classList.add('show');\n    successMsg.setAttribute('tabindex','-1');\n    successMsg.focus();\n    form.reset();\n  });\n\n})();\n</script>\n</body>\n</html>",
+      "startedAt": "2026-10-26T15:49:38.993Z",
+      "request": {
+        "model": "LongCat-2.5-Preview",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Build a polished responsive Chinese website for a weekend urban cycling club named「慢骑城市」. Return only one complete self-contained HTML document with all CSS and JavaScript inline, no Markdown. No external assets, fonts, libraries, URLs, network calls, storage or permissions. Use local SVG/CSS illustrations. This is a practical product page, not a wireframe. Requirements: (1) a top navigation with working anchor links to routes, schedule and signup; (2) a strong editorial hero; (3) a route grid containing exactly these three cards: 滨江轻骑—休闲—12公里, 老城漫游—休闲—8公里, 山脊挑战—进阶—35公里; (4) real filter buttons named 全部 / 休闲 / 进阶 that change visible route cards; (5) a schedule with 09:00集合、09:15出发、11:30结束; (6) a signup section with a labelled name input, an experience select, a button named 确认报名 and an on-page success message after a valid submit, no navigation; (7) readable, accessible layout at both 1440px desktop and 390px mobile, without horizontal overflow. Use excellent spacing, restrained typography, a warm light palette, one bold accent, clear focus styles and reduced-motion support. Do not fabricate testimonials, attendee counts or external sponsors. All key content and interactions must fit in this single file. The signup is explicitly a local demonstration; do not imply an actual booking."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1536.50975,
+      "firstReasoningMs": null,
+      "firstEventMs": 1536.507459,
+      "usage": {
+        "completion_tokens": 12182,
+        "prompt_tokens": 335,
+        "total_tokens": 12517,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5-Preview",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-26T15:52:20.541Z",
+      "totalMs": 161546.45845900002,
+      "promptTokens": 335,
+      "outputTokens": 12182,
+      "reasoningTokens": null,
+      "assessmentZh": "暖白、橙红与衬线大标题形成一致视觉风格；桌面三列路线卡、手机单列及折叠菜单清楚，插画也由内联SVG组成。1440/390px均无横向溢出；两种尺寸下路线三档筛选、有效表单提交和页面内成功反馈均通过，本次24项浏览器检查通过且无脚本异常。样例是虚构骑行俱乐部，本地报名不发送数据；生成文案中的费用、领队与实地踩线说法不代表真实活动。与任意多轮编程agent能力仍有距离。 内容上，高阶路线写“约3小时”，却统一09:15出发、11:30结束，时间不自洽；自动功能通过不等于内容全部正确。",
+      "assessmentEn": "Warm off-white, orange-red accents and serif headlines create a coherent design. Three desktop route columns become a single mobile column with a compact menu; illustrations are inline SVG. There is no horizontal overflow at 1440 or 390 pixels. Filters, valid signup submission and in-page feedback pass at both sizes: 24 browser checks pass, with no script errors. This is a fictional club and local-only signup demo; invented fee, leader and route-scouting copy does not describe a real event. It is a single API output, not evidence of multi-turn coding-agent performance. The advanced route says about three hours but the shared 09:15–11:30 riding schedule allows only 2h15m; functional checks do not establish content consistency.",
+      "htmlPath": "/evaluations/longcat-2-5-20261026/assets/frontend-disabled.html.txt",
+      "htmlSha256": "d961dc754efab9edac8d9350601c597129ab6b98e64b438541b6a1134056042b",
+      "screenshots": {
+        "desktop": {
+          "path": "/evaluations/longcat-2-5-20261026/assets/frontend-disabled-desktop.png",
+          "width": 1440,
+          "height": 2945,
+          "sha256": "13eaf0585c2dfa1e0764b9d4a7c9caed4768c49b0ba0835a2b4804b153efdc53",
+          "viewportWidth": 1440,
+          "viewportHeight": 1000
+        },
+        "mobile": {
+          "path": "/evaluations/longcat-2-5-20261026/assets/frontend-disabled-mobile.png",
+          "width": 390,
+          "height": 4514,
+          "sha256": "60b6bb576656667ce2670f1a6c2f7c49aa099e2a660c71f6978df1ffbe3c47ec",
+          "viewportWidth": 390,
+          "viewportHeight": 844
+        }
+      },
+      "checks": [
+        {
+          "name": "desktop: no horizontal overflow",
+          "pass": true,
+          "details": {
+            "scrollWidth": 1440,
+            "viewportWidth": 1440
+          }
+        },
+        {
+          "name": "desktop: one main heading",
+          "pass": true
+        },
+        {
+          "name": "desktop: required route titles",
+          "pass": true
+        },
+        {
+          "name": "desktop: schedule exact times",
+          "pass": true
+        },
+        {
+          "name": "desktop: local demonstration disclaimer",
+          "pass": true
+        },
+        {
+          "name": "desktop: navigation anchor targets",
+          "pass": true,
+          "details": [
+            {
+              "text": "慢骑城市",
+              "href": "#top",
+              "targetExists": true
+            },
+            {
+              "text": "骑行路线",
+              "href": "#routes",
+              "targetExists": true
+            },
+            {
+              "text": "活动安排",
+              "href": "#schedule",
+              "targetExists": true
+            },
+            {
+              "text": "立即报名",
+              "href": "#signup",
+              "targetExists": true
+            }
+          ]
+        },
+        {
+          "name": "desktop: advanced filter shows only 山脊挑战",
+          "pass": true,
+          "details": [
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "name": "desktop: leisure filter shows two routes",
+          "pass": true,
+          "details": [
+            true,
+            true,
+            false
+          ]
+        },
+        {
+          "name": "desktop: all filter restores three routes",
+          "pass": true,
+          "details": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "desktop: labelled name and experience inputs",
+          "pass": true
+        },
+        {
+          "name": "desktop: signup success message after valid submit",
+          "pass": true
+        },
+        {
+          "name": "desktop: signup stays on the page",
+          "pass": true
+        },
+        {
+          "name": "mobile: no horizontal overflow",
+          "pass": true,
+          "details": {
+            "scrollWidth": 390,
+            "viewportWidth": 390
+          }
+        },
+        {
+          "name": "mobile: one main heading",
+          "pass": true
+        },
+        {
+          "name": "mobile: required route titles",
+          "pass": true
+        },
+        {
+          "name": "mobile: schedule exact times",
+          "pass": true
+        },
+        {
+          "name": "mobile: local demonstration disclaimer",
+          "pass": true
+        },
+        {
+          "name": "mobile: navigation anchor targets",
+          "pass": true,
+          "details": [
+            {
+              "text": "慢骑城市",
+              "href": "#top",
+              "targetExists": true
+            },
+            {
+              "text": "骑行路线",
+              "href": "#routes",
+              "targetExists": true
+            },
+            {
+              "text": "活动安排",
+              "href": "#schedule",
+              "targetExists": true
+            },
+            {
+              "text": "立即报名",
+              "href": "#signup",
+              "targetExists": true
+            }
+          ]
+        },
+        {
+          "name": "mobile: advanced filter shows only 山脊挑战",
+          "pass": true,
+          "details": [
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "name": "mobile: leisure filter shows two routes",
+          "pass": true,
+          "details": [
+            true,
+            true,
+            false
+          ]
+        },
+        {
+          "name": "mobile: all filter restores three routes",
+          "pass": true,
+          "details": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "mobile: labelled name and experience inputs",
+          "pass": true
+        },
+        {
+          "name": "mobile: signup success message after valid submit",
+          "pass": true
+        },
+        {
+          "name": "mobile: signup stays on the page",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "blockedRequests": [],
+      "assessmentMethod": "AI assistant visual observation is separate from automated browser checks. Generated HTML runs in a fresh isolated Chromium context with no real account session and all network requests blocked.",
+      "sourceEvidence": "/evaluations/longcat-2-5-20261026-frontend.json",
+      "attemptNumber": 1
+    },
+    {
+      "id": "frontend-cycling",
+      "category": "frontend",
+      "title": "城市骑行活动网页",
+      "titleEn": "Urban cycling event website",
+      "prompt": "Build a polished responsive Chinese website for a weekend urban cycling club named「慢骑城市」. Return only one complete self-contained HTML document with all CSS and JavaScript inline, no Markdown. No external assets, fonts, libraries, URLs, network calls, storage or permissions. Use local SVG/CSS illustrations. This is a practical product page, not a wireframe. Requirements: (1) a top navigation with working anchor links to routes, schedule and signup; (2) a strong editorial hero; (3) a route grid containing exactly these three cards: 滨江轻骑—休闲—12公里, 老城漫游—休闲—8公里, 山脊挑战—进阶—35公里; (4) real filter buttons named 全部 / 休闲 / 进阶 that change visible route cards; (5) a schedule with 09:00集合、09:15出发、11:30结束; (6) a signup section with a labelled name input, an experience select, a button named 确认报名 and an on-page success message after a valid submit, no navigation; (7) readable, accessible layout at both 1440px desktop and 390px mobile, without horizontal overflow. Use excellent spacing, restrained typography, a warm light palette, one bold accent, clear focus styles and reduced-motion support. Do not fabricate testimonials, attendee counts or external sponsors. All key content and interactions must fit in this single file. The signup is explicitly a local demonstration; do not imply an actual booking.",
+      "mode": "default",
+      "status": "done",
+      "text": "<!DOCTYPE html>\n<html lang=\"zh-CN\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n<title>慢骑城市 · 周末城市骑行俱乐部</title>\n<meta name=\"description\" content=\"慢骑城市——周末城市骑行俱乐部：三条常设路线、固定日程与本地报名演示。\">\n<style>\n  :root{\n    --bg:#FAF5EC;\n    --surface:#FFFDF8;\n    --ink:#2C2620;\n    --ink-soft:#5C5347;\n    --line:#E7DCC9;\n    --accent:#C6461C;\n    --accent-deep:#A03814;\n    --accent-tint:#F6E3D9;\n    --sand:#F1E5CF;\n    --radius:14px;\n    --serif:\"Songti SC\",\"Noto Serif SC\",\"Source Han Serif SC\",Georgia,\"Times New Roman\",serif;\n    --sans:-apple-system,BlinkMacSystemFont,\"PingFang SC\",\"Hiragino Sans GB\",\"Microsoft YaHei\",\"Noto Sans SC\",\"Helvetica Neue\",Arial,sans-serif;\n    --nav-h:64px;\n  }\n  *,*::before,*::after{box-sizing:border-box}\n  html{scroll-behavior:smooth}\n  body{\n    margin:0;\n    background:var(--bg);\n    color:var(--ink);\n    font-family:var(--sans);\n    font-size:16px;\n    line-height:1.7;\n    -webkit-font-smoothing:antialiased;\n    overflow-x:hidden;\n  }\n  h1,h2,h3{font-family:var(--serif);line-height:1.25;margin:0;color:var(--ink)}\n  p{margin:0}\n  a{color:var(--accent-deep)}\n  :focus{outline:none}\n  :focus-visible{\n    outline:3px solid var(--accent);\n    outline-offset:3px;\n    border-radius:4px;\n  }\n  .wrap{width:min(1120px,100% - 2.5rem);margin-inline:auto}\n  .visually-hidden{\n    position:absolute;width:1px;height:1px;padding:0;margin:-1px;\n    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;\n  }\n  .skip-link{\n    position:absolute;left:1rem;top:-4rem;z-index:100;\n    background:var(--ink);color:#fff;padding:.5rem 1rem;border-radius:8px;\n    text-decoration:none;transition:top .2s ease;\n  }\n  .skip-link:focus{top:1rem;color:#fff}\n\n  /* ---------- 导航 ---------- */\n  .site-nav{\n    position:sticky;top:0;z-index:50;\n    background:rgba(250,245,236,.9);\n    backdrop-filter:blur(8px);\n    -webkit-backdrop-filter:blur(8px);\n    border-bottom:1px solid var(--line);\n  }\n  .site-nav .wrap{\n    min-height:var(--nav-h);\n    display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;\n  }\n  .brand{\n    display:flex;align-items:center;gap:.6rem;\n    font-family:var(--serif);font-weight:700;font-size:1.2rem;color:var(--ink);\n    text-decoration:none;letter-spacing:.05em;\n  }\n  .brand-mark{width:30px;height:30px;flex:none}\n  .nav-links{display:flex;align-items:center;gap:.25rem;list-style:none;margin:0;padding:0;flex-wrap:wrap}\n  .nav-links a{\n    display:inline-block;padding:.45rem .8rem;border-radius:8px;\n    color:var(--ink-soft);text-decoration:none;font-size:.95rem;\n  }\n  .nav-links a:hover{color:var(--accent-deep);background:var(--accent-tint)}\n  .nav-cta{\n    background:var(--accent);color:#fff !important;font-weight:600;\n  }\n  .nav-cta:hover{background:var(--accent-deep);color:#fff !important}\n\n  /* ---------- 首屏 ---------- */\n  .hero{padding:clamp(3rem,7vw,5.5rem) 0 clamp(2.5rem,6vw,4.5rem)}\n  .hero-grid{\n    display:grid;grid-template-columns:1.05fr .95fr;\n    gap:clamp(2rem,5vw,4rem);align-items:center;\n  }\n  .kicker{\n    display:inline-flex;align-items:center;gap:.5rem;\n    font-size:.8rem;font-weight:700;letter-spacing:.22em;color:var(--accent-deep);\n    text-transform:uppercase;margin-bottom:1.1rem;\n  }\n  .kicker::before{content:\"\";width:2rem;height:2px;background:var(--accent)}\n  .hero h1{\n    font-size:clamp(2.3rem,5.6vw,4rem);\n    font-weight:900;letter-spacing:.01em;margin-bottom:1.2rem;\n  }\n  .hero h1 em{font-style:normal;color:var(--accent)}\n  .hero .lede{color:var(--ink-soft);font-size:1.08rem;max-width:34em;margin-bottom:1.8rem}\n  .hero-actions{display:flex;gap:.8rem;flex-wrap:wrap;margin-bottom:2.2rem}\n  .btn{\n    display:inline-block;padding:.75rem 1.6rem;border-radius:10px;\n    font-weight:600;font-size:1rem;text-decoration:none;cursor:pointer;\n    border:2px solid transparent;font-family:inherit;\n  }\n  .btn-primary{background:var(--accent);color:#fff}\n  .btn-primary:hover{background:var(--accent-deep)}\n  .btn-ghost{border-color:var(--ink);color:var(--ink);background:transparent}\n  .btn-ghost:hover{background:var(--ink);color:#fff}\n  .hero-facts{\n    display:flex;gap:clamp(1.2rem,3vw,2.4rem);flex-wrap:wrap;\n    list-style:none;margin:0;padding:1.2rem 0 0;border-top:1px solid var(--line);\n  }\n  .hero-facts li{min-width:6.5rem}\n  .hero-facts b{display:block;font-family:var(--serif);font-size:1.5rem;color:var(--ink)}\n  .hero-facts span{font-size:.85rem;color:var(--ink-soft)}\n  .hero-art{width:100%;height:auto;display:block;filter:drop-shadow(0 18px 30px rgba(44,38,32,.10))}\n\n  /* ---------- 通用区块 ---------- */\n  section{padding:clamp(2.5rem,6vw,4.5rem) 0;scroll-margin-top:calc(var(--nav-h) + 20px)}\n  .section-head{max-width:40rem;margin-bottom:2.2rem}\n  .section-head h2{font-size:clamp(1.7rem,3.6vw,2.4rem);font-weight:800;margin-bottom:.6rem}\n  .section-head p{color:var(--ink-soft)}\n\n  /* ---------- 路线 ---------- */\n  .filters{display:flex;gap:.6rem;flex-wrap:wrap;margin-bottom:1.8rem}\n  .filter-btn{\n    padding:.5rem 1.3rem;border-radius:999px;cursor:pointer;\n    border:2px solid var(--line);background:var(--surface);color:var(--ink-soft);\n    font-family:inherit;font-size:.95rem;font-weight:600;\n    transition:background .2s ease,color .2s ease,border-color .2s ease;\n  }\n  .filter-btn:hover{border-color:var(--accent);color:var(--accent-deep)}\n  .filter-btn[aria-pressed=\"true\"]{\n    background:var(--accent);border-color:var(--accent);color:#fff;\n  }\n  .route-grid{\n    display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem;\n  }\n  .route-card{\n    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);\n    padding:1.5rem;display:flex;flex-direction:column;gap:1rem;\n    box-shadow:0 2px 10px rgba(44,38,32,.05);\n    transition:transform .25s ease,box-shadow .25s ease;\n  }\n  .route-card:hover{transform:translateY(-4px);box-shadow:0 14px 28px rgba(44,38,32,.10)}\n  .route-card.is-hidden{display:none}\n  .route-card.is-visible{animation:cardIn .35s ease both}\n  @keyframes cardIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}\n  .route-top{display:flex;justify-content:space-between;align-items:flex-start;gap:.8rem}\n  .badge{\n    flex:none;font-size:.78rem;font-weight:700;letter-spacing:.08em;\n    padding:.28rem .8rem;border-radius:999px;\n  }\n  .badge-leisure{background:var(--accent-tint);color:var(--accent-deep)}\n  .badge-advanced{background:var(--accent);color:#fff}\n  .route-icon{color:var(--accent);flex:none;margin-top:.15rem}\n  .route-icon svg{width:72px;height:44px;display:block}\n  .route-card h3{font-size:1.35rem;font-weight:800}\n  .route-meta{\n    display:flex;gap:1rem;list-style:none;margin:0;padding:.55rem 0;\n    border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);\n    font-size:.9rem;color:var(--ink-soft);\n  }\n  .route-meta b{color:var(--ink);font-size:1.05rem;margin-right:.2rem}\n  .route-card p{color:var(--ink-soft);font-size:.95rem;flex:1}\n  .route-note{\n    font-size:.82rem;color:var(--ink-soft);background:var(--bg);\n    border-radius:8px;padding:.5rem .8rem;\n  }\n\n  /* ---------- 日程 ---------- */\n  .schedule-panel{\n    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);\n    padding:clamp(1.4rem,3vw,2.2rem);max-width:640px;\n    box-shadow:0 2px 10px rgba(44,38,32,.05);\n  }\n  .schedule{list-style:none;margin:0;padding:0}\n  .schedule li{\n    position:relative;display:flex;gap:1.4rem;align-items:flex-start;\n    padding:1.1rem 0 1.1rem 0;border-left:2px solid var(--line);\n    padding-left:1.6rem;\n  }\n  .schedule li + li{margin-top:.2rem}\n  .schedule li::before{\n    content:\"\";position:absolute;left:-7px;top:1.6rem;\n    width:12px;height:12px;border-radius:50%;\n    background:var(--accent);border:3px solid var(--bg);\n  }\n  .schedule time{\n    flex:none;width:4.6rem;font-family:var(--serif);font-weight:800;font-size:1.25rem;\n    color:var(--accent-deep);font-variant-numeric:tabular-nums;\n  }\n  .schedule h3{font-size:1.1rem;font-weight:700;margin-bottom:.15rem}\n  .schedule p{color:var(--ink-soft);font-size:.93rem}\n  .schedule-tip{\n    margin-top:1.4rem;font-size:.88rem;color:var(--ink-soft);\n    background:var(--bg);border-radius:8px;padding:.7rem 1rem;\n  }\n\n  /* ---------- 报名 ---------- */\n  .signup-panel{\n    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);\n    padding:clamp(1.6rem,4vw,2.6rem);max-width:560px;\n    box-shadow:0 2px 10px rgba(44,38,32,.05);\n  }\n  .field{margin-bottom:1.3rem}\n  .field label{display:block;font-weight:700;margin-bottom:.45rem;font-size:.95rem}\n  .field input,.field select{\n    width:100%;padding:.75rem 1rem;border-radius:10px;\n    border:2px solid var(--line);background:#fff;color:var(--ink);\n    font-family:inherit;font-size:1rem;min-height:3rem;\n  }\n  .field input:hover,.field select:hover{border-color:#D8C9AE}\n  .field input:focus-visible,.field select:focus-visible{outline-offset:1px;border-color:var(--accent)}\n  .field input[aria-invalid=\"true\"]{border-color:var(--accent)}\n  .field-hint{font-size:.82rem;color:var(--ink-soft);margin-top:.4rem}\n  .error-text{color:var(--accent-deep);font-size:.88rem;font-weight:600;margin-top:.45rem}\n  .submit-btn{\n    width:100%;padding:.9rem 1rem;border:none;border-radius:10px;\n    background:var(--accent);color:#fff;font-family:inherit;\n    font-size:1.05rem;font-weight:700;cursor:pointer;\n    transition:background .2s ease;\n  }\n  .submit-btn:hover{background:var(--accent-deep)}\n  .form-note{\n    margin-top:1.1rem;font-size:.83rem;color:var(--ink-soft);\n    border-top:1px dashed var(--line);padding-top:1rem;\n  }\n  .success-msg{\n    margin-top:1.2rem;background:var(--accent-tint);\n    border-left:4px solid var(--accent);border-radius:8px;\n    padding:.9rem 1.1rem;color:var(--accent-deep);font-weight:600;\n  }\n\n  /* ---------- 页脚 ---------- */\n  footer{\n    border-top:1px solid var(--line);padding:2.2rem 0 2.6rem;\n    color:var(--ink-soft);font-size:.88rem;\n  }\n  footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap}\n  footer b{color:var(--ink);font-family:var(--serif)}\n\n  /* ---------- 响应式 ---------- */\n  @media (max-width:860px){\n    .hero-grid{grid-template-columns:1fr}\n    .hero-art{max-width:440px;margin-inline:auto}\n    .route-grid{grid-template-columns:1fr;max-width:520px}\n  }\n  @media (max-width:390px){\n    .site-nav .wrap{padding-block:.5rem}\n    .nav-links a{padding:.4rem .6rem;font-size:.9rem}\n    .hero-actions .btn{width:100%;text-align:center}\n    .schedule li{gap:1rem;padding-left:1.2rem}\n  }\n\n  @media (prefers-reduced-motion:reduce){\n    html{scroll-behavior:auto}\n    *,*::before,*::after{\n      animation:none !important;\n      transition:none !important;\n    }\n  }\n</style>\n</head>\n<body>\n<a class=\"skip-link\" href=\"#main\">跳到主要内容</a>\n\n<!-- 顶部导航 -->\n<header class=\"site-nav\">\n  <div class=\"wrap\">\n    <a class=\"brand\" href=\"#top\" aria-label=\"慢骑城市 首页\">\n      <svg class=\"brand-mark\" viewBox=\"0 0 32 32\" aria-hidden=\"true\">\n        <circle cx=\"9\" cy=\"21\" r=\"5.5\" fill=\"none\" stroke=\"#C6461C\" stroke-width=\"2.4\"/>\n        <circle cx=\"24\" cy=\"21\" r=\"5.5\" fill=\"none\" stroke=\"#2C2620\" stroke-width=\"2.4\"/>\n        <path d=\"M9 21 L14 12 H20 L24 21 M14 12 L11.5 21 M20 11.5 H22.5\" fill=\"none\" stroke=\"#C6461C\" stroke-width=\"2.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n      </svg>\n      慢骑城市\n    </a>\n    <nav aria-label=\"主导航\">\n      <ul class=\"nav-links\">\n        <li><a href=\"#routes\">路线</a></li>\n        <li><a href=\"#schedule\">日程</a></li>\n        <li><a class=\"nav-cta\" href=\"#signup\">报名</a></li>\n      </ul>\n    </nav>\n  </div>\n</header>\n\n<main id=\"main\">\n  <!-- 首屏 -->\n  <section class=\"hero\" id=\"top\" aria-labelledby=\"hero-title\">\n    <div class=\"wrap hero-grid\">\n      <div>\n        <p class=\"kicker\">周末 · 城市 · 慢骑</p>\n        <h1 id=\"hero-title\">骑得慢一点，<br><em>城市</em>就近一点。</h1>\n        <p class=\"lede\">\n          「慢骑城市」是一个周末城市骑行俱乐部。我们不赶路、不竞速，\n          沿着江边、穿过老街，用两个半小时重新认识自己生活的城市。\n          三条常设路线，固定的集合时间，带上车就能出发。\n        </p>\n        <div class=\"hero-actions\">\n          <a class=\"btn btn-primary\" href=\"#routes\">看看三条路线</a>\n          <a class=\"btn btn-ghost\" href=\"#signup\">本周报名</a>\n        </div>\n        <ul class=\"hero-facts\">\n          <li><b>3 条</b><span>常设路线</span></li>\n          <li><b>8–35</b><span>公里里程</span></li>\n          <li><b>09:00</b><span>周末集合</span></li>\n        </ul>\n      </div>\n      <div>\n        <svg class=\"hero-art\" viewBox=\"0 0 520 400\" role=\"img\" aria-label=\"插画：清晨的城市江边，一名骑行者沿水岸慢慢骑行\">\n          <rect x=\"30\" y=\"40\" width=\"460\" height=\"320\" rx=\"24\" fill=\"#F3E7D3\"/>\n          <circle cx=\"418\" cy=\"118\" r=\"34\" fill=\"#EF9F6B\"/>\n          <rect x=\"80\" y=\"96\" width=\"52\" height=\"13\" rx=\"6.5\" fill=\"#FBF6EA\"/>\n          <rect x=\"146\" y=\"82\" width=\"38\" height=\"10\" rx=\"5\" fill=\"#FBF6EA\"/>\n          <g fill=\"#E0CFAF\">\n            <rect x=\"58\" y=\"196\" width=\"34\" height=\"104\" rx=\"3\"/>\n            <rect x=\"100\" y=\"176\" width=\"44\" height=\"124\" rx=\"3\"/>\n            <rect x=\"152\" y=\"206\" width=\"30\" height=\"94\" rx=\"3\"/>\n            <rect x=\"330\" y=\"188\" width=\"40\" height=\"112\" rx=\"3\"/>\n            <rect x=\"378\" y=\"212\" width=\"32\" height=\"88\" rx=\"3\"/>\n            <rect x=\"418\" y=\"200\" width=\"36\" height=\"100\" rx=\"3\"/>\n          </g>\n          <rect x=\"30\" y=\"290\" width=\"460\" height=\"70\" rx=\"0\" fill=\"#E7D8BF\"/>\n          <path d=\"M30 330 H490\" stroke=\"#C6461C\" stroke-width=\"3\" stroke-dasharray=\"14 12\" stroke-linecap=\"round\" fill=\"none\" opacity=\".55\"/>\n          <circle cx=\"120\" cy=\"252\" r=\"14\" fill=\"#D8C7A8\"/>\n          <rect x=\"117.5\" y=\"262\" width=\"5\" height=\"34\" fill=\"#B9A582\"/>\n          <circle cx=\"440\" cy=\"246\" r=\"12\" fill=\"#D8C7A8\"/>\n          <rect x=\"437.8\" y=\"255\" width=\"4.5\" height=\"30\" fill=\"#B9A582\"/>\n          <!-- 骑行者 -->\n          <g stroke-linecap=\"round\" stroke-linejoin=\"round\" fill=\"none\">\n            <circle cx=\"212\" cy=\"268\" r=\"26\" stroke=\"#2C2620\" stroke-width=\"4\"/>\n            <circle cx=\"332\" cy=\"268\" r=\"26\" stroke=\"#2C2620\" stroke-width=\"4\"/>\n            <path d=\"M212 268 L238 232 H296 L332 268 M238 232 L258 268 H212 M258 268 L318 268\" stroke=\"#C6461C\" stroke-width=\"5\"/>\n            <path d=\"M296 232 L292 224 H306\" stroke=\"#2C2620\" stroke-width=\"5\"/>\n            <circle cx=\"282\" cy=\"186\" r=\"11\" fill=\"#2C2620\" stroke=\"none\"/>\n            <path d=\"M278 198 L262 232 L296 236 M262 232 L252 262 L268 262 M296 236 L300 226\" stroke=\"#2C2620\" stroke-width=\"6\"/>\n            <path d=\"M278 200 L298 226\" stroke=\"#C6461C\" stroke-width=\"6\"/>\n          </g>\n          <circle cx=\"60\" cy=\"70\" r=\"4\" fill=\"#C6461C\"/>\n          <circle cx=\"470\" cy=\"70\" r=\"4\" fill=\"#C6461C\"/>\n        </svg>\n      </div>\n    </div>\n  </section>\n\n  <!-- 路线 -->\n  <section id=\"routes\" aria-labelledby=\"routes-title\">\n    <div class=\"wrap\">\n      <div class=\"section-head\">\n        <p class=\"kicker\">三条常设路线</p>\n        <h2 id=\"routes-title\">选一条适合今天的路</h2>\n        <p>所有路线均为往返设计，终点即起点。按骑行经验选择难度，不必勉强。</p>\n      </div>\n\n      <div class=\"filters\" role=\"group\" aria-label=\"按难度筛选路线\">\n        <button type=\"button\" class=\"filter-btn\" data-filter=\"all\" aria-pressed=\"true\">全部</button>\n        <button type=\"button\" class=\"filter-btn\" data-filter=\"leisure\" aria-pressed=\"false\">休闲</button>\n        <button type=\"button\" class=\"filter-btn\" data-filter=\"advanced\" aria-pressed=\"false\">进阶</button>\n      </div>\n      <p class=\"visually-hidden\" id=\"filterStatus\" role=\"status\" aria-live=\"polite\"></p>\n\n      <div class=\"route-grid\" id=\"routeGrid\">\n        <article class=\"route-card\" data-level=\"leisure\" aria-labelledby=\"r1-title\">\n          <div class=\"route-top\">\n            <span class=\"badge badge-leisure\">休闲</span>\n            <span class=\"route-icon\" aria-hidden=\"true\">\n              <svg viewBox=\"0 0 72 44\"><path d=\"M6 34 C 18 10, 30 40, 42 22 S 60 14, 66 26\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"6\" cy=\"34\" r=\"4\" fill=\"#C6461C\"/><circle cx=\"66\" cy=\"26\" r=\"4\" fill=\"none\" stroke=\"#C6461C\" stroke-width=\"2.5\"/></svg>\n            </span>\n          </div>\n          <h3 id=\"r1-title\">滨江轻骑</h3>\n          <ul class=\"route-meta\">\n            <li><b>12</b>公里</li>\n            <li><b>休闲</b>难度</li>\n            <li><b>约2h</b>含停留</li>\n          </ul>\n          <p>沿江平整绿道，几乎无爬升。风吹着江面，适合聊天，也适合发呆。</p>\n          <p class=\"route-note\">适合：第一次参加、想轻松骑的你。请自备头盔。</p>\n        </article>\n\n        <article class=\"route-card\" data-level=\"leisure\" aria-labelledby=\"r2-title\">\n          <div class=\"route-top\">\n            <span class=\"badge badge-leisure\">休闲</span>\n            <span class=\"route-icon\" aria-hidden=\"true\">\n              <svg viewBox=\"0 0 72 44\"><path d=\"M6 28 C 14 40, 26 8, 38 26 S 56 36, 66 12\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\"/><circle cx=\"6\" cy=\"28\" r=\"4\" fill=\"#C6461C\"/><circle cx=\"66\" cy=\"12\" r=\"4\" fill=\"none\" stroke=\"#C6461C\" stroke-width=\"2.5\"/></svg>\n            </span>\n          </div>\n          <h3 id=\"r2-title\">老城漫游</h3>\n          <ul class=\"route-meta\">\n            <li><b>8</b>公里</li>\n            <li><b>休闲</b>难度</li>\n            <li><b>约1.5h</b>含停留</li>\n          </ul>\n          <p>穿过老街与巷口，在街角稍作停留。骑得最慢的一条路，看得最仔细。</p>\n          <p class=\"route-note\">适合：喜欢街巷细节、想试试城市骑行的你。部分路段推行。</p>\n        </article>\n\n        <article class=\"route-card\" data-level=\"advanced\" aria-labelledby=\"r3-title\">\n          <div class=\"route-top\">\n            <span class=\"badge badge-advanced\">进阶</span>\n            <span class=\"route-icon\" aria-hidden=\"true\">\n              <svg viewBox=\"0 0 72 44\"><path d=\"M6 38 L20 22 L32 30 L44 10 L56 20 L66 6\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/><circle cx=\"6\" cy=\"38\" r=\"4\" fill=\"#C6461C\"/><circle cx=\"66\" cy=\"6\" r=\"4\" fill=\"none\" stroke=\"#C6461C\" stroke-width=\"2.5\"/></svg>\n            </span>\n          </div>\n          <h3 id=\"r3-title\">山脊挑战</h3>\n          <ul class=\"route-meta\">\n            <li><b>35</b>公里</li>\n            <li><b>进阶</b>难度</li>\n            <li><b>约3h</b>含休息</li>\n          </ul>\n          <p>连续爬坡与山脊起伏，对体力有要求。登顶后的风景，是给坚持者的奖励。</p>\n          <p class=\"route-note\">适合：有骑行经验、体力充足的你。建议变速车，行前检查刹车。</p>\n        </article>\n      </div>\n    </div>\n  </section>\n\n  <!-- 日程 -->\n  <section id=\"schedule\" aria-labelledby=\"schedule-title\" style=\"background:var(--surface);border-block:1px solid var(--line)\">\n    <div class=\"wrap\">\n      <div class=\"section-head\">\n        <p class=\"kicker\">周末日程</p>\n        <h2 id=\"schedule-title\">两半小时，这样安排</h2>\n        <p>每次出行遵循同一节奏：集合、出发、结束。时间固定，风雨无阻（恶劣天气另行通知）。</p>\n      </div>\n      <div class=\"schedule-panel\">\n        <ol class=\"schedule\">\n          <li>\n            <time datetime=\"09:00\">09:00</time>\n            <div>\n              <h3>集合</h3>\n              <p>签到、检查车辆与头盔，新老骑友互相认识。</p>\n            </div>\n          </li>\n          <li>\n            <time datetime=\"09:15\">09:15</time>\n            <div>\n              <h3>出发</h3>\n              <p>按路线与配速分组出发，不抢行、不并行占道。</p>\n            </div>\n          </li>\n          <li>\n            <time datetime=\"11:30\">11:30</time>\n            <div>\n              <h3>结束</h3>\n              <p>回到集合点，稍作拉伸后自由解散。</p>\n            </div>\n          </li>\n        </ol>\n        <p class=\"schedule-tip\">集合的具体地点将在报名确认后统一通知，请提前 10 分钟到达。</p>\n      </div>\n    </div>\n  </section>\n\n  <!-- 报名 -->\n  <section id=\"signup\" aria-labelledby=\"signup-title\">\n    <div class=\"wrap\">\n      <div class=\"section-head\">\n        <p class=\"kicker\">本周报名</p>\n        <h2 id=\"signup-title\">留个名字，周六见</h2>\n        <p>填写姓名与骑行经验，我们会按路线分组。提交后页面会立即显示确认信息。</p>\n      </div>\n      <div class=\"signup-panel\">\n        <form id=\"signupForm\" novalidate>\n          <div class=\"field\">\n            <label for=\"nameInput\">姓名</label>\n            <input type=\"text\" id=\"nameInput\" name=\"name\" autocomplete=\"name\"\n                   placeholder=\"请输入你的称呼\" required aria-describedby=\"nameHint nameError\">\n            <p class=\"field-hint\" id=\"nameHint\">怎么称呼都可以，真名或昵称都行。</p>\n            <p class=\"error-text\" id=\"nameError\" hidden>请先输入姓名，再提交报名。</p>\n          </div>\n          <div class=\"field\">\n            <label for=\"expSelect\">骑行经验</label>\n            <select id=\"expSelect\" name=\"experience\" required aria-describedby=\"expHint\">\n              <option value=\"\" selected>请选择</option>\n              <option value=\"初次尝试\">初次尝试</option>\n              <option value=\"偶尔骑行\">偶尔骑行</option>\n              <option value=\"经常骑行\">经常骑行</option>\n            </select>\n            <p class=\"field-hint\" id=\"expHint\">我们会参考你的经验推荐路线，休闲路线对新手友好。</p>\n          </div>\n          <button type=\"submit\" class=\"submit-btn\">确认报名</button>\n          <p class=\"success-msg\" id=\"successMsg\" role=\"status\" aria-live=\"polite\" hidden></p>\n          <p class=\"form-note\">\n            本页面为本地演示：提交内容仅在当前页面显示，不会上传、保存或用于任何其他用途，也不构成真实活动预约。\n          </p>\n        </form>\n      </div>\n    </div>\n  </section>\n</main>\n\n<footer>\n  <div class=\"wrap\">\n    <p><b>慢骑城市</b> · 周末城市骑行俱乐部</p>\n    <p>慢慢骑，城市很近。</p>\n  </div>\n</footer>\n\n<script>\n(function(){\n  \"use strict\";\n\n  /* ---------- 路线筛选 ---------- */\n  var filterBtns = Array.prototype.slice.call(document.querySelectorAll(\".filter-btn\"));\n  var cards = Array.prototype.slice.call(document.querySelectorAll(\".route-card\"));\n  var filterStatus = document.getElementById(\"filterStatus\");\n\n  filterBtns.forEach(function(btn){\n    btn.addEventListener(\"click\", function(){\n      var level = btn.getAttribute(\"data-filter\");\n\n      filterBtns.forEach(function(b){\n        b.setAttribute(\"aria-pressed\", b === btn ? \"true\" : \"false\");\n      });\n\n      var visibleCount = 0;\n      cards.forEach(function(card){\n        var match = (level === \"all\") || (card.getAttribute(\"data-level\") === level);\n        if(match){\n          card.classList.remove(\"is-hidden\");\n          card.classList.remove(\"is-visible\");\n          void card.offsetWidth; /* 重新触发动画 */\n          card.classList.add(\"is-visible\");\n          visibleCount++;\n        }else{\n          card.classList.add(\"is-hidden\");\n          card.classList.remove(\"is-visible\");\n        }\n      });\n\n      var labelMap = { all:\"全部\", leisure:\"休闲\", advanced:\"进阶\" };\n      filterStatus.textContent = \"已显示 \" + visibleCount + \" 条路线（筛选：\" + labelMap[level] + \"）\";\n    });\n  });\n\n  /* ---------- 报名表单（本地演示） ---------- */\n  var form = document.getElementById(\"signupForm\");\n  var nameInput = document.getElementById(\"nameInput\");\n  var expSelect = document.getElementById(\"expSelect\");\n  var nameError = document.getElementById(\"nameError\");\n  var successMsg = document.getElementById(\"successMsg\");\n\n  form.addEventListener(\"submit\", function(event){\n    event.preventDefault(); /* 本地演示：不导航、不发送 */\n\n    var name = nameInput.value.trim();\n    var exp = expSelect.value;\n\n    if(!name){\n      nameInput.setAttribute(\"aria-invalid\",\"true\");\n      nameError.hidden = false;\n      successMsg.hidden = true;\n      nameInput.focus();\n      return;\n    }\n\n    nameInput.removeAttribute(\"aria-invalid\");\n    nameError.hidden = true;\n    successMsg.hidden = false;\n    successMsg.textContent = \"报名成功：\" + name + \"（\" + exp + \"）。这是本地演示确认，信息未离开本页面。周六见！\";\n    form.reset();\n  });\n\n  nameInput.addEventListener(\"input\", function(){\n    if(nameInput.value.trim()){\n      nameInput.removeAttribute(\"aria-invalid\");\n      nameError.hidden = true;\n    }\n  });\n})();\n</script>\n</body>\n</html>",
+      "startedAt": "2026-10-26T15:52:20.544Z",
+      "request": {
+        "model": "LongCat-2.5-Preview",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Build a polished responsive Chinese website for a weekend urban cycling club named「慢骑城市」. Return only one complete self-contained HTML document with all CSS and JavaScript inline, no Markdown. No external assets, fonts, libraries, URLs, network calls, storage or permissions. Use local SVG/CSS illustrations. This is a practical product page, not a wireframe. Requirements: (1) a top navigation with working anchor links to routes, schedule and signup; (2) a strong editorial hero; (3) a route grid containing exactly these three cards: 滨江轻骑—休闲—12公里, 老城漫游—休闲—8公里, 山脊挑战—进阶—35公里; (4) real filter buttons named 全部 / 休闲 / 进阶 that change visible route cards; (5) a schedule with 09:00集合、09:15出发、11:30结束; (6) a signup section with a labelled name input, an experience select, a button named 确认报名 and an on-page success message after a valid submit, no navigation; (7) readable, accessible layout at both 1440px desktop and 390px mobile, without horizontal overflow. Use excellent spacing, restrained typography, a warm light palette, one bold accent, clear focus styles and reduced-motion support. Do not fabricate testimonials, attendee counts or external sponsors. All key content and interactions must fit in this single file. The signup is explicitly a local demonstration; do not imply an actual booking."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 59894.93262499999,
+      "firstReasoningMs": 2363.935958999995,
+      "firstEventMs": 2363.931666999997,
+      "usage": {
+        "completion_tokens": 11094,
+        "prompt_tokens": 332,
+        "total_tokens": 11426,
+        "completion_tokens_details": {
+          "reasoning_tokens": 3173
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 256,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5-Preview",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-26T15:55:04.260Z",
+      "totalMs": 163714.34129199997,
+      "promptTokens": 332,
+      "outputTokens": 11094,
+      "reasoningTokens": 3173,
+      "htmlPath": "/evaluations/longcat-2-5-20261026/assets/frontend-default.html.txt",
+      "htmlSha256": "7cdf4da5de0d18c20d701eccaffa6b0fd2a95a5e67e03629931f95b4cfa83925",
+      "screenshots": {
+        "desktop": {
+          "path": "/evaluations/longcat-2-5-20261026/assets/frontend-default-desktop.png",
+          "width": 1440,
+          "height": 3088,
+          "sha256": "cb1cb56900aebb0a06600952bf1d64bd56df81f0f0f236c60c483bb235c5eaad",
+          "viewportWidth": 1440,
+          "viewportHeight": 1000
+        },
+        "mobile": {
+          "path": "/evaluations/longcat-2-5-20261026/assets/frontend-default-mobile.png",
+          "width": 390,
+          "height": 4122,
+          "sha256": "ce74b93cdc2089946ca6ff52f6cf3015bb83f4720763503d741c366058c9c6ba",
+          "viewportWidth": 390,
+          "viewportHeight": 844
+        }
+      },
+      "checks": [
+        {
+          "name": "desktop: no horizontal overflow",
+          "pass": true,
+          "details": {
+            "scrollWidth": 1440,
+            "viewportWidth": 1440
+          }
+        },
+        {
+          "name": "desktop: one main heading",
+          "pass": true
+        },
+        {
+          "name": "desktop: required route titles",
+          "pass": true
+        },
+        {
+          "name": "desktop: schedule exact times",
+          "pass": true
+        },
+        {
+          "name": "desktop: local demonstration disclaimer",
+          "pass": true
+        },
+        {
+          "name": "desktop: navigation anchor targets",
+          "pass": true,
+          "details": [
+            {
+              "text": "路线",
+              "href": "#routes",
+              "targetExists": true
+            },
+            {
+              "text": "日程",
+              "href": "#schedule",
+              "targetExists": true
+            },
+            {
+              "text": "报名",
+              "href": "#signup",
+              "targetExists": true
+            }
+          ]
+        },
+        {
+          "name": "desktop: advanced filter shows only 山脊挑战",
+          "pass": true,
+          "details": [
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "name": "desktop: leisure filter shows two routes",
+          "pass": true,
+          "details": [
+            true,
+            true,
+            false
+          ]
+        },
+        {
+          "name": "desktop: all filter restores three routes",
+          "pass": true,
+          "details": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "desktop: labelled name and experience inputs",
+          "pass": true
+        },
+        {
+          "name": "desktop: signup success message after valid submit",
+          "pass": true
+        },
+        {
+          "name": "desktop: signup stays on the page",
+          "pass": true
+        },
+        {
+          "name": "mobile: no horizontal overflow",
+          "pass": true,
+          "details": {
+            "scrollWidth": 390,
+            "viewportWidth": 390
+          }
+        },
+        {
+          "name": "mobile: one main heading",
+          "pass": true
+        },
+        {
+          "name": "mobile: required route titles",
+          "pass": true
+        },
+        {
+          "name": "mobile: schedule exact times",
+          "pass": true
+        },
+        {
+          "name": "mobile: local demonstration disclaimer",
+          "pass": true
+        },
+        {
+          "name": "mobile: navigation anchor targets",
+          "pass": true,
+          "details": [
+            {
+              "text": "路线",
+              "href": "#routes",
+              "targetExists": true
+            },
+            {
+              "text": "日程",
+              "href": "#schedule",
+              "targetExists": true
+            },
+            {
+              "text": "报名",
+              "href": "#signup",
+              "targetExists": true
+            }
+          ]
+        },
+        {
+          "name": "mobile: advanced filter shows only 山脊挑战",
+          "pass": true,
+          "details": [
+            false,
+            false,
+            true
+          ]
+        },
+        {
+          "name": "mobile: leisure filter shows two routes",
+          "pass": true,
+          "details": [
+            true,
+            true,
+            false
+          ]
+        },
+        {
+          "name": "mobile: all filter restores three routes",
+          "pass": true,
+          "details": [
+            true,
+            true,
+            true
+          ]
+        },
+        {
+          "name": "mobile: labelled name and experience inputs",
+          "pass": true
+        },
+        {
+          "name": "mobile: signup success message after valid submit",
+          "pass": true
+        },
+        {
+          "name": "mobile: signup stays on the page",
+          "pass": true
+        }
+      ],
+      "consoleErrors": [],
+      "blockedRequests": [],
+      "assessmentMethod": "AI assistant visual observation is separate from automated browser checks. Generated HTML runs in a fresh isolated Chromium context with no real account session and all network requests blocked.",
+      "sourceEvidence": "/evaluations/longcat-2-5-20261026-frontend.json",
+      "attemptNumber": 1,
+      "assessmentZh": "橙红强调色、暖纸色与衬线标题统一，桌面双栏首屏和三列路线卡明确；手机保留紧凑的顶部导航并改为单列，1440/390px均无横向溢出。两尺寸下三档路线筛选、带标签表单及报名成功反馈合计24项浏览器检查通过，未出现脚本异常。局限是大片留白让桌面后半段较松散；高阶路线“约3h”与统一09:15出发、11:30结束不一致。只是单轮API输出与虚构俱乐部本地演示，不证明多轮agent或真实活动服务已可用。",
+      "assessmentEn": "Orange-red accents, warm paper tones and serif headings form a coherent design. Desktop has a two-column hero and three route cards; mobile keeps compact navigation and switches to one column. No horizontal overflow occurs at 1440 or 390 pixels. Filters, labelled form controls and signup feedback pass 24 browser checks across both sizes, with no script errors. Large empty areas make the lower desktop sections loose. The advanced route says about three hours while the shared riding schedule is 09:15–11:30, an inconsistency. This is one API output for a fictional local-only demo, not proof of a multi-turn coding agent or a live event service."
+    }
+  ]
+}

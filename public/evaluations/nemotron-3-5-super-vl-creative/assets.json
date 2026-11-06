@@ -1,0 +1,174 @@
+{
+  "schemaVersion": 1,
+  "status": "creative-review-asset-manifest",
+  "model": "nvidia/nemotron-3.5-super-vl:free",
+  "suiteVersion": "creative-suite-v4",
+  "evaluationDate": "2026-11-04",
+  "frozenAt": "2026-11-04T12:31:02.785508+00:00",
+  "caseCount": 11,
+  "reviewDispositionCounts": {
+    "accepted-artwork": 5,
+    "incomplete-provider-held": 4,
+    "delivered-quality-failed": 2
+  },
+  "allFrozenCasesReviewed": true,
+  "fullModelReviewComplete": false,
+  "allMajorArtworksComplete": false,
+  "resultPath": "/evaluations/nemotron-3-5-super-vl-creative.json",
+  "resultSha256": "240faa1af86c1bdf1eee76bea106f516eaa99025bb4131a62f92a4fb0a3e0eb8",
+  "publicEvidenceSha256": "d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c",
+  "fileCount": 30,
+  "manifestSelfIncluded": false,
+  "files": [
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative.json",
+      "sha256": "240faa1af86c1bdf1eee76bea106f516eaa99025bb4131a62f92a4fb0a3e0eb8",
+      "bytes": 69749
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/bookshelf-baseline-back.d766e886d9c582f0e69b2a1e33bb26cf65542de4d9702c0cf5b0463305b2bb02.png",
+      "sha256": "d766e886d9c582f0e69b2a1e33bb26cf65542de4d9702c0cf5b0463305b2bb02",
+      "bytes": 2058617
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/bookshelf-baseline-front.2abbae4f743a2ebff6b44f9d4381aebecdf4411e4821d922b4aad295341a7a38.png",
+      "sha256": "2abbae4f743a2ebff6b44f9d4381aebecdf4411e4821d922b4aad295341a7a38",
+      "bytes": 2086754
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/bookshelf-modified-front.3054f5299b8c2f6dc705b36cc7bf93c29a44cef37b18f362e7c2162a6b134379.png",
+      "sha256": "3054f5299b8c2f6dc705b36cc7bf93c29a44cef37b18f362e7c2162a6b134379",
+      "bytes": 2033579
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/bookshelf-public-file-mapping-v2.a75e35dc90c91cc148c979ce14aa93bec4192bf7dc06ad88d4f3592d8de8d05d.md",
+      "sha256": "a75e35dc90c91cc148c979ce14aa93bec4192bf7dc06ad88d4f3592d8de8d05d",
+      "bytes": 6754
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/clock-preview.8f78dbc92db640d7ff9cf3738eab29b152dd682e4612dff339535a5a4c6a03ff.png",
+      "sha256": "8f78dbc92db640d7ff9cf3738eab29b152dd682e4612dff339535a5a4c6a03ff",
+      "bytes": 49242
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/dashboard-preview.a43bec4006fcda9e2bc822761d138ebfb24a49f15254486f0a2a5863dd42094d.png",
+      "sha256": "a43bec4006fcda9e2bc822761d138ebfb24a49f15254486f0a2a5863dd42094d",
+      "bytes": 22066
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-interior-hero.03b75c622e1a19f3f2b9b54f9c4ef859e18264b9239c106c6ea0725539bf410b.png",
+      "sha256": "03b75c622e1a19f3f2b9b54f9c4ef859e18264b9239c106c6ea0725539bf410b",
+      "bytes": 2003503
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-interior-top.e67a3238b4c9a1dd5aad9013a0a27a0fbfb97eea62e01e66e6923fc12f2a0cd1.png",
+      "sha256": "e67a3238b4c9a1dd5aad9013a0a27a0fbfb97eea62e01e66e6923fc12f2a0cd1",
+      "bytes": 1709642
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-four-blank-preview.b4a83e9168da50ffb4de5d70943b2cdb1311d6a1aa6022ec20ddb5079231fd0c.png",
+      "sha256": "b4a83e9168da50ffb4de5d70943b2cdb1311d6a1aa6022ec20ddb5079231fd0c",
+      "bytes": 8611
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-one-frame-forty-four.6da7fe13a1730114053ce973a354291d261327d9b65551966234454203d8b685.png",
+      "sha256": "6da7fe13a1730114053ce973a354291d261327d9b65551966234454203d8b685",
+      "bytes": 191467
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-one-revision-two.0df2e43edefbffe7a25772623c0ac6df853bb9ee140c569c067da7fe40172a5a.mp4",
+      "sha256": "0df2e43edefbffe7a25772623c0ac6df853bb9ee140c569c067da7fe40172a5a",
+      "bytes": 6944921
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-three-author-preview.a115a1225d0d1461ec1a8a29393b3ae0faa001be726ad8469f89cc8228c77c98.png",
+      "sha256": "a115a1225d0d1461ec1a8a29393b3ae0faa001be726ad8469f89cc8228c77c98",
+      "bytes": 97340
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-two-blank-frame.f873aff6776fdc917f07c19bc6e843ffc100b8f8fcbfd6473aa965c74600ce11.png",
+      "sha256": "f873aff6776fdc917f07c19bc6e843ffc100b8f8fcbfd6473aa965c74600ce11",
+      "bytes": 8516
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-reducer-overall.8cc0a35ac84726ffa460e780d5d908c7a0a9467569afd77bd4aea6a821f24a3f.png",
+      "sha256": "8cc0a35ac84726ffa460e780d5d908c7a0a9467569afd77bd4aea6a821f24a3f",
+      "bytes": 1881460
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-reducer-turntable.e23d8e6b748b17ba656d86697790ffcae032315425583e947e45c01eccacb844.mp4",
+      "sha256": "e23d8e6b748b17ba656d86697790ffcae032315425583e947e45c01eccacb844",
+      "bytes": 383787
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/nvidia-company-logo.b6a3fa5fc25372f0d6ba588c2253cd5581e50ec2ec2f2435b2875730bc94ad58.svg",
+      "sha256": "b6a3fa5fc25372f0d6ba588c2253cd5581e50ec2ec2f2435b2875730bc94ad58",
+      "bytes": 2094
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/nvidia-figure-1-baseten-throughput.639848b4557ac6e7bec1889924501a5613c83be0578ef41afdba22abd16d3786.webp",
+      "sha256": "639848b4557ac6e7bec1889924501a5613c83be0578ef41afdba22abd16d3786",
+      "bytes": 55766
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/nvidia-figure-2-domain-posttraining.4fa6efe81e801a490bbcade5ea50a79746c14e74801c21fb6d3a3275e0e834cc.webp",
+      "sha256": "4fa6efe81e801a490bbcade5ea50a79746c14e74801c21fb6d3a3275e0e834cc",
+      "bytes": 110398
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/pelican-animation-poster.511e799e169c3e588e4a02b00348a2537e69aa9839fe5011cb7eb4126c099c5c.png",
+      "sha256": "511e799e169c3e588e4a02b00348a2537e69aa9839fe5011cb7eb4126c099c5c",
+      "bytes": 44159
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/pelican-animation.1a15c76feaed0cba87edb586eefd138144b1f4cb7643450ff27209c709270365.webp",
+      "sha256": "1a15c76feaed0cba87edb586eefd138144b1f4cb7643450ff27209c709270365",
+      "bytes": 516958
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/pelican-animation.aa1f8e71d138782701c8bafe7b2c899ff0f5b1fce857d970096b52eb9889d586.mp4",
+      "sha256": "aa1f8e71d138782701c8bafe7b2c899ff0f5b1fce857d970096b52eb9889d586",
+      "bytes": 185178
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/poster-preview.139b0a7460edf770f7fb18c9bf72c42d37c95c6006b20a7b7ee84b90b9d8bad5.png",
+      "sha256": "139b0a7460edf770f7fb18c9bf72c42d37c95c6006b20a7b7ee84b90b9d8bad5",
+      "bytes": 45232
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json",
+      "sha256": "d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c",
+      "bytes": 878929
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/bookshelf/8510c52632651c68a770f2bc672cc9056143cd8e2dd03a67a999fb13362b1193/project-source.zip",
+      "sha256": "8510c52632651c68a770f2bc672cc9056143cd8e2dd03a67a999fb13362b1193",
+      "bytes": 212579
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-clock/8f002a30e0f60142c788939d93c725f5807c675cabbdff91c753c52546ea9e9c/final.svg",
+      "sha256": "8f002a30e0f60142c788939d93c725f5807c675cabbdff91c753c52546ea9e9c",
+      "bytes": 6483
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-dashboard/87289beb6d02ed1cf0784dcb47b73034294ee965c38906e4864e1ce7c7a260cb/final.svg",
+      "sha256": "87289beb6d02ed1cf0784dcb47b73034294ee965c38906e4864e1ce7c7a260cb",
+      "bytes": 2631
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-pelican-animation/a10caa1198eedafd82986cec2bdc9a23f4554cef8b60b513574ca667f0bd6a27/project-source.zip",
+      "sha256": "a10caa1198eedafd82986cec2bdc9a23f4554cef8b60b513574ca667f0bd6a27",
+      "bytes": 6014
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-pelican-animation/c1841ae8ebf25f7c7209c1a021365e236549befda01a1327f2ecc8b3b9ed6ae2/final.svg",
+      "sha256": "c1841ae8ebf25f7c7209c1a021365e236549befda01a1327f2ecc8b3b9ed6ae2",
+      "bytes": 10162
+    },
+    {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-poster/5e88d54a3575efb281d36e540ffb675025f8705e446524a82c028121f870fca4/final.svg",
+      "sha256": "5e88d54a3575efb281d36e540ffb675025f8705e446524a82c028121f870fca4",
+      "bytes": 3230
+    }
+  ]
+}

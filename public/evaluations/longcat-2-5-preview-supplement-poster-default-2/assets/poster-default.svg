@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FDFAF4"/>
+      <stop offset="1" stop-color="#F5F0E4"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect width="800" height="600" fill="url(#bg)"/>
+
+  <!-- 装饰元素 -->
+  <circle cx="110" cy="90" r="44" fill="#EAF3EE"/>
+  <circle cx="700" cy="470" r="56" fill="#F3ECDD"/>
+  <circle cx="665" cy="140" r="11" fill="#E8965A" opacity="0.45"/>
+  <circle cx="150" cy="480" r="9" fill="#2E8C6E" opacity="0.25"/>
+  <path d="M118 300 v16 M110 308 h16" stroke="#C9D8D0" stroke-width="3" stroke-linecap="round"/>
+  <path d="M678 250 v16 M670 258 h16" stroke="#C9D8D0" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- 虚线路线 -->
+  <path d="M120 180 C 240 140 360 190 470 162 S 620 138 688 176" stroke="#BFD6CC" stroke-width="3" fill="none" stroke-dasharray="1 12" stroke-linecap="round"/>
+
+  <!-- 自行车图标徽章 -->
+  <circle cx="400" cy="110" r="60" fill="#E4F1EA"/>
+  <circle cx="400" cy="110" r="60" fill="none" stroke="#C6DED3" stroke-width="2" stroke-dasharray="4 6"/>
+  <g fill="none" stroke="#2E8C6E" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="380" cy="114" r="24"/>
+    <circle cx="420" cy="114" r="24"/>
+    <path d="M380 114 L395 76 L416 78 L420 114"/>
+    <path d="M380 114 L400 114 L416 78"/>
+    <path d="M388 72 L400 72"/>
+    <path d="M410 72 L420 73"/>
+  </g>
+  <circle cx="400" cy="114" r="4.5" fill="#2E8C6E"/>
+
+  <!-- 主标题 -->
+  <text x="400" y="252" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="60" font-weight="800" fill="#22313A" letter-spacing="8">周末骑行计划</text>
+
+  <!-- 副标题 -->
+  <text x="400" y="296" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="26" fill="#7C8B84" letter-spacing="6">慢一点，看见城市</text>
+
+  <!-- 分隔装饰 -->
+  <line x1="330" y1="330" x2="392" y2="330" stroke="#D8CFC0" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="400" cy="330" r="3.5" fill="#E8965A"/>
+  <line x1="408" y1="330" x2="470" y2="330" stroke="#D8CFC0" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- 时间与地点 -->
+  <text x="400" y="376" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="600" fill="#2E4B43" letter-spacing="2">10月24日 09:00</text>
+  <text x="400" y="418" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="25" font-weight="600" fill="#2E4B43" letter-spacing="2">滨江公园东门</text>
+
+  <!-- 说明 -->
+  <text x="400" y="464" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="17" fill="#98A29C" letter-spacing="3">自备头盔 · 全程12公里</text>
+
+  <!-- 按钮 -->
+  <rect x="312" y="486" width="176" height="52" rx="26" fill="#2E8C6E"/>
+  <text x="400" y="519" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, Noto Sans CJK SC, sans-serif" font-size="20" font-weight="600" fill="#FFFFFF" letter-spacing="4">立即报名</text>
+</svg>

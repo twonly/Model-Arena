@@ -1,0 +1,170 @@
+<svg viewBox="0 0 800 600" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradients -->
+    <linearGradient id="bodyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" />
+      <stop offset="100%" stop-color="#e2e8f0" />
+    </linearGradient>
+    <linearGradient id="billGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+    <linearGradient id="pouchGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f59e0b" />
+      <stop offset="100%" stop-color="#d97706" />
+    </linearGradient>
+    <linearGradient id="frameGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#14b8a6" />
+      <stop offset="100%" stop-color="#0f766e" />
+    </linearGradient>
+
+    <!-- Reusable Wheel Component -->
+    <g id="wheel">
+      <!-- Tire -->
+      <circle cx="0" cy="0" r="80" fill="none" stroke="#1e293b" stroke-width="12" />
+      <!-- Rim -->
+      <circle cx="0" cy="0" r="74" fill="none" stroke="#94a3b8" stroke-width="4" />
+      <!-- Spokes -->
+      <line x1="0" y1="-74" x2="0" y2="74" stroke="#cbd5e1" stroke-width="2" />
+      <line x1="-74" y1="0" x2="74" y2="0" stroke="#cbd5e1" stroke-width="2" />
+      <line x1="-52" y1="-52" x2="52" y2="52" stroke="#cbd5e1" stroke-width="2" />
+      <line x1="52" y1="-52" x2="-52" y2="52" stroke="#cbd5e1" stroke-width="2" />
+      <line x1="-28" y1="-68" x2="28" y2="68" stroke="#cbd5e1" stroke-width="2" />
+      <line x1="28" y1="-68" x2="-28" y2="68" stroke="#cbd5e1" stroke-width="2" />
+      <line x1="-68" y1="-28" x2="68" y2="28" stroke="#cbd5e1" stroke-width="2" />
+      <line x1="68" y1="-28" x2="-68" y2="28" stroke="#cbd5e1" stroke-width="2" />
+      <!-- Hub -->
+      <circle cx="0" cy="0" r="10" fill="#64748b" />
+      <circle cx="0" cy="0" r="4" fill="#334155" />
+    </g>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#fffbeb" />
+  <circle cx="400" cy="300" r="250" fill="#fef3c7" />
+  <ellipse cx="400" cy="510" rx="300" ry="20" fill="#e2e8f0" opacity="0.6" />
+
+  <!-- Ground Line -->
+  <line x1="100" y1="500" x2="700" y2="500" stroke="#94a3b8" stroke-width="4" stroke-linecap="round" />
+
+  <!-- BICYCLE -->
+  <!-- Rear Wheel -->
+  <use href="#wheel" x="180" y="420" />
+  <!-- Front Wheel -->
+  <use href="#wheel" x="620" y="420" />
+
+  <!-- Bike Frame (Back Layer) -->
+  <g stroke="url(#frameGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Chainstay -->
+    <line x1="180" y1="420" x2="380" y2="420" />
+    <!-- Seatstay -->
+    <line x1="180" y1="420" x2="340" y2="260" />
+    <!-- Seat tube -->
+    <line x1="380" y1="420" x2="340" y2="260" />
+  </g>
+
+  <!-- Chain and Chainring -->
+  <path d="M 380 395 L 180 405 M 380 445 L 180 435" stroke="#64748b" stroke-width="4" stroke-dasharray="6,4" fill="none" />
+  <circle cx="380" cy="420" r="30" fill="none" stroke="#334155" stroke-width="8" />
+  <circle cx="380" cy="420" r="14" fill="#334155" />
+
+  <!-- Bike Frame (Front Layer) -->
+  <g stroke="url(#frameGrad)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <!-- Down tube -->
+    <line x1="380" y1="420" x2="570" y2="320" />
+    <!-- Top tube -->
+    <line x1="340" y1="260" x2="560" y2="280" />
+    <!-- Head tube -->
+    <line x1="560" y1="280" x2="570" y2="320" />
+    <!-- Fork -->
+    <line x1="570" y1="320" x2="620" y2="420" />
+  </g>
+
+  <!-- Bike Accessories -->
+  <!-- Seat -->
+  <path d="M 300 260 Q 340 240 380 260 Q 380 275 340 275 Z" fill="#1e293b" />
+  <!-- Seat Post -->
+  <line x1="340" y1="260" x2="340" y2="240" stroke="#64748b" stroke-width="8" stroke-linecap="round" />
+  
+  <!-- Handlebars -->
+  <path d="M 560 280 L 570 250 Q 590 240 620 250" fill="none" stroke="#1e293b" stroke-width="10" stroke-linecap="round" />
+  <!-- Handlebar Grip -->
+  <rect x="605" y="242" width="30" height="16" rx="5" fill="#1e293b" transform="rotate(-15, 605, 242)" />
+  
+  <!-- Bike Bell -->
+  <circle cx="560" cy="270" r="10" fill="#fbbf24" />
+  <path d="M 555 265 L 565 265 L 560 275 Z" fill="#f59e0b" />
+  <circle cx="560" cy="280" r="3" fill="#1e293b" />
+
+  <!-- Pedals and Crank -->
+  <!-- Back Pedal / Crank -->
+  <line x1="380" y1="420" x2="360" y2="390" stroke="#475569" stroke-width="8" stroke-linecap="round" />
+  <rect x="345" y="385" width="30" height="10" rx="3" fill="#334155" transform="rotate(30, 360, 390)" />
+  
+  <!-- Front Pedal / Crank -->
+  <line x1="380" y1="420" x2="400" y2="440" stroke="#334155" stroke-width="8" stroke-linecap="round" />
+  <rect x="390" y="435" width="30" height="12" rx="4" fill="#1e293b" transform="rotate(15, 400, 440)" />
+  <line x1="390" y1="435" x2="420" y2="435" stroke="#475569" stroke-width="4" stroke-linecap="round" />
+
+  <!-- PELICAN -->
+  <!-- Back Leg -->
+  <path d="M 340 260 Q 360 340 360 390" fill="none" stroke="#d97706" stroke-width="12" stroke-linecap="round" />
+  <path d="M 360 390 L 370 400 M 360 390 L 350 400" fill="none" stroke="#d97706" stroke-width="6" stroke-linecap="round" />
+
+  <!-- Pelican Body -->
+  <ellipse cx="320" cy="200" rx="90" ry="70" transform="rotate(-15, 320, 200)" fill="url(#bodyGrad)" stroke="#cbd5e1" stroke-width="4" />
+  
+  <!-- Pelican Tail -->
+  <path d="M 240 220 L 190 240 L 220 260 Z" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="4" stroke-linejoin="round" />
+
+  <!-- Pelican Neck -->
+  <path d="M 360 160 Q 420 80 480 130 L 500 180 Q 420 140 380 200 Z" fill="url(#bodyGrad)" stroke="#cbd5e1" stroke-width="4" />
+
+  <!-- Pelican Head -->
+  <circle cx="480" cy="130" r="32" fill="url(#bodyGrad)" stroke="#cbd5e1" stroke-width="4" />
+
+  <!-- Pelican Eye -->
+  <circle cx="495" cy="125" r="6" fill="#1e293b" />
+  <circle cx="497" cy="123" r="2" fill="#ffffff" />
+
+  <!-- Pelican Bill (Top) -->
+  <path d="M 505 120 Q 580 110 650 135 Q 580 140 505 140 Z" fill="url(#billGrad)" stroke="#d97706" stroke-width="3" stroke-linejoin="round" />
+  
+  <!-- Pelican Bill (Pouch) -->
+  <path d="M 505 140 Q 580 145 640 140 Q 600 200 530 190 Q 500 180 505 140 Z" fill="url(#pouchGrad)" stroke="#b45309" stroke-width="3" stroke-linejoin="round" />
+  
+  <!-- Pouch Details -->
+  <path d="M 520 160 Q 560 170 590 160" fill="none" stroke="#b45309" stroke-width="2" opacity="0.6" />
+  <path d="M 540 175 Q 570 180 600 170" fill="none" stroke="#b45309" stroke-width="2" opacity="0.6" />
+
+  <!-- Helmet -->
+  <path d="M 450 120 Q 480 70 515 115 Z" fill="#ef4444" stroke="#b91c1c" stroke-width="3" stroke-linejoin="round" />
+  <path d="M 510 110 L 535 105 L 530 118 Z" fill="#b91c1c" />
+  <!-- Helmet Strap -->
+  <path d="M 455 120 L 475 150" fill="none" stroke="#ef4444" stroke-width="4" stroke-linecap="round" />
+  <circle cx="475" cy="150" r="3" fill="#b91c1c" />
+
+  <!-- Pelican Wing (Reaching forward to handlebar) -->
+  <path d="M 310 170 Q 420 150 580 240 Q 600 245 590 260 Q 430 240 310 230 Z" fill="#f8fafc" stroke="#cbd5e1" stroke-width="4" stroke-linejoin="round" />
+  <!-- Wing Feather Details -->
+  <path d="M 380 200 Q 450 210 520 240" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" />
+  <path d="M 400 185 Q 470 200 540 235" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" />
+  <path d="M 420 175 Q 480 190 550 230" fill="none" stroke="#cbd5e1" stroke-width="3" stroke-linecap="round" />
+
+  <!-- Wing Tip holding handlebar -->
+  <path d="M 580 240 Q 595 250 590 260 Q 580 255 575 245 Z" fill="#e2e8f0" stroke="#cbd5e1" stroke-width="3" />
+
+  <!-- Front Leg -->
+  <path d="M 330 250 Q 350 350 390 435" fill="none" stroke="#f59e0b" stroke-width="14" stroke-linecap="round" />
+  <!-- Front Foot on Pedal -->
+  <path d="M 380 435 L 410 435 M 390 435 L 400 445 M 390 435 L 395 425" fill="none" stroke="#f59e0b" stroke-width="6" stroke-linecap="round" />
+
+  <!-- Highlights and Details -->
+  <!-- Body Highlight -->
+  <ellipse cx="300" cy="180" rx="40" ry="20" transform="rotate(-20, 300, 180)" fill="#ffffff" opacity="0.5" />
+  
+  <!-- Speed Lines (Optional, for action) -->
+  <line x1="100" y1="350" x2="150" y2="350" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" />
+  <line x1="80" y1="400" x2="140" y2="400" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" />
+  <line x1="110" y1="450" x2="160" y2="450" stroke="#cbd5e1" stroke-width="4" stroke-linecap="round" />
+</svg>

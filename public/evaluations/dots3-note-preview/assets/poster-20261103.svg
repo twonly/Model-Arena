@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#f8f8f8"/>
+  <g transform="translate(580, 200)" stroke="#555" stroke-width="2" fill="none">
+    <circle cx="20" cy="40" r="20"/>
+    <circle cx="80" cy="40" r="15"/>
+    <line x1="20" y1="40" x2="50" y2="20"/>
+    <line x1="50" y1="20" x2="80" y2="40"/>
+    <line x1="50" y1="20" x2="50" y2="10"/>
+    <line x1="80" y1="40" x2="90" y2="25"/>
+    <line x1="90" y1="25" x2="80" y2="10"/>
+    <line x1="50" y1="10" x2="55" y2="0" stroke-width="3"/>
+  </g>
+  <text x="400" y="100" font-family="sans-serif" font-size="48" font-weight="bold" fill="#333" text-anchor="middle">周末骑行计划</text>
+  <text x="400" y="150" font-family="sans-serif" font-size="22" fill="#666" text-anchor="middle">慢一点，看见城市</text>
+  <text x="80" y="220" font-family="sans-serif" font-size="18" fill="#333">10月24日 09:00</text>
+  <text x="80" y="260" font-family="sans-serif" font-size="18" fill="#333">滨江公园东门</text>
+  <text x="80" y="320" font-family="sans-serif" font-size="14" fill="#888">自备头盔 · 全程12公里</text>
+  <rect x="320" y="480" width="160" height="44" rx="8" fill="#4CAF50"/>
+  <text x="400" y="508" font-family="sans-serif" font-size="18" fill="#fff" text-anchor="middle">立即报名</text>
+</svg>

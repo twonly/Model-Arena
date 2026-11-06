@@ -1,4 +1,5 @@
 "use client";
+import { ResultLayout, ResultContent, resultGridStyle } from "./ResultLayout";
 import { ProviderIcon } from "./ProviderIcon";
 
 import { useEffect, useState } from "react";
@@ -37,7 +38,10 @@ export function ShareView({
   const { locale, href } = useI18n();
   const isZh = locale === "zh-CN";
   const [markdown, setMarkdown] = useState(true);
+  const [previewOnly, setPreviewOnly] = useState(false);
+  const [resultColumns, setResultColumns] = useState("auto");
   const [compact, setCompact] = useState(false);
+  const [showLeaderboard, setShowLeaderboard] = useState(true);
   const [hidden, setHidden] = useState<string[]>([]);
   const [focusId, setFocusId] = useState<string | null>(null);
   const [agg, setAgg] = useState<VoteAggregate | null>(null);
@@ -107,7 +111,8 @@ export function ShareView({
       text: r.text,
       reasoning: r.reasoning,
       metrics: r.metrics,
-      rank: r.rank,
+      rank: snapshot.source ? undefined : r.rank,
+      origin: r.origin,
       error: r.error,
       samples: r.samples ?? [],
       elapsedMs: r.elapsedMs,
@@ -164,14 +169,6 @@ export function ShareView({
   // 至少两条且有人真的跑出 token，才值得展示赛道（避免全 0 的空轨）
   const showRace = visible.length >= 2 && raceRunners.some((r) => r.tokens > 0);
 
-  const cols = compact
-    ? visible.length <= 2
-      ? "sm:grid-cols-2"
-      : "sm:grid-cols-2 xl:grid-cols-3"
-    : visible.length <= 1
-      ? "grid-cols-1"
-      : "md:grid-cols-2";
-
   const btn =
     "rounded-md border border-line bg-card px-2.5 py-1.5 text-[12px] text-faint hover:text-ink cursor-pointer";
   const primaryBtn =
@@ -203,10 +200,18 @@ export function ShareView({
   });
 
   const seedArena = (
-    mode: Extract<ArenaSeed["mode"], "share-full" | "share-prompt">,
+    mode: Extract<ArenaSeed["mode"], "share-full" | "share-prompt" | "share-append">,
+    rerunTarget?: ArenaSeed["rerunTarget"],
   ) => {
     const seed: ArenaSeed = {
       mode,
+      rerunTarget,
+      retained: mode === "share-append" ? {
+        id: shareId, at: 0, title: snapshot.title, notes: snapshot.notes,
+        prompt: snapshot.prompt, params: snapshot.params, task: snapshot.task,
+        hasImage: snapshot.hasImage, results: snapshot.results,
+        source: { kind: "share", id: shareId },
+      } : undefined,
       title: mode === "share-full" ? snapshot.title : "",
       notes: mode === "share-full" ? snapshot.notes : "",
       prompt: snapshot.prompt,
@@ -228,29 +233,14 @@ export function ShareView({
   };
 
   return (
-    <main className="mx-auto max-w-7xl px-5 py-8">
+    <main className="mx-auto w-full px-5 py-8">
       <nav className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <a href={href("/")} className="text-[13px] text-faint hover:text-ink">
           ← {isZh ? "百模竞速 · TOKRACE" : "TOKRACE"}
         </a>
         <div className="flex flex-wrap items-center justify-end gap-2">
-          <button className={btn} onClick={() => setMarkdown((v) => !v)}>
-            {markdown
-              ? isZh
-                ? "MD 渲染：开"
-                : "MD rendering: on"
-              : isZh
-                ? "MD 渲染：关"
-                : "MD rendering: off"}
-          </button>
-          <button className={btn} onClick={() => setCompact((v) => !v)}>
-            {compact
-              ? isZh
-                ? "📊 紧凑：开"
-                : "📊 Compact: on"
-              : isZh
-                ? "📊 紧凑：关"
-                : "📊 Compact: off"}
+          <button className={btn} onClick={() => seedArena("share-append")}>
+            ＋ {isZh ? "追加模型对比" : "Add models to comparison"}
           </button>
           <button className={btn} onClick={() => seedArena("share-full")}>
             {isZh ? "复制这次评测" : "Copy this test"}
@@ -401,7 +391,30 @@ export function ShareView({
               <VerdictCard verdict={verdict} locale={locale} />
             </div>
           )}
-          <div className={`grid grid-cols-1 gap-4 ${cols}`}>
+          <div role="group" aria-label={isZh ? "结果展示选项" : "Result display options"}
+            className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card p-3 [&_button]:min-h-11">
+          <ResultLayout value={resultColumns} onChange={setResultColumns} en={!isZh} />
+          <button className={btn} onClick={() => setMarkdown((v) => !v)}>
+            {markdown
+              ? isZh
+                ? "MD 渲染：开"
+                : "MD rendering: on"
+              : isZh
+                ? "MD 渲染：关"
+                : "MD rendering: off"}
+          </button>
+          <ResultContent value={previewOnly ? "preview" : compact ? "metrics" : "answers"}
+              onChange={(mode) => { setPreviewOnly(mode === "preview"); setCompact(mode === "metrics"); }} en={!isZh} />
+            {voting && (
+              <button className={btn} aria-controls="share-leaderboard" aria-expanded={showLeaderboard}
+                onClick={() => setShowLeaderboard((value) => !value)}>
+                {showLeaderboard
+                  ? (isZh ? "隐藏实时榜单" : "Hide leaderboard")
+                  : (isZh ? "显示实时榜单" : "Show leaderboard")}
+              </button>
+            )}
+          </div>
+          <div id="model-outputs" className="grid gap-4" style={resultGridStyle(resultColumns, compact)}>
             {visible.map((ep) => (
               <div key={ep.id} className="min-w-0">
                 <ModelCard
@@ -409,13 +422,13 @@ export function ShareView({
                   run={runs[ep.id] ?? emptyRun()}
                   markdown={markdown}
                   screenshotMode={false}
-                  readOnly
                   thinkingStats={snapshot.thinkingStats}
                   nowTick={0}
-                  onRerun={() => {}}
+                  onRerun={() => seedArena("share-append", { model: ep.model, name: ep.name })}
                   onToggleFocus={() => setFocusId(ep.id)}
                   wordTarget={wordTarget}
                   compact={compact}
+                    previewOnly={previewOnly}
                 />
                 {voting && (
                   <CardVoteBar
@@ -431,7 +444,7 @@ export function ShareView({
         </div>
 
         {voting && (
-          <aside className="order-1 lg:order-2 lg:w-64 lg:shrink-0 lg:sticky lg:top-4">
+          <aside id="share-leaderboard" hidden={!showLeaderboard} className="order-1 lg:order-2 lg:w-64 lg:shrink-0 lg:sticky lg:top-4">
             <Leaderboard
               agg={agg}
               count={snapshot.results.length}
@@ -457,11 +470,11 @@ export function ShareView({
               run={runs[focusEp.id] ?? emptyRun()}
               markdown={markdown}
               screenshotMode={false}
-              readOnly
               thinkingStats={snapshot.thinkingStats}
               nowTick={0}
-              onRerun={() => {}}
+              onRerun={() => seedArena("share-append", { model: focusEp.model, name: focusEp.name })}
               expanded
+              previewOnly={previewOnly}
               onToggleFocus={() => setFocusId(null)}
               wordTarget={wordTarget}
             />

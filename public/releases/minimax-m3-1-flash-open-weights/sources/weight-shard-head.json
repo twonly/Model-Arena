@@ -1,0 +1,38 @@
+{
+  "method": "HEAD",
+  "url": "https://huggingface.co/MiniMaxAI/MiniMax-M3.1-Flash/resolve/54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e/model-00001-of-00048.safetensors",
+  "checkedAt": "2026-10-24T01:13:00Z",
+  "responseStatus": 200,
+  "bodyDownloaded": false,
+  "responses": [
+    {
+      "statusLine": "HTTP/1.1 200 Connection established",
+      "headers": {}
+    },
+    {
+      "statusLine": "HTTP/2 302 ",
+      "headers": {
+        "content-type": "text/plain; charset=utf-8",
+        "content-length": "1110",
+        "x-repo-commit": "54e4e69dfc452b1e94a426c24a4fdeeaa8e3ad5e",
+        "accept-ranges": "bytes",
+        "x-linked-size": "10213649632",
+        "x-linked-etag": "\"8b7c561664839e3b2d800c1cd7afe1beb529efa70ce0c2da82d7bb912bf2249b\""
+      }
+    },
+    {
+      "statusLine": "HTTP/1.1 200 Connection established",
+      "headers": {}
+    },
+    {
+      "statusLine": "HTTP/2 200 ",
+      "headers": {
+        "content-type": "application/octet-stream",
+        "accept-ranges": "bytes",
+        "etag": "\"b9f893f6e544ba398c0ab887692292bb318256f37dc8a8008421951438ee831e\"",
+        "content-length": "10213649632"
+      }
+    }
+  ],
+  "note": "Response headers only. Expiring CDN redirect URLs omitted. No weight bytes downloaded."
+}

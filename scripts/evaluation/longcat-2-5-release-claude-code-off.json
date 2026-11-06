@@ -1,0 +1,17 @@
+{
+  "model": "LongCat-2.5",
+  "version": "LongCat-2.5 release, explicit thinking disabled, 2026-11-02",
+  "displayName": "LongCat 2.5 release via Claude Code, thinking off",
+  "aliases": ["LongCat-2.5"],
+  "protocol": "anthropic-messages",
+  "endpoint": "https://api.longcat.chat/anthropic",
+  "keyEnv": "SHARED_KEY_LONGCAT",
+  "expectedReturnedModel": "LongCat-2.5",
+  "modes": {"default": {}, "disabled": {"thinking": {"type": "disabled"}}},
+  "extraBody": {},
+  "temperature": null,
+  "maxTokens": 32768,
+  "timeoutMs": 600000,
+  "versionSource": "https://longcat.ai/platform/docs/api/messages",
+  "method": "Independent explicit-thinking-disabled continuation for previously unstarted cases after default-mode request deadlines. Preserve the default batch and failures; do not replay cases that exhausted retries or combine protocols as a controlled ranking."
+}

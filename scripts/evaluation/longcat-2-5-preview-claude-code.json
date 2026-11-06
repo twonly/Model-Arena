@@ -1,0 +1,21 @@
+{
+  "model": "LongCat-2.5-Preview",
+  "version": "LongCat-2.5-Preview",
+  "displayName": "LongCat 2.5 Preview via Claude Code",
+  "aliases": [
+    "LongCat Claude Code"
+  ],
+  "protocol": "anthropic-messages",
+  "endpoint": "https://api.longcat.chat/anthropic",
+  "keyEnv": "SHARED_KEY_LONGCAT",
+  "expectedReturnedModel": "LongCat-2.5-Preview",
+  "modes": {
+    "default": {}
+  },
+  "extraBody": {},
+  "temperature": null,
+  "maxTokens": 32768,
+  "timeoutMs": 600000,
+  "versionSource": "https://longcat.ai/platform/docs/claudecode",
+  "method": "Claude Code 2.1.311 as the actual agent harness; LongCat provides all agent generation and tool decisions. This is a distinct harness protocol."
+}

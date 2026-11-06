@@ -1,0 +1,1013 @@
+{
+  "schemaVersion": 1,
+  "model": "NVIDIA Nemotron 3.5 Super VL",
+  "providerLabel": "NVIDIA · OpenRouter",
+  "date": "2026-11-04",
+  "publishedAt": "2026-11-04T12:17:05.813121+00:00",
+  "updatedAt": "2026-11-04T12:17:05.813121+00:00",
+  "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative.json",
+  "totals": {
+    "requests": 707,
+    "completedResponses": 687,
+    "promptTokens": 30532607,
+    "outputTokens": 870761,
+    "errors": 20,
+    "interruptedRequests": 0
+  },
+  "cases": [
+    {
+      "id": "bookshelf",
+      "titleZh": "参数化书架及参数修改",
+      "titleEn": "Parametric bookshelf and parameter revision",
+      "category": "blender",
+      "effort": "provider-default",
+      "summaryZh": "主要作品通过。基准版及参数修改版的尺寸、18 mm 板厚和等净高分格通过检查，原生工程可重开，同一作者脚本可再生成一致几何与相机。新图已完整展示书架；基准主视图底部余量仍很紧。README 和交付索引仍引用旧裁切图、缺少新图及前后相机选择说明，文档交付尚未齐全。",
+      "summaryEn": "Main artwork accepted. Dimensions, 18 mm panels and equal clear compartment heights pass for the baseline and modified versions. Native projects reopen, and the same author script regenerates matching geometry and cameras. New views show the complete bookcase, although the baseline main view has a tight bottom margin. The README and delivery index still refer to cropped older images and omit the new views and named front/back camera instructions. Documentation remains incomplete.",
+      "source": {
+        "url": "https://vercel.com/changelog/kimi-k3-1-pro-and-kimi-k3-1-pro-highspeed-are-available-now-in-ai-gateway",
+        "titleZh": "参数化书架及参数修改",
+        "titleEn": "Parametric bookshelf and parameter revision",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：参数化书架及参数修改；按冻结规格检查作品与交付。\nCoordinator task summary: Parametric bookshelf and parameter revision Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: 86151fda84cd34fb1612185d4bf3edc051e49c38fd163d190b9acf2ae186f079.\nFrozen case-specification object SHA-256: 6e2b1958706313f70113222e73d7e202aa6e77d28b074206e61c2dc6f3a69bb5. Full source text is not redistributed.",
+        "originalPromptSha256": "86151fda84cd34fb1612185d4bf3edc051e49c38fd163d190b9acf2ae186f079",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：参数化书架及参数修改；按冻结规格检查作品与交付。\nCoordinator task summary: Parametric bookshelf and parameter revision Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: 72613992792aba426554b01dd6366449ce3e011d45252ee11442ea84814e0cd0.",
+      "promptSha256": "72613992792aba426554b01dd6366449ce3e011d45252ee11442ea84814e0cd0",
+      "metrics": {
+        "requests": 76,
+        "completedResponses": 71,
+        "promptTokens": 2881417,
+        "outputTokens": 79203,
+        "wallMs": 1175364
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/bookshelf-baseline-front.2abbae4f743a2ebff6b44f9d4381aebecdf4411e4821d922b4aad295341a7a38.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "基准主视图，底边距较紧；仅清除PNG隐私元数据，像素不改。",
+          "captionEn": "Baseline main view with a tight bottom margin; PNG privacy metadata removed without pixel edits."
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/bookshelf-baseline-back.d766e886d9c582f0e69b2a1e33bb26cf65542de4d9702c0cf5b0463305b2bb02.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "基准书架后视图。",
+          "captionEn": "Baseline back view."
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/bookshelf-modified-front.3054f5299b8c2f6dc705b36cc7bf93c29a44cef37b18f362e7c2162a6b134379.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "参数修改后的完整主视图。",
+          "captionEn": "Complete modified-parameter main view."
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/bookshelf/8510c52632651c68a770f2bc672cc9056143cd8e2dd03a67a999fb13362b1193/project-source.zip",
+          "labelZh": "原作者工程源码",
+          "labelEn": "Original author project/source"
+        },
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/bookshelf-public-file-mapping-v2.a75e35dc90c91cc148c979ce14aa93bec4192bf7dc06ad88d4f3592d8de8d05d.md",
+          "labelZh": "必读：新版公开文件映射",
+          "labelEn": "Required revised public-file mapping"
+        }
+      ],
+      "assessmentZh": [
+        "原生工程可重开，同一作者脚本复建几何和相机一致。",
+        "旧图和原工程保留；作者README/索引仍指旧裁切图，新版协调者映射说明正确交付位置。"
+      ],
+      "assessmentEn": [
+        "Native projects reopen and the author script reproduces geometry and cameras.",
+        "Old views and projects are retained. Author README/index still reference cropped views; the revised coordinator mapping identifies the actual delivered files."
+      ],
+      "checks": [
+        {
+          "labelZh": "几何与可用视图",
+          "labelEn": "Geometry and usable views",
+          "status": "pass",
+          "detailZh": "尺寸、板厚、分格及完整视图通过。",
+          "detailEn": "Dimensions, panel thickness, compartments and usable views pass."
+        },
+        {
+          "labelZh": "作者交付说明",
+          "labelEn": "Author handoff",
+          "status": "partial",
+          "detailZh": "原说明过时，附新版协调者映射。",
+          "detailEn": "Original instructions are stale; a revised coordinator mapping is attached."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "accepted-artwork",
+          "requests": 76,
+          "completedResponses": 71,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "planetary-reducer",
+      "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+      "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+      "category": "blender",
+      "effort": "provider-default",
+      "summaryZh": "未通过，原会话因供应商 HTTP 422 筛查阻塞。已有四张图和可完整解码的六秒视频，但模型中的行星轮被隐藏，支撑销、行星架板及轴存在空网格，实测啮合穿插，物理尺寸放大了 1000 倍。成片没有音轨，最终工程和必要交付文档也未齐。供应商阻塞与这些已测得的作品问题分别记录。",
+      "summaryEn": "Not accepted; the original session is held by provider HTTP 422 screening. Four images and a fully decodable six-second video exist, but planet gears are hidden, carrier plates/support pins/shafts contain empty meshes, mating surfaces intersect, and physical scale is 1,000 times the required SI size. The video has no audio, and the final project and required handoff files are missing. These artwork findings are recorded separately from the provider interruption.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+        "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+        "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：24/18/60齿行星减速器装配与轴向爆炸；按冻结规格检查作品与交付。\nCoordinator task summary: 24/18/60-tooth planetary reducer and axial explosion Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: 4b2e0fcc930a262160e2804f8bfbeadc8dc98c1df6f80f8f2a8a64e5133104dd.\nFrozen case-specification object SHA-256: 58fc7543753c82a6282d4ab784ed5c16723b749ae0375d5ffc007a982eee8342. Full source text is not redistributed.",
+        "originalPromptSha256": "4b2e0fcc930a262160e2804f8bfbeadc8dc98c1df6f80f8f2a8a64e5133104dd",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：24/18/60齿行星减速器装配与轴向爆炸；按冻结规格检查作品与交付。\nCoordinator task summary: 24/18/60-tooth planetary reducer and axial explosion Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: 51fdeb0342c52d1d828ea5c1e9d497fbc0905e93ab91d85592d87bc1db75b0d9.",
+      "promptSha256": "51fdeb0342c52d1d828ea5c1e9d497fbc0905e93ab91d85592d87bc1db75b0d9",
+      "metrics": {
+        "requests": 104,
+        "completedResponses": 102,
+        "promptTokens": 6100083,
+        "outputTokens": 197264,
+        "wallMs": 1917884
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-reducer-overall.8cc0a35ac84726ffa460e780d5d908c7a0a9467569afd77bd4aea6a821f24a3f.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "未通过的机构图，缺可见行星轮和完整支撑。",
+          "captionEn": "Failed mechanism view without visible planets or complete support geometry."
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-reducer-turntable.e23d8e6b748b17ba656d86697790ffcae032315425583e947e45c01eccacb844.mp4",
+          "width": 1280,
+          "height": 720,
+          "captionZh": "六秒无声WIP视频，不是合格机构或制造验证。",
+          "captionEn": "Six-second silent WIP, not valid mechanism or manufacturing verification.",
+          "durationSeconds": 6.0,
+          "posterPath": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-reducer-overall.8cc0a35ac84726ffa460e780d5d908c7a0a9467569afd77bd4aea6a821f24a3f.png"
+        }
+      ],
+      "downloads": [],
+      "assessmentZh": [
+        "名义齿数和理论3.5比例不能证明有效啮合；行星轮隐藏、支撑/轴为空网格、接触面穿插、物理尺度放大1000倍。",
+        "缺最终工程及音乐/SFX等主要交付。HTTP422输入筛查是另一项执行阻塞，不能替代质量判定。"
+      ],
+      "assessmentEn": [
+        "Nominal tooth counts and a theoretical 3.5 ratio do not establish valid meshing; planets are hidden, supports/shafts are empty, mating surfaces intersect and scale is 1,000 times too large.",
+        "Final project and music/SFX delivery are incomplete. HTTP422 input screening is a separate execution blocker, not an artifact-quality judgment."
+      ],
+      "checks": [
+        {
+          "labelZh": "核心机构",
+          "labelEn": "Core mechanism",
+          "status": "fail",
+          "detailZh": "独立几何与接触检查未通过。",
+          "detailEn": "Independent geometry/contact checks fail."
+        },
+        {
+          "labelZh": "主要交付",
+          "labelEn": "Main delivery",
+          "status": "fail",
+          "detailZh": "WIP与无声视频不替代完整交付。",
+          "detailEn": "A WIP and silent video do not replace complete delivery."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "incomplete-provider-held",
+          "requests": 104,
+          "completedResponses": 102,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "two-bedroom-interior",
+      "titleZh": "12×9米两居室装修、多房间与俯视平面",
+      "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+      "category": "blender",
+      "effort": "provider-default",
+      "summaryZh": "未通过且主要交付不齐，原会话因供应商 HTTP 422 筛查阻塞。现有主图出现悬浮块体，俯视图被顶面遮挡；实际地面、墙体和家具的多处尺寸只有要求的一半，部分家具重叠或离地。保存工程与当前相机源码也不一致。结构尺寸图、导览视频、音频及交付说明等仍缺失。",
+      "summaryEn": "Not accepted, with major deliverables missing; the original session is held by provider HTTP 422 screening. The hero view shows floating blocks, and the top view is obscured by a ceiling surface. Several floor, wall and furniture dimensions are half the required size; some furniture overlaps or floats. The saved project and current camera source disagree. Structure/dimension views, the tour video, audio and handoff documentation remain incomplete.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+        "titleZh": "12×9米两居室装修、多房间与俯视平面",
+        "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：12×9米两居室装修、多房间与俯视平面；按冻结规格检查作品与交付。\nCoordinator task summary: 12×9m two-bedroom interior, rooms and floor plan Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: 3947abd2d7e39da19d44da55cc45bb9ceeba7220bd9d25b9ba44485f6f3c8579.\nFrozen case-specification object SHA-256: 1ccfd5842dac0f5e795c07fd0044f7e0fa55902f0e4894e294a170d208ddd7d0. Full source text is not redistributed.",
+        "originalPromptSha256": "3947abd2d7e39da19d44da55cc45bb9ceeba7220bd9d25b9ba44485f6f3c8579",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：12×9米两居室装修、多房间与俯视平面；按冻结规格检查作品与交付。\nCoordinator task summary: 12×9m two-bedroom interior, rooms and floor plan Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: f4522ec6fd3473bd2d4b874541b51f23ff9751c3fcda011e517340e34f318b0a.",
+      "promptSha256": "f4522ec6fd3473bd2d4b874541b51f23ff9751c3fcda011e517340e34f318b0a",
+      "metrics": {
+        "requests": 77,
+        "completedResponses": 73,
+        "promptTokens": 2828070,
+        "outputTokens": 116444,
+        "wallMs": 1158353
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-interior-hero.03b75c622e1a19f3f2b9b54f9c4ef859e18264b9239c106c6ea0725539bf410b.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "未通过主视图：悬浮块体与遮挡。",
+          "captionEn": "Failed hero view with floating blocks and occlusion."
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-interior-top.e67a3238b4c9a1dd5aad9013a0a27a0fbfb97eea62e01e66e6923fc12f2a0cd1.png",
+          "width": 1600,
+          "height": 1080,
+          "captionZh": "未通过俯视图：顶面遮挡。",
+          "captionEn": "Failed top view obscured by a ceiling surface."
+        }
+      ],
+      "downloads": [],
+      "assessmentZh": [
+        "多处尺寸只有要求一半，部分家具重叠或离地；保存工程和当前相机源码不一致。",
+        "导览视频、结构尺寸图和音频/交付说明缺失；供应商输入筛查与这些已知缺陷分开。"
+      ],
+      "assessmentEn": [
+        "Several dimensions are half the requirement, some furniture overlaps/floats, and saved/current-source cameras disagree.",
+        "Tour video, structure views and audio/handoff are missing; provider input screening is separate from these established defects."
+      ],
+      "checks": [
+        {
+          "labelZh": "尺寸与摆放",
+          "labelEn": "Dimensions and placement",
+          "status": "fail",
+          "detailZh": "几何及接触不合格。",
+          "detailEn": "Geometry and contact fail."
+        },
+        {
+          "labelZh": "主要交付",
+          "labelEn": "Main delivery",
+          "status": "fail",
+          "detailZh": "有工程与静帧，缺导览及配套。",
+          "detailEn": "Project/stills exist; tour and supporting delivery are incomplete."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "incomplete-provider-held",
+          "requests": 77,
+          "completedResponses": 73,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-1",
+      "titleZh": "水结成冰，为什么反而浮起来？",
+      "titleEn": "Why does water float after it freezes?",
+      "category": "knowledge-video",
+      "effort": "provider-default",
+      "summaryZh": "有真实成片，但核心可用性未通过。revision-2 的 68.875 秒 1080p 视频可完整解码，语音、SRT 和音轨保持不变，裁切、密度比较与浮冰图已有实质修正。40.775–52.725 秒仍有场景错位，字幕条还遮住字形顶部、9% 大字和底注。后续最小质量反馈被供应商筛查阻断，交付存在与质量失败分别记录。",
+      "summaryEn": "A real video is delivered, but core usability checks fail. The 68.875-second 1080p revision-2 fully decodes, preserves the narration, SRT and audio, and substantially improves cropping, density comparison and floating-ice geometry. Scenes remain mismatched at 40.775–52.725 seconds, and the caption bar masks glyph tops, part of the 9% metric and footer notes. Provider screening blocked further minimal quality feedback; actual delivery and quality failure are recorded separately.",
+      "source": {
+        "url": "https://www.noaa.gov/jetstream/ocean/sea-water",
+        "titleZh": "水结成冰，为什么反而浮起来？",
+        "titleEn": "Why does water float after it freezes?",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：水结成冰，为什么反而浮起来？；按冻结规格检查作品与交付。\nCoordinator task summary: Why does water float after it freezes? Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: a3c13826dc88d43187aaa294f1e596a89c123abf6e61b8504892d5275b6d7321.\nFrozen case-specification object SHA-256: a3c13826dc88d43187aaa294f1e596a89c123abf6e61b8504892d5275b6d7321. Full source text is not redistributed.",
+        "originalPromptSha256": "a3c13826dc88d43187aaa294f1e596a89c123abf6e61b8504892d5275b6d7321",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：水结成冰，为什么反而浮起来？；按冻结规格检查作品与交付。\nCoordinator task summary: Why does water float after it freezes? Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: f91f8319c37f7a47337fc328aa021950a2c19d1ea9dafb23cdb344b0ce5e839a.",
+      "promptSha256": "f91f8319c37f7a47337fc328aa021950a2c19d1ea9dafb23cdb344b0ce5e839a",
+      "metrics": {
+        "requests": 104,
+        "completedResponses": 102,
+        "promptTokens": 6535674,
+        "outputTokens": 98793,
+        "wallMs": 927695
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-one-revision-two.0df2e43edefbffe7a25772623c0ac6df853bb9ee140c569c067da7fe40172a5a.mp4",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "68.875秒真实revision-2成片，核心质量未通过；poster为44秒实际帧。",
+          "captionEn": "Actual 68.875-second revision-2 video with failed core quality; poster is the actual 44-second frame.",
+          "durationSeconds": 68.875,
+          "posterPath": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-one-frame-forty-four.6da7fe13a1730114053ce973a354291d261327d9b65551966234454203d8b685.png"
+        }
+      ],
+      "downloads": [],
+      "assessmentZh": [
+        "音视频完整解码通过，旁白、SRT和音轨保持；已有成片不能写成未交付。",
+        "40.775–52.725秒场景错位，字幕遮挡字形顶部、9%大字和底注。最小质量反馈仍遭输入筛查。未听审。"
+      ],
+      "assessmentEn": [
+        "Video/audio fully decode and narration, SRT and audio are retained; the existing video is not marked absent.",
+        "Scenes mismatch at 40.775–52.725 seconds; captions mask glyph tops, the 9% metric and notes. Minimal quality feedback was blocked by input screening. No listening review."
+      ],
+      "checks": [
+        {
+          "labelZh": "实际成片",
+          "labelEn": "Actual video",
+          "status": "pass",
+          "detailZh": "有可完整解码成片。",
+          "detailEn": "A fully decodable real video exists."
+        },
+        {
+          "labelZh": "核心可用性",
+          "labelEn": "Core usability",
+          "status": "fail",
+          "detailZh": "场景与字幕问题未清除。",
+          "detailEn": "Scene and caption problems remain."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "delivered-quality-failed",
+          "requests": 104,
+          "completedResponses": 102,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-2",
+      "titleZh": "二维码缺了一块，为什么还能扫？",
+      "titleEn": "Why can a damaged QR code still be read?",
+      "category": "knowledge-video",
+      "effort": "provider-default",
+      "summaryZh": "主要作品未交付。没有 MP4，2679 张源帧全部为同一空白背景；89.3 秒旁白及 SRT 存在，但音乐、音效、实际混音和音频计划缺失。供应商返回媒体无法筛查错误，与这些已有交付问题分开记录。",
+      "summaryEn": "Main artwork not delivered. There is no MP4, and all 2,679 source frames are the same blank background. An 89.3-second narration and SRT exist, but music, SFX, an actual mix and an audio plan are missing. A provider media-screening error is recorded separately from these delivery findings.",
+      "source": {
+        "url": "https://www.qrcode.com/en/about/error_correction.html",
+        "titleZh": "二维码缺了一块，为什么还能扫？",
+        "titleEn": "Why can a damaged QR code still be read?",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：二维码缺了一块，为什么还能扫？；按冻结规格检查作品与交付。\nCoordinator task summary: Why can a damaged QR code still be read? Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: fb712266869406dbbb4855844f32a6c60fef86f1a61eb2cb27c9186f0b6fb9eb.\nFrozen case-specification object SHA-256: fb712266869406dbbb4855844f32a6c60fef86f1a61eb2cb27c9186f0b6fb9eb. Full source text is not redistributed.",
+        "originalPromptSha256": "fb712266869406dbbb4855844f32a6c60fef86f1a61eb2cb27c9186f0b6fb9eb",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：二维码缺了一块，为什么还能扫？；按冻结规格检查作品与交付。\nCoordinator task summary: Why can a damaged QR code still be read? Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: a58a42868a0771ea3fe68068195fd9ed10dd10f4629b48de9466e6b35419166e.",
+      "promptSha256": "a58a42868a0771ea3fe68068195fd9ed10dd10f4629b48de9466e6b35419166e",
+      "metrics": {
+        "requests": 125,
+        "completedResponses": 123,
+        "promptTokens": 5745317,
+        "outputTokens": 78257,
+        "wallMs": 727389
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-two-blank-frame.f873aff6776fdc917f07c19bc6e843ffc100b8f8fcbfd6473aa965c74600ce11.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "失败源帧：纯色背景，不是有效成片。",
+          "captionEn": "Failed source frame: solid background, not a usable final video."
+        }
+      ],
+      "downloads": [],
+      "assessmentZh": [
+        "离屏canvas没有进入页面截图，2679帧全同；缺MP4、音乐、SFX和混音。",
+        "旁白89.3秒，SRT样本边界正确；源码混淆可恢复码字与ECC占比，场景时序未对齐。请求124/125为media could not be screened。"
+      ],
+      "assessmentEn": [
+        "The detached canvas is absent from page screenshots and all 2,679 frames match; MP4, music, SFX and mix are missing.",
+        "The 89.3-second narration and SRT sample boundaries are valid, but source diagrams conflate recovery with ECC allocation and scene timing is wrong. Requests 124/125 report media could not be screened."
+      ],
+      "checks": [
+        {
+          "labelZh": "视频交付",
+          "labelEn": "Video delivery",
+          "status": "fail",
+          "detailZh": "无可播放MP4。",
+          "detailEn": "No playable MP4 exists."
+        },
+        {
+          "labelZh": "画面与机制",
+          "labelEn": "Visuals and mechanism",
+          "status": "fail",
+          "detailZh": "空白帧及机制/时序问题。",
+          "detailEn": "Blank frames and mechanism/timing defects."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "incomplete-provider-held",
+          "requests": 125,
+          "completedResponses": 123,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-3",
+      "titleZh": "韦布为什么用五层薄膜，而不是一块厚板？",
+      "titleEn": "Why does Webb use five thin sunshield layers?",
+      "category": "knowledge-video",
+      "effort": "provider-default",
+      "summaryZh": "有88.8秒旁白与可见预览，未交付MP4；几何坐标、机制关系和场景/字幕时序未通过。请求62/63输入筛查后保留原上下文。",
+      "summaryEn": "An 88.8-second narration and visible previews exist without an MP4. Geometry, mechanism relationships and scene/caption timing fail; the context is held after input screening on requests 62/63.",
+      "source": {
+        "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/",
+        "titleZh": "韦布为什么用五层薄膜，而不是一块厚板？",
+        "titleEn": "Why does Webb use five thin sunshield layers?",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：韦布为什么用五层薄膜，而不是一块厚板？；按冻结规格检查作品与交付。\nCoordinator task summary: Why does Webb use five thin sunshield layers? Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: b0473740485ceccaff5343dae1d2565efb5d1b24803caa310588ffa6bae8b268.\nFrozen case-specification object SHA-256: b0473740485ceccaff5343dae1d2565efb5d1b24803caa310588ffa6bae8b268. Full source text is not redistributed.",
+        "originalPromptSha256": "b0473740485ceccaff5343dae1d2565efb5d1b24803caa310588ffa6bae8b268",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：韦布为什么用五层薄膜，而不是一块厚板？；按冻结规格检查作品与交付。\nCoordinator task summary: Why does Webb use five thin sunshield layers? Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: 164348cfb2e2b75b090e7dc44de30cfaf8920cf37c171c819fe8ed89aa588b00.",
+      "promptSha256": "164348cfb2e2b75b090e7dc44de30cfaf8920cf37c171c819fe8ed89aa588b00",
+      "metrics": {
+        "requests": 63,
+        "completedResponses": 61,
+        "promptTokens": 2523679,
+        "outputTokens": 91553,
+        "wallMs": 903145
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-three-author-preview.a115a1225d0d1461ec1a8a29393b3ae0faa001be726ad8469f89cc8228c77c98.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "未交付案例的真实预览，保留膜片/标签坐标与机制问题；不是成片截图。",
+          "captionEn": "Actual preview from an undelivered case, retaining layer/label and mechanism defects; not an encoded-video frame."
+        }
+      ],
+      "downloads": [],
+      "assessmentZh": [
+        "8张预览有可见内容，但膜片、标签、散热箭头与冷侧仪器的关系不清，文字裁切或重叠。",
+        "前四机制场景与真实TTS段无重叠，字幕段边界最大差2.475秒；缺视频和音乐/SFX/混音。"
+      ],
+      "assessmentEn": [
+        "Eight previews contain content, but layer/label/radiation-arrow/cold-instrument geometry is incoherent and text clips/overlaps.",
+        "The first four mechanism scenes do not overlap actual TTS segments; caption boundaries differ by up to 2.475 seconds. Video and music/SFX/mix are missing."
+      ],
+      "checks": [
+        {
+          "labelZh": "主要视频",
+          "labelEn": "Main video",
+          "status": "fail",
+          "detailZh": "只有旁白与预览。",
+          "detailEn": "Only narration and previews exist."
+        },
+        {
+          "labelZh": "机制与时序",
+          "labelEn": "Mechanism and timing",
+          "status": "fail",
+          "detailZh": "坐标和真实样本配合失败。",
+          "detailEn": "Geometry and actual sample timing fail."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "incomplete-provider-held",
+          "requests": 63,
+          "completedResponses": 61,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-4",
+      "titleZh": "降噪耳机没放音乐，为什么也能安静？",
+      "titleEn": "Why does noise cancellation work without music?",
+      "category": "knowledge-video",
+      "effort": "provider-default",
+      "summaryZh": "真实88.1秒MP4及音频文件已交，但2643帧全为同一纯色，音乐/SFX/混音数值编码错误，字幕与TTS错位。仅公开失败PNG示例，不发布坏音轨或原MP4。",
+      "summaryEn": "A real 88.1-second MP4 and audio files exist, but all 2,643 frames are the same solid image, music/SFX/mix numerical encoding is wrong and captions mismatch TTS. Only a failed PNG is published, excluding faulty audio and the raw MP4.",
+      "source": {
+        "url": "https://www.bose.com/stories/how-do-noise-cancelling-headphones-work",
+        "titleZh": "降噪耳机没放音乐，为什么也能安静？",
+        "titleEn": "Why does noise cancellation work without music?",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：降噪耳机没放音乐，为什么也能安静？；按冻结规格检查作品与交付。\nCoordinator task summary: Why does noise cancellation work without music? Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: 4b30951b372162bdaf488c7f3eac0451747a8624efd87ad160abb1e687b07c9c.\nFrozen case-specification object SHA-256: 4b30951b372162bdaf488c7f3eac0451747a8624efd87ad160abb1e687b07c9c. Full source text is not redistributed.",
+        "originalPromptSha256": "4b30951b372162bdaf488c7f3eac0451747a8624efd87ad160abb1e687b07c9c",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：降噪耳机没放音乐，为什么也能安静？；按冻结规格检查作品与交付。\nCoordinator task summary: Why does noise cancellation work without music? Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: 468aa233732ade7d1f0d8c7637b84688c13184b18daabdc04377acfae36fe4c6.",
+      "promptSha256": "468aa233732ade7d1f0d8c7637b84688c13184b18daabdc04377acfae36fe4c6",
+      "metrics": {
+        "requests": 49,
+        "completedResponses": 47,
+        "promptTokens": 1328221,
+        "outputTokens": 41806,
+        "wallMs": 384365
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/failed-knowledge-four-blank-preview.b4a83e9168da50ffb4de5d70943b2cdb1311d6a1aa6022ec20ddb5079231fd0c.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "失败预览：实际成片同为纯色；坏音轨和原MP4不公开。",
+          "captionEn": "Failed preview: the actual video is also solid; faulty audio and the raw MP4 are not published."
+        }
+      ],
+      "downloads": [],
+      "assessmentZh": [
+        "画笔与返回/编码图像绑定不一致，2643帧同一hash；源码说明不能代替可见机制。",
+        "有效88.125秒人声可复用；音乐/SFX/混音把float32字节标为整数PCM32，字幕最多提前15.55秒。请求48/49同为media could not be screened。未听审。"
+      ],
+      "assessmentEn": [
+        "Drawing and returned/encoded images differ, leaving 2,643 identical frames; source descriptions do not replace visible mechanisms.",
+        "Valid 88.125-second narration is reusable, but music/SFX/mix label float32 bytes as integer PCM32 and captions lead speech by up to 15.55 seconds. Requests 48/49 report media could not be screened. No listening review."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付存在",
+          "labelEn": "Delivery exists",
+          "status": "pass",
+          "detailZh": "真实MP4、三stem及混音存在。",
+          "detailEn": "A real MP4, stems and mix exist."
+        },
+        {
+          "labelZh": "核心质量",
+          "labelEn": "Core quality",
+          "status": "fail",
+          "detailZh": "空白画面、音频编码和时序失败。",
+          "detailEn": "Blank visuals, audio encoding and timing fail."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "delivered-quality-failed",
+          "requests": 49,
+          "completedResponses": 47,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-clock",
+      "titleZh": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "category": "svg",
+      "effort": "provider-default",
+      "summaryZh": "主要作品通过。数字和 60 个刻度清楚，长短针与 9:41 的实际角度相符，画面简洁，无裁切。",
+      "summaryEn": "Main artwork accepted. Numerals and all 60 ticks are clear, hand lengths and measured angles match 9:41, and the restrained layout is unclipped.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "9:41 模拟钟表",
+        "titleEn": "An analog clock at 9:41",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：9:41 模拟钟表；按冻结规格检查作品与交付。\nCoordinator task summary: An analog clock at 9:41 Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: 9684418b143445a327367d4c150e2738ad40917562f3d2b93cd156f7b22a55b2.\nFrozen case-specification object SHA-256: 9684418b143445a327367d4c150e2738ad40917562f3d2b93cd156f7b22a55b2. Full source text is not redistributed.",
+        "originalPromptSha256": "9684418b143445a327367d4c150e2738ad40917562f3d2b93cd156f7b22a55b2",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：9:41 模拟钟表；按冻结规格检查作品与交付。\nCoordinator task summary: An analog clock at 9:41 Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: ffbac9afc0ef02a221bfea11f9637fcaf74579f4c25a816f0258d45afb584a97.",
+      "promptSha256": "ffbac9afc0ef02a221bfea11f9637fcaf74579f4c25a816f0258d45afb584a97",
+      "metrics": {
+        "requests": 14,
+        "completedResponses": 14,
+        "promptTokens": 121055,
+        "outputTokens": 13925,
+        "wallMs": 71325
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/clock-preview.8f78dbc92db640d7ff9cf3738eab29b152dd682e4612dff339535a5a4c6a03ff.png",
+          "width": 800,
+          "height": 600,
+          "captionZh": "9:41钟表实际渲染。",
+          "captionEn": "Actual 9:41 clock render."
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-clock/8f002a30e0f60142c788939d93c725f5807c675cabbdff91c753c52546ea9e9c/final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Original SVG"
+        }
+      ],
+      "assessmentZh": [
+        "60刻度、可读数字、针长与9:41角度经测量和实际图像检查。"
+      ],
+      "assessmentEn": [
+        "Measurements and actual-image review verify 60 ticks, legible numerals, hand lengths and 9:41 angles."
+      ],
+      "checks": [
+        {
+          "labelZh": "钟面约束",
+          "labelEn": "Clock constraints",
+          "status": "pass",
+          "detailZh": "数字、刻度、针长及角度吻合。",
+          "detailEn": "Numerals, ticks, hand lengths and angles match."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "accepted-artwork",
+          "requests": 14,
+          "completedResponses": 14,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-dashboard",
+      "titleZh": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "category": "svg",
+      "effort": "provider-default",
+      "summaryZh": "原 SVG 通过。柱高与四组数据成比例，总计及最高季度正确，浅色卡片和蓝柱便于阅读。作者提供的 PNG 使用简化栅格化逻辑，未忠实处理文字对齐；准确的独立 SVG 渲染应标明是协调者生成的派生预览，原图和原源码保留。",
+      "summaryEn": "Original SVG accepted. Bar heights match the four values, and the total and best quarter are correct. Blue bars on a light card are easy to read. The author's simplified PNG rasterizer does not faithfully handle text alignment. An accurate independent SVG render is a coordinator-produced preview derivative; the original preview and source are preserved.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "数据图表与比例",
+        "titleEn": "Data chart and proportional bars",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：数据图表与比例；按冻结规格检查作品与交付。\nCoordinator task summary: Data chart and proportional bars Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: b03e9172f0f6bfb5ccb9b1fa45bf62b7a03e47c4a8b35650a86df0fecb8ca2d5.\nFrozen case-specification object SHA-256: b03e9172f0f6bfb5ccb9b1fa45bf62b7a03e47c4a8b35650a86df0fecb8ca2d5. Full source text is not redistributed.",
+        "originalPromptSha256": "b03e9172f0f6bfb5ccb9b1fa45bf62b7a03e47c4a8b35650a86df0fecb8ca2d5",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：数据图表与比例；按冻结规格检查作品与交付。\nCoordinator task summary: Data chart and proportional bars Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: a341a9e04c83ac927bd648346a50ec74052fe0839619615ceca79e7bd6ff7621.",
+      "promptSha256": "a341a9e04c83ac927bd648346a50ec74052fe0839619615ceca79e7bd6ff7621",
+      "metrics": {
+        "requests": 11,
+        "completedResponses": 11,
+        "promptTokens": 61366,
+        "outputTokens": 7927,
+        "wallMs": 74245
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/dashboard-preview.a43bec4006fcda9e2bc822761d138ebfb24a49f15254486f0a2a5863dd42094d.png",
+          "width": 800,
+          "height": 600,
+          "captionZh": "原SVG准确独立渲染，协调者未改源码。",
+          "captionEn": "Accurate independent original-SVG rendering; source is unedited."
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-dashboard/87289beb6d02ed1cf0784dcb47b73034294ee965c38906e4864e1ce7c7a260cb/final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Original SVG"
+        }
+      ],
+      "assessmentZh": [
+        "柱高比例、总计和最高季度正确；底部汇总接近卡片边缘但未裁切。",
+        "作者Pillow预览未正确处理文字对齐，原件保留，准确派生预览另标。"
+      ],
+      "assessmentEn": [
+        "Bar ratios, total and best quarter are correct; the bottom summary is tight but unclipped.",
+        "The author Pillow preview mishandles text alignment. It is retained and the accurate derivative is labeled."
+      ],
+      "checks": [
+        {
+          "labelZh": "原SVG",
+          "labelEn": "Original SVG",
+          "status": "pass",
+          "detailZh": "数据比例与汇总正确。",
+          "detailEn": "Data proportions and summaries are correct."
+        },
+        {
+          "labelZh": "作者预览",
+          "labelEn": "Author preview",
+          "status": "partial",
+          "detailZh": "作者PNG文字对齐不忠实。",
+          "detailEn": "Author PNG text alignment is inaccurate."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "accepted-artwork",
+          "requests": 11,
+          "completedResponses": 11,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-poster",
+      "titleZh": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "category": "svg",
+      "effort": "provider-default",
+      "summaryZh": "原 SVG 通过。六段指定文字保持完整，中文可读，信息层级、单车图形和报名按钮清楚。作者 PNG 带浏览器页面边距，实际为 808×616，交付索引却记为 800×600；原 SVG 画布本身正确，准确画布预览属于协调者渲染派生。",
+      "summaryEn": "Original SVG accepted. All six required text segments are intact and readable, with a clear hierarchy, bicycle icon and registration button. The author's PNG includes browser-page margins and measures 808×616 despite an 800×600 index entry. The original SVG canvas is correct; the accurate canvas preview is a coordinator-rendered derivative.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "中文海报与排版约束",
+        "titleEn": "Chinese poster and layout constraints",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：中文海报与排版约束；按冻结规格检查作品与交付。\nCoordinator task summary: Chinese poster and layout constraints Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: 39a76fe09c73dbdf822862e72c284e160658b5722c30d61e5b844087ae86177b.\nFrozen case-specification object SHA-256: 39a76fe09c73dbdf822862e72c284e160658b5722c30d61e5b844087ae86177b. Full source text is not redistributed.",
+        "originalPromptSha256": "39a76fe09c73dbdf822862e72c284e160658b5722c30d61e5b844087ae86177b",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：中文海报与排版约束；按冻结规格检查作品与交付。\nCoordinator task summary: Chinese poster and layout constraints Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: f615003aad5ace47b660e0bce28be0174fc432d63116bc2bdb64a30d34298f4f.",
+      "promptSha256": "f615003aad5ace47b660e0bce28be0174fc432d63116bc2bdb64a30d34298f4f",
+      "metrics": {
+        "requests": 17,
+        "completedResponses": 17,
+        "promptTokens": 125933,
+        "outputTokens": 8101,
+        "wallMs": 82838
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/poster-preview.139b0a7460edf770f7fb18c9bf72c42d37c95c6006b20a7b7ee84b90b9d8bad5.png",
+          "width": 800,
+          "height": 600,
+          "captionZh": "准确SVG画布预览；协调者渲染派生，不是新模型作品。",
+          "captionEn": "Accurate SVG-canvas preview; coordinator rendering, not new model artwork."
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-poster/5e88d54a3575efb281d36e540ffb675025f8705e446524a82c028121f870fca4/final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Original SVG"
+        }
+      ],
+      "assessmentZh": [
+        "六段指定中文完整可读，图形、信息层级及按钮明确。",
+        "作者PNG为808×616，索引却标800×600；原SVG画布正确。"
+      ],
+      "assessmentEn": [
+        "All six specified Chinese text segments are intact and readable, with clear imagery, hierarchy and button.",
+        "Author PNG is 808×616 despite an 800×600 index entry; original SVG canvas is correct."
+      ],
+      "checks": [
+        {
+          "labelZh": "文字与布局",
+          "labelEn": "Text and layout",
+          "status": "pass",
+          "detailZh": "指定文字与布局通过。",
+          "detailEn": "Specified text and layout pass."
+        },
+        {
+          "labelZh": "预览交付",
+          "labelEn": "Preview handoff",
+          "status": "partial",
+          "detailZh": "作者PNG有边距及尺寸索引错误。",
+          "detailEn": "Author PNG has margins and incorrect indexed dimensions."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "accepted-artwork",
+          "requests": 17,
+          "completedResponses": 17,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-pelican-animation",
+      "titleZh": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "category": "svg-animation",
+      "effort": "provider-default",
+      "summaryZh": "revision-2 主要作品通过。四秒循环首尾一致，实测脚与同一脚踏、腿与身体的连接通过，轮轴稳定，鸟与单车完整留在画布。膝部弯折稍快、腿长插值轻微变化、轮胎描边低于地线约 7px 属于质量备注。受控源码重建尚未验证，与实际动画验收分开。",
+      "summaryEn": "Revision-2 main artwork accepted. The four-second loop matches at its boundary; measured contact with each fixed pedal and connection between legs and body pass, wheel axles stay stable, and the bird and bicycle remain on canvas. Quick knee flexion, slight apparent leg-length changes and tire stroke extending about 7px below the ground line remain minor quality notes. Controlled source regeneration is not verified and is separate from artwork acceptance.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "鹈鹕骑车动画",
+        "titleEn": "Animated cycling pelican",
+        "originalPrompt": "协调者概要 / Coordinator summary:\n协调者任务概要：鹈鹕骑车动画；按冻结规格检查作品与交付。\nCoordinator task summary: Animated cycling pelican Verify the artwork and delivery against the frozen specification.\nFrozen original task brief bytes SHA-256: e14b37abae213de3292366779afe9a8ec6fb0f68c82c6c8a0f25b7ceac732f09.\nFrozen case-specification object SHA-256: e14b37abae213de3292366779afe9a8ec6fb0f68c82c6c8a0f25b7ceac732f09. Full source text is not redistributed.",
+        "originalPromptSha256": "e14b37abae213de3292366779afe9a8ec6fb0f68c82c6c8a0f25b7ceac732f09",
+        "changesZh": "按冻结题目执行；展示真实交付与已记录限制。公开文字为协调者概要，未附来源全文。",
+        "changesEn": "The frozen task is retained. Actual delivery and recorded limitations are shown; public text is a coordinator summary, not the complete source input."
+      },
+      "prompt": "协调者任务概要 / Coordinator task summary:\n协调者任务概要：鹈鹕骑车动画；按冻结规格检查作品与交付。\nCoordinator task summary: Animated cycling pelican Verify the artwork and delivery against the frozen specification.\nFull frozen model-input SHA-256: 81c5a7d980cc5a9afa4bed4ccf99dbd8844b42a9e5c5277c206482cb33d76936.",
+      "promptSha256": "81c5a7d980cc5a9afa4bed4ccf99dbd8844b42a9e5c5277c206482cb33d76936",
+      "metrics": {
+        "requests": 67,
+        "completedResponses": 66,
+        "promptTokens": 2281792,
+        "outputTokens": 137488,
+        "wallMs": 1293438
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/pelican-animation-poster.511e799e169c3e588e4a02b00348a2537e69aa9839fe5011cb7eb4126c099c5c.png",
+          "width": 800,
+          "height": 600,
+          "captionZh": "实际SVG捕获的静态零时刻PNG，点击播放四秒连续WebP循环，可暂停；MP4另供下载。",
+          "captionEn": "Static zero-time PNG captured from the actual SVG; play/pause the continuous four-second WebP loop, with MP4 separately downloadable.",
+          "posterPath": "/evaluations/nemotron-3-5-super-vl-creative/assets/pelican-animation-poster.511e799e169c3e588e4a02b00348a2537e69aa9839fe5011cb7eb4126c099c5c.png",
+          "animationPath": "/evaluations/nemotron-3-5-super-vl-creative/assets/pelican-animation.1a15c76feaed0cba87edb586eefd138144b1f4cb7643450ff27209c709270365.webp",
+          "durationSeconds": 4
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-pelican-animation/c1841ae8ebf25f7c7209c1a021365e236549befda01a1327f2ecc8b3b9ed6ae2/final.svg",
+          "labelZh": "原始动画SVG",
+          "labelEn": "Original animated SVG"
+        },
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/pelican-animation.1a15c76feaed0cba87edb586eefd138144b1f4cb7643450ff27209c709270365.webp",
+          "labelZh": "四秒WebP下载",
+          "labelEn": "Four-second WebP download"
+        },
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/sources/svg-pelican-animation/a10caa1198eedafd82986cec2bdc9a23f4554cef8b60b513574ca667f0bd6a27/project-source.zip",
+          "labelZh": "原作者生成器源码包",
+          "labelEn": "Original author generator package"
+        },
+        {
+          "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/pelican-animation.aa1f8e71d138782701c8bafe7b2c899ff0f5b1fce857d970096b52eb9889d586.mp4",
+          "labelZh": "四秒MP4下载",
+          "labelEn": "Four-second MP4 download"
+        }
+      ],
+      "assessmentZh": [
+        "实测脚与同一踏板、腿与身体连接通过，轮轴稳定，主体不出画布，循环首尾一致。",
+        "保留膝部弯折、腿长插值和约7px接地细节；受控源码重建未验证，宿主同字节重现不代替它。"
+      ],
+      "assessmentEn": [
+        "Measured foot/pedal and leg/body contacts pass; axles stay stable, the subject remains on canvas and the loop boundary matches.",
+        "Knee flexion, apparent leg-length interpolation and about 7px grounding details remain. Controlled regeneration is unverified; identical host reproduction does not replace it."
+      ],
+      "checks": [
+        {
+          "labelZh": "核心运动",
+          "labelEn": "Core motion",
+          "status": "pass",
+          "detailZh": "四秒循环、连接与边界通过。",
+          "detailEn": "Four-second loop, connections and boundaries pass."
+        },
+        {
+          "labelZh": "受控重建",
+          "labelEn": "Controlled regeneration",
+          "status": "not-tested",
+          "detailZh": "原始生成器保留，受控复建未验证。",
+          "detailEn": "The original generator is retained; controlled regeneration is unverified."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-session",
+          "effort": "provider-default",
+          "status": "accepted-artwork",
+          "requests": 67,
+          "completedResponses": 66,
+          "noteZh": "持久会话累计记录；模型终态与协调者验收分开，未知用量保留未知。",
+          "noteEn": "Cumulative persistent-session records; model phase and coordinator acceptance are separate, with unknown usage retained.",
+          "evidencePath": "/evaluations/nemotron-3-5-super-vl-creative/evidence/public-evidence.d62e3e12b3a498d9bfc86e41db02aa4b7e7102e5cbff25182dddfffd89b5067c.json"
+        }
+      ]
+    }
+  ],
+  "modelInformation": {
+    "officialLogo": {
+      "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/nvidia-company-logo.b6a3fa5fc25372f0d6ba588c2253cd5581e50ec2ec2f2435b2875730bc94ad58.svg",
+      "width": 975,
+      "height": 180,
+      "sourceUrl": "https://developer-blogs.nvidia.com/wp-content/themes/nvidia/dist/images/nvidia-logo_28b633c7.svg"
+    },
+    "officialFigures": [
+      {
+        "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/nvidia-figure-1-baseten-throughput.639848b4557ac6e7bec1889924501a5613c83be0578ef41afdba22abd16d3786.webp",
+        "width": 2048,
+        "height": 851,
+        "sourcePage": "https://developer.nvidia.com/blog/nvidia-nemotron-3-5-super-vl-powers-specialized-agents-with-multimodal-reasoning/",
+        "captionZh": "NVIDIA官方图：Baseten端点在100K输入token下的智能指数与输出速度。NVIDIA Technical Blog，2026-10-15；本站未复现，不是本次免费端点速度实测。",
+        "captionEn": "NVIDIA chart of intelligence and output speed at 100K input tokens on Baseten. NVIDIA Technical Blog, October 15, 2026; not reproduced or measured on this free route."
+      },
+      {
+        "path": "/evaluations/nemotron-3-5-super-vl-creative/assets/nvidia-figure-2-domain-posttraining.4fa6efe81e801a490bbcade5ea50a79746c14e74801c21fb6d3a3275e0e834cc.webp",
+        "width": 3840,
+        "height": 2160,
+        "sourcePage": "https://developer.nvidia.com/blog/nvidia-nemotron-3-5-super-vl-powers-specialized-agents-with-multimodal-reasoning/",
+        "captionZh": "NVIDIA官方图：额外领域后训练在五类专门任务中的结果。Base指该领域后训练之前，增益不合并为通用分数；并非本站对本次免费端点的实测结果。",
+        "captionEn": "NVIDIA-reported domain-post-training results for five specialized workloads. Base means before that domain training; gains are not merged into a general score. These are not results from this unchanged free endpoint."
+      }
+    ],
+    "sources": [
+      {
+        "url": "https://developer.nvidia.com/blog/nvidia-nemotron-3-5-super-vl-powers-specialized-agents-with-multimodal-reasoning/",
+        "labelZh": "NVIDIA发布文章与官方图（2026-10-15）",
+        "labelEn": "NVIDIA release article and figures (October 15, 2026)"
+      },
+      {
+        "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-BF16",
+        "labelZh": "NVIDIA BF16参考权重模型卡",
+        "labelEn": "NVIDIA BF16 reference model card"
+      },
+      {
+        "url": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3.5-Super-VL-120B-A12B-NVFP4",
+        "labelZh": "NVIDIA NVFP4量化发布模型卡",
+        "labelEn": "NVIDIA NVFP4 release model card"
+      },
+      {
+        "url": "https://build.nvidia.com/nvidia/nemotron-3.5-super-vl-120b-a12b/modelcard",
+        "labelZh": "NVIDIA Build NVFP4端点说明",
+        "labelEn": "NVIDIA Build NVFP4 endpoint card"
+      },
+      {
+        "url": "https://openrouter.ai/nvidia/nemotron-3.5-super-vl:free",
+        "labelZh": "OpenRouter精确免费路由",
+        "labelEn": "Exact OpenRouter free route"
+      },
+      {
+        "url": "https://openmdw.ai/license/1-1/",
+        "labelZh": "OpenMDW-1.1权重许可证",
+        "labelEn": "OpenMDW-1.1 weights license"
+      }
+    ]
+  },
+  "fullModelReviewComplete": false,
+  "allMajorArtworksComplete": false,
+  "recordedAccounting": {
+    "knownRecordedUsageSubtotal": {
+      "input_tokens": 3064047,
+      "output_tokens": 870761,
+      "cache_read_input_tokens": 27468560,
+      "cache_creation_input_tokens": 0,
+      "reasoning_tokens": 538732
+    },
+    "knownRecordedCostUsdSubtotal": 0,
+    "receivedRequestCostUsdSubtotal": 0,
+    "unknownCostRequestsAtLeast": 19,
+    "complete": false,
+    "totalCostUsd": null
+  },
+  "summaryZh": "11项任务保留真实结果：书架、钟表、图表、中文海报和骑车动画五项主要作品通过；其余缺少主要交付或核心质量未通过。知识视频1与4确有成片，交付存在不等于质量通过。供应商筛查另记，不作能力排名，也不宣称11件作品全部完成。",
+  "summaryEn": "All eleven tasks retain their actual outcomes. Five main artworks pass: the bookshelf, clock, chart, Chinese poster and cycling animation. The others have missing main delivery or failed core quality. Videos 1 and 4 do have real encoded files; delivery is separate from quality. Provider screening is recorded separately, without a capability ranking or a claim that all eleven artworks are complete.",
+  "methodZh": "creative-suite-v4，使用2026-11-04上海日期冻结题集：3项Blender、4项知识视频、3项静态SVG和1项动画。模型通过OpenRouter精确免费路由，在持久API工具会话中创作；工具是隔离shell和图像查看，工具网络禁用，并非原生Claude Code。协调者检查实际文件、独立进程测量和AI视觉观察，不替模型补作品。",
+  "methodEn": "Creative-suite-v4 uses the November 4, 2026 Shanghai-date lock: three Blender tasks, four knowledge videos, three static SVGs and one animation. The model authors work through the exact OpenRouter free route in persistent API tool sessions with isolated shell/image tools and tool networking disabled; this is not native Claude Code. The coordinator checks actual files, independent-process measurements and AI visual observations without completing the model artwork.",
+  "limitationsZh": [
+    "这是TOKRACE自选的小样本创作组合，不是通用能力排名。",
+    "API标识不证明不可变checkpoint；BF16参考权重与NVFP4发布区分，免费端点精度未明确。",
+    "技术检查和AI视觉观察不等于独立真人评分；没有听审或ASR读音验收。",
+    "全部11项有明确状态，但缺交付、核心质量失败与通过严格分开。",
+    "官方图的Baseten吞吐和领域后训练条件保留，本站未复现，也不是本次免费路由跑分。",
+    "已知费用是小计，不是完整账单；缺失费用/token不填零，账户累计支出不归因本批。"
+  ],
+  "limitationsEn": [
+    "This small TOKRACE-selected creative suite is not a universal capability ranking.",
+    "An API identifier is not an immutable-checkpoint proof. BF16 reference weights and NVFP4 are distinct; free-endpoint precision is not established.",
+    "Technical checks and AI visual observations are not independent human scoring. No listening or ASR pronunciation review was performed.",
+    "All eleven tasks have explicit states, with missing delivery, failed core quality and acceptance kept separate.",
+    "Official Baseten throughput and domain-post-training conditions are retained; neither is independently reproduced here or measured on this free route.",
+    "Known cost is a subtotal, not a complete bill. Missing cost/tokens are not zero, and account-wide spending is not attributed to this batch."
+  ],
+  "workflowNoteZh": "作品验收与模型会话终态分开。输入筛查拒绝和媒体无法筛查两类HTTP422分别记录，不推断具体触发历史、有害内容或误判，也不把供应商拒绝直接作为能力评分。",
+  "workflowNoteEn": "Artifact acceptance and model-session phase are separate. HTTP422 input-screening rejection and media-screening failure are distinguished without inferring a trigger, unsafe content or false positive, or converting provider rejection into a capability score.",
+  "usageNoteZh": "用量为已收到的归档小计，未知字段保留null。输入合并非缓存、缓存读取和缓存创建；输出已含思考token，不重复相加。完整响应计数排除error/content_filter终止。显示时间仅为已记录API请求耗时之和，不含渲染、等待和协调，不作速度排名。",
+  "usageNoteEn": "Usage is the known archived subtotal; unknown fields remain null. Input combines uncached input, cache reads and cache creation. Output already includes reasoning, which is not added again. Completed responses exclude error/content_filter stops. Displayed time sums recorded API-request durations only, excluding rendering, waiting and coordination; it is not a speed ranking.",
+  "billingZh": "已知记录费用小计 $0；至少 19 次请求费用未知，完整总额未确认。仅据本批费用字段，未将账户累计支出或协调者开销归入本批。",
+  "billingEn": "The known recorded cost subtotal is $0; at least 19 requests have unknown cost, so a complete total is not established. Account-wide spending and coordinator costs are not attributed to this batch."
+}

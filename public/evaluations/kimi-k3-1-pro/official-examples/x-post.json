@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "sourcePage": "https://x.com/Kimi_Moonshot/status/2113681863109939271",
+  "capturedAt": "2026-10-24T05:47:59.798702Z",
+  "status": "complete",
+  "credit": "Kimi.ai / Moonshot AI · @Kimi_Moonshot",
+  "disclaimerZh": "以下为 Kimi / Moonshot AI 官方 X 帖公开媒体。厂商选编素材与本站原始模型评测分开呈现；不代表本站复现或独立验证。",
+  "disclaimerEn": "Public media from Kimi / Moonshot AI’s official X post. Vendor-selected material is separate from TOKRACE’s original model evaluation and does not represent an independent reproduction.",
+  "post": {
+    "id": "2113681863109939271",
+    "url": "https://x.com/Kimi_Moonshot/status/2113681863109939271",
+    "author": {
+      "name": "Kimi.ai",
+      "handle": "Kimi_Moonshot",
+      "url": "https://x.com/Kimi_Moonshot"
+    },
+    "publishedAt": "2026-10-23T17:20:01Z",
+    "text": "Meet Kimi K3.1 Pro, our most capable 3T-class model. https://t.co/TB8aTQggHT",
+    "sourceVerified": true,
+    "verification": "X oEmbed author/post identity plus yt-dlp Twitter metadata and direct official X CDN download. Browser-independent source verification; the web text fetch returned 403."
+  },
+  "mediaCounts": {
+    "videos": 1,
+    "standaloneImages": 0,
+    "videoPosters": 1
+  },
+  "items": [
+    {
+      "id": "x-2113681863109939271-launch-video",
+      "type": "video",
+      "mediaId": "2113681249936285696",
+      "path": "/evaluations/kimi-k3-1-pro/official-examples/x-2113681863109939271-video-720p.mp4",
+      "originalUrl": "https://video.twimg.com/amplify_video/2113681249936285696/vid/avc1/1280x720/myJOAH_mqBO1tf_F.mp4?tag=29",
+      "sha256": "bfbfebc3009189b8c02f2dde46ee532ca6acb8313a454aa76338f994b97a1b8b",
+      "bytes": 15937465,
+      "width": 1280,
+      "height": 720,
+      "durationSeconds": 93.738667,
+      "mimeType": "video/mp4",
+      "videoCodec": "h264",
+      "audioCodec": "aac",
+      "audioChannels": 2,
+      "frameRate": 25,
+      "titleZh": "官方 X 发布视频：游戏、3D 与设计作品",
+      "titleEn": "Official X launch video: games, 3D and design",
+      "altZh": "Kimi 官方 K3.1 Pro 发布视频，包含编程屏幕、游戏、3D 动画和平面设计片段",
+      "altEn": "Kimi official K3.1 Pro launch montage with coding, games, 3D animation and graphic design",
+      "captionZh": "Kimi 官方帖中的 94 秒发布演示。此处为 X 平台直接分发的原始 720p MP4 字节，未经本地转码；属于厂商选编示例，并非本站自测。",
+      "captionEn": "The 94-second video from Kimi’s official post. These are the original bytes of X’s 720p distribution rendition, with no local transcoding. This is a vendor-selected demonstration, not a TOKRACE reproduction.",
+      "credit": "Kimi.ai / Moonshot AI · @Kimi_Moonshot",
+      "sourcePage": "https://x.com/Kimi_Moonshot/status/2113681863109939271",
+      "publishedAt": "2026-10-23T17:20:01Z",
+      "originalBytes": true,
+      "rendition": "X platform-provided 720p MP4",
+      "posterPath": "/evaluations/kimi-k3-1-pro/official-examples/x-2113681863109939271-poster.jpg",
+      "poster": {
+        "path": "/evaluations/kimi-k3-1-pro/official-examples/x-2113681863109939271-poster.jpg",
+        "originalUrl": "https://pbs.twimg.com/amplify_video_thumb/2113681249936285696/img/DhuPEw_5vXCqDvUM.jpg?name=orig",
+        "sha256": "b018bfb050714be3ba8b6e9303c9488e02f5514c00a3aa62ed98e54ea7004fe9",
+        "bytes": 108007,
+        "width": 1200,
+        "height": 675,
+        "originalBytes": true,
+        "role": "Video thumbnail from the same post; not a separately attached photograph."
+      },
+      "sources": [
+        {
+          "path": "/evaluations/kimi-k3-1-pro/official-examples/x-2113681863109939271-video-720p.mp4",
+          "mimeType": "video/mp4",
+          "width": 1280,
+          "height": 720,
+          "originalUrl": "https://video.twimg.com/amplify_video/2113681249936285696/vid/avc1/1280x720/myJOAH_mqBO1tf_F.mp4?tag=29",
+          "sha256": "bfbfebc3009189b8c02f2dde46ee532ca6acb8313a454aa76338f994b97a1b8b",
+          "bytes": 15937465
+        }
+      ],
+      "archivedHigherResolution": {
+        "retainedLocally": true,
+        "publiclyHosted": false,
+        "originalUrl": "https://video.twimg.com/amplify_video/2113681249936285696/vid/avc1/1920x1080/AeLQGv285opf9RKo.mp4?tag=29",
+        "sha256": "b8af118b48d0ad8dd6705a6fad552786f8969dbac2ca6d24bfdd76fea74d3925",
+        "bytes": 58445072,
+        "width": 1920,
+        "height": 1080,
+        "durationSeconds": 93.738667,
+        "originalBytes": true
+      },
+      "copyright": {
+        "owner": "Kimi / Moonshot AI",
+        "license": null,
+        "noticeZh": "版权归原权利人所有。此处注明出处展示官方发布素材，未声明开放许可。",
+        "noticeEn": "Rights remain with the original owner. Presented with attribution as official launch material; no open license is asserted."
+      },
+      "qa": {
+        "status": "passed",
+        "checkedAt": "2026-10-24T05:47:59.798702Z",
+        "fullDecode": {
+          "exitCode": 0,
+          "errorCount": 0
+        },
+        "inspectedSceneFrames": 24,
+        "frameSelection": "24 scene-aware frames from 57 candidates across 0–90 seconds; final video duration 93.738667 seconds.",
+        "posterInspected": true,
+        "browserPlayback": {
+          "browser": "Chrome",
+          "observedPlaying": true,
+          "observedTimeSeconds": 3.211078,
+          "readyState": 4,
+          "videoWidth": 1280,
+          "videoHeight": 720,
+          "scope": "Playback startup and visible motion observed; not a complete real-time watch. Full-file decode and 24 scene frames checked separately."
+        },
+        "observationsZh": "开场是 K3.1 Pro 标识和 Kimi Code 屏幕，随后展示中国幻想场景、御剑与赛车游戏、FPS、屋顶跑酷、机器人短片、产品动画及平面设计，末尾显示已在 Kimi.ai/App/API 上线。视频有剪辑与转场，是厂商选编示例，无法据此推断提示词、尝试次数、生成时长或独立复现质量。",
+        "observationsEn": "The montage opens with K3.1 Pro branding and a Kimi Code screen, then shows Chinese-fantasy scenes, flight and racing games, FPS, rooftop parkour, a robot film, product animation and graphic design, ending with availability on Kimi.ai/App/API. This edited vendor montage does not establish prompts, attempt counts, generation time or independently reproduced quality."
+      }
+    }
+  ],
+  "fetchAttempts": [
+    {
+      "method": "web text fetch",
+      "url": "https://x.com/Kimi_Moonshot/status/2113681863109939271",
+      "status": "blocked",
+      "httpStatus": 403
+    },
+    {
+      "method": "yt-dlp 2026.07.04 public Twitter extractor",
+      "url": "https://x.com/Kimi_Moonshot/status/2113681863109939271",
+      "status": "success",
+      "cookiesUsed": false
+    },
+    {
+      "method": "official X oEmbed",
+      "url": "https://publish.twitter.com/oembed?url=https%3A%2F%2Fx.com%2FKimi_Moonshot%2Fstatus%2F2113681863109939271&omit_script=1",
+      "status": "success"
+    },
+    {
+      "method": "direct official CDN media download",
+      "url": "https://video.twimg.com/amplify_video/2113681249936285696/vid/avc1/1280x720/myJOAH_mqBO1tf_F.mp4?tag=29",
+      "status": "success",
+      "cookiesUsed": false
+    }
+  ],
+  "notes": {
+    "zh": "本帖提取到 1 个视频附件及其封面，没有另外声称抓到独立图片。1080p 原始分发版本保存在本地归档；公开页面使用 720p 原始分发版本。",
+    "en": "One attached video and its thumbnail were retrieved; no separate image attachment is claimed. The original 1080p distribution rendition is retained locally; the page serves the original 720p distribution rendition."
+  }
+}

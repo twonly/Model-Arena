@@ -1,0 +1,22 @@
+{
+  "model": "LongCat-2.5",
+  "version": "LongCat-2.5 official release, 2026-11-02",
+  "displayName": "LongCat 2.5 release via Claude Code",
+  "aliases": [
+    "LongCat 2.5 release",
+    "LongCat-2.5"
+  ],
+  "protocol": "anthropic-messages",
+  "endpoint": "https://api.longcat.chat/anthropic",
+  "keyEnv": "SHARED_KEY_LONGCAT",
+  "expectedReturnedModel": "LongCat-2.5",
+  "modes": {
+    "default": {}
+  },
+  "extraBody": {},
+  "temperature": null,
+  "versionSource": "https://longcat.ai/platform/docs/ChangeLog.html",
+  "method": "Native Claude Code actual-creation workflow with persistent projects, native tools and available network. LongCat-2.5 authors all creative artifacts; no controller request, cumulative-token or task-duration budgets.",
+  "providerMaxOutputTokens": 131072,
+  "nativeContextSuffix": "[1m]"
+}

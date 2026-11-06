@@ -1,0 +1,62 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .bg { fill:#f3f4f6; }
+      .card { fill:#ffffff; stroke:#e5e7eb; stroke-width:1; rx:16; ry:16; }
+      .title { fill:#111827; font-family:Arial,Helvetica,sans-serif; font-size:22px; font-weight:700; }
+      .axis { stroke:#9ca3af; stroke-width:1; }
+      .tick { stroke:#9ca3af; stroke-width:1; }
+      .ylab { fill:#374151; font-family:Arial,Helvetica,sans-serif; font-size:13px; text-anchor:end; }
+      .bar { fill:#2563eb; }
+      .val { fill:#111827; font-family:Arial,Helvetica,sans-serif; font-size:13px; font-weight:700; text-anchor:middle; }
+      .xlab { fill:#374151; font-family:Arial,Helvetica,sans-serif; font-size:14px; text-anchor:middle; }
+      .sum { fill:#111827; font-family:Arial,Helvetica,sans-serif; font-size:15px; font-weight:600; }
+    </style>
+  </defs>
+
+  <!-- background -->
+  <rect class="bg" x="0" y="0" width="800" height="600"/>
+
+  <!-- card -->
+  <rect class="card" x="40" y="30" width="720" height="540"/>
+
+  <!-- title -->
+  <text class="title" x="400" y="64" text-anchor="middle">Quarterly Revenue</text>
+
+  <!-- chart geometry -->
+  <!-- baseline y=500, top for value 30 -> y=150 -->
+  <line class="axis" x1="100" y1="500" x2="760" y2="500"/>
+  <line class="axis" x1="100" y1="150" x2="100" y2="500"/>
+
+  <!-- y ticks & labels -->
+  <line class="tick" x1="95" y1="500" x2="100" y2="500"/>
+  <text class="ylab" x="90" y="504">0</text>
+  <line class="tick" x1="95" y1="383" x2="100" y2="383"/>
+  <text class="ylab" x="90" y="387">10</text>
+  <line class="tick" x1="95" y1="267" x2="100" y2="267"/>
+  <text class="ylab" x="90" y="271">20</text>
+  <line class="tick" x1="95" y1="150" x2="100" y2="150"/>
+  <text class="ylab" x="90" y="154">30</text>
+
+  <!-- bars: Q1=12 Q2=24 Q3=18 Q4=30 -->
+  <!-- value v -> bar top y = 500 - v*(350/30) -->
+  <rect class="bar" x="165" y="360" width="70" height="140"/>
+  <text class="val" x="200" y="346">12</text>
+  <text class="xlab" x="200" y="520">Q1</text>
+
+  <rect class="bar" x="325" y="220" width="70" height="280"/>
+  <text class="val" x="360" y="206">24</text>
+  <text class="xlab" x="360" y="520">Q2</text>
+
+  <rect class="bar" x="485" y="290" width="70" height="210"/>
+  <text class="val" x="520" y="276">18</text>
+  <text class="xlab" x="520" y="520">Q3</text>
+
+  <rect class="bar" x="645" y="150" width="70" height="350"/>
+  <text class="val" x="680" y="136">30</text>
+  <text class="xlab" x="680" y="520">Q4</text>
+
+  <!-- summary labels -->
+  <text class="sum" x="600" y="538">Total: 84</text>
+  <text class="sum" x="600" y="566">Best: Q4</text>
+</svg>

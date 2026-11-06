@@ -1,0 +1,18 @@
+{
+  "model": "nvidia/nemotron-3.5-lightning:free",
+  "version": "Nemotron 3.5 Lightning via OpenRouter free route, verified 2026-11-04",
+  "displayName": "Nemotron 3.5 Lightning - free API creation",
+  "aliases": ["nemotron-lightning-free-creation"],
+  "protocol": "openai-chat",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "keyEnv": "SHARED_KEY_OPENROUTER",
+  "expectedReturnedModel": "nvidia/nemotron-3.5-lightning:free",
+  "billing": "openrouter-free-variant",
+  "vision": "unsupported",
+  "modes": {"default": {}},
+  "extraBody": {"provider": {"max_price": {"prompt": 0, "completion": 0}}},
+  "providerMaxOutputTokens": 65536,
+  "providerContextLength": 1000000,
+  "versionSource": "https://openrouter.ai/api/v1/models/nvidia/nemotron-3.5-lightning:free/endpoints",
+  "method": "Persistent isolated OpenAI API tool loop using the frozen November 4 creative-suite-v4 sources. Text-only author model: view_image returns file metadata only, with separate coordinator visual QA. Context length and single-request output maximum are distinct; history is preserved without automatic compaction. Only prompt and completion zero prices are established by the archived endpoint record; other unreported fee dimensions remain unknown."
+}

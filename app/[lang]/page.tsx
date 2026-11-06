@@ -127,6 +127,15 @@ export default async function Landing({
         </div>
       </section>
       <section className="border-t border-line py-10">
+        <h2 className="mb-6 text-2xl font-bold">{en ? "Model news" : "模型动态"}</h2>
+        <article className="rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-11-04 · {en ? "Official launch analysis" : "官方资料 · 发布解读"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/tencent-hy4")}>{en ? "Tencent Hy4 launches: vision, agents and benchmarks" : "腾讯 Hy4 正式发布：视觉、电脑操作与 Benchmark 解读"}</Link></h3>
+          <p>{en ? "Official benchmark originals with analysis across coding, office work, research and computer use, plus API pricing and the new launch film." : "官方 Benchmark 原图与解读：编程、办公、科研和电脑操作。附正式版规格、API 价格与新宣传片。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/tencent-hy4")}>{en ? "Read the launch analysis" : "发布解读"} →</Link>
+        </article>
+      </section>
+      <section className="border-t border-line py-10">
         <div className="mb-6 flex items-center justify-between">
           <h2 className="text-2xl font-bold">
             {en ? "Latest published evidence" : "最新已发布实测"}
@@ -135,23 +144,68 @@ export default async function Landing({
             {en ? "All reports" : "全部报告"} →
           </Link>
         </div>
-<article className="mb-5 rounded-lg border border-line bg-card p-6">
+        {[
+          { name: "Gemini 3.8 Flash", slug: "gemini-3-8-flash-creative" },
+          { name: "Gemini 4 Argon", slug: "gemini-4-argon-creative" },
+        ].map(model => <article key={model.slug} className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-11-04 · {en ? "Eleven creative tasks" : "11 项创作评测"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h(`/guides/${model.slug}`)}>{model.name}{en ? ": Blender, knowledge videos, SVG and animation" : "：Blender、知识视频、SVG 与动画"}</Link></h3>
+          <p>{en ? "Inspect all eleven delivered works, editable projects, source downloads and specific quality findings on a separate bilingual report page." : "查看全部 11 项交付作品、可编辑工程、源码下载与具体质量问题，每个模型有独立双语报告。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h(`/guides/${model.slug}`)}>{en ? "View the creative evaluation" : "查看创作评测"} →</Link>
+        </article>)}
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-11-04 · {en ? "Free-route creative evaluation" : "免费路由创作评测"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/nemotron-3-5-super-vl-creative")}>{en ? "NVIDIA Nemotron 3.5 Super VL: 3D, video and SVG results" : "NVIDIA Nemotron 3.5 Super VL：3D、视频与 SVG 结果"}</Link></h3>
+          <p>{en ? "Eleven creative tasks with actual artifacts and itemized outcomes. Inspect source downloads, quality issues, missing deliverables and provider interruptions." : "11 项创作任务的真实作品与逐项结果，附源码下载、质量问题、未交付内容和供应商中断记录。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/nemotron-3-5-super-vl-creative")}>{en ? "View the creative evaluation" : "查看创作评测"} →</Link>
+        </article>
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-11-04 · {en ? "Image understanding and creative evaluation" : "视觉读图与创作评测"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/tencent-hy4-creative")}>{en ? "Tencent Hy4: five image-input tests and eleven creative tasks" : "腾讯 Hy4：5 项视觉读图与 11 项创作作品"}</Link></h3>
+          <p>{en ? "Inspect the original image inputs, Blender scenes, knowledge videos, SVG drawings and cycling animation, with source downloads and specific checks." : "查看原始图片输入、Blender 场景、知识视频、SVG 绘图与骑车动画，附工程下载和逐项检查。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/tencent-hy4-creative")}>{en ? "View the Hy4 evaluation" : "查看 Hy4 评测"} →</Link>
+        </article>
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-11-04 · {en ? "Free-route SVG evaluation" : "免费路由 SVG 实测"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/dots3-note-preview")}>{en ? "Dots3-Note Preview: SVG drawings and cycling animation" : "Dots3-Note Preview：SVG 绘图与骑车动画"}</Link></h3>
+          <p>{en ? "Four actual outputs: a clock, data chart, Chinese poster and cycling pelican. Inspect the source files, measured geometry and animation issues." : "四项真实作品：钟表、数据图表、中文海报与鹈鹕骑车。查看原始源码、几何核查和动画中的问题。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/dots3-note-preview")}>{en ? "View the SVG evaluation" : "查看 SVG 评测"} →</Link>
+        </article>
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-11-02 · {en ? "LongCat 2.5 official release" : "LongCat 2.5 正式版"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/longcat-2-5-release")}>{en ? "LongCat 2.5: official benchmarks and actual Claude Code work" : "LongCat 2.5 正式版：官方跑分与 Claude Code 真实作品"}</Link></h3>
+          <p>{en ? "Inspect paired thinking tests, Blender scenes, SVG, knowledge videos, source downloads and failed attempts." : "查看思考开关对照、Blender 场景、SVG、知识视频、工程下载与失败记录。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/longcat-2-5-release")}>{en ? "Read the release evaluation" : "查看正式版评测"} →</Link>
+        </article>
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
           <p className="text-sm text-faint">2026-11-01 · {en ? "Tokrace Data" : "Tokrace 小数据"}</p>
           <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/aa-intelligence-index-v5-chinese-models")}>{en ? "New exam, 13 points lost: 17 facts about AA Intelligence Index v5" : "换了张考卷，国产模型掉了 13 分：AA v5 的 17 个事实"}</Link></h3>
           <p>{en ? "Only 8 of 77 entries gained on Artificial Analysis v5. Chinese models fell about twice as far as the rest; the new #1 has no public API." : "Artificial Analysis v5 上 77 个模型只有 8 个涨分，国产掉分约是别人的两倍；新榜首调不到 API。"}</p>
           <Link className="mt-4 inline-block font-bold underline" href={h("/guides/aa-intelligence-index-v5-chinese-models")}>{en ? "Read the 17 facts" : "看 17 个事实"} →</Link>
         </article>
-<article className="mb-5 rounded-lg border border-line bg-card p-6">
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
           <p className="text-sm text-faint">2026-10-31 · {en ? "Animated explainer" : "动态图解"}</p>
           <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/manus-rebuild-manus-report")}>{en ? "Rebuilding Manus with Manus, explained in diagrams" : "动态图解：用 Manus 重建 Manus"}</Link></h3>
           <p>{en ? "26 animated diagrams of Tao Zhang's essay: Mono, the bug-fix loop, the merge gate, the 200-item weekend, PMs shipping code, and what isn't working yet. Plain-language rewrite, not a speed benchmark." : "26 张动图讲清张涛长文：Mono、bug 修复闭环、合并闸门、周末 200+ 项目、PM 独立上线，以及还没做好的地方。人话转写，非速度实测。"}</p>
           <Link className="mt-4 inline-block font-bold underline" href={h("/guides/manus-rebuild-manus-report")}>{en ? "Open the diagram guide" : "打开动态图解"} →</Link>
         </article>
-<article className="mb-5 rounded-lg border border-line bg-card p-6">
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
           <p className="text-sm text-faint">2026-10-31 · {en ? "Architecture diagram explainer" : "架构图解说明"}</p>
           <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/deepseek-super-agent-diagram")}>{en ? "DeepSeek Super-agent architecture, explained in diagrams" : "动态图解：DeepSeek Super-agent 架构"}</Link></h3>
           <p>{en ? "Animated diagrams of Router/Worker, triggers, and durable sessions—from public discussion, not a speed benchmark." : "用动态图解讲清 Router/Worker、Trigger 与持久会话——公开讨论人话转写，非速度实测。"}</p>
           <Link className="mt-4 inline-block font-bold underline" href={h("/guides/deepseek-super-agent-diagram")}>{en ? "Open the diagram guide" : "打开动态图解"} →</Link>
+        </article>
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-10-30 · {en ? "Open-topic knowledge videos" : "开放主题知识视频"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/kimi-vs-minimax-open-topic")}>{en ? "Kimi vs MiniMax: four open topics, side by side" : "Kimi vs MiniMax：四个开放主题横向对比"}</Link></h3>
+          <p>{en ? "Same Claude Code conditions. Watch both models expand a topic, then judge for yourself. Unified edge-tts narration." : "同条件 Claude Code 创作。看两边如何展开同一主题，自行判断。统一 edge-tts 旁白。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/kimi-vs-minimax-open-topic")}>{en ? "Open the compare page" : "打开横向对比"} →</Link>
+        </article>
+        <article className="mb-5 rounded-lg border border-line bg-card p-6">
+          <p className="text-sm text-faint">2026-10-27 · {en ? "Creative agent tests" : "创作 Agent 实测"}</p>
+          <h3 className="my-3 text-xl font-bold"><Link href={h("/guides/kimi-k3-1-pro-creative")}>{en ? "Kimi builds Blender scenes and knowledge videos" : "让 Kimi 做复杂 3D 建模与知识视频"}</Link></h3>
+          <p>{en ? "Watch the actual outputs and inspect editable scenes, scientific explanations, dimensions and failures." : "直接看片、看工程：检查复杂场景、科学解释、尺寸约束，以及漂亮画面里的错误。"}</p>
+          <Link className="mt-4 inline-block font-bold underline" href={h("/guides/kimi-k3-1-pro-creative")}>{en ? "View outputs and commentary" : "查看作品与点评"} →</Link>
         </article>
         {latest ? (
           <article className="rounded-lg border border-line bg-card p-6">

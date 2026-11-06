@@ -1,0 +1,21 @@
+{
+  "model": "glm-5.3",
+  "version": "GLM-5.3",
+  "displayName": "智谱 GLM-5.3 via Claude Code",
+  "aliases": [
+    "GLM-5.3 Claude Code",
+    "智谱 GLM-5.3"
+  ],
+  "protocol": "anthropic-messages",
+  "endpoint": "https://open.bigmodel.cn/api/anthropic",
+  "keyEnv": "ANTHROPIC_AUTH_TOKEN",
+  "billing": "subscription-quota",
+  "expectedReturnedModel": "glm-5.3",
+  "modes": {},
+  "extraBody": {},
+  "temperature": null,
+  "maxTokens": 32768,
+  "timeoutMs": 600000,
+  "versionSource": "https://docs.bigmodel.cn/cn/coding-plan/latest-model",
+  "method": "Claude Code 2.1.311 as the actual agent harness; GLM-5.3 provides all agent generation and tool decisions. Uses the user's already-configured Anthropic-compatible Claude Code credential (ANTHROPIC_AUTH_TOKEN resolved from the live environment at dispatch time; never copied into the repository or evidence). Default mode only; Claude Code's adaptive requests do not imply a verified upstream thinking tier. This is a distinct harness protocol from direct-API baselines."
+}

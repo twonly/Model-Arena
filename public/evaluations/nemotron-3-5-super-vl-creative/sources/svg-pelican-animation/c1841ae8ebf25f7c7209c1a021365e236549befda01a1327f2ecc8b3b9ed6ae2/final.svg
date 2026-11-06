@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <rect width="800" height="600" fill="#eef4ea"/>
+  <line x1="0" y1="440.0" x2="800" y2="440.0" stroke="#8a9e7c" stroke-width="4"/>
+  <g id="rear-wheel">
+    <circle cx="250.00" cy="370.00" r="70" fill="none" stroke="#222" stroke-width="14"/>
+    <circle cx="250.00" cy="370.00" r="62" fill="none" stroke="#444" stroke-width="2"/>
+    <g id="rear-spokes">
+      <line x1="250.00" y1="370.00" x2="312.00" y2="370.00" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="303.69" y2="401.00" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="281.00" y2="423.69" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="250.00" y2="432.00" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="219.00" y2="423.69" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="196.31" y2="401.00" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="188.00" y2="370.00" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="196.31" y2="339.00" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="219.00" y2="316.31" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="250.00" y2="308.00" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="281.00" y2="316.31" stroke="#555" stroke-width="2"/>
+      <line x1="250.00" y1="370.00" x2="303.69" y2="339.00" stroke="#555" stroke-width="2"/>
+    </g>
+    <circle cx="250.00" cy="370.00" r="10" fill="#333"/>
+  </g>
+  <g id="front-wheel">
+    <circle cx="530.00" cy="370.00" r="70" fill="none" stroke="#222" stroke-width="14"/>
+    <circle cx="530.00" cy="370.00" r="62" fill="none" stroke="#444" stroke-width="2"/>
+    <g id="front-spokes">
+      <line x1="530.00" y1="370.00" x2="592.00" y2="370.00" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="583.69" y2="401.00" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="561.00" y2="423.69" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="530.00" y2="432.00" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="499.00" y2="423.69" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="476.31" y2="401.00" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="468.00" y2="370.00" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="476.31" y2="339.00" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="499.00" y2="316.31" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="530.00" y2="308.00" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="561.00" y2="316.31" stroke="#555" stroke-width="2"/>
+      <line x1="530.00" y1="370.00" x2="583.69" y2="339.00" stroke="#555" stroke-width="2"/>
+    </g>
+    <circle cx="530.00" cy="370.00" r="10" fill="#333"/>
+  </g>
+  <g id="frame" stroke="#c0392b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none">
+    <line x1="250.00" y1="370.00" x2="350.00" y2="355.00"/>
+    <line x1="285" y1="322" x2="350" y2="292"/>
+    <line x1="350" y1="292" x2="470" y2="300"/>
+    <line x1="470" y1="300" x2="350.00" y2="355.00"/>
+    <line x1="530.00" y1="370.00" x2="470" y2="300"/>
+  </g>
+  <circle cx="350.00" cy="355.00" r="8" fill="#555"/>
+  <g id="crank">
+    <animateTransform attributeName="transform" type="rotate"
+      from="0 350.00 355.00" to="360 350.00 355.00" dur="4s" repeatCount="indefinite"/>
+    <line x1="350.00" y1="355.00" x2="350.00" y2="320.00" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+    <line x1="350.00" y1="355.00" x2="350.00" y2="390.00" stroke="#666" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="350.00" cy="320.00" r="7" fill="#999"/>
+    <circle cx="350.00" cy="390.00" r="7" fill="#999"/>
+    <circle id="foot-right" cx="350.00" cy="320.00" r="6" fill="#333"/>
+    <circle id="foot-left"  cx="350.00" cy="390.00" r="6" fill="#333"/>
+  </g>
+  <g id="pelican">
+    <ellipse cx="350" cy="300" rx="40" ry="28" fill="#e8e8e8"/>
+    <path d="M 350 282 Q 372 272 372 238 Q 370 222 356 222" fill="none" stroke="#e8e8e8" stroke-width="20" stroke-linecap="round"/>
+    <circle cx="372" cy="255" r="14" fill="#e8e8e8"/>
+    <path d="M 384 254 L 470 248 L 474 262 L 388 268 Z" fill="#f0e68c" stroke="#b89b3c" stroke-width="1"/>
+    <path d="M 378 262 Q 395 278 430 272 Q 455 268 468 262 Q 462 256 448 254 Q 410 258 382 260 Z" fill="#f5deb3" stroke="#d2b48c" stroke-width="1"/>
+    <circle cx="368" cy="251" r="2" fill="#222"/>
+    <ellipse cx="360" cy="306" rx="17" ry="13" fill="#d8d8d8" transform="rotate(-15 360 306)"/>
+    <path id="leg-left" d="M 315.00 322.00 L 365.06 336.06 L 350.00 390.00" stroke="#5a3e36" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <animate xlink:href="#leg-left" attributeName="d" dur="4s" repeatCount="indefinite" calcMode="linear" keyTimes="0.0000; 0.0625; 0.1250; 0.1875; 0.2500; 0.3125; 0.3750; 0.4375; 0.5000; 0.5625; 0.6250; 0.6875; 0.7500; 0.8125; 0.8750; 0.9375; 1.0000" values="M 315.00 322.00 L 365.06 336.06 L 350.00 390.00; M 315.00 322.00 L 364.26 338.64 L 336.61 387.34; M 315.00 322.00 L 364.02 339.34 L 325.25 379.75; M 315.00 322.00 L 364.55 337.77 L 317.66 368.39; M 315.00 322.00 L 366.04 331.95 L 315.00 355.00; M 315.00 322.00 L 366.38 313.99 L 317.66 341.61; M 315.00 322.00 L 339.36 276.06 L 325.25 330.25; M 315.00 322.00 L 317.41 270.06 L 336.61 322.66; M 315.00 322.00 L 323.45 270.69 L 350.00 320.00; M 315.00 322.00 L 335.39 274.17 L 363.39 322.66; M 315.00 322.00 L 347.44 281.36 L 374.75 330.25; M 315.00 322.00 L 357.17 291.58 L 382.34 341.61; M 315.00 322.00 L 363.52 303.29 L 385.00 355.00; M 315.00 322.00 L 366.48 314.68 L 382.34 368.39; M 315.00 322.00 L 366.95 324.29 L 374.75 379.75; M 315.00 322.00 L 366.14 331.40 L 363.39 387.34; M 315.00 322.00 L 365.06 336.06 L 350.00 390.00"/>
+    <circle id="knee-left" cx="365.06" cy="336.06" r="5" fill="#5a3e36"/>
+    <animate xlink:href="#knee-left" attributeName="cx" dur="4s" repeatCount="indefinite" calcMode="linear" keyTimes="0.0000; 0.0625; 0.1250; 0.1875; 0.2500; 0.3125; 0.3750; 0.4375; 0.5000; 0.5625; 0.6250; 0.6875; 0.7500; 0.8125; 0.8750; 0.9375; 1.0000" values="365.06; 364.26; 364.02; 364.55; 366.04; 366.38; 339.36; 317.41; 323.45; 335.39; 347.44; 357.17; 363.52; 366.48; 366.95; 366.14; 365.06"/>
+    <animate xlink:href="#knee-left" attributeName="cy" dur="4s" repeatCount="indefinite" calcMode="linear" keyTimes="0.0000; 0.0625; 0.1250; 0.1875; 0.2500; 0.3125; 0.3750; 0.4375; 0.5000; 0.5625; 0.6250; 0.6875; 0.7500; 0.8125; 0.8750; 0.9375; 1.0000" values="336.06; 338.64; 339.34; 337.77; 331.95; 313.99; 276.06; 270.06; 270.69; 274.17; 281.36; 291.58; 303.29; 314.68; 324.29; 331.40; 336.06"/>
+    <path id="leg-right" d="M 385.00 322.00 L 376.55 270.69 L 350.00 320.00" stroke="#5a3e36" stroke-width="7" stroke-linecap="round" fill="none"/>
+    <animate xlink:href="#leg-right" attributeName="d" dur="4s" repeatCount="indefinite" calcMode="linear" keyTimes="0.0000; 0.0625; 0.1250; 0.1875; 0.2500; 0.3125; 0.3750; 0.4375; 0.5000; 0.5625; 0.6250; 0.6875; 0.7500; 0.8125; 0.8750; 0.9375; 1.0000" values="M 385.00 322.00 L 376.55 270.69 L 350.00 320.00; M 385.00 322.00 L 382.59 270.06 L 363.39 322.66; M 385.00 322.00 L 360.64 276.06 L 374.75 330.25; M 385.00 322.00 L 333.62 313.99 L 382.34 341.61; M 385.00 322.00 L 333.96 331.95 L 385.00 355.00; M 385.00 322.00 L 335.45 337.77 L 382.34 368.39; M 385.00 322.00 L 335.98 339.34 L 374.75 379.75; M 385.00 322.00 L 335.74 338.64 L 363.39 387.34; M 385.00 322.00 L 334.94 336.06 L 350.00 390.00; M 385.00 322.00 L 333.86 331.40 L 336.61 387.34; M 385.00 322.00 L 333.05 324.29 L 325.25 379.75; M 385.00 322.00 L 333.52 314.68 L 317.66 368.39; M 385.00 322.00 L 336.48 303.29 L 315.00 355.00; M 385.00 322.00 L 342.83 291.58 L 317.66 341.61; M 385.00 322.00 L 352.56 281.36 L 325.25 330.25; M 385.00 322.00 L 364.61 274.17 L 336.61 322.66; M 385.00 322.00 L 376.55 270.69 L 350.00 320.00"/>
+    <circle id="knee-right" cx="376.55" cy="270.69" r="5" fill="#5a3e36"/>
+    <animate xlink:href="#knee-right" attributeName="cx" dur="4s" repeatCount="indefinite" calcMode="linear" keyTimes="0.0000; 0.0625; 0.1250; 0.1875; 0.2500; 0.3125; 0.3750; 0.4375; 0.5000; 0.5625; 0.6250; 0.6875; 0.7500; 0.8125; 0.8750; 0.9375; 1.0000" values="376.55; 382.59; 360.64; 333.62; 333.96; 335.45; 335.98; 335.74; 334.94; 333.86; 333.05; 333.52; 336.48; 342.83; 352.56; 364.61; 376.55"/>
+    <animate xlink:href="#knee-right" attributeName="cy" dur="4s" repeatCount="indefinite" calcMode="linear" keyTimes="0.0000; 0.0625; 0.1250; 0.1875; 0.2500; 0.3125; 0.3750; 0.4375; 0.5000; 0.5625; 0.6250; 0.6875; 0.7500; 0.8125; 0.8750; 0.9375; 1.0000" values="270.69; 270.06; 276.06; 313.99; 331.95; 337.77; 339.34; 338.64; 336.06; 331.40; 324.29; 314.68; 303.29; 291.58; 281.36; 274.17; 270.69"/>
+  </g>
+  <path d="M 290 320 Q 315 305 340 320" fill="none" stroke="#444" stroke-width="9" stroke-linecap="round"/>
+  <line x1="315" y1="322" x2="315" y2="292" stroke="#666" stroke-width="5" stroke-linecap="round"/>
+  <line x1="470" y1="300" x2="470" y2="270" stroke="#666" stroke-width="5" stroke-linecap="round"/>
+  <path d="M 450 266 Q 470 260 490 266" fill="none" stroke="#444" stroke-width="8" stroke-linecap="round"/>
+  <animateTransform xlink:href="#rear-wheel" attributeName="transform" type="rotate" from="0 250.00 370.00" to="360 250.00 370.00" dur="4s" repeatCount="indefinite"/>
+  <animateTransform xlink:href="#front-wheel" attributeName="transform" type="rotate" from="0 530.00 370.00" to="360 530.00 370.00" dur="4s" repeatCount="indefinite"/>
+  <text x="400" y="56" text-anchor="middle" fill="#444" font-family="Arial" font-size="22" font-weight="bold">Pelican on a Bicycle</text>
+  <text x="400" y="584" text-anchor="middle" fill="#666" font-family="Arial" font-size="13">4-second seamless SMIL loop &#8226; rotating wheels &amp; crank &#8226; feet locked to pedals</text>
+</svg>

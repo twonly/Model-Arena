@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#F7F5EF"/>
+  <rect x="24" y="24" width="752" height="552" rx="28" fill="none" stroke="#E5E2D8"/>
+
+  <circle cx="606" cy="337" r="160" fill="#E5EEE6"/>
+  <circle cx="700" cy="92" r="30" fill="#EFC66F"/>
+  <path d="M489 262 C532 219 581 254 622 222 C660 192 704 208 730 244" fill="none" stroke="#C2D5C6" stroke-width="3" stroke-linecap="round" stroke-dasharray="1 11"/>
+  <circle cx="489" cy="262" r="5" fill="#D77C52"/>
+  <path d="M454 487 H734" fill="none" stroke="#C7D6C9" stroke-width="2" stroke-linecap="round"/>
+
+  <g fill="none" stroke="#285646" stroke-width="5" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="500" cy="407" r="60"/>
+    <circle cx="684" cy="407" r="60"/>
+    <path d="M500 407 L548 329 L580 407 Z"/>
+    <path d="M548 329 H628"/>
+    <path d="M640 354 L580 407"/>
+    <path d="M628 329 L640 354 L684 407"/>
+    <path d="M548 329 L541 311"/>
+    <path d="M524 309 Q541 305 558 309"/>
+    <path d="M628 329 L617 305 L642 300 L653 307"/>
+    <circle cx="580" cy="407" r="8"/>
+    <path d="M580 407 L596 423 H610"/>
+  </g>
+  <g fill="#285646">
+    <circle cx="500" cy="407" r="4"/>
+    <circle cx="684" cy="407" r="4"/>
+  </g>
+
+  <rect x="64" y="62" width="42" height="6" rx="3" fill="#D77C52"/>
+  <path d="M64 208 H392" stroke="#DDDFD5" stroke-width="1.5"/>
+
+  <g fill="none" stroke="#D77C52" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="64" y="246" width="25" height="25" rx="6"/>
+    <path d="M64 254 H89 M71 242 V249 M82 242 V249"/>
+    <path d="M76.5 295 C70 295 64.5 300.5 64.5 307 C64.5 315 76.5 324 76.5 324 C76.5 324 88.5 315 88.5 307 C88.5 300.5 83 295 76.5 295 Z"/>
+    <circle cx="76.5" cy="307" r="3.5"/>
+  </g>
+
+  <rect x="64" y="424" width="176" height="56" rx="28" fill="#1F5746"/>
+
+  <g font-family="Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif">
+    <text x="64" y="132" fill="#173F35" font-size="58" font-weight="700" letter-spacing="2">周末骑行计划</text>
+    <text x="66" y="176" fill="#657269" font-size="22" letter-spacing="2">慢一点，看见城市</text>
+    <text x="104" y="275" fill="#243F36" font-size="28" font-weight="600">10月24日 09:00</text>
+    <text x="104" y="325" fill="#243F36" font-size="28" font-weight="600">滨江公园东门</text>
+    <text x="104" y="371" fill="#5E6B63" font-size="16">自备头盔 · 全程12公里</text>
+    <text x="152" y="460" fill="#FFFFFF" font-size="20" font-weight="600" text-anchor="middle" letter-spacing="1">立即报名</text>
+  </g>
+</svg>

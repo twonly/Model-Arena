@@ -1,0 +1,34 @@
+{
+  "verifiedAt": "2026-10-24T01:14:01Z",
+  "method": "HEAD",
+  "links": [
+    {
+      "id": "modelScope",
+      "suppliedUrl": "https://t.co/DQcmOjTwhO",
+      "firstRedirect": "https://modelscope.cn/models/MiniMax/MiniMax-M3.1-Flash",
+      "firstStatus": 301,
+      "finalUrl": "https://modelscope.cn/models/MiniMax/MiniMax-M3.1-Flash",
+      "finalStatus": 200
+    },
+    {
+      "id": "mPlan",
+      "suppliedUrl": "https://t.co/LYnYZcsesu",
+      "firstRedirect": "https://minimax.io/m-planMiniMax",
+      "firstStatus": 301,
+      "finalUrl": "https://www.minimax.io/",
+      "finalStatus": 200,
+      "note": "The supplied shortlink points to an m-planMiniMax path that currently redirects to the MiniMax homepage. No corrected M Plan destination was inferred."
+    }
+  ],
+  "additionalChecks": [
+    {
+      "verifiedOn": "2026-10-24",
+      "method": "GET",
+      "sourceUrl": "https://www.minimax.io/blog/minimax-m31f",
+      "url": "https://www.minimax.io/m-plan",
+      "status": 200,
+      "title": "M Plan - MiniMax API Platform",
+      "note": "The official October 19 release article links this M Plan URL. This independently checked link is used on the page; the supplied malformed shortlink remains documented above."
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+<svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif">
+  <!-- Page background -->
+  <rect width="800" height="600" fill="#eef2f7"/>
+
+  <!-- Dashboard card -->
+  <rect x="40" y="40" width="720" height="520" rx="20" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <!-- Card header -->
+  <text x="80" y="102" font-size="28" font-weight="700" fill="#0f172a">Quarterly Revenue</text>
+  <text x="80" y="128" font-size="14" fill="#64748b">Fiscal year performance · in thousands</text>
+
+  <!-- Summary pills -->
+  <rect x="470" y="72" width="130" height="36" rx="18" fill="#e0e7ff"/>
+  <text x="535" y="96" font-size="15" font-weight="600" fill="#3730a3" text-anchor="middle">Total: 84</text>
+  <rect x="614" y="72" width="106" height="36" rx="18" fill="#d1fae5"/>
+  <text x="667" y="96" font-size="15" font-weight="600" fill="#065f46" text-anchor="middle">Best: Q4</text>
+
+  <!-- Chart geometry: baseline y=460, scale 320px per 30 units -->
+  <!-- Gridlines + y-axis labels -->
+  <line x1="120" y1="140" x2="720" y2="140" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="120" y1="246.7" x2="720" y2="246.7" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="120" y1="353.3" x2="720" y2="353.3" stroke="#e2e8f0" stroke-width="1"/>
+  <line x1="120" y1="460" x2="720" y2="460" stroke="#94a3b8" stroke-width="2"/>
+
+  <text x="106" y="145" font-size="14" fill="#475569" text-anchor="end">30</text>
+  <text x="106" y="251.7" font-size="14" fill="#475569" text-anchor="end">20</text>
+  <text x="106" y="358.3" font-size="14" fill="#475569" text-anchor="end">10</text>
+  <text x="106" y="465" font-size="14" fill="#475569" text-anchor="end">0</text>
+
+  <!-- Y-axis title -->
+  <text x="34" y="300" font-size="13" fill="#64748b" text-anchor="middle" transform="rotate(-90 34 300)">Revenue</text>
+
+  <!-- Bars (heights exactly proportional: 12, 24, 18, 30) -->
+  <rect x="160" y="332" width="70" height="128" rx="6" fill="#93c5fd"/>
+  <rect x="310" y="204" width="70" height="256" rx="6" fill="#60a5fa"/>
+  <rect x="460" y="300" width="70" height="160" rx="6" fill="#3b82f6"/>
+  <rect x="610" y="140" width="70" height="320" rx="6" fill="#059669"/>
+
+  <!-- Value labels above bars -->
+  <text x="195" y="318" font-size="17" font-weight="700" fill="#1e3a8a" text-anchor="middle">12</text>
+  <text x="345" y="190" font-size="17" font-weight="700" fill="#1e3a8a" text-anchor="middle">24</text>
+  <text x="495" y="286" font-size="17" font-weight="700" fill="#1e3a8a" text-anchor="middle">18</text>
+  <text x="645" y="126" font-size="17" font-weight="700" fill="#065f46" text-anchor="middle">30</text>
+
+  <!-- X-axis labels -->
+  <text x="195" y="492" font-size="15" font-weight="600" fill="#334155" text-anchor="middle">Q1</text>
+  <text x="345" y="492" font-size="15" font-weight="600" fill="#334155" text-anchor="middle">Q2</text>
+  <text x="495" y="492" font-size="15" font-weight="600" fill="#334155" text-anchor="middle">Q3</text>
+  <text x="645" y="492" font-size="15" font-weight="600" fill="#334155" text-anchor="middle">Q4</text>
+
+  <!-- Footer -->
+  <text x="80" y="530" font-size="12" fill="#94a3b8">Source: Finance Department · Updated quarterly</text>
+</svg>

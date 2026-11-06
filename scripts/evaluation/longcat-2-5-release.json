@@ -1,0 +1,17 @@
+{
+  "model": "LongCat-2.5",
+  "version": "2026-11-02 API release; mutable model ID",
+  "endpoint": "https://api.longcat.chat/openai/v1",
+  "keyEnv": "SHARED_KEY_LONGCAT",
+  "expectedReturnedModel": "LongCat-2.5",
+  "modes": {"disabled": {"thinking": {"type": "disabled"}}, "default": {"thinking": {"type": "enabled"}}},
+  "extraBody": {},
+  "temperature": 0,
+  "maxTokens": 12288,
+  "timeoutMs": 600000,
+  "providerBackoffMs": 60000,
+  "stopOnAccessErrors": true,
+  "stopOnRateLimit": true,
+  "versionSource": "https://longcat.ai/platform/docs/ChangeLog.html",
+  "method": "Paired thinking-off/on direct OpenAI-compatible baseline, alternating order. Temperature=0 is submitted but overridden by the provider to 0.7 off / 1.0 on. Low/max effort are not documented model controls and are not tested. Every first attempt is preserved; retries, if required for rendering, use separate records."
+}

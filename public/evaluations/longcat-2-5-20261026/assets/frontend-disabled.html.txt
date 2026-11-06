@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>慢骑城市 · 周末城市骑行俱乐部</title>
+<style>
+  :root{
+    --bg:#FAF6EF;
+    --bg-soft:#F3EDE1;
+    --surface:#FFFDF9;
+    --ink:#2B2620;
+    --ink-soft:#6B6257;
+    --line:#E4DCCB;
+    --accent:#D4552A;
+    --accent-deep:#B2431F;
+    --accent-soft:#FBE3D8;
+    --green:#3E7C59;
+    --radius:14px;
+    --maxw:1120px;
+    --serif:"Songti SC","Noto Serif SC","STSong",Georgia,"Times New Roman",serif;
+    --sans:-apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Source Han Sans SC",sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto}
+    *,*::before,*::after{animation:none!important;transition:none!important}
+  }
+  body{
+    font-family:var(--sans);
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.75;
+    font-size:16px;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit}
+  img,svg{max-width:100%;display:block}
+  :focus-visible{
+    outline:3px solid var(--accent);
+    outline-offset:3px;
+    border-radius:4px;
+  }
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px}
+  .skip{
+    position:absolute;left:-9999px;top:0;background:var(--accent);color:#fff;
+    padding:10px 16px;border-radius:0 0 8px 0;z-index:200;font-weight:600;
+  }
+  .skip:focus{left:0}
+
+  /* ---------- NAV ---------- */
+  header{
+    position:sticky;top:0;z-index:100;
+    background:rgba(250,246,239,.92);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    height:68px;gap:16px;
+  }
+  .brand{
+    display:flex;align-items:center;gap:10px;
+    text-decoration:none;font-weight:700;font-size:1.15rem;letter-spacing:.02em;
+  }
+  .brand svg{width:34px;height:34px;flex:none}
+  .brand em{font-style:normal;color:var(--accent)}
+  .nav-links{display:flex;gap:6px;list-style:none}
+  .nav-links a{
+    text-decoration:none;font-size:.95rem;font-weight:500;
+    padding:8px 14px;border-radius:999px;color:var(--ink-soft);
+    transition:color .2s,background .2s;
+  }
+  .nav-links a:hover{color:var(--ink);background:var(--bg-soft)}
+  .nav-cta{
+    text-decoration:none;background:var(--accent);color:#fff!important;
+    font-weight:600;font-size:.9rem;padding:9px 18px;border-radius:999px;
+    transition:background .2s;
+  }
+  .nav-cta:hover{background:var(--accent-deep)}
+  .nav-toggle{
+    display:none;background:none;border:1px solid var(--line);
+    border-radius:10px;padding:8px 10px;cursor:pointer;
+  }
+  .nav-toggle svg{width:22px;height:22px}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:72px 0 64px;
+    border-bottom:1px solid var(--line);
+    position:relative;overflow:hidden;
+  }
+  .hero-grid{
+    display:grid;grid-template-columns:1.15fr .85fr;gap:56px;align-items:center;
+  }
+  .kicker{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.8rem;font-weight:700;letter-spacing:.18em;
+    color:var(--accent);text-transform:uppercase;margin-bottom:18px;
+  }
+  .kicker::before{content:"";width:28px;height:2px;background:var(--accent)}
+  h1{
+    font-family:var(--serif);
+    font-size:clamp(2.1rem,5vw,3.4rem);
+    line-height:1.25;font-weight:700;letter-spacing:.01em;
+    margin-bottom:20px;
+  }
+  h1 .hl{color:var(--accent)}
+  .hero p.lead{
+    font-size:1.08rem;color:var(--ink-soft);max-width:34em;margin-bottom:32px;
+  }
+  .hero-actions{display:flex;gap:14px;flex-wrap:wrap}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    text-decoration:none;font-weight:600;font-size:.98rem;
+    padding:13px 26px;border-radius:999px;border:1px solid transparent;
+    cursor:pointer;font-family:inherit;transition:background .2s,color .2s,border-color .2s;
+  }
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent-deep)}
+  .btn-ghost{background:transparent;color:var(--ink);border-color:var(--line)}
+  .btn-ghost:hover{border-color:var(--ink);background:var(--surface)}
+  .hero-note{
+    margin-top:26px;font-size:.85rem;color:var(--ink-soft);
+    display:flex;align-items:center;gap:8px;
+  }
+  .hero-note svg{width:16px;height:16px;flex:none}
+  .hero-art{
+    background:var(--surface);border:1px solid var(--line);
+    border-radius:20px;padding:20px;
+  }
+  .hero-art svg{width:100%;height:auto;border-radius:12px}
+
+  /* ---------- SECTIONS ---------- */
+  section{padding:72px 0}
+  .sec-head{margin-bottom:40px;max-width:44em}
+  .sec-head h2{
+    font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);
+    line-height:1.3;margin-bottom:12px;
+  }
+  .sec-head p{color:var(--ink-soft)}
+
+  /* ---------- ROUTES ---------- */
+  #routes{background:var(--surface);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .filters{
+    display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;
+  }
+  .filter-btn{
+    font-family:inherit;font-size:.92rem;font-weight:600;
+    padding:9px 20px;border-radius:999px;cursor:pointer;
+    border:1px solid var(--line);background:var(--bg);color:var(--ink-soft);
+    transition:all .2s;
+  }
+  .filter-btn:hover{border-color:var(--ink);color:var(--ink)}
+  .filter-btn[aria-pressed="true"]{
+    background:var(--accent);border-color:var(--accent);color:#fff;
+  }
+  .route-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:24px;
+  }
+  .route-card{
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:transform .25s,box-shadow .25s;
+  }
+  .route-card:hover{transform:translateY(-4px);box-shadow:0 12px 28px rgba(43,38,32,.08)}
+  .route-card[hidden]{display:none}
+  .route-art{aspect-ratio:16/9;position:relative;overflow:hidden}
+  .route-art svg{width:100%;height:100%}
+  .tag{
+    position:absolute;top:12px;left:12px;
+    font-size:.75rem;font-weight:700;letter-spacing:.06em;
+    padding:5px 12px;border-radius:999px;
+  }
+  .tag-easy{background:#E4F0E7;color:var(--green)}
+  .tag-hard{background:var(--accent-soft);color:var(--accent-deep)}
+  .route-body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+  .route-body h3{
+    font-family:var(--serif);font-size:1.3rem;font-weight:700;
+  }
+  .route-meta{
+    display:flex;align-items:center;gap:14px;
+    font-size:.88rem;color:var(--ink-soft);
+  }
+  .route-meta .dot{width:3px;height:3px;border-radius:50%;background:var(--line)}
+  .route-body p{font-size:.93rem;color:var(--ink-soft);flex:1}
+  .route-link{
+    font-size:.9rem;font-weight:600;color:var(--accent);text-decoration:none;
+    display:inline-flex;align-items:center;gap:6px;
+  }
+  .route-link:hover{text-decoration:underline}
+
+  /* ---------- SCHEDULE ---------- */
+  .timeline{
+    list-style:none;max-width:640px;
+    border-left:2px solid var(--line);margin-left:8px;
+  }
+  .timeline li{
+    position:relative;padding:0 0 32px 32px;
+  }
+  .timeline li:last-child{padding-bottom:0}
+  .timeline li::before{
+    content:"";position:absolute;left:-8px;top:8px;
+    width:14px;height:14px;border-radius:50%;
+    background:var(--bg);border:3px solid var(--accent);
+  }
+  .timeline time{
+    font-family:var(--serif);font-size:1.25rem;font-weight:700;
+    display:block;margin-bottom:4px;
+  }
+  .timeline .t-label{font-weight:600}
+  .timeline .t-desc{font-size:.9rem;color:var(--ink-soft)}
+  .sched-aside{
+    margin-top:44px;background:var(--bg-soft);border-radius:var(--radius);
+    padding:24px 28px;display:flex;gap:18px;align-items:flex-start;max-width:640px;
+  }
+  .sched-aside svg{width:26px;height:26px;flex:none;margin-top:3px}
+  .sched-aside p{font-size:.92rem;color:var(--ink-soft)}
+  .sched-aside strong{color:var(--ink)}
+
+  /* ---------- SIGNUP ---------- */
+  #signup{background:var(--surface);border-top:1px solid var(--line)}
+  .signup-grid{
+    display:grid;grid-template-columns:.9fr 1.1fr;gap:56px;align-items:start;
+  }
+  .signup-info h2{
+    font-family:var(--serif);font-size:clamp(1.6rem,3vw,2.2rem);
+    line-height:1.3;margin-bottom:16px;
+  }
+  .signup-info p{color:var(--ink-soft);margin-bottom:24px}
+  .demo-badge{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--accent-soft);color:var(--accent-deep);
+    font-size:.82rem;font-weight:700;padding:8px 16px;border-radius:999px;
+    margin-bottom:20px;
+  }
+  .demo-badge svg{width:15px;height:15px}
+  .signup-facts{list-style:none;display:flex;flex-direction:column;gap:14px}
+  .signup-facts li{
+    display:flex;gap:12px;align-items:flex-start;font-size:.93rem;color:var(--ink-soft);
+  }
+  .signup-facts svg{width:18px;height:18px;flex:none;margin-top:4px}
+  .signup-facts strong{color:var(--ink)}
+
+  form{
+    background:var(--bg);border:1px solid var(--line);border-radius:var(--radius);
+    padding:32px;
+  }
+  .field{margin-bottom:22px}
+  .field label{
+    display:block;font-weight:600;font-size:.92rem;margin-bottom:8px;
+  }
+  .field label .req{color:var(--accent);margin-left:2px}
+  .field input,.field select{
+    width:100%;font-family:inherit;font-size:1rem;color:var(--ink);
+    background:var(--surface);border:1px solid var(--line);border-radius:10px;
+    padding:12px 14px;transition:border-color .2s;
+    appearance:none;-webkit-appearance:none;
+  }
+  .field select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%236B6257' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;background-position:right 14px center;
+    padding-right:38px;
+  }
+  .field input:focus,.field select:focus{
+    border-color:var(--accent);outline:none;
+    box-shadow:0 0 0 3px var(--accent-soft);
+  }
+  .field .hint{font-size:.8rem;color:var(--ink-soft);margin-top:6px}
+  .field .err{
+    display:none;font-size:.82rem;color:var(--accent-deep);margin-top:6px;font-weight:600;
+  }
+  .field.invalid .err{display:block}
+  .field.invalid input{border-color:var(--accent-deep)}
+  .submit-btn{
+    width:100%;justify-content:center;font-size:1.02rem;padding:14px;
+    background:var(--accent);color:#fff;border:none;border-radius:10px;
+    font-weight:700;cursor:pointer;font-family:inherit;transition:background .2s;
+  }
+  .submit-btn:hover{background:var(--accent-deep)}
+  .form-foot{
+    margin-top:16px;font-size:.8rem;color:var(--ink-soft);text-align:center;
+  }
+  .success{
+    display:none;margin-top:20px;background:#E4F0E7;border:1px solid #BCD9C4;
+    border-radius:10px;padding:16px 18px;
+  }
+  .success.show{display:block}
+  .success h3{
+    color:var(--green);font-size:1rem;margin-bottom:6px;
+    display:flex;align-items:center;gap:8px;
+  }
+  .success h3 svg{width:18px;height:18px}
+  .success p{font-size:.88rem;color:var(--ink-soft)}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    border-top:1px solid var(--line);padding:40px 0;
+    background:var(--bg-soft);
+  }
+  .foot-grid{
+    display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;
+  }
+  footer p{font-size:.85rem;color:var(--ink-soft)}
+  footer .foot-brand{font-weight:700;color:var(--ink)}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .route-grid{grid-template-columns:1fr 1fr}
+    .signup-grid{grid-template-columns:1fr;gap:40px}
+  }
+  @media (max-width:640px){
+    .wrap{padding:0 18px}
+    .nav{height:60px}
+    .nav-toggle{display:block}
+    .nav-links{
+      display:none;position:absolute;top:60px;left:0;right:0;
+      background:var(--surface);border-bottom:1px solid var(--line);
+      flex-direction:column;padding:12px 18px 18px;gap:4px;
+    }
+    .nav-links.open{display:flex}
+    .nav-links a{padding:12px 14px;border-radius:10px}
+    .nav-cta{margin-top:6px;text-align:center}
+    .hero{padding:48px 0 44px}
+    .hero-actions .btn{width:100%;justify-content:center}
+    section{padding:52px 0}
+    .route-grid{grid-template-columns:1fr}
+    form{padding:24px 20px}
+    .filters{gap:8px}
+    .filter-btn{flex:1;text-align:center;padding:9px 10px}
+    .foot-grid{flex-direction:column;align-items:flex-start}
+  }
+</style>
+</head>
+<body>
+
+<a class="skip" href="#main">跳到主要内容</a>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap">
+    <nav class="nav" aria-label="主导航">
+      <a class="brand" href="#top" aria-label="慢骑城市 首页">
+        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <circle cx="11" cy="28" r="7" stroke="#2B2620" stroke-width="2.4"/>
+          <circle cx="29" cy="28" r="7" stroke="#2B2620" stroke-width="2.4"/>
+          <path d="M11 28 L18 16 H24 L29 28 M18 16 L15 11 H19" stroke="#D4552A" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+        <span>慢骑<em>城市</em></span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="打开菜单">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7h16M4 12h16M4 17h16" stroke="#2B2620" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="#routes">骑行路线</a></li>
+        <li><a href="#schedule">活动安排</a></li>
+        <li><a class="nav-cta" href="#signup">立即报名</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="top">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="kicker">周末城市骑行俱乐部</span>
+      <h1>不赶时间，<br>用两个轮子<span class="hl">慢慢读完</span>一座城。</h1>
+      <p class="lead">
+        每周六上午，我们沿着江边、穿过老街、翻过山脊——
+        以每小时十五公里的速度，重新认识脚下这座熟悉又陌生的城市。
+        无需专业装备，带上好奇心即可出发。
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#routes">查看本周路线</a>
+        <a class="btn btn-ghost" href="#schedule">了解活动安排</a>
+      </div>
+      <p class="hero-note">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="7" stroke="#3E7C59" stroke-width="1.6"/>
+          <path d="M5.5 8.2l1.8 1.8 3.2-3.4" stroke="#3E7C59" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        免费参与 · 自备自行车与头盔 · 全程有领队陪同
+      </p>
+    </div>
+    <div class="hero-art" aria-hidden="true">
+      <!-- 本地 SVG 插画：城市天际线 + 骑行者 -->
+      <svg viewBox="0 0 480 300" role="img">
+        <defs>
+          <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" stop-color="#FDF3E3"/>
+            <stop offset="1" stop-color="#F6E7D2"/>
+          </linearGradient>
+        </defs>
+        <rect width="480" height="300" fill="url(#sky)" rx="12"/>
+        <!-- 太阳 -->
+        <circle cx="390" cy="62" r="26" fill="#F2C879"/>
+        <!-- 云 -->
+        <g fill="#FFFFFF" opacity=".85">
+          <ellipse cx="110" cy="60" rx="34" ry="12"/>
+          <ellipse cx="140" cy="54" rx="24" ry="10"/>
+          <ellipse cx="250" cy="88" rx="26" ry="9"/>
+        </g>
+        <!-- 远景楼群 -->
+        <g fill="#E7DCC6">
+          <rect x="20" y="130" width="44" height="110"/>
+          <rect x="72" y="108" width="38" height="132"/>
+          <rect x="118" y="142" width="52" height="98"/>
+          <rect x="330" y="120" width="46" height="120"/>
+          <rect x="384" y="148" width="40" height="92"/>
+          <rect x="432" y="132" width="34" height="108"/>
+        </g>
+        <!-- 中景楼群 -->
+        <g fill="#D8CCB4">
+          <rect x="178" y="150" width="40" height="90"/>
+          <rect x="226" y="132" width="34" height="108"/>
+          <rect x="268" y="158" width="44" height="82"/>
+        </g>
+        <!-- 窗户 -->
+        <g fill="#FAF6EF" opacity=".8">
+          <rect x="30" y="142" width="8" height="8"/><rect x="46" y="142" width="8" height="8"/>
+          <rect x="30" y="160" width="8" height="8"/><rect x="46" y="160" width="8" height="8"/>
+          <rect x="82" y="122" width="8" height="8"/><rect x="96" y="122" width="8" height="8"/>
+          <rect x="82" y="140" width="8" height="8"/><rect x="96" y="140" width="8" height="8"/>
+          <rect x="236" y="146" width="8" height="8"/><rect x="236" y="164" width="8" height="8"/>
+          <rect x="340" y="134" width="8" height="8"/><rect x="356" y="134" width="8" height="8"/>
+          <rect x="340" y="152" width="8" height="8"/><rect x="356" y="152" width="8" height="8"/>
+        </g>
+        <!-- 树 -->
+        <g>
+          <circle cx="160" cy="216" r="16" fill="#9DBB8E"/>
+          <rect x="157" y="226" width="6" height="18" fill="#8A6F52"/>
+          <circle cx="316" cy="220" r="13" fill="#9DBB8E"/>
+          <rect x="313" y="230" width="6" height="14" fill="#8A6F52"/>
+        </g>
+        <!-- 道路 -->
+        <rect x="0" y="240" width="480" height="60" fill="#CFC3AC"/>
+        <rect x="0" y="240" width="480" height="5" fill="#BFAF93"/>
+        <g stroke="#FAF6EF" stroke-width="3" stroke-dasharray="16 14">
+          <line x1="20" y1="270" x2="460" y2="270"/>
+        </g>
+        <!-- 骑行者 -->
+        <g stroke="#2B2620" stroke-width="3" stroke-linecap="round" fill="none">
+          <circle cx="150" cy="278" r="15"/>
+          <circle cx="212" cy="278" r="15"/>
+          <path d="M150 278 L172 244 H196 L212 278 M172 244 L164 232 H178"/>
+        </g>
+        <g stroke="#D4552A" stroke-width="3" stroke-linecap="round" fill="none">
+          <circle cx="182" cy="224" r="6" fill="#D4552A" stroke="none"/>
+          <path d="M182 230 L176 246 M182 230 L196 240 M176 246 L168 258 M176 246 L188 258"/>
+        </g>
+        <!-- 速度线 -->
+        <g stroke="#D8CCB4" stroke-width="3" stroke-linecap="round">
+          <line x1="96" y1="252" x2="126" y2="252"/>
+          <line x1="86" y1="262" x2="112" y2="262"/>
+          <line x1="100" y1="272" x2="122" y2="272"/>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- ============ ROUTES ============ -->
+<section id="routes">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">本周路线</span>
+      <h2>三条路线，三种城市读法</h2>
+      <p>从平缓的江边步道到略有爬升的山脊公路，每条路线都经过领队实地踩线。选择适合你的那一条。</p>
+    </div>
+
+    <div class="filters" role="group" aria-label="按难度筛选路线">
+      <button class="filter-btn" data-filter="all" aria-pressed="true">全部</button>
+      <button class="filter-btn" data-filter="easy" aria-pressed="false">休闲</button>
+      <button class="filter-btn" data-filter="hard" aria-pressed="false">进阶</button>
+    </div>
+
+    <div class="route-grid" id="routeGrid">
+
+      <!-- 路线 1 -->
+      <article class="route-card" data-level="easy">
+        <div class="route-art">
+          <svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="225" fill="#EAF1F4"/>
+            <circle cx="330" cy="46" r="22" fill="#F2C879"/>
+            <path d="M0 120 Q100 100 200 118 T400 112 V225 H0 Z" fill="#BFD8DE"/>
+            <path d="M0 150 Q100 132 200 148 T400 142 V225 H0 Z" fill="#9CC3CD"/>
+            <path d="M0 185 Q120 168 240 182 T400 176 V225 H0 Z" fill="#7FAEBB"/>
+            <rect x="30" y="70" width="26" height="52" fill="#D8CCB4"/>
+            <rect x="62" y="58" width="20" height="64" fill="#CFC3AC"/>
+            <rect x="88" y="76" width="30" height="46" fill="#E0D5BE"/>
+            <g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none">
+              <circle cx="250" cy="196" r="12"/><circle cx="300" cy="196" r="12"/>
+              <path d="M250 196 L268 170 H286 L300 196 M268 170 L262 160 H274"/>
+            </g>
+            <circle cx="276" cy="152" r="5" fill="#D4552A"/>
+            <path d="M276 157 L271 171 M276 157 L287 166 M271 171 L264 181 M271 171 L281 181" stroke="#D4552A" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          </svg>
+          <span class="tag tag-easy">休闲</span>
+        </div>
+        <div class="route-body">
+          <h3>滨江轻骑</h3>
+          <div class="route-meta">
+            <span>12 公里</span><span class="dot"></span><span>约 1.5 小时</span><span class="dot"></span><span>平路</span>
+          </div>
+          <p>沿着滨江步道一路向南，江风、芦苇与对岸的天际线。全程无机动车，适合第一次参加的朋友。</p>
+          <a class="route-link" href="#signup">报名这条路线 →</a>
+        </div>
+      </article>
+
+      <!-- 路线 2 -->
+      <article class="route-card" data-level="easy">
+        <div class="route-art">
+          <svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="225" fill="#F6EBDD"/>
+            <rect x="0" y="150" width="400" height="75" fill="#D9C6A8"/>
+            <!-- 老街建筑 -->
+            <g>
+              <rect x="20" y="80" width="70" height="72" fill="#C9A87C"/>
+              <path d="M14 80 L55 52 L96 80 Z" fill="#A8845E"/>
+              <rect x="100" y="92" width="60" height="60" fill="#B9976B"/>
+              <path d="M94 92 L130 68 L166 92 Z" fill="#96714A"/>
+              <rect x="170" y="76" width="76" height="76" fill="#C9A87C"/>
+              <path d="M164 76 L208 46 L252 76 Z" fill="#A8845E"/>
+              <rect x="256" y="94" width="56" height="58" fill="#B9976B"/>
+              <path d="M250 94 L284 72 L318 94 Z" fill="#96714A"/>
+              <rect x="322" y="82" width="62" height="70" fill="#C9A87C"/>
+              <path d="M316 82 L353 56 L390 82 Z" fill="#A8845E"/>
+            </g>
+            <!-- 门窗 -->
+            <g fill="#FAF6EF">
+              <rect x="38" y="98" width="12" height="16"/><rect x="60" y="98" width="12" height="16"/>
+              <rect x="38" y="124" width="12" height="16"/><rect x="60" y="124" width="12" height="16"/>
+              <rect x="186" y="94" width="12" height="16"/><rect x="210" y="94" width="12" height="16"/>
+              <rect x="186" y="120" width="12" height="16"/><rect x="210" y="120" width="12" height="16"/>
+              <rect x="338" y="100" width="12" height="16"/><rect x="360" y="100" width="12" height="16"/>
+            </g>
+            <!-- 灯笼 -->
+            <g>
+              <line x1="112" y1="104" x2="112" y2="112" stroke="#8A6F52" stroke-width="1.6"/>
+              <ellipse cx="112" cy="120" rx="8" ry="10" fill="#D4552A"/>
+              <line x1="240" y1="104" x2="240" y2="112" stroke="#8A6F52" stroke-width="1.6"/>
+              <ellipse cx="240" cy="120" rx="8" ry="10" fill="#D4552A"/>
+            </g>
+            <!-- 石板路 -->
+            <g stroke="#C4AF8D" stroke-width="1.4">
+              <line x1="0" y1="170" x2="400" y2="170"/>
+              <line x1="0" y1="195" x2="400" y2="195"/>
+              <line x1="0" y1="215" x2="400" y2="215"/>
+            </g>
+            <!-- 骑行者 -->
+            <g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none">
+              <circle cx="150" cy="206" r="12"/><circle cx="200" cy="206" r="12"/>
+              <path d="M150 206 L168 180 H186 L200 206 M168 180 L162 170 H174"/>
+            </g>
+            <circle cx="176" cy="162" r="5" fill="#D4552A"/>
+            <path d="M176 167 L171 181 M176 167 L187 176 M171 181 L164 191 M171 181 L181 191" stroke="#D4552A" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          </svg>
+          <span class="tag tag-easy">休闲</span>
+        </div>
+        <div class="route-body">
+          <h3>老城漫游</h3>
+          <div class="route-meta">
+            <span>8 公里</span><span class="dot"></span><span>约 1 小时</span><span class="dot"></span><span>平路</span>
+          </div>
+          <p>穿过骑楼老街与巷弄之间，在青石板路上听车轮碾过的声音，顺路经过本地人的早餐铺。</p>
+          <a class="route-link" href="#signup">报名这条路线 →</a>
+        </div>
+      </article>
+
+      <!-- 路线 3 -->
+      <article class="route-card" data-level="hard">
+        <div class="route-art">
+          <svg viewBox="0 0 400 225" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+            <rect width="400" height="225" fill="#EDF2E4"/>
+            <circle cx="70" cy="48" r="24" fill="#F2C879"/>
+            <!-- 远山 -->
+            <path d="M0 130 L80 60 L150 120 L230 44 L320 118 L400 70 V225 H0 Z" fill="#A9C39A"/>
+            <path d="M0 160 L100 100 L190 156 L290 92 L400 150 V225 H0 Z" fill="#8BAE7C"/>
+            <!-- 盘山公路 -->
+            <path d="M0 225 C120 210 160 190 200 182 C260 170 320 178 400 160 L400 225 Z" fill="#CFC3AC"/>
+            <path d="M0 225 C120 210 160 190 200 182 C260 170 320 178 400 160" fill="none" stroke="#BFAF93" stroke-width="3"/>
+            <g stroke="#FAF6EF" stroke-width="2.4" stroke-dasharray="12 12">
+              <path d="M10 214 C130 200 170 184 210 176 C270 164 330 172 390 154" fill="none"/>
+            </g>
+            <!-- 松树 -->
+            <g>
+              <path d="M52 190 L64 164 L76 190 Z" fill="#5E8A5A"/>
+              <rect x="62" y="190" width="4" height="10" fill="#8A6F52"/>
+              <path d="M330 180 L341 156 L352 180 Z" fill="#5E8A5A"/>
+              <rect x="339" y="180" width="4" height="9" fill="#8A6F52"/>
+            </g>
+            <!-- 骑行者 -->
+            <g stroke="#2B2620" stroke-width="2.4" stroke-linecap="round" fill="none">
+              <circle cx="230" cy="200" r="12"/><circle cx="280" cy="200" r="12"/>
+              <path d="M230 200 L248 174 H266 L280 200 M248 174 L242 164 H254"/>
+            </g>
+            <circle cx="256" cy="156" r="5" fill="#D4552A"/>
+            <path d="M256 161 L251 175 M256 161 L267 170 M251 175 L244 185 M251 175 L261 185" stroke="#D4552A" stroke-width="2.4" stroke-linecap="round" fill="none"/>
+          </svg>
+          <span class="tag tag-hard">进阶</span>
+        </div>
+        <div class="route-body">
+          <h3>山脊挑战</h3>
+          <div class="route-meta">
+            <span>35 公里</span><span class="dot"></span><span>约 3 小时</span><span class="dot"></span><span>含爬升</span>
+          </div>
+          <p>盘山公路直达山脊观景台，累计爬升约 400 米。需要一定体力与变速车，领队会控制节奏、中途休整。</p>
+          <a class="route-link" href="#signup">报名这条路线 →</a>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ SCHEDULE ============ -->
+<section id="schedule">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="kicker">活动安排</span>
+      <h2>一个上午的完整节奏</h2>
+      <p>每周六固定流程，风雨无阻（极端天气除外，将提前通知）。</p>
+    </div>
+
+    <ol class="timeline">
+      <li>
+        <time datetime="09:00">09:00</time>
+        <span class="t-label">集合</span>
+        <p class="t-desc">江畔公园东门集合签到，检查刹车与胎压，认识同行的骑友。</p>
+      </li>
+      <li>
+        <time datetime="09:15">09:15</time>
+        <span class="t-label">出发</span>
+        <p class="t-desc">领队带领热身，按路线分组出发，全程单列骑行、保持车距。</p>
+      </li>
+      <li>
+        <time datetime="11:30">11:30</time>
+        <span class="t-label">结束</span>
+        <p class="t-desc">返回集合点，自由交流，可一同前往附近小店用餐（费用自理）。</p>
+      </li>
+    </ol>
+
+    <div class="sched-aside">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <circle cx="12" cy="12" r="9" stroke="#D4552A" stroke-width="1.8"/>
+        <path d="M12 7v5l3.5 2" stroke="#D4552A" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+      <p><strong>建议提前 10 分钟到达。</strong>请自备饮用水、防晒用品与简易补胎工具；现场不提供车辆租赁，请确保自己的自行车状态良好。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SIGNUP ============ -->
+<section id="signup">
+  <div class="wrap signup-grid">
+    <div class="signup-info">
+      <span class="demo-badge">
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M8 5v3.5l2.4 1.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        本地演示 · 不会提交到任何服务器
+      </span>
+      <h2>报名本周骑行</h2>
+      <p>填写下方表单即可完成本周活动的报名登记。提交后页面会即时显示确认信息，无需跳转。</p>
+      <ul class="signup-facts">
+        <li>
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="8" stroke="#3E7C59" stroke-width="1.5"/>
+            <path d="M5.5 9.2l2.2 2.2 4.4-4.6" stroke="#3E7C59" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>免费参与</strong>，无需任何费用或押金。</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="8" stroke="#3E7C59" stroke-width="1.5"/>
+            <path d="M5.5 9.2l2.2 2.2 4.4-4.6" stroke="#3E7C59" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>自备车辆与头盔</strong>，建议携带饮用水。</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="8" stroke="#3E7C59" stroke-width="1.5"/>
+            <path d="M5.5 9.2l2.2 2.2 4.4-4.6" stroke="#3E7C59" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span><strong>领队全程陪同</strong>，第一次参加也无需担心。</span>
+        </li>
+      </ul>
+    </div>
+
+    <form id="signupForm" novalidate>
+      <div class="field" id="nameField">
+        <label for="nameInput">姓名<span class="req" aria-hidden="true">*</span></label>
+        <input type="text" id="nameInput" name="name" autocomplete="name"
+               placeholder="请输入你的姓名" aria-describedby="nameErr" required>
+        <p class="err" id="nameErr">请填写姓名后再提交。</p>
+      </div>
+
+      <div class="field" id="expField">
+        <label for="expSelect">骑行经验<span class="req" aria-hidden="true">*</span></label>
+        <select id="expSelect" name="experience" aria-describedby="expErr" required>
+          <option value="" selected disabled>请选择你的骑行经验</option>
+          <option value="beginner">第一次参加 / 新手</option>
+          <option value="casual">偶尔骑行，有一定基础</option>
+          <option value="regular">经常骑行，体力较好</option>
+        </select>
+        <p class="err" id="expErr">请选择一项骑行经验。</p>
+      </div>
+
+      <button type="submit" class="submit-btn">确认报名</button>
+      <p class="form-foot">本表单仅为本地功能演示，数据不会离开你的浏览器。</p>
+
+      <div class="success" id="successMsg" role="status" aria-live="polite">
+        <h3>
+          <svg viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <circle cx="9" cy="9" r="8" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M5.5 9.2l2.2 2.2 4.4-4.6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          报名成功
+        </h3>
+        <p id="successText">感谢你的报名！</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot-grid">
+    <p class="foot-brand">慢骑城市 · 周末城市骑行俱乐部</p>
+    <p>每周六上午 09:00 · 江畔公园东门 · 免费参与</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------- 移动端导航 ---------- */
+  var toggle = document.getElementById('navToggle');
+  var links = document.getElementById('navLinks');
+  toggle.addEventListener('click', function(){
+    var open = links.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    toggle.setAttribute('aria-label', open ? '关闭菜单' : '打开菜单');
+  });
+  links.addEventListener('click', function(e){
+    if(e.target.tagName === 'A'){
+      links.classList.remove('open');
+      toggle.setAttribute('aria-expanded','false');
+    }
+  });
+
+  /* ---------- 路线筛选 ---------- */
+  var filterBtns = document.querySelectorAll('.filter-btn');
+  var cards = document.querySelectorAll('.route-card');
+
+  filterBtns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var level = btn.getAttribute('data-filter');
+
+      filterBtns.forEach(function(b){ b.setAttribute('aria-pressed','false'); });
+      btn.setAttribute('aria-pressed','true');
+
+      cards.forEach(function(card){
+        var match = (level === 'all') || (card.getAttribute('data-level') === level);
+        card.hidden = !match;
+      });
+    });
+  });
+
+  /* ---------- 报名表单 ---------- */
+  var form = document.getElementById('signupForm');
+  var nameInput = document.getElementById('nameInput');
+  var expSelect = document.getElementById('expSelect');
+  var nameField = document.getElementById('nameField');
+  var expField = document.getElementById('expField');
+  var successMsg = document.getElementById('successMsg');
+  var successText = document.getElementById('successText');
+
+  function validate(){
+    var ok = true;
+    var nameVal = nameInput.value.trim();
+    var expVal = expSelect.value;
+
+    if(nameVal === ''){
+      nameField.classList.add('invalid');
+      ok = false;
+    } else {
+      nameField.classList.remove('invalid');
+    }
+
+    if(expVal === ''){
+      expField.classList.add('invalid');
+      ok = false;
+    } else {
+      expField.classList.remove('invalid');
+    }
+    return ok;
+  }
+
+  nameInput.addEventListener('input', function(){
+    if(nameInput.value.trim() !== '') nameField.classList.remove('invalid');
+  });
+  expSelect.addEventListener('change', function(){
+    if(expSelect.value !== '') expField.classList.remove('invalid');
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    if(!validate()){
+      var firstInvalid = form.querySelector('.field.invalid input, .field.invalid select');
+      if(firstInvalid) firstInvalid.focus();
+      return;
+    }
+
+    var nameVal = nameInput.value.trim();
+    var expText = expSelect.options[expSelect.selectedIndex].text;
+
+    successText.textContent = nameVal + '，已为你登记本周骑行（' + expText + '）。请周六 09:00 前到江畔公园东门集合，带上自行车与头盔。本页面为本地演示，未发送任何数据。';
+    successMsg.classList.add('show');
+    successMsg.setAttribute('tabindex','-1');
+    successMsg.focus();
+    form.reset();
+  });
+
+})();
+</script>
+</body>
+</html>

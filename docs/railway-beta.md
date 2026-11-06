@@ -64,7 +64,10 @@ survival. Existing Vercel/Cloudflare clients retain their direct-stream behavior
 ## Production promotion and rollback
 
 For production, set `TOKRACE_BETA=0`, remove `BETA_PROBE_TOKEN`, and rebuild.
-Vercel analytics scripts render only on Vercel. Keep the original Vercel project,
+Production analytics run on both hosts. Railway forwards `/_vercel/insights/*`
+and `/_vercel/speed-insights/*` to `model-arena-azure.vercel.app`; keep this
+Vercel project and alias active so collection continues. Beta analytics stay disabled.
+Keep the original Vercel project,
 deployment, domain bindings, and Cloudflare Worker available for rollback.
 
 Bind the canonical `www.tokrace.com` domain in Railway and point its DNS CNAME
@@ -79,3 +82,9 @@ shared-model request with `railway` diagnostics after DNS propagation. Rollback
 restores the original `www` DNS record; no database migration or Worker change
 is required. Private snapshots and rollout evidence are in the ignored
 `output/railway-cutover/` directory.
+
+Every isolated source snapshot must include the root `proxy.ts` and the current
+Dockerfile check that rejects a missing or empty proxy. Verify `/` redirects to
+`/zh-CN` by default and `/en` with English `Accept-Language`, and `/zh` redirects
+to `/zh-CN`; each destination must return 200. Checking only localized article
+URLs misses a broken homepage when the language proxy is absent.

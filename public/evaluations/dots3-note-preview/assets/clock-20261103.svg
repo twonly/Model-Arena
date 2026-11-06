@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#ffffff"/>
+  
+  <!-- Clock face -->
+  <circle cx="400" cy="300" r="200" fill="#ffffff" stroke="#000000" stroke-width="2"/>
+  
+  <!-- Hour numbers -->
+  <g font-family="Arial, sans-serif" font-size="24" fill="#000000" text-anchor="middle" dominant-baseline="middle">
+    <text x="400" y="120">12</text>
+    <text x="490" y="144">1</text>
+    <text x="556" y="210">2</text>
+    <text x="580" y="300">3</text>
+    <text x="556" y="390">4</text>
+    <text x="490" y="456">5</text>
+    <text x="400" y="480">6</text>
+    <text x="310" y="456">7</text>
+    <text x="244" y="390">8</text>
+    <text x="220" y="300">9</text>
+    <text x="244" y="210">10</text>
+    <text x="310" y="144">11</text>
+  </g>
+  
+  <!-- Hour hand (shorter) -->
+  <line x1="400" y1="300" x2="288" y2="258" stroke="#000000" stroke-width="6" stroke-linecap="round"/>
+  
+  <!-- Minute hand (longer) -->
+  <line x1="400" y1="300" x2="236" y2="373" stroke="#000000" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Center pin -->
+  <circle cx="400" cy="300" r="4" fill="#000000"/>
+  
+  <!-- Time label -->
+  <text x="400" y="530" font-family="Arial, sans-serif" font-size="20" fill="#000000" text-anchor="middle">09:41</text>
+</svg>

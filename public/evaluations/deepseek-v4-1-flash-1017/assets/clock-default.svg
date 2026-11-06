@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <defs>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="12" stdDeviation="15" flood-color="#1a252f" flood-opacity="0.15"/>
+    </filter>
+    <radialGradient id="dialGradient" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#f8f9fa"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="600" fill="#eef2f5"/>
+
+  <!-- Clock Face -->
+  <circle cx="400" cy="300" r="250" fill="url(#dialGradient)" stroke="#2c3e50" stroke-width="12" filter="url(#shadow)"/>
+  
+  <!-- Inner Frame -->
+  <circle cx="400" cy="300" r="240" fill="none" stroke="#2c3e50" stroke-width="2"/>
+  <circle cx="400" cy="300" r="210" fill="none" stroke="#bdc3c7" stroke-width="1.5"/>
+
+  <!-- Minute Ticks (60 ticks) -->
+  <circle cx="400" cy="300" r="225" fill="none" stroke="#7f8c8d" stroke-width="16" stroke-dasharray="4 19.5619" transform="rotate(-90 400 300)"/>
+  
+  <!-- Hour Ticks (12 ticks) -->
+  <circle cx="400" cy="300" r="225" fill="none" stroke="#2c3e50" stroke-width="26" stroke-dasharray="8 109.809" transform="rotate(-90 400 300)"/>
+
+  <!-- Numbers 1 to 12 -->
+  <g font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="600" fill="#2c3e50" text-anchor="middle" dominant-baseline="central">
+    <!-- 12 --> <text x="400" y="130">12</text>
+    <!-- 1 -->  <text x="485" y="152.8">1</text>
+    <!-- 2 -->  <text x="547.2" y="215">2</text>
+    <!-- 3 -->  <text x="570" y="300">3</text>
+    <!-- 4 -->  <text x="547.2" y="385">4</text>
+    <!-- 5 -->  <text x="485" y="447.2">5</text>
+    <!-- 6 -->  <text x="400" y="470">6</text>
+    <!-- 7 -->  <text x="315" y="447.2">7</text>
+    <!-- 8 -->  <text x="252.8" y="385">8</text>
+    <!-- 9 -->  <text x="230" y="300">9</text>
+    <!-- 10 --> <text x="252.8" y="215">10</text>
+    <!-- 11 --> <text x="315" y="152.8">11</text>
+  </g>
+
+  <!-- Hour Hand (9:41 -> 290.5 degrees) -->
+  <g transform="rotate(290.5 400 300)">
+    <polygon points="400,190 396,220 392,300 400,310 408,300 404,220" fill="#2c3e50" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Minute Hand (41 minutes -> 246 degrees) -->
+  <g transform="rotate(246 400 300)">
+    <polygon points="400,130 397,160 395,300 400,308 405,300 403,160" fill="#2c3e50" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Center Pin -->
+  <circle cx="400" cy="300" r="14" fill="#2c3e50"/>
+  <circle cx="400" cy="300" r="6" fill="#ffffff"/>
+
+  <!-- Time Label -->
+  <text x="400" y="585" font-family="Arial, Helvetica, sans-serif" font-size="36" font-weight="bold" fill="#2c3e50" text-anchor="middle">09:41</text>
+  <line x1="360" y1="600" x2="440" y2="600" stroke="#2c3e50" stroke-width="3" stroke-linecap="round"/>
+</svg>

@@ -106,6 +106,7 @@ export const ModelCard = memo(
     onToggleFocus,
     wordTarget,
     compact = false,
+    previewOnly = false,
     readOnly = false,
   }: {
     endpoint: ModelEndpoint;
@@ -124,6 +125,7 @@ export const ModelCard = memo(
     wordTarget?: number | null;
     /** 紧凑模式：隐藏输出区与预览，只看头部+指标（多模型纯竞速） */
     compact?: boolean;
+    previewOnly?: boolean;
     /** 只读（分享页）：隐藏「重跑」，但保留放大/紧凑 */
     readOnly?: boolean;
   }) {
@@ -167,6 +169,10 @@ export const ModelCard = memo(
       window.addEventListener("message", onMsg);
       return () => window.removeEventListener("message", onMsg);
     }, []);
+    useEffect(() => {
+      if (previewOnly) { setShowHtml(true); setShowSvg(true); }
+    }, [previewOnly]);
+
     // 每次重挂载预览（reloadKey 变）重置探针状态
     useEffect(() => {
       setPreviewOk(null);
@@ -244,7 +250,7 @@ export const ModelCard = memo(
       );
       io.observe(el);
       return () => io.disconnect();
-    }, [previewSeen, htmlDoc]);
+    }, [previewSeen, htmlDoc, compact, previewOnly]);
 
     // 正文字数与「N 字」达成率（仅 Prompt 含字数要求时显示）
     const wordCount = useMemo(
@@ -306,10 +312,10 @@ export const ModelCard = memo(
     // 单次成本估算：按 model 命中定价表 × token 数（输入暂全按未命中=成本上界）
     const cost = useMemo(() => {
       if (!m || m.outputTokens == null || m.promptTokens == null) return null;
-      const price = findEndpointPrice(endpoint.model, endpoint.baseUrl);
+      const price = findEndpointPrice(endpoint.model, endpoint.baseUrl, endpoint.customPricing);
       if (!price) return null;
       return estimateRunCost(price, m.promptTokens ?? 0, m.outputTokens ?? 0);
-    }, [m, endpoint.model, endpoint.baseUrl]);
+    }, [m, endpoint.model, endpoint.baseUrl, endpoint.customPricing]);
     const fmtCost = (n: number) =>
       n < 0.01 ? n.toPrecision(2) : n.toFixed(n < 1 ? 3 : 2);
 
@@ -369,8 +375,12 @@ export const ModelCard = memo(
           )}
         </div>
 
+        {run.origin && <p className="px-4 pb-2 text-xs text-faint">
+          {run.origin.kind === "run" ? (en ? "New test" : "新增测试") : run.origin.kind === "share" ? (en ? "From shared result" : "来自分享") : (en ? "Historical result" : "历史结果")}
+          {run.origin.at ? ` · ${new Date(run.origin.at).toLocaleString(en ? "en-US" : "zh-CN", { hour12: false })}` : (en ? " · time unknown" : " · 测试时间未知")}
+        </p>}
         {/* 思考过程 */}
-        {hasReasoning && !compact && (
+        {hasReasoning && !compact && !previewOnly && (
           <div className="mx-4 mb-2 rounded-md border border-line bg-paper/70">
             <button
               onClick={() => setShowReasoning((v) => !v)}
@@ -415,7 +425,7 @@ export const ModelCard = memo(
         )}
 
         {/* 输出区（紧凑模式隐藏，只在出错时显示一行错误） */}
-        {compact ? (
+        {compact || previewOnly ? (
           run.status === "error" && (
             <div className="mx-4 mb-2 rounded-md border border-accent/30 bg-accent/5 px-3 py-1.5 text-[11.5px] text-accent break-all">
               {run.error}
@@ -484,7 +494,7 @@ export const ModelCard = memo(
         )}
 
         {/* SVG 预览：模型画图场景（如「鹈鹕骑自行车」）自动渲染 */}
-        {!compact && svgs.length > 0 && (
+        {!compact && svgs.length > 0 && (!previewOnly || !htmlDoc) && (
           <div className="mx-4 mb-3 rounded-md border border-line overflow-hidden">
             <button
               onClick={() => setShowSvg((v) => !v)}
@@ -512,7 +522,7 @@ export const ModelCard = memo(
                         ? `SVG from model output ${i + 1}`
                         : `模型输出的 SVG ${i + 1}`
                     }
-                    className="max-h-60 max-w-full rounded border border-line/60"
+                    className={`${previewOnly ? "h-80 w-full object-contain" : "max-h-60 max-w-full"} rounded border border-line/60`}
                   />
                 ))}
               </div>
@@ -526,7 +536,7 @@ export const ModelCard = memo(
             ref={previewWrapRef}
             className="mx-4 mb-3 rounded-md border border-line overflow-hidden"
           >
-            <div className="flex items-center justify-between bg-paper/70 px-3 py-1.5 text-[11px] text-faint">
+            <div className="flex flex-wrap items-center justify-between gap-2 bg-paper/70 px-3 py-1.5 text-[11px] text-faint">
               <div className="flex items-center gap-1.5">
                 <button
                   onClick={() => setShowHtml((v) => !v)}
@@ -638,7 +648,7 @@ export const ModelCard = memo(
         )}
 
         {/* 像网页/Canvas 但没拼出可运行文档：给一句可解释的提示，而非静默空白 */}
-        {noPreviewHint && (
+        {noPreviewHint && !previewOnly && (
           <div className="mx-4 mb-3 rounded-md border border-line/70 bg-paper/50 px-3 py-2 text-[12px] leading-relaxed text-faint">
             {en
               ? "⚠ Looks like web/Canvas code, but no complete runnable document could be extracted (often truncated by a timeout, or wrapped in explanation). Try Rerun, or read the raw output above."
@@ -646,8 +656,16 @@ export const ModelCard = memo(
           </div>
         )}
 
+        {previewOnly && !htmlDoc && svgs.length === 0 && run.status !== "error" && (
+          <div className="flex min-h-80 items-center justify-center px-4 text-center text-sm text-faint">
+            {running
+              ? (en ? "Preview will appear when generation finishes." : "生成完成后展示网页或 SVG 效果")
+              : (en ? "No previewable HTML or SVG. Switch to Answers & metrics to inspect the output." : "未找到可预览的网页或 SVG，可切回「答案与指标」查看原始输出。")}
+          </div>
+        )}
+
         {/* 指标栏 */}
-        <div className="border-t border-line bg-paper/50">
+        {!previewOnly && <div className="border-t border-line bg-paper/50">
           <div
             className={`grid ${thinkingStats ? "grid-cols-4" : "grid-cols-3"} divide-x divide-line`}
           >
@@ -746,7 +764,7 @@ export const ModelCard = memo(
               {cost && (
                 <>
                   {" "}
-                  · {en ? "Cost" : "成本"}{" "}
+                  · {endpoint.customPricing ? (en ? "Cost (custom price)" : "成本（自定义单价）") : (en ? "Cost" : "成本")}{" "}
                   <span
                     className="font-semibold"
                     style={{ color: "var(--accent)" }}
@@ -821,7 +839,7 @@ export const ModelCard = memo(
               </span>
             </div>
           )}
-        </div>
+        </div>}
 
         <ChartModal
           open={chartOpen}
@@ -846,5 +864,6 @@ export const ModelCard = memo(
     prev.expanded === next.expanded &&
     prev.wordTarget === next.wordTarget &&
     prev.compact === next.compact &&
+    prev.previewOnly === next.previewOnly &&
     prev.readOnly === next.readOnly,
 );

@@ -1,0 +1,128 @@
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-labelledby="title desc">
+  <title id="title">Pelican riding a bicycle</title>
+  <desc id="desc">A white pelican with a long orange bill and throat pouch pedals a bicycle with rotating spoked wheels and a rotating crank.</desc>
+
+  <defs>
+    <g id="spokes">
+      <g fill="none" stroke="#263238" stroke-width="2.5" stroke-linecap="round">
+        <line x1="0" y1="-46" x2="0" y2="46"/>
+        <line x1="0" y1="-46" x2="0" y2="46" transform="rotate(45)"/>
+        <line x1="0" y1="-46" x2="0" y2="46" transform="rotate(90)"/>
+        <line x1="0" y1="-46" x2="0" y2="46" transform="rotate(135)"/>
+      </g>
+      <circle r="6" fill="#37474f" stroke="#263238" stroke-width="1.5"/>
+    </g>
+  </defs>
+
+  <!-- light background -->
+  <rect x="0" y="0" width="800" height="600" fill="#f4f9fb"/>
+  <ellipse cx="400" cy="500" rx="290" ry="20" fill="#dceef0"/>
+
+  <!-- shadow -->
+  <ellipse cx="400" cy="488" rx="250" ry="14" fill="#c5dede" opacity="0.7"/>
+
+  <!-- bicycle frame -->
+  <g fill="none" stroke="#283593" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M 280 470 L 415 350"/>
+    <path d="M 415 350 L 565 470"/>
+    <path d="M 280 470 L 565 470"/>
+    <path d="M 565 470 L 630 330"/>
+    <path d="M 415 350 L 630 330"/>
+  </g>
+
+  <!-- saddle -->
+  <g>
+    <line x1="415" y1="350" x2="415" y2="332" stroke="#37474f" stroke-width="8" stroke-linecap="round"/>
+    <path d="M 370 328 Q 415 306 460 328 Q 415 342 370 328 Z" fill="#5d4037" stroke="#3e2723" stroke-width="3"/>
+  </g>
+
+  <!-- handlebar -->
+  <g fill="none" stroke="#37474f" stroke-width="9" stroke-linecap="round">
+    <line x1="630" y1="330" x2="630" y2="292"/>
+    <path d="M 630 292 Q 600 280 578 296"/>
+  </g>
+  <circle cx="578" cy="296" r="8" fill="#263238"/>
+
+  <!-- crank and pedals -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="0 420 470; 360 420 470" dur="4s" repeatCount="indefinite"/>
+    <circle cx="420" cy="470" r="20" fill="#78909c" stroke="#37474f" stroke-width="3"/>
+    <line x1="420" y1="470" x2="420" y2="516" stroke="#37474f" stroke-width="8" stroke-linecap="round"/>
+    <line x1="420" y1="470" x2="420" y2="424" stroke="#37474f" stroke-width="8" stroke-linecap="round"/>
+    <rect x="400" y="510" width="40" height="12" rx="3" fill="#263238"/>
+    <rect x="400" y="418" width="40" height="12" rx="3" fill="#263238"/>
+    <circle cx="420" cy="470" r="7" fill="#263238"/>
+  </g>
+
+  <!-- rear wheel -->
+  <g transform="translate(280 470)">
+    <circle r="70" fill="#ffffff" stroke="#263238" stroke-width="9"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0; 360" dur="4s" repeatCount="indefinite"/>
+      <use href="#spokes"/>
+    </g>
+  </g>
+
+  <!-- front wheel -->
+  <g transform="translate(565 470)">
+    <circle r="70" fill="#ffffff" stroke="#263238" stroke-width="9"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0; 360" dur="4s" repeatCount="indefinite"/>
+      <use href="#spokes"/>
+    </g>
+  </g>
+
+  <!-- pelican body -->
+  <g>
+    <path d="M 365 300 Q 330 240 400 185 Q 475 132 555 164 Q 585 179 578 215 Q 560 246 500 255 Q 430 266 365 300 Z" fill="#ffffff" stroke="#455a64" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M 425 182 Q 492 150 555 168" fill="none" stroke="#b0bec5" stroke-width="3" opacity="0.8"/>
+
+    <!-- tail -->
+    <path d="M 365 260 Q 320 246 292 215 Q 338 224 372 244 Z" fill="#ffffff" stroke="#455a64" stroke-width="5" stroke-linejoin="round"/>
+
+    <!-- wing -->
+    <path d="M 448 210 Q 515 205 548 232 Q 510 266 452 262 Q 420 240 448 210 Z" fill="#e8f1f2" stroke="#546e7a" stroke-width="5" stroke-linejoin="round"/>
+    <path d="M 470 224 Q 510 226 535 244" fill="none" stroke="#90a4ae" stroke-width="3"/>
+
+    <!-- neck -->
+    <path d="M 500 190 Q 520 150 560 135 Q 596 124 610 150 Q 590 164 568 166 Q 540 172 530 210 Q 512 214 500 190 Z" fill="#ffffff" stroke="#455a64" stroke-width="5" stroke-linejoin="round"/>
+
+    <!-- head -->
+    <ellipse cx="620" cy="145" rx="48" ry="39" fill="#ffffff" stroke="#455a64" stroke-width="5"/>
+    <path d="M 588 118 Q 610 100 642 116" fill="none" stroke="#90a4ae" stroke-width="4" stroke-linecap="round"/>
+
+    <!-- bill upper -->
+    <path d="M 654 132 L 778 160 L 780 169 L 656 164 Z" fill="#f28c28" stroke="#c96a15" stroke-width="4" stroke-linejoin="round"/>
+    <!-- bill lower and pouch -->
+    <path d="M 654 164 L 780 169 Q 760 198 700 204 Q 650 203 640 176 Z" fill="#f9c74f" stroke="#c96a15" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M 658 164 Q 720 180 778 169" fill="none" stroke="#a65612" stroke-width="3"/>
+
+    <!-- eye -->
+    <circle cx="628" cy="136" r="7" fill="#ffffff" stroke="#37474f" stroke-width="2"/>
+    <circle cx="630" cy="137" r="3.5" fill="#263238"/>
+
+    <!-- crest -->
+    <path d="M 590 116 Q 570 92 545 92 Q 574 105 584 126 Z" fill="#ffffff" stroke="#455a64" stroke-width="4" stroke-linejoin="round"/>
+  </g>
+
+  <!-- pelican arm to handlebar -->
+  <path d="M 512 205 Q 552 232 578 292" fill="none" stroke="#ffffff" stroke-width="18" stroke-linecap="round"/>
+  <path d="M 512 205 Q 552 232 578 292" fill="none" stroke="#455a64" stroke-width="22" stroke-linecap="round" opacity="0.18"/>
+  <path d="M 512 205 Q 552 232 578 292" fill="none" stroke="#455a64" stroke-width="3" stroke-linecap="round" opacity="0.75"/>
+  <circle cx="578" cy="296" r="10" fill="#ffffff" stroke="#455a64" stroke-width="4"/>
+
+  <!-- pedaling legs -->
+  <!-- far leg -->
+  <g>
+    <path d="M 410 285 Q 470 350 420 430" fill="none" stroke="#d97706" stroke-width="12" stroke-linecap="round"/>
+    <animateMotion dur="4s" repeatCount="indefinite" rotate="0" path="M 0 0 A 46 46 0 1 1 -0.1 0"/>
+    <path d="M -18 0 L 20 0 L 24 14 L -14 14 Z" fill="#c96a15" stroke="#a65612" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+
+  <!-- near leg -->
+  <g>
+    <path d="M 430 275 Q 490 345 420 520" fill="none" stroke="#f28c28" stroke-width="14" stroke-linecap="round"/>
+    <animateMotion dur="4s" begin="-2s" repeatCount="indefinite" rotate="0" path="M 0 0 A 46 46 0 1 1 -0.1 0"/>
+    <path d="M -18 0 L 20 0 L 24 14 L -14 14 Z" fill="#f28c28" stroke="#c96a15" stroke-width="3" stroke-linejoin="round"/>
+  </g>
+</svg>

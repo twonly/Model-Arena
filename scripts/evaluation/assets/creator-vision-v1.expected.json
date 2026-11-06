@@ -1,0 +1,26 @@
+{
+  "inputSha256": "be5b4ab1629a026d88173c9fef6f8f1a4f364d4c83db5d5c218c9d80bf0ad046",
+  "products": [
+    {
+      "name": "Coffee",
+      "onHand": 18,
+      "safetyStock": 20
+    },
+    {
+      "name": "Tea",
+      "onHand": 32,
+      "safetyStock": 12
+    },
+    {
+      "name": "Cocoa",
+      "onHand": 7,
+      "safetyStock": 10
+    }
+  ],
+  "belowSafety": [
+    "Coffee",
+    "Cocoa"
+  ],
+  "totalOnHand": 57,
+  "supplierId": null
+}

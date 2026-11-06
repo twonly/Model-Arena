@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FAF7EF"/>
+      <stop offset="1" stop-color="#F1F4EA"/>
+    </linearGradient>
+    <filter id="cardShadow" x="-20%" y="-30%" width="140%" height="170%">
+      <feDropShadow dx="0" dy="8" stdDeviation="12" flood-color="#193F39" flood-opacity="0.09"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#background)"/>
+  <rect x="20" y="20" width="760" height="560" rx="30" fill="none" stroke="#D7DED2" stroke-width="1.5"/>
+
+  <circle cx="625" cy="117" r="106" fill="#E4EEE5"/>
+  <circle cx="76" cy="74" r="8" fill="#E87546"/>
+  <path d="M95 74H158" fill="none" stroke="#E87546" stroke-width="4" stroke-linecap="round"/>
+  <path d="M169 74H425" fill="none" stroke="#D5E0D6" stroke-width="2" stroke-linecap="round"/>
+
+  <g transform="translate(515 35) scale(1.02)" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="52" cy="115" r="39" stroke="#214A45" stroke-width="5"/>
+    <circle cx="170" cy="115" r="39" stroke="#214A45" stroke-width="5"/>
+    <g stroke="#AFC2B8" stroke-width="1.7">
+      <path d="M13 115H91M52 76V154M25 88L79 142M25 142L79 88"/>
+      <path d="M131 115H209M170 76V154M143 88L197 142M143 142L197 88"/>
+    </g>
+    <path d="M52 115L87 66L110 115L52 115Z" stroke="#E87546" stroke-width="5"/>
+    <path d="M87 66H142L110 115M142 66L170 115L110 115" stroke="#E87546" stroke-width="5"/>
+    <path d="M87 66L81 50M76 49H96M142 66L151 49H166" stroke="#214A45" stroke-width="4"/>
+    <circle cx="110" cy="115" r="8" stroke="#214A45" stroke-width="4"/>
+    <path d="M110 115L123 126H135M52 115L39 91H23" stroke="#214A45" stroke-width="3"/>
+  </g>
+
+  <g font-family="'Noto Sans CJK SC','Source Han Sans SC','Microsoft YaHei','PingFang SC',sans-serif">
+    <text x="80" y="151" fill="#193F39" font-size="64" font-weight="800" letter-spacing="3">周末骑行计划</text>
+    <text x="84" y="204" fill="#64746D" font-size="27" font-weight="500" letter-spacing="3">慢一点，看见城市</text>
+  </g>
+
+  <path d="M82 232H171" fill="none" stroke="#E87546" stroke-width="5" stroke-linecap="round"/>
+  <path d="M184 232H463" fill="none" stroke="#D5E0D6" stroke-width="2" stroke-linecap="round"/>
+
+  <rect x="80" y="268" width="640" height="132" rx="24" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <rect x="80" y="268" width="8" height="132" rx="4" fill="#E87546"/>
+
+  <g fill="none" stroke="#214A45" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="120" cy="321" r="17"/>
+    <path d="M120 311V322L129 327"/>
+  </g>
+
+  <g font-family="'Noto Sans CJK SC','Source Han Sans SC','Microsoft YaHei','PingFang SC',sans-serif" fill="#24443E">
+    <text x="152" y="330" font-size="26" font-weight="600" letter-spacing="1">10月24日 09:00</text>
+  </g>
+
+  <path d="M398 297V371" fill="none" stroke="#E2E7DF" stroke-width="2"/>
+
+  <g fill="none" stroke="#E87546" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M442 302C433 302 427 309 427 317C427 329 442 343 442 343C442 343 457 329 457 317C457 309 451 302 442 302Z"/>
+    <circle cx="442" cy="317" r="5"/>
+  </g>
+
+  <g font-family="'Noto Sans CJK SC','Source Han Sans SC','Microsoft YaHei','PingFang SC',sans-serif" fill="#24443E">
+    <text x="474" y="330" font-size="26" font-weight="600" letter-spacing="1">滨江公园东门</text>
+  </g>
+
+  <text x="400" y="458" text-anchor="middle" font-family="'Noto Sans CJK SC','Source Han Sans SC','Microsoft YaHei','PingFang SC',sans-serif" fill="#697970" font-size="18" font-weight="500" letter-spacing="1.5">自备头盔 · 全程12公里</text>
+
+  <g filter="url(#cardShadow)">
+    <rect x="292" y="492" width="216" height="60" rx="30" fill="#214A45"/>
+    <rect x="304" y="504" width="8" height="36" rx="4" fill="#E87546"/>
+  </g>
+  <text x="400" y="530" text-anchor="middle" font-family="'Noto Sans CJK SC','Source Han Sans SC','Microsoft YaHei','PingFang SC',sans-serif" fill="#FFFFFF" font-size="24" font-weight="700" letter-spacing="3">立即报名</text>
+</svg>

@@ -1,0 +1,142 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- ===== BACKGROUND ===== -->
+  <rect width="800" height="600" fill="#eaf2f7"/>
+  <circle cx="118" cy="108" r="56" fill="#ffe9b0" opacity="0.6"/>
+  <ellipse cx="415" cy="524" rx="205" ry="12" fill="#0b2c3d" opacity="0.08"/>
+  <line x1="60" y1="520" x2="740" y2="520" stroke="#c2d2dc" stroke-width="3" stroke-linecap="round"/>
+
+  <!-- ===== FAR (LEFT) LEG : animated ===== -->
+  <path fill="none" stroke="#c9821f" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"
+        d="M378 330 L428.8 389.2 L380 450">
+    <animate attributeName="d" dur="4s" repeatCount="indefinite"
+      values="M378 330 L428.8 389.2 L380 450;
+M378 330 L438.5 379.2 L384.02 435;
+M378 330 L447.2 366 L395 424.02;
+M378 330 L452.1 354.3 L410 420;
+M378 330 L453.1 351.2 L425 424.02;
+M378 330 L450.7 358.4 L435.98 435;
+M378 330 L443.7 372.1 L440 450;
+M378 330 L431.1 387.2 L435.98 465;
+M378 330 L415.1 398.6 L425 475.98;
+M378 330 L408 402 L410 480;
+M378 330 L412.5 400 L395 475.98;
+M378 330 L419.9 395.8 L384.02 465;
+M378 330 L428.8 389.2 L380 450"/>
+  </path>
+
+  <!-- ===== FAR CRANK ARM + PEDAL ===== -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" from="0 410 450" to="360 410 450" dur="4s" repeatCount="indefinite"/>
+    <line x1="410" y1="450" x2="380" y2="450" stroke="#5f6a72" stroke-width="6" stroke-linecap="round"/>
+    <rect x="371" y="447" width="17" height="6" rx="2" fill="#3f4a52"/>
+    <circle cx="380" cy="450" r="6.5" fill="#c9821f"/>
+  </g>
+
+  <!-- ===== REAR WHEEL ===== -->
+  <g>
+    <circle cx="270" cy="450" r="70" fill="none" stroke="#333c44" stroke-width="7"/>
+    <circle cx="270" cy="450" r="61" fill="none" stroke="#9aa7b0" stroke-width="2"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0 270 450" to="360 270 450" dur="4s" repeatCount="indefinite"/>
+      <line x1="330" y1="450" x2="210" y2="450" stroke="#8d9aa3" stroke-width="2.5"/>
+      <line x1="312.43" y1="492.43" x2="227.57" y2="407.57" stroke="#8d9aa3" stroke-width="2.5"/>
+      <line x1="270" y1="510" x2="270" y2="390" stroke="#8d9aa3" stroke-width="2.5"/>
+      <line x1="227.57" y1="492.43" x2="312.43" y2="407.57" stroke="#8d9aa3" stroke-width="2.5"/>
+      <circle cx="270" cy="450" r="7" fill="#5f6a72"/>
+      <circle cx="315" cy="450" r="4" fill="#f0a63a"/>
+    </g>
+  </g>
+
+  <!-- ===== FRONT WHEEL ===== -->
+  <g>
+    <circle cx="560" cy="450" r="70" fill="none" stroke="#333c44" stroke-width="7"/>
+    <circle cx="560" cy="450" r="61" fill="none" stroke="#9aa7b0" stroke-width="2"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0 560 450" to="360 560 450" dur="4s" repeatCount="indefinite"/>
+      <line x1="620" y1="450" x2="500" y2="450" stroke="#8d9aa3" stroke-width="2.5"/>
+      <line x1="602.43" y1="492.43" x2="517.57" y2="407.57" stroke="#8d9aa3" stroke-width="2.5"/>
+      <line x1="560" y1="510" x2="560" y2="390" stroke="#8d9aa3" stroke-width="2.5"/>
+      <line x1="517.57" y1="492.43" x2="602.43" y2="407.57" stroke="#8d9aa3" stroke-width="2.5"/>
+      <circle cx="560" cy="450" r="7" fill="#5f6a72"/>
+      <circle cx="605" cy="450" r="4" fill="#f0a63a"/>
+    </g>
+  </g>
+
+  <!-- ===== FRAME ===== -->
+  <g stroke-linecap="round" fill="none">
+    <!-- chain -->
+    <line x1="410" y1="432" x2="270" y2="440" stroke="#98a4ac" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <line x1="410" y1="468" x2="270" y2="460" stroke="#98a4ac" stroke-width="2.5" stroke-dasharray="5 3"/>
+    <!-- chainring & cog -->
+    <circle cx="410" cy="450" r="18" stroke="#7a8791" stroke-width="3"/>
+    <circle cx="270" cy="450" r="10" stroke="#7a8791" stroke-width="3"/>
+    <!-- tubes -->
+    <line x1="270" y1="450" x2="410" y2="450" stroke="#2b6cb0" stroke-width="8"/>
+    <line x1="270" y1="450" x2="382" y2="338" stroke="#2b6cb0" stroke-width="6"/>
+    <line x1="410" y1="450" x2="382" y2="338" stroke="#2b6cb0" stroke-width="7"/>
+    <line x1="410" y1="450" x2="536" y2="344" stroke="#2b6cb0" stroke-width="8"/>
+    <line x1="382" y1="338" x2="526" y2="316" stroke="#2b6cb0" stroke-width="7"/>
+    <line x1="526" y1="316" x2="538" y2="346" stroke="#2b6cb0" stroke-width="9"/>
+    <line x1="538" y1="346" x2="560" y2="450" stroke="#2b6cb0" stroke-width="6"/>
+    <!-- saddle -->
+    <path d="M350 338 Q 378 328 404 336 Q 400 346 376 346 Q 354 346 350 338 Z" fill="#2f3b46" stroke="#1f2a33" stroke-width="2" stroke-linejoin="round"/>
+    <!-- handlebar stem & bar -->
+    <line x1="524" y1="314" x2="528" y2="298" stroke="#44505a" stroke-width="6"/>
+    <path d="M508 302 Q 536 292 564 300" stroke="#44505a" stroke-width="7" stroke-linecap="round"/>
+    <circle cx="508" cy="302" r="5" fill="#2f3b46"/>
+    <circle cx="564" cy="300" r="5" fill="#2f3b46"/>
+  </g>
+
+  <!-- ===== NEAR (RIGHT) LEG : animated ===== -->
+  <path fill="none" stroke="#f0a63a" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"
+        d="M378 330 L443.7 372.1 L440 450">
+    <animate attributeName="d" dur="4s" repeatCount="indefinite"
+      values="M378 330 L443.7 372.1 L440 450;
+M378 330 L431.1 387.2 L435.98 465;
+M378 330 L415.1 398.6 L425 475.98;
+M378 330 L408 402 L410 480;
+M378 330 L412.5 400 L395 475.98;
+M378 330 L419.9 395.8 L384.02 465;
+M378 330 L428.8 389.2 L380 450;
+M378 330 L438.5 379.2 L384.02 435;
+M378 330 L447.2 366 L395 424.02;
+M378 330 L452.1 354.3 L410 420;
+M378 330 L453.1 351.2 L425 424.02;
+M378 330 L450.7 358.4 L435.98 435;
+M378 330 L443.7 372.1 L440 450"/>
+  </path>
+
+  <!-- ===== PELICAN ===== -->
+  <g>
+    <!-- tail -->
+    <path d="M350 268 L304 250 L338 300 Z" fill="#f6f3ea" stroke="#b6afa0" stroke-width="3" stroke-linejoin="round"/>
+    <!-- neck (outline then fill) -->
+    <path d="M448 258 C 466 234, 482 212, 502 190" fill="none" stroke="#b6afa0" stroke-width="31" stroke-linecap="round"/>
+    <path d="M448 258 C 466 234, 482 212, 502 190" fill="none" stroke="#fbf9f3" stroke-width="25" stroke-linecap="round"/>
+    <!-- body -->
+    <ellipse cx="412" cy="288" rx="80" ry="54" transform="rotate(-10 412 288)" fill="#fbf9f3" stroke="#b6afa0" stroke-width="3"/>
+    <!-- crest -->
+    <path d="M492 168 Q 484 150 498 154 Q 500 162 500 170 Z" fill="#fbf9f3" stroke="#b6afa0" stroke-width="2" stroke-linejoin="round"/>
+    <!-- head -->
+    <circle cx="506" cy="184" r="22" fill="#fbf9f3" stroke="#b6afa0" stroke-width="3"/>
+    <!-- throat pouch -->
+    <path d="M520 186 C 542 236, 586 234, 614 194 Z" fill="#f7c45a" stroke="#d09a2b" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- upper bill -->
+    <path d="M520 170 L618 187 L614 197 L520 187 Z" fill="#f2b544" stroke="#cf8f26" stroke-width="2.5" stroke-linejoin="round"/>
+    <!-- eye -->
+    <circle cx="514" cy="174" r="6" fill="#ffffff" stroke="#b6afa0" stroke-width="1.5"/>
+    <circle cx="515.5" cy="174" r="3" fill="#2b3238"/>
+    <!-- wing -->
+    <path d="M444 254 C 474 258, 510 274, 546 294 C 526 302, 494 298, 468 286 C 450 277, 440 265, 444 254 Z"
+          fill="#f0ece0" stroke="#b6afa0" stroke-width="3" stroke-linejoin="round"/>
+    <path d="M470 272 C 486 280, 508 288, 530 294" fill="none" stroke="#cdc6b6" stroke-width="2" stroke-linecap="round"/>
+  </g>
+
+  <!-- ===== NEAR CRANK ARM + PEDAL (drawn last) ===== -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" from="0 410 450" to="360 410 450" dur="4s" repeatCount="indefinite"/>
+    <line x1="410" y1="450" x2="440" y2="450" stroke="#8a939b" stroke-width="7" stroke-linecap="round"/>
+    <rect x="432" y="446" width="18" height="7" rx="2" fill="#3f4a52"/>
+    <circle cx="440" cy="450" r="7" fill="#f0a63a"/>
+  </g>
+</svg>

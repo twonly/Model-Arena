@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#eef7fb"/>
+  <circle cx="118" cy="104" r="42" fill="#fdeecd"/>
+  <rect x="0" y="500" width="800" height="100" fill="#e3f0f5"/>
+  <line x1="0" y1="500" x2="800" y2="500" stroke="#c9dde6" stroke-width="4"/>
+  <ellipse cx="415" cy="505" rx="252" ry="10" fill="#d5e6ee"/>
+
+  <g transform="translate(270 430)">
+    <circle r="70" fill="none" stroke="#40525f" stroke-width="12"/>
+    <circle r="58" fill="none" stroke="#93a7b2" stroke-width="4"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
+      <path d="M0 -58 L0 58 M-58 0 L58 0 M-41 -41 L41 41 M-41 41 L41 -41" fill="none" stroke="#6f8492" stroke-width="3"/>
+      <circle cx="0" cy="-58" r="4" fill="#e2574c"/>
+    </g>
+    <circle r="7" fill="#40525f"/>
+  </g>
+  <g transform="translate(560 430)">
+    <circle r="70" fill="none" stroke="#40525f" stroke-width="12"/>
+    <circle r="58" fill="none" stroke="#93a7b2" stroke-width="4"/>
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
+      <path d="M0 -58 L0 58 M-58 0 L58 0 M-41 -41 L41 41 M-41 41 L41 -41" fill="none" stroke="#6f8492" stroke-width="3"/>
+      <circle cx="0" cy="-58" r="4" fill="#e2574c"/>
+    </g>
+    <circle r="7" fill="#40525f"/>
+  </g>
+
+  <g fill="none" stroke="#2f6f7e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M270 430 L415 420 L535 320 L560 430"/>
+    <path d="M415 420 L348 318 L270 430"/>
+    <path d="M535 320 L560 285 L590 293"/>
+  </g>
+  <path d="M314 292 C330 284 362 288 372 296 L366 305 C344 299 324 301 312 301 Z" fill="#34495e"/>
+  <path d="M348 318 L337 296" stroke="#34495e" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="590" cy="293" r="6" fill="#26333b"/>
+
+  <g transform="translate(415 420)">
+    <g>
+      <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
+      <circle r="22" fill="none" stroke="#5b6b7a" stroke-width="6"/>
+      <circle cx="22" cy="0" r="3.5" fill="#e2574c"/>
+      <path d="M0 0 L46 0 M0 0 L-46 0" stroke="#34495e" stroke-width="8" stroke-linecap="round"/>
+      <rect x="38" y="-6" width="17" height="12" rx="3" fill="#26333b"/>
+      <rect x="-55" y="-6" width="17" height="12" rx="3" fill="#26333b"/>
+      <circle cx="46" cy="0" r="7" fill="#2c3e50"/>
+      <circle cx="-46" cy="0" r="7" fill="#2c3e50"/>
+    </g>
+    <circle r="6" fill="#34495e"/>
+  </g>
+  <path d="M400 405 L270 430 M400 435 L270 430" stroke="#7d8f99" stroke-width="3" opacity="0.7"/>
+
+  <polyline fill="none" stroke="#a9bcc5" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" points="352,318 444.9,354.9 369,420">
+    <animate attributeName="points" dur="4s" repeatCount="indefinite" values="352,318 444.9,354.9 369,420;
+      352,318 451.0,331.9 375.2,397.0;
+      352,318 450.1,298.8 392.0,380.2;
+      352,318 443.7,278.2 415.0,374.0;
+      352,318 444.7,280.4 438.0,380.2;
+      352,318 449.8,297.1 454.8,397.0;
+      352,318 452.0,320.4 461.0,420.0;
+      352,318 448.8,343.2 454.8,443.0;
+      352,318 442.8,360.0 438.0,459.8;
+      352,318 438.2,368.7 415.0,466.0;
+      352,318 437.1,370.6 392.0,459.8;
+      352,318 439.5,366.4 375.2,443.0;
+      352,318 444.9,354.9 369,420"/>
+  </polyline>
+
+  <path d="M272 238 C242 230 220 242 204 262 C226 268 250 268 276 260 Z" fill="#f4f9fb" stroke="#d5e2e8" stroke-width="3"/>
+  <ellipse cx="340" cy="255" rx="84" ry="62" transform="rotate(-8 340 255)" fill="#ffffff" stroke="#d5e2e8" stroke-width="3"/>
+  <path d="M300 252 C330 224 382 228 406 260 C382 290 330 294 302 276 Z" fill="#e7eff3" stroke="#c8d8df" stroke-width="3"/>
+  <path d="M386 236 C416 224 428 194 464 176" fill="none" stroke="#d5e2e8" stroke-width="46" stroke-linecap="round"/>
+  <path d="M386 236 C416 224 428 194 464 176" fill="none" stroke="#ffffff" stroke-width="34" stroke-linecap="round"/>
+  <circle cx="484" cy="172" r="30" fill="#ffffff" stroke="#d5e2e8" stroke-width="3"/>
+  <path d="M462 150 C470 138 486 136 498 144 C488 148 476 154 468 162 Z" fill="#f4f9fb" stroke="#d5e2e8" stroke-width="3"/>
+  <path d="M498 154 C560 158 636 182 690 212 L686 226 C632 200 556 182 496 184 Z" fill="#f4a259" stroke="#c9741f" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M496 184 C552 194 626 206 686 226 C676 252 640 282 592 286 C554 288 524 254 496 210 Z" fill="#f8c477" stroke="#c9741f" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M500 184 C570 194 640 210 686 224" fill="none" stroke="#c9741f" stroke-width="3"/>
+  <circle cx="492" cy="164" r="4.5" fill="#26333b"/>
+  <circle cx="493.5" cy="162.5" r="1.4" fill="#ffffff"/>
+  <path d="M398 246 C450 250 520 270 586 290 L580 302 C516 286 448 270 394 262 Z" fill="#dfe9ee" stroke="#b9ccd6" stroke-width="3" stroke-linejoin="round"/>
+
+  <polyline fill="none" stroke="#5d6f79" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" points="352,318 452,320.4 461,420">
+    <animate attributeName="points" dur="4s" repeatCount="indefinite" values="352,318 452.0,320.4 461.0,420.0;
+      352,318 448.8,343.2 454.8,443.0;
+      352,318 442.8,360.0 438.0,459.8;
+      352,318 438.2,368.7 415.0,466.0;
+      352,318 437.1,370.6 392.0,459.8;
+      352,318 439.5,366.4 375.2,443.0;
+      352,318 444.9,354.9 369.0,420.0;
+      352,318 451.0,331.9 375.2,397.0;
+      352,318 450.1,298.8 392.0,380.2;
+      352,318 443.7,278.2 415.0,374.0;
+      352,318 444.7,280.4 438.0,380.2;
+      352,318 449.8,297.1 454.8,397.0;
+      352,318 452.0,320.4 461.0,420.0"/>
+  </polyline>
+</svg>

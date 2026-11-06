@@ -2,6 +2,7 @@ import assert from "node:assert/strict";
 import test from "node:test";
 import { sharedKeyFor } from "../lib/shared-server.ts";
 import { findEndpointPrice } from "../lib/pricing.ts";
+import { PROVIDER_PRESETS } from "../lib/providers.ts";
 
 import {
   DEEPSEEK_V41_MODEL_ID,
@@ -35,22 +36,27 @@ const own = (over = {}) => ({
 });
 
 test("Space Bunny uses a server-only OpenRouter key, zero-price routing and trial migration", () => {
-  const model = sharedById("space-bunny-alpha");
+  const before = new Date("2026-10-19T00:00:00Z");
+  const model = sharedById("space-bunny-alpha", before);
   assert.equal(model.model, "stealth/space-bunny-alpha");
   assert.equal(model.baseUrl, "https://openrouter.ai/api/v1");
   assert.equal(model.provider, "openrouter");
   assert.deepEqual(JSON.parse(model.extraBody), {
-    reasoning: { effort: "low" },
     provider: { max_price: { prompt: 0, completion: 0, request: 0, image: 0 } },
   });
+  const oldTrial = { ...sharedAsEndpoints(before).find((m) => m.id === model.id), extraBody: '{"reasoning":{"effort":"low"}}' };
+  const custom = own({ extraBody: '{"reasoning":{"effort":"high"}}' });
+  const refreshed = reconcileSharedPool([oldTrial, custom], false, before);
+  assert.equal(refreshed[0].extraBody, model.extraBody, "refresh stale shared defaults");
+  assert.equal(refreshed[1].extraBody, custom.extraBody, "preserve explicit user configuration");
   const previous = process.env.SHARED_KEY_OPENROUTER;
   try {
     process.env.SHARED_KEY_OPENROUTER = "test-server-key";
     assert.equal(sharedKeyFor(model.provider), "test-server-key");
-    const migrated = reconcileSharedPool([trial()], true);
+    const migrated = reconcileSharedPool([trial()], true, before);
     assert.equal(migrated.find((m) => m.id === model.id)?.apiKey, "");
     assert.ok(!JSON.stringify(migrated).includes("test-server-key"));
-    assert.ok(!reconcileSharedPool([trial()], false).some((m) => m.id === model.id));
+    assert.ok(!reconcileSharedPool([trial()], false, before).some((m) => m.id === model.id));
   } finally {
     if (previous === undefined) delete process.env.SHARED_KEY_OPENROUTER;
     else process.env.SHARED_KEY_OPENROUTER = previous;
@@ -59,6 +65,52 @@ test("Space Bunny uses a server-only OpenRouter key, zero-price routing and tria
   assert.equal(price.inputMiss, 0);
   assert.equal(price.output, 0);
   assert.equal(findEndpointPrice(model.model, "https://api.deepseek.com/v1"), undefined);
+});
+
+test("MiniMax preview uses its exact official endpoint, server key and default effort", () => {
+  const model = sharedById("minimax-m3-1-flash-preview");
+  assert.equal(model.model, "MiniMax-M3.1-Flash-Preview");
+  assert.equal(model.baseUrl, "https://api.minimax.io/v1");
+  assert.equal(model.extraBody, undefined);
+  const previous = process.env.SHARED_KEY_MINIMAX;
+  try {
+    process.env.SHARED_KEY_MINIMAX = "test-minimax-secret";
+    assert.equal(sharedKeyFor(model.provider), "test-minimax-secret");
+    const migrated = reconcileSharedPool([trial()], true);
+    assert.equal(migrated.find((m) => m.id === model.id)?.apiKey, "");
+    assert.ok(!JSON.stringify(migrated).includes("test-minimax-secret"));
+    assert.equal(findEndpointPrice(model.model, model.baseUrl), undefined);
+  } finally {
+    if (previous === undefined) delete process.env.SHARED_KEY_MINIMAX;
+    else process.env.SHARED_KEY_MINIMAX = previous;
+  }
+});
+
+test("LongCat preset and free trial use the official model and keep credentials server-only", () => {
+  const model = sharedById("longcat-2-5-preview");
+  const preset = PROVIDER_PRESETS.find((p) => p.id === "longcat");
+  assert.equal(model.model, "LongCat-2.5-Preview");
+  assert.equal(model.baseUrl, "https://api.longcat.chat/openai/v1");
+  assert.equal(model.kind, "openai");
+  assert.equal(model.extraBody, undefined, "leave thinking at the upstream default");
+  assert.equal(preset.baseUrl, model.baseUrl);
+  assert.equal(preset.kind, model.kind);
+  assert.equal(preset.exampleModels[0], model.model);
+  const previous = process.env.SHARED_KEY_LONGCAT;
+  try {
+    process.env.SHARED_KEY_LONGCAT = "test-longcat-secret";
+    assert.equal(sharedKeyFor(model.provider), "test-longcat-secret");
+    const migrated = reconcileSharedPool([own(), trial()], true);
+    assert.equal(migrated.find((m) => m.id === model.id)?.apiKey, "");
+    assert.equal(migrated.find((m) => m.id === "mine")?.apiKey, "sk-real");
+    assert.ok(!JSON.stringify(migrated).includes("test-longcat-secret"));
+    assert.equal(reconcileSharedPool(migrated, true).filter((m) => m.id === model.id).length, 1);
+    assert.ok(!reconcileSharedPool([trial()], false).some((m) => m.id === model.id));
+    assert.equal(findEndpointPrice(model.model, model.baseUrl), undefined, "free trial does not imply zero upstream cost");
+  } finally {
+    if (previous === undefined) delete process.env.SHARED_KEY_LONGCAT;
+    else process.env.SHARED_KEY_LONGCAT = previous;
+  }
 });
 
 test("a usable own model graduates ALL trials off, including non-overlapping providers", () => {
@@ -112,6 +164,8 @@ test("current shared pool keeps DeepSeek and GLM and adds four OrcaRouter free e
   assert.deepEqual(
     sharedAsEndpoints(current).map((endpoint) => endpoint.id),
     [
+      "minimax-m3-1-flash",
+      "minimax-m3-1-flash-preview",
       "space-bunny-alpha",
       "deepseek-flash",
       "deepseek-pro",
@@ -121,6 +175,7 @@ test("current shared pool keeps DeepSeek and GLM and adds four OrcaRouter free e
       "orcarouter-hy3-free",
       "orcarouter-glm-5-3-flash-free",
       "orcarouter-deepseek-v4-flash-free",
+      "longcat-2-5-preview",
     ]
   );
 });

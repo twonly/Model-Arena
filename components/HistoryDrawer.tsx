@@ -116,7 +116,7 @@ export function HistoryDrawer({
                     >
                       <span className="flex min-w-0 items-center gap-1.5 font-medium">
                         <ProviderIcon model={r.model} name={r.name} provider={r.provider} size="sm" />
-                        <span className="truncate">{rankBadge(r.rank)} {r.name}</span>
+                        <span className="truncate">{rankBadge(h.source ? undefined : r.rank)} {r.name}</span>
                       </span>
                       <span className="num text-faint shrink-0">
                         {r.status === "error"

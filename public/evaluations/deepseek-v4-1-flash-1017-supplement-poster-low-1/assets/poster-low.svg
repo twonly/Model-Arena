@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <!-- 背景 -->
+  <rect width="800" height="600" fill="#F7F4ED"/>
+  <ellipse cx="400" cy="200" rx="262" ry="122" fill="#FFFFFF" opacity="0.55"/>
+
+  <!-- 内边框 -->
+  <rect x="26" y="26" width="748" height="548" rx="22" fill="none" stroke="#E4DDCD" stroke-width="1.5"/>
+
+  <!-- 自行车图标 -->
+  <g fill="none" stroke="#22322E" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="352" cy="100" r="25"/>
+    <circle cx="448" cy="100" r="25"/>
+    <!-- 后下叉 -->
+    <line x1="352" y1="100" x2="396" y2="100"/>
+    <!-- 后上叉 -->
+    <line x1="352" y1="100" x2="384" y2="62"/>
+    <!-- 立管 -->
+    <line x1="396" y1="100" x2="384" y2="62"/>
+    <!-- 上管 -->
+    <line x1="384" y1="62" x2="442" y2="68"/>
+    <!-- 下管 -->
+    <line x1="396" y1="100" x2="442" y2="68"/>
+    <!-- 前叉 -->
+    <line x1="442" y1="68" x2="448" y2="100"/>
+    <!-- 车把竖杆 -->
+    <line x1="442" y1="68" x2="442" y2="54"/>
+    <!-- 车把横杆 -->
+    <line x1="428" y1="54" x2="456" y2="54"/>
+    <!-- 座杆 -->
+    <line x1="384" y1="62" x2="384" y2="56"/>
+    <!-- 车座 -->
+    <line x1="369" y1="56" x2="397" y2="56"/>
+  </g>
+  <!-- 中轴 -->
+  <circle cx="396" cy="100" r="3.2" fill="#22322E"/>
+
+  <!-- 主标题 -->
+  <text x="400" y="216" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif"
+        font-size="68" font-weight="700" fill="#22322E" letter-spacing="2">周末骑行计划</text>
+
+  <!-- 副标题 -->
+  <text x="400" y="272" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif"
+        font-size="26" font-weight="500" fill="#C8553D" letter-spacing="3">慢一点，看见城市</text>
+
+  <!-- 分隔线 -->
+  <line x1="366" y1="308" x2="434" y2="308" stroke="#C8553D" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
+
+  <!-- 时间 -->
+  <text x="400" y="362" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif"
+        font-size="32" font-weight="600" fill="#22322E">10月24日 09:00</text>
+
+  <!-- 地点 -->
+  <text x="400" y="414" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif"
+        font-size="32" font-weight="600" fill="#22322E" letter-spacing="1">滨江公园东门</text>
+
+  <!-- 说明 -->
+  <text x="400" y="464" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif"
+        font-size="18" font-weight="400" fill="#7A8681" letter-spacing="1">自备头盔 · 全程12公里</text>
+
+  <!-- 按钮 -->
+  <rect x="288" y="500" width="224" height="54" rx="27" fill="#C8553D"/>
+  <text x="400" y="537" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC',sans-serif"
+        font-size="21" font-weight="600" fill="#FFFFFF" letter-spacing="2">立即报名</text>
+</svg>

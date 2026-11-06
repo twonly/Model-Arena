@@ -1,0 +1,18 @@
+{
+  "model": "tencent/hy4",
+  "version": "Hy4 official release via OpenRouter, verified 2026-11-04",
+  "displayName": "Tencent Hy4 via Claude Code",
+  "aliases": ["hy4", "Tencent Hy4", "腾讯混元 Hy4"],
+  "protocol": "anthropic-messages",
+  "endpoint": "https://openrouter.ai/api/v1/messages",
+  "keyEnv": "SHARED_KEY_OPENROUTER",
+  "expectedReturnedModel": "tencent/hy4",
+  "billing": "openrouter-api-usage",
+  "modes": {"default": {}},
+  "extraBody": {},
+  "temperature": null,
+  "versionSource": "https://openrouter.ai/tencent/hy4",
+  "method": "Native Claude Code persistent creation sessions; exact selected model and returned model recorded. Vision understanding add-on uses the same OpenRouter model with fixed image bytes and separate ground truth.",
+  "providerMaxOutputTokens": 65536,
+  "nativeContextSuffix": ""
+}

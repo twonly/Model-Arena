@@ -1,0 +1,16 @@
+{
+  "model": "k3",
+  "version": "Kimi K3",
+  "displayName": "Kimi K3",
+  "aliases": ["Kimi k3"],
+  "endpoint": "https://api.kimi.com/coding",
+  "protocol": "anthropic-messages",
+  "keyEnv": "KIMI_CODING_REVIEW_KEY",
+  "expectedReturnedModel": "k3",
+  "nativeContextSuffix": "",
+  "modes": {"default": {}},
+  "extraBody": {},
+  "versionSource": "https://www.kimi.com/code/docs/en/kimi-code/models.html",
+  "method": "Kimi Coding Plan native Messages; requested and returned model must be k3. Provider-default reasoning, same native harness and tools as the November 5 K3.1 Pro Highspeed batch. No K3 Highspeed model ID was present in the verified Coding catalog. No undocumented output-token override or model substitution.",
+  "billing": "subscription-quota"
+}

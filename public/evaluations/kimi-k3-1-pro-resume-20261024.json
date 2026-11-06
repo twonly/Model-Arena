@@ -1,0 +1,2029 @@
+{
+  "schemaVersion": 1,
+  "batchId": "kimi-k3-1-pro-resume-20261024-1",
+  "status": "complete",
+  "protocol": "anthropic-messages",
+  "model": "k3.1-pro",
+  "version": "Kimi K3.1 Pro",
+  "endpoint": "https://api.kimi.com/coding",
+  "requestUrl": "https://api.kimi.com/coding/v1/messages",
+  "startedAt": "2026-10-24T09:41:50.300Z",
+  "updatedAt": "2026-10-24T10:06:49.208Z",
+  "date": "2026-10-24",
+  "originalPublishedAt": "2026-10-24T01:14:44.983Z",
+  "methodZh": "本次独立恢复批次仅续补原先未完成的 21 个任务/参数槽，已有 12 张静态图与 low/max 动画不重复请求。按默认动画、max 两道代码、default 十八道文本/代码的顺序串行。使用官方 Kimi Coding Plan 原生 Anthropic Messages，精确 model=k3.1-pro。默认动画原轮在 12,288 token 截断，本次独立重试提高到 32,768；文本/代码初次恢复上限 12,288，超时 600 秒。max_tokens 包含思考及正文；省略 temperature/top_p，不另设 thinking.budget_tokens。default 省略 effort：当前模型配置页写 high，而概览页仍写 max，实际默认强度未独立确认；max 请求 output_config.effort=max，既有非法 effort 被接受的限制保留，只按请求参数分组。429 立即停批；网络及 5xx 至少退避 60 秒。旧原始失败和已完成结果均不改动，跨时段复用不是同日整套重跑，也不用于稳定速度排名。消耗订阅额度，没有可对账的按 token 账单。输入 token 为 input_tokens 加 cache_read_input_tokens 和 cache_creation_input_tokens，输出 token 包含思考；不公开隐藏思维内容。",
+  "methodEn": "This independent recovery batch fills only 21 previously unfulfilled task/parameter slots. The 12 successful static images and low/max animations are reused without new requests. Requests run sequentially: omitted-default animation, two max code tasks, then eighteen omitted-default text/code tasks. Official Kimi Coding Plan native Anthropic Messages uses exact model k3.1-pro. The animation previously hit 12,288 tokens; this independent retry uses 32,768. Baselines start at 12,288; timeout 600 seconds. max_tokens includes thinking and final output. Temperature/top_p omitted; no separate thinking budget. Default effort is omitted: the current model configuration page says high while the overview says max, and effective server effort remains unverified. Explicit max uses output_config.effort=max. The previous accepted invalid-effort diagnostic remains a limitation; groups describe requested parameters. Every 429 stops dispatch; network/5xx failures back off at least 60 seconds. Original failures and successes stay unchanged. Cross-period reuse is not a complete same-date rerun or a stable speed comparison. Consumption is subscription quota, not a reconciled token invoice. Prompt tokens sum input_tokens and both cache-input fields; output includes thinking, but private reasoning content is omitted.",
+  "descriptionZh": "本次独立恢复批次仅续补原先未完成的 21 个任务/参数槽，已有 12 张静态图与 low/max 动画不重复请求。按默认动画、max 两道代码、default 十八道文本/代码的顺序串行。使用官方 Kimi Coding Plan 原生 Anthropic Messages，精确 model=k3.1-pro。默认动画原轮在 12,288 token 截断，本次独立重试提高到 32,768；文本/代码初次恢复上限 12,288，超时 600 秒。max_tokens 包含思考及正文；省略 temperature/top_p，不另设 thinking.budget_tokens。default 省略 effort：当前模型配置页写 high，而概览页仍写 max，实际默认强度未独立确认；max 请求 output_config.effort=max，既有非法 effort 被接受的限制保留，只按请求参数分组。429 立即停批；网络及 5xx 至少退避 60 秒。旧原始失败和已完成结果均不改动，跨时段复用不是同日整套重跑，也不用于稳定速度排名。消耗订阅额度，没有可对账的按 token 账单。输入 token 为 input_tokens 加 cache_read_input_tokens 和 cache_creation_input_tokens，输出 token 包含思考；不公开隐藏思维内容。",
+  "descriptionEn": "This independent recovery batch fills only 21 previously unfulfilled task/parameter slots. The 12 successful static images and low/max animations are reused without new requests. Requests run sequentially: omitted-default animation, two max code tasks, then eighteen omitted-default text/code tasks. Official Kimi Coding Plan native Anthropic Messages uses exact model k3.1-pro. The animation previously hit 12,288 tokens; this independent retry uses 32,768. Baselines start at 12,288; timeout 600 seconds. max_tokens includes thinking and final output. Temperature/top_p omitted; no separate thinking budget. Default effort is omitted: the current model configuration page says high while the overview says max, and effective server effort remains unverified. Explicit max uses output_config.effort=max. The previous accepted invalid-effort diagnostic remains a limitation; groups describe requested parameters. Every 429 stops dispatch; network/5xx failures back off at least 60 seconds. Original failures and successes stay unchanged. Cross-period reuse is not a complete same-date rerun or a stable speed comparison. Consumption is subscription quota, not a reconciled token invoice. Prompt tokens sum input_tokens and both cache-input fields; output includes thinking, but private reasoning content is omitted.",
+  "plannedRecoverySlots": 21,
+  "requestCount": 22,
+  "requestCountScope": "All new native Messages request slots dispatched in this recovery batch, including in-flight records. Original records are linked, never counted twice.",
+  "attempts": [
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-24T09:53:33.747Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3627.367292,
+      "firstReasoningMs": 1694.3829580000001,
+      "firstEventMs": 1694.380542,
+      "usage": {
+        "input_tokens": 159,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 103,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 70
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:53:37.407Z",
+      "totalMs": 3660.532542,
+      "promptTokens": 159,
+      "outputTokens": 103,
+      "reasoningTokens": 70,
+      "usageComplete": true,
+      "reportedOutputTokens": 103,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 2,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-24T09:53:37.518Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3637.3935840000004,
+      "firstReasoningMs": 1664.757834,
+      "firstEventMs": 1664.756292,
+      "usage": {
+        "input_tokens": 161,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 130,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 95
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:53:41.157Z",
+      "totalMs": 3638.422042,
+      "promptTokens": 161,
+      "outputTokens": 130,
+      "reasoningTokens": 95,
+      "usageComplete": true,
+      "reportedOutputTokens": 130,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-24T09:53:41.268Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 4767.686167,
+      "firstReasoningMs": 1905.753417,
+      "firstEventMs": 1905.75075,
+      "usage": {
+        "input_tokens": 159,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 169,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 136
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:53:46.039Z",
+      "totalMs": 4771.443209,
+      "promptTokens": 159,
+      "outputTokens": 169,
+      "reasoningTokens": 136,
+      "usageComplete": true,
+      "reportedOutputTokens": 169,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "startedAt": "2026-10-24T09:53:46.147Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3454.79075,
+      "firstReasoningMs": 1429.768625,
+      "firstEventMs": 1429.76325,
+      "usage": {
+        "input_tokens": 163,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 110,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 74
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:53:49.603Z",
+      "totalMs": 3455.783875,
+      "promptTokens": 163,
+      "outputTokens": 110,
+      "reasoningTokens": 74,
+      "usageComplete": true,
+      "reportedOutputTokens": 110,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-24T09:53:49.710Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 4179.280583000001,
+      "firstReasoningMs": 2406.9606249999997,
+      "firstEventMs": 2406.959833,
+      "usage": {
+        "input_tokens": 159,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 111,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 78
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:53:53.892Z",
+      "totalMs": 4182.2015,
+      "promptTokens": 159,
+      "outputTokens": 111,
+      "reasoningTokens": 78,
+      "usageComplete": true,
+      "reportedOutputTokens": 111,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "status": "done",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-24T09:53:54.014Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3220.0824589999997,
+      "firstReasoningMs": 1938.838792,
+      "firstEventMs": 1938.837375,
+      "usage": {
+        "input_tokens": 124,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 87,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 64
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:53:57.238Z",
+      "totalMs": 3223.633959,
+      "promptTokens": 124,
+      "outputTokens": 87,
+      "reasoningTokens": 64,
+      "usageComplete": true,
+      "reportedOutputTokens": 87,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "status": "done",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-24T09:53:57.407Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3852.7191249999996,
+      "firstReasoningMs": 1985.934791,
+      "firstEventMs": 1985.932958,
+      "usage": {
+        "input_tokens": 125,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 109,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 85
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:01.263Z",
+      "totalMs": 3856.0365,
+      "promptTokens": 125,
+      "outputTokens": 109,
+      "reasoningTokens": 85,
+      "usageComplete": true,
+      "reportedOutputTokens": 109,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "status": "done",
+      "text": "[3, 8, 12, 25]",
+      "startedAt": "2026-10-24T09:54:01.397Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3310.502541,
+      "firstReasoningMs": 2485.759541,
+      "firstEventMs": 2485.757875,
+      "usage": {
+        "input_tokens": 116,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 72,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 45
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:04.751Z",
+      "totalMs": 3354.27725,
+      "promptTokens": 116,
+      "outputTokens": 72,
+      "reasoningTokens": 45,
+      "usageComplete": true,
+      "reportedOutputTokens": 72,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "format-4",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "status": "done",
+      "text": "APPLE\nPEAR\nPLUM",
+      "startedAt": "2026-10-24T09:54:04.880Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 1968.700875,
+      "firstReasoningMs": 804.406541,
+      "firstEventMs": 804.4052909999999,
+      "usage": {
+        "input_tokens": 120,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 79,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 58
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:06.855Z",
+      "totalMs": 1975.079083,
+      "promptTokens": 120,
+      "outputTokens": 79,
+      "reasoningTokens": 58,
+      "usageComplete": true,
+      "reportedOutputTokens": 79,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "format-5",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "status": "done",
+      "text": "TX-103|TX-207|TX-309",
+      "startedAt": "2026-10-24T09:54:06.982Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 5264.370042,
+      "firstReasoningMs": 3711.070084,
+      "firstEventMs": 3711.06875,
+      "usage": {
+        "input_tokens": 131,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 120,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 94
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:12.247Z",
+      "totalMs": 5265.159624999999,
+      "promptTokens": 131,
+      "outputTokens": 120,
+      "reasoningTokens": 94,
+      "usageComplete": true,
+      "reportedOutputTokens": 120,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "grounded-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"usable\":9,\"nextDelivery\":\"周二\",\"manager\":null}",
+      "startedAt": "2026-10-24T09:54:12.376Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3221.8306669999997,
+      "firstReasoningMs": 1069.443,
+      "firstEventMs": 1069.4413749999999,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 106,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 77
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:15.599Z",
+      "totalMs": 3223.678167,
+      "promptTokens": 183,
+      "outputTokens": 106,
+      "reasoningTokens": 77,
+      "usageComplete": true,
+      "reportedOutputTokens": 106,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "grounded-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"usable\":16,\"nextDelivery\":\"周三\",\"manager\":null}",
+      "startedAt": "2026-10-24T09:54:15.723Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 4041.9495829999996,
+      "firstReasoningMs": 981.9890409999999,
+      "firstEventMs": 981.987708,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 173,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 144
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:19.772Z",
+      "totalMs": 4048.3418749999996,
+      "promptTokens": 183,
+      "outputTokens": 173,
+      "reasoningTokens": 144,
+      "usageComplete": true,
+      "reportedOutputTokens": 173,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "grounded-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"usable\":12,\"nextDelivery\":\"周四\",\"manager\":null}",
+      "startedAt": "2026-10-24T09:54:19.898Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3564.283792,
+      "firstReasoningMs": 1740.875,
+      "firstEventMs": 1740.872083,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 111,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 82
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:23.465Z",
+      "totalMs": 3567.071208,
+      "promptTokens": 183,
+      "outputTokens": 111,
+      "reasoningTokens": 82,
+      "usageComplete": true,
+      "reportedOutputTokens": 111,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "grounded-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"usable\":20,\"nextDelivery\":\"周五\",\"manager\":null}",
+      "startedAt": "2026-10-24T09:54:23.590Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3442.393833,
+      "firstReasoningMs": 766.595708,
+      "firstEventMs": 766.593208,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 143,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 114
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:27.036Z",
+      "totalMs": 3446.1259999999997,
+      "promptTokens": 183,
+      "outputTokens": 143,
+      "reasoningTokens": 114,
+      "usageComplete": true,
+      "reportedOutputTokens": 143,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    },
+    {
+      "id": "grounded-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      },
+      "mode": "default",
+      "status": "done",
+      "text": "{\"usable\":14,\"nextDelivery\":\"周一\",\"manager\":null}",
+      "startedAt": "2026-10-24T09:54:27.162Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 3157.3971669999996,
+      "firstReasoningMs": 861.0918750000001,
+      "firstEventMs": 861.0891250000001,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 122,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 93
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:54:30.320Z",
+      "totalMs": 3158.19825,
+      "promptTokens": 183,
+      "outputTokens": 122,
+      "reasoningTokens": 93,
+      "usageComplete": true,
+      "reportedOutputTokens": 122,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "pass": true
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "max",
+      "status": "done",
+      "text": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n\n  for (const item of items) {\n    const id = item.id;\n    if (!seen.has(id)) {\n      seen.add(id);\n      result.push(item);\n    }\n  }\n\n  return result;\n}",
+      "startedAt": "2026-10-24T09:52:53.257Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 10233.1445,
+      "firstReasoningMs": 1624.4298749999998,
+      "firstEventMs": 1624.428209,
+      "usage": {
+        "input_tokens": 158,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 449,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 372
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:53:03.493Z",
+      "totalMs": 10236.168792,
+      "promptTokens": 158,
+      "outputTokens": 449,
+      "reasoningTokens": 372,
+      "usageComplete": true,
+      "reportedOutputTokens": 449,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 2,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "executable": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n\n  for (const item of items) {\n    const id = item.id;\n    if (!seen.has(id)) {\n      seen.add(id);\n      result.push(item);\n    }\n  }\n\n  return result;\n}",
+      "pass": true,
+      "checkError": null
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "max",
+      "status": "done",
+      "text": "function mergeIntervals(intervals) {\n  const sorted = intervals\n    .map(([start, end]) => [start, end])\n    .sort((a, b) => a[0] - b[0]);\n  const merged = [];\n  for (const [start, end] of sorted) {\n    const last = merged[merged.length - 1];\n    if (last && start <= last[1]) {\n      if (end > last[1]) last[1] = end;\n    } else {\n      merged.push([start, end]);\n    }\n  }\n  return merged;\n}",
+      "startedAt": "2026-10-24T09:53:03.629Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 29667.924458,
+      "firstReasoningMs": 1658.2485419999998,
+      "firstEventMs": 1658.2458749999998,
+      "usage": {
+        "input_tokens": 160,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 1503,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 1364
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:53:33.543Z",
+      "totalMs": 29912.82525,
+      "promptTokens": 160,
+      "outputTokens": 1503,
+      "reasoningTokens": 1364,
+      "usageComplete": true,
+      "reportedOutputTokens": 1503,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "executable": "function mergeIntervals(intervals) {\n  const sorted = intervals\n    .map(([start, end]) => [start, end])\n    .sort((a, b) => a[0] - b[0]);\n  const merged = [];\n  for (const [start, end] of sorted) {\n    const last = merged[merged.length - 1];\n    if (last && start <= last[1]) {\n      if (end > last[1]) last[1] = end;\n    } else {\n      merged.push([start, end]);\n    }\n  }\n  return merged;\n}",
+      "pass": true,
+      "checkError": null
+    },
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "default",
+      "status": "done",
+      "text": "function parseCents(value) {\n  if (typeof value !== 'string') return null;\n\n  const match = /^([0-9]+)(?:\\.([0-9]{1,2}))?$/.exec(value.trim());\n  if (!match) return null;\n\n  const cents = (match[1] + (match[2] || '').padEnd(2, '0'))\n    .replace(/^0+(?=\\d)/, '');\n  const max = String(Number.MAX_SAFE_INTEGER);\n\n  if (\n    cents.length > max.length ||\n    (cents.length === max.length && cents > max)\n  ) {\n    return null;\n  }\n\n  return Number(cents);\n}",
+      "startedAt": "2026-10-24T09:54:30.415Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 59794.189666,
+      "firstReasoningMs": 3431.891083,
+      "firstEventMs": 3431.889916,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 2926,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 2770
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:55:30.462Z",
+      "totalMs": 60045.620958,
+      "promptTokens": 183,
+      "outputTokens": 2926,
+      "reasoningTokens": 2770,
+      "usageComplete": true,
+      "reportedOutputTokens": 2926,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "executable": "function parseCents(value) {\n  if (typeof value !== 'string') return null;\n\n  const match = /^([0-9]+)(?:\\.([0-9]{1,2}))?$/.exec(value.trim());\n  if (!match) return null;\n\n  const cents = (match[1] + (match[2] || '').padEnd(2, '0'))\n    .replace(/^0+(?=\\d)/, '');\n  const max = String(Number.MAX_SAFE_INTEGER);\n\n  if (\n    cents.length > max.length ||\n    (cents.length === max.length && cents > max)\n  ) {\n    return null;\n  }\n\n  return Number(cents);\n}",
+      "pass": true,
+      "checkError": null
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "default",
+      "status": "done",
+      "text": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n\n  return result;\n}",
+      "startedAt": "2026-10-24T09:55:30.603Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 5787.735167,
+      "firstReasoningMs": 2753.172958,
+      "firstEventMs": 2753.169792,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 158,
+        "output_tokens": 209,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 137
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:55:36.600Z",
+      "totalMs": 5996.7765,
+      "promptTokens": 158,
+      "outputTokens": 209,
+      "reasoningTokens": 137,
+      "usageComplete": true,
+      "reportedOutputTokens": 209,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "executable": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n\n  return result;\n}",
+      "pass": true,
+      "checkError": null
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "default",
+      "status": "done",
+      "text": "function mergeIntervals(intervals) {\n  const sorted = intervals\n    .map(interval => [interval[0], interval[1]])\n    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n  const merged = [];\n\n  for (const interval of sorted) {\n    const last = merged[merged.length - 1];\n    if (last && interval[0] <= last[1]) {\n      last[1] = Math.max(last[1], interval[1]);\n    } else {\n      merged.push(interval);\n    }\n  }\n\n  return merged;\n}",
+      "startedAt": "2026-10-24T09:55:36.850Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": 31175.990666,
+      "firstReasoningMs": 2740.137791,
+      "firstEventMs": 2740.136625,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 160,
+        "output_tokens": 1473,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 1328
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T09:56:08.087Z",
+      "totalMs": 31236.352041,
+      "promptTokens": 160,
+      "outputTokens": 1473,
+      "reasoningTokens": 1328,
+      "usageComplete": true,
+      "reportedOutputTokens": 1473,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 1,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 12288,
+      "executable": "function mergeIntervals(intervals) {\n  const sorted = intervals\n    .map(interval => [interval[0], interval[1]])\n    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n  const merged = [];\n\n  for (const interval of sorted) {\n    const last = merged[merged.length - 1];\n    if (last && interval[0] <= last[1]) {\n      last[1] = Math.max(last[1], interval[1]);\n    } else {\n      merged.push(interval);\n    }\n  }\n\n  return merged;\n}",
+      "pass": true,
+      "checkError": null
+    }
+  ],
+  "groups": [
+    {
+      "id": "pelican-animation",
+      "titleZh": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "samples": [
+        {
+          "id": "pelican-animation",
+          "animation": true,
+          "title": "鹈鹕骑车动画",
+          "titleEn": "Animated cycling pelican",
+          "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+          "rubricZh": [
+            "长喙、喉囊和两轮车架可辨认",
+            "轮辐与脚踏转动，腿部连接自然",
+            "4 秒循环连贯，主体不出画布"
+          ],
+          "rubricEn": [
+            "Recognizable pelican and connected bicycle",
+            "Moving spokes and crank; coherent leg joints",
+            "Continuous four-second loop with no clipping"
+          ],
+          "mode": "default",
+          "status": "done",
+          "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">A pelican pedaling a bicycle</title>\n  <desc id=\"desc\">A white pelican with a long golden bill and throat pouch rides a teal bicycle. The wheel spokes, crank, pedals, and attached legs move in a seamless four-second loop.</desc>\n\n  <rect width=\"800\" height=\"600\" fill=\"#f3fbfb\"/>\n  <circle cx=\"91\" cy=\"91\" r=\"39\" fill=\"#fff0b9\"/>\n  <g fill=\"#ffffff\" opacity=\"0.9\">\n    <path d=\"M126 133c5-20 32-24 44-9 12-22 48-14 48 11 23-4 34 24 13 34H132c-25-2-27-31-6-36z\"/>\n    <path d=\"M583 77c4-16 26-20 37-8 11-18 39-10 39 10 19-3 27 19 10 27h-81c-20-2-22-25-5-29z\"/>\n  </g>\n  <path d=\"M0 442Q112 386 224 442T448 442T672 442T896 442V600H0Z\" fill=\"#e7f3e9\"/>\n  <path d=\"M0 491Q142 452 284 491T568 491T852 491V600H0Z\" fill=\"#edf7ec\"/>\n  <path d=\"M84 526H716\" fill=\"none\" stroke=\"#cbded4\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n  <ellipse cx=\"400\" cy=\"526\" rx=\"258\" ry=\"13\" fill=\"#d6e5df\"/>\n\n  <!-- Rear wheel -->\n  <g transform=\"translate(230 435)\">\n    <circle r=\"82\" fill=\"#fbfefd\" stroke=\"#293f48\" stroke-width=\"10\"/>\n    <circle r=\"74\" fill=\"none\" stroke=\"#91a7ae\" stroke-width=\"3\"/>\n    <g>\n      <path d=\"M0 -72V72 M-72 0H72 M-62.4 -36L62.4 36 M-62.4 36L62.4 -36 M-36 -62.4L36 62.4 M36 -62.4L-36 62.4\"\n            fill=\"none\" stroke=\"#9aafb5\" stroke-width=\"2\"/>\n      <path d=\"M0 0V-72\" fill=\"none\" stroke=\"#e9a14c\" stroke-width=\"3\"/>\n      <rect x=\"-4\" y=\"-72\" width=\"8\" height=\"15\" rx=\"3\" fill=\"#f2ad4f\" stroke=\"#ffffff\" stroke-width=\"1.5\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 0 0\" to=\"360 0 0\"\n                        dur=\"4s\" repeatCount=\"indefinite\"/>\n    </g>\n    <circle r=\"8\" fill=\"#f8fcfb\" stroke=\"#38515a\" stroke-width=\"3\"/>\n  </g>\n\n  <!-- Front wheel -->\n  <g transform=\"translate(570 435)\">\n    <circle r=\"82\" fill=\"#fbfefd\" stroke=\"#293f48\" stroke-width=\"10\"/>\n    <circle r=\"74\" fill=\"none\" stroke=\"#91a7ae\" stroke-width=\"3\"/>\n    <g>\n      <path d=\"M0 -72V72 M-72 0H72 M-62.4 -36L62.4 36 M-62.4 36L62.4 -36 M-36 -62.4L36 62.4 M36 -62.4L-36 62.4\"\n            fill=\"none\" stroke=\"#9aafb5\" stroke-width=\"2\"/>\n      <path d=\"M0 0V-72\" fill=\"none\" stroke=\"#e9a14c\" stroke-width=\"3\"/>\n      <rect x=\"-4\" y=\"-72\" width=\"8\" height=\"15\" rx=\"3\" fill=\"#f2ad4f\" stroke=\"#ffffff\" stroke-width=\"1.5\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 0 0\" to=\"360 0 0\"\n                        dur=\"4s\" repeatCount=\"indefinite\"/>\n    </g>\n    <circle r=\"8\" fill=\"#f8fcfb\" stroke=\"#38515a\" stroke-width=\"3\"/>\n  </g>\n\n  <!-- Chain and connected bicycle frame -->\n  <path d=\"M230 424L385 411M230 446L385 459\" fill=\"none\" stroke=\"#71858b\"\n        stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <circle cx=\"230\" cy=\"435\" r=\"11\" fill=\"none\" stroke=\"#60767e\" stroke-width=\"4\"/>\n  <path d=\"M230 435L330 335L385 435Z M330 335L500 325L510 360L385 435L330 335 M500 325L510 360\"\n        fill=\"none\" stroke=\"#278b87\" stroke-width=\"10\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M510 360L570 435\" fill=\"none\" stroke=\"#278b87\" stroke-width=\"9\" stroke-linecap=\"round\"/>\n  <path d=\"M513 360L573 433\" fill=\"none\" stroke=\"#55aaa3\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <path d=\"M330 335L325 322\" fill=\"none\" stroke=\"#38515a\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n  <path d=\"M292 320Q323 308 361 317L365 326Q330 332 298 328Z\"\n        fill=\"#344c55\" stroke=\"#263c45\" stroke-width=\"3\" stroke-linejoin=\"round\"/>\n  <path d=\"M500 325L496 296L524 284L546 287\" fill=\"none\" stroke=\"#38515a\"\n        stroke-width=\"8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M527 284L548 288\" fill=\"none\" stroke=\"#d17b45\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n  <circle cx=\"505\" cy=\"343\" r=\"4\" fill=\"#d8f0eb\"/>\n\n  <!-- Rear pedaling leg: hip fixed, knee and pedal endpoint animated -->\n  <path d=\"M345 323L413.5 373.3L355 435\" fill=\"none\" stroke=\"#c77d36\"\n        stroke-width=\"12\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <animate attributeName=\"d\" dur=\"4s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n             keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n             values=\"M345 323L413.5 373.3L355 435;\n                     M345 323L424.2 354L363.8 413.8;\n                     M345 323L429.5 332.5L385 405;\n                     M345 323L429.5 332L406.2 413.8;\n                     M345 323L425.4 350.6L415 435;\n                     M345 323L414.7 371.6L406.2 456.2;\n                     M345 323L405.7 382.6L385 465;\n                     M345 323L405.8 382.4L363.8 456.2;\n                     M345 323L413.5 373.3L355 435\"/>\n  </path>\n\n  <!-- Front pedaling leg -->\n  <path d=\"M365 323L443.6 355.1L415 435\" fill=\"none\" stroke=\"#e7a04a\"\n        stroke-width=\"13\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <animate attributeName=\"d\" dur=\"4s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n             keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n             values=\"M365 323L443.6 355.1L415 435;\n                     M365 323L432.1 375.2L406.2 456.2;\n                     M365 323L420.2 387.6L385 465;\n                     M365 323L417.2 390.1L363.8 456.2;\n                     M365 323L423.5 384.7L355 435;\n                     M365 323L436.2 369.4L363.8 413.8;\n                     M365 323L446.6 346.5L385 405;\n                     M365 323L448.3 339.9L406.2 413.8;\n                     M365 323L443.6 355.1L415 435\"/>\n  </path>\n\n  <!-- Pelican tail and body -->\n  <path d=\"M307 238L258 218L273 246L239 251L286 278L310 274Z\"\n        fill=\"#e5ece9\" stroke=\"#405861\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M295 264C284 224 302 185 337 174C374 162 408 184 422 224C439 271 419 313 383 331C348 349 308 321 295 264Z\"\n        fill=\"#fffdf6\" stroke=\"#405861\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M312 255Q329 274 353 275M318 280Q335 297 357 297\"\n        fill=\"none\" stroke=\"#d5e1dd\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n\n  <!-- Long neck and head -->\n  <path d=\"M382 273C371 249 374 215 384 188C389 175 397 164 408 155C394 141 393 119 404 103C417 84 444 80 465 91C486 102 496 124 488 145C482 163 464 174 445 173C427 172 420 184 421 204C422 226 435 244 432 263C429 282 410 291 395 282Z\"\n        fill=\"#fffdf6\" stroke=\"#405861\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M414 103L398 83L420 91L418 72L435 88L443 72L451 92Z\"\n        fill=\"#fffdf6\" stroke=\"#405861\" stroke-width=\"3\" stroke-linejoin=\"round\"/>\n\n  <!-- Wing reaching the handlebar -->\n  <path d=\"M361 222C386 214 412 226 438 249C462 270 489 279 523 281L530 290C502 299 466 291 434 278C408 267 385 260 361 271C348 256 347 234 361 222Z\"\n        fill=\"#f8faf5\" stroke=\"#405861\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M473 278Q494 286 516 286M461 284Q484 293 507 292\"\n        fill=\"none\" stroke=\"#c4d3cf\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>\n\n  <!-- Large throat pouch and long bill -->\n  <path d=\"M470 145C531 149 610 154 682 158C646 176 601 199 552 206C517 212 491 196 480 174C475 164 472 154 470 145Z\"\n        fill=\"#f6cb70\" stroke=\"#886a43\" stroke-width=\"3.5\" stroke-linejoin=\"round\"/>\n  <path d=\"M486 160C502 190 536 200 573 192\" fill=\"none\" stroke=\"#e5aa4d\"\n        stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <path d=\"M474 124C535 125 618 136 684 150C690 152 689 157 682 159C613 157 544 153 476 151Z\"\n        fill=\"#f2b544\" stroke=\"#80643e\" stroke-width=\"3.5\" stroke-linejoin=\"round\"/>\n  <path d=\"M487 138C544 139 610 146 672 154\" fill=\"none\" stroke=\"#d68e31\"\n        stroke-width=\"2\" stroke-linecap=\"round\"/>\n  <path d=\"M495 135L525 138\" fill=\"none\" stroke=\"#93632d\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <circle cx=\"457\" cy=\"116\" r=\"7\" fill=\"#ffffff\"/>\n  <circle cx=\"458\" cy=\"116\" r=\"4.5\" fill=\"#263d46\"/>\n  <circle cx=\"460\" cy=\"114\" r=\"1.5\" fill=\"#ffffff\"/>\n\n  <!-- Rotating chainring, crank arms, and pedals -->\n  <g transform=\"translate(385 435)\">\n    <circle r=\"25\" fill=\"#f8fcfa\" stroke=\"#38515a\" stroke-width=\"4\"/>\n    <g>\n      <circle r=\"21\" fill=\"none\" stroke=\"#d28b42\" stroke-width=\"5\" stroke-dasharray=\"3 4\"/>\n      <path d=\"M-30 0H30\" fill=\"none\" stroke=\"#38515a\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n      <rect x=\"22\" y=\"-5\" width=\"16\" height=\"10\" rx=\"3\" fill=\"#526a72\"/>\n      <rect x=\"-38\" y=\"-5\" width=\"16\" height=\"10\" rx=\"3\" fill=\"#526a72\"/>\n      <circle cx=\"30\" r=\"5\" fill=\"#f4b255\" stroke=\"#38515a\" stroke-width=\"2\"/>\n      <circle cx=\"-30\" r=\"5\" fill=\"#f4b255\" stroke=\"#38515a\" stroke-width=\"2\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 0 0\" to=\"360 0 0\"\n                        dur=\"4s\" repeatCount=\"indefinite\"/>\n    </g>\n    <circle r=\"6\" fill=\"#38515a\"/>\n  </g>\n\n  <!-- Webbed feet follow the same pedal paths as the leg endpoints -->\n  <g transform=\"translate(355 435)\">\n    <path d=\"M-9-6C-1-8 7-7 12-4L23 0L12 4C5 8-3 8-9 5Z\"\n          fill=\"#cc833a\" stroke=\"#83572f\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n    <path d=\"M3-4L17 0M3 4L17 0\" fill=\"none\" stroke=\"#a66730\" stroke-width=\"1.5\"/>\n    <animateTransform attributeName=\"transform\" type=\"translate\" dur=\"4s\" repeatCount=\"indefinite\"\n                      calcMode=\"linear\" keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n                      values=\"355 435;363.8 413.8;385 405;406.2 413.8;415 435;406.2 456.2;385 465;363.8 456.2;355 435\"/>\n  </g>\n  <g transform=\"translate(415 435)\">\n    <path d=\"M-9-6C-1-8 7-7 12-4L23 0L12 4C5 8-3 8-9 5Z\"\n          fill=\"#edaa51\" stroke=\"#8b5c31\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n    <path d=\"M3-4L17 0M3 4L17 0\" fill=\"none\" stroke=\"#b87332\" stroke-width=\"1.5\"/>\n    <animateTransform attributeName=\"transform\" type=\"translate\" dur=\"4s\" repeatCount=\"indefinite\"\n                      calcMode=\"linear\" keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n                      values=\"415 435;406.2 456.2;385 465;363.8 456.2;355 435;363.8 413.8;385 405;406.2 413.8;415 435\"/>\n  </g>\n</svg>",
+          "startedAt": "2026-10-24T09:56:08.223Z",
+          "request": {
+            "model": "k3.1-pro",
+            "messages": [
+              {
+                "role": "user",
+                "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+              }
+            ],
+            "max_tokens": 32768,
+            "stream": true
+          },
+          "firstContentMs": 399923.595416,
+          "firstReasoningMs": 2668.2863749999997,
+          "firstEventMs": 2668.2839999999997,
+          "usage": {
+            "input_tokens": 0,
+            "cache_creation_input_tokens": 0,
+            "cache_read_input_tokens": 229,
+            "output_tokens": 22450,
+            "service_tier": "standard",
+            "inference_geo": "not_available",
+            "output_tokens_details": {
+              "thinking_tokens": 18627
+            }
+          },
+          "finishReason": "end_turn",
+          "error": null,
+          "returnedModel": "k3.1-pro",
+          "httpStatus": 200,
+          "transport": "node:https",
+          "finishedAt": "2026-10-24T10:03:46.279Z",
+          "totalMs": 458049.11683300004,
+          "promptTokens": 229,
+          "outputTokens": 22450,
+          "reasoningTokens": 18627,
+          "usageComplete": true,
+          "reportedOutputTokens": 22450,
+          "usageNote": "Final usage received.",
+          "attemptNumber": 3,
+          "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+          "sourceDate": "2026-10-24",
+          "batchId": "kimi-k3-1-pro-resume-20261024-1",
+          "timeoutMs": 600000,
+          "maxTokens": 32768,
+          "renderable": true,
+          "svgPath": "/evaluations/kimi-k3-1-pro-resume-20261024-pelican-animation-default-3/assets/pelican-animation-default.svg",
+          "svgSha256": "3188089c61f66c19f1b566edf9ddbbd383adec9961f46594733c6465d9bfb1ae",
+          "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+          "viewBox": "0 0 800 600",
+          "texts": [],
+          "pngPath": "/evaluations/kimi-k3-1-pro-resume-20261024-pelican-animation-default-3/assets/pelican-animation-default.png",
+          "width": 1200,
+          "height": 900,
+          "pngSha256": "603be5b91c3deb7cd36d099eb52c5b94cf6a1fb304ba668c624e9850e0e2f15e",
+          "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+          "kind": "recovery",
+          "localEvidence": "output/kimi-k3-1-pro-resume-20261024-1/requests/01-pelican-animation-default-attempt-3/evidence.json",
+          "animationRender": {
+            "path": "/evaluations/kimi-k3-1-pro-resume-20261024-pelican-animation-default-3/assets/pelican-animation-default.webp",
+            "sha256": "d4b5a822bc16b9d279728965b426a1a3900ea3b953a88bedff43a73ad29703c5",
+            "durationSeconds": 4,
+            "fps": 10,
+            "frames": 40,
+            "width": 800,
+            "height": 600,
+            "uniqueFrames": 40,
+            "loopBoundaryMatchesStart": false,
+            "loopBoundaryMeanAbsoluteError": 0.0023055555555555555,
+            "frameHashes": [
+              "d30231bace613dce31ba291a6063e1cc7dd7c96a0b33d0883fa77c8a2b7de3fe",
+              "1e93b92602e0729dac668f5fb6ca84b6717db93ffda4aeae23b4697d95fc63be",
+              "94ea4d3853b421042015b4869a0b51fcc5439bece58352475d59d4331cb65db1",
+              "eaf20cb5629b5039791db61d9bad5b2f2efd6259e9e29229eac79d1695867326",
+              "0e7102dadd429802dd5fe4d74d4441f2eb3eac40dff3791493df344282332b32",
+              "656ede5c2a1ec2cfb5b15007bb0aef7e4bc95766b52cf457f34491e224f677f9",
+              "926d21dc4c234e921c8dc61682cb4d64399aeb2eb65468a3db7cee0cd8d7e99c",
+              "41a9431cae09696c7e604fdb1be09a463edda1405d5d2f11bfac2497a102593c",
+              "6e96b6b5dfd346a56140c9354829126e79a0e908c114b0f436403b37269b534c",
+              "fe52547347ce902ef9dbe4d53ec438628ff26a54b76532bb70b79dff8780906e",
+              "a1e96f7096730f9836c704cb205c457b539ec8eaa9f23bf3f5eaf624bdc69d6d",
+              "afad88515b8f0be9939b8fa8fb3ecba4473bda5cfc7497b8cd0bdffdec2b6340",
+              "d7f6f8a727022e8628644f9382202a3ae7e91a90e3f3bcd90370b15724b2c942",
+              "4d652dfe086c15e95aca78c751d1722cda09327c881d7d0ea59d2b8f61abb00b",
+              "4c8fb7b848d57332245c4cd825e90e697c60fdf4145fabb3488a6ddaa85ec714",
+              "55b2e00bcd4ab220284e00dc89b0ba2d72a228c2c3cbccaa7f2aece491afbcf2",
+              "489b944618950baafa030150330f7b8abcc04c8ee3a9d2000ed77d94c57921a1",
+              "0a56b206c0b002762ce8461abe981ecdcee480ac964dc4c0a362c11249f2c5ff",
+              "0a09b43481dcaae4233a21bcca2ee85bd4fc6b7829995dbf67f3d320db8e66b6",
+              "23c046eb47b23f19f937b40952fdaf6a3e8c2d83283b30ecf4e19b901ebdf3c5",
+              "ca9bc68bd95b7edcf48f01b64d89e5f91656dba7a1e8aa8d767629702c0f4ed9",
+              "2f328eee8ba48faba7287e64b24e4ba194777f235cc9a65d4fc874e826cde984",
+              "417cabc63dee963f3617af0102b8b405f5b1939ceee98856f4f1a55d238ff6df",
+              "3f2749f49a7f554539f9b54e91d08745e126877f9a0027ec67736b0899c9e83d",
+              "fb84f02d0ee68a7562ecf0f42691d83aed990d40a16de846fb0afcd3115f325f",
+              "530bf6458c18e60e86a1a796364c69759958e182c711596321837ef79dd2c0aa",
+              "88f5e728c3742d595709084ec986f64cbc5e7b8fa23bc31fd41ba2cca20e6e4e",
+              "6e0453eb59c5c5f95349cf78fdf78f27ca088d4cbe17b17512d846ca0fcdd97a",
+              "016aec428f35622501c38565d9dd0a43525b451f1ea319cb39fafdc50dbcc1ba",
+              "a0784207714946b2325bfde045c838acfcab67dcbfeaae52693758ab7f4eb328",
+              "7f76aed34c3dcd47307f02efa932c413588c578efd02e888da23bae87ae1af1e",
+              "f8e02712c0bffeb8810b4a3ab386ab12b092894e48338a8bb924d1e447f279e2",
+              "129c79ae87361b87f3e49f30099983791ead08cbc6dfa0c54079b4e63439a560",
+              "71d700be01968047934fe28acb721ccb16f920a4b09942573e1bbc6bf8a70fed",
+              "32b678e841ebfd5f167ddf015c9614da3a5835d2259ca642234a30fd3f94fa8d",
+              "e7614dec48f2be923dc487c01fb8f3239c47c67dacf1726f1a6fcb1adf60747d",
+              "4bb24db6768282083c33c50e57d98acfa846228ce84afc2b94d96bcfa6406098",
+              "13d41913b08bbcd08088a4fff4dd04cfcf2f20b2a18a459b0f097e45885c281b",
+              "26a20d8cb9fe626344299dd3c835a49d63f46fb174c3fd0b2ba94cbec79a1018",
+              "03f9b37963602005bc47aa8493529b6cef57a710519b543b0c1df6d569b434ee"
+            ],
+            "renderer": "Chromium SMIL fixed-time capture, 0.0–3.9 seconds; animated WebP, no source edits",
+            "browserVersion": "148.0.7778.96"
+          },
+          "assessmentZh": "长喙、喉囊和两轮车架清楚，翼端接把手，双蹼足跟随腿端踏板，全鸟全车在画布内。轮辐和曲柄每4秒转一周，40帧均不同；实际编码播放跨一圈未见明显跳变。腿段在插值中约84–85px，八段线性插值与圆周脚踏中心最大有约2.3px偏差，仍是卡通关节运动。旧首轮12,288 token截断和恢复第2次600秒超时均保留；第3次32,768预算成功，用时458.05秒，该槽三次请求累计1271.31秒。",
+          "assessmentEn": "The long bill, pouch, two-wheel frame, wing-to-handlebar contact and pedal-following webbed feet are clear; the entire rider and bicycle stay on canvas. Spokes and crank rotate once per four seconds. All 40 captured frames differ, and encoded playback across a loop shows no visible jump. Interpolated leg segments stay around 84–85px; eight linear segments deviate by up to 2.3px from the rotating pedal centers, so this remains a cartoon joint animation. The original 12,288-token truncation and second-attempt 600-second timeout are retained. Attempt 3 succeeds at 32,768 tokens in 458.05s; all three requests for this slot total 1271.31s.",
+          "altZh": "Kimi K3.1 Pro默认参数恢复第3次：长喙鹈鹕骑青绿色自行车，轮辐、曲柄与双腿循环运动",
+          "altEn": "Kimi K3.1 Pro omitted-default recovery attempt3: a long-billed pelican cycles a teal bicycle with moving spokes, crank and legs",
+          "checks": {
+            "recognizablePelican": true,
+            "connectedFrame": true,
+            "wingTouchesHandlebar": true,
+            "legsAndFeetTrackPedals": true,
+            "wholeSubjectOnCanvas": true,
+            "movingWheelSpokesAndCrank": true,
+            "loopHasNoVisibleJump": true
+          },
+          "sourceChecks": {
+            "animationElements": 7,
+            "allDurations": "4s",
+            "uniqueCapturedFrames": 40,
+            "loopBoundaryPixelExact": false,
+            "loopBoundaryMeanAbsoluteError": 0.0023055555555555555,
+            "interpolatedLegSegmentLengthRangePx": [
+              84.01434316234344,
+              85.0685018088364
+            ],
+            "maxFootCrankCenterDifferencePx": 2.2922423690496485,
+            "encodedPlaybackSamples": 9,
+            "encodedPlaybackSpanMs": 4733.546458
+          },
+          "assessedAt": "2026-10-24T10:06:12.693834Z",
+          "assessmentMethod": "AI assistant qualitative visual inspection of the 1200px PNG, source SVG, 0/1/2/3/4s representative frames, and nine real-time browser screenshots of the encoded WebP over 4.734s.",
+          "history": [
+            {
+              "id": "pelican-animation",
+              "animation": true,
+              "title": "鹈鹕骑车动画",
+              "titleEn": "Animated cycling pelican",
+              "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+              "rubricZh": [
+                "长喙、喉囊和两轮车架可辨认",
+                "轮辐与脚踏转动，腿部连接自然",
+                "4 秒循环连贯，主体不出画布"
+              ],
+              "rubricEn": [
+                "Recognizable pelican and connected bicycle",
+                "Moving spokes and crank; coherent leg joints",
+                "Continuous four-second loop with no clipping"
+              ],
+              "mode": "default",
+              "status": "truncated",
+              "text": "",
+              "startedAt": "2026-10-24T01:38:16.072Z",
+              "request": {
+                "model": "k3.1-pro",
+                "messages": [
+                  {
+                    "role": "user",
+                    "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+                  }
+                ],
+                "max_tokens": 12288,
+                "stream": true
+              },
+              "firstContentMs": null,
+              "firstReasoningMs": 2247.412708000047,
+              "firstEventMs": 2247.4124160000356,
+              "usage": {
+                "input_tokens": 229,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+                "output_tokens": 12288,
+                "service_tier": "standard",
+                "inference_geo": "not_available",
+                "output_tokens_details": {
+                  "thinking_tokens": 12285
+                }
+              },
+              "finishReason": "max_tokens",
+              "error": null,
+              "returnedModel": "k3.1-pro",
+              "httpStatus": 200,
+              "transport": "node:https",
+              "finishedAt": "2026-10-24T01:41:49.316Z",
+              "totalMs": 213244.54104100005,
+              "promptTokens": 229,
+              "outputTokens": 12288,
+              "reasoningTokens": 12285,
+              "renderable": false,
+              "renderError": "No complete SVG in the original response",
+              "attemptNumber": 1,
+              "kind": "animation",
+              "sourceEvidence": "/evaluations/kimi-k3-1-pro-anthropic-first.json",
+              "localEvidence": "output/kimi-k3-1-pro-anthro-20261024/first-default/evidence.json",
+              "timeoutMs": 600000,
+              "assessmentZh": "此轮未取得正常结束且可渲染的结果，原因：No complete SVG in the original response。保留原始记录；成功重试另列。",
+              "assessmentEn": "This attempt did not finish normally with a renderable result: No complete SVG in the original response. Its original evidence is retained; the first successful retry is shown separately.",
+              "altZh": "Kimi K3.1 Pro default：鹈鹕骑车动画 初轮记录",
+              "altEn": "Kimi K3.1 Pro default: Animated cycling pelican, initial attempt"
+            },
+            {
+              "id": "pelican-animation",
+              "animation": true,
+              "title": "鹈鹕骑车动画",
+              "titleEn": "Animated cycling pelican",
+              "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+              "rubricZh": [
+                "长喙、喉囊和两轮车架可辨认",
+                "轮辐与脚踏转动，腿部连接自然",
+                "4 秒循环连贯，主体不出画布"
+              ],
+              "rubricEn": [
+                "Recognizable pelican and connected bicycle",
+                "Moving spokes and crank; coherent leg joints",
+                "Continuous four-second loop with no clipping"
+              ],
+              "mode": "default",
+              "status": "error",
+              "text": "",
+              "startedAt": "2026-10-24T09:41:50.300Z",
+              "request": {
+                "model": "k3.1-pro",
+                "messages": [
+                  {
+                    "role": "user",
+                    "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+                  }
+                ],
+                "max_tokens": 32768,
+                "stream": true
+              },
+              "firstContentMs": null,
+              "firstReasoningMs": 2282.6121249999997,
+              "firstEventMs": 2282.611042,
+              "usage": {
+                "input_tokens": 229,
+                "cache_creation_input_tokens": 0,
+                "cache_read_input_tokens": 0,
+                "output_tokens": 0,
+                "service_tier": "standard",
+                "inference_geo": "not_available"
+              },
+              "finishReason": null,
+              "error": "The operation was aborted due to timeout",
+              "returnedModel": "k3.1-pro",
+              "httpStatus": 200,
+              "transport": "node:https",
+              "errorCode": "ECONNRESET",
+              "finishedAt": "2026-10-24T09:51:50.330Z",
+              "totalMs": 600020.459042,
+              "promptTokens": 229,
+              "outputTokens": null,
+              "reasoningTokens": null,
+              "usageComplete": false,
+              "reportedOutputTokens": 0,
+              "usageNote": "Final usage was not received. Raw usage is the last reported snapshot; actual generated/billed output is unknown.",
+              "attemptNumber": 2,
+              "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+              "sourceDate": "2026-10-24",
+              "batchId": "kimi-k3-1-pro-resume-20261024-1",
+              "timeoutMs": 600000,
+              "maxTokens": 32768,
+              "renderable": false,
+              "renderError": "No complete SVG in the original response",
+              "kind": "recovery",
+              "localEvidence": "output/kimi-k3-1-pro-resume-20261024-1/requests/01-pelican-animation-default-attempt-2/evidence.json",
+              "assessmentZh": "本次独立恢复第2次在600.02秒超时：已返回正确模型ID，并在2.28秒出现思考事件，但未收到正文或正常结束标记，无法评价图像。最终usage未收到，原input229/output0仅为起始快照，不代表实际输出或费用为0。失败记录单列保留。",
+              "assessmentEn": "Independent recovery attempt2 timed out after 600.02s. It returned the exact model ID and a thinking event at 2.28s, but no final text or normal stop marker, so no image can be assessed. Final usage was not received; input 229/output 0 is only the start snapshot, not proof of zero generation or cost. The failure is retained separately.",
+              "assessedAt": "2026-10-24T10:06:12.693834Z"
+            }
+          ],
+          "cumulativeTotalMs": 1271314.1169160001
+        }
+      ]
+    }
+  ],
+  "trials": [
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ],
+      "mode": "default",
+      "status": "error",
+      "text": "",
+      "startedAt": "2026-10-24T09:41:50.300Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "max_tokens": 32768,
+        "stream": true
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": 2282.6121249999997,
+      "firstEventMs": 2282.611042,
+      "usage": {
+        "input_tokens": 229,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 0,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "finishReason": null,
+      "error": "The operation was aborted due to timeout",
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "errorCode": "ECONNRESET",
+      "finishedAt": "2026-10-24T09:51:50.330Z",
+      "totalMs": 600020.459042,
+      "promptTokens": 229,
+      "outputTokens": null,
+      "reasoningTokens": null,
+      "usageComplete": false,
+      "reportedOutputTokens": 0,
+      "usageNote": "Final usage was not received. Raw usage is the last reported snapshot; actual generated/billed output is unknown.",
+      "attemptNumber": 2,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 32768,
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "kind": "recovery",
+      "localEvidence": "output/kimi-k3-1-pro-resume-20261024-1/requests/01-pelican-animation-default-attempt-2/evidence.json",
+      "assessmentZh": "本次独立恢复第2次在600.02秒超时：已返回正确模型ID，并在2.28秒出现思考事件，但未收到正文或正常结束标记，无法评价图像。最终usage未收到，原input229/output0仅为起始快照，不代表实际输出或费用为0。失败记录单列保留。",
+      "assessmentEn": "Independent recovery attempt2 timed out after 600.02s. It returned the exact model ID and a thinking event at 2.28s, but no final text or normal stop marker, so no image can be assessed. Final usage was not received; input 229/output 0 is only the start snapshot, not proof of zero generation or cost. The failure is retained separately.",
+      "assessedAt": "2026-10-24T10:06:12.693834Z"
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ],
+      "mode": "default",
+      "status": "done",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">A pelican pedaling a bicycle</title>\n  <desc id=\"desc\">A white pelican with a long golden bill and throat pouch rides a teal bicycle. The wheel spokes, crank, pedals, and attached legs move in a seamless four-second loop.</desc>\n\n  <rect width=\"800\" height=\"600\" fill=\"#f3fbfb\"/>\n  <circle cx=\"91\" cy=\"91\" r=\"39\" fill=\"#fff0b9\"/>\n  <g fill=\"#ffffff\" opacity=\"0.9\">\n    <path d=\"M126 133c5-20 32-24 44-9 12-22 48-14 48 11 23-4 34 24 13 34H132c-25-2-27-31-6-36z\"/>\n    <path d=\"M583 77c4-16 26-20 37-8 11-18 39-10 39 10 19-3 27 19 10 27h-81c-20-2-22-25-5-29z\"/>\n  </g>\n  <path d=\"M0 442Q112 386 224 442T448 442T672 442T896 442V600H0Z\" fill=\"#e7f3e9\"/>\n  <path d=\"M0 491Q142 452 284 491T568 491T852 491V600H0Z\" fill=\"#edf7ec\"/>\n  <path d=\"M84 526H716\" fill=\"none\" stroke=\"#cbded4\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n  <ellipse cx=\"400\" cy=\"526\" rx=\"258\" ry=\"13\" fill=\"#d6e5df\"/>\n\n  <!-- Rear wheel -->\n  <g transform=\"translate(230 435)\">\n    <circle r=\"82\" fill=\"#fbfefd\" stroke=\"#293f48\" stroke-width=\"10\"/>\n    <circle r=\"74\" fill=\"none\" stroke=\"#91a7ae\" stroke-width=\"3\"/>\n    <g>\n      <path d=\"M0 -72V72 M-72 0H72 M-62.4 -36L62.4 36 M-62.4 36L62.4 -36 M-36 -62.4L36 62.4 M36 -62.4L-36 62.4\"\n            fill=\"none\" stroke=\"#9aafb5\" stroke-width=\"2\"/>\n      <path d=\"M0 0V-72\" fill=\"none\" stroke=\"#e9a14c\" stroke-width=\"3\"/>\n      <rect x=\"-4\" y=\"-72\" width=\"8\" height=\"15\" rx=\"3\" fill=\"#f2ad4f\" stroke=\"#ffffff\" stroke-width=\"1.5\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 0 0\" to=\"360 0 0\"\n                        dur=\"4s\" repeatCount=\"indefinite\"/>\n    </g>\n    <circle r=\"8\" fill=\"#f8fcfb\" stroke=\"#38515a\" stroke-width=\"3\"/>\n  </g>\n\n  <!-- Front wheel -->\n  <g transform=\"translate(570 435)\">\n    <circle r=\"82\" fill=\"#fbfefd\" stroke=\"#293f48\" stroke-width=\"10\"/>\n    <circle r=\"74\" fill=\"none\" stroke=\"#91a7ae\" stroke-width=\"3\"/>\n    <g>\n      <path d=\"M0 -72V72 M-72 0H72 M-62.4 -36L62.4 36 M-62.4 36L62.4 -36 M-36 -62.4L36 62.4 M36 -62.4L-36 62.4\"\n            fill=\"none\" stroke=\"#9aafb5\" stroke-width=\"2\"/>\n      <path d=\"M0 0V-72\" fill=\"none\" stroke=\"#e9a14c\" stroke-width=\"3\"/>\n      <rect x=\"-4\" y=\"-72\" width=\"8\" height=\"15\" rx=\"3\" fill=\"#f2ad4f\" stroke=\"#ffffff\" stroke-width=\"1.5\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 0 0\" to=\"360 0 0\"\n                        dur=\"4s\" repeatCount=\"indefinite\"/>\n    </g>\n    <circle r=\"8\" fill=\"#f8fcfb\" stroke=\"#38515a\" stroke-width=\"3\"/>\n  </g>\n\n  <!-- Chain and connected bicycle frame -->\n  <path d=\"M230 424L385 411M230 446L385 459\" fill=\"none\" stroke=\"#71858b\"\n        stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <circle cx=\"230\" cy=\"435\" r=\"11\" fill=\"none\" stroke=\"#60767e\" stroke-width=\"4\"/>\n  <path d=\"M230 435L330 335L385 435Z M330 335L500 325L510 360L385 435L330 335 M500 325L510 360\"\n        fill=\"none\" stroke=\"#278b87\" stroke-width=\"10\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M510 360L570 435\" fill=\"none\" stroke=\"#278b87\" stroke-width=\"9\" stroke-linecap=\"round\"/>\n  <path d=\"M513 360L573 433\" fill=\"none\" stroke=\"#55aaa3\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <path d=\"M330 335L325 322\" fill=\"none\" stroke=\"#38515a\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n  <path d=\"M292 320Q323 308 361 317L365 326Q330 332 298 328Z\"\n        fill=\"#344c55\" stroke=\"#263c45\" stroke-width=\"3\" stroke-linejoin=\"round\"/>\n  <path d=\"M500 325L496 296L524 284L546 287\" fill=\"none\" stroke=\"#38515a\"\n        stroke-width=\"8\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n  <path d=\"M527 284L548 288\" fill=\"none\" stroke=\"#d17b45\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n  <circle cx=\"505\" cy=\"343\" r=\"4\" fill=\"#d8f0eb\"/>\n\n  <!-- Rear pedaling leg: hip fixed, knee and pedal endpoint animated -->\n  <path d=\"M345 323L413.5 373.3L355 435\" fill=\"none\" stroke=\"#c77d36\"\n        stroke-width=\"12\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <animate attributeName=\"d\" dur=\"4s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n             keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n             values=\"M345 323L413.5 373.3L355 435;\n                     M345 323L424.2 354L363.8 413.8;\n                     M345 323L429.5 332.5L385 405;\n                     M345 323L429.5 332L406.2 413.8;\n                     M345 323L425.4 350.6L415 435;\n                     M345 323L414.7 371.6L406.2 456.2;\n                     M345 323L405.7 382.6L385 465;\n                     M345 323L405.8 382.4L363.8 456.2;\n                     M345 323L413.5 373.3L355 435\"/>\n  </path>\n\n  <!-- Front pedaling leg -->\n  <path d=\"M365 323L443.6 355.1L415 435\" fill=\"none\" stroke=\"#e7a04a\"\n        stroke-width=\"13\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <animate attributeName=\"d\" dur=\"4s\" repeatCount=\"indefinite\" calcMode=\"linear\"\n             keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n             values=\"M365 323L443.6 355.1L415 435;\n                     M365 323L432.1 375.2L406.2 456.2;\n                     M365 323L420.2 387.6L385 465;\n                     M365 323L417.2 390.1L363.8 456.2;\n                     M365 323L423.5 384.7L355 435;\n                     M365 323L436.2 369.4L363.8 413.8;\n                     M365 323L446.6 346.5L385 405;\n                     M365 323L448.3 339.9L406.2 413.8;\n                     M365 323L443.6 355.1L415 435\"/>\n  </path>\n\n  <!-- Pelican tail and body -->\n  <path d=\"M307 238L258 218L273 246L239 251L286 278L310 274Z\"\n        fill=\"#e5ece9\" stroke=\"#405861\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M295 264C284 224 302 185 337 174C374 162 408 184 422 224C439 271 419 313 383 331C348 349 308 321 295 264Z\"\n        fill=\"#fffdf6\" stroke=\"#405861\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M312 255Q329 274 353 275M318 280Q335 297 357 297\"\n        fill=\"none\" stroke=\"#d5e1dd\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n\n  <!-- Long neck and head -->\n  <path d=\"M382 273C371 249 374 215 384 188C389 175 397 164 408 155C394 141 393 119 404 103C417 84 444 80 465 91C486 102 496 124 488 145C482 163 464 174 445 173C427 172 420 184 421 204C422 226 435 244 432 263C429 282 410 291 395 282Z\"\n        fill=\"#fffdf6\" stroke=\"#405861\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M414 103L398 83L420 91L418 72L435 88L443 72L451 92Z\"\n        fill=\"#fffdf6\" stroke=\"#405861\" stroke-width=\"3\" stroke-linejoin=\"round\"/>\n\n  <!-- Wing reaching the handlebar -->\n  <path d=\"M361 222C386 214 412 226 438 249C462 270 489 279 523 281L530 290C502 299 466 291 434 278C408 267 385 260 361 271C348 256 347 234 361 222Z\"\n        fill=\"#f8faf5\" stroke=\"#405861\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M473 278Q494 286 516 286M461 284Q484 293 507 292\"\n        fill=\"none\" stroke=\"#c4d3cf\" stroke-width=\"2.5\" stroke-linecap=\"round\"/>\n\n  <!-- Large throat pouch and long bill -->\n  <path d=\"M470 145C531 149 610 154 682 158C646 176 601 199 552 206C517 212 491 196 480 174C475 164 472 154 470 145Z\"\n        fill=\"#f6cb70\" stroke=\"#886a43\" stroke-width=\"3.5\" stroke-linejoin=\"round\"/>\n  <path d=\"M486 160C502 190 536 200 573 192\" fill=\"none\" stroke=\"#e5aa4d\"\n        stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <path d=\"M474 124C535 125 618 136 684 150C690 152 689 157 682 159C613 157 544 153 476 151Z\"\n        fill=\"#f2b544\" stroke=\"#80643e\" stroke-width=\"3.5\" stroke-linejoin=\"round\"/>\n  <path d=\"M487 138C544 139 610 146 672 154\" fill=\"none\" stroke=\"#d68e31\"\n        stroke-width=\"2\" stroke-linecap=\"round\"/>\n  <path d=\"M495 135L525 138\" fill=\"none\" stroke=\"#93632d\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n  <circle cx=\"457\" cy=\"116\" r=\"7\" fill=\"#ffffff\"/>\n  <circle cx=\"458\" cy=\"116\" r=\"4.5\" fill=\"#263d46\"/>\n  <circle cx=\"460\" cy=\"114\" r=\"1.5\" fill=\"#ffffff\"/>\n\n  <!-- Rotating chainring, crank arms, and pedals -->\n  <g transform=\"translate(385 435)\">\n    <circle r=\"25\" fill=\"#f8fcfa\" stroke=\"#38515a\" stroke-width=\"4\"/>\n    <g>\n      <circle r=\"21\" fill=\"none\" stroke=\"#d28b42\" stroke-width=\"5\" stroke-dasharray=\"3 4\"/>\n      <path d=\"M-30 0H30\" fill=\"none\" stroke=\"#38515a\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n      <rect x=\"22\" y=\"-5\" width=\"16\" height=\"10\" rx=\"3\" fill=\"#526a72\"/>\n      <rect x=\"-38\" y=\"-5\" width=\"16\" height=\"10\" rx=\"3\" fill=\"#526a72\"/>\n      <circle cx=\"30\" r=\"5\" fill=\"#f4b255\" stroke=\"#38515a\" stroke-width=\"2\"/>\n      <circle cx=\"-30\" r=\"5\" fill=\"#f4b255\" stroke=\"#38515a\" stroke-width=\"2\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 0 0\" to=\"360 0 0\"\n                        dur=\"4s\" repeatCount=\"indefinite\"/>\n    </g>\n    <circle r=\"6\" fill=\"#38515a\"/>\n  </g>\n\n  <!-- Webbed feet follow the same pedal paths as the leg endpoints -->\n  <g transform=\"translate(355 435)\">\n    <path d=\"M-9-6C-1-8 7-7 12-4L23 0L12 4C5 8-3 8-9 5Z\"\n          fill=\"#cc833a\" stroke=\"#83572f\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n    <path d=\"M3-4L17 0M3 4L17 0\" fill=\"none\" stroke=\"#a66730\" stroke-width=\"1.5\"/>\n    <animateTransform attributeName=\"transform\" type=\"translate\" dur=\"4s\" repeatCount=\"indefinite\"\n                      calcMode=\"linear\" keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n                      values=\"355 435;363.8 413.8;385 405;406.2 413.8;415 435;406.2 456.2;385 465;363.8 456.2;355 435\"/>\n  </g>\n  <g transform=\"translate(415 435)\">\n    <path d=\"M-9-6C-1-8 7-7 12-4L23 0L12 4C5 8-3 8-9 5Z\"\n          fill=\"#edaa51\" stroke=\"#8b5c31\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n    <path d=\"M3-4L17 0M3 4L17 0\" fill=\"none\" stroke=\"#b87332\" stroke-width=\"1.5\"/>\n    <animateTransform attributeName=\"transform\" type=\"translate\" dur=\"4s\" repeatCount=\"indefinite\"\n                      calcMode=\"linear\" keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n                      values=\"415 435;406.2 456.2;385 465;363.8 456.2;355 435;363.8 413.8;385 405;406.2 413.8;415 435\"/>\n  </g>\n</svg>",
+      "startedAt": "2026-10-24T09:56:08.223Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "max_tokens": 32768,
+        "stream": true
+      },
+      "firstContentMs": 399923.595416,
+      "firstReasoningMs": 2668.2863749999997,
+      "firstEventMs": 2668.2839999999997,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 229,
+        "output_tokens": 22450,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 18627
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T10:03:46.279Z",
+      "totalMs": 458049.11683300004,
+      "promptTokens": 229,
+      "outputTokens": 22450,
+      "reasoningTokens": 18627,
+      "usageComplete": true,
+      "reportedOutputTokens": 22450,
+      "usageNote": "Final usage received.",
+      "attemptNumber": 3,
+      "sourceEvidence": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+      "sourceDate": "2026-10-24",
+      "batchId": "kimi-k3-1-pro-resume-20261024-1",
+      "timeoutMs": 600000,
+      "maxTokens": 32768,
+      "renderable": true,
+      "svgPath": "/evaluations/kimi-k3-1-pro-resume-20261024-pelican-animation-default-3/assets/pelican-animation-default.svg",
+      "svgSha256": "3188089c61f66c19f1b566edf9ddbbd383adec9961f46594733c6465d9bfb1ae",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [],
+      "pngPath": "/evaluations/kimi-k3-1-pro-resume-20261024-pelican-animation-default-3/assets/pelican-animation-default.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "603be5b91c3deb7cd36d099eb52c5b94cf6a1fb304ba668c624e9850e0e2f15e",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "kind": "recovery",
+      "localEvidence": "output/kimi-k3-1-pro-resume-20261024-1/requests/01-pelican-animation-default-attempt-3/evidence.json",
+      "animationRender": {
+        "path": "/evaluations/kimi-k3-1-pro-resume-20261024-pelican-animation-default-3/assets/pelican-animation-default.webp",
+        "sha256": "d4b5a822bc16b9d279728965b426a1a3900ea3b953a88bedff43a73ad29703c5",
+        "durationSeconds": 4,
+        "fps": 10,
+        "frames": 40,
+        "width": 800,
+        "height": 600,
+        "uniqueFrames": 40,
+        "loopBoundaryMatchesStart": false,
+        "loopBoundaryMeanAbsoluteError": 0.0023055555555555555,
+        "frameHashes": [
+          "d30231bace613dce31ba291a6063e1cc7dd7c96a0b33d0883fa77c8a2b7de3fe",
+          "1e93b92602e0729dac668f5fb6ca84b6717db93ffda4aeae23b4697d95fc63be",
+          "94ea4d3853b421042015b4869a0b51fcc5439bece58352475d59d4331cb65db1",
+          "eaf20cb5629b5039791db61d9bad5b2f2efd6259e9e29229eac79d1695867326",
+          "0e7102dadd429802dd5fe4d74d4441f2eb3eac40dff3791493df344282332b32",
+          "656ede5c2a1ec2cfb5b15007bb0aef7e4bc95766b52cf457f34491e224f677f9",
+          "926d21dc4c234e921c8dc61682cb4d64399aeb2eb65468a3db7cee0cd8d7e99c",
+          "41a9431cae09696c7e604fdb1be09a463edda1405d5d2f11bfac2497a102593c",
+          "6e96b6b5dfd346a56140c9354829126e79a0e908c114b0f436403b37269b534c",
+          "fe52547347ce902ef9dbe4d53ec438628ff26a54b76532bb70b79dff8780906e",
+          "a1e96f7096730f9836c704cb205c457b539ec8eaa9f23bf3f5eaf624bdc69d6d",
+          "afad88515b8f0be9939b8fa8fb3ecba4473bda5cfc7497b8cd0bdffdec2b6340",
+          "d7f6f8a727022e8628644f9382202a3ae7e91a90e3f3bcd90370b15724b2c942",
+          "4d652dfe086c15e95aca78c751d1722cda09327c881d7d0ea59d2b8f61abb00b",
+          "4c8fb7b848d57332245c4cd825e90e697c60fdf4145fabb3488a6ddaa85ec714",
+          "55b2e00bcd4ab220284e00dc89b0ba2d72a228c2c3cbccaa7f2aece491afbcf2",
+          "489b944618950baafa030150330f7b8abcc04c8ee3a9d2000ed77d94c57921a1",
+          "0a56b206c0b002762ce8461abe981ecdcee480ac964dc4c0a362c11249f2c5ff",
+          "0a09b43481dcaae4233a21bcca2ee85bd4fc6b7829995dbf67f3d320db8e66b6",
+          "23c046eb47b23f19f937b40952fdaf6a3e8c2d83283b30ecf4e19b901ebdf3c5",
+          "ca9bc68bd95b7edcf48f01b64d89e5f91656dba7a1e8aa8d767629702c0f4ed9",
+          "2f328eee8ba48faba7287e64b24e4ba194777f235cc9a65d4fc874e826cde984",
+          "417cabc63dee963f3617af0102b8b405f5b1939ceee98856f4f1a55d238ff6df",
+          "3f2749f49a7f554539f9b54e91d08745e126877f9a0027ec67736b0899c9e83d",
+          "fb84f02d0ee68a7562ecf0f42691d83aed990d40a16de846fb0afcd3115f325f",
+          "530bf6458c18e60e86a1a796364c69759958e182c711596321837ef79dd2c0aa",
+          "88f5e728c3742d595709084ec986f64cbc5e7b8fa23bc31fd41ba2cca20e6e4e",
+          "6e0453eb59c5c5f95349cf78fdf78f27ca088d4cbe17b17512d846ca0fcdd97a",
+          "016aec428f35622501c38565d9dd0a43525b451f1ea319cb39fafdc50dbcc1ba",
+          "a0784207714946b2325bfde045c838acfcab67dcbfeaae52693758ab7f4eb328",
+          "7f76aed34c3dcd47307f02efa932c413588c578efd02e888da23bae87ae1af1e",
+          "f8e02712c0bffeb8810b4a3ab386ab12b092894e48338a8bb924d1e447f279e2",
+          "129c79ae87361b87f3e49f30099983791ead08cbc6dfa0c54079b4e63439a560",
+          "71d700be01968047934fe28acb721ccb16f920a4b09942573e1bbc6bf8a70fed",
+          "32b678e841ebfd5f167ddf015c9614da3a5835d2259ca642234a30fd3f94fa8d",
+          "e7614dec48f2be923dc487c01fb8f3239c47c67dacf1726f1a6fcb1adf60747d",
+          "4bb24db6768282083c33c50e57d98acfa846228ce84afc2b94d96bcfa6406098",
+          "13d41913b08bbcd08088a4fff4dd04cfcf2f20b2a18a459b0f097e45885c281b",
+          "26a20d8cb9fe626344299dd3c835a49d63f46fb174c3fd0b2ba94cbec79a1018",
+          "03f9b37963602005bc47aa8493529b6cef57a710519b543b0c1df6d569b434ee"
+        ],
+        "renderer": "Chromium SMIL fixed-time capture, 0.0–3.9 seconds; animated WebP, no source edits",
+        "browserVersion": "148.0.7778.96"
+      },
+      "assessmentZh": "长喙、喉囊和两轮车架清楚，翼端接把手，双蹼足跟随腿端踏板，全鸟全车在画布内。轮辐和曲柄每4秒转一周，40帧均不同；实际编码播放跨一圈未见明显跳变。腿段在插值中约84–85px，八段线性插值与圆周脚踏中心最大有约2.3px偏差，仍是卡通关节运动。旧首轮12,288 token截断和恢复第2次600秒超时均保留；第3次32,768预算成功，用时458.05秒，该槽三次请求累计1271.31秒。",
+      "assessmentEn": "The long bill, pouch, two-wheel frame, wing-to-handlebar contact and pedal-following webbed feet are clear; the entire rider and bicycle stay on canvas. Spokes and crank rotate once per four seconds. All 40 captured frames differ, and encoded playback across a loop shows no visible jump. Interpolated leg segments stay around 84–85px; eight linear segments deviate by up to 2.3px from the rotating pedal centers, so this remains a cartoon joint animation. The original 12,288-token truncation and second-attempt 600-second timeout are retained. Attempt 3 succeeds at 32,768 tokens in 458.05s; all three requests for this slot total 1271.31s.",
+      "altZh": "Kimi K3.1 Pro默认参数恢复第3次：长喙鹈鹕骑青绿色自行车，轮辐、曲柄与双腿循环运动",
+      "altEn": "Kimi K3.1 Pro omitted-default recovery attempt3: a long-billed pelican cycles a teal bicycle with moving spokes, crank and legs",
+      "checks": {
+        "recognizablePelican": true,
+        "connectedFrame": true,
+        "wingTouchesHandlebar": true,
+        "legsAndFeetTrackPedals": true,
+        "wholeSubjectOnCanvas": true,
+        "movingWheelSpokesAndCrank": true,
+        "loopHasNoVisibleJump": true
+      },
+      "sourceChecks": {
+        "animationElements": 7,
+        "allDurations": "4s",
+        "uniqueCapturedFrames": 40,
+        "loopBoundaryPixelExact": false,
+        "loopBoundaryMeanAbsoluteError": 0.0023055555555555555,
+        "interpolatedLegSegmentLengthRangePx": [
+          84.01434316234344,
+          85.0685018088364
+        ],
+        "maxFootCrankCenterDifferencePx": 2.2922423690496485,
+        "encodedPlaybackSamples": 9,
+        "encodedPlaybackSpanMs": 4733.546458
+      },
+      "assessedAt": "2026-10-24T10:06:12.693834Z",
+      "assessmentMethod": "AI assistant qualitative visual inspection of the 1200px PNG, source SVG, 0/1/2/3/4s representative frames, and nine real-time browser screenshots of the encoded WebP over 4.734s."
+    }
+  ],
+  "coverage": {
+    "text": {
+      "planned": 15,
+      "submitted": 15,
+      "requestCount": 15,
+      "completed": 15,
+      "passed": 15,
+      "quota": 0,
+      "truncated": 0,
+      "notDispatched": 0,
+      "remaining": 0
+    },
+    "coding": {
+      "planned": 5,
+      "submitted": 5,
+      "requestCount": 5,
+      "completed": 5,
+      "passed": 5,
+      "quota": 0,
+      "truncated": 0,
+      "notDispatched": 0,
+      "remaining": 0
+    },
+    "animation": {
+      "planned": 1,
+      "submitted": 1,
+      "requestCount": 2,
+      "completed": 1,
+      "passed": null,
+      "quota": 0,
+      "truncated": 0,
+      "notDispatched": 0,
+      "remaining": 0
+    }
+  },
+  "summary": {
+    "default": {
+      "textPassed": 15,
+      "textAttempted": 15,
+      "textDispatched": 15,
+      "codingPassed": 3,
+      "codingAttempted": 3,
+      "codingDispatched": 3,
+      "medianFirstContentMs": 3564.283792,
+      "medianTotalMs": 3567.071208,
+      "cumulativeRequestMs": 1210174.3104589998,
+      "promptTokens": 3291,
+      "outputTokens": 28803
+    },
+    "max": {
+      "textPassed": 0,
+      "textAttempted": 0,
+      "textDispatched": 0,
+      "codingPassed": 2,
+      "codingAttempted": 2,
+      "codingDispatched": 2,
+      "medianFirstContentMs": null,
+      "medianTotalMs": null,
+      "cumulativeRequestMs": 40148.994042000006,
+      "promptTokens": 318,
+      "outputTokens": 1952
+    }
+  },
+  "summaryScope": "New recovery batch only; completed-response accuracy excludes endpoint errors and unsent tasks.",
+  "combinedCoverage": {
+    "scope": "Final unique task/mode slots, reusing historical successes and adding this independent recovery batch; not a rerun or a single-date comparison.",
+    "text": {
+      "planned": 45,
+      "completed": 45,
+      "passed": 45,
+      "remaining": 0
+    },
+    "coding": {
+      "planned": 9,
+      "completed": 9,
+      "passed": 9,
+      "remaining": 0
+    },
+    "static": {
+      "planned": 12,
+      "completed": 12,
+      "passed": null,
+      "remaining": 0
+    },
+    "animation": {
+      "planned": 3,
+      "completed": 3,
+      "passed": null,
+      "remaining": 0
+    }
+  },
+  "modes": {
+    "default": {
+      "zh": "请求默认参数（省略 effort）",
+      "en": "Requested default (effort omitted)"
+    },
+    "max": {
+      "zh": "请求参数 · max",
+      "en": "Requested parameter · max"
+    }
+  },
+  "supportMatrix": {
+    "default": {
+      "supported": true,
+      "tested": true,
+      "parameters": {},
+      "semanticsConfirmed": false,
+      "effectiveEffort": null,
+      "documentationConflict": "Model configuration page: high; overview: max."
+    },
+    "max": {
+      "supported": true,
+      "tested": true,
+      "effectiveEffort": null,
+      "parameters": {
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "documentedEffort": "max",
+      "semanticsConfirmed": false
+    },
+    "off": {
+      "supported": false,
+      "tested": false,
+      "reason": "Official Coding docs require thinking. See native access diagnostics for the observed response and any inconsistency; no off comparison is claimed.",
+      "observedHttpStatus": 400,
+      "request": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "observation": "Disabled thinking was rejected.",
+      "priorEvidence": "/evaluations/kimi-k3-1-pro-anthropic-access.json"
+    }
+  },
+  "params": {
+    "baselineMaxTokens": 12288,
+    "animationRetryMaxTokens": 32768,
+    "timeoutMs": 600000,
+    "samplingParametersOmitted": true,
+    "concurrency": 1,
+    "maxTokenAccounting": "Thinking plus final output; no separate thinking budget.",
+    "animationRetryTimeoutsMs": [
+      600000
+    ]
+  },
+  "billing": {
+    "type": "subscription-quota",
+    "invoiceAvailable": false,
+    "noteZh": "使用 Kimi Coding Plan 订阅额度，本轮没有可对账的按 token 费用。",
+    "noteEn": "Consumes Kimi Coding Plan subscription quota; no reconciled per-token invoice is available."
+  },
+  "estimatedCostUsd": null,
+  "pendingAnimation": false,
+  "failureCounts": {
+    "scope": "This recovery batch only",
+    "quota": 0,
+    "truncated": 0,
+    "networkOrServer": 0,
+    "timeout": 1,
+    "overload": 0,
+    "connection": 0,
+    "invalidSvg": 0
+  },
+  "cumulativeRequestMs": 1250323.3045009999,
+  "promptTokens": 3609,
+  "outputTokens": 30755,
+  "counting": {
+    "previousNativeMessagesRequests": 58,
+    "recoveryNativeRequests": 22,
+    "combinedNativeMessagesRequests": 80,
+    "scope": "Native Messages only; excludes read-only usage/model queries and earlier stopped Chat Completions batch."
+  },
+  "originalEvidence": [
+    {
+      "path": "/evaluations/kimi-k3-1-pro-access.json",
+      "sha256": "79b02057acdb44718894f9eb3cfe59e84872394ab67b8e067b1676716c571a08"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-anthropic-access.json",
+      "sha256": "3e2f4783f6510e0884cedf8ba8967fbff40b3324df67cfbaf106b0358eacd37d"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-anthropic-first.json",
+      "sha256": "eb7c64cbc7f4249f37105504fe71c3ff2a1c11a31873485224e266ea7f223cdd"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-coding-stopped.json",
+      "sha256": "97d7217fe3f5e2b8f831cdbb2df7a2f35c650b8ad0bbd4db7ba4968da2ab7e97"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-supplement.json",
+      "sha256": "bf193d0a59b645767bb0b6fe40c3bd3c5f1bb645558aaf8406f826ab641e4358"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro-visual.json",
+      "sha256": "eb0f1911aa7a530557a0a443e31bcaefe47c7f23be309e8734d118489136bae5"
+    },
+    {
+      "path": "/evaluations/kimi-k3-1-pro.json",
+      "sha256": "b156c79636b9a04619f5f5c6bb03b9f3bef1fd5b0131d7bd4a0a392b9581b146"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.kimi.com/code/docs/en/kimi-code/models.html",
+      "title": "Kimi Code model configuration"
+    },
+    {
+      "url": "https://www.kimi.com/code/docs/en/",
+      "title": "Kimi Code overview"
+    },
+    {
+      "url": "https://www.kimi.com/code/docs/en/third-party-tools/claude-code.html",
+      "title": "Native Anthropic protocol configuration"
+    }
+  ],
+  "evidencePath": "/evaluations/kimi-k3-1-pro-resume-20261024.json",
+  "incompleteUsageRequestCount": 1,
+  "inflightRequestCount": 0,
+  "returnedRequestCount": 22,
+  "tokenTotalsScope": "Sums of reported usage only. Requests without final usage have unknown actual generated/billed output; their raw usage snapshot is retained and outputTokens is null."
+}

@@ -1,0 +1,506 @@
+{
+  "schemaVersion": 1,
+  "model": "dots-studio/dots-3-note-preview:free",
+  "suiteVersion": "visual-svg-v2",
+  "testedAt": "2026-11-03",
+  "publishedAt": "2026-11-03T23:32:52.440Z",
+  "scope": "Three static SVGs and one SVG animation. This is not completion of the eleven-task creative-suite-v4.",
+  "harness": "Direct OpenAI-compatible Chat API; no tool loop or mandatory thinking-setting comparison.",
+  "metrics": {
+    "requests": 5,
+    "promptTokens": 804,
+    "completionTokens": 48946,
+    "reportedReasoningTokens": 38212,
+    "reportedCost": 0,
+    "cumulativeRequestMs": 587522.422791
+  },
+  "attempts": [
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "mode": "default",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:45:49.058Z",
+      "finishedAt": "2026-11-03T15:46:57.932Z",
+      "status": "done",
+      "httpStatus": 200,
+      "returnedModel": "dots-studio/dots-3-note-preview:free",
+      "text": "\n\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\">\n  <!-- Background -->\n  <rect width=\"800\" height=\"600\" fill=\"#ffffff\"/>\n  \n  <!-- Clock face -->\n  <circle cx=\"400\" cy=\"300\" r=\"200\" fill=\"#ffffff\" stroke=\"#000000\" stroke-width=\"2\"/>\n  \n  <!-- Hour numbers -->\n  <g font-family=\"Arial, sans-serif\" font-size=\"24\" fill=\"#000000\" text-anchor=\"middle\" dominant-baseline=\"middle\">\n    <text x=\"400\" y=\"120\">12</text>\n    <text x=\"490\" y=\"144\">1</text>\n    <text x=\"556\" y=\"210\">2</text>\n    <text x=\"580\" y=\"300\">3</text>\n    <text x=\"556\" y=\"390\">4</text>\n    <text x=\"490\" y=\"456\">5</text>\n    <text x=\"400\" y=\"480\">6</text>\n    <text x=\"310\" y=\"456\">7</text>\n    <text x=\"244\" y=\"390\">8</text>\n    <text x=\"220\" y=\"300\">9</text>\n    <text x=\"244\" y=\"210\">10</text>\n    <text x=\"310\" y=\"144\">11</text>\n  </g>\n  \n  <!-- Hour hand (shorter) -->\n  <line x1=\"400\" y1=\"300\" x2=\"288\" y2=\"258\" stroke=\"#000000\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n  \n  <!-- Minute hand (longer) -->\n  <line x1=\"400\" y1=\"300\" x2=\"236\" y2=\"373\" stroke=\"#000000\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n  \n  <!-- Center pin -->\n  <circle cx=\"400\" cy=\"300\" r=\"4\" fill=\"#000000\"/>\n  \n  <!-- Time label -->\n  <text x=\"400\" y=\"530\" font-family=\"Arial, sans-serif\" font-size=\"20\" fill=\"#000000\" text-anchor=\"middle\">09:41</text>\n</svg>",
+      "usage": {
+        "prompt_tokens": 133,
+        "completion_tokens": 5863,
+        "total_tokens": 5996,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3567,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "promptTokens": 133,
+      "outputTokens": 5863,
+      "reasoningTokens": 3567,
+      "finishReason": "stop",
+      "firstContentMs": 62861.112292000005,
+      "firstReasoningMs": null,
+      "firstEventMs": 62861.09625,
+      "totalMs": 68874.214542,
+      "error": null,
+      "transport": "node:https"
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "mode": "default",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:46:57.934Z",
+      "finishedAt": "2026-11-03T15:48:54.149Z",
+      "status": "done",
+      "httpStatus": 200,
+      "returnedModel": "dots-studio/dots-3-note-preview:free",
+      "text": "\n\n<svg width=\"800\" height=\"600\" viewBox=\"0 0 800 600\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"800\" height=\"600\" fill=\"#f5f5f5\"/>\n  <rect x=\"20\" y=\"20\" width=\"760\" height=\"560\" rx=\"20\" fill=\"#ffffff\" stroke=\"#e0e0e0\" stroke-width=\"2\"/>\n  <text x=\"400\" y=\"50\" text-anchor=\"middle\" font-size=\"28\" font-weight=\"bold\" fill=\"#333333\" font-family=\"Arial, sans-serif\">Quarterly Revenue</text>\n  <line x1=\"100\" y1=\"100\" x2=\"100\" y2=\"500\" stroke=\"#cccccc\" stroke-width=\"1\"/>\n  <line x1=\"100\" y1=\"500\" x2=\"700\" y2=\"500\" stroke=\"#333333\" stroke-width=\"2\"/>\n  <text x=\"90\" y=\"500\" text-anchor=\"end\" font-size=\"14\" fill=\"#555555\" font-family=\"Arial, sans-serif\">0</text>\n  <text x=\"90\" y=\"367\" text-anchor=\"end\" font-size=\"14\" fill=\"#555555\" font-family=\"Arial, sans-serif\">10</text>\n  <text x=\"90\" y=\"233\" text-anchor=\"end\" font-size=\"14\" fill=\"#555555\" font-family=\"Arial, sans-serif\">20</text>\n  <text x=\"90\" y=\"100\" text-anchor=\"end\" font-size=\"14\" fill=\"#555555\" font-family=\"Arial, sans-serif\">30</text>\n  <rect x=\"150\" y=\"340\" width=\"80\" height=\"160\" fill=\"#4e79a7\"/>\n  <text x=\"190\" y=\"330\" text-anchor=\"middle\" font-size=\"14\" fill=\"#333333\" font-family=\"Arial, sans-serif\">12</text>\n  <rect x=\"290\" y=\"180\" width=\"80\" height=\"320\" fill=\"#4e79a7\"/>\n  <text x=\"330\" y=\"170\" text-anchor=\"middle\" font-size=\"14\" fill=\"#333333\" font-family=\"Arial, sans-serif\">24</text>\n  <rect x=\"430\" y=\"260\" width=\"80\" height=\"240\" fill=\"#4e79a7\"/>\n  <text x=\"470\" y=\"250\" text-anchor=\"middle\" font-size=\"14\" fill=\"#333333\" font-family=\"Arial, sans-serif\">18</text>\n  <rect x=\"570\" y=\"100\" width=\"80\" height=\"400\" fill=\"#4e79a7\"/>\n  <text x=\"610\" y=\"90\" text-anchor=\"middle\" font-size=\"14\" fill=\"#333333\" font-family=\"Arial, sans-serif\">30</text>\n  <text x=\"150\" y=\"560\" font-size=\"18\" font-weight=\"bold\" fill=\"#333333\" font-family=\"Arial, sans-serif\">Total: 84</text>\n  <text x=\"650\" y=\"560\" font-size=\"18\" font-weight=\"bold\" fill=\"#333333\" text-anchor=\"end\" font-family=\"Arial, sans-serif\">Best: Q4</text>\n</svg>",
+      "usage": {
+        "prompt_tokens": 168,
+        "completion_tokens": 10376,
+        "total_tokens": 10544,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 6830,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "promptTokens": 168,
+      "outputTokens": 10376,
+      "reasoningTokens": 6830,
+      "finishReason": "stop",
+      "firstContentMs": 106923.625791,
+      "firstReasoningMs": null,
+      "firstEventMs": 106923.62325,
+      "totalMs": 116215.37641599998,
+      "error": null,
+      "transport": "node:https"
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "mode": "default",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:48:54.153Z",
+      "finishedAt": "2026-11-03T15:49:42.935Z",
+      "status": "done",
+      "httpStatus": 200,
+      "returnedModel": "dots-studio/dots-3-note-preview:free",
+      "text": "\n\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\">\n  <rect width=\"800\" height=\"600\" fill=\"#f8f8f8\"/>\n  <g transform=\"translate(580, 200)\" stroke=\"#555\" stroke-width=\"2\" fill=\"none\">\n    <circle cx=\"20\" cy=\"40\" r=\"20\"/>\n    <circle cx=\"80\" cy=\"40\" r=\"15\"/>\n    <line x1=\"20\" y1=\"40\" x2=\"50\" y2=\"20\"/>\n    <line x1=\"50\" y1=\"20\" x2=\"80\" y2=\"40\"/>\n    <line x1=\"50\" y1=\"20\" x2=\"50\" y2=\"10\"/>\n    <line x1=\"80\" y1=\"40\" x2=\"90\" y2=\"25\"/>\n    <line x1=\"90\" y1=\"25\" x2=\"80\" y2=\"10\"/>\n    <line x1=\"50\" y1=\"10\" x2=\"55\" y2=\"0\" stroke-width=\"3\"/>\n  </g>\n  <text x=\"400\" y=\"100\" font-family=\"sans-serif\" font-size=\"48\" font-weight=\"bold\" fill=\"#333\" text-anchor=\"middle\">周末骑行计划</text>\n  <text x=\"400\" y=\"150\" font-family=\"sans-serif\" font-size=\"22\" fill=\"#666\" text-anchor=\"middle\">慢一点，看见城市</text>\n  <text x=\"80\" y=\"220\" font-family=\"sans-serif\" font-size=\"18\" fill=\"#333\">10月24日 09:00</text>\n  <text x=\"80\" y=\"260\" font-family=\"sans-serif\" font-size=\"18\" fill=\"#333\">滨江公园东门</text>\n  <text x=\"80\" y=\"320\" font-family=\"sans-serif\" font-size=\"14\" fill=\"#888\">自备头盔 · 全程12公里</text>\n  <rect x=\"320\" y=\"480\" width=\"160\" height=\"44\" rx=\"8\" fill=\"#4CAF50\"/>\n  <text x=\"400\" y=\"508\" font-family=\"sans-serif\" font-size=\"18\" fill=\"#fff\" text-anchor=\"middle\">立即报名</text>\n</svg>",
+      "usage": {
+        "prompt_tokens": 187,
+        "completion_tokens": 4172,
+        "total_tokens": 4359,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 3528,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "promptTokens": 187,
+      "outputTokens": 4172,
+      "reasoningTokens": 3528,
+      "finishReason": "stop",
+      "firstContentMs": 43413.48637499998,
+      "firstReasoningMs": null,
+      "firstEventMs": 43413.484916999994,
+      "totalMs": 48782.456167,
+      "error": null,
+      "transport": "node:https"
+    },
+    {
+      "id": "pelican-animation",
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "animation": true,
+      "mode": "default",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:49:42.938Z",
+      "finishedAt": "2026-11-03T15:52:13.529Z",
+      "status": "truncated",
+      "httpStatus": 200,
+      "returnedModel": "dots-studio/dots-3-note-preview:free",
+      "text": "",
+      "usage": {
+        "prompt_tokens": 158,
+        "completion_tokens": 12288,
+        "total_tokens": 12446,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 10713,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "promptTokens": 158,
+      "outputTokens": 12288,
+      "reasoningTokens": 10713,
+      "finishReason": "length",
+      "firstContentMs": null,
+      "firstReasoningMs": null,
+      "firstEventMs": null,
+      "totalMs": 150620.12262500002,
+      "error": null,
+      "transport": "node:https"
+    },
+    {
+      "id": "pelican-animation",
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "animation": true,
+      "mode": "default",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "request": {
+        "model": "dots-studio/dots-3-note-preview:free",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "provider": {
+          "max_price": {
+            "prompt": 0,
+            "completion": 0
+          }
+        }
+      },
+      "startedAt": "2026-11-03T15:52:39.740Z",
+      "finishedAt": "2026-11-03T15:56:02.768Z",
+      "status": "done",
+      "httpStatus": 200,
+      "returnedModel": "dots-studio/dots-3-note-preview:free",
+      "text": "\n\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\">\n  <rect width=\"800\" height=\"600\" fill=\"#f0f8ff\"/>\n  <g id=\"bicycle\">\n    <!-- rear wheel -->\n    <g transform=\"translate(200,450)\">\n      <circle r=\"50\" stroke=\"black\" stroke-width=\"2\" fill=\"none\"/>\n      <g>\n        <line x1=\"0\" y1=\"0\" x2=\"45\" y2=\"0\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"22.5\" y2=\"38.97\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"-22.5\" y2=\"38.97\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"-45\" y2=\"0\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"-22.5\" y2=\"-38.97\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"22.5\" y2=\"-38.97\" stroke=\"black\" stroke-width=\"1\"/>\n        <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"4s\" repeatCount=\"indefinite\"/>\n      </g>\n    </g>\n    <!-- front wheel -->\n    <g transform=\"translate(500,450)\">\n      <circle r=\"50\" stroke=\"black\" stroke-width=\"2\" fill=\"none\"/>\n      <g>\n        <line x1=\"0\" y1=\"0\" x2=\"45\" y2=\"0\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"22.5\" y2=\"38.97\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"-22.5\" y2=\"38.97\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"-45\" y2=\"0\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"-22.5\" y2=\"-38.97\" stroke=\"black\" stroke-width=\"1\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"22.5\" y2=\"-38.97\" stroke=\"black\" stroke-width=\"1\"/>\n        <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"4s\" repeatCount=\"indefinite\"/>\n      </g>\n    </g>\n    <!-- frame -->\n    <line x1=\"200\" y1=\"450\" x2=\"350\" y2=\"380\" stroke=\"black\" stroke-width=\"3\"/>\n    <line x1=\"350\" y1=\"380\" x2=\"500\" y2=\"450\" stroke=\"black\" stroke-width=\"3\"/>\n    <line x1=\"350\" y1=\"380\" x2=\"350\" y2=\"450\" stroke=\"black\" stroke-width=\"3\"/>\n    <!-- saddle -->\n    <ellipse cx=\"350\" cy=\"380\" rx=\"20\" ry=\"10\" fill=\"gray\" stroke=\"black\"/>\n    <!-- handlebar -->\n    <line x1=\"500\" y1=\"450\" x2=\"520\" y2=\"400\" stroke=\"black\" stroke-width=\"3\"/>\n    <line x1=\"520\" y1=\"400\" x2=\"550\" y2=\"390\" stroke=\"black\" stroke-width=\"3\"/>\n    <line x1=\"520\" y1=\"400\" x2=\"550\" y2=\"410\" stroke=\"black\" stroke-width=\"3\"/>\n  </g>\n  <!-- pelican -->\n  <g id=\"pelican\">\n    <ellipse cx=\"350\" cy=\"380\" rx=\"40\" ry=\"70\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/>\n    <line x1=\"350\" y1=\"310\" x2=\"350\" y2=\"250\" stroke=\"black\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n    <circle cx=\"350\" cy=\"230\" r=\"20\" fill=\"white\" stroke=\"black\" stroke-width=\"2\"/>\n    <circle cx=\"360\" cy=\"225\" r=\"3\" fill=\"black\"/>\n    <polygon points=\"370,230 410,220 370,250\" fill=\"orange\" stroke=\"black\" stroke-width=\"1\"/>\n    <path d=\"M370,250 Q390,280 370,300 Q350,280 370,250\" fill=\"orange\" stroke=\"black\" stroke-width=\"1\"/>\n  </g>\n  <!-- hip joint -->\n  <circle cx=\"350\" cy=\"450\" r=\"5\" fill=\"black\"/>\n  <!-- left leg -->\n  <g transform=\"translate(350,450)\">\n    <g>\n      <line x1=\"0\" y1=\"0\" x2=\"40\" y2=\"0\" stroke=\"black\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n      <rect x=\"35\" y=\"-5\" width=\"10\" height=\"10\" fill=\"gray\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"4s\" repeatCount=\"indefinite\"/>\n    </g>\n  </g>\n  <!-- right leg -->\n  <g transform=\"translate(350,450)\">\n    <g>\n      <line x1=\"0\" y1=\"0\" x2=\"40\" y2=\"0\" stroke=\"black\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n      <rect x=\"35\" y=\"-5\" width=\"10\" height=\"10\" fill=\"gray\"/>\n      <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"180\" to=\"540\" dur=\"4s\" repeatCount=\"indefinite\"/>\n    </g>\n  </g>\n</svg>",
+      "usage": {
+        "prompt_tokens": 158,
+        "completion_tokens": 16247,
+        "total_tokens": 16405,
+        "cost": 0,
+        "is_byok": false,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "cache_write_tokens": 0,
+          "audio_tokens": 0,
+          "video_tokens": 0
+        },
+        "cost_details": {
+          "upstream_inference_cost": 0,
+          "upstream_inference_prompt_cost": 0,
+          "upstream_inference_completions_cost": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 13574,
+          "image_tokens": 0,
+          "audio_tokens": 0
+        }
+      },
+      "promptTokens": 158,
+      "outputTokens": 16247,
+      "reasoningTokens": 13574,
+      "finishReason": "stop",
+      "firstContentMs": 188541.767375,
+      "firstReasoningMs": null,
+      "firstEventMs": 188541.735166,
+      "totalMs": 203030.253041,
+      "error": null,
+      "transport": "node:https"
+    }
+  ],
+  "environmentFailures": [
+    {
+      "stage": "sandbox DNS before inference",
+      "error": "getaddrinfo ENOTFOUND openrouter.ai",
+      "sourceRecord": "Preserved in private original archive; no inference response was received."
+    }
+  ],
+  "earlierAgentScope": "Earlier native Claude Code sessions were interrupted with provider tool-transport errors and remain incomplete in the private archive. Their incomplete usage is not included in these direct SVG metrics.",
+  "inspection": {
+    "type": "Automated source measurements and AI visual observations; not independent human scoring.",
+    "sourceBytesUnchanged": true,
+    "animation": {
+      "frames": 40,
+      "fps": 10,
+      "durationSeconds": 4,
+      "uniqueFrames": 39,
+      "loopBoundaryMatchesStart": false,
+      "loopBoundaryMeanAbsoluteError": 0.012997916666666666,
+      "playbackInspected": true
+    }
+  },
+  "modelInfo": {
+    "name": "Dots3-Note Preview",
+    "publisher": "Dots Studio",
+    "architecture": "MoE",
+    "parametersTotal": "280B",
+    "parametersActive": "16B",
+    "contextTokens": 512000,
+    "license": "Apache-2.0",
+    "modelCard": "https://huggingface.co/dots-studio/dots3-note-prev",
+    "github": "https://github.com/studio-dots-ai/dots3-note-prev",
+    "openrouter": "https://openrouter.ai/dots-studio/dots-3-note-preview:free",
+    "modelInputs": [
+      "text",
+      "image",
+      "video",
+      "audio"
+    ],
+    "routeInputs": [
+      "text",
+      "image"
+    ],
+    "routeOutputs": [
+      "text"
+    ],
+    "routeQuantization": "FP8",
+    "routeProvider": "AtlasCloud"
+  },
+  "assets": [
+    {
+      "path": "/evaluations/dots3-note-preview/assets/clock-20261103.svg",
+      "sha256": "92300cdf4b2578e268700a2a49908fa99b22b8eb6b3d6defc7a81018bf495dca",
+      "bytes": 1347,
+      "kind": "target-model-source"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/clock-20261103.png",
+      "sha256": "2417e49cdd8ecc6f40e141f7d0bd6790880cb8cdab7b0c7947b4aa70d1456008",
+      "bytes": 38870,
+      "width": 1200,
+      "height": 900,
+      "kind": "rendered-model-output"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/dashboard-20261103.svg",
+      "sha256": "de6b714db246c1f979557b851deade224983c72c2e0fb0bfe55d0c7fbb49b44a",
+      "bytes": 1999,
+      "kind": "target-model-source"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/dashboard-20261103.png",
+      "sha256": "544879a9b6d0644b38299ecadb12db2849ec6c2fd8dc700bf36400dd87c46146",
+      "bytes": 36117,
+      "width": 1200,
+      "height": 900,
+      "kind": "rendered-model-output"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/poster-20261103.svg",
+      "sha256": "cf603eda32ec305c8b1e6e72985b79fd3208eec976fde97ec895f3830e8f7883",
+      "bytes": 1334,
+      "kind": "target-model-source"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/poster-20261103.png",
+      "sha256": "0df959c8b69c896e6f69906fda562831baee527805d893c5612336d09ff17e33",
+      "bytes": 52125,
+      "width": 1200,
+      "height": 900,
+      "kind": "rendered-model-output"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.svg",
+      "sha256": "83ab04bb50ce1505c0b099aa7a8e4f0e7b64de3fe999479714b27ec3de06ffdd",
+      "bytes": 3675,
+      "kind": "target-model-source"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.png",
+      "sha256": "707197be9addaa8f80e66955a6ad7559b7891d8565399d6db571a9ecc64f5d37",
+      "bytes": 19970,
+      "width": 800,
+      "height": 600,
+      "kind": "rendered-model-output"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/pelican-animation-20261103.webp",
+      "sha256": "f7da3449a06eea4d5241dc7a1710813a936d8026f93d2bf0fd4d228430fd0dd9",
+      "bytes": 189586,
+      "width": 800,
+      "height": 600,
+      "kind": "encoded-model-animation"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/dots-logo.png",
+      "sha256": "aef352ba6f94b478348a5bc74bdb50a1571b09a1c5a636f232702f87c46b637a",
+      "bytes": 41428,
+      "width": 2123,
+      "height": 1031,
+      "kind": "official-logo",
+      "sourcePage": "https://huggingface.co/dots-studio/dots3-note-prev",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev/resolve/main/assets/dots%20logo@3x.png",
+      "copyright": "Dots Studio",
+      "retrievedAt": "2026-11-02"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/official-benchmarks-reasoning.png",
+      "sha256": "9a2f88cde1353884bf9d7c2a47b278debd8c92757dbba9e61dc2dcfe00475fb6",
+      "bytes": 730014,
+      "width": 2692,
+      "height": 1396,
+      "kind": "official-reported-benchmark",
+      "sourcePage": "https://huggingface.co/dots-studio/dots3-note-prev",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev/resolve/main/assets/bench_en1.png",
+      "copyright": "Dots Studio",
+      "retrievedAt": "2026-11-02"
+    },
+    {
+      "path": "/evaluations/dots3-note-preview/assets/official-benchmarks-multimodal.png",
+      "sha256": "fcf1d2d99752ae9d36cff2e1e619ca1ef9c23901ac6ede46f1defb990efedda9",
+      "bytes": 299165,
+      "width": 2746,
+      "height": 1088,
+      "kind": "official-reported-benchmark",
+      "sourcePage": "https://huggingface.co/dots-studio/dots3-note-prev",
+      "url": "https://huggingface.co/dots-studio/dots3-note-prev/resolve/main/assets/bench_en2.png",
+      "copyright": "Dots Studio",
+      "retrievedAt": "2026-11-02"
+    }
+  ]
+}

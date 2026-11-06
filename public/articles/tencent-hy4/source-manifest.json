@@ -1,0 +1,70 @@
+{
+  "schema": "tokrace-release-coverage-v1",
+  "checkedAt": "2026-11-03T13:40:50Z",
+  "coverage": "Official-source release preview and TOKRACE editorial analysis; no new model evaluation.",
+  "teaser": {
+    "postUrl": "https://x.com/TencentHunyuan/status/2117591591666016487",
+    "author": "Tencent Hy / @TencentHunyuan",
+    "text": "4 Real Productivity",
+    "publishedAt": "2026-11-03T12:15:53.000Z",
+    "durationSeconds": 40,
+    "originalWidth": 1920,
+    "originalHeight": 1080,
+    "videoUrl": "https://video.twimg.com/amplify_video/2117591346752172033/vid/avc1/1920x1080/LoktOvPKbmjBtlNV.mp4",
+    "posterUrl": "https://pbs.twimg.com/amplify_video_thumb/2117591346752172033/img/6yzyZ_DCKDOVTda3.jpg",
+    "verificationUrl": "https://cdn.syndication.twimg.com/tweet-result?id=2117591591666016487&lang=en&token=a",
+    "hosting": "Official original MP4 served through TOKRACE from its existing immutable media storage; local official poster; original X post retained for attribution.",
+    "credit": "Tencent Hy / 腾讯混元",
+    "inspection": "All forty one-second video frames and additional closing frames inspected; scene descriptions concern visible imagery, not audio transcription or independently verified model capability.",
+    "videoPath": "/articles/tencent-hy4/hy4-official-teaser.mp4",
+    "posterPath": "/articles/tencent-hy4/official-poster.jpg",
+    "videoFile": {
+      "bytes": 20989886,
+      "sha256": "166b7c9dd6d67f86196450fed25da58013c6409ae01e9e209352d1d6e2c99490",
+      "originalBytes": true,
+      "containerDurationSeconds": 40.042667,
+      "videoCodec": "h264",
+      "audioCodec": "aac",
+      "faststart": true
+    },
+    "posterFile": {
+      "bytes": 71963,
+      "sha256": "d86cdc18e296ceb08433fe6bfdcc93404ed93404efc1eb33bc2a209c41fe6358",
+      "originalBytes": true
+    },
+    "storageUrl": "https://ymgfejbgkctriczbcvxc.supabase.co/storage/v1/object/public/tokrace-creative-evaluations-20261027/hy4-teaser-166b7c9dd6d67f86/hy4-official-teaser.mp4"
+  },
+  "sources": [
+    {
+      "titleZh": "腾讯混元官方 X 预告：4 Real Productivity（11 月 3 日）",
+      "titleEn": "Tencent Hy official teaser: 4 Real Productivity (November 3)",
+      "url": "https://x.com/TencentHunyuan/status/2117591591666016487"
+    },
+    {
+      "titleZh": "腾讯官方公告：预告 Hy4 正式版与 Flash（10 月 29 日）",
+      "titleEn": "Tencent announcement: upcoming Hy4 general release and Flash (October 29)",
+      "url": "https://www.tencent.com/zh-cn/tencent-cloud-accelerates-international-growth-advances-enterprise-ai-and-expands-global-partnerships/"
+    },
+    {
+      "titleZh": "腾讯官方：发布并开源 Hy4 Preview（8 月 28 日）",
+      "titleEn": "Tencent releases and open-sources Hy4 Preview (August 28)",
+      "url": "https://www.tencent.com/tencent-releases-and-open-sources-tencent-hy4-preview/"
+    },
+    {
+      "titleZh": "Hy4 Preview 官方仓库：规格、权重与许可证",
+      "titleEn": "Official Hy4 Preview repository: specifications, weights and license",
+      "url": "https://github.com/Tencent-Hunyuan/Hy4-preview"
+    }
+  ],
+  "unconfirmedForUpcomingVersions": [
+    "Exact release date",
+    "Parameter count and context window",
+    "API model identifiers and pricing",
+    "Weight availability and license"
+  ],
+  "socialCard": {
+    "path": "/articles/tencent-hy4/social-card.png",
+    "credit": "TOKRACE original typography and layout; not a Tencent benchmark or product screenshot."
+  },
+  "updatedAt": "2026-11-03T14:30:53Z"
+}

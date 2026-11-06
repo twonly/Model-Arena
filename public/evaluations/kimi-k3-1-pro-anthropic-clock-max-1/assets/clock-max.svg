@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <title>Analog clock showing exactly 09:41</title>
+
+  <rect width="800" height="600" fill="#f2f5f9"/>
+
+  <circle cx="400" cy="275" r="203" fill="#dce3eb"/>
+  <circle cx="400" cy="270" r="202" fill="#fffefa" stroke="#2c3a4b" stroke-width="5"/>
+  <circle cx="400" cy="270" r="193" fill="none" stroke="#d7dee7" stroke-width="2"/>
+
+  <defs>
+    <g id="tick-sector">
+      <line x1="400" y1="82" x2="400" y2="98"
+            stroke="#344254" stroke-width="4" stroke-linecap="round"/>
+      <line x1="400" y1="82" x2="400" y2="90"
+            transform="rotate(6 400 270)"
+            stroke="#9aa6b3" stroke-width="2" stroke-linecap="round"/>
+      <line x1="400" y1="82" x2="400" y2="90"
+            transform="rotate(12 400 270)"
+            stroke="#9aa6b3" stroke-width="2" stroke-linecap="round"/>
+      <line x1="400" y1="82" x2="400" y2="90"
+            transform="rotate(18 400 270)"
+            stroke="#9aa6b3" stroke-width="2" stroke-linecap="round"/>
+      <line x1="400" y1="82" x2="400" y2="90"
+            transform="rotate(24 400 270)"
+            stroke="#9aa6b3" stroke-width="2" stroke-linecap="round"/>
+    </g>
+  </defs>
+
+  <g>
+    <use href="#tick-sector"/>
+    <use href="#tick-sector" transform="rotate(30 400 270)"/>
+    <use href="#tick-sector" transform="rotate(60 400 270)"/>
+    <use href="#tick-sector" transform="rotate(90 400 270)"/>
+    <use href="#tick-sector" transform="rotate(120 400 270)"/>
+    <use href="#tick-sector" transform="rotate(150 400 270)"/>
+    <use href="#tick-sector" transform="rotate(180 400 270)"/>
+    <use href="#tick-sector" transform="rotate(210 400 270)"/>
+    <use href="#tick-sector" transform="rotate(240 400 270)"/>
+    <use href="#tick-sector" transform="rotate(270 400 270)"/>
+    <use href="#tick-sector" transform="rotate(300 400 270)"/>
+    <use href="#tick-sector" transform="rotate(330 400 270)"/>
+  </g>
+
+  <g fill="#202c3b" font-family="Arial, Helvetica, sans-serif"
+     font-size="28" font-weight="600" text-anchor="middle"
+     dominant-baseline="middle">
+    <text x="400" y="117">12</text>
+    <text x="477" y="138">1</text>
+    <text x="533" y="194">2</text>
+    <text x="553" y="270">3</text>
+    <text x="533" y="347">4</text>
+    <text x="477" y="403">5</text>
+    <text x="400" y="423">6</text>
+    <text x="324" y="403">7</text>
+    <text x="267" y="347">8</text>
+    <text x="247" y="270">9</text>
+    <text x="267" y="194">10</text>
+    <text x="324" y="138">11</text>
+  </g>
+
+  <!-- Hour hand: 9 hours + 41/60 hour = 290.5 degrees from 12. -->
+  <line x1="400" y1="270" x2="400" y2="170"
+        transform="rotate(290.5 400 270)"
+        stroke="#172333" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Minute hand: 41 minutes = 246 degrees from 12. -->
+  <line x1="400" y1="270" x2="400" y2="130"
+        transform="rotate(246 400 270)"
+        stroke="#2b3a4c" stroke-width="7" stroke-linecap="round"/>
+
+  <circle cx="400" cy="270" r="11" fill="#172333"/>
+  <circle cx="400" cy="270" r="4" fill="#fffefa"/>
+
+  <text x="400" y="535" text-anchor="middle"
+        font-family="Arial, Helvetica, sans-serif" font-size="24"
+        font-weight="600" letter-spacing="2" fill="#526174">09:41</text>
+</svg>

@@ -1,0 +1,19 @@
+{
+  "model": "google/gemma-4-31b-it:free",
+  "version": "Gemma 4 31B IT via OpenRouter free route, verified 2026-11-04",
+  "displayName": "Gemma 4 31B IT - free API creation",
+  "aliases": ["gemma4-free-creation"],
+  "protocol": "openai-chat",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "keyEnv": "SHARED_KEY_OPENROUTER",
+  "expectedReturnedModel": "google/gemma-4-31b-it:free",
+  "billing": "openrouter-free-variant",
+  "vision": "supported",
+  "modes": {"default": {}},
+  "extraBody": {"provider": {"max_price": {"prompt": 0, "completion": 0}}},
+  "providerMaxOutputTokens": 32768,
+  "versionSource": "https://openrouter.ai/api/v1/models/google/gemma-4-31b-it:free/endpoints",
+  "officialWeights": "https://huggingface.co/google/gemma-4-31B-it",
+  "weightLicense": "Apache-2.0",
+  "method": "Persistent isolated OpenAI API tool loop; same frozen November 4 creative-suite-v4 briefs, shell and view_image conditions as the paired Nemotron batch."
+}

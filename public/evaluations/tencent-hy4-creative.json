@@ -1,0 +1,1742 @@
+{
+  "schemaVersion": 1,
+  "suiteVersion": "creative-suite-v4",
+  "evaluationDate": "2026-11-04",
+  "topicSetSha256": "3ee3c3ae4dd583083b8288b8aeea2eb9cda32d22c86716935c516f10c99f6d71",
+  "model": "Tencent Hy4",
+  "providerLabel": "OpenRouter · tencent/hy4 · Claude Code 2.1.311",
+  "date": "2026-11-04",
+  "publishedAt": "2026-11-04",
+  "updatedAt": "2026-11-04T11:28:28.772Z",
+  "summaryZh": "标准11项全部交齐作品：SVG规格稳定，书架参数准确，齿轮机构运动成立；减速器的制造配合和部分知识视频的科学图解仍有错误。独立读图加测的25项检查全部通过，但没有与Preview同题对照，不能据此量化视觉提升。",
+  "summaryEn": "All eleven creative tasks delivered artifacts. SVG constraints, shelf dimensions and sampled gear motion hold up; manufacturing fits and some scientific video diagrams remain incorrect. The separate image-input set passes all 25 checks, without a matched Preview comparison or a measured improvement claim.",
+  "methodZh": "creative-suite-v4：3项Blender、4条2026-11-04上海日期锁定的中文知识视频、3项静态SVG与1项骑车动画。统一制作指令要求3D主图至少1920×1080、其他视图至少1600×900；原附件4K目标是否复现另列。实际tencent/hy4通过Claude Code原生持久会话制作与自查，保留全部过程；协调AI独立检查网格、最终媒体、文字和动画，技术完成与内容正确分开记录。",
+  "methodEn": "creative-suite-v4: three Blender tasks, four Chinese knowledge films using the frozen Shanghai November 4 topics, three static SVGs and one cycling animation. The shared production instructions require 3D main views of at least 1920×1080 and other views of at least 1600×900; original attachment 4K targets are assessed separately. Actual tencent/hy4 authored and reviewed work in persistent native Claude Code sessions. A coordinating AI independently inspected meshes, final media, text and animation, separating delivery from correctness.",
+  "workflowNoteZh": "多题并行执行，持续沿用原工程。可读预览或主要交付建立后，协调者要求收束到缺失成片与必要说明；未手改艺术源码。两居室由协调者在禁网沙箱执行原作者未改动的编码脚本，使用已有180帧和音轨；此为执行编码，不计作新增模型创作。Kokoro 0.9.4 / zf_xiaobei / z为统一配音工具，不是Hy4原生语音。",
+  "workflowNoteEn": "Tasks ran concurrently and continued their original projects. Once readable previews or main deliverables existed, coordinator prompts focused the author on missing final production and required notes; artwork source was not hand-edited. For the interior, the coordinator ran the unchanged author encoder in an offline sandbox on 180 existing frames and audio. This is production execution, not new model authorship. Kokoro 0.9.4 / zf_xiaobei / z is the shared voice tool, not native Hy4 speech.",
+  "usageNoteZh": "请求统计仅含创作生成接口，不含辅助count_tokens RPC、连通检查或独立视觉加测。输入含缓存读取，输出含思考；7次请求没有完整usage，所列token与费用仅为已收到的小计，未知不是0。耗时为持久案例累计墙钟时间，含工具、渲染、等待与协调间隔；多题并行，不能相加当总耗时或作为纯模型延迟。",
+  "usageNoteEn": "Request counts cover creative generation calls, excluding auxiliary count_tokens RPCs, readiness checks and the separate vision set. Input includes cache reads and output includes reasoning. 7 requests lack complete usage; tokens and cost are known subtotals, with unknown usage not treated as zero. Case wall times include tools, rendering, waiting and coordination gaps. Concurrent case times are not additive elapsed time or pure model latency.",
+  "billingZh": "各创作响应usage.cost的已知小计为$3.460043；不是账单核销值，也不采用CLI估算美元数。视觉加测费用另列。单请求沿用提供商65536输出上限；没有设置总请求、总token、总时长或重试次数终止预算。",
+  "billingEn": "Creative responses report a known usage.cost subtotal of $3.460043. This is not invoice reconciliation and does not use CLI dollar estimates. Vision cost is listed separately. Requests use the provider's 65,536-token output ceiling, without total request, token, wall-time or retry-count termination budgets.",
+  "limitationsZh": [
+    "本轮创作是持久工具会话的成品评测，并非所有任务的首轮单次回答；视觉加测才保留独立首个完整回答。",
+    "画面观察与评分来自协调AI；检查脚本不能证明全体几何、全部科学表述或生产可用性。配音做了技术与时间轴核对，未完整听审。",
+    "全体源码与实际错误保留；部分重建脚本含作者本机工具/字体路径，下载包的CRC与文件审阅不等于异机完整复建。",
+    "未测试真实桌面电脑操作、自然照片、长扫描文档或视频输入，未做Hy4 Preview同题对照；官方跑分单独归因，未独立复现。"
+  ],
+  "limitationsEn": [
+    "Creative results come from persistent tool sessions rather than single first answers; only the separate vision set retains independent first complete responses.",
+    "A coordinating AI supplied visual observations and checks. Scripts do not prove every geometric detail, scientific statement or production fitness. Audio received technical and timeline checks, without a complete listening review.",
+    "Source and observed errors are preserved. Some rebuild scripts retain local tool/font paths; ZIP CRC and source inspection do not establish a full rebuild on another machine.",
+    "No actual desktop operation, natural-photo, long-scan or video-input test, and no matched Hy4 Preview comparison. Official benchmarks are separately attributed and were not reproduced."
+  ],
+  "evidencePath": "/evaluations/tencent-hy4-creative.json",
+  "totals": {
+    "requests": 771,
+    "completedResponses": 764,
+    "errors": 5,
+    "interruptedRequests": 2,
+    "promptTokens": 59202323,
+    "outputTokens": 1183151
+  },
+  "accounting": {
+    "scope": "Creative generation API responses only; known subtotal, not invoice reconciliation",
+    "reportedCostUsdKnownSubtotal": 3.460043038815,
+    "missingUsageRequests": 7,
+    "cases": [
+      {
+        "caseId": "bookshelf",
+        "requests": 70,
+        "completedResponses": 69,
+        "errors": 1,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [
+          63
+        ],
+        "reportedCostUsdKnownSubtotal": 0.31117047489000005
+      },
+      {
+        "caseId": "planetary-reducer",
+        "requests": 162,
+        "completedResponses": 161,
+        "errors": 0,
+        "incompleteResponses": 1,
+        "missingUsageRequestNumbers": [
+          4
+        ],
+        "reportedCostUsdKnownSubtotal": 0.7246441629900006
+      },
+      {
+        "caseId": "two-bedroom-interior",
+        "requests": 141,
+        "completedResponses": 139,
+        "errors": 1,
+        "incompleteResponses": 1,
+        "missingUsageRequestNumbers": [
+          11,
+          135
+        ],
+        "reportedCostUsdKnownSubtotal": 0.699507447705
+      },
+      {
+        "caseId": "knowledge-1",
+        "requests": 86,
+        "completedResponses": 85,
+        "errors": 1,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [
+          69
+        ],
+        "reportedCostUsdKnownSubtotal": 0.38846491447499976
+      },
+      {
+        "caseId": "knowledge-2",
+        "requests": 83,
+        "completedResponses": 83,
+        "errors": 0,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [],
+        "reportedCostUsdKnownSubtotal": 0.3275281290600002
+      },
+      {
+        "caseId": "knowledge-3",
+        "requests": 63,
+        "completedResponses": 62,
+        "errors": 1,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [
+          52
+        ],
+        "reportedCostUsdKnownSubtotal": 0.2994978462300001
+      },
+      {
+        "caseId": "knowledge-4",
+        "requests": 50,
+        "completedResponses": 49,
+        "errors": 1,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [
+          37
+        ],
+        "reportedCostUsdKnownSubtotal": 0.22821190672500008
+      },
+      {
+        "caseId": "svg-clock",
+        "requests": 22,
+        "completedResponses": 22,
+        "errors": 0,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [],
+        "reportedCostUsdKnownSubtotal": 0.07290932368500001
+      },
+      {
+        "caseId": "svg-dashboard",
+        "requests": 13,
+        "completedResponses": 13,
+        "errors": 0,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [],
+        "reportedCostUsdKnownSubtotal": 0.039798544005000006
+      },
+      {
+        "caseId": "svg-poster",
+        "requests": 27,
+        "completedResponses": 27,
+        "errors": 0,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [],
+        "reportedCostUsdKnownSubtotal": 0.11667699648000002
+      },
+      {
+        "caseId": "svg-pelican-animation",
+        "requests": 54,
+        "completedResponses": 54,
+        "errors": 0,
+        "incompleteResponses": 0,
+        "missingUsageRequestNumbers": [],
+        "reportedCostUsdKnownSubtotal": 0.2516332925700001
+      }
+    ]
+  },
+  "harness": {
+    "name": "Claude Code",
+    "version": "2.1.311",
+    "model": "tencent/hy4",
+    "protocol": "claude-code-creation-v1",
+    "apiTransport": "anthropic-messages",
+    "providerMaxOutputTokens": 65536,
+    "totalRequestLimit": null,
+    "totalOutputTokenLimit": null,
+    "totalWallTimeLimit": null,
+    "totalRetryLimit": null,
+    "creationSourceEditedByCoordinator": false
+  },
+  "cases": [
+    {
+      "id": "bookshelf",
+      "titleZh": "参数化书架及参数修改",
+      "titleEn": "Parametric bookshelf and parameter revision",
+      "category": "blender",
+      "effort": "native default",
+      "summaryZh": "两版尺寸、18毫米板厚与等净高分格正确，浅橡木材质和榫槽细节清楚；对比图有少量箭头缺字。",
+      "summaryEn": "Both sizes, 18 mm panels and equal clear bays are correct, with readable light-oak materials and dado details. The comparison header has missing arrow glyphs.",
+      "source": {
+        "url": "https://vercel.com/changelog/kimi-k3-1-pro-and-kimi-k3-1-pro-highspeed-are-available-now-in-ai-gateway",
+        "titleZh": "TOKRACE 参数化书架任务与历史来源记录",
+        "titleEn": "TOKRACE parametric shelf task and historical source record",
+        "originalPrompt": "题面概要：同一脚本生成0.8×0.3×1.2米三格书架，再只改宽度为1米、分格为四格；板厚18毫米，每版交主、背、结构视图及原生工程。",
+        "changesZh": "沿用creative-suite-v4规格；此处为题面概要，哈希对应私有归档中的实际环境与创作提示。",
+        "changesEn": "Uses creative-suite-v4. The brief here is a summary; the hash identifies the actual archived creation prompt and environment."
+      },
+      "prompt": "提示词概要：使用同一参数脚本完成两版真实可编辑书架，核对尺寸、等高分格与接合，并实际渲染主视图、背面及结构近景。",
+      "promptSha256": "8c9b4f2b770b6e4a7b00add210fb2f1d5a36e45688e2f318cc4e82632085d36a",
+      "metrics": {
+        "requests": 70,
+        "completedResponses": 69,
+        "promptTokens": 5628469,
+        "outputTokens": 104828,
+        "wallMs": 2251871
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/v1_main.png",
+          "width": 2400,
+          "height": 1350,
+          "captionZh": "0.8米三格书架主视角",
+          "captionEn": "0.8 m three-bay shelf, main view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/v2_main.png",
+          "width": 2400,
+          "height": 1350,
+          "captionZh": "1米四格书架主视角",
+          "captionEn": "1 m four-bay shelf, main view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/v1_back.png",
+          "width": 2400,
+          "height": 1350,
+          "captionZh": "第一版背面",
+          "captionEn": "Version one, rear view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/v2_back.png",
+          "width": 2400,
+          "height": 1350,
+          "captionZh": "第二版背面",
+          "captionEn": "Version two, rear view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/v1_structure.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "第一版结构灰模",
+          "captionEn": "Version one, structural view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/v2_structure.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "第二版结构灰模",
+          "captionEn": "Version two, structural view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/v1_joint.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "第一版榫槽近景",
+          "captionEn": "Version one, dado detail"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/v2_joint.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "第二版榫槽近景",
+          "captionEn": "Version two, dado detail"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/renders/compare.png",
+          "width": 3208,
+          "height": 1184,
+          "captionZh": "两版参数对照（顶部箭头缺字）",
+          "captionEn": "Parameter comparison (missing header arrow glyphs)"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/project-source.zip",
+          "labelZh": "源码与两版原生工程",
+          "labelEn": "Source and both native projects"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/version-1.blend",
+          "labelZh": "第1版原生工程（无内嵌脚本）",
+          "labelEn": "Version 1 native project (external script)"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/bookshelf/version-2.blend",
+          "labelZh": "第2版原生工程（无内嵌脚本）",
+          "labelEn": "Version 2 native project (external script)"
+        }
+      ],
+      "assessmentZh": [
+        "两版尺寸、板厚与等净高格均由实际网格核对成立，同一参数脚本保留了可编辑板件、榫槽和木销，主视角、背面与结构近景交付完整。",
+        "浅橡木材质和统一机位让宽度与层数变化清楚可比；附加对比板顶部的箭头出现缺字方框，六张主要交付图的主体与尺寸标注可读。",
+        "参数修改需要运行外部Python脚本；异机重建还需调整启动器的Blender路径并提供Pillow与字体。"
+      ],
+      "assessmentEn": [
+        "Actual meshes match both requested sizes, 18 mm panels and equal clear bays. One parameter script preserves editable boards, dado joints and dowels, with complete front, rear and structural views.",
+        "Light oak and consistent camera placement make the width and bay-count changes easy to compare. Arrow glyphs are missing in the optional comparison header; the six required views remain readable.",
+        "Parameter changes require rerunning the external Python builder. Rebuilding elsewhere also requires adjusting the Blender launcher path and providing Pillow and fonts."
+      ],
+      "checks": [
+        {
+          "labelZh": "实际尺寸与等高分格",
+          "labelEn": "Measured dimensions and equal bays",
+          "status": "pass",
+          "detailZh": "两版外廓为0.8/1.0×0.3×1.2米；板厚18毫米，净格高分别376与277.5毫米。",
+          "detailEn": "Outer sizes are 0.8/1.0 × 0.3 × 1.2 m, with 18 mm panels and clear bay heights of 376 / 277.5 mm."
+        },
+        {
+          "labelZh": "原生工程与公开副本",
+          "labelEn": "Native projects and public copies",
+          "status": "pass",
+          "detailZh": "两原件均禁用自动执行重开；公开副本仅去掉嵌入文本，对象、网格、材质、相机与动画指纹一致。",
+          "detailEn": "Both originals reopened with auto-execution disabled. Public copies only remove embedded texts; object, mesh, material, camera and animation fingerprints match."
+        },
+        {
+          "labelZh": "六张必需视图",
+          "labelEn": "Six required views",
+          "status": "pass",
+          "detailZh": "两版主/背图为2400×1350，结构图为1920×1080，均已实际查看。",
+          "detailEn": "Both main/rear pairs are 2400×1350, with 1920×1080 structural views; all were visually inspected."
+        },
+        {
+          "labelZh": "对比图排版",
+          "labelEn": "Comparison typography",
+          "status": "partial",
+          "detailZh": "附加对比板的两个箭头显示为缺字方框。",
+          "detailEn": "Two arrow glyphs in the optional comparison header appear as boxes."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 70,
+          "completedResponses": 69,
+          "noteZh": "同一Hy4持久会话完成源码、渲染与公开工程导出；缺失用量在运行记录中单列。",
+          "noteEn": "One persistent Hy4 session authored the source, renders and public project exports; missing usage is listed in the run record.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/bookshelf/creation-evidence.json"
+        }
+      ],
+      "caseSpecSha256": "6e2b1958706313f70113222e73d7e202aa6e77d28b074206e61c2dc6f3a69bb5",
+      "usageIncomplete": true,
+      "reportedInferenceCostUsdKnownSubtotal": 0.31117047489000005
+    },
+    {
+      "id": "planetary-reducer",
+      "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+      "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+      "category": "blender",
+      "effort": "native default",
+      "summaryZh": "齿数、渐开线和3.5传动关系成立，四图、机构动画及三套LOD交齐；制造配合和部分引线仍有偏差。",
+      "summaryEn": "Tooth counts, involute geometry and the 3.5 transmission ratio are correct, with four views, mechanism animation and three LODs. Manufacturing fits and some callouts remain imperfect.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+        "titleZh": "BlenderWorld bw_0106 题目改编（冻结版本）",
+        "titleEn": "Adapted BlenderWorld bw_0106 task (frozen revision)",
+        "originalPrompt": "题面概要：按附件制作24/18/60齿、模数2毫米行星减速器游戏资产，保持140毫米外径、3.5速比、UV与LOD；交装配、轴向爆炸、俯视、齿部图及六秒视频。",
+        "changesZh": "采用creative-suite-v4创作条件；这里仅列题面概要，哈希对应私有归档实际提示与环境。",
+        "changesEn": "Uses creative-suite-v4 creation conditions. This is a brief; the hash identifies the actual archived prompt and environment."
+      },
+      "prompt": "提示词概要：用真实渐开线几何和毫米尺度制作可编辑行星减速器，完成四视图、机构运动及可导出的游戏资产。",
+      "promptSha256": "4f2f0c15121c1c40e85e429628b4dbb98c4ca7ef6e6cbe9ce948cbcd03c4f2a7",
+      "metrics": {
+        "requests": 162,
+        "completedResponses": 161,
+        "promptTokens": 13919531,
+        "outputTokens": 231020,
+        "wallMs": 6239745
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/planetary-reducer/renders/01_assembly_hero.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "装配主视图",
+          "captionEn": "Assembled reducer"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/planetary-reducer/renders/02_axial_exploded.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "轴向爆炸视图",
+          "captionEn": "Axial exploded view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/planetary-reducer/renders/03_top_mesh.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "俯视啮合关系",
+          "captionEn": "Gear meshing from above"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/planetary-reducer/renders/04_involute_detail.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "渐开线齿部近景",
+          "captionEn": "Involute tooth detail"
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/tencent-hy4-creative/planetary-reducer/final.mp4",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": 6,
+          "captionZh": "六秒机构运动与往返转台",
+          "captionEn": "Six-second mechanism motion and reversible turntable",
+          "posterPath": "/evaluations/tencent-hy4-creative/planetary-reducer/renders/03_top_mesh.png",
+          "audioMode": "music-only",
+          "uploadDate": "2026-11-04"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/planetary-reducer/project-source.zip",
+          "labelZh": "源码、原生工程与三套LOD",
+          "labelEn": "Source, native project and three LODs"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/planetary-reducer/final.blend",
+          "labelZh": "原生Blender工程",
+          "labelEn": "Native Blender project"
+        }
+      ],
+      "assessmentZh": [
+        "实际网格确认24/18/60齿、20°渐开线、20毫米齿宽及42毫米行星布置；采样运动满足3.5速比，四张视图和去前盘机构动画能说明装配关系。",
+        "前盘遮住主视图中部分齿轮，引线有落在销轴或齿面平面的情况；俯视图补足了啮合关系，三套静态GLB的实际三角数为68,684、41,420、26,476。",
+        "制造配合仍有偏差：太阳孔约12毫米、输入轴约11.96毫米，实际为间隙而非H7/r6过盈；UV具有有效面积，但未全面核验无重叠。"
+      ],
+      "assessmentEn": [
+        "Actual meshes confirm 24/18/60 teeth, 20-degree involutes, 20 mm faces and 42 mm planet placement. Sampled motion satisfies the 3.5 ratio, and the four views plus cutaway animation explain the assembly.",
+        "The front plate obscures some gears in the hero view, and some callouts land on pins or flat faces. The top view clarifies meshing; the static GLB LODs contain 68,684, 41,420 and 26,476 triangles.",
+        "Manufacturing fits remain imperfect: the approximately 12 mm sun bore and 11.96 mm input shaft form clearance rather than H7/r6 interference. UVs have usable area, but full non-overlap was not independently verified."
+      ],
+      "checks": [
+        {
+          "labelZh": "齿形、尺寸与机构运动",
+          "labelEn": "Gear geometry, dimensions and motion",
+          "status": "pass",
+          "detailZh": "真实顶点计数24/18/60，渐开线拟合20°；7帧采样无平面齿形穿插，太阳/行星架角增量比3.5。",
+          "detailEn": "Actual vertices give 24/18/60 teeth and 20-degree involutes. Seven sampled poses have no planar tooth penetration, with a 3.5 sun/carrier angular ratio."
+        },
+        {
+          "labelZh": "正式媒体与原生工程",
+          "labelEn": "Final media and native project",
+          "status": "pass",
+          "detailZh": "四图1920×1080已查看；6秒1280×720、30fps视频全解码，有音轨与可见机构变化；工程禁自动执行重开且无内嵌文本。",
+          "detailEn": "Four 1920×1080 images were viewed. The six-second 1280×720, 30 fps film fully decodes with audio and visible mechanism motion. The native project reopens with auto-execution disabled and has no embedded text."
+        },
+        {
+          "labelZh": "制造配合",
+          "labelEn": "Manufacturing fits",
+          "status": "fail",
+          "detailZh": "约12毫米孔配11.96毫米轴形成间隙，未实现标注的H7/r6过盈。",
+          "detailEn": "The approximately 12 mm bore and 11.96 mm shaft form clearance rather than the labelled H7/r6 interference fit."
+        },
+        {
+          "labelZh": "UV与LOD交付",
+          "labelEn": "UV and LOD delivery",
+          "status": "partial",
+          "detailZh": "三套GLB具有UV/法线，导出三角数68,684/41,420/26,476；未全面验证UV无重叠，GLB无烘焙贴图或动画。",
+          "detailEn": "Three GLBs provide UVs/normals and 68,684 / 41,420 / 26,476 triangles. UV non-overlap was not fully verified; GLBs contain no baked textures or animations."
+        },
+        {
+          "labelZh": "表现与渲染条件",
+          "labelEn": "Presentation and rendering",
+          "status": "partial",
+          "detailZh": "采用EEVEE终稿；爆炸图为轴向远景，主图前盘遮挡部分齿轮，部分引线落点不准。",
+          "detailEn": "Finals use EEVEE. The exploded view is a distant axial view; the hero front plate hides some gears and several callouts are imprecise."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 162,
+          "completedResponses": 161,
+          "noteZh": "同一Hy4持久会话完成源码与媒体；部分调用用量缺失，详见脱敏记录。",
+          "noteEn": "One persistent Hy4 session authored source and media; missing usage is identified in the sanitized record.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/planetary-reducer/creation-evidence.json"
+        }
+      ],
+      "caseSpecSha256": "58fc7543753c82a6282d4ab784ed5c16723b749ae0375d5ffc007a982eee8342",
+      "usageIncomplete": true,
+      "reportedInferenceCostUsdKnownSubtotal": 0.7246441629900006
+    },
+    {
+      "id": "two-bedroom-interior",
+      "titleZh": "12×9米两居室装修、多房间与俯视平面",
+      "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+      "category": "blender",
+      "effort": "native default",
+      "summaryZh": "房间布局、材质和混合灯光可读，平面图与转台完整；主卧取景偏近、家具简化，按本轮统一HD条件输出。",
+      "summaryEn": "Layout, materials and mixed lighting are readable, with a complete floor plan and turntable. Master-bedroom framing is tight and furniture is simplified; output follows the run's shared HD conditions.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+        "titleZh": "BlenderWorld bw_0139 两居室任务改编",
+        "titleEn": "Adapted BlenderWorld bw_0139 interior task",
+        "originalPrompt": "题面概要：12×9米现代简约两居室，净高2.8米，按附件配置客餐厅、厨房、东北主卧套间、东南次卧书房及公卫；交室内、顶视、灰模和六秒视频。",
+        "changesZh": "采用本轮creative-suite-v4统一最低分辨率与制作条件；这里是概要，哈希对应私有归档实际提示与环境。",
+        "changesEn": "Uses this creative-suite-v4 run's shared minimum resolution and production conditions. This is a brief; the hash identifies the actual archived prompt and environment."
+      },
+      "prompt": "提示词概要：制作可编辑两居室，保留真实门窗洞口、房间分组与PBR材质，完成室内视角、正交平面、灰模及六秒转台。",
+      "promptSha256": "a7390deaf4be738147e248f4ab6f878d3cc4f63b3add06f7b59c88978190fcc5",
+      "metrics": {
+        "requests": 141,
+        "completedResponses": 139,
+        "promptTokens": 11911141,
+        "outputTokens": 257801,
+        "wallMs": 7226866
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/01_living_dining.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "客餐厅主视角",
+          "captionEn": "Living and dining room"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/02_master_bedroom.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "主卧床头近景（取景偏近）",
+          "captionEn": "Master bedroom close-up (tight framing)"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/03_second_bedroom_study.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "次卧兼书房",
+          "captionEn": "Second bedroom and study"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/_plan_raw.png",
+          "width": 1900,
+          "height": 1330,
+          "captionZh": "终稿原始正交顶视图",
+          "captionEn": "Final raw orthographic floor plan"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/04_plan_top.png",
+          "width": 2400,
+          "height": 1600,
+          "captionZh": "带标注平面图（早期低清预览派生）",
+          "captionEn": "Labelled floor plan (derived from an earlier low-resolution preview)"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/05_gray_model.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "结构灰模与门窗洞口",
+          "captionEn": "Clay structure and door/window openings"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/06_kitchen.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "L形厨房",
+          "captionEn": "L-shaped kitchen"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/07_living_alt.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "客餐厅补充视角",
+          "captionEn": "Alternate living/dining view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/08_master_suite.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "主卧套间局部",
+          "captionEn": "Master suite detail"
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/final.mp4",
+          "posterPath": "/evaluations/tencent-hy4-creative/two-bedroom-interior/renders/04_plan_top.png",
+          "audioMode": "music-only",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": 6,
+          "captionZh": "六秒去顶转台，配乐无旁白",
+          "captionEn": "Six-second roofless turntable, music without narration",
+          "uploadDate": "2026-11-04"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/project-source.zip",
+          "labelZh": "原生工程、贴图与源码",
+          "labelEn": "Native project, textures and source"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/two-bedroom-interior/final.blend",
+          "labelZh": "原生Blender工程（贴图见ZIP）",
+          "labelEn": "Native Blender project (textures in ZIP)"
+        }
+      ],
+      "assessmentZh": [
+        "客餐厅、两卧室、厨房、衣帽间和双卫的布局在正交图与转台中可读，木地板、瓷砖、橱柜和暖色混合照明可以区分，原生场景按房间分组。",
+        "主卧两张视角都偏近，床和房间未完整入画；家具、织物与植物形体较简化，窗外缺少环境细节。",
+        "本轮统一HD最低尺寸已达到；原附件4K与全套16-bit目标未复现，受本轮统一制作条件影响。带标注平面图复用早期低清预览放大，实际终稿正交渲染另列。",
+        "提供原生工程、相对路径贴图与作者脚本；未做异机完整复建或完整碰撞检查，音轨仅作技术检查，未听审。"
+      ],
+      "assessmentEn": [
+        "The orthographic plan and turntable clearly show living/dining, two bedrooms, kitchen, wardrobe and both bathrooms. Wood, tile, cabinetry and warm mixed lighting are distinguishable, with room-based native collections.",
+        "Both master-bedroom views are tightly framed and do not show the whole bed or room. Furniture, textiles and plants use simplified forms, and the windows lack exterior context.",
+        "The run meets the shared HD minimums. The original attachment's 4K and all-16-bit target was not reproduced under these shared production conditions. The labelled plan enlarges an earlier low-resolution preview; the final orthographic render is listed separately.",
+        "The native project, relative texture assets and author scripts are supplied. No complete rebuild on another machine or exhaustive collision check was performed; audio received technical checks without a listening review."
+      ],
+      "checks": [
+        {
+          "labelZh": "原生工程与贴图",
+          "labelEn": "Native project and textures",
+          "status": "pass",
+          "detailZh": "最终0494a10…工程禁用自动执行重开，731对象、18张贴图、22台相机、39灯具；无内嵌文本。",
+          "detailEn": "The final 0494a10… project reopens with auto-execution disabled: 731 objects, 18 textures, 22 cameras, 39 lights, and no embedded text."
+        },
+        {
+          "labelZh": "必需视图与视频",
+          "labelEn": "Required views and video",
+          "status": "pass",
+          "detailZh": "三张室内主视角、原始正交顶视、灰模和补充视图已查看；6秒1280×720/30fps视频全解码，有音轨与真实转台变化。",
+          "detailEn": "The three interior views, raw orthographic plan, clay view and extra views were inspected. The six-second 1280×720/30 fps film fully decodes with audio and visible turntable motion."
+        },
+        {
+          "labelZh": "分辨率与位深条件",
+          "labelEn": "Resolution and bit-depth conditions",
+          "status": "partial",
+          "detailZh": "达到本轮主图≥1920×1080、其他≥1600×900最低条件；未复现原附件4K与全套16-bit。大部分彩图为16-bit，原始/标注平面为8-bit。",
+          "detailEn": "Meets the run's main-view minimum of 1920×1080 and other-view minimum of 1600×900. The attachment's 4K/all-16-bit target was not reproduced; most colour views are 16-bit, while both plans are 8-bit."
+        },
+        {
+          "labelZh": "取景与平面图细节",
+          "labelEn": "Framing and floor-plan detail",
+          "status": "partial",
+          "detailZh": "主卧取景过近；标注平面由早期低清图放大，不能以2400×1600文件头当作同等细节的终稿。",
+          "detailEn": "Master-bedroom framing is too tight. The labelled plan enlarges an early low-resolution image; its 2400×1600 file dimensions do not establish equivalent rendered detail."
+        },
+        {
+          "labelZh": "全面碰撞与异机复建",
+          "labelEn": "Exhaustive collisions and cross-machine rebuild",
+          "status": "not-tested",
+          "detailZh": "未逐件完成家具碰撞、全部门宽或异机完整复建核验。",
+          "detailEn": "Furniture collisions, every door width and a complete rebuild on another machine were not exhaustively verified."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 141,
+          "completedResponses": 139,
+          "noteZh": "同一Hy4持久会话生成工程、画面及音频脚本，协调者执行现有编码脚本；缺失调用用量另列。",
+          "noteEn": "One persistent Hy4 session authored the project, frames and audio scripts; the coordinator executed its existing encoder. Missing call usage is identified separately.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/two-bedroom-interior/creation-evidence.json"
+        }
+      ],
+      "caseSpecSha256": "1ccfd5842dac0f5e795c07fd0044f7e0fa55902f0e4894e294a170d208ddd7d0",
+      "usageIncomplete": true,
+      "reportedInferenceCostUsdKnownSubtotal": 0.699507447705
+    },
+    {
+      "id": "knowledge-1",
+      "titleZh": "冰为何浮起：浮力图解有误",
+      "titleEn": "Why ice floats: an error in the buoyancy diagram",
+      "category": "knowledge-video",
+      "effort": "native default",
+      "summaryZh": "浮力段错误地说排开的水比漂浮的冰更重，并把排水体积画到杯底。分子、体积和密度段清楚，83.51秒成片与源码齐全。",
+      "summaryEn": "The floating scene overstates displaced-water weight and volume. Molecule and density diagrams are clear, and the 83.51-second film and source files are complete.",
+      "promptSha256": "8a1fbeef2c005cc9963617131575ba59cc442eedb80bf80c816d0c6a99a518d0",
+      "metrics": {
+        "requests": 86,
+        "completedResponses": 85,
+        "promptTokens": 7045916,
+        "outputTokens": 125673,
+        "wallMs": 3436065
+      },
+      "assessmentZh": [
+        "分子→体积→密度的主线清楚，示意图和中文字幕可读。",
+        "浮力段混淆同体积密度比较与漂浮平衡，排水体积也画错。",
+        "中文口播、字幕、配乐与源码齐全；完成技术与时序检查，尚未听审。",
+        "源码保留作者本机的Playwright/Chromium/TTS绝对路径，换机器复建须调整；包内原声已提供，可跳过拒绝覆盖已有文件的TTS生成步骤。"
+      ],
+      "assessmentEn": [
+        "The molecule → volume → density explanation is clear, with readable diagrams and Chinese captions.",
+        "The buoyancy scene confuses equal-volume density comparison with floating equilibrium and depicts the displaced volume incorrectly.",
+        "Chinese narration, subtitles, music and source files are delivered. Technical and timing checks are complete; audio has not been reviewed by listening.",
+        "Author source retains local absolute Playwright/Chromium/TTS paths that require adjustment on another machine. Packaged raw narration lets users skip TTS, which refuses to overwrite existing output."
+      ],
+      "checks": [
+        {
+          "id": "format",
+          "status": "pass",
+          "labelZh": "完整成片与规格",
+          "labelEn": "Complete film and format",
+          "detailZh": "MP4完整音视频解码通过；1920×1080、30fps、2505帧，容器83.51秒，含48kHz立体声AAC。",
+          "detailEn": "Full audio/video decode passes: 1920×1080, 30fps, 2,505 frames, 83.51-second container, 48kHz stereo AAC."
+        },
+        {
+          "id": "molecules",
+          "status": "pass",
+          "labelZh": "分子排列与质量守恒",
+          "labelEn": "Molecular arrangement and mass conservation",
+          "detailZh": "液态水与冰均画出氢键，解释液态可弯曲、冰晶格开放；对比维持各24个分子，明确不是质量减轻。",
+          "detailEn": "Both phases show hydrogen bonds, with flexible liquid bonds and an open ice lattice. The same 24 molecules are retained and mass loss is explicitly rejected."
+        },
+        {
+          "id": "expansion",
+          "status": "pass",
+          "labelZh": "约9%与4°C条件",
+          "labelEn": "Approximate 9% expansion and 4°C scope",
+          "detailZh": "约9%标为体积增大，淡水约4°C密度最大；画面标示意比例，并保留海水盐度边界。",
+          "detailEn": "About 9% refers to volume expansion, and roughly 4°C to freshwater maximum density. Diagrams are marked schematic and the saltwater caveat is retained."
+        },
+        {
+          "id": "buoyancy",
+          "status": "fail",
+          "labelZh": "漂浮平衡与排水体积",
+          "labelEn": "Floating equilibrium and displaced volume",
+          "detailZh": "约50–66秒画面写“排开的水比冰更重”，但漂浮平衡时排开水的重量应等于冰的重量；黄色排水框延伸到杯底，未对应冰浸入水中的体积。",
+          "detailEn": "Around 50–66 seconds, the film says displaced water is heavier than the ice. At floating equilibrium their weights are equal. Its yellow displaced-volume box reaches the cup bottom instead of matching the submerged ice volume."
+        },
+        {
+          "id": "captions",
+          "status": "pass",
+          "labelZh": "字幕与时间轴",
+          "labelEn": "Captions and timeline",
+          "detailZh": "17条SRT时码合法，首条0.55秒、末条82.58秒；字幕文本与口播稿一致，分镜与实测剪静音音轨共用采样时间轴；未以听审确认读音。",
+          "detailEn": "All 17 SRT cues have valid times, from 0.55 to 82.58 seconds. Text matches the narration, with scenes sharing the sample-based edited-audio timeline; pronunciation has not been verified by listening."
+        },
+        {
+          "id": "audio",
+          "status": "partial",
+          "labelZh": "音轨与混音",
+          "labelEn": "Audio track and mix",
+          "detailZh": "原始Kokoro音轨与文本/音频receipt哈希相符；剪句尾静音后由93.1秒收束至约83.51秒，无语速加速。人声RMS约-21.26dBFS、BGM约-32.52dBFS；尚未听审。",
+          "detailEn": "Raw Kokoro text and audio hashes match their receipt. Trimming sentence-end silence reduces 93.1 seconds to about 83.51 without tempo acceleration. Voice RMS is about −21.26dBFS and BGM −32.52dBFS; no listening review was performed."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 86,
+          "completedResponses": 85,
+          "noteZh": "同一Hy4持久会话完成作品；过程和缺失用量保存在脱敏运行记录。",
+          "noteEn": "One persistent Hy4 session authored the work; run metadata and missing usage are recorded separately.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/knowledge-1/creation-evidence.json"
+        }
+      ],
+      "source": {
+        "url": "https://www.noaa.gov/jetstream/ocean/sea-water",
+        "titleZh": "水结成冰，为什么反而浮起来？",
+        "titleEn": "Why does water float after it freezes?",
+        "originalPrompt": "题面概要：依据当天冻结资料讲清普通冰为何浮于水面，中文口播、字幕与机制动画，60–90秒、1920×1080，先测实际语音时长。",
+        "changesZh": "复用2026-11-04冻结主题与口播指南；统一Kokoro配音工具。此处为题面概要，哈希对应原会话提示。",
+        "changesEn": "Uses the frozen November 4 topic and narration guide with the shared Kokoro voice tool. This brief is a summary; the hash identifies the original session prompt."
+      },
+      "prompt": "提示词概要：由Hy4按冻结事实和口播指南写讲稿/读音稿/分镜，生成中文配音、连续机制动画和同步字幕，并交成片与源码。",
+      "references": [
+        {
+          "url": "https://www.grc.nasa.gov/www/k-12/WindTunnel/Activities/buoy_Archimedes.html",
+          "labelZh": "NASA Glenn：浮力与漂浮平衡核对",
+          "labelEn": "NASA Glenn: buoyancy and floating-equilibrium check"
+        },
+        {
+          "url": "https://tc.canada.ca/en/marine-transportation/publications/tp-14609-study-guide-applicants-fourth-class-engineer-certificate-stcw-endorsement",
+          "labelZh": "Transport Canada：浮力与漂浮平衡核对",
+          "labelEn": "Transport Canada: buoyancy and floating-equilibrium check"
+        }
+      ],
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/tencent-hy4-creative/knowledge-1/final.mp4",
+          "posterPath": "/evaluations/tencent-hy4-creative/knowledge-1/poster.jpg",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 83.51,
+          "captionZh": "冰浮起的83.51秒科普成片；浮力段存在排水重量与体积错误。",
+          "captionEn": "An 83.51-second explainer on floating ice, with errors in displaced-water weight and volume.",
+          "captionsPath": "/evaluations/tencent-hy4-creative/knowledge-1/captions.vtt",
+          "captionsLanguage": "zh-CN",
+          "captionsProvenance": {
+            "sourcePath": "/evaluations/tencent-hy4-creative/knowledge-1/captions.srt",
+            "sourceSha256": "405267edfad4b24a76a3c62235356e5365e96303e2b6537fc6d7019d14f1aa8a",
+            "webVttSha256": "702a25837be2eb386051d8f3c09228c588bcb5cac7e5b8516b80bbb30e0a19b9",
+            "textUnchanged": true
+          },
+          "uploadDate": "2026-11-04"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-1/project-source.zip",
+          "labelZh": "讲稿、分镜、音轨与视频源码",
+          "labelEn": "Narration, storyboard, audio and video source"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-1/captions.srt",
+          "labelZh": "原始中文字幕SRT",
+          "labelEn": "Original Chinese SRT captions"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-1/captions.vtt",
+          "labelZh": "浏览器字幕WebVTT",
+          "labelEn": "Browser WebVTT captions"
+        }
+      ],
+      "caseSpecSha256": "a3c13826dc88d43187aaa294f1e596a89c123abf6e61b8504892d5275b6d7321",
+      "usageIncomplete": true,
+      "reportedInferenceCostUsdKnownSubtotal": 0.38846491447499976
+    },
+    {
+      "id": "knowledge-2",
+      "titleZh": "二维码纠错：机制清楚，小图计数不符",
+      "titleEn": "QR error correction: clear mechanism, mismatched small-diagram count",
+      "category": "knowledge-video",
+      "effort": "native default",
+      "summaryZh": "“50个码字”小图只画40格，图例小字有轻微碰撞。纠错机制与恢复率边界讲清，86.375秒成片和源码齐全。",
+      "summaryEn": "A small 50-codeword diagram contains 40 cells, with a minor legend collision. The error-correction explanation and recovery-rate limits are clear; the 86.375-second film and source are complete.",
+      "promptSha256": "031d0f7ae37094aecf7073787e63c274050aa8751770245452f6edc427357313",
+      "metrics": {
+        "requests": 83,
+        "completedResponses": 83,
+        "promptTokens": 6986137,
+        "outputTokens": 86434,
+        "wallMs": 1819863
+      },
+      "assessmentZh": [
+        "约52秒的小图标50码字却只有40格，图例与脚注还可整理。",
+        "机制示意与真实扫码实验有明确区分，关键百分比和200/50示例正确。",
+        "成片、中文口播、13条字幕和源码齐全；完整解码与时间轴检查通过，尚未听审。",
+        "源码依赖macOS字体和本机Kokoro路径；换机器复建需安装Pillow/NumPy/SciPy及FFmpeg，并调整字体/工具路径。包内原始口播和mix可直接复用。"
+      ],
+      "assessmentEn": [
+        "A small diagram around 52 seconds labels 40 cells as 50 codewords; the legend and footnote need tidying.",
+        "The film clearly separates schematic mechanisms from actual scanning; key percentages and the 200/50 example are correct.",
+        "The film, Chinese narration, 13 captions and source files are delivered. Full decode and timeline checks pass; audio has not been reviewed by listening.",
+        "Source depends on macOS fonts and a local Kokoro path. Another machine needs Pillow/NumPy/SciPy, FFmpeg and adjusted font/tool paths; packaged raw narration and mix can be reused."
+      ],
+      "checks": [
+        {
+          "id": "format",
+          "status": "pass",
+          "labelZh": "完整成片与规格",
+          "labelEn": "Complete film and format",
+          "detailZh": "完整音视频解码通过；1920×1080、30fps、2591帧，容器86.375秒，含48kHz立体声AAC。",
+          "detailEn": "Full audio/video decode passes: 1920×1080, 30fps, 2,591 frames, 86.375 seconds, with 48kHz stereo AAC."
+        },
+        {
+          "id": "mechanism",
+          "status": "pass",
+          "labelZh": "纠错机制与示意边界",
+          "labelEn": "Error correction and schematic scope",
+          "detailZh": "解释8bit码字、Reed–Solomon校验关系及冗余恢复；全片标“机制示意·非真实扫码实验”。",
+          "detailEn": "Explains 8-bit codewords, Reed–Solomon parity relations and recovery from redundancy; explicitly labelled schematic rather than a real scanning experiment."
+        },
+        {
+          "id": "rates",
+          "status": "pass",
+          "labelZh": "200/50示例与四档百分比",
+          "labelEn": "200/50 example and four correction levels",
+          "detailZh": "主200格示例绘20×10格、50个位置恢复；Q级25%和L/M/Q/H约7/15/25/30%正确，明确不是任意图片面积，也不是联网找回原文。",
+          "detailEn": "The main 20×10 grid has 50 recovered positions. Q at 25% and L/M/Q/H at about 7/15/25/30% are correct, distinguished from arbitrary image area and online retrieval."
+        },
+        {
+          "id": "count",
+          "status": "partial",
+          "labelZh": "小图计数与图例",
+          "labelEn": "Small-diagram count and legend",
+          "detailZh": "52秒左卡标“50个码字”，实际绘8×5=40格；约62.8秒比例说明与图例边框相碰。",
+          "detailEn": "At 52 seconds, a 50-codeword card draws 8×5=40 cells. Around 62.8 seconds, the explanatory footnote touches legend outlines."
+        },
+        {
+          "id": "captions",
+          "status": "pass",
+          "labelZh": "字幕与实际语音时间轴",
+          "labelEn": "Captions and measured-audio timeline",
+          "detailZh": "13条字幕时码有效，0.04至85.415秒，按真实TTS分段样本排镜头；字幕正文与口播文本对应。",
+          "detailEn": "All 13 subtitle cues have valid times, from 0.04 to 85.415 seconds. Scenes use actual TTS segment samples; caption text matches the narration."
+        },
+        {
+          "id": "audio",
+          "status": "partial",
+          "labelZh": "音轨与混音",
+          "labelEn": "Audio and mix",
+          "detailZh": "85.475秒原始Kokoro音轨与文本/音频receipt哈希一致；重采样至48kHz并加0.9秒收尾，无语速加速；配乐/音效由源码合成并低于人声，尚未听审。",
+          "detailEn": "The 85.475-second Kokoro track matches text/audio receipt hashes. It is resampled to 48kHz and padded by 0.9 seconds without tempo change. Original synthetic BGM/SFX are below voice; no listening review."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 83,
+          "completedResponses": 83,
+          "noteZh": "同一Hy4持久会话完成作品；实际API用量与脱敏运行记录另存。",
+          "noteEn": "One persistent Hy4 session authored the work; actual API usage is preserved in a separate sanitized run record.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/knowledge-2/creation-evidence.json"
+        }
+      ],
+      "source": {
+        "url": "https://www.qrcode.com/en/about/error_correction.html",
+        "titleZh": "二维码缺了一块，为什么还能扫？",
+        "titleEn": "Why can a damaged QR code still be read?",
+        "originalPrompt": "题面概要：依据当天冻结的DENSO WAVE资料解释二维码纠错冗余与损坏边界，制作60–90秒、1920×1080中文口播、同步字幕及机制动画。",
+        "changesZh": "复用2026-11-04冻结主题与口播指南；统一Kokoro配音工具。此处为题面概要，哈希对应原会话提示。",
+        "changesEn": "Uses the frozen November 4 topic and narration guide with the shared Kokoro tool. This brief is a summary; the hash identifies the original session prompt."
+      },
+      "prompt": "提示词概要：由Hy4按冻结事实与口播指南写讲稿、读音稿、分镜，生成中文旁白、同步字幕与纠错机制动画，并交付成片与可复建源码。",
+      "references": [
+        {
+          "url": "https://www.qrcode.com/en/about/error_correction.html",
+          "labelZh": "DENSO WAVE：二维码纠错能力与码字比例",
+          "labelEn": "DENSO WAVE: QR error correction and codeword ratios"
+        }
+      ],
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/tencent-hy4-creative/knowledge-2/final.mp4",
+          "posterPath": "/evaluations/tencent-hy4-creative/knowledge-2/poster.jpg",
+          "width": 1920,
+          "height": 1080,
+          "fps": 30,
+          "frameCount": 2591,
+          "durationSeconds": 86.375,
+          "captionZh": "86.375秒二维码纠错示意片；“50个码字”小图的40格计数偏差仍保留。",
+          "captionEn": "An 86.375-second schematic of QR error correction; a small 50-codeword diagram retains a 40-cell count mismatch.",
+          "captionsPath": "/evaluations/tencent-hy4-creative/knowledge-2/captions.vtt",
+          "captionsLanguage": "zh-CN",
+          "captionsProvenance": {
+            "sourcePath": "/evaluations/tencent-hy4-creative/knowledge-2/captions.srt",
+            "sourceSha256": "590b46c8af5b55e4979822d758400bbd4f99be65076da67a9e3e00a79cfa610b",
+            "webVttSha256": "73447c70e35c37676bbf10ea162a53eb130bb7056cf855a35fb8595010586c97",
+            "textUnchanged": true
+          },
+          "uploadDate": "2026-11-04"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-2/project-source.zip",
+          "labelZh": "讲稿、分镜、音轨与视频源码",
+          "labelEn": "Narration, storyboard, audio and video source"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-2/captions.srt",
+          "labelZh": "原始中文字幕SRT",
+          "labelEn": "Original Chinese SRT captions"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-2/captions.vtt",
+          "labelZh": "浏览器字幕WebVTT",
+          "labelEn": "Browser WebVTT captions"
+        }
+      ],
+      "caseSpecSha256": "fb712266869406dbbb4855844f32a6c60fef86f1a61eb2cb27c9186f0b6fb9eb",
+      "usageIncomplete": false,
+      "reportedInferenceCostUsdKnownSubtotal": 0.3275281290600002
+    },
+    {
+      "id": "knowledge-3",
+      "titleZh": "韦布隔热：五层膜被数成五道缝",
+      "titleEn": "Webb insulation: five membranes miscounted as five gaps",
+      "category": "knowledge-video",
+      "effort": "native default",
+      "summaryZh": "结尾把五层膜之间的四个层间隙说成“五道缝”，厚板比较的措辞也过满。87秒成片的冷热方向、侧向辐射与材料剖面清楚，工程交付完整。",
+      "summaryEn": "The closing miscounts four inter-layer gaps as five, and overstates the thick-plate comparison. The complete 87-second film has clear hot/cold orientation, sideways-radiation diagrams and a material cross-section.",
+      "promptSha256": "1b5386eab431faa721b0fd148bb57429305ec1ccd41cf290f69a370b8a6739e1",
+      "metrics": {
+        "requests": 63,
+        "completedResponses": 62,
+        "promptTokens": 5020566,
+        "outputTokens": 100166,
+        "wallMs": 1864775
+      },
+      "assessmentZh": [
+        "五层膜被说成五道缝；厚板比较从相对优势写成绝对断言。",
+        "真空仍可辐射、向侧边散热与材料剖面清楚，层数权衡有依据。",
+        "87秒成片、26条字幕、口播与源码齐全；小字幕采用句内字符比例定位，尚未听审。",
+        "源码依赖本机Node/Playwright/Chromium/TTS路径与macOS字体，换机器复建须调整。原声和mix已入包；后台控制器与临时帧不入源码包，可直接调用作者render.mjs。"
+      ],
+      "assessmentEn": [
+        "Five membranes are described as five gaps; a relative thick-plate comparison becomes an absolute claim.",
+        "Radiation through vacuum, sideways heat escape, materials and the layer-count tradeoff are clearly visualized.",
+        "The 87-second film, 26 captions, voice and source are complete. Sub-cues use character ratios within sentences; no listening review was performed.",
+        "Source retains local Node/Playwright/Chromium/TTS paths and macOS fonts that need adjustment elsewhere. Raw voice and mix are included; the controller and temporary frames are excluded, and render.mjs can be called directly."
+      ],
+      "checks": [
+        {
+          "id": "format",
+          "status": "pass",
+          "labelZh": "完整成片与规格",
+          "labelEn": "Complete film and format",
+          "detailZh": "完整音视频解码通过；1920×1080、30fps、2610帧、87.00秒，含48kHz立体声AAC。",
+          "detailEn": "Full audio/video decode passes: 1920×1080, 30fps, 2,610 frames, 87.00 seconds and 48kHz stereo AAC."
+        },
+        {
+          "id": "mechanism",
+          "status": "pass",
+          "labelZh": "真空、辐射与方向",
+          "labelEn": "Vacuum, radiation and direction",
+          "detailZh": "区分接触传导与真空中仍存在的热辐射；热侧/太阳在上、冷侧/望远镜在下，层间热流向两侧外散。",
+          "detailEn": "Separates contact conduction from heat radiation through vacuum. Sun/hot side is above, telescope/cold side below, with heat escaping sideways between layers."
+        },
+        {
+          "id": "count",
+          "status": "fail",
+          "labelZh": "膜层与层间隙计数",
+          "labelEn": "Membrane and inter-layer-gap count",
+          "detailZh": "结尾口播、字幕与画面均写“五道缝”。五层膜之间只有四个层间隙；动画把第五个计数圈画到最下层膜外。",
+          "detailEn": "Closing narration, captions and graphics say five gaps. Five membranes have four inter-layer gaps; the animation places a fifth counting ring below the lowest membrane."
+        },
+        {
+          "id": "materials",
+          "status": "pass",
+          "labelZh": "材料与层数权衡",
+          "labelEn": "Materials and layer-count tradeoff",
+          "detailZh": "Kapton、双面铝层与最热两层向阳面的处理硅位置可读；2–7层建模与冷却/冗余/重量/复杂度折中写清，没有捏造精确温差。",
+          "detailEn": "Kapton, aluminum on both sides and treated silicon on the sunward face of the two hottest layers are readable. The 2–7-layer study and cooling/redundancy/weight/complexity tradeoff are explained without invented temperature differences."
+        },
+        {
+          "id": "plate",
+          "status": "partial",
+          "labelZh": "厚板比较的措辞",
+          "labelEn": "Wording of the thick-plate comparison",
+          "detailZh": "“厚板没出口”“厚度不是防线”把NASA关于分层真空与实心厚板的相对传热比较说成普遍结论，表述过满。",
+          "detailEn": "Saying a thick plate has no exit for heat and thickness is no defense overstates NASA’s relative comparison of separated membranes and a solid thick plate."
+        },
+        {
+          "id": "captions",
+          "status": "partial",
+          "labelZh": "字幕时码与同步范围",
+          "labelEn": "Caption timing and synchronization scope",
+          "detailZh": "26条SRT时码合法，末条至86秒；句段用真实Kokoro样本数，小字幕在句内按字符比例分配时间，属于近似定位，未按词对齐或听审。",
+          "detailEn": "All 26 SRT cues have valid times, ending at 86 seconds. Sentences use real Kokoro sample counts; smaller cues are positioned by character ratios within each sentence, not word timestamps or listening review."
+        },
+        {
+          "id": "audio",
+          "status": "partial",
+          "labelZh": "音轨与混音",
+          "labelEn": "Audio and mix",
+          "detailZh": "原始Kokoro口播86秒，文本/音频receipt哈希相符；未加速，混音补至87秒，配乐与音效低于人声。尚未听审。",
+          "detailEn": "The original 86-second Kokoro voice matches its text/audio receipt hashes. It is not accelerated; the mix is padded to 87 seconds with quieter BGM/SFX. No listening review was performed."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 63,
+          "completedResponses": 62,
+          "noteZh": "同一Hy4持久会话完成作品；实际用量与脱敏记录另存，未记录用量不按零计。",
+          "noteEn": "One persistent Hy4 session authored the work; observed usage is stored separately, and missing usage is not counted as zero.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/knowledge-3/creation-evidence.json"
+        }
+      ],
+      "source": {
+        "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/",
+        "titleZh": "韦布为什么用五层薄膜，而不是一块厚板？",
+        "titleEn": "Why does Webb use five thin sunshield layers?",
+        "originalPrompt": "题面概要：依据当天冻结的NASA资料，解释韦布为何使用五层分离薄膜而非一整块厚板，制作60–90秒、1920×1080中文口播、字幕及机制动画。",
+        "changesZh": "复用2026-11-04冻结主题与口播指南；统一Kokoro配音工具。此处为题面概要，哈希对应原会话提示。",
+        "changesEn": "Uses the frozen November 4 topic and narration guide with the shared Kokoro tool. This brief is a summary; the hash identifies the original session prompt."
+      },
+      "prompt": "提示词概要：由Hy4依据冻结的来源事实与口播指南写讲稿、读音稿、分镜，解释真空/辐射/材料与层数权衡，交付中文配音、同步字幕、成片和可复建源码。",
+      "references": [
+        {
+          "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/",
+          "labelZh": "NASA：韦布遮阳罩结构、热传递与层数权衡",
+          "labelEn": "NASA: Webb sunshield, heat transfer and layer tradeoff"
+        }
+      ],
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/tencent-hy4-creative/knowledge-3/final.mp4",
+          "posterPath": "/evaluations/tencent-hy4-creative/knowledge-3/poster.jpg",
+          "width": 1920,
+          "height": 1080,
+          "fps": 30,
+          "frameCount": 2610,
+          "durationSeconds": 87,
+          "captionZh": "87秒韦布遮阳罩示意片；结尾五层膜/层间隙计数错误仍保留。",
+          "captionEn": "An 87-second Webb-sunshield explainer retaining the closing membrane/gap-count error.",
+          "captionsPath": "/evaluations/tencent-hy4-creative/knowledge-3/captions.vtt",
+          "captionsLanguage": "zh-CN",
+          "captionsProvenance": {
+            "sourcePath": "/evaluations/tencent-hy4-creative/knowledge-3/captions.srt",
+            "sourceSha256": "b38d414714f85c3af1abe658b304e18e9bd765dcefdd5e9b741ede0a04f9dfe1",
+            "webVttSha256": "b630d56d267a655a5ba98439e214f90fbd2e29a8a5a9d5edb717ff911d7967f2",
+            "textUnchanged": true
+          },
+          "uploadDate": "2026-11-04"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-3/project-source.zip",
+          "labelZh": "讲稿、分镜、音轨与视频源码",
+          "labelEn": "Narration, storyboard, audio and video source"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-3/captions.srt",
+          "labelZh": "原始中文字幕SRT",
+          "labelEn": "Original Chinese SRT captions"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-3/captions.vtt",
+          "labelZh": "浏览器字幕WebVTT",
+          "labelEn": "Browser WebVTT captions"
+        }
+      ],
+      "caseSpecSha256": "b0473740485ceccaff5343dae1d2565efb5d1b24803caa310588ffa6bae8b268",
+      "usageIncomplete": true,
+      "reportedInferenceCostUsdKnownSubtotal": 0.2994978462300001
+    },
+    {
+      "id": "knowledge-4",
+      "titleZh": "降噪耳机：波形相加有误",
+      "titleEn": "Noise-cancelling headphones: an error in wave addition",
+      "category": "knowledge-video",
+      "effort": "native default",
+      "summaryZh": "相加图把完全反相的两路波又画成非零残余，开场还把暂停音乐与外界低鸣下降连在一起。回路与密封限制讲清，88.167秒成片和源码齐全。",
+      "summaryEn": "The addition diagram gives a nonzero residual from perfectly opposite waves, while the opening links pausing music to a drop in external hum. The loop and seal limitations are clear, and the 88.167-second film and source are complete.",
+      "promptSha256": "a9ee792c3cf242e1c4116f43e8129dc1139a6a3092823571bee4f5250acfa533",
+      "metrics": {
+        "requests": 50,
+        "completedResponses": 49,
+        "promptTokens": 3101897,
+        "outputTokens": 82693,
+        "wallMs": 1909815
+      },
+      "assessmentZh": [
+        "叠加图的紫色残余不是上面两条同幅反相波的和，开场还暗示暂停音乐降低外界低鸣。",
+        "回路、物理密封、局部抵消、稳定低鸣和人声限制讲得清楚。",
+        "88.167秒成片、15条字幕、原声与源码齐全；完整解码及字幕流核对通过，尚未听审。",
+        "源码依赖本机Playwright/Chromium/TTS路径与macOS字体，换机器复建须调整。原声、最终混音和音频生成脚本已入包；inputs、隐藏控制器、日志与临时帧不入包。"
+      ],
+      "assessmentEn": [
+        "The purple residual is not the sum of the equal-amplitude opposite waves; the opening also suggests pausing music lowers external hum.",
+        "The loop, physical seal, local cancellation and limits for steady hum and speech are clearly explained.",
+        "The 88.167-second film, 15 captions, voice and source are complete. Full decode and subtitle-stream checks pass; audio has not been reviewed by listening.",
+        "Source retains local Playwright/Chromium/TTS paths and macOS fonts that need adjustment elsewhere. Raw voice, final mix and audio-generation code are included; inputs, hidden controller state, logs and temporary frames are excluded."
+      ],
+      "checks": [
+        {
+          "id": "format",
+          "status": "pass",
+          "labelZh": "完整成片与规格",
+          "labelEn": "Complete film and format",
+          "detailZh": "完整音视频解码通过；1920×1080、30fps、2645帧，视频/容器88.166667秒，AAC48kHz单声道88.15秒。",
+          "detailEn": "Full audio/video decode passes: 1920×1080, 30fps, 2,645 frames, 88.166667-second video/container and 88.15-second 48kHz mono AAC."
+        },
+        {
+          "id": "wave-sum",
+          "status": "fail",
+          "labelZh": "反相波形的数学相加",
+          "labelEn": "Mathematical addition of opposite-phase waves",
+          "detailZh": "约47–54秒把同频同幅、相差π的两路正弦画成相加后仍有残余。两路应严格抵消；紫色残余由独立函数绘制，不是它们的和。示意图的加号/等号不成立。",
+          "detailEn": "Around 47–54 seconds, equal-frequency, equal-amplitude sinusoids separated by pi are shown producing a residual. They cancel exactly; the purple residual is drawn independently rather than computed as their sum, contradicting the plus/equality symbols."
+        },
+        {
+          "id": "hook",
+          "status": "partial",
+          "labelZh": "暂停音乐与外界噪声",
+          "labelEn": "Pausing music and external noise",
+          "detailZh": "开场把“音乐已暂停”与标为“外界·稳定低鸣”的波幅下降同时呈现，容易暗示暂停音乐会降低外界噪声；后文独立回路与耳罩内局部抵消的解释正确。",
+          "detailEn": "The opening pairs music-paused graphics with falling amplitude labelled external steady hum, suggesting that pausing music lowers external noise. Later explanations of an independent loop and local cancellation inside the earcup are correct."
+        },
+        {
+          "id": "mechanism",
+          "status": "pass",
+          "labelZh": "回路、密封与适用边界",
+          "labelEn": "Loop, seal and operating limits",
+          "detailZh": "麦克风→处理器→扬声器、被动密封与主动降噪的分工清楚；保留残余、人声难以完全消除，明确不是整间客舱静音或耳机实测。",
+          "detailEn": "The microphone → processor → speaker loop and passive/active roles are clear. Residual noise and difficulty fully removing speech are retained, with explicit limits on whole-cabin silence and measurement claims."
+        },
+        {
+          "id": "captions",
+          "status": "pass",
+          "labelZh": "字幕时码与内嵌字幕",
+          "labelEn": "Caption timing and embedded subtitles",
+          "detailZh": "15条SRT时码合法，按真实TTS分段采样排镜头；实际MP4的mov_text字幕提取后，文本/时码与原SRT一致。",
+          "detailEn": "All 15 SRT cues have valid times tied to real TTS segment samples. Text and timecodes extracted from the MP4 mov_text stream match the original SRT."
+        },
+        {
+          "id": "audio",
+          "status": "partial",
+          "labelZh": "真实口播与混音",
+          "labelEn": "Measured narration and mix",
+          "detailZh": "86.15秒Kokoro原声与文本/音频receipt哈希相符，无变速变调；配乐/音效RMS约比原声低13dB，最终音轨补至88.15秒。尚未听审。",
+          "detailEn": "The 86.15-second Kokoro voice matches text/audio receipt hashes without tempo or pitch changes. The music/effects bed is about 13dB below voice RMS and the final soundtrack is padded to 88.15 seconds. No listening review was performed."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 50,
+          "completedResponses": 49,
+          "noteZh": "同一Hy4持久会话完成作品；实际用量与脱敏记录另存，未记录用量不按零计。",
+          "noteEn": "One persistent Hy4 session authored the work; observed usage is stored separately, and missing usage is not counted as zero.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/knowledge-4/creation-evidence.json"
+        }
+      ],
+      "source": {
+        "url": "https://www.bose.com/stories/how-do-noise-cancelling-headphones-work",
+        "titleZh": "降噪耳机没放音乐，为什么也能安静？",
+        "titleEn": "Why does noise cancellation work without music?",
+        "originalPrompt": "题面概要：依据当天冻结的Bose机制资料，解释不放音乐时主动降噪如何减少噪声，制作60–90秒、1920×1080中文口播、字幕与机制动画。",
+        "changesZh": "复用2026-11-04冻结主题与口播指南；统一Kokoro配音工具。此处为题面概要，哈希对应原会话提示。",
+        "changesEn": "Uses the frozen November 4 topic and narration guide with the shared Kokoro tool. This brief is a summary; the hash identifies the original session prompt."
+      },
+      "prompt": "提示词概要：由Hy4依据冻结事实与口播指南写讲稿、读音稿、分镜，区分物理隔音/主动回路、展示残余和适用边界，交付中文旁白、同步字幕、成片与可复建源码。",
+      "references": [
+        {
+          "url": "https://www.bose.com/stories/how-do-noise-cancelling-headphones-work",
+          "labelZh": "Bose：主动降噪机制及无音乐/人声/密封边界",
+          "labelEn": "Bose: active cancellation, music independence, speech and seal limits"
+        }
+      ],
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/tencent-hy4-creative/knowledge-4/final.mp4",
+          "posterPath": "/evaluations/tencent-hy4-creative/knowledge-4/poster.jpg",
+          "width": 1920,
+          "height": 1080,
+          "fps": 30,
+          "frameCount": 2645,
+          "durationSeconds": 88.166667,
+          "captionZh": "88.167秒主动降噪示意片；波形相加与开场外界噪声表述存在问题。",
+          "captionEn": "An 88.167-second active-noise-cancellation explainer, with errors in wave addition and the opening depiction of external noise.",
+          "captionsPath": "/evaluations/tencent-hy4-creative/knowledge-4/captions.vtt",
+          "captionsLanguage": "zh-CN",
+          "captionsProvenance": {
+            "sourcePath": "/evaluations/tencent-hy4-creative/knowledge-4/captions.srt",
+            "sourceSha256": "3ced249fcbef5e750bdb6e50726941b664d9a54599daa9ba9da8e69a18ed555b",
+            "webVttSha256": "6f0b86cf565cc2e98b9678860e991c4f31d359dc5af1c78e8b8228488364b3d8",
+            "textUnchanged": true
+          },
+          "uploadDate": "2026-11-04"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-4/project-source.zip",
+          "labelZh": "讲稿、分镜、音轨与视频源码",
+          "labelEn": "Narration, storyboard, audio and video source"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-4/captions.srt",
+          "labelZh": "原始中文字幕SRT",
+          "labelEn": "Original Chinese SRT captions"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/knowledge-4/captions.vtt",
+          "labelZh": "浏览器字幕WebVTT",
+          "labelEn": "Browser WebVTT captions"
+        }
+      ],
+      "caseSpecSha256": "4b30951b372162bdaf488c7f3eac0451747a8624efd87ad160abb1e687b07c9c",
+      "usageIncomplete": true,
+      "reportedInferenceCostUsdKnownSubtotal": 0.22821190672500008
+    },
+    {
+      "id": "svg-clock",
+      "titleZh": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "category": "svg",
+      "effort": "native default",
+      "summaryZh": "9:41指针角度与长短关系正确，12个数字和时间标签完整，暗金表盘清楚。",
+      "summaryEn": "Correct 9:41 hand angles and relative lengths, all 12 numbers, and a clear dark and gold dial with its time label.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "TOKRACE 固定SVG题目",
+        "titleEn": "TOKRACE fixed SVG task",
+        "originalPrompt": "题面概要：静态SVG钟表显示9:41；1至12完整，时针短于分针，角度随分钟正确变化，不画秒针；无脚本、外链或嵌入图像。",
+        "changesZh": "沿用visual-svg-v2与creative-suite-v4。这里为概要，提示词哈希对应实际私有创作会话。",
+        "changesEn": "Uses visual-svg-v2 and creative-suite-v4. This is a summary; the prompt hash identifies the actual archived creation session."
+      },
+      "prompt": "提示词概要：静态SVG钟表显示9:41；1至12完整，时针短于分针，角度随分钟正确变化，不画秒针；无脚本、外链或嵌入图像。",
+      "promptSha256": "f7df9c7d6ff8a4e59a5b977d970f8e95cd3662a055f5f7fed9eb23b37c420168",
+      "metrics": {
+        "requests": 22,
+        "completedResponses": 22,
+        "promptTokens": 428673,
+        "outputTokens": 33109,
+        "wallMs": 415600
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/svg-clock/preview.png",
+          "width": 1200,
+          "height": 900,
+          "captionZh": "9:41 模拟钟表：作者原字节SVG的渲染",
+          "captionEn": "An analog clock at 9:41: render of unchanged author SVG",
+          "provenance": {
+            "originalSha256": "f0682df6c9223aa8ee4f07ae0d0d3ea77afea59e953066219b76616d3fc580b7",
+            "sha256": "d26cbccd7b082861b9a1052ced42629fc7b7487a15ba2929a259835316facb9d",
+            "noteZh": "协调者将作者原字节SVG用sharp/libvips渲染为PNG；未改画面内容。",
+            "noteEn": "Coordinator-rendered PNG from unchanged author SVG using sharp/libvips; no visual edits."
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-clock/project-source.zip",
+          "labelZh": "原SVG与生成源码",
+          "labelEn": "Original SVG and builder source"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-clock/final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Original SVG"
+        }
+      ],
+      "assessmentZh": [
+        "时针290.5°、分针246°，实际长度113与150，均符合9:41。",
+        "十二个数字位置正确，盘下09:41标签完整，没有秒针。",
+        "已查看静态渲染，刻度、数字与金色装饰清楚，没有发现裁切。"
+      ],
+      "assessmentEn": [
+        "Hour and minute angles of 290.5° and 246°, with lengths of 113 and 150, match 9:41.",
+        "All twelve numbers are correctly placed; the 09:41 label is complete, with no second hand.",
+        "The static render has clear ticks, numerals and gold details, with no observed clipping."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含静态SVG",
+          "labelEn": "Self-contained static SVG",
+          "status": "pass",
+          "detailZh": "final.svg通过XML与资源白名单，viewBox为0 0 800 600，不含脚本、外部资源、嵌入图像、SMIL或CSS动画。",
+          "detailEn": "final.svg passes XML and resource checks, uses viewBox 0 0 800 600, and contains no scripts, external resources, embedded images, SMIL or CSS animation."
+        },
+        {
+          "labelZh": "9:41指针几何",
+          "labelEn": "9:41 hand geometry",
+          "status": "pass",
+          "detailZh": "实际路径尖端经CTM变换后，从12点顺时针量得时针290.5°、分针246°；长度113与150，时针更短。",
+          "detailEn": "Actual path tips transformed by CTM measure 290.5° for the hour hand and 246° for the minute hand, clockwise from 12. Lengths of 113 and 150 make the hour hand shorter."
+        },
+        {
+          "labelZh": "数字与秒针",
+          "labelEn": "Numbers and second hand",
+          "status": "pass",
+          "detailZh": "1至12完整且角度顺序正确，09:41标签位于盘下；指针组只有时针和分针，没有秒针。",
+          "detailEn": "Numbers 1–12 are complete and correctly positioned; the 09:41 label sits below the dial. Only hour and minute hand groups are present, with no second hand."
+        },
+        {
+          "labelZh": "真实渲染与排版",
+          "labelEn": "Actual render and layout",
+          "status": "pass",
+          "detailZh": "已查看原字节SVG渲染的1200×900 PNG，数字与两针辨识清楚，金色边框和暗背景层次完整，标签无裁切。",
+          "detailEn": "Inspected the 1200×900 PNG from the unchanged SVG. Numbers and hands are clear, with coherent gold trim and a dark background, and an unclipped label."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 22,
+          "completedResponses": 22,
+          "noteZh": "由同一Hy4持久会话创作并检查，协调者从未改动SVG原字节。",
+          "noteEn": "Created and inspected in one persistent Hy4 session; the coordinator did not alter the original SVG.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/svg-clock/creation-evidence.json"
+        }
+      ],
+      "caseSpecSha256": "9684418b143445a327367d4c150e2738ad40917562f3d2b93cd156f7b22a55b2",
+      "usageIncomplete": false,
+      "reportedInferenceCostUsdKnownSubtotal": 0.07290932368500001
+    },
+    {
+      "id": "svg-dashboard",
+      "titleZh": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "category": "svg",
+      "effort": "native default",
+      "summaryZh": "四柱共享零基线，比例、刻度、季度标签和摘要全部正确，浅色卡片排版清楚。",
+      "summaryEn": "All four bars share a zero baseline, with correct proportions, ticks, quarter labels and summaries in a clear light card layout.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "TOKRACE 固定SVG题目",
+        "titleEn": "TOKRACE fixed SVG task",
+        "originalPrompt": "题面概要：静态SVG绘制Q1–Q4的12/24/18/30四柱，零基线、线性刻度，标注Total:84和Best:Q4。",
+        "changesZh": "沿用visual-svg-v2与creative-suite-v4。这里为概要，提示词哈希对应实际私有创作会话。",
+        "changesEn": "Uses visual-svg-v2 and creative-suite-v4. This is a summary; the prompt hash identifies the actual archived creation session."
+      },
+      "prompt": "提示词概要：静态SVG绘制Q1–Q4的12/24/18/30四柱，零基线、线性刻度，标注Total:84和Best:Q4。",
+      "promptSha256": "ee4989094580ee5393733ba96c781b5cc5ac7c8f4e8032d7e983bed0b1f81d20",
+      "metrics": {
+        "requests": 13,
+        "completedResponses": 13,
+        "promptTokens": 187907,
+        "outputTokens": 20033,
+        "wallMs": 254355
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/svg-dashboard/preview.png",
+          "width": 1200,
+          "height": 900,
+          "captionZh": "数据图表与比例：作者原字节SVG的渲染",
+          "captionEn": "Data chart and proportional bars: render of unchanged author SVG",
+          "provenance": {
+            "originalSha256": "76533096d609c7490630ecfc3ac82f154218882aa06507fa065e0c073e95225b",
+            "sha256": "391c54295271fc93f7d232224b3638b756fbf5558198fdc1b8eed5e2828ff134",
+            "noteZh": "协调者将作者原字节SVG用sharp/libvips渲染为PNG；未改画面内容。",
+            "noteEn": "Coordinator-rendered PNG from unchanged author SVG using sharp/libvips; no visual edits."
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-dashboard/project-source.zip",
+          "labelZh": "原SVG与生成源码",
+          "labelEn": "Original SVG and builder source"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-dashboard/final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Original SVG"
+        }
+      ],
+      "assessmentZh": [
+        "实际柱高为120、240、180、300，比例为2:4:3:5。",
+        "Q1–Q4和柱顶数字完整，Total:84与Best:Q4正确。",
+        "配色与层级清楚，已查看渲染图，未发现文字遮挡或裁切。"
+      ],
+      "assessmentEn": [
+        "Actual bar heights are 120, 240, 180 and 300, in the ratio 2:4:3:5.",
+        "Q1–Q4 and bar values are present; Total: 84 and Best: Q4 are correct.",
+        "Colors and hierarchy are clear; inspection found no text collisions or clipping."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含静态SVG",
+          "labelEn": "Self-contained static SVG",
+          "status": "pass",
+          "detailZh": "XML与资源白名单通过；viewBox为0 0 800 600，无脚本、外部资源、嵌入图像、SMIL或CSS动画。",
+          "detailEn": "XML and resource checks pass; viewBox is 0 0 800 600, with no scripts, external resources, embedded images, SMIL or CSS animation."
+        },
+        {
+          "labelZh": "比例与零基线",
+          "labelEn": "Proportions and zero baseline",
+          "status": "pass",
+          "detailZh": "Chromium测得实际path高度120、240、180、300，共同底边y470；对应12、24、18、30，比例2:4:3:5。",
+          "detailEn": "Chromium measures actual path heights of 120, 240, 180 and 300, with the same baseline at y=470. They match values 12, 24, 18 and 30 in the ratio 2:4:3:5."
+        },
+        {
+          "labelZh": "标签与摘要",
+          "labelEn": "Labels and summaries",
+          "status": "pass",
+          "detailZh": "季度Q1–Q4、柱顶12/24/18/30、纵轴0/10/20/30、Total:84及Best:Q4均完整。",
+          "detailEn": "Q1–Q4, bar values 12/24/18/30, axis ticks 0/10/20/30, Total: 84 and Best: Q4 are all present."
+        },
+        {
+          "labelZh": "真实渲染与排版",
+          "labelEn": "Actual render and layout",
+          "status": "pass",
+          "detailZh": "已逐图查看原字节SVG生成的1200×900 PNG；浅色层次清楚，图表和文字未见遮挡、出界或裁切。",
+          "detailEn": "Visually inspected the 1200×900 PNG from the unchanged SVG. The light card layout is clear, with no observed text collision, clipping or overflow."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 13,
+          "completedResponses": 13,
+          "noteZh": "由同一Hy4持久会话创作并检查，协调者从未改动SVG原字节。",
+          "noteEn": "Created and inspected in one persistent Hy4 session; the coordinator did not alter the original SVG.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/svg-dashboard/creation-evidence.json"
+        }
+      ],
+      "caseSpecSha256": "b03e9172f0f6bfb5ccb9b1fa45bf62b7a03e47c4a8b35650a86df0fecb8ca2d5",
+      "usageIncomplete": false,
+      "reportedInferenceCostUsdKnownSubtotal": 0.039798544005000006
+    },
+    {
+      "id": "svg-poster",
+      "titleZh": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "category": "svg",
+      "effort": "native default",
+      "summaryZh": "六段中文完整且各出现一次，标题、活动信息与报名按钮层次清楚，自行车图标与留白协调。",
+      "summaryEn": "All six Chinese strings appear exactly once, with clear hierarchy for the headline, event details and registration button, plus a coherent bicycle icon and spacing.",
+      "promptSha256": "10e6d1254b19f45927d4b81a5c7fab80dee5869224b6d55f8996d39c95e55bff",
+      "metrics": {
+        "requests": 27,
+        "completedResponses": 27,
+        "promptTokens": 1036148,
+        "outputTokens": 47544,
+        "wallMs": 541431
+      },
+      "assessmentZh": [
+        "六段指定文字逐字匹配，中文清楚，没有缺字或额外文字。",
+        "标题最大、时间地点次之、说明最小；最终文本框均在画布内且无重叠。",
+        "浅色背景与橙绿配色协调，自行车双轮和车架可辨识，边距充足。"
+      ],
+      "assessmentEn": [
+        "All six required strings match exactly, with clear Chinese glyphs and no missing or extra text.",
+        "The headline is largest, time/place follow, and the note is smallest; final text boxes remain inside the canvas without overlap.",
+        "A light background and orange/green palette support a recognizable bicycle and ample margins."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含静态SVG",
+          "labelEn": "Self-contained static SVG",
+          "status": "pass",
+          "detailZh": "XML与资源白名单通过，viewBox为0 0 800 600，不含脚本、外部资源、嵌入图像、SMIL或CSS动画。",
+          "detailEn": "XML and resource checks pass; viewBox is 0 0 800 600, with no scripts, external resources, embedded images, SMIL or CSS animation."
+        },
+        {
+          "labelZh": "六段精确文字",
+          "labelEn": "Six exact text strings",
+          "status": "pass",
+          "detailZh": "六段指定文字各出现一次，无增删或改写；原SVG共有六个可见text元素。",
+          "detailEn": "Each of the six required strings appears exactly once, without additions or rewrites; the SVG has six visible text elements."
+        },
+        {
+          "labelZh": "文字层级与边界",
+          "labelEn": "Type hierarchy and bounds",
+          "status": "pass",
+          "detailZh": "标题64、时间地点32、副标题26、按钮22、说明16；说明最小，所有文本框都在800×600内，最终字框互不重叠。",
+          "detailEn": "Font sizes are 64 for the headline, 32 for time/place, 26 for the subtitle, 22 for the button and 16 for the note. The note is smallest; all measured text boxes fit the canvas and do not overlap."
+        },
+        {
+          "labelZh": "实际画面与自行车图标",
+          "labelEn": "Rendered layout and bicycle icon",
+          "status": "pass",
+          "detailZh": "已查看1200×900 PNG及Chromium终稿，中文完整清楚，橙色自行车有双轮、车架、车座与车把，留白和边距充足。",
+          "detailEn": "Inspected the 1200×900 PNG and final Chromium render. Chinese text is clear, the orange bicycle has two wheels, frame, saddle and handlebar, and margins and spacing are ample."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 27,
+          "completedResponses": 27,
+          "noteZh": "同一Hy4持久会话完成作品；过程和缺失用量保存在脱敏运行记录。",
+          "noteEn": "One persistent Hy4 session authored the work; run metadata and missing usage are recorded separately.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/svg-poster/creation-evidence.json"
+        }
+      ],
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "TOKRACE 固定中文海报题",
+        "titleEn": "TOKRACE fixed Chinese poster task",
+        "originalPrompt": "题面概要：六段指定中文各出现一次，分清标题/活动信息/按钮/说明层级，配自行车图标，文字不得溢出或重叠；输出自包含静态SVG。",
+        "changesZh": "沿用visual-svg-v2和creative-suite-v4；活动信息为固定题面，不是实际活动公告。",
+        "changesEn": "Uses visual-svg-v2 and creative-suite-v4. Event details belong to a fixed task, not a real event announcement."
+      },
+      "prompt": "提示词概要：保留六段指定中文并做清楚的字体层级与版面布局，绘制自行车图标，交无外部资源的静态SVG。",
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/svg-poster/preview.png",
+          "width": 1200,
+          "height": 900,
+          "captionZh": "中文海报与排版约束：作者原字节SVG渲染",
+          "captionEn": "Chinese poster and layout constraints: render of unchanged author SVG",
+          "provenance": {
+            "originalSha256": "ad16dca4e4efa70b9629314080fb2d3a787700b1051d23fb630af4e6430c61b3",
+            "sha256": "58279ad2fe490b1856f0a697f171bcbb2e7c140badde4c0198fc61c98cb3f2d4",
+            "noteZh": "协调者将作者原字节SVG用sharp/libvips渲染为PNG；未改画面内容。",
+            "noteEn": "Coordinator-rendered PNG from unchanged author SVG using sharp/libvips; no visual edits."
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-poster/project-source.zip",
+          "labelZh": "SVG源码包",
+          "labelEn": "SVG source package"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-poster/final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Original SVG"
+        }
+      ],
+      "caseSpecSha256": "39a76fe09c73dbdf822862e72c284e160658b5722c30d61e5b844087ae86177b",
+      "usageIncomplete": false,
+      "reportedInferenceCostUsdKnownSubtotal": 0.11667699648000002
+    },
+    {
+      "id": "svg-pelican-animation",
+      "titleZh": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "category": "svg-animation",
+      "effort": "native default",
+      "summaryZh": "鹈鹕形象和车架清楚，车轮、脚踏与双腿形成连贯踩踏，4秒循环衔接自然。",
+      "summaryEn": "A recognizable pelican and coherent bicycle, with rotating wheels and crank, connected pedaling legs, and a visually smooth four-second loop.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "TOKRACE 固定SMIL骑车动画题目",
+        "titleEn": "TOKRACE fixed SMIL cycling task",
+        "originalPrompt": "题面概要：以自包含SMIL SVG绘制鹈鹕骑自行车，长喙与喉囊可辨，双轮、车架、车座与车把齐全；轮辐、曲柄与相连双腿实际运动，4秒循环，主体保持在画布内，无脚本、CSS动画、外部素材或嵌入图像。",
+        "changesZh": "沿用visual-svg-v2与creative-suite-v4。本处为概要，提示词哈希对应实际私有持久创作会话。",
+        "changesEn": "Uses visual-svg-v2 and creative-suite-v4. This is a summary; the prompt hash identifies the actual archived persistent creation session."
+      },
+      "prompt": "提示词概要：以自包含SMIL SVG绘制鹈鹕骑自行车，长喙与喉囊可辨，双轮、车架、车座与车把齐全；轮辐、曲柄与相连双腿实际运动，4秒循环，主体保持在画布内，无脚本、CSS动画、外部素材或嵌入图像。",
+      "promptSha256": "03b6e4a78c9dbaed8ba97ba86422d3b24bc63fd223ebe596833b79c83864fed1",
+      "metrics": {
+        "requests": 54,
+        "completedResponses": 54,
+        "promptTokens": 3935938,
+        "outputTokens": 93850,
+        "wallMs": 1286991
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/tencent-hy4-creative/svg-pelican-animation/poster.png",
+          "posterPath": "/evaluations/tencent-hy4-creative/svg-pelican-animation/poster.png",
+          "animationPath": "/evaluations/tencent-hy4-creative/svg-pelican-animation/animation.webp",
+          "width": 800,
+          "height": 600,
+          "durationSeconds": 4,
+          "captionZh": "鹈鹕骑车：作者原字节SMIL SVG的4秒循环预览",
+          "captionEn": "Cycling pelican: four-second preview of unchanged author SMIL SVG",
+          "provenance": {
+            "originalSha256": "f0ad5e3c6a6921de8fcec5ddc0243822dec881bfac08883f7f5f96494578c3f8",
+            "sha256": "7087ffcd38244c1c5233f57fe081d668590376b8c59032c4920366d248930edf",
+            "noteZh": "协调者用Chromium按0至3.9秒每0.1秒捕获40帧，编码PNG/WebP/MP4；未改作者SVG或补画动画。页面默认静止。",
+            "noteEn": "Coordinator Chromium capture at 0.1-second intervals from 0 to 3.9 seconds, encoded as PNG/WebP/MP4. The author SVG and animation were not altered; the page starts with a still image."
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-pelican-animation/project-source.zip",
+          "labelZh": "原SVG与生成源码",
+          "labelEn": "Original SVG and generator source"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-pelican-animation/final.svg",
+          "labelZh": "原始SMIL SVG",
+          "labelEn": "Original SMIL SVG"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-pelican-animation/animation.webp",
+          "labelZh": "4秒循环动图（WebP）",
+          "labelEn": "Four-second loop (WebP)"
+        },
+        {
+          "path": "/evaluations/tencent-hy4-creative/svg-pelican-animation/animation.mp4",
+          "labelZh": "4秒动画预览（MP4）",
+          "labelEn": "Four-second animation preview (MP4)"
+        }
+      ],
+      "assessmentZh": [
+        "长喙与喉囊可辨，双轮、车架、车座和车把完整，主体没有出画。",
+        "轮辐与脚踏实际运动，41个采样点中的腿部接点保持连接，最大脚踏/曲柄端点误差约0.183个原生SVG单位。",
+        "4秒40帧全部变化，实播越过一次循环；首尾帧有极小像素差，未见明显跳切。"
+      ],
+      "assessmentEn": [
+        "The long bill and throat pouch are recognizable; wheels, frame, saddle and handlebar are complete, and the subject stays in frame.",
+        "Spokes and pedals actually move; leg joints stay connected across 41 samples, with maximum pedal/crank endpoint error of about 0.183 native SVG units.",
+        "All 40 frames differ across the four-second loop. Live playback crosses a loop; the endpoints have a very small pixel difference with no obvious jump observed."
+      ],
+      "checks": [
+        {
+          "labelZh": "自包含SMIL动画",
+          "labelEn": "Self-contained SMIL animation",
+          "status": "pass",
+          "detailZh": "XML与资源白名单通过；48个SMIL动画都以4秒无限循环，不含脚本、CSS动画、外部资源/字体或嵌入图像。",
+          "detailEn": "XML and resource checks pass. All 48 SMIL animations repeat every four seconds; there are no scripts, CSS animations, external resources/fonts or embedded images."
+        },
+        {
+          "labelZh": "鹈鹕与自行车结构",
+          "labelEn": "Pelican and bicycle structure",
+          "status": "pass",
+          "detailZh": "已查看全部代表帧和实播截图，长喙与橙色喉囊可辨，双轮、连贯车架、车座与车把完整；主体在画布内。",
+          "detailEn": "Representative frames and live-playback screenshots show a recognizable long bill and orange throat pouch, two wheels, a connected frame, saddle and handlebar, with the subject inside the canvas."
+        },
+        {
+          "labelZh": "车轮、曲柄与踩踏",
+          "labelEn": "Wheels, crank and pedaling",
+          "status": "pass",
+          "detailZh": "轮辐与曲柄实际旋转，双腿随脚踏运动。41个0.1秒间隔采样中，髋部与身体、膝部接点误差为0，踝部与脚踏误差不超过0.011，脚踏与曲柄端点误差不超过0.183个原生SVG单位。",
+          "detailEn": "Spokes and crank visibly rotate, with the legs following the pedals. Across 41 samples at 0.1-second intervals, hip/body and knee gaps are zero; ankle/pedal error stays below 0.011 and pedal/crank error below 0.183 native SVG units."
+        },
+        {
+          "labelZh": "4秒循环与实际播放",
+          "labelEn": "Four-second loop and live playback",
+          "status": "pass",
+          "detailZh": "固定捕获4秒40帧，40帧均不同，MP4完整解码通过。另在Chromium中连续实播5.37秒，观察到一次MP4循环和持续SMIL运动。0/4秒帧非逐像素相同（MAE0.00535/255），画面未见明显跳切。 WebP另以实时截图确认在播放，40帧总延时4000毫秒。",
+          "detailEn": "A four-second capture has 40 distinct frames and passes full MP4 decoding. A separate 5.37-second Chromium playback observes one video loop and continuous SMIL motion. Frames at 0/4 seconds are not pixel-identical (MAE 0.00535/255), with no obvious visual jump observed. Separate real-time screenshots confirm WebP playback, with 40 frames totaling 4,000 ms."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "persistent-author-session",
+          "effort": "native default",
+          "status": "model_finished",
+          "requests": 54,
+          "completedResponses": 54,
+          "noteZh": "由同一Hy4原生持久会话编写SVG并检查运动；协调者只捕获与编码，未修改源码。",
+          "noteEn": "SVG authored and motion inspected in one persistent native Hy4 session; the coordinator only captured/encoded the unchanged source.",
+          "evidencePath": "/evaluations/tencent-hy4-creative/svg-pelican-animation/creation-evidence.json"
+        }
+      ],
+      "caseSpecSha256": "e14b37abae213de3292366779afe9a8ec6fb0f68c82c6c8a0f25b7ceac732f09",
+      "usageIncomplete": false,
+      "reportedInferenceCostUsdKnownSubtotal": 0.2516332925700001
+    }
+  ]
+}

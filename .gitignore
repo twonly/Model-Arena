@@ -44,7 +44,8 @@ yarn-error.log*
 /lib/admin.ts
 /lib/admin-bypass.ts
 /lib/admin-ui.tsx
-/scripts/
+/scripts/*
+!/scripts/evaluation/
 
 # local scratch / screenshots
 tmp/

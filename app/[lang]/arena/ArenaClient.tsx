@@ -12,9 +12,12 @@ import { BatchTests } from "@/components/BatchTests";
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Credit } from "@/components/Credit";
+import { AppendModelsDialog } from "@/components/AppendModelsDialog";
+import { retainedComparison } from "@/lib/append-comparison";
 import { HistoryDrawer } from "@/components/HistoryDrawer";
 import { ModelCard, STATUS_COLOR } from "@/components/ModelCard";
 import { VerdictCard } from "@/components/VerdictCard";
+import { ResultLayout, ResultContent, resultGridStyle } from "@/components/ResultLayout";
 import { RaceTrack } from "@/components/RaceTrack";
 import { computeVerdict } from "@/lib/verdict";
 import { grade } from "@/lib/grade";
@@ -53,6 +56,7 @@ import {
 } from "@/lib/telemetry";
 import {
   emptyRun,
+  hasRunResult,
   type HistoryEntry,
   type ModelEndpoint,
   type RunParams,
@@ -79,9 +83,10 @@ import {
 function usePersisted<T>(
   key: string,
   initial: T,
-): [T, React.Dispatch<React.SetStateAction<T>>] {
+): [T, React.Dispatch<React.SetStateAction<T>>, boolean] {
   const [val, setVal] = useState<T>(initial);
   const [ready, setReady] = useState(false);
+  const [saveFailed, setSaveFailed] = useState(false);
   useEffect(() => {
     try {
       const raw = localStorage.getItem(key);
@@ -95,11 +100,12 @@ function usePersisted<T>(
     if (!ready) return;
     try {
       localStorage.setItem(key, JSON.stringify(val));
+      setSaveFailed(false);
     } catch {
-      /* ignore */
+      setSaveFailed(true);
     }
   }, [key, val, ready]);
-  return [val, setVal];
+  return [val, setVal, saveFailed];
 }
 
 const isRunning = (r: RunState) =>
@@ -194,7 +200,12 @@ export default function Home() {
   const [savedTitle, setSavedTitle] = usePersisted("ma.title", "");
   const [savedNotes, setSavedNotes] = usePersisted("ma.notes", "");
   const [savedPrompt, setSavedPrompt] = usePersisted("ma.prompt", "");
+  const [rerunTarget, setRerunTarget] = useState<ArenaSeed["rerunTarget"]>();
+  const [appendSource, setAppendSource] = useState<HistoryEntry | null>(null);
   const [comparison, setComparison] = useState<{
+    retained?: HistoryEntry;
+    title?: string;
+    notes?: string;
     prompt: string;
     task?: TaskIdentity;
     params: RunParams;
@@ -282,7 +293,7 @@ export default function Home() {
     "ma.customPrompts",
     [],
   );
-  const [history, setHistory] = usePersisted<HistoryEntry[]>("ma.history", []);
+  const [history, setHistory, historySaveFailed] = usePersisted<HistoryEntry[]>("ma.history", []);
   // 共享「体验额度」状态（null = 未知/未启用）
   const [quota, setQuota] = useState<{
     remaining: number;
@@ -420,7 +431,6 @@ export default function Home() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [historyOpen, setHistoryOpen] = useState(false);
   const [screenshotMode, setScreenshotMode] = useState(false);
-  const [openOutputs, setOpenOutputs] = useState<Record<string, boolean>>({});
   const [showAdvanced, setShowAdvanced] = useState(false);
   const [restored, setRestored] = useState<HistoryEntry | null>(null);
   const [toast, setToast] = useState("");
@@ -438,6 +448,8 @@ export default function Home() {
   /** 单模型放大查看（不影响其他模型运行） */
   const [focusId, setFocusId] = useState<string | null>(null);
   /** 正在导出长图（临时隐藏工具条等非内容元素） */
+  const [previewOnly, setPreviewOnly] = useState(false);
+  const [resultColumns, setResultColumns] = useState("auto");
   const [exporting, setExporting] = useState(false);
   const captureMode = screenshotMode || exporting;
   const mainRef = useRef<HTMLElement>(null);
@@ -627,6 +639,14 @@ export default function Home() {
         seed = JSON.parse(seedRaw) as ArenaSeed;
       }
       if (!seed?.prompt?.trim()) return;
+      if (seed.mode === "share-append" && seed.retained?.results?.length) {
+        restoreHistory(seed.retained);
+        setRerunTarget(seed.rerunTarget);
+        setAppendSource(seed.retained);
+        sessionStorage.removeItem(ARENA_SEED_STORAGE_KEY);
+        restoredActiveRef.current = true;
+        return;
+      }
       restoredActiveRef.current = true; // Explicit seed wins even after its URL/storage marker is consumed.
 
       setTemporaryDraft({
@@ -814,6 +834,9 @@ export default function Home() {
     (
       targets: ModelEndpoint[],
       context: {
+        retained?: HistoryEntry;
+        title?: string;
+        notes?: string;
         prompt: string;
         task?: TaskIdentity;
         params: RunParams;
@@ -822,29 +845,39 @@ export default function Home() {
       },
     ) => {
       const cur = runsRef.current;
-      const results = targets.map((t) => {
+      const requested = targets.filter(t => !t.id.startsWith("retained-"));
+      const freshResults = requested.map((t) => {
         const r = cur[t.id] ?? emptyRun();
         return {
           name: t.name,
           model: t.model,
+          origin: r.origin,
           provider: t.baseUrl,
+          customPricing: t.customPricing,
           status: r.status,
           rank: r.rank,
           metrics: r.metrics,
-          text: r.text.slice(0, 6000),
-          reasoning: r.reasoning.slice(0, 3000),
+          // Preserve executable output intact for history and encrypted cloud backups.
+          text: r.text,
+          reasoning: r.reasoning,
           // 存速度曲线（抽稀到 150 点）：历史分享时才有曲线，代价是 localStorage 略增
           samples: thinSamples(r.samples, 150),
           elapsedMs: r.elapsedMs,
           error: r.error,
         };
       });
-      if (!results.some((r) => r.metrics || r.error)) return;
+      if (!freshResults.some((r) => r.metrics || r.error || r.status === "stopped")) return;
+      const results = context.retained
+        ? [...context.retained.results.map((r, i) => ({ ...r, origin: cur[`retained-${i}`]?.origin ?? r.origin })), ...freshResults]
+        : freshResults;
       const entry: HistoryEntry = {
         id: Math.random().toString(36).slice(2, 10),
         at: Date.now(),
-        title,
-        notes,
+        title: context.title ?? title,
+        notes: context.notes ?? notes,
+        source: context.retained?.source ?? (context.retained ? { kind: "history", id: context.retained.id, at: context.retained.at } : undefined),
+        hasImage: !!context.imageDataUrl,
+        imageDataUrl: context.imageDataUrl,
         prompt: context.prompt,
         task: context.task,
         params: context.params,
@@ -855,18 +888,18 @@ export default function Home() {
       };
       setHistory((prev) => [entry, ...prev].slice(0, 24));
       track("result_save", { models: results.length });
-      const complete = results.filter(
+      const complete = freshResults.filter(
         (r) => r.status === "done" && r.text.trim(),
       ).length;
       track(complete >= 2 ? "comparison_valid" : "run_error", {
         complete,
-        attempted: results.length,
+        attempted: freshResults.length,
         reportId: context.reportId ?? "none",
       });
-      track("run_complete", { complete, attempted: results.length });
-      if (results.some((r) => r.status !== "done"))
+      track("run_complete", { complete, attempted: freshResults.length });
+      if (freshResults.some((r) => r.status !== "done"))
         track("run_error", {
-          failed: results.filter((r) => r.status !== "done").length,
+          failed: freshResults.filter((r) => r.status !== "done").length,
         });
       if (complete >= 2) {
         try {
@@ -887,7 +920,7 @@ export default function Home() {
       // 暂存本轮，供「同意」时补报
       const info = {
         runId: entry.id,
-        targets,
+        targets: requested,
         promptChars: context.prompt.length,
         hasImage: !!context.imageDataUrl,
         reported: false,
@@ -932,7 +965,6 @@ export default function Home() {
       });
       comparisonRef.current = context;
       setComparison(context);
-      setOpenOutputs(Object.fromEntries(context.endpoints.map((ep) => [ep.id, true])));
       runsRef.current = saved.runs;
       setRuns(saved.runs);
       setNowTick(Date.now());
@@ -958,7 +990,7 @@ export default function Home() {
           signal: ctrl.signal, resume, onCheckpoint: checkpointFor(ep.id),
           update: updateRun(ep.id), onSettled: (ok) => {
             if (ok) {
-              const rank = ++rankCounter.current;
+              const rank = context.retained ? undefined : ++rankCounter.current;
               updateRun(ep.id)((prev) => ({ ...prev, rank }));
             }
             settled();
@@ -972,18 +1004,22 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const startAll = () => {
-    let targets = activeEndpoints.filter((e) => e.enabled);
+  const startAll = () => startSelected(activeEndpoints.filter(e => e.enabled));
+
+  const startSelected = (selected: ModelEndpoint[], retained?: HistoryEntry, inheritedParams = params, imageDataUrl = image?.dataUrl) => {
+    let targets = selected;
+    const runPrompt = retained?.prompt ?? prompt;
     if (
       !targets.length ||
-      !prompt.trim() ||
+      !runPrompt.trim() ||
       anyRunning ||
       batchBusy ||
-      missingModels.length
+      (!retained && missingModels.length)
     )
       return;
     // 免费额度用完：剔除共享模型，只跑用户自带 key 的
     if (quota && quota.remaining <= 0 && targets.some((t) => t.shared)) {
+      if (retained) { flash(arenaText.quotaEmpty); return; }
       if (arenaSeedMode === "report") {
         flash(arenaText.quotaEmpty);
         return;
@@ -995,18 +1031,25 @@ export default function Home() {
       }
       flash(arenaText.quotaOwnOnly);
     }
+    const kept = retained ? retainedComparison(retained) : { endpoints: [], runs: {} };
     const context = {
-      prompt,
-      task: image ? undefined : task,
-      params: { ...params },
-      reportId,
-      endpoints: targets.map((e) => ({ ...e })),
-      imageDataUrl: image?.dataUrl,
+      retained,
+      title: retained?.title ?? title,
+      notes: retained?.notes ?? notes,
+      prompt: runPrompt,
+      task: retained ? retained.task : imageDataUrl ? undefined : task,
+      params: { ...inheritedParams },
+      reportId: retained ? undefined : reportId,
+      endpoints: [...kept.endpoints, ...targets.map(e => ({ ...e }))],
+      imageDataUrl,
     };
     comparisonRef.current = context;
     checkpointsRef.current = {};
     setComparison(context);
     setRestored(null);
+    restoredRef.current = null;
+    setAppendSource(null);
+    setHiddenIds([]);
     setShareUrl(null); // 新一轮作废旧分享链接
     setShareError(null);
     // 漏斗埋点：UV→开跑 的转化在 Vercel Analytics 看（服务端只能看到跑成功的）
@@ -1020,9 +1063,9 @@ export default function Home() {
     pendingCount.current = targets.length;
     setNowTick(Date.now());
     const runId = crypto.randomUUID(); // 本轮唯一 ID：共享额度按此去重计 1 次
-    const fresh: Record<string, RunState> = {};
+    const fresh: Record<string, RunState> = { ...kept.runs };
     for (const t of targets)
-      fresh[t.id] = { ...emptyRun(), startedAt: Date.now() };
+      fresh[t.id] = { ...emptyRun(), status: "connecting", startedAt: Date.now(), origin: { kind: "run", id: runId, at: Date.now() } };
     runsRef.current = fresh;
     setRuns(fresh);
     persistActive(true);
@@ -1031,9 +1074,9 @@ export default function Home() {
     for (const t of targets) {
       void runEndpoint({
         endpoint: t,
-        prompt,
-        params,
-        imageDataUrl: image?.dataUrl,
+        prompt: context.prompt,
+        params: context.params,
+        imageDataUrl: context.imageDataUrl,
         signal: ctrl.signal,
         update: updateRun(t.id),
         onCheckpoint: checkpointFor(t.id),
@@ -1043,16 +1086,13 @@ export default function Home() {
           if (ok) {
             successfulCount += 1;
             rankCounter.current += 1;
-            const rank = rankCounter.current;
-            setRuns((prev) => ({
-              ...prev,
-              [t.id]: { ...(prev[t.id] ?? emptyRun()), rank },
-            }));
+            const rank = retained ? undefined : rankCounter.current;
+            updateRun(t.id)(prev => ({ ...prev, rank }));
           }
           persistActive(true);
           pendingCount.current -= 1;
           if (pendingCount.current <= 0) {
-            setTimeout(() => saveHistory(targets, context), 80);
+            setTimeout(() => saveHistory(context.endpoints, context), 80);
             void fetchQuota(); // 跑完同步真实剩余额度
             if (targets.length >= 2 && successfulCount > 0) {
               showReferralNudge("post-run");
@@ -1074,11 +1114,11 @@ export default function Home() {
     }
     // 全部走 ref：此函数可能被 memo 卡片里的旧闭包调用
     const context = comparisonRef.current;
-    if (!context?.prompt.trim() || restoredRef.current) return;
+    if (!context?.prompt.trim() || restoredRef.current || ep.id.startsWith("retained-") || anyRunning) return;
     const ctrl = new AbortController();
     controllerRef.current = ctrl;
     delete checkpointsRef.current[ep.id];
-    updateRun(ep.id)(() => ({ ...emptyRun(), startedAt: Date.now() }));
+    updateRun(ep.id)(() => ({ ...emptyRun(), status: "connecting", startedAt: Date.now(), origin: { kind: "run", id: crypto.randomUUID(), at: Date.now() } }));
     persistActive(true);
     setNowTick(Date.now());
     void runEndpoint({
@@ -1134,6 +1174,7 @@ export default function Home() {
         model: r.model,
         kind: "openai" as const,
         baseUrl: r.provider ?? "",
+        customPricing: r.customPricing,
         apiKey: "",
         enabled: true,
       }))
@@ -1156,7 +1197,7 @@ export default function Home() {
         model: ep.model,
         run: runs[ep.id] ?? emptyRun(),
       }))
-      .filter(({ run }) => run.metrics || run.error);
+      .filter(({ run }) => hasRunResult(run));
     if (!rows.length) {
       flash(arenaText.noCopyResults);
       return;
@@ -1221,7 +1262,7 @@ export default function Home() {
     setShareError(null);
     const rows = visibleEndpoints
       .map((ep) => ({ run: runs[ep.id] ?? emptyRun() }))
-      .filter(({ run }) => run.metrics || run.error);
+      .filter(({ run }) => hasRunResult(run));
     if (!rows.length) {
       setShareError(
         anyRunning ? arenaText.shareNoFinished : arenaText.shareNoResults,
@@ -1257,14 +1298,15 @@ export default function Home() {
     // 历史分享：直接用存档的 results（含 samples 曲线）；否则用当前实时结果
     const rows = src
       ? src.results
-          .filter((r) => r.metrics || r.error)
+          .filter(hasRunResult)
           .map((r) => ({
             name: r.name,
             model: r.model,
             run: {
               ...emptyRun(),
               status: r.status,
-              rank: r.rank,
+              rank: src.source ? undefined : r.rank,
+              origin: r.origin,
               metrics: r.metrics,
               text: r.text,
               reasoning: r.reasoning,
@@ -1279,7 +1321,7 @@ export default function Home() {
             model: ep.model,
             run: runs[ep.id] ?? emptyRun(),
           }))
-          .filter(({ run }) => run.metrics || run.error);
+          .filter(({ run }) => hasRunResult(run));
     if (!rows.length) {
       setShareSource(null);
       return;
@@ -1290,6 +1332,8 @@ export default function Home() {
     setShareUrl("loading");
     try {
       const snapshot = buildSnapshot({
+        hasImage: src ? src.hasImage : !!comparison?.imageDataUrl,
+        source: src?.source ?? comparison?.retained?.source ?? (comparison?.retained ? { kind: "history", id: comparison.retained.id, at: comparison.retained.at } : undefined),
         title: src ? src.title : title,
         notes: src ? src.notes : notes,
         prompt: src ? src.prompt : (comparison?.prompt ?? prompt),
@@ -1346,18 +1390,19 @@ export default function Home() {
     setRestored(h);
     setComparison(null);
     setTask(h.task);
-    if (h.params) setTemporaryParams(h.params);
+    setTemporaryParams(h.params ?? null);
+    setImage(h.imageDataUrl ? { dataUrl: h.imageDataUrl, name: en ? "Original image" : "原图" } : null);
     setHistoryOpen(false);
     const next: Record<string, RunState> = {};
     h.results.forEach((r, i) => {
       next[`h-${i}`] = {
         ...emptyRun(),
-        status:
-          r.status === "error" || r.status === "truncated" ? r.status : "done",
+        status: r.status,
         text: r.text,
         reasoning: r.reasoning,
         metrics: r.metrics,
-        rank: r.rank,
+        rank: h.source ? undefined : r.rank,
+        origin: r.origin,
         samples: r.samples ?? [],
         elapsedMs: r.elapsedMs,
         error: r.error,
@@ -1366,19 +1411,27 @@ export default function Home() {
     setRuns(next);
   };
 
-  const gridCols = compact
-    ? // 紧凑模式卡片矮，一行多放
-      visibleEndpoints.length <= 2
-      ? "sm:grid-cols-2"
-      : "sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
-    : visibleEndpoints.length <= 1
-      ? "grid-cols-1 max-w-3xl"
-      : visibleEndpoints.length === 2
-        ? "md:grid-cols-2"
-        : "md:grid-cols-2 xl:grid-cols-3";
+  const openAppend = (target?: ModelEndpoint) => {
+    if (anyRunning || batchBusy) return;
+    setRerunTarget(target ? { model: target.model, name: target.name, provider: target.baseUrl || undefined } : undefined);
+    setFocusId(null);
+    if (restored) { setAppendSource(restored); return; }
+    if (!comparison) return;
+    setAppendSource({
+      id: crypto.randomUUID(), at: Date.now(), title: comparison.title ?? title, notes: comparison.notes ?? notes,
+      prompt: comparison.prompt, params: comparison.params, task: comparison.task,
+      hasImage: !!comparison.imageDataUrl, imageDataUrl: comparison.imageDataUrl,
+      results: comparison.endpoints.map(ep => {
+        const r = runs[ep.id] ?? emptyRun();
+        return { name: ep.name, model: ep.model, provider: ep.baseUrl, customPricing: ep.customPricing,
+          status: r.status, text: r.text, reasoning: r.reasoning, metrics: r.metrics,
+          samples: r.samples, elapsedMs: r.elapsedMs, error: r.error, origin: r.origin };
+      }),
+    });
+  };
 
   const hasResults = visibleEndpoints.some(
-    (ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error,
+    (ep) => hasRunResult(runs[ep.id] ?? emptyRun()),
   );
   const reviewDraftRows = enabledEndpoints.map((ep) => ({
     name: ep.name,
@@ -1475,7 +1528,7 @@ export default function Home() {
     ? lastShareSummary.models
     : visibleEndpoints
         .filter(
-          (ep) => (runs[ep.id] ?? emptyRun()).metrics || runs[ep.id]?.error,
+          (ep) => hasRunResult(runs[ep.id] ?? emptyRun()),
         )
         .map((ep) => ep.name || ep.model);
   const generatedShareText = buildSharePostText({
@@ -1549,12 +1602,16 @@ export default function Home() {
   return (
     <main
       ref={mainRef}
-      className="mx-auto max-w-7xl px-5 py-8"
-      style={
-        exporting ? { width: "max(960px, 100%)", maxWidth: "none" } : undefined
-      }
+      className="mx-auto w-full px-5 py-8"
     >
       {captureMode && reportHeading}
+      {historySaveFailed && !captureMode && (
+        <p role="alert" className="mb-4 rounded-lg border border-accent p-3 text-sm text-accent">
+          {en
+            ? "History could not be saved (browser storage may be full). Keep this page open and copy your outputs before leaving. Cloud upload will not include unsaved results."
+            : "历史记录保存失败（浏览器存储可能已满）。请保持页面打开，离开前复制输出内容；云端上传不会包含未保存的结果。"}
+        </p>
+      )}
       {!captureMode && (
         <ReferralRewardNotifier onOpenAccount={() => setAccountOpen(true)} />
       )}
@@ -1672,23 +1729,6 @@ export default function Home() {
                   : en
                     ? "Reasoning stats: off"
                     : "思考统计：关"}
-              </button>
-              <button
-                className={btn}
-                onClick={() => setCompact((v) => !v)}
-                title={
-                  en
-                    ? "Compact mode collapses output content and focuses on metrics."
-                    : "紧凑模式：折叠输出内容只看指标，多模型纯竞速一屏看全"
-                }
-              >
-                {compact
-                  ? en
-                    ? "📊 Compact: on"
-                    : "📊 紧凑：开"
-                  : en
-                    ? "📊 Compact: off"
-                    : "📊 紧凑：关"}
               </button>
               <a className={btn} href={localHref("/me")}>
                 🗂 {en ? "Mine" : "我的"}
@@ -2053,6 +2093,20 @@ export default function Home() {
                   : "刷新本标签页可接回原测试。断线后最多保留 30 分钟，期间模型可能继续生成并计费；结束测试请点停止。服务重启仍会中断生成。"}
               </p>
             )}
+            {(params.maxTokens?.trim() || params.temperature?.trim() || params.systemPrompt?.trim()) && (
+              <div className="mt-2 rounded border border-line px-3 py-2 text-xs" role="status">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span>{temporaryParams ? (en ? "Restored task parameters" : "恢复的任务参数") : (en ? "Saved global parameters" : "已保存的全局参数")}</span>
+                  {params.maxTokens?.trim() && <span className="num">Max Tokens = {params.maxTokens}</span>}
+                  {params.temperature?.trim() && <span className="num">Temperature = {params.temperature}</span>}
+                  {params.systemPrompt?.trim() && <span>System Prompt ✓</span>}
+                  <button className="underline cursor-pointer" onClick={() => setParams({ ...params, maxTokens: "", temperature: "" })}>
+                    {en ? "Clear global token / temperature overrides" : "清除全局 Token / 温度覆盖"}
+                  </button>
+                </div>
+                <p className="mt-1 text-faint">{en ? "Applies to every selected model, including trials. Per-model JSON takes priority; output limits differ by model. Blank values use provider defaults." : "对所有已选模型生效，包含体验模型；单模型 JSON 优先。各模型输出上限不同，留空使用厂商默认。"}</p>
+              </div>
+            )}
             {showAdvanced && (
               <div className="mt-2.5 grid gap-2.5 border-t border-line pt-2.5 sm:grid-cols-3">
                 <label className="sm:col-span-3 block">
@@ -2278,27 +2332,9 @@ export default function Home() {
             data-no-export="1"
             className="mb-4 flex flex-wrap items-center gap-2 rounded-lg border border-line bg-card p-3 [&_button]:min-h-11"
           >
-            <button
-              className={btn}
-              aria-controls="model-outputs"
-              onClick={() => {
-                setCompact(false);
-                setOpenOutputs(
-                  Object.fromEntries(
-                    enabledEndpoints.map((ep) => [ep.id, true]),
-                  ),
-                );
-              }}
-            >
-              {en ? "Expand all outputs" : "展开全部输出"}
-            </button>
-            <button
-              className={btn}
-              aria-controls="model-outputs"
-              onClick={() => setOpenOutputs({})}
-            >
-              {en ? "Collapse all outputs" : "折叠全部输出"}
-            </button>
+            <ResultLayout value={resultColumns} onChange={setResultColumns} en={en} />
+            <ResultContent value={previewOnly ? "preview" : compact ? "metrics" : "answers"}
+              onChange={(mode) => { setPreviewOnly(mode === "preview"); setCompact(mode === "metrics"); }} en={en} />
             <button className={btn} onClick={() => setScreenshotMode(true)}>
               📷 {en ? "Screenshot" : "截图模式"}
             </button>
@@ -2321,6 +2357,9 @@ export default function Home() {
                 🖼 {en ? "Export Image" : "导出长图"}
               </button>
             )}
+            {hasResults && <button className={btn} disabled={anyRunning || batchBusy} onClick={() => openAppend()}>
+              ＋ {en ? "Add models to comparison" : "追加模型对比"}
+            </button>}
             {hasResults && !restored && (
               <button
                 className={btn}
@@ -2511,51 +2550,29 @@ export default function Home() {
         ) : (
           <div
             id="model-outputs"
-            className={`grid grid-cols-1 gap-4 ${gridCols}`}
-            style={
-              exporting
-                ? {
-                    gridTemplateColumns: `repeat(${Math.min(visibleEndpoints.length, 3)}, minmax(0, 1fr))`,
-                  }
-                : undefined
-            }
+            className="grid gap-4 [&>*]:min-w-0"
+            style={resultGridStyle(resultColumns, compact)}
           >
             {visibleEndpoints
               .filter(() => hasResults || anyRunning)
               .map((ep) => {
                 const run = runs[ep.id] ?? EMPTY_RUN;
                 return (
-                  <details
+                  <ModelCard
                     key={ep.id}
-                    open={captureMode || !!openOutputs[ep.id]}
-                    onToggle={(event) => {
-                      if (captureMode) return;
-                      const open = event.currentTarget.open;
-                      setOpenOutputs((previous) =>
-                        !!previous[ep.id] === open
-                          ? previous
-                          : { ...previous, [ep.id]: open },
-                      );
-                    }}
-                    className="rounded-lg border border-line bg-card"
-                  >
-                    <summary className="cursor-pointer p-4 text-sm font-semibold">
-                      <ProviderIcon model={ep.model} name={ep.name} baseUrl={ep.baseUrl} size="sm" className="mr-2" />
-                      {ep.name} · {en ? "View output" : "查看输出"}
-                    </summary>
-                    <ModelCard
-                      endpoint={ep}
-                      run={run}
-                      markdown={markdown}
-                      screenshotMode={captureMode || !!restored}
-                      thinkingStats={thinkStats}
-                      nowTick={isRunning(run) ? nowTick : 0}
-                      onRerun={() => rerunOne(ep)}
-                      onToggleFocus={() => setFocusId(ep.id)}
-                      wordTarget={wordTarget}
-                      compact={compact}
-                    />
-                  </details>
+                    endpoint={ep}
+                    run={run}
+                    markdown={markdown}
+                    screenshotMode={captureMode}
+                    readOnly={anyRunning || batchBusy}
+                    thinkingStats={thinkStats}
+                    nowTick={isRunning(run) ? nowTick : 0}
+                    onRerun={() => restored || ep.id.startsWith("retained-") ? openAppend(ep) : rerunOne(ep)}
+                    onToggleFocus={() => setFocusId(ep.id)}
+                    wordTarget={wordTarget}
+                    compact={compact}
+                    previewOnly={previewOnly}
+                  />
                 );
               })}
           </div>
@@ -2613,12 +2630,14 @@ export default function Home() {
               run={runs[focusEndpoint.id] ?? EMPTY_RUN}
               markdown={markdown}
               screenshotMode={false}
+              readOnly={anyRunning || batchBusy}
               thinkingStats={thinkStats}
               nowTick={
                 isRunning(runs[focusEndpoint.id] ?? EMPTY_RUN) ? nowTick : 0
               }
-              onRerun={() => rerunOne(focusEndpoint)}
+              onRerun={() => restored || focusEndpoint.id.startsWith("retained-") ? openAppend(focusEndpoint) : rerunOne(focusEndpoint)}
               expanded
+              previewOnly={previewOnly}
               onToggleFocus={() => setFocusId(null)}
               wordTarget={wordTarget}
             />
@@ -2651,6 +2670,11 @@ export default function Home() {
         </button>
       )}
 
+      {appendSource && !settingsOpen && <AppendModelsDialog
+        source={appendSource} rerunTarget={rerunTarget} endpoints={endpoints} defaults={params} quotaRemaining={quota?.remaining}
+        onClose={() => setAppendSource(null)} onConfigure={() => setSettingsOpen(true)}
+        onRun={(selected, inherited, originalImage) => startSelected(selected, appendSource, inherited, originalImage ?? "")}
+      />}
       <SettingsDialog
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}

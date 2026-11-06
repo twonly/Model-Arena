@@ -1,0 +1,18 @@
+{
+  "model": "dots-studio/dots-3-note-preview:free",
+  "version": "Dots3-Note Preview via OpenRouter, verified 2026-11-02",
+  "displayName": "Dots3-Note Preview via Claude Code",
+  "aliases": ["Dots3-Note Preview", "dots-3-note-preview"],
+  "protocol": "anthropic-messages",
+  "endpoint": "https://openrouter.ai/api/v1/messages",
+  "keyEnv": "SHARED_KEY_OPENROUTER",
+  "expectedReturnedModel": "dots-studio/dots-3-note-preview:free",
+  "billing": "openrouter-free-variant",
+  "modes": {"default": {}},
+  "extraBody": {},
+  "temperature": null,
+  "versionSource": "https://openrouter.ai/dots-studio/dots-3-note-preview:free",
+  "method": "Native Claude Code persistent creation sessions. The author model is the explicitly selected OpenRouter free variant. Connection and returned model identity verified before evaluation; connection checks are not scored creative tasks.",
+  "providerMaxOutputTokens": 460800,
+  "nativeContextSuffix": ""
+}

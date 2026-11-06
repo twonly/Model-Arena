@@ -34,7 +34,9 @@ export function quickSample(locale: Locale = DEFAULT_LOCALE) {
 }
 
 export interface ArenaSeed {
-  mode: "sample" | "share-full" | "share-prompt" | "report";
+  mode: "sample" | "share-full" | "share-prompt" | "share-append" | "report";
+  retained?: import("./types").HistoryEntry;
+  rerunTarget?: Pick<import("./types").HistoryResult, "model" | "provider" | "name">;
   endpointRefs?: {
     model: string;
     provider: string;

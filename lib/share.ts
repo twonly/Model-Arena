@@ -1,3 +1,4 @@
+import { hasRunResult } from "./types.ts";
 import type { RunMetrics, RunState, SpeedSample } from "./types";
 
 /**
@@ -5,6 +6,7 @@ import type { RunMetrics, RunState, SpeedSample } from "./types";
  * 含 Prompt 与各模型输出（用户自己的内容），但绝不含 API Key 与 baseUrl。
  */
 export interface ShareResult {
+  origin?: import("./types").ResultOrigin;
   name: string;
   model: string;
   status: RunState["status"];
@@ -22,6 +24,8 @@ export interface VotingConfigLite {
 }
 
 export interface ShareSnapshot {
+  hasImage?: boolean;
+  source?: import("./types").ResultOrigin;
   task?: import("./benchmark-suite").TaskIdentity;
   params?: import("./types").RunParams;
   reportId?: string;
@@ -78,6 +82,8 @@ export function thinSamples(
 }
 
 export function buildSnapshot(opts: {
+  hasImage?: boolean;
+  source?: import("./types").ResultOrigin;
   task?: import("./benchmark-suite").TaskIdentity;
   params?: import("./types").RunParams;
   reportId?: string;
@@ -91,20 +97,23 @@ export function buildSnapshot(opts: {
 }): ShareSnapshot {
   return {
     v: 1,
+    hasImage: opts.hasImage,
+    source: opts.source,
     task: opts.task,
     params: opts.params,
     reportId: opts.reportId,
     title: opts.title.slice(0, 200),
     notes: opts.notes.slice(0, 1000),
-    prompt: opts.prompt.slice(0, 8000),
+    prompt: opts.prompt,
     watermark: opts.watermark.slice(0, 100),
     thinkingStats: opts.thinkingStats,
     voting: opts.voting,
     results: opts.rows
-      .filter(({ run }) => run.metrics || run.error)
+      .filter(({ run }) => hasRunResult(run))
       .map(({ name, model, run }) => ({
         name,
         model,
+        origin: run.origin,
         status: run.status,
         rank: run.rank,
         metrics: run.metrics,

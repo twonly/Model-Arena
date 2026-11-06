@@ -1,0 +1,375 @@
+{
+  "model": "MiniMax-M3.1-Flash-Preview",
+  "endpoint": "https://api.minimax.io/v1",
+  "suiteVersion": "tasks-2026-09-26.1",
+  "params": {
+    "systemPrompt": "",
+    "temperature": "0",
+    "maxTokens": "2048"
+  },
+  "effort": "provider default (max per official docs)",
+  "measurementOrigin": "local macOS client, Asia/Shanghai; no server region assertion",
+  "attempts": [
+    {
+      "id": "extract-1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-02T16:26:47.043Z",
+      "finishedAt": "2026-10-02T16:26:48.951Z",
+      "firstContentMs": 1764.358041,
+      "totalMs": 1905.7943329999998,
+      "promptTokens": 267,
+      "outputTokens": 19,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "extraction"
+    },
+    {
+      "id": "extract-2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-02T16:26:48.952Z",
+      "finishedAt": "2026-10-02T16:26:49.958Z",
+      "firstContentMs": 940.8147499999998,
+      "totalMs": 1005.8094169999997,
+      "promptTokens": 269,
+      "outputTokens": 21,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "extraction"
+    },
+    {
+      "id": "extract-3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-02T16:26:49.958Z",
+      "finishedAt": "2026-10-02T16:26:51.027Z",
+      "firstContentMs": 882.5413330000001,
+      "totalMs": 1068.093042,
+      "promptTokens": 266,
+      "outputTokens": 19,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "extraction"
+    },
+    {
+      "id": "extract-4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "startedAt": "2026-10-02T16:26:51.028Z",
+      "finishedAt": "2026-10-02T16:26:52.834Z",
+      "firstContentMs": 1804.8442919999998,
+      "firstReasoningMs": 1384.107,
+      "totalMs": 1805.2997919999998,
+      "promptTokens": 271,
+      "outputTokens": 60,
+      "reasoningTokens": 40,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "extraction"
+    },
+    {
+      "id": "extract-5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-02T16:26:52.835Z",
+      "finishedAt": "2026-10-02T16:26:55.430Z",
+      "firstContentMs": 2238.1608750000005,
+      "firstReasoningMs": 1720.0761250000005,
+      "totalMs": 2595.059333,
+      "promptTokens": 267,
+      "outputTokens": 54,
+      "reasoningTokens": 36,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "extraction"
+    },
+    {
+      "id": "format-1",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-02T16:26:55.431Z",
+      "finishedAt": "2026-10-02T16:26:56.558Z",
+      "firstContentMs": 1126.6966659999998,
+      "totalMs": 1127.0587499999983,
+      "promptTokens": 241,
+      "outputTokens": 9,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "instruction"
+    },
+    {
+      "id": "format-2",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-02T16:26:56.558Z",
+      "finishedAt": "2026-10-02T16:26:57.446Z",
+      "firstContentMs": 887.0064579999998,
+      "totalMs": 887.3010410000006,
+      "promptTokens": 240,
+      "outputTokens": 10,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "instruction"
+    },
+    {
+      "id": "format-3",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "text": "[3, 8, 12, 25]",
+      "startedAt": "2026-10-02T16:26:57.446Z",
+      "finishedAt": "2026-10-02T16:26:58.332Z",
+      "firstContentMs": 824.5535840000011,
+      "totalMs": 885.0945000000011,
+      "promptTokens": 234,
+      "outputTokens": 13,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "instruction"
+    },
+    {
+      "id": "format-4",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "text": "APPLE\nPEAR\nPLUM",
+      "startedAt": "2026-10-02T16:26:58.332Z",
+      "finishedAt": "2026-10-02T16:26:59.252Z",
+      "firstContentMs": 760.8676660000001,
+      "totalMs": 919.654708,
+      "promptTokens": 238,
+      "outputTokens": 9,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "instruction"
+    },
+    {
+      "id": "format-5",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "text": "TX-103|TX-207|TX-309",
+      "startedAt": "2026-10-02T16:26:59.253Z",
+      "finishedAt": "2026-10-02T16:27:00.051Z",
+      "firstContentMs": 771.7874579999989,
+      "totalMs": 798.3253329999989,
+      "promptTokens": 250,
+      "outputTokens": 12,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "instruction"
+    },
+    {
+      "id": "grounded-1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      },
+      "text": "{\"usable\":9,\"nextDelivery\":\"周二\",\"manager\":null}",
+      "startedAt": "2026-10-02T16:27:00.052Z",
+      "finishedAt": "2026-10-02T16:27:01.720Z",
+      "firstContentMs": 1667.8582080000015,
+      "firstReasoningMs": 999.7883750000001,
+      "totalMs": 1668.3333330000005,
+      "promptTokens": 293,
+      "outputTokens": 65,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "grounded-qa"
+    },
+    {
+      "id": "grounded-2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      },
+      "text": "{\"usable\":16,\"nextDelivery\":\"周三\",\"manager\":null}",
+      "startedAt": "2026-10-02T16:27:01.721Z",
+      "finishedAt": "2026-10-02T16:27:03.386Z",
+      "firstContentMs": 1662.0566670000007,
+      "firstReasoningMs": 1126.6530000000002,
+      "totalMs": 1664.437249999999,
+      "promptTokens": 293,
+      "outputTokens": 74,
+      "reasoningTokens": 60,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "grounded-qa"
+    },
+    {
+      "id": "grounded-3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      },
+      "text": "{\"usable\":12,\"nextDelivery\":\"周四\",\"manager\":null}",
+      "startedAt": "2026-10-02T16:27:03.386Z",
+      "finishedAt": "2026-10-02T16:27:04.215Z",
+      "firstContentMs": 828.2206659999974,
+      "totalMs": 828.4704579999998,
+      "promptTokens": 293,
+      "outputTokens": 15,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "grounded-qa"
+    },
+    {
+      "id": "grounded-4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      },
+      "text": "{\"usable\":20,\"nextDelivery\":\"周五\",\"manager\":null}",
+      "startedAt": "2026-10-02T16:27:04.215Z",
+      "finishedAt": "2026-10-02T16:27:06.047Z",
+      "firstContentMs": 1330.9054159999978,
+      "firstReasoningMs": 1096.8806659999973,
+      "totalMs": 1831.6603749999995,
+      "promptTokens": 293,
+      "outputTokens": 62,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "grounded-qa"
+    },
+    {
+      "id": "grounded-5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      },
+      "text": "{\"usable\":14,\"nextDelivery\":\"周一\",\"manager\":null}",
+      "startedAt": "2026-10-02T16:27:06.048Z",
+      "finishedAt": "2026-10-02T16:27:08.014Z",
+      "firstContentMs": 1964.4092090000013,
+      "firstReasoningMs": 1128.7164589999993,
+      "totalMs": 1965.815666999999,
+      "promptTokens": 293,
+      "outputTokens": 64,
+      "reasoningTokens": 50,
+      "finishReason": "stop",
+      "status": "done",
+      "pass": true,
+      "category": "grounded-qa"
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "text": "function parseCents(value) {\n  if (typeof value !== \"string\") return null;\n\n  const match = value.trim().match(/^([0-9]+)(?:\\.([0-9]{1,2}))?$/);\n  if (!match) return null;\n\n  const cents = BigInt(match[1]) * 100n\n    + BigInt((match[2] || \"\").padEnd(2, \"0\"));\n\n  return cents > BigInt(Number.MAX_SAFE_INTEGER) ? null : Number(cents);\n}",
+      "startedAt": "2026-10-02T16:28:17.475Z",
+      "totalMs": 8635.980083999999,
+      "firstContentMs": 8132.776292,
+      "finishReason": "stop",
+      "pass": true
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "text": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n\n  return result;\n}",
+      "startedAt": "2026-10-02T16:28:26.113Z",
+      "totalMs": 3233.953207999999,
+      "firstContentMs": 3088.785749999999,
+      "finishReason": "stop",
+      "pass": true
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "text": "function mergeIntervals(intervals) {\n  const sorted = intervals\n    .map(([start, end]) => [start, end])\n    .sort((a, b) => {\n      if (a[0] < b[0]) return -1;\n      if (a[0] > b[0]) return 1;\n      if (a[1] < b[1]) return -1;\n      if (a[1] > b[1]) return 1;\n      return 0;\n    });\n\n  const merged = [];\n\n  for (const [start, end] of sorted) {\n    if (merged.length === 0 || start > merged[merged.length - 1][1]) {\n      merged.push([start, end]);\n    } else if (end > merged[merged.length - 1][1]) {\n      const last = merged[merged.length - 1];\n      merged[merged.length - 1] = [last[0], end];\n    }\n  }\n\n  return merged;\n}",
+      "startedAt": "2026-10-02T16:28:29.349Z",
+      "totalMs": 8201.145665999999,
+      "firstContentMs": 7305.043500000002,
+      "finishReason": "stop",
+      "pass": true
+    }
+  ],
+  "publishedAt": "2026-10-02T16:32:57.082924+00:00",
+  "date": "2026-10-03",
+  "editorial": {
+    "zh-CN": {
+      "title": "MiniMax M3.1 Flash Preview 评测：15 道文本题与 3 道代码题实测，附免费试用",
+      "summary": "TOKRACE 首测 MiniMax-M3.1-Flash-Preview：15 道短文本题全通过，正文首响中位 1.127 秒；三道 JavaScript 题通过 26 项检查。附准确 API 接入、默认推理参数、逐题证据、费用边界与免费试用。",
+      "body": "## 结论：短文本可用，代码边界题通过，仍是一份首测\n\nMiniMax M3.1 Flash Preview 在 TOKRACE 本次 **15 道短文本题中全部通过**，正文首响中位数 **1.127 秒**；另有三道 JavaScript 函数题，生成代码通过了我们预先写好的 26 项检查。可以先用它验证结构化抽取、格式约束和小函数实现，但这组题不足以证明大型项目开发或通用智能优势。\n\n本次没有同场对照模型，没有工具调用、图像输入或百万 token 压力测试。以下结论只针对指定 API 接入点、默认推理强度和一次时间窗口。TOKRACE 已提供有额度限制的免费试用，读者无需填写自己的 Key。\n\n## MiniMax M3.1 Flash Preview 是什么？\n\n[MiniMax 官方模型调用文档](https://platform.minimax.io/docs/guides/text-generation)已列出准确 ID `MiniMax-M3.1-Flash-Preview`，标注 100 万 token 上下文及多模态能力，当前通过 M Plan 和 MiniMax Code 提供。本文名称中的 M3.1 对应 API ID；它与 MiniMax M3 是两个不同标识，不应混用规格或评测分数。\n\n官方文档给出五档推理强度：low、medium、high、xhigh、max，省略参数时默认 max，且不能关闭思考。OpenAI Chat Completions 的参数名为 `reasoning_effort`，不要把 Responses API 的 `reasoning.effort` 原样搬过来。详见 [Chat Completions 文档](https://platform.minimax.io/docs/api-reference/text-chat-openai)。这些是官方说明，本次只验证文本调用与三段代码。\n\n## 接口可调用，为何模型目录找不到？\n\n2026 年 10 月 3 日，我们用同一凭据测试了 `https://api.minimax.io/v1/models` 与 `https://api.minimax.io/v1/chat/completions`。两者都返回 HTTP 200，但前者没有列出该预览 ID，后者却成功返回准确 ID 和回答。因此，“目录没有列出”不能直接推导为“不可调用”；也不应该把隐藏预览描述成所有账户都能使用的公开按量模型。\n\n自己接入时，Base URL 填 `https://api.minimax.io/v1/`，model 填 `MiniMax-M3.1-Flash-Preview`，凭据需要相应模型权限。TOKRACE 的免费入口由服务端注入凭据，沿用现有配额，客户端不会拿到本站 Key。\n\n## 怎么测：保留真实路径，不混入服务器榜单\n\n15 道文本题使用现有测试集 `tasks-2026-09-26.1`，JSON 抽取、指令遵循、材料问答各五题。北京时间 2026 年 10 月 3 日 00:26:47–00:27:08 依次请求，每题一次，不重试挑选最好答案。temperature 为 0，max_tokens 为 2048，系统提示词为空，未设置推理强度覆盖。\n\n测量从本地 macOS 客户端直连 MiniMax 国际 API，使用 TOKRACE 同一个流式解析模块。计时包含这条路径上的网络与推理等待，没有确认上游机房位置，**不是香港标准评测节点数据，也不是浏览器端总等待**。\n\n| 类别 | 通过 / 尝试 | 正文首响中位 | 完成耗时中位 |\n| --- | --- | --- | --- |\n| JSON 抽取 | 5 / 5 | 1.764 秒 | 1.805 秒 |\n| 指令遵循 | 5 / 5 | 0.825 秒 | 0.887 秒 |\n| 材料问答 | 5 / 5 | 1.662 秒 | 1.668 秒 |\n\n全部 15 题合并后，正文首响中位 1.127 秒，完成耗时中位也是 1.127 秒（四舍五入到毫秒）。完成计时包含完整流结束，并非只取最后一个字。答案很短，部分正文集中抵达；不把极短输出阶段折算成“每秒几百 token”的宣传数字，也不提供小样本 P95。\n\n## 三个文本案例：满分具体意味着什么\n\n**抽取没有误用历史地点。** 联系人资料同时包含现居杭州和历史北京出差。回答为 `{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}`，字段与类型正确，未提供邮箱没有猜测。[原题与回答](#evidence-extract-1)。\n\n**格式约束没有附加解释。** 对 `B2,A1,B2,C3,A1,D4` 保序去重，返回 `B2,A1,C3,D4`，符合只允许英文逗号、不要空格与解释的要求。[原题与回答](#evidence-format-1)。\n\n**材料问答采用新计划并保留未知项。** 北区仓库收到 12 件、损坏 3 件，新的送货日为周二，旧周日计划已作废。返回 `{\"usable\":9,\"nextDelivery\":\"周二\",\"manager\":null}`，没有猜负责人。[原题与回答](#evidence-grounded-1)。\n\n这几类题难度较低，五题之间结构相似，15/15 的含义是通过这些明确约束，不是“所有业务抽取都可靠”。\n\n## 补充代码测试：看能否执行，并检查边界\n\n我们再单独测试三道 JavaScript 函数题，同样保留默认推理强度，temperature 0，输出上限提高为 4096。三题全部通过本次检查，正文首响分别为 **8.133、3.089、7.305 秒**。这组参数与文本题不同，耗时单列，不混合计算。\n\n| 函数任务 | 通过检查数 | 具体检查 |\n| --- | --- | --- |\n| 金额转整数分 | 18 / 18 | `0.29`、两端空白、最多两位小数、非法类型、科学计数法与安全整数边界 |\n| 按 id 保序去重 | 3 / 3 | 原对象身份与顺序、空数组、冻结输入及特殊键 |\n| 闭区间合并 | 5 / 5 | 乱序相接区间、嵌套、零长度、负数、空数组；冻结所有输入 |\n\n金额题生成代码先用正则校验，再用 BigInt 计算分数，最后判断是否超过安全整数范围；它没有将三位小数四舍五入成合法输入。[代码与完整检查](#evidence-code-money)。去重题检查了 `__proto__`、`constructor` 和空字符串；区间题在冻结的输入上运行，发现修改输入会失败。[去重证据](#evidence-code-dedupe) · [区间证据](#evidence-code-intervals)。\n\n检查脚本在无网络接口、未注入凭据的独立 JavaScript 上下文执行，设执行超时。输出是否通过由预先写好的检查决定。即使三题通过，也没有验证仓库级调试、跨文件修改、依赖安装、工具调用或持续代理任务；这里不能换算成 SWE-bench 等标准成绩。\n\n## 免费试用与费用：用户免费不等于上游零价格\n\nTOKRACE 试用沿用匿名基础 5 次、登录后共 15 次的额度；同一轮比较多个模型算一次试用。供应商限流或订阅额度耗尽时，实际调用可能暂不可用。\n\n[MiniMax M Plan 使用规则](https://platform.minimax.io/docs/m-plan/usage-rules)说明订阅用量受 5 小时和每周窗口限制。本站没有确认此预览独立的按 token 单价，所以不把它登记为零价格模型，不计算虚构的单次成本或性价比排名。文本测试返回输入 4,008、输出 506 token；这是接口 usage 字段，不是账单核验，推理明细字段未返回时不猜测。\n\n## 常见问题\n\n**它比 MiniMax M3 更好吗？** 本文没有同条件 M3 对照，也没有综合能力测试，无法支持这个结论。可以用自己的任务在竞速场复测。\n\n**支持图片、长上下文和工具调用吗？** 官方文档介绍了相应能力，本次未实测，不能用这份短文本结果担保。\n\n**可以关闭思考以加速吗？** 官方说明不能关闭，可用 `reasoning_effort` 降低强度；TOKRACE 共享试用保持默认强度，本次结果也对应默认档。\n\n**如何免费试用？** 点击下方“免费复测第一题”，或打开 [竞速场](/zh-CN/arena)，在体验模型中选择 MiniMax M3.1 Flash Preview。你也可以从 [模型资料页](/zh-CN/model/minimax-m3-1-flash-preview)查看准确接入信息。\n\n## 原始证据\n\n下方保留 18 次请求的原题、回答、时间与代码检查脚本，失败不会从记录中隐藏。跨时段、长上下文、多模态及生产负载验证仍需补充。"
+    },
+    "en": {
+      "title": "MiniMax M3.1 Flash Preview review: 15 text tasks, 3 coding tasks and a free trial",
+      "summary": "TOKRACE tested MiniMax-M3.1-Flash-Preview on 15 text tasks and three executable JavaScript tasks. Includes 1.127s median first content, original answers, coding checks, exact API settings and a quota-limited free trial.",
+      "body": "## Verdict: useful on small constrained tasks; broader claims remain untested\n\nMiniMax M3.1 Flash Preview passed **15/15 short text tasks**, with **1.127 seconds median time to first visible content**, in this TOKRACE first look. It also generated three JavaScript functions that passed all 26 checks we wrote before requesting the answers. These results support trying it for exact JSON extraction, formatting and small function implementations. They do not establish repository-level coding performance or a general capability ranking.\n\nThere is no matched competitor, tool-call evaluation, image input or million-token stress test here. This is one time window, one exact API endpoint and default reasoning effort. TOKRACE now offers a quota-limited free trial without requiring your own API key.\n\n## Model identity and access\n\nThe [official invocation guide](https://platform.minimax.io/docs/guides/text-generation) lists `MiniMax-M3.1-Flash-Preview`, 1M-token context and multimodal capabilities, currently available through M Plan and MiniMax Code. This is a distinct ID from MiniMax M3; specifications and scores for M3 cannot be silently assigned to this preview.\n\nOfficial docs list low, medium, high, xhigh and max effort, defaulting to max when omitted, with thinking always on. For OpenAI Chat Completions, the field is `reasoning_effort`; Responses uses a different field. See the [Chat Completions documentation](https://platform.minimax.io/docs/api-reference/text-chat-openai). These are documented capabilities, not all independently established by our tests.\n\nOn October 3, 2026 in Beijing time, both `/v1/models` and `/v1/chat/completions` returned HTTP 200 using the same credential. The catalog did not include the preview, while the completion returned the exact requested model ID. Catalog absence therefore did not mean this account could not call it. It also does not prove that every account has access.\n\nFor your own connection, use base URL `https://api.minimax.io/v1/`, model `MiniMax-M3.1-Flash-Preview` and a credential with access. TOKRACE injects its trial credential on the server.\n\n## Text test conditions and latency\n\nWe used suite `tasks-2026-09-26.1`, five cases each for JSON extraction, instruction following and grounded QA. Requests ran sequentially from 00:26:47 to 00:27:08 Beijing time on October 3, 2026, once per case, with temperature 0, max_tokens 2048, an empty system prompt and no effort override.\n\nMeasurements came from a local macOS client calling MiniMax's international endpoint through TOKRACE's existing streaming parser. They include waiting along this network path. We did not establish the provider datacenter location. **These are not measurements from the Hong Kong standard benchmark node or total browser wait.**\n\n| Category | Passed / attempted | Median first content | Median completion |\n| --- | --- | --- | --- |\n| JSON extraction | 5 / 5 | 1.764 s | 1.805 s |\n| Instruction following | 5 / 5 | 0.825 s | 0.887 s |\n| Grounded QA | 5 / 5 | 1.662 s | 1.668 s |\n\nAcross all 15, median first content and completion both round to 1.127 seconds. Completion includes stream termination. These very short answers sometimes arrived together, so we avoid a misleading tokens-per-second headline and do not report small-sample P95.\n\nThe first extraction preserved Hangzhou as the current city, rejected the historic Beijing distraction and left email null. [Prompt and output](#evidence-extract-1). Stable deduplication returned exactly `B2,A1,C3,D4`, without commentary. [Evidence](#evidence-format-1). The warehouse answer calculated nine usable items, selected Tuesday over the superseded Sunday plan and did not invent the manager. [Evidence](#evidence-grounded-1).\n\nThe cases are deliberately simple and structurally similar. A full pass here is not a guarantee on noisy documents or production inputs.\n\n## Executable coding checks\n\nThree supplementary JavaScript tasks used temperature 0, max_tokens 4096 and default effort. All passed. First-content times were 8.133, 3.089 and 7.305 seconds respectively. The different output limit and task type mean these times should remain separate from the text aggregate.\n\n| Task | Checks passed | Boundaries covered |\n| --- | --- | --- |\n| Parse money into cents | 18 / 18 | Decimal accuracy, whitespace, invalid types and formats, maximum safe integer |\n| Stable deduplication by id | 3 / 3 | Original identity/order, empty input, special keys and frozen input |\n| Merge closed intervals | 5 / 5 | Unordered touching intervals, nesting, zero length, negatives, empty input; frozen arrays |\n\nThe money function validated input with a regular expression, used BigInt for cents and rejected values beyond the safe integer limit. It did not round an invalid three-decimal amount into an accepted input. [Code and checks](#evidence-code-money). Deduplication handled `__proto__`, `constructor` and empty IDs. The interval function was exercised on frozen input arrays. [Deduplication](#evidence-code-dedupe) · [Intervals](#evidence-code-intervals).\n\nChecks ran in a separate JavaScript context without supplied credentials or network APIs and with an execution timeout. Results were judged by our predetermined checks. We did not test cross-file editing, dependency installation, tool calls or sustained agent tasks. These three functions cannot be converted into a SWE-bench score.\n\n## Free trial and unknown upstream cost\n\nTOKRACE's existing limits apply: five anonymous base runs or fifteen after sign-in; a comparison round counts once even with multiple models. Provider rate limits and subscription exhaustion can affect availability.\n\n[M Plan usage rules](https://platform.minimax.io/docs/m-plan/usage-rules) describe five-hour and weekly subscription windows. We have not verified a separate per-token price for this preview. We therefore do not assign a zero token price, fabricate an invocation cost or include it in a price-performance ranking. The text responses reported 4,008 prompt tokens and 506 completion tokens. These are API usage fields, not reconciled invoices; absent reasoning-token details remain unknown.\n\n## Frequently asked questions\n\n**Is it better than MiniMax M3?** There is no matched M3 test here, so this review cannot answer that. Compare your own workloads in the arena.\n\n**Did you test vision, long context or tools?** No. Official descriptions do not replace those measurements.\n\n**Can thinking be disabled?** Official docs say no. Lower `reasoning_effort` for shorter reasoning when using your own endpoint. This shared trial and review preserve the default.\n\n**Where can I try it?** Use the rerun button below, or select MiniMax M3.1 Flash Preview in the [arena](/en/arena). The [model profile](/en/model/minimax-m3-1-flash-preview) retains the exact identity and endpoint.\n\n## Original evidence\n\nAll 18 prompts and answers, timestamps and coding checks are retained below. This single-window first look leaves cross-window reliability, multimodality, long context and production load untested."
+    }
+  }
+}

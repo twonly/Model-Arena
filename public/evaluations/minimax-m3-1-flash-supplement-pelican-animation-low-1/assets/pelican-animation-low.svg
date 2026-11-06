@@ -1,0 +1,171 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600" role="img" aria-labelledby="title desc">
+  <title id="title">Animated pelican riding a bicycle</title>
+  <desc id="desc">A cheerful long-billed pelican pedals a blue bicycle while the wheels, spokes, crank, pedals, legs, and wing move in a seamless four-second loop.</desc>
+
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eaf8ff"/>
+      <stop offset="1" stop-color="#fff9e8"/>
+    </linearGradient>
+    <linearGradient id="body" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#fffdf5"/>
+      <stop offset="1" stop-color="#e7e1d0"/>
+    </linearGradient>
+    <linearGradient id="bill" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffd866"/>
+      <stop offset="1" stop-color="#e8a937"/>
+    </linearGradient>
+    <linearGradient id="pouch" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f7bc4d"/>
+      <stop offset="1" stop-color="#d98232"/>
+    </linearGradient>
+    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#4aa6cf"/>
+      <stop offset="1" stop-color="#246f9c"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#sky)"/>
+  <circle cx="690" cy="92" r="43" fill="#ffe89a" opacity=".75"/>
+  <path d="M0 490 Q180 465 370 492 T800 484 V600 H0Z" fill="#d8efd5"/>
+  <path d="M0 526 Q220 505 420 529 T800 518 V600 H0Z" fill="#b8dfb7"/>
+  <path d="M85 536 H715" fill="none" stroke="#789a72" stroke-width="3" opacity=".45"/>
+
+  <!-- Rear wheel -->
+  <g>
+    <circle cx="245" cy="455" r="88" fill="#f8fbfc" fill-opacity=".42" stroke="#293a43" stroke-width="9"/>
+    <circle cx="245" cy="455" r="78" fill="none" stroke="#a9c1c9" stroke-width="2"/>
+    <g transform-origin="245 455">
+      <animateTransform attributeName="transform" type="rotate" from="0 245 455" to="360 245 455" dur="4s" repeatCount="indefinite"/>
+      <g stroke="#7e969e" stroke-width="3" opacity=".9">
+        <path d="M245 455 L245 377 M245 455 L323 455 M245 455 L245 533 M245 455 L167 455"/>
+        <path d="M245 455 L300 400 M245 455 L300 510 M245 455 L190 510 M245 455 L190 400"/>
+      </g>
+      <path d="M245 455 L300 400" stroke="#ed9c42" stroke-width="4"/>
+      <circle cx="245" cy="455" r="10" fill="#344b55" stroke="#dbe6e9" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- Front wheel -->
+  <g>
+    <circle cx="555" cy="455" r="88" fill="#f8fbfc" fill-opacity=".42" stroke="#293a43" stroke-width="9"/>
+    <circle cx="555" cy="455" r="78" fill="none" stroke="#a9c1c9" stroke-width="2"/>
+    <g transform-origin="555 455">
+      <animateTransform attributeName="transform" type="rotate" from="0 555 455" to="360 555 455" dur="4s" repeatCount="indefinite"/>
+      <g stroke="#7e969e" stroke-width="3" opacity=".9">
+        <path d="M555 455 L555 377 M555 455 L633 455 M555 455 L555 533 M555 455 L477 455"/>
+        <path d="M555 455 L610 400 M555 455 L610 510 M555 455 L500 510 M555 455 L500 400"/>
+      </g>
+      <path d="M555 455 L610 400" stroke="#ed9c42" stroke-width="4"/>
+      <circle cx="555" cy="455" r="10" fill="#344b55" stroke="#dbe6e9" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- Bicycle frame -->
+  <g fill="none" stroke="url(#frame)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M245 455 L350 312 L420 375 L245 455"/>
+    <path d="M350 312 L505 335 L420 375"/>
+    <path d="M505 335 L555 455"/>
+    <path d="M420 375 L555 455"/>
+  </g>
+  <g fill="none" stroke="#1e658d" stroke-width="3" opacity=".65" stroke-linecap="round">
+    <path d="M250 445 L349 320 L413 373"/>
+    <path d="M359 316 L498 337 L424 370"/>
+  </g>
+
+  <!-- Fork and handlebars -->
+  <path d="M505 335 Q508 286 530 272" fill="none" stroke="#293a43" stroke-width="7" stroke-linecap="round"/>
+  <path d="M514 278 Q531 260 556 266" fill="none" stroke="#293a43" stroke-width="7" stroke-linecap="round"/>
+  <path d="M530 271 Q531 250 520 240" fill="none" stroke="#293a43" stroke-width="6" stroke-linecap="round"/>
+  <path d="M508 243 Q521 229 535 240" fill="none" stroke="#293a43" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="520" cy="240" r="8" fill="#374a52"/>
+
+  <!-- Saddle and seat post -->
+  <path d="M350 312 L340 282" stroke="#293a43" stroke-width="7" stroke-linecap="round"/>
+  <path d="M311 278 Q334 267 370 274 Q366 287 351 286 L318 285 Q307 285 311 278Z" fill="#5c3d35" stroke="#3e2d29" stroke-width="3"/>
+
+  <!-- Pelican tail -->
+  <path d="M324 221 Q271 219 254 246 Q291 252 333 240Z" fill="#d9d4c5" stroke="#857f73" stroke-width="3"/>
+  <path d="M319 228 Q285 229 270 241" fill="none" stroke="#f5f0e2" stroke-width="4"/>
+
+  <!-- Pelican body and neck -->
+  <path d="M323 186 Q354 161 408 178 Q447 188 457 157 Q466 130 493 123 Q522 117 534 140 Q541 157 525 171 Q513 181 492 179 Q477 179 471 198 Q466 219 480 236 Q485 247 468 257 Q435 277 388 283 Q342 286 313 263 Q288 242 323 186Z" fill="url(#body)" stroke="#77766f" stroke-width="4" stroke-linejoin="round"/>
+
+  <!-- Head details -->
+  <path d="M455 158 Q459 137 476 130" fill="none" stroke="#f6f1e4" stroke-width="14" stroke-linecap="round"/>
+  <circle cx="493" cy="139" r="7" fill="#17242a"/>
+  <circle cx="495" cy="137" r="2.2" fill="#fff"/>
+  <path d="M481 150 Q494 145 506 151" fill="none" stroke="#b69a58" stroke-width="2"/>
+
+  <!-- Long bill and throat pouch -->
+  <path d="M514 137 Q570 130 641 148 Q614 159 524 154Z" fill="url(#bill)" stroke="#8b642d" stroke-width="3" stroke-linejoin="round"/>
+  <path d="M522 153 Q558 157 612 153 Q602 187 576 205 Q555 213 539 192 Q526 174 522 153Z" fill="url(#pouch)" stroke="#8b642d" stroke-width="3"/>
+  <path d="M535 158 Q557 165 598 157" fill="none" stroke="#ffe59a" stroke-width="3" opacity=".8"/>
+  <path d="M529 153 Q579 161 633 151" fill="none" stroke="#704d27" stroke-width="2"/>
+
+  <!-- Animated wing -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" values="-3 357 235;5 357 235;-3 357 235" keyTimes="0;0.5;1" dur="4s" repeatCount="indefinite" calcMode="spline" keySplines=".42 0 .58 1;.42 0 .58 1"/>
+    <path d="M343 191 Q378 179 420 201 Q438 221 414 250 Q379 270 337 247 Q320 220 343 191Z" fill="#b9b5aa" stroke="#77766f" stroke-width="4"/>
+    <path d="M341 211 Q374 203 413 222" fill="none" stroke="#f0eadc" stroke-width="7" stroke-linecap="round"/>
+    <path d="M341 225 Q373 222 406 237" fill="none" stroke="#e4ddce" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Pelican legs: upper ends remain at the body, lower ends follow the pedals -->
+  <g fill="none" stroke="#d9903e" stroke-width="11" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M372 278 L404.5 317.5 L444 390">
+      <animate attributeName="d" dur="4s" repeatCount="indefinite" calcMode="linear"
+        values="M372 278 L404.5 317.5 L444 390;
+                M372 278 L404.5 317.5 L437 407;
+                M372 278 L396 321 L420 414;
+                M372 278 L387.5 317.5 L403 407;
+                M372 278 L384 309 L396 390;
+                M372 278 L387.5 300.5 L403 373;
+                M372 278 L396 297 L420 366;
+                M372 278 L404.5 300.5 L437 373;
+                M372 278 L404.5 317.5 L444 390"/>
+    </path>
+    <path d="M345 282 L362.5 312 L396 390">
+      <animate attributeName="d" dur="4s" repeatCount="indefinite" calcMode="linear"
+        values="M345 282 L362.5 312 L396 390;
+                M345 282 L366 303.5 L403 373;
+                M345 282 L374.5 300 L420 366;
+                M345 282 L383 303.5 L437 373;
+                M345 282 L386.5 312 L444 390;
+                M345 282 L383 322.5 L437 407;
+                M345 282 L374.5 324 L420 414;
+                M345 282 L366 320.5 L403 407;
+                M345 282 L362.5 312 L396 390"/>
+    </path>
+  </g>
+
+  <!-- Feet over pedal centers -->
+  <g fill="none" stroke="#a8672c" stroke-width="8" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M438 390 L450 391">
+      <animate attributeName="d" dur="4s" repeatCount="indefinite" calcMode="linear"
+        values="M438 390 L450 391;M431 407 L443 408;M414 414 L426 415;M397 407 L409 408;M390 390 L402 391;M397 373 L409 374;M414 366 L426 367;M431 373 L443 374;M438 390 L450 391"/>
+    </path>
+    <path d="M390 390 L402 391">
+      <animate attributeName="d" dur="4s" repeatCount="indefinite" calcMode="linear"
+        values="M390 390 L402 391;M397 373 L409 374;M414 366 L426 367;M431 373 L443 374;M438 390 L450 391;M431 407 L443 408;M414 414 L426 415;M397 407 L409 408;M390 390 L402 391"/>
+    </path>
+  </g>
+
+  <!-- Rotating crank and pedals -->
+  <g>
+    <animateTransform attributeName="transform" type="rotate" from="0 420 375" to="360 420 375" dur="4s" repeatCount="indefinite"/>
+    <path d="M420 375 L444 375 M420 375 L396 375" fill="none" stroke="#e8e1d4" stroke-width="7" stroke-linecap="round"/>
+    <path d="M420 375 L444 375" fill="none" stroke="#d9903e" stroke-width="11" stroke-linecap="round"/>
+    <rect x="435" y="370" width="18" height="9" rx="3" fill="#374a52"/>
+    <rect x="387" y="371" width="18" height="9" rx="3" fill="#374a52"/>
+    <circle cx="420" cy="375" r="10" fill="#f3c35b" stroke="#4d5960" stroke-width="4"/>
+  </g>
+
+  <!-- Small motion accents -->
+  <g fill="none" stroke="#8ebed2" stroke-width="4" stroke-linecap="round" opacity=".65">
+    <path d="M144 401 H177"/>
+    <path d="M151 417 H170"/>
+    <path d="M625 399 H658"/>
+    <path d="M630 415 H649"/>
+  </g>
+</svg>

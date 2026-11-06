@@ -13,7 +13,7 @@ export default function EmbedLayout({ children }: { children: React.ReactNode })
     <html lang="zh-CN" className="h-full antialiased">
       <body className="min-h-full">
         {children}
-        <Analytics />
+        {process.env.TOKRACE_BETA !== "1" && <Analytics />}
       </body>
     </html>
   );

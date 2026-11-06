@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <!-- Background -->
+  <rect width="800" height="600" fill="#f4f4f9" />
+
+  <!-- Clock Face -->
+  <circle cx="400" cy="300" r="230" fill="#ffffff" stroke="#2c3e50" stroke-width="10" />
+  <circle cx="400" cy="300" r="215" fill="none" stroke="#bdc3c7" stroke-width="2" />
+
+  <!-- Hour Ticks -->
+  <g stroke="#2c3e50" stroke-width="8" stroke-linecap="round">
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(0, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(30, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(60, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(90, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(120, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(150, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(180, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(210, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(240, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(270, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(300, 400, 300)" />
+    <line x1="400" y1="75" x2="400" y2="95" transform="rotate(330, 400, 300)" />
+  </g>
+
+  <!-- Numbers 1 to 12 -->
+  <g font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#2c3e50" text-anchor="middle" dominant-baseline="central">
+    <text x="400" y="135">12</text>
+    <text x="482.5" y="157.1">1</text>
+    <text x="542.9" y="217.5">2</text>
+    <text x="565" y="300">3</text>
+    <text x="542.9" y="382.5">4</text>
+    <text x="482.5" y="442.9">5</text>
+    <text x="400" y="465">6</text>
+    <text x="317.5" y="442.9">7</text>
+    <text x="257.1" y="382.5">8</text>
+    <text x="235" y="300">9</text>
+    <text x="257.1" y="217.5">10</text>
+    <text x="317.5" y="157.1">11</text>
+  </g>
+
+  <!-- Hour Hand (9:41 -> 290.5 degrees) -->
+  <line x1="400" y1="320" x2="400" y2="200" stroke="#1a1a1a" stroke-width="12" stroke-linecap="round" transform="rotate(290.5, 400, 300)" />
+
+  <!-- Minute Hand (41 minutes -> 246 degrees) -->
+  <line x1="400" y1="330" x2="400" y2="140" stroke="#1a1a1a" stroke-width="8" stroke-linecap="round" transform="rotate(246, 400, 300)" />
+
+  <!-- Center Pin -->
+  <circle cx="400" cy="300" r="14" fill="#e74c3c" />
+  <circle cx="400" cy="300" r="6" fill="#ffffff" />
+
+  <!-- Digital Label -->
+  <text x="400" y="560" font-family="'Courier New', monospace" font-size="36" font-weight="bold" fill="#2c3e50" text-anchor="middle">09:41</text>
+</svg>

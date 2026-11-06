@@ -1,0 +1,1609 @@
+{
+  "date": "2026-11-02",
+  "updatedAt": "2026-11-02T04:11:26.141Z",
+  "model": "LongCat-2.5",
+  "endpoint": "https://api.longcat.chat/openai/v1",
+  "modes": {
+    "disabled": {
+      "thinking": {
+        "type": "disabled"
+      }
+    },
+    "default": {
+      "thinking": {
+        "type": "enabled"
+      }
+    }
+  },
+  "method": "Paired thinking-off/on direct OpenAI-compatible baseline, alternating order. Temperature=0 is submitted but overridden by the provider to 0.7 off / 1.0 on. Low/max effort are not documented model controls and are not tested. Every first attempt is preserved; retries, if required for rendering, use separate records.",
+  "records": [
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "truncated",
+      "text": "",
+      "startedAt": "2026-11-02T02:56:23.635Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Generate an SVG of a pelican riding a bicycle"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": 2851.9712500000023,
+      "firstEventMs": 2851.970874999999,
+      "usage": {
+        "completion_tokens": 12288,
+        "prompt_tokens": 17,
+        "total_tokens": 12305,
+        "completion_tokens_details": {
+          "reasoning_tokens": 12287
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "length",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:59:27.916Z",
+      "totalMs": 184281.11049999998,
+      "promptTokens": 17,
+      "outputTokens": 12288,
+      "reasoningTokens": 12287,
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "category": "svg",
+      "mode": "disabled",
+      "status": "done",
+      "text": "I'll create an SVG of a pelican riding a bicycle. This will be a fun, cartoon-style illustration.\n\n```svg\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\">\n  <!-- Background -->\n  <rect width=\"800\" height=\"600\" fill=\"#87CEEB\"/>\n  \n  <!-- Ground -->\n  <rect x=\"0\" y=\"500\" width=\"800\" height=\"100\" fill=\"#90EE90\"/>\n  \n  <!-- Sun -->\n  <circle cx=\"700\" cy=\"100\" r=\"50\" fill=\"#FFD700\"/>\n  \n  <!-- Clouds -->\n  <ellipse cx=\"150\" cy=\"100\" rx=\"60\" ry=\"30\" fill=\"white\"/>\n  <ellipse cx=\"200\" cy=\"80\" rx=\"50\" ry=\"25\" fill=\"white\"/>\n  <ellipse cx=\"100\" cy=\"80\" rx=\"40\" ry=\"20\" fill=\"white\"/>\n  \n  <!-- Bicycle -->\n  <!-- Back wheel -->\n  <circle cx=\"250\" cy=\"450\" r=\"80\" fill=\"none\" stroke=\"#333\" stroke-width=\"8\"/>\n  <circle cx=\"250\" cy=\"450\" r=\"10\" fill=\"#333\"/>\n  <!-- Front wheel -->\n  <circle cx=\"550\" cy=\"450\" r=\"80\" fill=\"none\" stroke=\"#333\" stroke-width=\"8\"/>\n  <circle cx=\"550\" cy=\"450\" r=\"10\" fill=\"#333\"/>\n  \n  <!-- Spokes back wheel -->\n  <line x1=\"250\" y1=\"370\" x2=\"250\" y2=\"530\" stroke=\"#666\" stroke-width=\"2\"/>\n  <line x1=\"170\" y1=\"450\" x2=\"330\" y2=\"450\" stroke=\"#666\" stroke-width=\"2\"/>\n  <line x1=\"194\" y1=\"394\" x2=\"306\" y2=\"506\" stroke=\"#666\" stroke-width=\"2\"/>\n  <line x1=\"194\" y1=\"506\" x2=\"306\" y2=\"394\" stroke=\"#666\" stroke-width=\"2\"/>\n  \n  <!-- Spokes front wheel -->\n  <line x1=\"550\" y1=\"370\" x2=\"550\" y2=\"530\" stroke=\"#666\" stroke-width=\"2\"/>\n  <line x1=\"470\" y1=\"450\" x2=\"630\" y2=\"450\" stroke=\"#666\" stroke-width=\"2\"/>\n  <line x1=\"494\" y1=\"394\" x2=\"606\" y2=\"506\" stroke=\"#666\" stroke-width=\"2\"/>\n  <line x1=\"494\" y1=\"506\" x2=\"606\" y2=\"394\" stroke=\"#666\" stroke-width=\"2\"/>\n  \n  <!-- Bicycle frame -->\n  <line x1=\"250\" y1=\"450\" x2=\"350\" y2=\"350\" stroke=\"#FF4444\" stroke-width=\"8\"/>\n  <line x1=\"350\" y1=\"350\" x2=\"450\" y2=\"450\" stroke=\"#FF4444\" stroke-width=\"8\"/>\n  <line x1=\"450\" y1=\"450\" x2=\"250\" y2=\"450\" stroke=\"#FF4444\" stroke-width=\"8\"/>\n  <line x1=\"350\" y1=\"350\" x2=\"400\" y2=\"300\" stroke=\"#FF4444\" stroke-width=\"8\"/>\n  <line x1=\"400\" y1=\"300\" x2=\"550\" y2=\"450\" stroke=\"#FF4444\" stroke-width=\"8\"/>\n  \n  <!-- Handlebars -->\n  <line x1=\"400\" y1=\"300\" x2=\"380\" y2=\"270\" stroke=\"#333\" stroke-width=\"6\"/>\n  <line x1=\"380\" y1=\"270\" x2=\"350\" y2=\"280\" stroke=\"#333\" stroke-width=\"6\"/>\n  <line x1=\"380\" y1=\"270\" x2=\"410\" y2=\"280\" stroke=\"#333\" stroke-width=\"6\"/>\n  \n  <!-- Seat -->\n  <ellipse cx=\"350\" cy=\"340\" rx=\"30\" ry=\"15\" fill=\"#8B4513\"/>\n  \n  <!-- Pedals -->\n  <circle cx=\"350\" cy=\"450\" r=\"8\" fill=\"#333\"/>\n  <line x1=\"350\" y1=\"450\" x2=\"320\" y2=\"480\" stroke=\"#333\" stroke-width=\"5\"/>\n  <rect x=\"305\" y=\"470\" width=\"30\" height=\"10\" fill=\"#333\"/>\n  \n  <!-- Pelican body -->\n  <ellipse cx=\"380\" cy=\"250\" rx=\"70\" ry=\"80\" fill=\"#F5F5DC\"/>\n  \n  <!-- Pelican wing -->\n  <ellipse cx=\"340\" cy=\"240\" rx=\"40\" ry=\"60\" fill=\"#E8E8D0\" transform=\"rotate(-20 340 240)\"/>\n  \n  <!-- Pelican neck -->\n  <path d=\"M 380 200 Q 400 150 420 120\" stroke=\"#F5F5DC\" stroke-width=\"35\" fill=\"none\" stroke-linecap=\"round\"/>\n  \n  <!-- Pelican head -->\n  <circle cx=\"430\" cy=\"110\" r=\"35\" fill=\"#F5F5DC\"/>\n  \n  <!-- Pelican eye -->\n  <circle cx=\"440\" cy=\"100\" r=\"8\" fill=\"white\"/>\n  <circle cx=\"442\" cy=\"100\" r=\"4\" fill=\"black\"/>\n  \n  <!-- Pelican beak -->\n  <path d=\"M 460 115 L 580 130 L 460 140 Z\" fill=\"#FFA500\"/>\n  <!-- Beak pouch -->\n  <path d=\"M 460 140 Q 520 180 580 130\" fill=\"#FFB347\"/>\n  \n  <!-- Pelican legs -->\n  <line x1=\"360\" y1=\"320\" x2=\"320\" y2=\"470\" stroke=\"#FFA500\" stroke-width=\"8\"/>\n  <line x1=\"400\" y1=\"320\" x2=\"380\" y2=\"470\" stroke=\"#FFA500\" stroke-width=\"8\"/>\n  \n  <!-- Pelican feet on pedals -->\n  <ellipse cx=\"320\" cy=\"480\" rx=\"15\" ry=\"8\" fill=\"#FFA500\"/>\n  <ellipse cx=\"380\" cy=\"470\" rx=\"15\" ry=\"8\" fill=\"#FFA500\"/>\n  \n  <!-- Pelican tail -->\n  <path d=\"M 310 280 L 280 320 L 320 310 Z\" fill=\"#E8E8D0\"/>\n  \n  <!-- Motion lines -->\n  <line x1=\"100\" y1=\"400\" x2=\"180\" y2=\"400\" stroke=\"#999\" stroke-width=\"3\" stroke-dasharray=\"10,5\"/>\n  <line x1=\"80\" y1=\"430\" x2=\"160\" y2=\"430\" stroke=\"#999\" stroke-width=\"3\" stroke-dasharray=\"10,5\"/>\n  <line x1=\"120\" y1=\"460\" x2=\"200\" y2=\"460\" stroke=\"#999\" stroke-width=\"3\" stroke-dasharray=\"10,5\"/>\n</svg>\n```\n\nThis SVG creates a cartoon-style pelican riding a bicycle with:\n- A detailed bicycle with two wheels, frame, handlebars, seat, and pedals\n- A pelican with characteristic features: large beak with pouch, white body, wings, and orange legs\n- A scenic background with sky, sun, clouds, and green ground\n- Motion lines to suggest the bicycle is moving\n\nThe pelican is positioned sitting on the bicycle seat with its feet on the pedals, and its wings slightly spread for balance.",
+      "startedAt": "2026-11-02T02:59:27.919Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Generate an SVG of a pelican riding a bicycle"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1405.1169579999987,
+      "firstReasoningMs": null,
+      "firstEventMs": 1405.116291000013,
+      "usage": {
+        "completion_tokens": 2087,
+        "prompt_tokens": 20,
+        "total_tokens": 2107,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T02:59:53.433Z",
+      "totalMs": 25514.181625000027,
+      "promptTokens": 20,
+      "outputTokens": 2087,
+      "reasoningTokens": null,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/pelican-disabled.svg",
+      "svgSha256": "5d17a1c507e958dbb8e9525d7ef16218717c935ca0c409b3dc3f9be23ad83f19",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/pelican-disabled.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "71f337fad7c1a1ffd23f41c12c94cc1b4df41badc45ec0a81f0df055a5d19563",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ],
+      "category": "svg",
+      "mode": "disabled",
+      "status": "done",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\">\n  <!-- Background -->\n  <rect width=\"800\" height=\"600\" fill=\"#f5f5f0\"/>\n\n  <!-- Clock center -->\n  <g transform=\"translate(400, 280)\">\n    <!-- Outer rim -->\n    <circle cx=\"0\" cy=\"0\" r=\"200\" fill=\"#ffffff\" stroke=\"#2c3e50\" stroke-width=\"8\"/>\n    <circle cx=\"0\" cy=\"0\" r=\"188\" fill=\"none\" stroke=\"#bdc3c7\" stroke-width=\"1.5\"/>\n\n    <!-- Hour tick marks -->\n    <g stroke=\"#2c3e50\" stroke-width=\"4\" stroke-linecap=\"round\">\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(30)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(60)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(90)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(120)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(150)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(180)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(210)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(240)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(270)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(300)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-160\" transform=\"rotate(330)\"/>\n    </g>\n\n    <!-- Minute tick marks -->\n    <g stroke=\"#95a5a6\" stroke-width=\"1.5\" stroke-linecap=\"round\">\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(6)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(12)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(18)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(24)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(36)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(42)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(48)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(54)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(66)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(72)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(78)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(84)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(96)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(102)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(108)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(114)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(126)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(132)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(138)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(144)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(156)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(162)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(168)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(174)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(186)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(192)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(198)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(204)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(216)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(222)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(228)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(234)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(246)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(252)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(258)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(264)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(276)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(282)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(288)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(294)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(306)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(312)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(318)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(324)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(336)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(342)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(348)\"/>\n      <line x1=\"0\" y1=\"-178\" x2=\"0\" y2=\"-170\" transform=\"rotate(354)\"/>\n    </g>\n\n    <!-- Numbers 1-12 -->\n    <g font-family=\"Georgia, 'Times New Roman', serif\" font-size=\"32\" font-weight=\"bold\" fill=\"#2c3e50\" text-anchor=\"middle\" dominant-baseline=\"central\">\n      <text x=\"0\" y=\"-135\">12</text>\n      <text x=\"67.5\" y=\"-117\">1</text>\n      <text x=\"117\" y=\"-67.5\">2</text>\n      <text x=\"135\" y=\"0\">3</text>\n      <text x=\"117\" y=\"67.5\">4</text>\n      <text x=\"67.5\" y=\"117\">5</text>\n      <text x=\"0\" y=\"135\">6</text>\n      <text x=\"-67.5\" y=\"117\">7</text>\n      <text x=\"-117\" y=\"67.5\">8</text>\n      <text x=\"-135\" y=\"0\">9</text>\n      <text x=\"-117\" y=\"-67.5\">10</text>\n      <text x=\"-67.5\" y=\"-117\">11</text>\n    </g>\n\n    <!-- Hour hand: 9:41 => 290.5 degrees (between 9 and 10) -->\n    <line x1=\"0\" y1=\"0\" x2=\"0\" x2=\"-95\" stroke=\"#2c3e50\" stroke-width=\"9\" stroke-linecap=\"round\" transform=\"rotate(290.5)\"/>\n    <!-- Correct hour hand drawn properly -->\n    <line x1=\"0\" y1=\"0\" x2=\"-95\" y2=\"0\" stroke=\"#2c3e50\" stroke-width=\"9\" stroke-linecap=\"round\" transform=\"rotate(290.5)\"/>\n\n    <!-- Minute hand: 41 minutes => 246 degrees -->\n    <line x1=\"0\" y1=\"0\" x2=\"-145\" y2=\"0\" stroke=\"#c0392b\" stroke-width=\"5\" stroke-linecap=\"round\" transform=\"rotate(246)\"/>\n\n    <!-- Center pin -->\n    <circle cx=\"0\" cy=\"0\" r=\"8\" fill=\"#2c3e50\"/>\n    <circle cx=\"0\" cy=\"0\" r=\"4\" fill=\"#ecf0f1\"/>\n  </g>\n\n  <!-- Digital label below dial -->\n  <text x=\"400\" y=\"540\" font-family=\"'Courier New', monospace\" font-size=\"28\" font-weight=\"bold\" fill=\"#2c3e50\" text-anchor=\"middle\" dominant-baseline=\"middle\">09:41</text>\n</svg>",
+      "startedAt": "2026-11-02T02:59:53.436Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1283.7094159999979,
+      "firstReasoningMs": null,
+      "firstEventMs": 1283.7086249999993,
+      "usage": {
+        "completion_tokens": 3006,
+        "prompt_tokens": 130,
+        "total_tokens": 3136,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:00:28.215Z",
+      "totalMs": 34778.62395800001,
+      "promptTokens": 130,
+      "outputTokens": 3006,
+      "reasoningTokens": null,
+      "renderable": false,
+      "renderError": "ParseError: duplicate attribute: line 96, column 31",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "truncated",
+      "text": "",
+      "startedAt": "2026-11-02T03:00:28.217Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": 961.9344170000404,
+      "firstEventMs": 961.9339170000167,
+      "usage": {
+        "completion_tokens": 12288,
+        "prompt_tokens": 127,
+        "total_tokens": 12415,
+        "completion_tokens_details": {
+          "reasoning_tokens": 12287
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "length",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:03:38.425Z",
+      "totalMs": 190207.43662500003,
+      "promptTokens": 127,
+      "outputTokens": 12288,
+      "reasoningTokens": 12287,
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "done",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\" role=\"img\" aria-label=\"Quarterly Revenue dashboard card\">\n  <title>Quarterly Revenue</title>\n  <desc>Bar chart showing Q1=12, Q2=24, Q3=18, Q4=30. Total: 84. Best: Q4.</desc>\n  <defs>\n    <linearGradient id=\"indigoBar\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#818cf8\"/>\n      <stop offset=\"1\" stop-color=\"#4f46e5\"/>\n    </linearGradient>\n    <linearGradient id=\"greenBar\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#34d399\"/>\n      <stop offset=\"1\" stop-color=\"#059669\"/>\n    </linearGradient>\n    <filter id=\"cardShadow\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"140%\">\n      <feDropShadow dx=\"0\" dy=\"8\" stdDeviation=\"16\" flood-color=\"#1e293b\" flood-opacity=\"0.10\"/>\n    </filter>\n  </defs>\n\n  <!-- Page background -->\n  <rect width=\"800\" height=\"600\" fill=\"#eef2f7\"/>\n\n  <!-- Card -->\n  <rect x=\"40\" y=\"40\" width=\"720\" height=\"520\" rx=\"20\" fill=\"#ffffff\" filter=\"url(#cardShadow)\"/>\n\n  <g font-family=\"Inter, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif\">\n    <!-- Header -->\n    <text x=\"80\" y=\"106\" font-size=\"28\" font-weight=\"700\" fill=\"#0f172a\" letter-spacing=\"-0.5\">Quarterly Revenue</text>\n    <rect x=\"80\" y=\"124\" width=\"56\" height=\"5\" rx=\"2.5\" fill=\"#4f46e5\"/>\n\n    <!-- Summary badges -->\n    <rect x=\"496\" y=\"74\" width=\"104\" height=\"34\" rx=\"17\" fill=\"#eef2ff\"/>\n    <text x=\"548\" y=\"96\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"#4f46e5\">Total: 84</text>\n    <rect x=\"612\" y=\"74\" width=\"108\" height=\"34\" rx=\"17\" fill=\"#ecfdf5\"/>\n    <text x=\"666\" y=\"96\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"#059669\">Best: Q4</text>\n\n    <!-- Gridlines -->\n    <line x1=\"120\" y1=\"180\" x2=\"680\" y2=\"180\" stroke=\"#e2e8f0\" stroke-width=\"1\"/>\n    <line x1=\"120\" y1=\"280\" x2=\"680\" y2=\"280\" stroke=\"#e2e8f0\" stroke-width=\"1\"/>\n    <line x1=\"120\" y1=\"380\" x2=\"680\" y2=\"380\" stroke=\"#e2e8f0\" stroke-width=\"1\"/>\n\n    <!-- Axes -->\n    <line x1=\"120\" y1=\"170\" x2=\"120\" y2=\"480\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/>\n    <line x1=\"120\" y1=\"480\" x2=\"680\" y2=\"480\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/>\n\n    <!-- Axis ticks -->\n    <line x1=\"114\" y1=\"180\" x2=\"120\" y2=\"180\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/>\n    <line x1=\"114\" y1=\"280\" x2=\"120\" y2=\"280\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/>\n    <line x1=\"114\" y1=\"380\" x2=\"120\" y2=\"380\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/>\n    <line x1=\"114\" y1=\"480\" x2=\"120\" y2=\"480\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/>\n\n    <!-- Y-axis labels -->\n    <text x=\"104\" y=\"485\" text-anchor=\"end\" font-size=\"13\" fill=\"#64748b\">0</text>\n    <text x=\"104\" y=\"385\" text-anchor=\"end\" font-size=\"13\" fill=\"#64748b\">10</text>\n    <text x=\"104\" y=\"285\" text-anchor=\"end\" font-size=\"13\" fill=\"#64748b\">20</text>\n    <text x=\"104\" y=\"185\" text-anchor=\"end\" font-size=\"13\" fill=\"#64748b\">30</text>\n\n    <!-- Bars: heights 120, 240, 180, 300 px (10 px per unit), shared baseline y=480 -->\n    <path d=\"M150,480 L150,368 Q150,360 158,360 L222,360 Q230,360 230,368 L230,480 Z\" fill=\"url(#indigoBar)\"/>\n    <path d=\"M290,480 L290,248 Q290,240 298,240 L362,240 Q370,240 370,248 L370,480 Z\" fill=\"url(#indigoBar)\"/>\n    <path d=\"M430,480 L430,308 Q430,300 438,300 L502,300 Q510,300 510,308 L510,480 Z\" fill=\"url(#indigoBar)\"/>\n    <path d=\"M570,480 L570,188 Q570,180 578,180 L642,180 Q650,180 650,188 L650,480 Z\" fill=\"url(#greenBar)\"/>\n\n    <!-- Value labels -->\n    <text x=\"190\" y=\"348\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"700\" fill=\"#1e293b\">12</text>\n    <text x=\"330\" y=\"228\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"700\" fill=\"#1e293b\">24</text>\n    <text x=\"470\" y=\"288\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"700\" fill=\"#1e293b\">18</text>\n    <text x=\"610\" y=\"168\" text-anchor=\"middle\" font-size=\"18\" font-weight=\"700\" fill=\"#059669\">30</text>\n\n    <!-- X-axis labels -->\n    <text x=\"190\" y=\"512\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"#475569\">Q1</text>\n    <text x=\"330\" y=\"512\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"#475569\">Q2</text>\n    <text x=\"470\" y=\"512\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"#475569\">Q3</text>\n    <text x=\"610\" y=\"512\" text-anchor=\"middle\" font-size=\"15\" font-weight=\"600\" fill=\"#475569\">Q4</text>\n  </g>\n</svg>",
+      "startedAt": "2026-11-02T03:03:38.431Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 136630.55004200002,
+      "firstReasoningMs": 1063.3232089999947,
+      "firstEventMs": 1063.322125000006,
+      "usage": {
+        "completion_tokens": 9730,
+        "prompt_tokens": 163,
+        "total_tokens": 9893,
+        "completion_tokens_details": {
+          "reasoning_tokens": 7697
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:06:24.155Z",
+      "totalMs": 165723.01829200005,
+      "promptTokens": 163,
+      "outputTokens": 9730,
+      "reasoningTokens": 7697,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/dashboard-default.svg",
+      "svgSha256": "a8006148f20836cfffb95c66ad7fd6ac29adc315314d432255cd0f5ca77de7ff",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "Quarterly Revenue",
+        "Total: 84",
+        "Best: Q4",
+        "0",
+        "10",
+        "20",
+        "30",
+        "12",
+        "24",
+        "18",
+        "30",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4"
+      ],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/dashboard-default.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "73cd102b3531f62036a5466b6300af9398ab0b73228eb89c18158572e9bdbd7a",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ],
+      "category": "svg",
+      "mode": "disabled",
+      "status": "done",
+      "text": "```svg\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\">\n  <defs>\n    <linearGradient id=\"bgGrad\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">\n      <stop offset=\"0%\" style=\"stop-color:#f8fafc;stop-opacity:1\"/>\n      <stop offset=\"100%\" style=\"stop-color:#eef2f7;stop-opacity:1\"/>\n    </linearGradient>\n    <linearGradient id=\"barGrad1\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n      <stop offset=\"0%\" style=\"stop-color:#6366f1;stop-opacity:1\"/>\n      <stop offset=\"100%\" style=\"stop-color:#4f46e5;stop-opacity:1\"/>\n    </linearGradient>\n    <linearGradient id=\"barGrad2\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n      <stop offset=\"0%\" style=\"stop-color:#818cf8;stop-opacity:1\"/>\n      <stop offset=\"100%\" style=\"stop-color:#6366f1;stop-opacity:1\"/>\n    </linearGradient>\n    <linearGradient id=\"barGrad3\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n      <stop offset=\"0%\" style=\"stop-color:#a5b4fc;stop-opacity:1\"/>\n      <stop offset=\"100%\" style=\"stop-color:#818cf8;stop-opacity:1\"/>\n    </linearGradient>\n    <linearGradient id=\"barGrad4\" x1=\"0%\" y1=\"0%\" x2=\"0%\" y2=\"100%\">\n      <stop offset=\"0%\" style=\"stop-color:#38bdf8;stop-opacity:1\"/>\n      <stop offset=\"100%\" style=\"stop-color:#0ea5e9;stop-opacity:1\"/>\n    </linearGradient>\n    <filter id=\"cardShadow\" x=\"-5%\" y=\"-5%\" width=\"110%\" height=\"110%\">\n      <feDropShadow dx=\"0\" dy=\"4\" stdDeviation=\"12\" flood-color=\"#1e293b\" flood-opacity=\"0.08\"/>\n    </filter>\n    <filter id=\"barShadow\" x=\"-10%\" y=\"-10%\" width=\"120%\" height=\"130%\">\n      <feDropShadow dx=\"0\" dy=\"2\" stdDeviation=\"3\" flood-color=\"#4f46e5\" flood-opacity=\"0.2\"/>\n    </filter>\n  </defs>\n\n  <!-- Background -->\n  <rect width=\"800\" height=\"600\" fill=\"url(#bgGrad)\"/>\n\n  <!-- Card -->\n  <rect x=\"60\" y=\"50\" width=\"680\" height=\"500\" rx=\"16\" fill=\"#ffffff\" filter=\"url(#cardShadow)\"/>\n\n  <!-- Card Header -->\n  <rect x=\"60\" y=\"50\" width=\"680\" height=\"72\" rx=\"16\" fill=\"#f8fafc\"/>\n  <rect x=\"60\" y=\"106\" width=\"680\" height=\"16\" fill=\"#f8fafc\"/>\n  <line x1=\"60\" y1=\"122\" x2=\"740\" y2=\"122\" stroke=\"#e2e8f0\" stroke-width=\"1\"/>\n\n  <text x=\"100\" y=\"96\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"24\" font-weight=\"700\" fill=\"#1e293b\">Quarterly Revenue</text>\n  <text x=\"100\" y=\"116\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"13\" fill=\"#94a3b8\">FY 2024 Performance</text>\n\n  <!-- Summary badges -->\n  <rect x=\"480\" y=\"72\" width=\"110\" height=\"32\" rx=\"16\" fill=\"#eef2ff\"/>\n  <text x=\"535\" y=\"93\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"#4f46e5\" text-anchor=\"middle\">Total: 84</text>\n\n  <rect x=\"604\" y=\"72\" width=\"110\" height=\"32\" rx=\"16\" fill=\"#ecfdf5\"/>\n  <text x=\"659\" y=\"93\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"13\" font-weight=\"600\" fill=\"#059669\" text-anchor=\"middle\">Best: Q4</text>\n\n  <!-- Chart area -->\n  <!-- Chart plot area: x from 120 to 700, y baseline at 460, top at 180 -->\n  <!-- Scale: 30 units = 280px, so 1 unit = 9.333px -->\n\n  <!-- Grid lines -->\n  <line x1=\"120\" y1=\"460\" x2=\"700\" y2=\"460\" stroke=\"#e2e8f0\" stroke-width=\"1\"/>\n  <line x1=\"120\" y1=\"366.67\" x2=\"700\" y2=\"366.67\" stroke=\"#f1f5f9\" stroke-width=\"1\" stroke-dasharray=\"4,4\"/>\n  <line x1=\"120\" y1=\"273.33\" x2=\"700\" y2=\"273.33\" stroke=\"#f1f5f9\" stroke-width=\"1\" stroke-dasharray=\"4,4\"/>\n  <line x1=\"120\" y1=\"180\" x2=\"700\" y2=\"180\" stroke=\"#f1f5f9\" stroke-width=\"1\" stroke-dasharray=\"4,4\"/>\n\n  <!-- Y-axis line -->\n  <line x1=\"120\" y1=\"180\" x2=\"120\" y2=\"460\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/>\n\n  <!-- Y-axis labels -->\n  <text x=\"108\" y=\"465\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"12\" fill=\"#64748b\" text-anchor=\"end\">0</text>\n  <text x=\"108\" y=\"371.67\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"12\" fill=\"#64748b\" text-anchor=\"end\">10</text>\n  <text x=\"108\" y=\"278.33\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"12\" fill=\"#64748b\" text-anchor=\"end\">20</text>\n  <text x=\"108\" y=\"185\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"12\" fill=\"#64748b\" text-anchor=\"end\">30</text>\n\n  <!-- Y-axis title -->\n  <text x=\"80\" y=\"320\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"11\" fill=\"#94a3b8\" text-anchor=\"middle\" transform=\"rotate(-90, 80, 320)\">Revenue (M)</text>\n\n  <!-- Bar 1: Q1 = 12, height = 12 * 9.333 = 112px, baseline y=460 -->\n  <rect x=\"165\" y=\"348\" width=\"80\" height=\"112\" rx=\"6\" fill=\"url(#barGrad1)\" filter=\"url(#barShadow)\"/>\n  <text x=\"205\" y=\"338\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"16\" font-weight=\"700\" fill=\"#4f46e5\" text-anchor=\"middle\">12</text>\n  <text x=\"205\" y=\"488\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"13\" font-weight=\"500\" fill=\"#475569\" text-anchor=\"middle\">Q1</text>\n\n  <!-- Bar 2: Q2 = 24, height = 24 * 9.333 = 224px, baseline y=460 -->\n  <rect x=\"310\" y=\"236\" width=\"80\" height=\"224\" rx=\"6\" fill=\"url(#barGrad2)\" filter=\"url(#barShadow)\"/>\n  <text x=\"350\" y=\"226\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"16\" font-weight=\"700\" fill=\"#4f46e5\" text-anchor=\"middle\">24</text>\n  <text x=\"350\" y=\"488\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"13\" font-weight=\"500\" fill=\"#475569\" text-anchor=\"middle\">Q2</text>\n\n  <!-- Bar 3: Q3 = 18, height = 18 * 9.333 = 168px, baseline y=460 -->\n  <rect x=\"455\" y=\"292\" width=\"80\" height=\"168\" rx=\"6\" fill=\"url(#barGrad3)\" filter=\"url(#barShadow)\"/>\n  <text x=\"495\" y=\"282\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"16\" font-weight=\"700\" fill=\"#4f46e5\" text-anchor=\"middle\">18</text>\n  <text x=\"495\" y=\"488\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"13\" font-weight=\"500\" fill=\"#475569\" text-anchor=\"middle\">Q3</text>\n\n  <!-- Bar 4: Q4 = 30, height = 30 * 9.333 = 280px, baseline y=460 -->\n  <rect x=\"600\" y=\"180\" width=\"80\" height=\"280\" rx=\"6\" fill=\"url(#barGrad4)\" filter=\"url(#barShadow)\"/>\n  <text x=\"640\" y=\"170\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"16\" font-weight=\"700\" fill=\"#0ea5e9\" text-anchor=\"middle\">30</text>\n  <text x=\"640\" y=\"488\" font-family=\"'Segoe UI', 'Helvetica Neue', Arial, sans-serif\" font-size=\"13\" font-weight=\"500\" fill=\"#475569\" text-anchor=\"middle\">Q4</text>\n\n  <!-- Baseline emphasis -->\n  <line x1=\"120\" y1=\"460\" x2=\"700\" y2=\"460\" stroke=\"#94a3b8\" stroke-width=\"2\"/>\n</svg>\n```",
+      "startedAt": "2026-11-02T03:06:24.158Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 939.8290839999681,
+      "firstReasoningMs": null,
+      "firstEventMs": 939.8282500000205,
+      "usage": {
+        "completion_tokens": 2654,
+        "prompt_tokens": 166,
+        "total_tokens": 2820,
+        "prompt_tokens_details": {
+          "cached_tokens": 128,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:07:05.236Z",
+      "totalMs": 41077.86170899996,
+      "promptTokens": 166,
+      "outputTokens": 2654,
+      "reasoningTokens": null,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/dashboard-disabled.svg",
+      "svgSha256": "2f0095a290799345d9b8f5564becd302e7c33324c2d67b7b19d003faac09c64c",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "Quarterly Revenue",
+        "FY 2024 Performance",
+        "Total: 84",
+        "Best: Q4",
+        "0",
+        "10",
+        "20",
+        "30",
+        "Revenue (M)",
+        "12",
+        "Q1",
+        "24",
+        "Q2",
+        "18",
+        "Q3",
+        "30",
+        "Q4"
+      ],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/dashboard-disabled.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "a8cbfd4e0f347c24fa7daf637045526207fd6f09909564e80beb22017b21f8e7",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ],
+      "category": "svg",
+      "mode": "disabled",
+      "status": "done",
+      "text": "```svg\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\">\n  <!-- 背景 -->\n  <rect width=\"800\" height=\"600\" fill=\"#F7F9F4\"/>\n  \n  <!-- 装饰圆形 -->\n  <circle cx=\"680\" cy=\"100\" r=\"120\" fill=\"#E8F0E0\" opacity=\"0.6\"/>\n  <circle cx=\"120\" cy=\"500\" r=\"80\" fill=\"#E8F0E0\" opacity=\"0.5\"/>\n  \n  <!-- 顶部装饰线 -->\n  <line x1=\"100\" y1=\"80\" x2=\"700\" y2=\"80\" stroke=\"#4A7C59\" stroke-width=\"2\" opacity=\"0.3\"/>\n  \n  <!-- 主标题 -->\n  <text x=\"400\" y=\"180\" font-family=\"PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"56\" font-weight=\"bold\" fill=\"#2C5F3F\" text-anchor=\"middle\">周末骑行计划</text>\n  \n  <!-- 副标题 -->\n  <text x=\"400\" y=\"230\" font-family=\"PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"24\" fill=\"#5A7A66\" text-anchor=\"middle\">慢一点，看见城市</text>\n  \n  <!-- 分隔线 -->\n  <line x1=\"300\" y1=\"260\" x2=\"500\" y2=\"260\" stroke=\"#4A7C59\" stroke-width=\"1\" opacity=\"0.4\"/>\n  \n  <!-- 自行车图标 -->\n  <g transform=\"translate(320, 290)\">\n    <!-- 后轮 -->\n    <circle cx=\"40\" cy=\"50\" r=\"30\" fill=\"none\" stroke=\"#4A7C59\" stroke-width=\"3\"/>\n    <!-- 前轮 -->\n    <circle cx=\"120\" cy=\"50\" r=\"30\" fill=\"none\" stroke=\"#4A7C59\" stroke-width=\"3\"/>\n    <!-- 车架 -->\n    <path d=\"M40 50 L70 20 L100 20 L120 50 M70 20 L60 50 L40 50 M70 20 L80 50 L120 50 M60 50 L80 50\" fill=\"none\" stroke=\"#4A7C59\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n    <!-- 车把 -->\n    <line x1=\"100\" y1=\"20\" x2=\"110\" y2=\"12\" stroke=\"#4A7C59\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n    <!-- 座椅 -->\n    <line x1=\"60\" y1=\"12\" x2=\"75\" y2=\"12\" stroke=\"#4A7C59\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n  </g>\n  \n  <!-- 时间 -->\n  <text x=\"400\" y=\"390\" font-family=\"PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"28\" font-weight=\"600\" fill=\"#3D6B4F\" text-anchor=\"middle\">10月24日 09:00</text>\n  \n  <!-- 地点 -->\n  <text x=\"400\" y=\"430\" font-family=\"PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"28\" font-weight=\"600\" fill=\"#3D6B4F\" text-anchor=\"middle\">滨江公园东门</text>\n  \n  <!-- 说明 -->\n  <text x=\"400\" y=\"470\" font-family=\"PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"16\" fill=\"#6B8A76\" text-anchor=\"middle\">自备头盔 · 全程12公里</text>\n  \n  <!-- 按钮背景 -->\n  <rect x=\"310\" y=\"500\" width=\"180\" height=\"50\" rx=\"25\" fill=\"#4A7C59\"/>\n  \n  <!-- 按钮文字 -->\n  <text x=\"400\" y=\"532\" font-family=\"PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"20\" font-weight=\"600\" fill=\"#FFFFFF\" text-anchor=\"middle\">立即报名</text>\n  \n  <!-- 底部装饰线 -->\n  <line x1=\"100\" y1=\"570\" x2=\"700\" y2=\"570\" stroke=\"#4A7C59\" stroke-width=\"2\" opacity=\"0.3\"/>\n</svg>\n```",
+      "startedAt": "2026-11-02T03:07:05.240Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1135.0865000000922,
+      "firstReasoningMs": null,
+      "firstEventMs": 1135.0853330000537,
+      "usage": {
+        "completion_tokens": 1119,
+        "prompt_tokens": 165,
+        "total_tokens": 1284,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:07:23.071Z",
+      "totalMs": 17830.58283300011,
+      "promptTokens": 165,
+      "outputTokens": 1119,
+      "reasoningTokens": null,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/poster-disabled.svg",
+      "svgSha256": "8d37e463affb976dd94f6fe85b0552cdf527f660dc06add382393f6cb34135f0",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "周末骑行计划",
+        "慢一点，看见城市",
+        "10月24日 09:00",
+        "滨江公园东门",
+        "自备头盔 · 全程12公里",
+        "立即报名"
+      ],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/poster-disabled.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "3ba9f6fe377622e2f5262ac450f8a396e55ddf0eed5cfaa8eea53dc24914f44b",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "truncated",
+      "text": "",
+      "startedAt": "2026-11-02T03:07:23.074Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": 938.3647079999791,
+      "firstEventMs": 938.3640410000226,
+      "usage": {
+        "completion_tokens": 12288,
+        "prompt_tokens": 162,
+        "total_tokens": 12450,
+        "completion_tokens_details": {
+          "reasoning_tokens": 12287
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 128,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "length",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:11:13.833Z",
+      "totalMs": 230758.36762499996,
+      "promptTokens": 162,
+      "outputTokens": 12288,
+      "reasoningTokens": 12287,
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ],
+      "category": "animation",
+      "mode": "default",
+      "status": "truncated",
+      "text": "",
+      "startedAt": "2026-11-02T03:11:13.837Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": 1360.653500000015,
+      "firstEventMs": 1360.6522079999559,
+      "usage": {
+        "completion_tokens": 12288,
+        "prompt_tokens": 155,
+        "total_tokens": 12443,
+        "completion_tokens_details": {
+          "reasoning_tokens": 12287
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "length",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:14:23.202Z",
+      "totalMs": 189364.96050000004,
+      "promptTokens": 155,
+      "outputTokens": 12288,
+      "reasoningTokens": 12287,
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "attemptNumber": 1,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ],
+      "category": "animation",
+      "mode": "disabled",
+      "status": "done",
+      "text": "<svg viewBox=\"0 0 800 600\" xmlns=\"http://www.w3.org/2000/svg\">\n  <rect width=\"800\" height=\"600\" fill=\"#e8f4f8\"/>\n  \n  <!-- Ground -->\n  <rect x=\"0\" y=\"490\" width=\"800\" height=\"110\" fill=\"#c8e6c9\"/>\n  \n  <!-- BICYCLE -->\n  <g id=\"bicycle\">\n    <!-- Rear Wheel -->\n    <g transform=\"translate(250, 420)\">\n      <circle cx=\"0\" cy=\"0\" r=\"70\" fill=\"none\" stroke=\"#333\" stroke-width=\"6\"/>\n      <circle cx=\"0\" cy=\"0\" r=\"8\" fill=\"#555\"/>\n      <g>\n        <line x1=\"0\" y1=\"-65\" x2=\"0\" y2=\"65\" stroke=\"#666\" stroke-width=\"2\"/>\n        <line x1=\"-65\" y1=\"0\" x2=\"65\" y2=\"0\" stroke=\"#666\" stroke-width=\"2\"/>\n        <line x1=\"-46\" y1=\"-46\" x2=\"46\" y2=\"46\" stroke=\"#666\" stroke-width=\"2\"/>\n        <line x1=\"46\" y1=\"-46\" x2=\"-46\" y2=\"46\" stroke=\"#666\" stroke-width=\"2\"/>\n        <line x1=\"-25\" y1=\"-60\" x2=\"25\" y2=\"60\" stroke=\"#888\" stroke-width=\"1.5\"/>\n        <line x1=\"25\" y1=\"-60\" x2=\"-25\" y2=\"60\" stroke=\"#888\" stroke-width=\"1.5\"/>\n        <line x1=\"-60\" y1=\"-25\" x2=\"60\" y2=\"25\" stroke=\"#888\" stroke-width=\"1.5\"/>\n        <line x1=\"-60\" y1=\"25\" x2=\"60\" y2=\"-25\" stroke=\"#888\" stroke-width=\"1.5\"/>\n        <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"4s\" repeatCount=\"indefinite\"/>\n      </g>\n    </g>\n    \n    <!-- Front Wheel -->\n    <g transform=\"translate(550, 420)\">\n      <circle cx=\"0\" cy=\"0\" r=\"70\" fill=\"none\" stroke=\"#333\" stroke-width=\"6\"/>\n      <circle cx=\"0\" cy=\"0\" r=\"8\" fill=\"#555\"/>\n      <g>\n        <line x1=\"0\" y1=\"-65\" x2=\"0\" y2=\"65\" stroke=\"#666\" stroke-width=\"2\"/>\n        <line x1=\"-65\" y1=\"0\" x2=\"65\" y2=\"0\" stroke=\"#666\" stroke-width=\"2\"/>\n        <line x1=\"-46\" y1=\"-46\" x2=\"46\" y2=\"46\" stroke=\"#666\" stroke-width=\"2\"/>\n        <line x1=\"46\" y1=\"-46\" x2=\"-46\" y2=\"46\" stroke=\"#666\" stroke-width=\"2\"/>\n        <line x1=\"-25\" y1=\"-60\" x2=\"25\" y2=\"60\" stroke=\"#888\" stroke-width=\"1.5\"/>\n        <line x1=\"25\" y1=\"-60\" x2=\"-25\" y2=\"60\" stroke=\"#888\" stroke-width=\"1.5\"/>\n        <line x1=\"-60\" y1=\"-25\" x2=\"60\" y2=\"25\" stroke=\"#888\" stroke-width=\"1.5\"/>\n        <line x1=\"-60\" y1=\"25\" x2=\"60\" y2=\"-25\" stroke=\"#888\" stroke-width=\"1.5\"/>\n        <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"4s\" repeatCount=\"indefinite\"/>\n      </g>\n    </g>\n    \n    <!-- Frame -->\n    <line x1=\"250\" y1=\"420\" x2=\"380\" y2=\"330\" stroke=\"#cc0000\" stroke-width=\"8\"/>\n    <line x1=\"380\" y1=\"330\" x2=\"550\" y2=\"420\" stroke=\"#cc0000\" stroke-width=\"8\"/>\n    <line x1=\"380\" y1=\"330\" x2=\"400\" y2=\"420\" stroke=\"#cc0000\" stroke-width=\"8\"/>\n    <line x1=\"250\" y1=\"420\" x2=\"400\" y2=\"420\" stroke=\"#cc0000\" stroke-width=\"8\"/>\n    <line x1=\"380\" y1=\"330\" x2=\"370\" y2=\"280\" stroke=\"#cc0000\" stroke-width=\"8\"/>\n    <line x1=\"370\" y1=\"280\" x2=\"340\" y2=\"275\" stroke=\"#333\" stroke-width=\"8\"/>\n    \n    <!-- Seat -->\n    <ellipse cx=\"370\" cy=\"270\" rx=\"30\" ry=\"12\" fill=\"#4a2c17\"/>\n    <line x1=\"370\" y1=\"275\" x2=\"370\" y2=\"280\" stroke=\"#333\" stroke-width=\"6\"/>\n    \n    <!-- Handlebar -->\n    <line x1=\"550\" y1=\"420\" x2=\"540\" y2=\"300\" stroke=\"#666\" stroke-width=\"6\"/>\n    <line x1=\"520\" y1=\"300\" x2=\"560\" y2=\"300\" stroke=\"#333\" stroke-width=\"8\"/>\n    <line x1=\"520\" y1=\"300\" x2=\"515\" y2=\"290\" stroke=\"#333\" stroke-width=\"6\"/>\n    <line x1=\"560\" y1=\"300\" x2=\"565\" y2=\"290\" stroke=\"#333\" stroke-width=\"6\"/>\n    \n    <!-- Crank and Chainring -->\n    <g transform=\"translate(400, 420)\">\n      <circle cx=\"0\" cy=\"0\" r=\"20\" fill=\"none\" stroke=\"#444\" stroke-width=\"4\"/>\n      <circle cx=\"0\" cy=\"0\" r=\"5\" fill=\"#333\"/>\n      <g>\n        <line x1=\"0\" y1=\"0\" x2=\"25\" y2=\"0\" stroke=\"#333\" stroke-width=\"6\"/>\n        <line x1=\"0\" y1=\"0\" x2=\"-25\" y2=\"0\" stroke=\"#333\" stroke-width=\"6\"/>\n        <circle cx=\"25\" cy=\"0\" r=\"8\" fill=\"#555\"/>\n        <circle cx=\"-25\" cy=\"0\" r=\"8\" fill=\"#555\"/>\n        <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0\" to=\"360\" dur=\"4s\" repeatCount=\"indefinite\"/>\n      </g>\n    </g>\n    \n    <!-- Chain -->\n    <line x1=\"250\" y1=\"420\" x2=\"400\" y2=\"400\" stroke=\"#555\" stroke-width=\"3\"/>\n    <line x1=\"250\" y1=\"420\" x2=\"400\" y2=\"440\" stroke=\"#555\" stroke-width=\"3\"/>\n  </g>\n  \n  <!-- PELICAN -->\n  <g id=\"pelican\">\n    <!-- Body -->\n    <ellipse cx=\"350\" cy=\"220\" rx=\"55\" ry=\"40\" fill=\"#f5f5f5\" stroke=\"#ddd\" stroke-width=\"2\"/>\n    \n    <!-- Tail -->\n    <path d=\"M 300 210 Q 270 200 260 190 Q 280 210 295 225\" fill=\"#e8e8e8\" stroke=\"#ccc\" stroke-width=\"1\"/>\n    \n    <!-- Wing -->\n    <path d=\"M 320 200 Q 350 180 390 195 Q 380 220 340 225 Q 320 215 320 200\" fill=\"#e0e0e0\" stroke=\"#bbb\" stroke-width=\"1.5\"/>\n    \n    <!-- Neck -->\n    <path d=\"M 380 200 Q 400 170 410 140\" fill=\"none\" stroke=\"#f5f5f5\" stroke-width=\"35\" stroke-linecap=\"round\"/>\n    <path d=\"M 380 200 Q 400 170 410 140\" fill=\"none\" stroke=\"#ddd\" stroke-width=\"35\" stroke-linecap=\"round\" opacity=\"0.3\"/>\n    \n    <!-- Head -->\n    <ellipse cx=\"415\" cy=\"125\" rx=\"28\" ry=\"22\" fill=\"#f5f5f5\" stroke=\"#ddd\" stroke-width=\"2\"/>\n    \n    <!-- Eye -->\n    <circle cx=\"422\" cy=\"118\" r=\"6\" fill=\"white\" stroke=\"#333\" stroke-width=\"2\"/>\n    <circle cx=\"423\" cy=\"118\" r=\"3\" fill=\"#1a1a2e\"/>\n    <circle cx=\"424\" cy=\"117\" r=\"1\" fill=\"white\"/>\n    \n    <!-- Long Bill -->\n    <path d=\"M 438 118 L 520 118 L 525 125 L 438 130 Z\" fill=\"#f4a460\" stroke=\"#d2691e\" stroke-width=\"2\"/>\n    \n    <!-- Throat Pouch -->\n    <path d=\"M 438 128 Q 470 155 510 130 Q 515 128 520 125 L 520 128 Q 490 160 450 148 Q 435 140 438 128\" fill=\"#ffb6c1\" stroke=\"#e08090\" stroke-width=\"1.5\"/>\n    \n    <!-- Crest feathers -->\n    <path d=\"M 400 105 Q 395 90 405 85\" fill=\"none\" stroke=\"#ddd\" stroke-width=\"2\"/>\n    <path d=\"M 405 103 Q 402 88 412 83\" fill=\"none\" stroke=\"#ddd\" stroke-width=\"2\"/>\n    \n    <!-- LEGS -->\n    <!-- Far Leg -->\n    <g>\n      <path d=\"M 360 250 L 375 320 L 375 380\" fill=\"none\" stroke=\"#e8c872\" stroke-width=\"7\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n        <animate attributeName=\"d\" dur=\"4s\" repeatCount=\"indefinite\"\n          values=\"M 360 250 L 375 320 L 375 380;\n                  M 360 250 L 370 315 L 385 370;\n                  M 360 250 L 365 310 L 395 360;\n                  M 360 250 L 360 310 L 400 355;\n                  M 360 250 L 358 312 L 400 355;\n                  M 360 250 L 356 315 L 395 360;\n                  M 360 250 L 354 320 L 385 370;\n                  M 360 250 L 356 322 L 375 380;\n                  M 360 250 L 375 320 L 375 380\"/>\n      </path>\n      <!-- Far Foot -->\n      <g>\n        <ellipse cx=\"0\" cy=\"0\" rx=\"10\" ry=\"5\" fill=\"#e8c872\">\n          <animateMotion dur=\"4s\" repeatCount=\"indefinite\"\n            path=\"M 375 380 C 385 370 395 360 400 355 C 400 355 400 355 400 355 C 395 360 385 370 375 380 C 375 380 375 380 375 380\"/>\n        </ellipse>\n      </g>\n    </g>\n    \n    <!-- Near Leg -->\n    <g>\n      <path d=\"M 350 250 L 365 320 L 365 380\" fill=\"none\" stroke=\"#f0d080\" stroke-width=\"8\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n        <animate attributeName=\"d\" dur=\"4s\" repeatCount=\"indefinite\"\n          values=\"M 350 250 L 365 320 L 365 380;\n                  M 350 250 L 360 315 L 375 370;\n                  M 350 250 L 355 310 L 385 360;\n                  M 350 250 L 350 310 L 390 355;\n                  M 350 250 L 348 312 L 390 355;\n                  M 350 250 L 346 315 L 385 360;\n                  M 350 250 L 344 320 L 375 370;\n                  M 350 250 L 346 322 L 365 380;\n                  M 350 250 L 365 320 L 365 380\"/>\n      </path>\n      <!-- Near Foot on pedal -->\n      <g>\n        <ellipse cx=\"0\" cy=\"0\" rx=\"12\" ry=\"6\" fill=\"#f0d080\">\n          <animateMotion dur=\"4s\" repeatCount=\"indefinite\"\n            path=\"M 375 380 C 385 370 395 360 400 355 C 400 355 400 355 400 355 C 395 360 385 370 375 380 C 375 380 375 380 375 380\"/>\n        </ellipse>\n        <!-- Toes -->\n        <line x1=\"8\" y1=\"-2\" x2=\"14\" y2=\"-4\" stroke=\"#f0d080\" stroke-width=\"2\">\n          <animateMotion dur=\"4s\" repeatCount=\"indefinite\"\n            path=\"M 375 380 C 385 370 395 360 400 355 C 400 355 400 355 400 355 C 395 360 385 370 375 380 C 375 380 375 380 375 380\"/>\n        </line>\n        <line x1=\"8\" y1=\"0\" x2=\"15\" y2=\"0\" stroke=\"#f0d080\" stroke-width=\"2\">\n          <animateMotion dur=\"4s\" repeatCount=\"indefinite\"\n            path=\"M 375 380 C 385 370 395 360 400 355 C 400 355 400 355 400 355 C 395 360 385 370 375 380 C 375 380 375 380 375 380\"/>\n        </line>\n      </g>\n    </g>\n    \n    <!-- Wing reaching to handlebar -->\n    <path d=\"M 370 195 Q 420 200 480 240 Q 510 260 520 290\" fill=\"none\" stroke=\"#e0e0e0\" stroke-width=\"20\" stroke-linecap=\"round\"/>\n    <path d=\"M 370 195 Q 420 200 480 240 Q 510 260 520 290\" fill=\"none\" stroke=\"#bbb\" stroke-width=\"20\" stroke-linecap=\"round\" opacity=\"0.2\"/>\n    <!-- Wing tip on handlebar -->\n    <ellipse cx=\"522\" cy=\"292\" rx=\"10\" ry=\"8\" fill=\"#e0e0e0\" stroke=\"#bbb\" stroke-width=\"1.5\"/>\n  </g>\n  \n  <!-- Speed lines -->\n  <g opacity=\"0.3\">\n    <line x1=\"80\" y1=\"350\" x2=\"140\" y2=\"350\" stroke=\"#999\" stroke-width=\"2\">\n      <animate attributeName=\"x1\" values=\"80;60;80\" dur=\"0.5s\" repeatCount=\"indefinite\"/>\n      <animate attributeName=\"x2\" values=\"140;120;140\" dur=\"0.5s\" repeatCount=\"indefinite\"/>\n    </line>\n    <line x1=\"60\" y1=\"380\" x2=\"130\" y2=\"380\" stroke=\"#999\" stroke-width=\"2\">\n      <animate attributeName=\"x1\" values=\"60;40;60\" dur=\"0.4s\" repeatCount=\"indefinite\"/>\n      <animate attributeName=\"x2\" values=\"130;110;130\" dur=\"0.4s\" repeatCount=\"indefinite\"/>\n    </line>\n    <line x1=\"90\" y1=\"410\" x2=\"150\" y2=\"410\" stroke=\"#999\" stroke-width=\"2\">\n      <animate attributeName=\"x1\" values=\"90;70;90\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n      <animate attributeName=\"x2\" values=\"150;130;150\" dur=\"0.6s\" repeatCount=\"indefinite\"/>\n    </line>\n  </g>\n</svg>",
+      "startedAt": "2026-11-02T03:14:23.205Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1080.298625000054,
+      "firstReasoningMs": null,
+      "firstEventMs": 1080.2977919999976,
+      "usage": {
+        "completion_tokens": 4615,
+        "prompt_tokens": 158,
+        "total_tokens": 4773,
+        "prompt_tokens_details": {
+          "cached_tokens": 128,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:15:17.230Z",
+      "totalMs": 54024.149417000124,
+      "promptTokens": 158,
+      "outputTokens": 4615,
+      "reasoningTokens": null,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/pelican-animation-disabled.svg",
+      "svgSha256": "e40e47d7232e0c7a3621d4ceddbdcb0fcb78150c4c24b0fc74ba32c9ea5709c9",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/pelican-animation-disabled.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "9fba6cc21a793bbc86df3c5b8f60f3589cdb45e84572f78b9998fb41c79e5dff",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 1,
+      "timeoutMs": 600000,
+      "animationRender": {
+        "path": "/evaluations/longcat-2-5-release/assets/pelican-animation-disabled.webp",
+        "sha256": "835dd9dc80cfebfa007327511b50dfbfb9dbf791c8148b2ed535202c9adf4ce6",
+        "durationSeconds": 4,
+        "fps": 10,
+        "frames": 40,
+        "width": 800,
+        "height": 600,
+        "uniqueFrames": 40,
+        "loopBoundaryMatchesStart": false,
+        "loopBoundaryMeanAbsoluteError": 0.0032284722222222224,
+        "frameHashes": [
+          "f10331b0a52e86ce422e8005b741be76ba1671bfe86b5b215b171bb3a51a2d26",
+          "a3d253e044045f79596aa7f39bc8ee737e18e9b9fdfb0c2022c27f018cded5ff",
+          "4d92bd0fa860c8b5cf1d8cc3664b8f616df795e6a16ab213e9a6b4519838f12d",
+          "3031e2f2c4bd6da60863e42acdef88f13e13f5b8a7b0ec3f0034948cf3736d5f",
+          "26683eab2f96368495710ae6bf80c739d3979ef971952ecf29b15dabe351559a",
+          "84b52db1a5789e94fbfafb7f90a208ff00c438e666c454a24ccd29644cae06b4",
+          "6b5dc530397c4ed248d0a6e8d8584deb7d2b27714b9ceb3781fe92716a058b58",
+          "8b6445c7e0d6bd7ccc5e67bc0adcbdb77ae460acf7178eecb8fe108752b93e36",
+          "fd8b9430a40a632e5bfbd490fdcf26501d8af8107c6e43c1df6deee8e1c62285",
+          "20218d2d1606954208b84904595f17c0a7461ef6918f0368e71090d70e4d4910",
+          "b32ea4f3c7bc4138ecdb802d3c3778658894d4f2592c19536ddf10b825de588f",
+          "bcbc8c059817d406b55d35307b018fd50e19fa9ddbf0ac7dfade66a256f999fa",
+          "708ab11eb36e191053d1c0c7e3ee6d307a834c605810a563baa8d476cec66417",
+          "1b85f59e7b38c8d9ae0566f5f3ace3eb065c0a4ec5b3eaf266339e04473730c2",
+          "e519072f7c40236da225e560454e61bd077f638243bf600dc1fe5b4de1a186ab",
+          "03785f7ee23f916e9c4b49dd51c6656b65617650cbbf034ed4cead126ac17416",
+          "b36a5430273676c36b121de2fc9beda8f2a793211740c26ba4d0f8cebe587589",
+          "01aa7a7e0ca8406732cbeb4523d17faa45c7ca23299ab693a95abbf8fa4a14f2",
+          "c9182dd152d3bc2cddccc2b021e17968dcad85944fa23669281fdfc4485905df",
+          "404889f528421fb0cb0f7d8a1e2e1effd288975c083ddabd562382da87f74cf0",
+          "9037adcdee33b88f1459b6e156cd6c90954cabb9c6a40aee17a04c4af5beb52f",
+          "49284994479235856292607ef485c915487ea9fb161de7206ba4053eecbaa15a",
+          "1509c44a6a89aeacd2ca3e59ffef1397c97379c713f98d29004a92e520550d63",
+          "dc819a34ed133d97fa31107b02e749c65d351a5eb689543eaeefc086f5b08d3e",
+          "a7ffbdbf3b9b045194938100adedb90258de1fa45015f4843aee564fa3f91cd9",
+          "e2c359a475492b2880aae1b96eec443aaa559da4c0c8e2493026447b8814245d",
+          "d824d550fd96a6cd4ac7c6031380c46fdd23413e7353843bf2934ffc82e7a535",
+          "d3eb457326addefba9bbce6e664e4fbbe3e812649e25c6a2bc74d206f8490b4f",
+          "6e6f347e5651302bf3abafadfd37313dda91374e4c76955f945b206829b657d9",
+          "350a617ca0215b2a944e9dff90c45e883719ce82c5ad19af711c24d430710187",
+          "2fa7b66e9028f03fd78ee75e87bb34cf1631c95d78caef8503a4c19ba3727533",
+          "ccde982c1e5cfee6de8ee5c7b7a416b48993b4b6a2dab30e3317b2b77c154617",
+          "cf4956a2d3a9e4665d0a5a5c337d23536395ce9f2bf5747514ca870e987d19bf",
+          "0f71b17674825945f675fc1a134460851c262315888d292c93549e5c51b81258",
+          "216b958baaa9b14c9ce5df60497d46599b070e48ae3ebeb06b2e8c0f63c3d672",
+          "72f737e339d45cce17036365bdb15f6b439bb4a98158759033ca1de7e5d62664",
+          "e2c4b88079b68670c224287be1690767e7d54347059b008b2aa605badd354098",
+          "4ccbcaeb6832ada76e6b36b87a726b445bd5f5f593eb46571ad4dabd4dd72dce",
+          "c8c8842e105b6891aee30f5cab6afd561d45816f50884429c2f13330189ba6eb",
+          "c69ac3cd7933a10b829cd1f949655fd2fffb778bbedae75fad831f619221ab87"
+        ],
+        "renderer": "Chromium SMIL fixed-time capture, 0.0–3.9 seconds; animated WebP, no source edits",
+        "browserVersion": "148.0.7778.96"
+      }
+    },
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "truncated",
+      "text": "",
+      "startedAt": "2026-11-02T03:15:25.662Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Generate an SVG of a pelican riding a bicycle"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": 16337.549667000001,
+      "firstEventMs": 16337.547042,
+      "usage": {
+        "completion_tokens": 32768,
+        "prompt_tokens": 17,
+        "total_tokens": 32785,
+        "completion_tokens_details": {
+          "reasoning_tokens": 32767
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "length",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:23:21.435Z",
+      "totalMs": 475772.841708,
+      "promptTokens": 17,
+      "outputTokens": 32768,
+      "reasoningTokens": 32767,
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "attemptNumber": 2,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "truncated",
+      "text": "",
+      "startedAt": "2026-11-02T03:23:21.591Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Generate an SVG of a pelican riding a bicycle"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": 2012.437333,
+      "firstEventMs": 2012.433667,
+      "usage": {
+        "completion_tokens": 32768,
+        "prompt_tokens": 17,
+        "total_tokens": 32785,
+        "completion_tokens_details": {
+          "reasoning_tokens": 32767
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "length",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:30:51.353Z",
+      "totalMs": 449828.440167,
+      "promptTokens": 17,
+      "outputTokens": 32768,
+      "reasoningTokens": 32767,
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "attemptNumber": 3,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "interrupted",
+      "text": "",
+      "startedAt": "2026-11-02T03:30:51.521Z",
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "attemptNumber": 4,
+      "timeoutMs": 600000,
+      "interruptionReason": "Controller stopped after three consecutive output-cap truncations; final usage unknown, full 32768 reserved."
+    },
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "done",
+      "text": "Here's an SVG of a pelican riding a bicycle:\n\n```svg\n<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\" role=\"img\">\n  <title>A pelican riding a bicycle</title>\n  <desc>A cheerful white pelican with a long orange beak and a red scarf, pedaling a red bicycle through a sunny meadow.</desc>\n\n  <defs>\n    <linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#bfe8ff\"/>\n      <stop offset=\"1\" stop-color=\"#e8f7ff\"/>\n    </linearGradient>\n  </defs>\n\n  <!-- Sky -->\n  <rect width=\"800\" height=\"600\" fill=\"url(#sky)\"/>\n\n  <!-- Sun -->\n  <circle cx=\"680\" cy=\"90\" r=\"44\" fill=\"#ffd93d\"/>\n  <path d=\"M 735 90 L 748 90 M 718.9 128.9 L 728 138 M 680 145 L 680 158 M 641.1 128.9 L 632 138 M 625 90 L 612 90 M 641.1 51.1 L 632 42 M 680 35 L 680 22 M 718.9 51.1 L 728 42\"\n        stroke=\"#fbbf24\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n\n  <!-- Clouds -->\n  <g fill=\"#ffffff\" opacity=\"0.9\">\n    <ellipse cx=\"112\" cy=\"102\" rx=\"30\" ry=\"17\"/>\n    <ellipse cx=\"142\" cy=\"90\" rx=\"34\" ry=\"21\"/>\n    <ellipse cx=\"176\" cy=\"102\" rx=\"27\" ry=\"15\"/>\n  </g>\n  <g fill=\"#ffffff\" opacity=\"0.85\">\n    <ellipse cx=\"578\" cy=\"140\" rx=\"22\" ry=\"13\"/>\n    <ellipse cx=\"602\" cy=\"130\" rx=\"26\" ry=\"16\"/>\n    <ellipse cx=\"628\" cy=\"140\" rx=\"20\" ry=\"12\"/>\n  </g>\n\n  <!-- Distant birds -->\n  <path d=\"M 248 128 Q 258 118 268 128 Q 278 118 288 128\" stroke=\"#475569\" stroke-width=\"2.5\" fill=\"none\" stroke-linecap=\"round\"/>\n  <path d=\"M 322 96 Q 330 88 338 96 Q 346 88 354 96\" stroke=\"#475569\" stroke-width=\"2.5\" fill=\"none\" stroke-linecap=\"round\"/>\n\n  <!-- Ground -->\n  <path d=\"M 0 510 Q 400 500 800 508 L 800 600 L 0 600 Z\" fill=\"#86c860\"/>\n  <circle cx=\"70\" cy=\"548\" r=\"24\" fill=\"#5aa846\"/>\n  <circle cx=\"112\" cy=\"558\" r=\"28\" fill=\"#4f9a3e\"/>\n  <circle cx=\"738\" cy=\"552\" r=\"26\" fill=\"#5aa846\"/>\n  <circle cx=\"700\" cy=\"562\" r=\"20\" fill=\"#4f9a3e\"/>\n  <circle cx=\"180\" cy=\"566\" r=\"4\" fill=\"#ff6b81\"/>\n  <circle cx=\"648\" cy=\"560\" r=\"4\" fill=\"#ff6b81\"/>\n  <circle cx=\"672\" cy=\"576\" r=\"4\" fill=\"#ffd93d\"/>\n\n  <!-- Shadow -->\n  <ellipse cx=\"400\" cy=\"512\" rx=\"190\" ry=\"9\" fill=\"#1a3d1a\" opacity=\"0.12\"/>\n\n  <!-- Motion lines -->\n  <path d=\"M 148 428 L 206 428 M 128 452 L 192 452 M 156 478 L 208 478\"\n        stroke=\"#94a3b8\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\"0.5\"/>\n\n  <!-- Bicycle -->\n  <g>\n    <!-- Wheels -->\n    <circle cx=\"280\" cy=\"440\" r=\"70\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"10\"/>\n    <circle cx=\"540\" cy=\"440\" r=\"70\" fill=\"none\" stroke=\"#1f2937\" stroke-width=\"10\"/>\n    <circle cx=\"280\" cy=\"440\" r=\"58\" fill=\"none\" stroke=\"#d1d5db\" stroke-width=\"3\"/>\n    <circle cx=\"540\" cy=\"440\" r=\"58\" fill=\"none\" stroke=\"#d1d5db\" stroke-width=\"3\"/>\n    <path d=\"M 338 440 L 222 440 M 321 481 L 239 399 M 280 498 L 280 382 M 239 481 L 321 399\" stroke=\"#9ca3af\" stroke-width=\"2.5\"/>\n    <path d=\"M 598 440 L 482 440 M 581 481 L 499 399 M 540 498 L 540 382 M 499 481 L 581 399\" stroke=\"#9ca3af\" stroke-width=\"2.5\"/>\n    <circle cx=\"280\" cy=\"440\" r=\"5\" fill=\"#374151\"/>\n    <circle cx=\"540\" cy=\"440\" r=\"5\" fill=\"#374151\"/>\n\n    <!-- Chain and chainring -->\n    <path d=\"M 390 445 L 280 436 M 390 475 L 280 444\" stroke=\"#64748b\" stroke-width=\"3\"/>\n    <circle cx=\"390\" cy=\"460\" r=\"15\" fill=\"none\" stroke=\"#334155\" stroke-width=\"4\"/>\n\n    <!-- Frame -->\n    <path d=\"M 280 440 L 390 460 M 280 440 L 330 345 M 390 460 L 330 345 M 390 460 L 500 335 M 330 345 L 500 335 M 498 342 L 510 310 M 508 318 L 540 440\"\n          stroke=\"#e11d48\" stroke-width=\"8\" stroke-linecap=\"round\" fill=\"none\"/>\n\n    <!-- Seat -->\n    <path d=\"M 330 345 L 323 321\" stroke=\"#334155\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n    <path d=\"M 300 321 Q 320 311 347 317 Q 352 326 342 330 Q 318 334 303 329 Q 298 325 300 321 Z\" fill=\"#1f2937\"/>\n\n    <!-- Handlebar -->\n    <path d=\"M 510 310 L 516 288\" stroke=\"#334155\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n    <path d=\"M 494 288 L 540 288\" stroke=\"#334155\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n\n    <!-- Cranks and pedals -->\n    <path d=\"M 390 460 L 415 482\" stroke=\"#334155\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n    <path d=\"M 390 460 L 366 436\" stroke=\"#334155\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n    <path d=\"M 402 485 L 428 481\" stroke=\"#1f2937\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n    <path d=\"M 352 439 L 378 435\" stroke=\"#1f2937\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n  </g>\n\n  <!-- Pelican -->\n  <g>\n    <!-- Tail feathers -->\n    <path d=\"M 260 240 L 185 215 L 205 240 L 180 252 L 210 262 L 255 270 Z\"\n          fill=\"#e2e8f0\" stroke=\"#cbd5e1\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n\n    <!-- Far leg -->\n    <path d=\"M 348 318 L 355 392 L 366 434\" stroke=\"#94a3b8\" stroke-width=\"10\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 356 430 L 390 436 L 386 450 L 350 446 Z\" fill=\"#94a3b8\"/>\n\n    <!-- Body -->\n    <ellipse cx=\"350\" cy=\"265\" rx=\"95\" ry=\"62\" fill=\"#f8fafc\" stroke=\"#cbd5e1\" stroke-width=\"2\" transform=\"rotate(10 350 265)\"/>\n    <ellipse cx=\"338\" cy=\"292\" rx=\"62\" ry=\"34\" fill=\"#e2e8f0\" opacity=\"0.5\"/>\n\n    <!-- Near leg and webbed foot -->\n    <path d=\"M 378 315 L 388 395 L 410 470\" stroke=\"#cbd5e1\" stroke-width=\"12\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 398 466 L 440 474 L 434 492 L 390 486 Z\" fill=\"#cbd5e1\" stroke=\"#94a3b8\" stroke-width=\"1.5\" stroke-linejoin=\"round\"/>\n    <path d=\"M 412 470 L 410 488 M 426 472 L 424 490\" stroke=\"#94a3b8\" stroke-width=\"1.5\"/>\n\n    <!-- Neck -->\n    <path d=\"M 412 232 Q 452 222 464 186\" stroke=\"#f8fafc\" stroke-width=\"34\" stroke-linecap=\"round\" fill=\"none\"/>\n\n    <!-- Scarf -->\n    <path d=\"M 428 200 Q 446 212 462 204\" stroke=\"#dc2626\" stroke-width=\"11\" stroke-linecap=\"round\" fill=\"none\"/>\n    <path d=\"M 430 206 Q 400 196 380 208 Q 362 218 344 208\" stroke=\"#dc2626\" stroke-width=\"8\" stroke-linecap=\"round\" fill=\"none\"/>\n    <circle cx=\"430\" cy=\"205\" r=\"5\" fill=\"#b91c1c\"/>\n\n    <!-- Head -->\n    <circle cx=\"468\" cy=\"168\" r=\"27\" fill=\"#f8fafc\" stroke=\"#cbd5e1\" stroke-width=\"2\"/>\n    <path d=\"M 448 146 Q 434 126 414 124 Q 432 138 442 150 Z\" fill=\"#e2e8f0\" stroke=\"#cbd5e1\" stroke-width=\"1.5\"/>\n\n    <!-- Beak with pouch -->\n    <path d=\"M 490 158 L 655 172 Q 662 176 656 182 Q 590 232 508 196 Q 492 178 490 158 Z\"\n          fill=\"#fbbf24\" stroke=\"#b45309\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 494 162 L 646 174\" stroke=\"#d97706\" stroke-width=\"1.5\" opacity=\"0.6\"/>\n\n    <!-- Eye -->\n    <circle cx=\"474\" cy=\"160\" r=\"4.5\" fill=\"#1e293b\"/>\n    <circle cx=\"475.5\" cy=\"158.5\" r=\"1.5\" fill=\"#ffffff\"/>\n\n    <!-- Wing holding the handlebar -->\n    <path d=\"M 395 240 Q 445 245 488 275 Q 500 283 505 292 Q 492 302 472 296 Q 430 285 400 288 Q 388 262 395 240 Z\"\n          fill=\"#e2e8f0\" stroke=\"#cbd5e1\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n    <path d=\"M 415 258 Q 450 262 478 282 M 420 272 Q 448 276 470 290\" stroke=\"#cbd5e1\" stroke-width=\"2\" fill=\"none\"/>\n  </g>\n</svg>\n```\n\nThe scene includes a pelican with its signature long pouched beak, perched on the saddle with webbed feet on the pedals and one wing on the handlebar. I added a flowing red scarf, motion lines, a sunny sky with clouds, and a grassy meadow for atmosphere. You can tweak the frame color (`#e11d48`) or beak tones easily if you'd like a different look.",
+      "startedAt": "2026-11-02T03:35:45.792Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Generate an SVG of a pelican riding a bicycle"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking_budget": 8192,
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 251110.59783299998,
+      "firstReasoningMs": 1445.119917,
+      "firstEventMs": 1445.118833,
+      "usage": {
+        "completion_tokens": 21965,
+        "prompt_tokens": 17,
+        "total_tokens": 21982,
+        "completion_tokens_details": {
+          "reasoning_tokens": 18336
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:40:37.671Z",
+      "totalMs": 291881.932417,
+      "promptTokens": 17,
+      "outputTokens": 21965,
+      "reasoningTokens": 18336,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/pelican-default-attempt-5.svg",
+      "svgSha256": "b900e19250d3d3e9531963185e0435b079827c628f62f9f4133e7231459a1e7b",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/pelican-default-attempt-5.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "e4f5f525ff24faed7c5a0b1c78979234c691365ffd07b7d16bbd053c0c858269",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 5,
+      "timeoutMs": 600000,
+      "thinkingBudgetRequested": 8192
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ],
+      "category": "svg",
+      "mode": "disabled",
+      "status": "done",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\">\n  <!-- Background -->\n  <rect width=\"800\" height=\"600\" fill=\"#f5f5f5\"/>\n  \n  <!-- Clock face -->\n  <circle cx=\"400\" cy=\"270\" r=\"200\" fill=\"#ffffff\" stroke=\"#333333\" stroke-width=\"4\"/>\n  \n  <!-- Hour markers and numbers -->\n  <!-- 12 -->\n  <line x1=\"400\" y1=\"75\" x2=\"400\" y2=\"95\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"400\" y=\"125\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">12</text>\n  \n  <!-- 1 -->\n  <line x1=\"496\" y1=\"89\" x2=\"486\" y2=\"108\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"512\" y=\"132\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">1</text>\n  \n  <!-- 2 -->\n  <line x1=\"578\" y1=\"132\" x2=\"559\" y2=\"142\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"572\" y=\"165\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">2</text>\n  \n  <!-- 3 -->\n  <line x1=\"595\" y1=\"270\" x2=\"575\" y2=\"270\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"578\" y=\"280\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">3</text>\n  \n  <!-- 4 -->\n  <line x1=\"578\" y1=\"408\" x2=\"559\" y2=\"398\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"568\" y=\"428\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">4</text>\n  \n  <!-- 5 -->\n  <line x1=\"496\" y1=\"451\" x2=\"486\" y2=\"432\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"508\" y=\"475\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">5</text>\n  \n  <!-- 6 -->\n  <line x1=\"400\" y1=\"465\" x2=\"400\" y2=\"445\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"400\" y=\"485\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">6</text>\n  \n  <!-- 7 -->\n  <line x1=\"304\" y1=\"451\" x2=\"314\" y2=\"432\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"290\" y=\"475\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">7</text>\n  \n  <!-- 8 -->\n  <line x1=\"222\" y1=\"408\" x2=\"241\" y2=\"398\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"228\" y=\"428\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">8</text>\n  \n  <!-- 9 -->\n  <line x1=\"205\" y1=\"270\" x2=\"225\" y2=\"270\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"218\" y=\"280\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">9</text>\n  \n  <!-- 10 -->\n  <line x1=\"222\" y1=\"132\" x2=\"241\" y2=\"142\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"228\" y=\"165\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">10</text>\n  \n  <!-- 11 -->\n  <line x1=\"304\" y1=\"89\" x2=\"314\" y2=\"108\" stroke=\"#333333\" stroke-width=\"4\"/>\n  <text x=\"288\" y=\"132\" font-family=\"Arial, sans-serif\" font-size=\"32\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">11</text>\n  \n  <!-- Hour hand: 9:41 = 9 + 41/60 = 9.6833 hours -->\n  <!-- Angle = 9.6833 * 30 = 290.5 degrees from 12 o'clock -->\n  <!-- In SVG coordinates: 290.5 - 90 = 200.5 degrees from positive x-axis -->\n  <!-- cos(200.5°) = -0.9367, sin(200.5°) = -0.3502 -->\n  <!-- Hour hand length = 100 -->\n  <line x1=\"400\" y1=\"270\" x2=\"306.3\" y2=\"235.0\" stroke=\"#222222\" stroke-width=\"8\" stroke-linecap=\"round\"/>\n  \n  <!-- Minute hand: 41 minutes -->\n  <!-- Angle = 41 * 6 = 246 degrees from 12 o'clock -->\n  <!-- In SVG coordinates: 246 - 90 = 156 degrees from positive x-axis -->\n  <!-- cos(156°) = -0.9135, sin(156°) = 0.4067 -->\n  <!-- Minute hand length = 160 -->\n  <line x1=\"400\" y1=\"270\" x2=\"253.8\" y2=\"335.1\" stroke=\"#222222\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n  \n  <!-- Center dot -->\n  <circle cx=\"400\" cy=\"270\" r=\"8\" fill=\"#222222\"/>\n  \n  <!-- Label -->\n  <text x=\"400\" y=\"540\" font-family=\"Arial, sans-serif\" font-size=\"28\" font-weight=\"bold\" text-anchor=\"middle\" fill=\"#333333\">09:41</text>\n</svg>",
+      "startedAt": "2026-11-02T03:40:37.829Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": 1206.9066249999998,
+      "firstReasoningMs": null,
+      "firstEventMs": 1206.906,
+      "usage": {
+        "completion_tokens": 1813,
+        "prompt_tokens": 130,
+        "total_tokens": 1943,
+        "prompt_tokens_details": {
+          "cached_tokens": 128,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:40:59.888Z",
+      "totalMs": 22059.651334,
+      "promptTokens": 130,
+      "outputTokens": 1813,
+      "reasoningTokens": null,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/clock-disabled-attempt-2.svg",
+      "svgSha256": "943919cce3b0a5d49b9687dadd9c91de4a41e3955a0fb1fc8d26a4bf65d49c28",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "12",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "09:41"
+      ],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/clock-disabled-attempt-2.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "cc76b65f085aebb8685c7316df45ce1d64269f3649a5a869384ad41fd27a59b3",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 2,
+      "timeoutMs": 600000
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "done",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\">\n  <rect width=\"800\" height=\"600\" fill=\"#ffffff\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"228\" fill=\"#ffffff\" stroke=\"#1a1a1a\" stroke-width=\"5\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"210\" fill=\"none\" stroke=\"#8a8a8a\" stroke-width=\"14\" stroke-dasharray=\"2 19.99\" stroke-dashoffset=\"1\" stroke-linecap=\"butt\" transform=\"rotate(-90 400 280)\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"210\" fill=\"none\" stroke=\"#1a1a1a\" stroke-width=\"20\" stroke-dasharray=\"5 104.96\" stroke-dashoffset=\"2.5\" stroke-linecap=\"butt\" transform=\"rotate(-90 400 280)\"/>\n  <g font-family=\"Arial, Helvetica, sans-serif\" font-size=\"33\" font-weight=\"bold\" fill=\"#1a1a1a\" text-anchor=\"middle\">\n    <text x=\"400\" y=\"110\" dy=\"0.35em\">12</text>\n    <text x=\"485\" y=\"133\" dy=\"0.35em\">1</text>\n    <text x=\"547\" y=\"195\" dy=\"0.35em\">2</text>\n    <text x=\"570\" y=\"280\" dy=\"0.35em\">3</text>\n    <text x=\"547\" y=\"365\" dy=\"0.35em\">4</text>\n    <text x=\"485\" y=\"427\" dy=\"0.35em\">5</text>\n    <text x=\"400\" y=\"450\" dy=\"0.35em\">6</text>\n    <text x=\"315\" y=\"427\" dy=\"0.35em\">7</text>\n    <text x=\"253\" y=\"365\" dy=\"0.35em\">8</text>\n    <text x=\"230\" y=\"280\" dy=\"0.35em\">9</text>\n    <text x=\"253\" y=\"195\" dy=\"0.35em\">10</text>\n    <text x=\"315\" y=\"133\" dy=\"0.35em\">11</text>\n  </g>\n  <line x1=\"400\" y1=\"280\" x2=\"282.9\" y2=\"236.2\" stroke=\"#1a1a1a\" stroke-width=\"9\" stroke-linecap=\"round\"/>\n  <line x1=\"400\" y1=\"280\" x2=\"220.9\" y2=\"359.7\" stroke=\"#1a1a1a\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"9\" fill=\"#1a1a1a\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"3.5\" fill=\"#ffffff\"/>\n  <text x=\"400\" y=\"555\" font-family=\"Arial, Helvetica, sans-serif\" font-size=\"30\" font-weight=\"bold\" fill=\"#1a1a1a\" text-anchor=\"middle\" letter-spacing=\"1\">09:41</text>\n</svg>",
+      "startedAt": "2026-11-02T03:41:00.097Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking_budget": 8192,
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 208033.06395799998,
+      "firstReasoningMs": 2310.225167,
+      "firstEventMs": 2310.2242499999998,
+      "usage": {
+        "completion_tokens": 15124,
+        "prompt_tokens": 127,
+        "total_tokens": 15251,
+        "completion_tokens_details": {
+          "reasoning_tokens": 14257
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:44:37.581Z",
+      "totalMs": 217486.258667,
+      "promptTokens": 127,
+      "outputTokens": 15124,
+      "reasoningTokens": 14257,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/clock-default-attempt-2.svg",
+      "svgSha256": "91e05420d4e3d3173f8e6a8b61efc6549bcbccfe7c932405161e8eb59005b58e",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "12",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "09:41"
+      ],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/clock-default-attempt-2.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "30f731b8e92aaac2c8df06ee3d76c697ca3327f1c638fca7c061c0ab5d7e5f94",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 2,
+      "timeoutMs": 600000,
+      "thinkingBudgetRequested": 8192
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ],
+      "category": "svg",
+      "mode": "default",
+      "status": "done",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\" font-family=\"'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans CJK SC','Source Han Sans SC',sans-serif\">\n  <defs>\n    <linearGradient id=\"bg\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#FDF9F0\"/>\n      <stop offset=\"1\" stop-color=\"#E8F3F0\"/>\n    </linearGradient>\n    <linearGradient id=\"btn\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#1AA181\"/>\n      <stop offset=\"1\" stop-color=\"#0F6E5A\"/>\n    </linearGradient>\n  </defs>\n  <rect width=\"800\" height=\"600\" fill=\"url(#bg)\"/>\n  <circle cx=\"712\" cy=\"86\" r=\"76\" fill=\"#177E6A\" opacity=\"0.07\"/>\n  <circle cx=\"88\" cy=\"502\" r=\"96\" fill=\"#177E6A\" opacity=\"0.06\"/>\n  <circle cx=\"132\" cy=\"118\" r=\"24\" fill=\"#177E6A\" opacity=\"0.08\"/>\n  <rect x=\"24\" y=\"24\" width=\"752\" height=\"552\" rx=\"20\" fill=\"none\" stroke=\"#0F6E5A\" stroke-width=\"1.5\" opacity=\"0.22\"/>\n  <path d=\"M292 132 H508\" stroke=\"#0F6E5A\" stroke-width=\"3\" stroke-linecap=\"round\" stroke-dasharray=\"0.5 12\" opacity=\"0.25\"/>\n  <path d=\"M300 84 H322 M296 98 H320 M300 112 H322\" stroke=\"#0F6E5A\" stroke-width=\"3\" stroke-linecap=\"round\" opacity=\"0.35\"/>\n  <g fill=\"none\" stroke=\"#0F6E5A\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <circle cx=\"348\" cy=\"98\" r=\"24\"/>\n    <circle cx=\"452\" cy=\"98\" r=\"24\"/>\n    <path d=\"M348 98 L372 60 L428 58 L452 98\"/>\n    <path d=\"M372 60 L394 96 L428 58\"/>\n    <path d=\"M394 96 L348 98\"/>\n    <path d=\"M428 58 L420 40\"/>\n    <path d=\"M413 42 L427 38\"/>\n    <path d=\"M372 60 L364 48\"/>\n    <path d=\"M357 48 L371 48\"/>\n  </g>\n  <text x=\"400\" y=\"220\" text-anchor=\"middle\" font-size=\"58\" font-weight=\"700\" letter-spacing=\"6\" fill=\"#123F39\">周末骑行计划</text>\n  <text x=\"400\" y=\"262\" text-anchor=\"middle\" font-size=\"23\" letter-spacing=\"4\" fill=\"#4E6E68\">慢一点，看见城市</text>\n  <path d=\"M338 296 H392 M408 296 H462\" stroke=\"#0F6E5A\" stroke-width=\"1.5\" opacity=\"0.4\"/>\n  <path d=\"M400 290 L406 296 L400 302 L394 296 Z\" fill=\"#0F6E5A\" opacity=\"0.6\"/>\n  <circle cx=\"300\" cy=\"330\" r=\"11\" fill=\"none\" stroke=\"#0F6E5A\" stroke-width=\"2.5\"/>\n  <path d=\"M300 330 L300 322 M300 330 L306 333\" stroke=\"#0F6E5A\" stroke-width=\"2.5\" stroke-linecap=\"round\" fill=\"none\"/>\n  <text x=\"320\" y=\"338\" font-size=\"26\" font-weight=\"600\" letter-spacing=\"1\" fill=\"#123F39\">10月24日 09:00</text>\n  <path d=\"M313 356 C306 356 301 361.5 301 367 C301 375 313 386 313 386 C313 386 325 375 325 367 C325 361.5 320 356 313 356 Z\" fill=\"none\" stroke=\"#0F6E5A\" stroke-width=\"2.5\" stroke-linejoin=\"round\"/>\n  <circle cx=\"313\" cy=\"367\" r=\"3.5\" fill=\"#0F6E5A\"/>\n  <text x=\"337\" y=\"380\" font-size=\"26\" font-weight=\"600\" letter-spacing=\"1\" fill=\"#123F39\">滨江公园东门</text>\n  <text x=\"400\" y=\"428\" text-anchor=\"middle\" font-size=\"16\" letter-spacing=\"2\" fill=\"#6B8580\">自备头盔 · 全程12公里</text>\n  <rect x=\"312\" y=\"466\" width=\"176\" height=\"52\" rx=\"26\" fill=\"#0B4A3E\" opacity=\"0.16\"/>\n  <rect x=\"310\" y=\"460\" width=\"176\" height=\"52\" rx=\"26\" fill=\"url(#btn)\"/>\n  <text x=\"400\" y=\"493\" text-anchor=\"middle\" font-size=\"20\" font-weight=\"600\" letter-spacing=\"3\" fill=\"#FFFFFF\">立即报名</text>\n</svg>",
+      "startedAt": "2026-11-02T03:44:37.824Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking_budget": 8192,
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 198823.149125,
+      "firstReasoningMs": 1545.912167,
+      "firstEventMs": 1545.911292,
+      "usage": {
+        "completion_tokens": 13273,
+        "prompt_tokens": 162,
+        "total_tokens": 13435,
+        "completion_tokens_details": {
+          "reasoning_tokens": 11735
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 128,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T03:48:16.460Z",
+      "totalMs": 218603.231375,
+      "promptTokens": 162,
+      "outputTokens": 13273,
+      "reasoningTokens": 11735,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/poster-default-attempt-2.svg",
+      "svgSha256": "2851adde5896b404c5c75bb3398a543429ccda4ecea3077b4bd4630ef190ebc7",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "周末骑行计划",
+        "慢一点，看见城市",
+        "10月24日 09:00",
+        "滨江公园东门",
+        "自备头盔 · 全程12公里",
+        "立即报名"
+      ],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/poster-default-attempt-2.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "7e5de92d165c048aff90374d6a2960e194238b613a66e2202bd4f2433a4af501",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 2,
+      "timeoutMs": 600000,
+      "thinkingBudgetRequested": 8192
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ],
+      "category": "animation",
+      "mode": "default",
+      "status": "error",
+      "text": "",
+      "startedAt": "2026-11-02T03:48:16.684Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking_budget": 8192,
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": 1214.716792,
+      "firstEventMs": 1214.715958,
+      "usage": null,
+      "finishReason": null,
+      "error": "The operation was aborted due to timeout",
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "errorCode": "ECONNRESET",
+      "finishedAt": "2026-11-02T03:58:16.692Z",
+      "totalMs": 600010.93125,
+      "promptTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null,
+      "renderable": false,
+      "renderError": "No complete SVG in the original response",
+      "attemptNumber": 2,
+      "timeoutMs": 600000,
+      "thinkingBudgetRequested": 8192
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ],
+      "category": "animation",
+      "mode": "default",
+      "status": "done",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\" preserveAspectRatio=\"xMidYMid meet\">\n  <rect width=\"800\" height=\"600\" fill=\"#f7f3ea\"/>\n  <ellipse cx=\"250\" cy=\"474\" rx=\"105\" ry=\"10\" fill=\"#e7dfcc\"/>\n  <ellipse cx=\"550\" cy=\"474\" rx=\"105\" ry=\"10\" fill=\"#e7dfcc\"/>\n  <line x1=\"80\" y1=\"472\" x2=\"720\" y2=\"472\" stroke=\"#d8cfb8\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n\n  <!-- rear wheel -->\n  <circle cx=\"250\" cy=\"385\" r=\"85\" fill=\"none\" stroke=\"#334155\" stroke-width=\"10\"/>\n  <circle cx=\"250\" cy=\"385\" r=\"72\" fill=\"none\" stroke=\"#a8b2c1\" stroke-width=\"4\"/>\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 250 385\" to=\"360 250 385\" dur=\"4s\" repeatCount=\"indefinite\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"322\" y2=\"385\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"301\" y2=\"334\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"250\" y2=\"313\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"199\" y2=\"334\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"178\" y2=\"385\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"199\" y2=\"436\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"250\" y2=\"457\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"301\" y2=\"436\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <circle cx=\"250\" cy=\"313\" r=\"6\" fill=\"#f59e0b\"/>\n    <circle cx=\"250\" cy=\"385\" r=\"8\" fill=\"#334155\"/>\n  </g>\n\n  <!-- front wheel -->\n  <circle cx=\"550\" cy=\"385\" r=\"85\" fill=\"none\" stroke=\"#334155\" stroke-width=\"10\"/>\n  <circle cx=\"550\" cy=\"385\" r=\"72\" fill=\"none\" stroke=\"#a8b2c1\" stroke-width=\"4\"/>\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 550 385\" to=\"360 550 385\" dur=\"4s\" repeatCount=\"indefinite\"/>\n    <line x1=\"550\" y1=\"385\" x2=\"622\" y2=\"385\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"550\" y1=\"385\" x2=\"601\" y2=\"334\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"550\" y1=\"385\" x2=\"550\" y2=\"313\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"550\" y1=\"385\" x2=\"499\" y2=\"334\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"550\" y1=\"385\" x2=\"478\" y2=\"385\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"550\" y1=\"385\" x2=\"499\" y2=\"436\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"550\" y1=\"385\" x2=\"550\" y2=\"457\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <line x1=\"550\" y1=\"385\" x2=\"601\" y2=\"436\" stroke=\"#64748b\" stroke-width=\"4\"/>\n    <circle cx=\"550\" cy=\"313\" r=\"6\" fill=\"#f59e0b\"/>\n    <circle cx=\"550\" cy=\"385\" r=\"8\" fill=\"#334155\"/>\n  </g>\n\n  <!-- frame -->\n  <g fill=\"none\" stroke=\"#0f766e\" stroke-linecap=\"round\">\n    <line x1=\"250\" y1=\"385\" x2=\"385\" y2=\"385\" stroke-width=\"8\"/>\n    <line x1=\"250\" y1=\"385\" x2=\"330\" y2=\"268\" stroke-width=\"7\"/>\n    <line x1=\"385\" y1=\"385\" x2=\"330\" y2=\"268\" stroke-width=\"8\"/>\n    <line x1=\"385\" y1=\"385\" x2=\"512\" y2=\"275\" stroke-width=\"9\"/>\n    <line x1=\"330\" y1=\"268\" x2=\"512\" y2=\"275\" stroke-width=\"7\"/>\n    <line x1=\"512\" y1=\"275\" x2=\"550\" y2=\"385\" stroke-width=\"8\"/>\n    <line x1=\"522\" y1=\"284\" x2=\"550\" y2=\"385\" stroke-width=\"5\"/>\n    <line x1=\"505\" y1=\"260\" x2=\"518\" y2=\"292\" stroke-width=\"8\"/>\n    <line x1=\"512\" y1=\"275\" x2=\"528\" y2=\"232\" stroke-width=\"6\"/>\n    <line x1=\"503\" y1=\"226\" x2=\"549\" y2=\"238\" stroke-width=\"7\"/>\n  </g>\n  <line x1=\"542\" y1=\"235\" x2=\"554\" y2=\"240\" stroke=\"#1f2937\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n\n  <!-- chain and rings -->\n  <circle cx=\"250\" cy=\"385\" r=\"10\" fill=\"none\" stroke=\"#475569\" stroke-width=\"4\"/>\n  <circle cx=\"385\" cy=\"385\" r=\"20\" fill=\"none\" stroke=\"#475569\" stroke-width=\"5\"/>\n  <line x1=\"250\" y1=\"375\" x2=\"385\" y2=\"365\" stroke=\"#334155\" stroke-width=\"4\"/>\n  <line x1=\"250\" y1=\"395\" x2=\"385\" y2=\"405\" stroke=\"#334155\" stroke-width=\"4\"/>\n\n  <!-- crank and pedals -->\n  <g>\n    <animateTransform attributeName=\"transform\" type=\"rotate\" from=\"0 385 385\" to=\"360 385 385\" dur=\"4s\" repeatCount=\"indefinite\"/>\n    <line x1=\"385\" y1=\"385\" x2=\"415\" y2=\"385\" stroke=\"#1f2937\" stroke-width=\"8\" stroke-linecap=\"round\"/>\n    <line x1=\"385\" y1=\"385\" x2=\"355\" y2=\"385\" stroke=\"#1f2937\" stroke-width=\"8\" stroke-linecap=\"round\"/>\n    <rect x=\"405\" y=\"380\" width=\"20\" height=\"10\" rx=\"3\" fill=\"#111827\"/>\n    <rect x=\"345\" y=\"380\" width=\"20\" height=\"10\" rx=\"3\" fill=\"#111827\"/>\n    <circle cx=\"385\" cy=\"385\" r=\"6\" fill=\"#64748b\"/>\n  </g>\n\n  <!-- far pedaling leg -->\n  <path fill=\"none\" stroke=\"#edb06f\" stroke-width=\"12\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\n        d=\"M322 238 L395 298.8 L355 385\">\n    <animate attributeName=\"d\" dur=\"4s\" repeatCount=\"indefinite\"\n      keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n      values=\"M322 238 L395 298.8 L355 385;\n              M322 238 L407.5 279.4 L363.8 363.8;\n              M322 238 L413.3 264.3 L385 355;\n              M322 238 L411.8 269 L406.2 363.8;\n              M322 238 L400.8 291.1 L415 385;\n              M322 238 L376.1 316.1 L406.2 406.2;\n              M322 238 L366.8 321.8 L385 415;\n              M322 238 L380.7 312.7 L363.8 406.2;\n              M322 238 L395 298.8 L355 385\"/>\n  </path>\n\n  <!-- saddle -->\n  <line x1=\"330\" y1=\"268\" x2=\"325\" y2=\"250\" stroke=\"#334155\" stroke-width=\"6\" stroke-linecap=\"round\"/>\n  <rect x=\"300\" y=\"244\" width=\"52\" height=\"11\" rx=\"5.5\" fill=\"#334155\"/>\n\n  <!-- pelican body -->\n  <path d=\"M265 172 L205 158 L250 196 Z\" fill=\"#e2e8f0\" stroke=\"#cbd5e1\" stroke-width=\"3\" stroke-linejoin=\"round\"/>\n  <ellipse cx=\"330\" cy=\"188\" rx=\"82\" ry=\"57\" fill=\"#fbffff\" stroke=\"#cbd5e1\" stroke-width=\"3\" transform=\"rotate(-8 330 188)\"/>\n  <path d=\"M292 176 C330 154 376 170 372 204 C368 232 322 238 296 214 C278 197 278 190 292 176 Z\" fill=\"#e2e8f0\" stroke=\"#94a3b8\" stroke-width=\"3\" stroke-linejoin=\"round\"/>\n\n  <!-- neck and head -->\n  <path d=\"M378 178 C414 168 430 132 448 104\" fill=\"none\" stroke=\"#cbd5e1\" stroke-width=\"34\" stroke-linecap=\"round\"/>\n  <path d=\"M378 178 C414 168 430 132 448 104\" fill=\"none\" stroke=\"#fbffff\" stroke-width=\"26\" stroke-linecap=\"round\"/>\n  <circle cx=\"464\" cy=\"98\" r=\"28\" fill=\"#fbffff\" stroke=\"#cbd5e1\" stroke-width=\"3\"/>\n\n  <!-- bill and throat pouch -->\n  <path d=\"M486 106 C528 112 556 146 544 184 C528 218 482 214 466 182 C452 154 462 118 486 106 Z\" fill=\"#fcd34d\" stroke=\"#b45309\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n  <path d=\"M484 86 L650 100 L646 112 L486 108 Z\" fill=\"#fbbf24\" stroke=\"#b45309\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n  <path d=\"M488 104 L648 100\" fill=\"none\" stroke=\"#b45309\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n  <circle cx=\"470\" cy=\"92\" r=\"5\" fill=\"#1f2937\"/>\n  <circle cx=\"472\" cy=\"90\" r=\"1.5\" fill=\"#ffffff\"/>\n\n  <!-- near pedaling leg -->\n  <path fill=\"none\" stroke=\"#fb923c\" stroke-width=\"13\" stroke-linecap=\"round\" stroke-linejoin=\"round\"\n        d=\"M348 238 L427 290.8 L415 385\">\n    <animate attributeName=\"d\" dur=\"4s\" repeatCount=\"indefinite\"\n      keyTimes=\"0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1\"\n      values=\"M348 238 L427 290.8 L415 385;\n              M348 238 L408.5 311.2 L406.2 406.2;\n              M348 238 L395.1 320.5 L385 415;\n              M348 238 L399.2 318 L363.8 406.2;\n              M348 238 L411.5 308.6 L355 385;\n              M348 238 L426.1 292.1 L363.8 363.8;\n              M348 238 L435.7 274.6 L385 355;\n              M348 238 L436.1 273.6 L406.2 363.8;\n              M348 238 L427 290.8 L415 385\"/>\n  </path>\n</svg>",
+      "startedAt": "2026-11-02T04:00:16.887Z",
+      "request": {
+        "model": "LongCat-2.5",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 32768,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking_budget": 8192,
+        "thinking": {
+          "type": "enabled"
+        }
+      },
+      "firstContentMs": 241392.82875000002,
+      "firstReasoningMs": 1454.867792,
+      "firstEventMs": 1454.865208,
+      "usage": {
+        "completion_tokens": 20427,
+        "prompt_tokens": 155,
+        "total_tokens": 20582,
+        "completion_tokens_details": {
+          "reasoning_tokens": 16602
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "audio_tokens": 0,
+          "image_tokens": 0,
+          "video_tokens": 0,
+          "text_tokens": 0,
+          "cache_write_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "LongCat-2.5",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-11-02T04:04:55.420Z",
+      "totalMs": 278546.339833,
+      "promptTokens": 155,
+      "outputTokens": 20427,
+      "reasoningTokens": 16602,
+      "renderable": true,
+      "svgPath": "/evaluations/longcat-2-5-release/assets/pelican-animation-default-attempt-3.svg",
+      "svgSha256": "afeb950c7062375bf7f8d3de52be8e48131b57e2c8e5f6bc65a81384e653a0c5",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [],
+      "pngPath": "/evaluations/longcat-2-5-release/assets/pelican-animation-default-attempt-3.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "0078aa27d7584460de9ed8fb6fae013a313955d00324b433d2bf519522a21597",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "attemptNumber": 3,
+      "timeoutMs": 600000,
+      "thinkingBudgetRequested": 8192,
+      "animationRender": {
+        "path": "/evaluations/longcat-2-5-release/assets/pelican-animation-default-attempt-3.webp",
+        "sha256": "33e241d09ec085a7277ad0416a6bb6fc401c4876a9a2f0828e0a3ef732ce6563",
+        "durationSeconds": 4,
+        "fps": 10,
+        "frames": 40,
+        "width": 800,
+        "height": 600,
+        "uniqueFrames": 40,
+        "loopBoundaryMatchesStart": false,
+        "loopBoundaryMeanAbsoluteError": 0.0008965277777777778,
+        "frameHashes": [
+          "359a8d1d25877d844119e3d08f639cd2b7718674f4507383d93f22c94ded58af",
+          "26780e50e5154b2308b03afa2fb7d0a27e98d3085e95f2c5f7fb4fbd8beb15d5",
+          "68b5cafcef242b01399f727b245a87fd1841b1e6d3785eb9b0f991f307c71937",
+          "50fa6931b67927ebfca6ccd5569b2657a16102eb6f46bfe095d427e384062280",
+          "e34425956f17f439fc3ebf120ba5f9019b1983c313ff5493f59d7646c4be9dd9",
+          "7b8626c01410e865c1d1292d1e78731008720ef7fc1ef9eecf8e5c99117d52ef",
+          "ea0f9577ac6afde9f5888b28e34111f92b9954bb8c3667a5cb7f2793fe748c2f",
+          "f562e3b1eee7720f380db82eaa845931cdee5f077517f1ff3de9c516d3aa972f",
+          "f1b2c6d23d2dba28c1d089fa9ef323a37aec1650f3bfefb5862caf4a4dbb2d16",
+          "06f4de784a6c475d346f0f97ec57892e4b4c3b91aefefc1ea9429bd81b441b2a",
+          "4f20c74819f457a2a5d50f292621fff387e33b6d1beb59b68b05edb65d0069de",
+          "2ca5b9dd8b0574e6e8f7bc3b843b05a8b3377ddaa3ef922d3b2c23c506cd032f",
+          "49fa555a9cf17cb306165b1100afab639eeb07502f705da56195c28214f4194f",
+          "b82a8922cb83a24400986104f2a651b75e2e606bcdbc9fc2958704abbf665d42",
+          "e653ef52a935754f528265801ebf47f0661ceabcfbbe27fe7f016158e64b6842",
+          "b4d1d662d6c0161aed2da73aef919d5a59dcd722ca7a8c40ce6973f542a36692",
+          "51985b2cb445abec1f5cd62b01ecc9002dceda028380f531920758b5cdb57b1e",
+          "3e98b4e57884aae30d3d92ecfae6cae96bb18bb4782447c4c496298ca8134397",
+          "7b0811927d77d0744f0b6394a95825309a760f4a6b7301a472638b11b8d506a6",
+          "16899a9333d354544ca56b5d10515c13d9c5e82299ea14c6e29cac9f1dfeb1d3",
+          "b9418bc8e8d3654cfe50eba1ff4ef19507d59e620b70e73e0e76c1144a29b740",
+          "6f2dadd815f16070d1fccf336ed12448e3d6d499999256a77415cff192b17d3b",
+          "0e4c83ffd4555b82604ff55493969682f1f6006e2054e43033bab238d7884acb",
+          "a7628a9ce3510e7c90ca7aed9af395ac3d46f8f4f612072b698174500496bf96",
+          "a23e6c0c708b6edb2b249004fcf9d72815cee06081374bd7c8d42d75ddbe1fda",
+          "27fceda62774d65cd1f628d236f3e0b387479d92d3ee1e1b72c268a4e9a14526",
+          "562235f0a5b9f76aa19a8cc76f7dc2ed7458a858e2c5c05bf6e3c3bdfb5ea887",
+          "0bb9c5ff5976f460a4261fb171244ae492b848bd63ab62f8a80466be4f204afa",
+          "614c38218a71d6eede041f570f3696bcf494dead9c4262e44d28a5b588d530e0",
+          "cce3a769bc43db057c93ddcba4a1d7241e716d5115eeb7c28029b112e0582424",
+          "01b11366d74ddd31c68fb6a6d6d3420e29c43549566378c13c5eb7ddd8738664",
+          "c9b685a0bf7da1b10a7f9fa1f2b88eee36125569ee08cbd20b1afade11af2c54",
+          "874330ed31645a66dcb814e0c9697239bf4b513c12c58b663758e3fd5406db35",
+          "b0d7debbd060d1aae5fd4e15f21479370e67bcd1a39cf2487a807858908f0c4e",
+          "743202fc35370edfc1e7133a2454085084a569ea2e0c091a989bbfc4923bd063",
+          "9aede5437109bb5c1c21248737214e55a637fce90d2e0bf5ce1fadc1ae9e5402",
+          "94428442c0f9ef6a2ba111dc0f803078e175f90e646dcaac63fd1e8ab26d9ed7",
+          "22991fe87091781cf6fdc3cbed349b9583d74fe017607f8d6a9048eb6bb4a7e0",
+          "b35e6a794c123c27e53849fb4a7b31a6a1616653f6721101fb30beaea997d944",
+          "7c526ddf045b759aa08fc0d4b8ca342256f59a4ac069f8ffbfb8e7de1d9d0d56"
+        ],
+        "renderer": "Chromium SMIL fixed-time capture, 0.0–3.9 seconds; animated WebP, no source edits",
+        "browserVersion": "148.0.7778.96"
+      }
+    }
+  ]
+}

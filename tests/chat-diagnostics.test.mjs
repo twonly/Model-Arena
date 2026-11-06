@@ -6,6 +6,29 @@ import worker from "../cloudflare/chat-worker/src/index.js";
 const body = { kind: "openai", baseUrl: "https://provider.test/v1", apiKey: "private-key", model: "test", prompt: "hello" };
 const sse = (data) => `data: ${JSON.stringify(data)}\n\n`;
 
+test("output budget alone leaves reasoning effort at the provider default", async (t) => {
+  t.mock.method(globalThis, "fetch", async (_url, init) => {
+    const payload = JSON.parse(init.body);
+    assert.equal(payload.max_tokens, 131072);
+    assert.ok(!("reasoning" in payload));
+    assert.ok(!("reasoning_effort" in payload));
+    return new Response("data: [DONE]\n\n");
+  });
+  await pipeChat({ ...body, extraBody: '{"max_tokens":131072}' }, () => {}, new AbortController().signal);
+});
+
+test("per-model max_tokens overrides global budget without dropping reasoning or routing params", async (t) => {
+  const extra = { max_tokens: 131072, reasoning: { effort: "low" }, provider: { max_price: { completion: 0 } } };
+  t.mock.method(globalThis, "fetch", async (_url, init) => {
+    const payload = JSON.parse(init.body);
+    for (const [key, value] of Object.entries(extra)) assert.deepEqual(payload[key], value);
+    return new Response(sse({ choices: [{ delta: { content: "partial" }, finish_reason: "length" }] }) + "data: [DONE]\n\n");
+  });
+  const events = [];
+  await pipeChat({ ...body, maxTokens: "65536", extraBody: JSON.stringify(extra) }, (event) => events.push(event), new AbortController().signal);
+  assert.equal(events.at(-1).finishReason, "length");
+});
+
 test("diagnostics distinguish headers, bytes and real tokens, preserving only safe provider fields", async (t) => {
   let clock = 0;
   t.mock.method(performance, "now", () => clock);

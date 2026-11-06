@@ -6,6 +6,8 @@
 import type { SharedModel } from "./shared-models";
 
 const PROVIDER_ENV: Record<SharedModel["provider"], string> = {
+  longcat: "SHARED_KEY_LONGCAT",
+  minimax: "SHARED_KEY_MINIMAX",
   deepseek: "SHARED_KEY_DEEPSEEK",
   zhipu: "SHARED_KEY_ZHIPU",
   orcarouter: "SHARED_KEY_ORCAROUTER",

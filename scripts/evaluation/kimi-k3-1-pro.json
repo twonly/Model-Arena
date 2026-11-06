@@ -1,0 +1,323 @@
+{
+  "model": "kimi-k3.1-pro",
+  "version": "Kimi K3.1 Pro",
+  "endpoint": "https://api.moonshot.ai/v1",
+  "keyEnv": "KIMI_EVAL_API_KEY",
+  "modes": {
+    "default": {},
+    "low": {
+      "reasoning_effort": "low"
+    },
+    "max": {
+      "reasoning_effort": "max"
+    }
+  },
+  "extraBody": {},
+  "maxTokens": 12288,
+  "timeoutMs": 600000,
+  "versionSource": "https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart",
+  "method": "NOT RUN. Requires a separately configured metered Moonshot API key. Never use the Coding Plan subscription endpoint for this scripted batch. Metered Moonshot API only. Do not run this scripted batch against a Kimi Coding Plan subscription endpoint. Fifteen fixed text tasks, three JavaScript tasks, four SVG tasks and one SMIL task across default (documented max), low and explicit max; off unsupported. Initial limit 12,288 completion tokens, timeout 600 seconds, sampling parameters omitted (fixed by provider). Failed SVG/animation outputs are independently retried without edits or feedback and every attempt is preserved. Default and explicit max are independent replicates of the same documented effort.",
+  "tasks": [
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      }
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      }
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      }
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      }
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      }
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "format-4",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "format-5",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1"
+    },
+    {
+      "id": "grounded-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      }
+    },
+    {
+      "id": "grounded-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      }
+    },
+    {
+      "id": "grounded-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      }
+    },
+    {
+      "id": "grounded-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      }
+    },
+    {
+      "id": "grounded-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      }
+    },
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "category": "coding",
+      "version": "code-small-functions-v1"
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "category": "coding",
+      "version": "code-small-functions-v1"
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "category": "coding",
+      "version": "code-small-functions-v1"
+    },
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ]
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ]
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ]
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ]
+    },
+    {
+      "id": "pelican-animation",
+      "animation": true,
+      "title": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "prompt": "Return only a complete self-contained animated SVG with viewBox=\"0 0 800 600\". Draw a recognizable pelican riding a bicycle: long bill and throat pouch, two wheels, connected frame, saddle and handlebar. Animate rotating wheel spokes and a rotating crank with pedaling legs that remain attached to the rider and pedals. Use SVG SMIL animateTransform/animate/animateMotion only (no CSS animation), with a seamless 4-second repeating loop. Keep the whole bicycle and bird on the canvas. Use a light background. No scripts, foreignObject, external assets, external fonts or embedded images. Use only local SVG shapes and text. The animation must visibly move, not just contain animation tags.",
+      "rubricZh": [
+        "长喙、喉囊和两轮车架可辨认",
+        "轮辐与脚踏转动，腿部连接自然",
+        "4 秒循环连贯，主体不出画布"
+      ],
+      "rubricEn": [
+        "Recognizable pelican and connected bicycle",
+        "Moving spokes and crank; coherent leg joints",
+        "Continuous four-second loop with no clipping"
+      ]
+    }
+  ],
+  "executionStatus": "not-run"
+}

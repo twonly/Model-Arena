@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FCFAF4"/>
+      <stop offset="1" stop-color="#ECE8DC"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 背景 -->
+  <rect x="0" y="0" width="800" height="600" fill="url(#bgGrad)"/>
+
+  <!-- 主标题 -->
+  <text x="400" y="118" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC','Source Han Sans SC',sans-serif"
+        font-size="54" font-weight="700" fill="#1F3B36" letter-spacing="3">周末骑行计划</text>
+
+  <!-- 副标题 -->
+  <text x="400" y="164" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC','Source Han Sans SC',sans-serif"
+        font-size="26" font-weight="400" fill="#77897F" letter-spacing="4">慢一点，看见城市</text>
+
+  <!-- 自行车图标 -->
+  <g fill="none" stroke="#2F6F66" stroke-width="4" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="340" cy="285" r="42"/>
+    <circle cx="460" cy="285" r="42"/>
+    <path d="M340 285 L368 232"/>
+    <path d="M340 285 L400 285"/>
+    <path d="M400 285 L368 232"/>
+    <path d="M368 232 L438 228"/>
+    <path d="M400 285 L438 228"/>
+    <path d="M438 228 L460 285"/>
+    <path d="M438 228 L446 211"/>
+    <path d="M432 208 L456 206"/>
+    <path d="M352 229 L384 229" stroke-width="7"/>
+  </g>
+
+  <!-- 时间 -->
+  <text x="400" y="408" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC','Source Han Sans SC',sans-serif"
+        font-size="30" font-weight="600" fill="#223C38" letter-spacing="1">10月24日 09:00</text>
+
+  <!-- 地点 -->
+  <text x="400" y="452" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC','Source Han Sans SC',sans-serif"
+        font-size="30" font-weight="600" fill="#223C38" letter-spacing="1">滨江公园东门</text>
+
+  <!-- 说明 -->
+  <text x="400" y="492" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC','Source Han Sans SC',sans-serif"
+        font-size="15" font-weight="400" fill="#95A29E" letter-spacing="1">自备头盔 · 全程12公里</text>
+
+  <!-- 按钮 -->
+  <rect x="320" y="518" width="160" height="50" rx="25" fill="#2F6F66"/>
+  <text x="400" y="550" text-anchor="middle"
+        font-family="'PingFang SC','Hiragino Sans GB','Microsoft YaHei','Noto Sans SC','Source Han Sans SC',sans-serif"
+        font-size="20" font-weight="600" fill="#FFFFFF" letter-spacing="2">立即报名</text>
+</svg>

@@ -1,0 +1,78 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" role="img" aria-labelledby="svgTitle svgDesc" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif">
+  <title id="svgTitle">Quarterly Revenue</title>
+  <desc id="svgDesc">A vertical bar chart showing Q1 at 12, Q2 at 24, Q3 at 18, and Q4 at 30. Total revenue is 84 and Q4 is the best quarter.</desc>
+
+  <defs>
+    <filter id="cardShadow" x="-10%" y="-10%" width="120%" height="125%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="6" stdDeviation="12" flood-color="#263654" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="#F5F7FB"/>
+
+  <rect x="40" y="40" width="720" height="520" rx="24" fill="#FFFFFF" stroke="#E7ECF3" filter="url(#cardShadow)"/>
+
+  <!-- Header -->
+  <rect x="76" y="66" width="44" height="44" rx="13" fill="#EEF2FF"/>
+  <rect x="87" y="88" width="5" height="12" rx="2.5" fill="#9AAFF6"/>
+  <rect x="96" y="79" width="5" height="21" rx="2.5" fill="#718AF0"/>
+  <rect x="105" y="72" width="5" height="28" rx="2.5" fill="#4B63D8"/>
+
+  <text x="134" y="96" fill="#182230" font-size="28" font-weight="700" letter-spacing="-0.5">Quarterly Revenue</text>
+  <text x="134" y="122" fill="#718096" font-size="14">Revenue by quarter</text>
+
+  <rect x="474" y="72" width="112" height="40" rx="12" fill="#F4F6FA" stroke="#E8ECF2"/>
+  <text x="530" y="97" text-anchor="middle" fill="#3E4C60" font-size="14" font-weight="600">Total: 84</text>
+
+  <rect x="598" y="72" width="126" height="40" rx="12" fill="#EEF2FF" stroke="#DFE6FF"/>
+  <text x="661" y="97" text-anchor="middle" fill="#4257C6" font-size="14" font-weight="700">Best: Q4</text>
+
+  <line x1="76" y1="144" x2="724" y2="144" stroke="#EDF0F5"/>
+
+  <!-- Chart grid and y-axis: 8 pixels per unit -->
+  <g stroke="#E9EDF3" stroke-width="1">
+    <line x1="142" y1="238" x2="694" y2="238"/>
+    <line x1="142" y1="318" x2="694" y2="318"/>
+    <line x1="142" y1="398" x2="694" y2="398"/>
+  </g>
+
+  <line x1="142" y1="238" x2="142" y2="478" stroke="#D8E0EA" stroke-width="1.25"/>
+
+  <g stroke="#CBD5E1" stroke-width="1.25">
+    <line x1="136" y1="238" x2="142" y2="238"/>
+    <line x1="136" y1="318" x2="142" y2="318"/>
+    <line x1="136" y1="398" x2="142" y2="398"/>
+    <line x1="136" y1="478" x2="142" y2="478"/>
+  </g>
+
+  <g fill="#7C8798" font-size="13" text-anchor="end">
+    <text x="122" y="242">30</text>
+    <text x="122" y="322">20</text>
+    <text x="122" y="402">10</text>
+    <text x="122" y="482">0</text>
+  </g>
+
+  <!-- Bars share the y=478 baseline; heights are 96, 192, 144, and 240 -->
+  <rect x="182" y="382" width="76" height="96" rx="10" fill="#B2C5FB"/>
+  <rect x="314" y="286" width="76" height="192" rx="10" fill="#8EABF8"/>
+  <rect x="446" y="334" width="76" height="144" rx="10" fill="#9FB7F9"/>
+  <rect x="578" y="238" width="76" height="240" rx="10" fill="#5270E8"/>
+
+  <line x1="142" y1="478" x2="694" y2="478" stroke="#AEBACA" stroke-width="1.5"/>
+
+  <!-- Values -->
+  <g text-anchor="middle" font-size="16" font-weight="700">
+    <text x="220" y="368" fill="#25324A">12</text>
+    <text x="352" y="272" fill="#25324A">24</text>
+    <text x="484" y="320" fill="#25324A">18</text>
+    <text x="616" y="224" fill="#405BD6">30</text>
+  </g>
+
+  <!-- Quarter labels -->
+  <g text-anchor="middle" font-size="14" font-weight="600">
+    <text x="220" y="512" fill="#667085">Q1</text>
+    <text x="352" y="512" fill="#667085">Q2</text>
+    <text x="484" y="512" fill="#667085">Q3</text>
+    <text x="616" y="512" fill="#4257C6" font-weight="700">Q4</text>
+  </g>
+</svg>

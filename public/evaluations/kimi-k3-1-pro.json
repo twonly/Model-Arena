@@ -1,0 +1,2742 @@
+{
+  "status": "partial-quota",
+  "model": "k3.1-pro",
+  "version": "Kimi K3.1 Pro",
+  "endpoint": "https://api.kimi.com/coding",
+  "suiteVersion": "tasks-2026-09-26.1",
+  "params": {
+    "systemPrompt": "",
+    "temperature": null,
+    "topP": null,
+    "samplingParametersOmitted": true,
+    "maxTokens": 12288,
+    "timeoutMs": 600000,
+    "maxTokenAccounting": "Anthropic max_tokens includes thinking and final output; no separate thinking.budget_tokens configured.",
+    "promptTokenAccounting": "Normalized promptTokens = usage.input_tokens + usage.cache_read_input_tokens + usage.cache_creation_input_tokens; raw usage fields preserved."
+  },
+  "effort": "Native output_config.effort low/max; omitted effort defaults to max.",
+  "modes": {
+    "default": {
+      "zh": "请求默认参数（文档为 max）",
+      "en": "Requested default (documented max)"
+    },
+    "low": {
+      "zh": "请求参数 · low",
+      "en": "Requested parameter · low"
+    },
+    "max": {
+      "zh": "请求参数 · max",
+      "en": "Requested parameter · max"
+    }
+  },
+  "measurementOrigin": "Local macOS client; official Kimi Coding Plan native Anthropic Messages endpoint; at most three simultaneous requests; no inference region claim.",
+  "attempts": [
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "default",
+      "status": "error",
+      "text": "",
+      "startedAt": "2026-10-24T01:41:49.321Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": null,
+      "firstEventMs": null,
+      "usage": null,
+      "finishReason": null,
+      "error": "HTTP 429: {\"error\":{\"type\":\"rate_limit_error\",\"message\":\"You've reached your 5-hour usage limit. Your quota will reset when the current 5-hour window ends. To continue now, purchase extra usage or upgrade your plan: https://www.kimi.com/membership/subscription?tab=quota\"},\"type\":\"error\"}",
+      "returnedModel": null,
+      "httpStatus": 429,
+      "transport": "node:https",
+      "errorCode": null,
+      "finishedAt": "2026-10-24T01:41:49.492Z",
+      "totalMs": 171.5272920000134,
+      "promptTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null,
+      "pass": false
+    },
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-24T01:32:57.711Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 3313.954333999951,
+      "firstReasoningMs": 2590.0957499999786,
+      "firstEventMs": 2590.0954589999747,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 160,
+        "output_tokens": 56,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 23
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:01.104Z",
+      "totalMs": 3393.694709000003,
+      "promptTokens": 160,
+      "outputTokens": 56,
+      "reasoningTokens": 23,
+      "pass": true
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-24T01:33:01.107Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 3552.766957999964,
+      "firstReasoningMs": 2107.9312909999862,
+      "firstEventMs": 2107.930915999983,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 162,
+        "output_tokens": 110,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 75
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:04.661Z",
+      "totalMs": 3553.356124999991,
+      "promptTokens": 162,
+      "outputTokens": 110,
+      "reasoningTokens": 75,
+      "pass": true
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-24T01:33:04.664Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 3944.6441249999916,
+      "firstReasoningMs": 2874.243124999979,
+      "firstEventMs": 2874.242749999976,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 160,
+        "output_tokens": 69,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 36
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:08.611Z",
+      "totalMs": 3946.193290999974,
+      "promptTokens": 160,
+      "outputTokens": 69,
+      "reasoningTokens": 36,
+      "pass": true
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "startedAt": "2026-10-24T01:33:08.615Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 3578.008375000034,
+      "firstReasoningMs": 2590.2983329999843,
+      "firstEventMs": 2590.29800000001,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 164,
+        "output_tokens": 78,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 42
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:12.195Z",
+      "totalMs": 3580.4870409999858,
+      "promptTokens": 164,
+      "outputTokens": 78,
+      "reasoningTokens": 42,
+      "pass": true
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-24T01:33:12.198Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 3555.2164999999804,
+      "firstReasoningMs": 2624.826040999964,
+      "firstEventMs": 2624.825790999981,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 160,
+        "output_tokens": 74,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 41
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:15.807Z",
+      "totalMs": 3609.6606249999604,
+      "promptTokens": 160,
+      "outputTokens": 74,
+      "reasoningTokens": 41,
+      "pass": true
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "low",
+      "status": "done",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-24T01:33:15.817Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2810.7972079999745,
+      "firstReasoningMs": 2090.1520829999936,
+      "firstEventMs": 2090.151291999966,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 125,
+        "output_tokens": 47,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 24
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:18.634Z",
+      "totalMs": 2817.3988329999847,
+      "promptTokens": 125,
+      "outputTokens": 47,
+      "reasoningTokens": 24,
+      "pass": true
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "low",
+      "status": "done",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-24T01:33:18.637Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2147.268624999968,
+      "firstReasoningMs": 1303.0792919999803,
+      "firstEventMs": 1303.078749999986,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 126,
+        "output_tokens": 65,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 41
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:20.791Z",
+      "totalMs": 2153.969832999981,
+      "promptTokens": 126,
+      "outputTokens": 65,
+      "reasoningTokens": 41,
+      "pass": true
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "low",
+      "status": "done",
+      "text": "[3, 8, 12, 25]",
+      "startedAt": "2026-10-24T01:33:20.795Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 1772.6983749999781,
+      "firstReasoningMs": 781.5182919999934,
+      "firstEventMs": 781.5178339999984,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 117,
+        "output_tokens": 84,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 57
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:22.614Z",
+      "totalMs": 1819.2079999999842,
+      "promptTokens": 117,
+      "outputTokens": 84,
+      "reasoningTokens": 57,
+      "pass": true
+    },
+    {
+      "id": "format-4",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "low",
+      "status": "done",
+      "text": "APPLE\nPEAR\nPLUM",
+      "startedAt": "2026-10-24T01:33:22.617Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2577.8881670000264,
+      "firstReasoningMs": 1311.4791250000126,
+      "firstEventMs": 1311.4781250000233,
+      "usage": {
+        "input_tokens": 121,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 42,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 21
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:25.202Z",
+      "totalMs": 2584.9376670000493,
+      "promptTokens": 121,
+      "outputTokens": 42,
+      "reasoningTokens": 21,
+      "pass": true
+    },
+    {
+      "id": "format-5",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "low",
+      "status": "done",
+      "text": "TX-103|TX-207|TX-309",
+      "startedAt": "2026-10-24T01:33:25.206Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2304.508124999993,
+      "firstReasoningMs": 1562.333459000045,
+      "firstEventMs": 1562.3327500000014,
+      "usage": {
+        "input_tokens": 132,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 73,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 47
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:27.524Z",
+      "totalMs": 2318.270125000039,
+      "promptTokens": 132,
+      "outputTokens": 73,
+      "reasoningTokens": 47,
+      "pass": true
+    },
+    {
+      "id": "grounded-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"usable\":9,\"nextDelivery\":\"周二\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:33:27.527Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2164.904375000042,
+      "firstReasoningMs": 1272.4329580000485,
+      "firstEventMs": 1272.4326670000446,
+      "usage": {
+        "input_tokens": 184,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 74,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 45
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:29.693Z",
+      "totalMs": 2165.9973330000066,
+      "promptTokens": 184,
+      "outputTokens": 74,
+      "reasoningTokens": 45,
+      "pass": true
+    },
+    {
+      "id": "grounded-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"usable\":16,\"nextDelivery\":\"周三\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:33:29.698Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2892.9927920000046,
+      "firstReasoningMs": 1500.613874999981,
+      "firstEventMs": 1500.613416999986,
+      "usage": {
+        "input_tokens": 184,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 95,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 66
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:32.592Z",
+      "totalMs": 2893.2870840000105,
+      "promptTokens": 184,
+      "outputTokens": 95,
+      "reasoningTokens": 66,
+      "pass": true
+    },
+    {
+      "id": "grounded-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"usable\":12,\"nextDelivery\":\"周四\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:33:32.593Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2247.970666999987,
+      "firstReasoningMs": 1607.554124999966,
+      "firstEventMs": 1607.5537089999998,
+      "usage": {
+        "input_tokens": 184,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 45,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 16
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:34.973Z",
+      "totalMs": 2379.9145000000135,
+      "promptTokens": 184,
+      "outputTokens": 45,
+      "reasoningTokens": 16,
+      "pass": true
+    },
+    {
+      "id": "grounded-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"usable\":20,\"nextDelivery\":\"周五\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:33:34.977Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2787.851207999978,
+      "firstReasoningMs": 1614.8256670000264,
+      "firstEventMs": 1614.825124999974,
+      "usage": {
+        "input_tokens": 184,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 85,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 56
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:37.809Z",
+      "totalMs": 2831.757916999981,
+      "promptTokens": 184,
+      "outputTokens": 85,
+      "reasoningTokens": 56,
+      "pass": true
+    },
+    {
+      "id": "grounded-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      },
+      "mode": "low",
+      "status": "done",
+      "text": "{\"usable\":14,\"nextDelivery\":\"周一\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:33:37.815Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 2366.6287090000114,
+      "firstReasoningMs": 1548.2874999999767,
+      "firstEventMs": 1548.28695899999,
+      "usage": {
+        "input_tokens": 184,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 51,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 22
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:40.188Z",
+      "totalMs": 2373.7609999999986,
+      "promptTokens": 184,
+      "outputTokens": 51,
+      "reasoningTokens": 22,
+      "pass": true
+    },
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "startedAt": "2026-10-24T01:38:21.470Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 4260.434582999907,
+      "firstReasoningMs": 2623.0225830000127,
+      "firstEventMs": 2623.022291000001,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 159,
+        "output_tokens": 110,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 77
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:25.731Z",
+      "totalMs": 4261.383333000005,
+      "promptTokens": 159,
+      "outputTokens": 110,
+      "reasoningTokens": 77,
+      "pass": true
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "startedAt": "2026-10-24T01:38:25.734Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 4310.1398749999935,
+      "firstReasoningMs": 2541.2631249999395,
+      "firstEventMs": 2541.262832999928,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 161,
+        "output_tokens": 153,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 118
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:30.045Z",
+      "totalMs": 4310.8720419999445,
+      "promptTokens": 161,
+      "outputTokens": 153,
+      "reasoningTokens": 118,
+      "pass": true
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "startedAt": "2026-10-24T01:38:30.048Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 3778.889582999982,
+      "firstReasoningMs": 2601.0681249999907,
+      "firstEventMs": 2601.067541999975,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 159,
+        "output_tokens": 95,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 62
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:33.832Z",
+      "totalMs": 3783.905541999964,
+      "promptTokens": 159,
+      "outputTokens": 95,
+      "reasoningTokens": 62,
+      "pass": true
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "startedAt": "2026-10-24T01:38:33.835Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 4675.230667000054,
+      "firstReasoningMs": 2627.3475839999737,
+      "firstEventMs": 2627.346375000081,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 163,
+        "output_tokens": 138,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 102
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:38.511Z",
+      "totalMs": 4675.804125000024,
+      "promptTokens": 163,
+      "outputTokens": 138,
+      "reasoningTokens": 102,
+      "pass": true
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "startedAt": "2026-10-24T01:38:38.515Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 4786.6090829999885,
+      "firstReasoningMs": 2956.872250000015,
+      "firstEventMs": 2956.871625000029,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 159,
+        "output_tokens": 136,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 103
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:43.302Z",
+      "totalMs": 4787.2036249999655,
+      "promptTokens": 159,
+      "outputTokens": 136,
+      "reasoningTokens": 103,
+      "pass": true
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "max",
+      "status": "done",
+      "text": "B2,A1,C3,D4",
+      "startedAt": "2026-10-24T01:38:43.305Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 3629.458209000062,
+      "firstReasoningMs": 2165.641750000068,
+      "firstEventMs": 2165.6407090000575,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 124,
+        "output_tokens": 133,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 110
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:46.935Z",
+      "totalMs": 3629.920625000028,
+      "promptTokens": 124,
+      "outputTokens": 133,
+      "reasoningTokens": 110,
+      "pass": true
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "max",
+      "status": "done",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "startedAt": "2026-10-24T01:38:46.939Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 3541.626624999917,
+      "firstReasoningMs": 2595.597415999975,
+      "firstEventMs": 2595.5968329999596,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 125,
+        "output_tokens": 72,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 48
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:50.514Z",
+      "totalMs": 3575.3787079999456,
+      "promptTokens": 125,
+      "outputTokens": 72,
+      "reasoningTokens": 48,
+      "pass": true
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "max",
+      "status": "done",
+      "text": "[3, 8, 12, 25]",
+      "startedAt": "2026-10-24T01:38:50.519Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 2392.6277080000145,
+      "firstReasoningMs": 1137.3504160000011,
+      "firstEventMs": 1137.3497080000816,
+      "usage": {
+        "input_tokens": 0,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 116,
+        "output_tokens": 92,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 65
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:52.913Z",
+      "totalMs": 2393.2987910000375,
+      "promptTokens": 116,
+      "outputTokens": 92,
+      "reasoningTokens": 65,
+      "pass": true
+    },
+    {
+      "id": "format-4",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "max",
+      "status": "done",
+      "text": "APPLE\nPEAR\nPLUM",
+      "startedAt": "2026-10-24T01:38:52.918Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 2879.78354199999,
+      "firstReasoningMs": 1153.4588750000112,
+      "firstEventMs": 1153.458333000075,
+      "usage": {
+        "input_tokens": 120,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 125,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 104
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:55.798Z",
+      "totalMs": 2879.9237500000745,
+      "promptTokens": 120,
+      "outputTokens": 125,
+      "reasoningTokens": 104,
+      "pass": true
+    },
+    {
+      "id": "format-5",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "max",
+      "status": "done",
+      "text": "TX-103|TX-207|TX-309",
+      "startedAt": "2026-10-24T01:38:55.800Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 2823.6559579999885,
+      "firstReasoningMs": 1411.2764579999493,
+      "firstEventMs": 1411.2757920000004,
+      "usage": {
+        "input_tokens": 131,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 98,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 72
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:38:58.624Z",
+      "totalMs": 2824.586250000051,
+      "promptTokens": 131,
+      "outputTokens": 98,
+      "reasoningTokens": 72,
+      "pass": true
+    },
+    {
+      "id": "grounded-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"usable\":9,\"nextDelivery\":\"周二\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:38:58.636Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 2919.6747500000056,
+      "firstReasoningMs": 1171.1832080000313,
+      "firstEventMs": 1171.1820000000298,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 149,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 120
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:39:01.556Z",
+      "totalMs": 2919.8705410000402,
+      "promptTokens": 183,
+      "outputTokens": 149,
+      "reasoningTokens": 120,
+      "pass": true
+    },
+    {
+      "id": "grounded-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"usable\":16,\"nextDelivery\":\"周三\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:39:01.557Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 3360.980749999988,
+      "firstReasoningMs": 1366.1245000000345,
+      "firstEventMs": 1366.124208000023,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 126,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 97
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:39:04.919Z",
+      "totalMs": 3361.935415999964,
+      "promptTokens": 183,
+      "outputTokens": 126,
+      "reasoningTokens": 97,
+      "pass": true
+    },
+    {
+      "id": "grounded-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"usable\":12,\"nextDelivery\":\"周四\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:39:04.922Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 3935.749542000005,
+      "firstReasoningMs": 1491.6664999999339,
+      "firstEventMs": 1491.6655829999363,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 178,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 149
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:39:08.858Z",
+      "totalMs": 3936.3906669999706,
+      "promptTokens": 183,
+      "outputTokens": 178,
+      "reasoningTokens": 149,
+      "pass": true
+    },
+    {
+      "id": "grounded-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"usable\":20,\"nextDelivery\":\"周五\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:39:08.862Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 3551.582374999998,
+      "firstReasoningMs": 1407.7283750000643,
+      "firstEventMs": 1407.7278330000117,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 133,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 104
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:39:12.414Z",
+      "totalMs": 3552.1352500000503,
+      "promptTokens": 183,
+      "outputTokens": 133,
+      "reasoningTokens": 104,
+      "pass": true
+    },
+    {
+      "id": "grounded-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      },
+      "mode": "max",
+      "status": "done",
+      "text": "{\"usable\":14,\"nextDelivery\":\"周一\",\"manager\":null}",
+      "startedAt": "2026-10-24T01:39:12.420Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 3112.1647499999963,
+      "firstReasoningMs": 1419.2839590000222,
+      "firstEventMs": 1419.2833340000361,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 121,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 92
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:39:15.533Z",
+      "totalMs": 3112.3839170000283,
+      "promptTokens": 183,
+      "outputTokens": 121,
+      "reasoningTokens": 92,
+      "pass": true
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "low",
+      "status": "done",
+      "text": "function parseCents(value) {\n  if (typeof value !== 'string') return null;\n\n  const input = value.trim();\n  if (!/^\\d+(?:\\.\\d{1,2})?$/.test(input)) return null;\n\n  const [whole, fraction = ''] = input.split('.');\n  const cents = BigInt(whole) * 100n + BigInt((fraction + '00').slice(0, 2));\n\n  return cents > BigInt(Number.MAX_SAFE_INTEGER) ? null : Number(cents);\n}",
+      "startedAt": "2026-10-24T01:33:40.191Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 11194.717582999961,
+      "firstReasoningMs": 1261.1029169999529,
+      "firstEventMs": 1261.1016669999808,
+      "usage": {
+        "input_tokens": 184,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 652,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 525
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:51.412Z",
+      "totalMs": 11220.59362499998,
+      "promptTokens": 184,
+      "outputTokens": 652,
+      "reasoningTokens": 525,
+      "executable": "function parseCents(value) {\n  if (typeof value !== 'string') return null;\n\n  const input = value.trim();\n  if (!/^\\d+(?:\\.\\d{1,2})?$/.test(input)) return null;\n\n  const [whole, fraction = ''] = input.split('.');\n  const cents = BigInt(whole) * 100n + BigInt((fraction + '00').slice(0, 2));\n\n  return cents > BigInt(Number.MAX_SAFE_INTEGER) ? null : Number(cents);\n}",
+      "pass": true,
+      "checkError": null
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "low",
+      "status": "done",
+      "text": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n\n  return result;\n}",
+      "startedAt": "2026-10-24T01:33:51.415Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 4598.087916999997,
+      "firstReasoningMs": 1513.5182500000228,
+      "firstEventMs": 1513.5172080000048,
+      "usage": {
+        "input_tokens": 159,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 201,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 129
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:33:56.089Z",
+      "totalMs": 4673.550250000029,
+      "promptTokens": 159,
+      "outputTokens": 201,
+      "reasoningTokens": 129,
+      "executable": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n\n  for (const item of items) {\n    if (!seen.has(item.id)) {\n      seen.add(item.id);\n      result.push(item);\n    }\n  }\n\n  return result;\n}",
+      "pass": true,
+      "checkError": null
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "low",
+      "status": "done",
+      "text": "function mergeIntervals(intervals) {\n  if (intervals.length === 0) return [];\n\n  const sorted = intervals.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n  const result = [];\n  let start = sorted[0][0];\n  let end = sorted[0][1];\n\n  for (let i = 1; i < sorted.length; i++) {\n    const [nextStart, nextEnd] = sorted[i];\n    if (nextStart <= end) {\n      if (nextEnd > end) end = nextEnd;\n    } else {\n      result.push([start, end]);\n      start = nextStart;\n      end = nextEnd;\n    }\n  }\n\n  result.push([start, end]);\n  return result;\n}",
+      "startedAt": "2026-10-24T01:33:56.091Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "firstContentMs": 12082.357875000045,
+      "firstReasoningMs": 3079.297542000015,
+      "firstEventMs": 3079.2973340000026,
+      "usage": {
+        "input_tokens": 161,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 583,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 398
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:34:09.068Z",
+      "totalMs": 12976.572917000041,
+      "promptTokens": 161,
+      "outputTokens": 583,
+      "reasoningTokens": 398,
+      "executable": "function mergeIntervals(intervals) {\n  if (intervals.length === 0) return [];\n\n  const sorted = intervals.slice().sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n  const result = [];\n  let start = sorted[0][0];\n  let end = sorted[0][1];\n\n  for (let i = 1; i < sorted.length; i++) {\n    const [nextStart, nextEnd] = sorted[i];\n    if (nextStart <= end) {\n      if (nextEnd > end) end = nextEnd;\n    } else {\n      result.push([start, end]);\n      start = nextStart;\n      end = nextEnd;\n    }\n  }\n\n  result.push([start, end]);\n  return result;\n}",
+      "pass": true,
+      "checkError": null
+    },
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "max",
+      "status": "done",
+      "text": "function parseCents(value) {\n  if (typeof value !== \"string\") return null;\n\n  const text = value.trim();\n  if (!/^[0-9]+(?:\\.[0-9]{1,2})?$/.test(text)) return null;\n\n  const [whole, fraction = \"\"] = text.split(\".\");\n  const cents = (whole + (fraction + \"00\").slice(0, 2))\n    .replace(/^0+(?=[0-9])/, \"\");\n  const max = String(Number.MAX_SAFE_INTEGER);\n\n  if (\n    cents.length > max.length ||\n    (cents.length === max.length && cents > max)\n  ) {\n    return null;\n  }\n\n  return Number(cents);\n}",
+      "startedAt": "2026-10-24T01:39:15.536Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": 155853.621208,
+      "firstReasoningMs": 1198.9739999999292,
+      "firstEventMs": 1198.9737499998882,
+      "usage": {
+        "input_tokens": 183,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 9872,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 9706
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:41:52.005Z",
+      "totalMs": 156468.94995799998,
+      "promptTokens": 183,
+      "outputTokens": 9872,
+      "reasoningTokens": 9706,
+      "executable": "function parseCents(value) {\n  if (typeof value !== \"string\") return null;\n\n  const text = value.trim();\n  if (!/^[0-9]+(?:\\.[0-9]{1,2})?$/.test(text)) return null;\n\n  const [whole, fraction = \"\"] = text.split(\".\");\n  const cents = (whole + (fraction + \"00\").slice(0, 2))\n    .replace(/^0+(?=[0-9])/, \"\");\n  const max = String(Number.MAX_SAFE_INTEGER);\n\n  if (\n    cents.length > max.length ||\n    (cents.length === max.length && cents > max)\n  ) {\n    return null;\n  }\n\n  return Number(cents);\n}",
+      "pass": true,
+      "checkError": null
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "category": "coding",
+      "version": "code-small-functions-v1",
+      "mode": "max",
+      "status": "error",
+      "text": "",
+      "startedAt": "2026-10-24T01:41:52.009Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "max_tokens": 12288,
+        "stream": true,
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": null,
+      "firstEventMs": null,
+      "usage": null,
+      "finishReason": null,
+      "error": "HTTP 429: {\"error\":{\"type\":\"rate_limit_error\",\"message\":\"You've reached your 5-hour usage limit. Your quota will reset when the current 5-hour window ends. To continue now, purchase extra usage or upgrade your plan: https://www.kimi.com/membership/subscription?tab=quota\"},\"type\":\"error\"}",
+      "returnedModel": null,
+      "httpStatus": 429,
+      "transport": "node:https",
+      "errorCode": null,
+      "finishedAt": "2026-10-24T01:41:52.161Z",
+      "totalMs": 151.82400000002235,
+      "promptTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null,
+      "executable": "",
+      "pass": false,
+      "checkError": "Incomplete response"
+    }
+  ],
+  "summary": {
+    "default": {
+      "textPassed": 0,
+      "textAttempted": 0,
+      "textDispatched": 1,
+      "textQuotaFailures": 1,
+      "codingPassed": 0,
+      "codingAttempted": 0,
+      "codingDispatched": 0,
+      "codingQuotaFailures": 0,
+      "medianFirstContentMs": null,
+      "medianTotalMs": null,
+      "textRequestMs": 171.5272920000134,
+      "codingRequestMs": 0,
+      "cumulativeRequestMs": 949432.4684170001,
+      "promptTokens": 978,
+      "outputTokens": 54238,
+      "reasoningTokens": null
+    },
+    "low": {
+      "textPassed": 15,
+      "textAttempted": 15,
+      "textDispatched": 15,
+      "textQuotaFailures": 0,
+      "codingPassed": 3,
+      "codingAttempted": 3,
+      "codingDispatched": 3,
+      "codingQuotaFailures": 0,
+      "medianFirstContentMs": 2787.851207999978,
+      "medianTotalMs": 2817.3988329999847,
+      "textRequestMs": 42421.89408299996,
+      "codingRequestMs": 28870.71679200005,
+      "cumulativeRequestMs": 488938.491749,
+      "promptTokens": 3834,
+      "outputTokens": 28527,
+      "reasoningTokens": 17984
+    },
+    "max": {
+      "textPassed": 15,
+      "textAttempted": 15,
+      "textDispatched": 15,
+      "textQuotaFailures": 0,
+      "codingPassed": 1,
+      "codingAttempted": 1,
+      "codingDispatched": 2,
+      "codingQuotaFailures": 1,
+      "medianFirstContentMs": 3551.582374999998,
+      "medianTotalMs": 3575.3787079999456,
+      "textRequestMs": 54004.99258200009,
+      "codingRequestMs": 156620.773958,
+      "cumulativeRequestMs": 952030.477748,
+      "promptTokens": 3493,
+      "outputTokens": 57240,
+      "reasoningTokens": null
+    }
+  },
+  "publishedAt": "2026-10-24T01:14:44.983Z",
+  "date": "2026-10-24",
+  "editorial": {
+    "zh-CN": {
+      "summary": "本轮派发 51/69 次首轮请求，30 道文本、4 道代码的完整回答全部通过检查。最终取得 12 张静态图和 2 组动画；3 次首轮因 12,288 token 截断，其中 2 次以 32,768 预算独立重试成功。动画轮踏联动可见，但腿部伸缩、关节机械。5 小时额度耗尽产生 2 次 429，18 项未发，默认动画待补，均不计模型答错。default 文档等同 max；实际强度未独立确认，仅按请求参数分组。小样本不能代表综合排名。",
+      "sections": []
+    },
+    "en": {
+      "summary": "The batch dispatched 51/69 initial requests. All 30 complete text and 4 complete code answers passed checks. Final outputs comprise 12 static images and 2 animations. Three initial attempts hit the 12,288-token limit; two independent 32,768-token retries succeeded. Cycling components move, but legs stretch and joints look mechanical. The five-hour quota caused two 429 errors and left 18 tasks unsent; default animation remains pending. These quota interruptions are excluded from accuracy. Default is documented as max; effective effort is unconfirmed, so results are grouped by requested parameters. These small fixed tasks do not establish an overall ranking.",
+      "sections": []
+    }
+  },
+  "supportMatrix": {
+    "default": {
+      "supported": true,
+      "tested": true,
+      "effectiveEffort": null,
+      "parameters": {},
+      "documentedEffort": "max",
+      "semanticsConfirmed": false
+    },
+    "low": {
+      "supported": true,
+      "tested": true,
+      "effectiveEffort": null,
+      "parameters": {
+        "output_config": {
+          "effort": "low"
+        }
+      },
+      "documentedEffort": "low",
+      "semanticsConfirmed": false
+    },
+    "max": {
+      "supported": true,
+      "tested": true,
+      "effectiveEffort": null,
+      "parameters": {
+        "output_config": {
+          "effort": "max"
+        }
+      },
+      "documentedEffort": "max",
+      "semanticsConfirmed": false
+    },
+    "high": {
+      "supported": true,
+      "tested": false,
+      "reason": "Documented; outside the prescribed default/low/max batch."
+    },
+    "off": {
+      "supported": false,
+      "tested": true,
+      "reason": "Official Coding docs require thinking. See native access diagnostics for the observed response and any inconsistency; no off comparison is claimed.",
+      "observedHttpStatus": 400,
+      "request": {
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "observation": "Disabled thinking was rejected."
+    }
+  },
+  "sourceUrl": "https://www.kimi.com/code/docs/en/kimi-code/models.html",
+  "sources": [
+    {
+      "url": "https://www.kimi.com/code/docs/en/kimi-code/models.html",
+      "title": "Kimi Code model configuration"
+    },
+    {
+      "url": "https://platform.kimi.ai/docs/guide/kimi-k3-1-pro-quickstart",
+      "title": "Kimi K3.1 Pro metered API quickstart"
+    },
+    {
+      "url": "https://platform.kimi.com/docs/api/chat",
+      "title": "Moonshot Chat Completions API"
+    },
+    {
+      "url": "https://www.kimi.ai/blog/kimi-k3-1-pro",
+      "title": "Kimi K3.1 Pro launch"
+    },
+    {
+      "url": "https://www.kimi.com/code/docs/en/kimi-code/community-guidelines.html",
+      "title": "Kimi Code Community Guidelines"
+    },
+    {
+      "url": "https://platform.kimi.com/docs/openapi.json",
+      "title": "Kimi MessagesRequest output_config.effort schema"
+    },
+    {
+      "url": "https://www.kimi.com/code/docs/en/third-party-tools/claude-code.html",
+      "title": "Kimi native Anthropic protocol configuration"
+    },
+    {
+      "url": "https://platform.kimi.com/docs/openapi.json",
+      "title": "Kimi MessagesRequest output_config.effort schema"
+    },
+    {
+      "url": "https://www.kimi.com/code/docs/en/third-party-tools/claude-code.html",
+      "title": "Kimi native Anthropic protocol configuration"
+    },
+    {
+      "url": "https://platform.kimi.com/docs/openapi.json",
+      "title": "Kimi MessagesRequest output_config.effort schema"
+    },
+    {
+      "url": "https://www.kimi.com/code/docs/en/third-party-tools/claude-code.html",
+      "title": "Kimi native Anthropic protocol configuration"
+    }
+  ],
+  "estimatedCostUsd": null,
+  "stoppedBatches": [
+    {
+      "path": "/evaluations/kimi-k3-1-pro-coding-stopped.json",
+      "reasonZh": "旧 OpenAI 兼容批次保留 22 次完成的短文本请求及 1 次中断、上游状态未知。本轮原生 Anthropic Messages 批次独立记录，未混入旧子集。",
+      "reasonEn": "The earlier OpenAI-compatible batch retains 22 completed short text requests and one interruption with unknown upstream status. The native Anthropic Messages batch is recorded independently and does not merge that subset.",
+      "requestCount": 23,
+      "completedCount": 22,
+      "interruptedCount": 1,
+      "source": "https://www.kimi.com/code/docs/en/kimi-code/community-guidelines.html",
+      "sha256": "97d7217fe3f5e2b8f831cdbb2df7a2f35c650b8ad0bbd4db7ba4968da2ab7e97"
+    }
+  ],
+  "probeEvidencePath": "/evaluations/kimi-k3-1-pro-anthropic-access.json",
+  "expectedRequestCount": 69,
+  "plannedFirstRequests": 69,
+  "actualFirstRequests": 51,
+  "notDispatchedCount": 18,
+  "quotaResetAt": "2026-10-24T04:46:39Z",
+  "quotaResetNoteZh": "服务端预计窗口重置时间；同账户其他用量可能影响可用额度，没有安排自动补测。",
+  "quotaResetNoteEn": "Provider-estimated window reset; other account usage may affect availability. No automatic continuation is scheduled.",
+  "coverage": {
+    "text": {
+      "planned": 45,
+      "dispatched": 31,
+      "submitted": 31,
+      "modelResponses": 30,
+      "completed": 30,
+      "quotaFailures": 1,
+      "quota": 1,
+      "truncated": 0,
+      "notDispatched": 14
+    },
+    "coding": {
+      "planned": 9,
+      "dispatched": 5,
+      "submitted": 5,
+      "modelResponses": 4,
+      "completed": 4,
+      "quotaFailures": 1,
+      "quota": 1,
+      "truncated": 0,
+      "notDispatched": 4
+    },
+    "static": {
+      "planned": 12,
+      "dispatched": 12,
+      "submitted": 12,
+      "modelResponses": 12,
+      "completed": 11,
+      "quotaFailures": 0,
+      "quota": 0,
+      "truncated": 1,
+      "notDispatched": 0
+    },
+    "animation": {
+      "planned": 3,
+      "dispatched": 3,
+      "submitted": 3,
+      "modelResponses": 3,
+      "completed": 1,
+      "quotaFailures": 0,
+      "quota": 0,
+      "truncated": 2,
+      "notDispatched": 0
+    }
+  },
+  "coverageByMode": {
+    "default": {
+      "planned": 23,
+      "submitted": 6,
+      "completed": 3,
+      "quota": 1,
+      "truncated": 2,
+      "notDispatched": 17,
+      "categories": {
+        "text": {
+          "planned": 15,
+          "submitted": 1,
+          "completed": 0,
+          "quota": 1,
+          "truncated": 0,
+          "notDispatched": 14
+        },
+        "coding": {
+          "planned": 3,
+          "submitted": 0,
+          "completed": 0,
+          "quota": 0,
+          "truncated": 0,
+          "notDispatched": 3
+        },
+        "static": {
+          "planned": 4,
+          "submitted": 4,
+          "completed": 3,
+          "quota": 0,
+          "truncated": 1,
+          "notDispatched": 0
+        },
+        "animation": {
+          "planned": 1,
+          "submitted": 1,
+          "completed": 0,
+          "quota": 0,
+          "truncated": 1,
+          "notDispatched": 0
+        }
+      }
+    },
+    "low": {
+      "planned": 23,
+      "submitted": 23,
+      "completed": 23,
+      "quota": 0,
+      "truncated": 0,
+      "notDispatched": 0,
+      "categories": {
+        "text": {
+          "planned": 15,
+          "submitted": 15,
+          "completed": 15,
+          "quota": 0,
+          "truncated": 0,
+          "notDispatched": 0
+        },
+        "coding": {
+          "planned": 3,
+          "submitted": 3,
+          "completed": 3,
+          "quota": 0,
+          "truncated": 0,
+          "notDispatched": 0
+        },
+        "static": {
+          "planned": 4,
+          "submitted": 4,
+          "completed": 4,
+          "quota": 0,
+          "truncated": 0,
+          "notDispatched": 0
+        },
+        "animation": {
+          "planned": 1,
+          "submitted": 1,
+          "completed": 1,
+          "quota": 0,
+          "truncated": 0,
+          "notDispatched": 0
+        }
+      }
+    },
+    "max": {
+      "planned": 23,
+      "submitted": 22,
+      "completed": 20,
+      "quota": 1,
+      "truncated": 1,
+      "notDispatched": 1,
+      "categories": {
+        "text": {
+          "planned": 15,
+          "submitted": 15,
+          "completed": 15,
+          "quota": 0,
+          "truncated": 0,
+          "notDispatched": 0
+        },
+        "coding": {
+          "planned": 3,
+          "submitted": 2,
+          "completed": 1,
+          "quota": 1,
+          "truncated": 0,
+          "notDispatched": 1
+        },
+        "static": {
+          "planned": 4,
+          "submitted": 4,
+          "completed": 4,
+          "quota": 0,
+          "truncated": 0,
+          "notDispatched": 0
+        },
+        "animation": {
+          "planned": 1,
+          "submitted": 1,
+          "completed": 0,
+          "quota": 0,
+          "truncated": 1,
+          "notDispatched": 0
+        }
+      }
+    }
+  },
+  "protocol": "anthropic-messages",
+  "requestUrl": "https://api.kimi.com/coding/v1/messages",
+  "updatedAt": "2026-10-24T01:48:24.652Z",
+  "billing": {
+    "type": "subscription-quota",
+    "invoiceAvailable": false,
+    "noteZh": "使用 Kimi Coding Plan 订阅额度，本轮没有可对账的按 token 费用。",
+    "noteEn": "Consumes Kimi Coding Plan subscription quota; no reconciled per-token invoice is available."
+  },
+  "totalRequests": 53,
+  "totalEvaluationOutputTokens": 174023,
+  "totalEvaluationPromptTokens": 8629,
+  "requestCountScope": "Anthropic Messages requests only; excludes read-only model/usage queries and historical batches.",
+  "diagnosticRequestCount": 5,
+  "totalNativeRequestCount": 58,
+  "totalNativeRequestMs": 3003058.8547480004,
+  "initialRequestCount": 51,
+  "additionalRetryCount": 2,
+  "cumulativeRequestMs": 2991492.757331,
+  "wallClockSpanMs": 1130245,
+  "firstEvidencePath": "/evaluations/kimi-k3-1-pro-anthropic-first.json",
+  "parameterDiagnostics": {
+    "diagnosticRequests": [
+      {
+        "endpoint": "https://api.kimi.com/coding/v1/messages",
+        "request": {
+          "model": "k3.1-pro",
+          "max_tokens": 1024,
+          "messages": [
+            {
+              "role": "user",
+              "content": "Reply with exactly the ASCII text KIMI_ANTHROPIC_OK and no other visible text."
+            }
+          ]
+        },
+        "startedAt": "2026-10-24T01:24:25.448Z",
+        "finishedAt": "2026-10-24T01:24:30.016Z",
+        "totalMs": 4566.952832999999,
+        "httpStatus": 200,
+        "returnedModel": "k3.1-pro",
+        "role": "assistant",
+        "text": "KIMI_ANTHROPIC_OK",
+        "contentBlockTypes": [
+          "thinking",
+          "text"
+        ],
+        "stopReason": "end_turn",
+        "usage": {
+          "input_tokens": 105,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 185,
+          "output_tokens_details": {
+            "thinking_tokens": 162
+          },
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "error": null
+      },
+      {
+        "id": "effort-access-probe",
+        "prompt": "Reply exactly: NATIVE_EFFORT_OK",
+        "mode": "low",
+        "status": "done",
+        "text": "NATIVE_EFFORT_OK",
+        "startedAt": "2026-10-24T01:25:38.281Z",
+        "request": {
+          "model": "k3.1-pro",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Reply exactly: NATIVE_EFFORT_OK"
+            }
+          ],
+          "max_tokens": 1024,
+          "stream": true,
+          "output_config": {
+            "effort": "low"
+          }
+        },
+        "firstContentMs": 2511.4792089999996,
+        "firstReasoningMs": 1783.0141250000001,
+        "firstEventMs": 1783.011375,
+        "usage": {
+          "input_tokens": 95,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 50,
+          "service_tier": "standard",
+          "inference_geo": "not_available",
+          "output_tokens_details": {
+            "thinking_tokens": 29
+          }
+        },
+        "finishReason": "end_turn",
+        "error": null,
+        "returnedModel": "k3.1-pro",
+        "httpStatus": 200,
+        "transport": "node:https",
+        "finishedAt": "2026-10-24T01:25:40.806Z",
+        "totalMs": 2525.2484999999997,
+        "promptTokens": 95,
+        "outputTokens": 50,
+        "reasoningTokens": 29
+      },
+      {
+        "id": "effort-access-probe",
+        "prompt": "Reply exactly: NATIVE_EFFORT_OK",
+        "mode": "off",
+        "status": "done",
+        "text": "NATIVE_EFFORT_OK",
+        "startedAt": "2026-10-24T01:25:40.809Z",
+        "request": {
+          "model": "k3.1-pro",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Reply exactly: NATIVE_EFFORT_OK"
+            }
+          ],
+          "max_tokens": 1024,
+          "stream": true,
+          "output_config": {
+            "effort": "none"
+          }
+        },
+        "firstContentMs": 1475.4012080000002,
+        "firstReasoningMs": null,
+        "firstEventMs": 1475.3810830000002,
+        "usage": {
+          "input_tokens": 27,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 16,
+          "service_tier": "standard",
+          "inference_geo": "not_available"
+        },
+        "finishReason": "end_turn",
+        "error": null,
+        "returnedModel": "k3.1-pro",
+        "httpStatus": 200,
+        "transport": "node:https",
+        "finishedAt": "2026-10-24T01:25:42.302Z",
+        "totalMs": 1493.438458,
+        "promptTokens": 27,
+        "outputTokens": 16,
+        "reasoningTokens": null
+      },
+      {
+        "id": "thinking-disabled-probe",
+        "prompt": "Reply exactly: NATIVE_OFF_PROBE",
+        "mode": "off",
+        "status": "error",
+        "text": "",
+        "startedAt": "2026-10-24T01:34:25.711Z",
+        "request": {
+          "model": "k3.1-pro",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Reply exactly: NATIVE_OFF_PROBE"
+            }
+          ],
+          "max_tokens": 1024,
+          "stream": true,
+          "thinking": {
+            "type": "disabled"
+          }
+        },
+        "firstContentMs": null,
+        "firstReasoningMs": null,
+        "firstEventMs": null,
+        "usage": null,
+        "finishReason": null,
+        "error": "HTTP 400: {\"error\":{\"type\":\"invalid_request_error\",\"message\":\"K3.1 Pro does not support disabled thinking mode. Please enable thinking and try again, or choose another model.\"},\"type\":\"error\"}",
+        "returnedModel": null,
+        "httpStatus": 400,
+        "transport": "node:https",
+        "errorCode": null,
+        "finishedAt": "2026-10-24T01:34:26.309Z",
+        "totalMs": 598.542542,
+        "promptTokens": null,
+        "outputTokens": null,
+        "reasoningTokens": null
+      },
+      {
+        "id": "invalid-effort-probe",
+        "prompt": "Reply exactly: NATIVE_INVALID_EFFORT_PROBE",
+        "mode": "invalid",
+        "status": "done",
+        "text": "NATIVE_INVALID_EFFORT_PROBE",
+        "startedAt": "2026-10-24T01:34:26.452Z",
+        "request": {
+          "model": "k3.1-pro",
+          "messages": [
+            {
+              "role": "user",
+              "content": "Reply exactly: NATIVE_INVALID_EFFORT_PROBE"
+            }
+          ],
+          "max_tokens": 1024,
+          "stream": true,
+          "output_config": {
+            "effort": "invalid-evaluation-probe"
+          }
+        },
+        "firstContentMs": 2369.947584,
+        "firstReasoningMs": 1698.294459,
+        "firstEventMs": 1698.291334,
+        "usage": {
+          "input_tokens": 95,
+          "cache_creation_input_tokens": 0,
+          "cache_read_input_tokens": 0,
+          "output_tokens": 48,
+          "service_tier": "standard",
+          "inference_geo": "not_available",
+          "output_tokens_details": {
+            "thinking_tokens": 26
+          }
+        },
+        "finishReason": "end_turn",
+        "error": null,
+        "returnedModel": "k3.1-pro",
+        "httpStatus": 200,
+        "transport": "node:https",
+        "finishedAt": "2026-10-24T01:34:28.834Z",
+        "totalMs": 2381.915084,
+        "promptTokens": 95,
+        "outputTokens": 48,
+        "reasoningTokens": 26
+      }
+    ],
+    "effortFieldValidated": false,
+    "disabledProbe": {
+      "id": "thinking-disabled-probe",
+      "prompt": "Reply exactly: NATIVE_OFF_PROBE",
+      "mode": "off",
+      "status": "error",
+      "text": "",
+      "startedAt": "2026-10-24T01:34:25.711Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply exactly: NATIVE_OFF_PROBE"
+          }
+        ],
+        "max_tokens": 1024,
+        "stream": true,
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "firstContentMs": null,
+      "firstReasoningMs": null,
+      "firstEventMs": null,
+      "usage": null,
+      "finishReason": null,
+      "error": "HTTP 400: {\"error\":{\"type\":\"invalid_request_error\",\"message\":\"K3.1 Pro does not support disabled thinking mode. Please enable thinking and try again, or choose another model.\"},\"type\":\"error\"}",
+      "returnedModel": null,
+      "httpStatus": 400,
+      "transport": "node:https",
+      "errorCode": null,
+      "finishedAt": "2026-10-24T01:34:26.309Z",
+      "totalMs": 598.542542,
+      "promptTokens": null,
+      "outputTokens": null,
+      "reasoningTokens": null
+    },
+    "invalidEffortProbe": {
+      "id": "invalid-effort-probe",
+      "prompt": "Reply exactly: NATIVE_INVALID_EFFORT_PROBE",
+      "mode": "invalid",
+      "status": "done",
+      "text": "NATIVE_INVALID_EFFORT_PROBE",
+      "startedAt": "2026-10-24T01:34:26.452Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply exactly: NATIVE_INVALID_EFFORT_PROBE"
+          }
+        ],
+        "max_tokens": 1024,
+        "stream": true,
+        "output_config": {
+          "effort": "invalid-evaluation-probe"
+        }
+      },
+      "firstContentMs": 2369.947584,
+      "firstReasoningMs": 1698.294459,
+      "firstEventMs": 1698.291334,
+      "usage": {
+        "input_tokens": 95,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 48,
+        "service_tier": "standard",
+        "inference_geo": "not_available",
+        "output_tokens_details": {
+          "thinking_tokens": 26
+        }
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:34:28.834Z",
+      "totalMs": 2381.915084,
+      "promptTokens": 95,
+      "outputTokens": 48,
+      "reasoningTokens": 26
+    },
+    "noneProbe": {
+      "id": "effort-access-probe",
+      "prompt": "Reply exactly: NATIVE_EFFORT_OK",
+      "mode": "off",
+      "status": "done",
+      "text": "NATIVE_EFFORT_OK",
+      "startedAt": "2026-10-24T01:25:40.809Z",
+      "request": {
+        "model": "k3.1-pro",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Reply exactly: NATIVE_EFFORT_OK"
+          }
+        ],
+        "max_tokens": 1024,
+        "stream": true,
+        "output_config": {
+          "effort": "none"
+        }
+      },
+      "firstContentMs": 1475.4012080000002,
+      "firstReasoningMs": null,
+      "firstEventMs": 1475.3810830000002,
+      "usage": {
+        "input_tokens": 27,
+        "cache_creation_input_tokens": 0,
+        "cache_read_input_tokens": 0,
+        "output_tokens": 16,
+        "service_tier": "standard",
+        "inference_geo": "not_available"
+      },
+      "finishReason": "end_turn",
+      "error": null,
+      "returnedModel": "k3.1-pro",
+      "httpStatus": 200,
+      "transport": "node:https",
+      "finishedAt": "2026-10-24T01:25:42.302Z",
+      "totalMs": 1493.438458,
+      "promptTokens": 27,
+      "outputTokens": 16,
+      "reasoningTokens": null
+    }
+  },
+  "notes": {
+    "zh": "本轮通过 Kimi Coding Plan 原生 Anthropic Messages 协议调用 k3.1-pro，地址 https://api.kimi.com/coding/v1/messages。每组计划 23 题，default / low / max 三组请求参数最多并发 3 个请求；每组内逐题执行。5 小时订阅额度耗尽后停止新请求，未派发任务不伪造记录，额度错误不计为模型答题失败。默认 effort 的文档值为 max；这两组保留独立请求，不当作两个不同能力档位。low / max 使用原生 output_config.effort；不把 thinking 预算当成 effort。输入 token 合计为原生 input_tokens、cache_read_input_tokens 与 cache_creation_input_tokens 之和，原 usage 字段完整保留。初轮 max_tokens=12,288，包含思考和正文；超时 600 秒，temperature / top_p 省略，没有独立设置 thinking.budget_tokens。按订阅额度消耗，不能按官方按量标价换算成实际账单。此前停止的 Chat Completions 子集单独保留。静态与动图源自模型原始 SVG，未修复源码；点评是 AI 助手的定性视觉检查。单次耗时受服务端排队、三个请求的并发和输出长度影响，不能据此建立稳定速度排名。逐次保留请求与返回模型 ID；可变 API 路由不构成内部固定 checkpoint 的独立证明。服务端接受了非法 effort 负向探针，因此无法独立确认 low/max 实际生效。本页仅按实际请求参数分组，不称为已确认的有效档位比较。",
+    "en": "This batch calls k3.1-pro through Kimi Coding Plan’s native Anthropic Messages endpoint https://api.kimi.com/coding/v1/messages. Each requested default/low/max configuration plans 23 tasks; at most three requests run concurrently, sequentially within each configuration. New dispatches stopped when the five-hour subscription quota was exhausted. Unsent tasks have no fabricated attempt, and quota failures are not scored as model-answer failures. Default is documented as max; omitted-default and explicit-max requests are independent records and are not treated as distinct capability levels. Low/max use native output_config.effort, not a thinking budget. Prompt-token totals sum native input_tokens, cache_read_input_tokens and cache_creation_input_tokens; raw usage is retained. Initial max_tokens=12,288 covers thinking plus final output; timeout 600 seconds. Temperature/top_p omitted; no thinking.budget_tokens configured. Requests consume subscription quota; metered list prices are not the actual invoice. The stopped Chat Completions subset stays separate. Images and animation directly render the model’s unchanged SVG. Assessments are qualitative AI-assistant visual inspection. Single-request timings include queueing, concurrency and output-length effects; they do not establish a stable speed ranking. Requested and returned IDs are preserved; a mutable API route is not independent proof of a fixed internal checkpoint. The server accepted the invalid-effort negative control, so the effective low/max semantics are not independently confirmed. Results are grouped by requested parameters, not claimed as a verified effort-level comparison.",
+    "visualQaZh": "12 张最终静态成图均已逐张核验：三组钟表角度、柱形图零基线与 2:4:3:5 比例、海报六段中文各一次都符合题目，鹈鹕与车把、踏板的连接也可辨。首轮有三次因 12,288 输出 token 上限截断；默认鹈鹕和 Max 请求组动画分别提高到 32,768 后独立重试成功，两次累计耗时各约 509.41 秒和 534.14 秒。两组已完成动画的轮辐、曲柄和双腿实际运动，4 秒循环无可辨跳变，但腿长有伸缩、膝部机械感明显。默认请求组动画首轮截断后遇订阅额度限制，尚无可发布结果；本轮仍是部分完成，不能声称三组动画齐全，也不能把请求组视作已验证思考强度。",
+    "visualQaEn": "All 12 final static images were individually checked: the three clocks use the requested angles, bar charts have zero baselines and the 2:4:3:5 height ratio, each poster contains the six required Chinese strings once, and the pelicans connect visibly to handlebars and pedals. Three first attempts hit the 12,288-token limit. Independent 32,768-token retries recovered the default pelican and requested-max animation, with combined times of about 509.41 and 534.14 seconds respectively. Both completed animations visibly move their spokes, crank and legs and show no perceptible four-second loop jump, but legs stretch and knees look mechanical. The default animation remains incomplete after truncation and subscription-quota exhaustion. This remains a partial evaluation, and request groups are not verified reasoning strengths."
+  }
+}

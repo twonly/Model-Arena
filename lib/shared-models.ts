@@ -14,7 +14,7 @@ export interface SharedModel {
   /** 稳定 ID，客户端用它请求、服务端用它查配置 */
   id: string;
   /** 映射到服务端 env key 的 provider（见 /api/chat 的 SHARED_PROVIDER_KEY） */
-  provider: "deepseek" | "zhipu" | "orcarouter" | "openrouter";
+  provider: "deepseek" | "zhipu" | "orcarouter" | "openrouter" | "minimax" | "longcat";
   /** 展示名 */
   name: string;
   kind: "openai" | "anthropic";
@@ -28,9 +28,30 @@ export interface SharedModel {
 
 export const DEEPSEEK_V41_MODEL_ID = "deepseek-v4.1-flash-expires-on-0910";
 export const DEEPSEEK_V41_AVAILABLE_UNTIL = "2026-09-10T00:00:00+08:00";
-export const SHARED_POOL_VERSION = "2026-09-27-space-bunny";
+export const SHARED_POOL_VERSION = "2026-10-20-minimax-m3-1-flash";
 
 export const SHARED_MODELS: SharedModel[] = [
+  {
+    id: "minimax-m3-1-flash",
+    provider: "minimax",
+    name: "MiniMax M3.1 Flash",
+    version: "MiniMax-M3.1-Flash",
+    source: "https://www.minimax.io/blog/minimax-m31f",
+    kind: "openai",
+    baseUrl: "https://api.minimax.io/v1",
+    model: "MiniMax-M3.1-Flash",
+    extraBody: JSON.stringify({ reasoning_split: true }),
+  },
+  {
+    id: "minimax-m3-1-flash-preview",
+    provider: "minimax",
+    name: "MiniMax M3.1 Flash Preview",
+    version: "MiniMax-M3.1-Flash-Preview",
+    source: "https://platform.minimax.io/docs/guides/text-generation",
+    kind: "openai",
+    baseUrl: "https://api.minimax.io/v1",
+    model: "MiniMax-M3.1-Flash-Preview",
+  },
   {
     id: "space-bunny-alpha",
     provider: "openrouter",
@@ -39,17 +60,18 @@ export const SHARED_MODELS: SharedModel[] = [
     kind: "openai",
     baseUrl: "https://openrouter.ai/api/v1",
     model: "stealth/space-bunny-alpha",
-    // Keep the shared preview free if upstream pricing changes. Low effort suits short trial tasks.
+    // Retired locally after the old endpoint returned 404; preserve historical identity.
+    availableUntil: "2026-10-20T03:53:35.368Z",
+    // Keep the shared preview free if upstream pricing changes; leave reasoning at the provider default.
     extraBody: JSON.stringify({
-      reasoning: { effort: "low" },
       provider: { max_price: { prompt: 0, completion: 0, request: 0, image: 0 } },
     }),
   },
   {
     id: "deepseek-flash",
     provider: "deepseek",
-    name: "DeepSeek V4.1 Flash",
-    version: "DeepSeek-V4.1-Flash",
+    name: "DeepSeek V4.1 Flash 1017",
+    version: "DeepSeek-V4.1-Flash-1017",
     source: "https://api-docs.deepseek.com/quick_start/pricing",
     kind: "openai",
     baseUrl: "https://api.deepseek.com/v1",
@@ -122,6 +144,16 @@ export const SHARED_MODELS: SharedModel[] = [
     baseUrl: "https://api.orcarouter.ai/v1",
     model: "deepseek/deepseek-v4-flash-free",
   },
+  {
+    id: "longcat-2-5-preview",
+    provider: "longcat",
+    name: "美团 LongCat 2.5 Preview",
+    version: "LongCat-2.5-Preview",
+    source: "https://longcat.chat/platform/docs/zh/hermes-agent",
+    kind: "openai",
+    baseUrl: "https://api.longcat.chat/openai/v1",
+    model: "LongCat-2.5-Preview",
+  },
 ];
 
 /** 免费额度（一次「对比」算 1 次，不论本轮跑几个模型） */
@@ -189,7 +221,7 @@ export function reconcileSharedPool(
       return [];
     }
     active.delete(endpoint.id);
-    const refreshed = { ...current, enabled: endpoint.enabled };
+    const refreshed = { ...current, enabled: endpoint.enabled, customPricing: endpoint.customPricing };
     if (
       endpoint.name !== refreshed.name ||
       endpoint.kind !== refreshed.kind ||

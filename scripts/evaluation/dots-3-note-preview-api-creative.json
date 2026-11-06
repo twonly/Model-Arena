@@ -1,0 +1,17 @@
+{
+  "model": "dots-studio/dots-3-note-preview:free",
+  "version": "Dots3-Note Preview, OpenRouter free route verified 2026-11-03",
+  "displayName": "Dots3-Note Preview - persistent API creation",
+  "aliases": ["dots3-api-creation"],
+  "protocol": "openai-chat",
+  "endpoint": "https://openrouter.ai/api/v1",
+  "keyEnv": "SHARED_KEY_OPENROUTER",
+  "expectedReturnedModel": "dots-studio/dots-3-note-preview:free",
+  "billing": "openrouter-free-variant",
+  "vision": "supported",
+  "modes": {"default": {}},
+  "extraBody": {"provider": {"max_price": {"prompt": 0, "completion": 0}}},
+  "providerMaxOutputTokens": 460800,
+  "versionSource": "https://openrouter.ai/api/v1/models/dots-studio/dots-3-note-preview:free/endpoints",
+  "method": "Persistent task-local OpenAI API tools harness. Separate from the earlier interrupted native Claude Code transport; same frozen task briefs, model authors all artifact code."
+}

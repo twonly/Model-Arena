@@ -1,5 +1,77 @@
 [
   {
+    "matchIds": ["kimi-k3.1-pro"],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K3.1 Pro",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 2,
+    "inputHit": 0.2,
+    "output": 10,
+    "sourceName": "Kimi official API pricing",
+    "sourceUrl": "https://platform.kimi.ai/docs/pricing/chat",
+    "verified": "2026-10-24",
+    "note": "Pay-as-you-go API only; Kimi Coding subscriptions use a separate endpoint and quota. Cache writes: $2/1M for 5m, $4/1M for 1h."
+  },
+  {
+    "matchIds": ["kimi-k3.1-pro"],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K3.1 Pro",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 13,
+    "inputHit": 1.3,
+    "output": 68,
+    "sourceName": "Kimi 官方 API 定价",
+    "sourceUrl": "https://platform.kimi.com/docs/pricing/chat",
+    "verified": "2026-10-24",
+    "note": "国内站按量 API 独立定价，不是美元价格的汇率换算；不适用 Kimi Coding 订阅。缓存写入：5分钟 ¥13/1M，1小时 ¥26/1M。"
+  },
+  {
+    "matchIds": ["kimi-k3.1-pro-highspeed"],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K3.1 Pro Highspeed",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 4,
+    "inputHit": 0.2,
+    "output": 20,
+    "sourceName": "Kimi official API pricing",
+    "sourceUrl": "https://platform.kimi.ai/docs/pricing/chat",
+    "verified": "2026-10-24",
+    "note": "Highspeed pay-as-you-go pricing; not a TOKRACE speed-test result. Cache writes: $4/1M for 5m, $8/1M for 1h."
+  },
+  {
+    "matchIds": ["kimi-k3.1-pro-highspeed"],
+    "provider": "Moonshot Kimi",
+    "model": "Kimi K3.1 Pro Highspeed",
+    "region": "cn",
+    "currency": "CNY",
+    "inputMiss": 26,
+    "inputHit": 1.3,
+    "output": 136,
+    "sourceName": "Kimi 官方 API 定价",
+    "sourceUrl": "https://platform.kimi.com/docs/pricing/chat",
+    "verified": "2026-10-24",
+    "note": "Highspeed 国内站独立按量价格，未据此宣称本站测得速度提升。缓存写入：5分钟 ¥26/1M，1小时 ¥52/1M。"
+  },
+  {
+    "matchIds": [
+      "MiniMax-M3.1-Flash"
+    ],
+    "provider": "MiniMax",
+    "model": "MiniMax M3.1 Flash",
+    "region": "global",
+    "currency": "USD",
+    "inputMiss": 0.15,
+    "inputHit": 0.015,
+    "output": 0.6,
+    "sourceName": "MiniMax official release",
+    "sourceUrl": "https://www.minimax.io/blog/minimax-m31f",
+    "verified": "2026-10-20",
+    "note": "官方固定按量单价。M Plan 订阅额度不等于逐 token 现金支出；此价不套用 Preview 或 OpenRouter 路由。"
+  },
+  {
     "matchIds": ["stealth/space-bunny-alpha"],
     "provider": "OpenRouter",
     "model": "Space Bunny Alpha",
@@ -276,7 +348,7 @@
       "deepseek-v4-flash-vision-exp"
     ],
     "provider": "DeepSeek",
-    "model": "DeepSeek V4.1 Flash",
+    "model": "DeepSeek V4.1 Flash 1017",
     "region": "global",
     "currency": "USD",
     "inputMiss": 0.3,
@@ -284,8 +356,8 @@
     "output": 1.2,
     "sourceName": "DeepSeek API Docs",
     "sourceUrl": "https://api-docs.deepseek.com/quick_start/pricing",
-    "verified": "2026-09-26",
-    "note": "采用高峰价格上限估算；非高峰价格减半。官方说明旧 Flash ID 已转向 V4.1 Flash。汇率按 7.2 CNY/USD 估算。",
+    "verified": "2026-10-18",
+    "note": "采用高峰价格上限估算；非高峰价格减半。官方文档将 deepseek-flash 与旧 Flash 别名映射至 1017。价格未变，实际费用受缓存、时段与输出 token 影响。",
     "rateType": "upper-bound"
   },
   {

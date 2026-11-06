@@ -1,5 +1,11 @@
 export type ProviderKind = "openai" | "anthropic";
 
+/** User-supplied USD rates per million tokens, used for local cost estimates only. */
+export interface CustomPricing {
+  input?: number;
+  output?: number;
+}
+
 /** 一个已配置的模型接入点 */
 export interface ModelEndpoint {
   id: string;
@@ -14,6 +20,7 @@ export interface ModelEndpoint {
    * 用于厂商私有开关，如 Qwen 的 enable_thinking、GLM/豆包的 thinking.type 等。
    */
   extraBody?: string;
+  customPricing?: CustomPricing;
   /** 共享「体验额度」模型：无 key，跑时走服务端注入 key + 扣免费额度 */
   shared?: boolean;
 }
@@ -85,7 +92,14 @@ export interface RunMetrics {
   peakTps?: number;
 }
 
+export interface ResultOrigin {
+  kind: "history" | "share" | "run";
+  id: string;
+  at?: number;
+}
+
 export interface RunState {
+  origin?: ResultOrigin;
   status: RunStatus;
   reasoning: string;
   text: string;
@@ -116,6 +130,8 @@ export const emptyRun = (): RunState => ({
 
 /** 历史记录条目 */
 export interface HistoryResult {
+  origin?: ResultOrigin;
+  customPricing?: CustomPricing;
   provider?: string;
   name: string;
   model: string;
@@ -132,6 +148,9 @@ export interface HistoryResult {
 }
 
 export interface HistoryEntry {
+  source?: ResultOrigin;
+  hasImage?: boolean;
+  imageDataUrl?: string;
   task?: import("./benchmark-suite").TaskIdentity;
   params?: RunParams;
   reportId?: string;
@@ -160,3 +179,8 @@ export type StreamEvent =
     }
   | { type: "done"; finishReason?: string; truncated?: boolean }
   | { type: "error"; message: string };
+
+/** Terminal rows remain viewable/shareable even if stopped before any tokens arrived. */
+export function hasRunResult(run: Pick<RunState, "status" | "metrics" | "error">): boolean {
+  return !!(run.metrics || run.error || ["done", "stopped", "error", "truncated"].includes(run.status));
+}

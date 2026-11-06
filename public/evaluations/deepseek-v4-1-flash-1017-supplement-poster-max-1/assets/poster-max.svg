@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" font-family="'Noto Sans SC','Microsoft YaHei','PingFang SC','Hiragino Sans GB',sans-serif">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FAF8F1"/>
+      <stop offset="1" stop-color="#EDF4EF"/>
+    </linearGradient>
+    <linearGradient id="btn" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#357A65"/>
+      <stop offset="1" stop-color="#245749"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="10" stdDeviation="16" flood-color="#203A32" flood-opacity="0.10"/>
+    </filter>
+    <filter id="btnShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#245749" flood-opacity="0.18"/>
+    </filter>
+  </defs>
+
+  <rect width="800" height="600" fill="url(#bg)"/>
+  <circle cx="690" cy="96" r="170" fill="#DCEBE2" opacity="0.65"/>
+  <circle cx="88" cy="540" r="150" fill="#F1DCCE" opacity="0.60"/>
+  <path d="M-40 440 C 140 360, 240 510, 430 420 S 690 320, 850 390" fill="none" stroke="#FFFFFF" stroke-width="34" opacity="0.42"/>
+  <path d="M-40 440 C 140 360, 240 510, 430 420 S 690 320, 850 390" fill="none" stroke="#CFE3D9" stroke-width="2" stroke-dasharray="2 14" stroke-linecap="round" opacity="0.75"/>
+
+  <rect x="82" y="58" width="636" height="484" rx="36" fill="#FFFFFF" fill-opacity="0.92" stroke="#E8E1D4" stroke-width="1.5" filter="url(#shadow)"/>
+  <rect x="96" y="72" width="608" height="456" rx="28" fill="none" stroke="#F1ECE2" stroke-width="1"/>
+
+  <g>
+    <circle cx="400" cy="114" r="42" fill="#E8F1EB"/>
+    <circle cx="400" cy="114" r="42" fill="none" stroke="#D4E6DD" stroke-width="1.5"/>
+    <g transform="translate(400 114)" fill="none" stroke="#2F6D5A" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="-34" cy="14" r="15" stroke-width="2.5"/>
+      <circle cx="34" cy="14" r="15" stroke-width="2.5"/>
+      <path d="M-34 14 L-14 -11 L20 -11 L34 14"/>
+      <path d="M-14 -11 L-2 14 L20 -11"/>
+      <path d="M-34 14 L-2 14"/>
+      <path d="M-2 14 L-2 24"/>
+      <path d="M-8 24 L4 24" stroke-width="2.5"/>
+      <path d="M-19 -15 L-8 -15" stroke-width="3.5"/>
+      <path d="M20 -11 L27 -18 L35 -18"/>
+      <circle cx="-2" cy="14" r="3" fill="#2F6D5A" stroke="none"/>
+      <circle cx="-2" cy="24" r="2.4" fill="#2F6D5A" stroke="none"/>
+    </g>
+  </g>
+
+  <text x="400" y="222" text-anchor="middle" font-size="62" font-weight="700" fill="#173B31" letter-spacing="2">周末骑行计划</text>
+  <text x="400" y="262" text-anchor="middle" font-size="24" font-weight="400" fill="#61756C" letter-spacing="2">慢一点，看见城市</text>
+
+  <g stroke="#D9E3DC" stroke-width="1.5" stroke-linecap="round">
+    <line x1="312" y1="296" x2="382" y2="296"/>
+    <line x1="418" y1="296" x2="488" y2="296"/>
+  </g>
+  <circle cx="400" cy="296" r="3.5" fill="#D47A5A"/>
+
+  <text x="400" y="344" text-anchor="middle" font-size="28" font-weight="600" fill="#214A3E" letter-spacing="0.5">10月24日 09:00</text>
+  <text x="400" y="388" text-anchor="middle" font-size="28" font-weight="600" fill="#214A3E" letter-spacing="0.5">滨江公园东门</text>
+  <text x="400" y="432" text-anchor="middle" font-size="16" font-weight="400" fill="#7A8A81" letter-spacing="1">自备头盔 · 全程12公里</text>
+
+  <g filter="url(#btnShadow)">
+    <rect x="286" y="466" width="228" height="56" rx="28" fill="url(#btn)"/>
+  </g>
+  <rect x="286.5" y="466.5" width="227" height="55" rx="27.5" fill="none" stroke="#FFFFFF" stroke-opacity="0.15" stroke-width="1"/>
+  <text x="400" y="502" text-anchor="middle" font-size="21" font-weight="600" fill="#FFFFFF" letter-spacing="2">立即报名</text>
+</svg>

@@ -1,0 +1,5251 @@
+{
+  "schemaVersion": 1,
+  "publicationStatus": "ready",
+  "suiteVersion": "creative-suite-v4",
+  "evaluationDate": "2026-11-04",
+  "modelId": "gemini-4-argon",
+  "model": "Gemini 4 Argon",
+  "modelMetadata": {
+    "name": "Gemini 4 Argon",
+    "modelId": "gemini-4-argon",
+    "descriptionZh": "Google 面向复杂软件工程、科学推理与跨领域知识工作推出的 Gemini 4 模型；1M 是统一输入输出窗口，长输出需续传。",
+    "descriptionEn": "Google frontier Gemini 4 model for complex engineering, science and knowledge work, with a unified input/output window and continuation protocol.",
+    "cloudModelUrl": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/4-argon",
+    "officialModelCard": "https://storage.googleapis.com/deepmind-media/Model-Cards/Gemini-4-Argon-Model-Card.pdf",
+    "defaultThinkingLevel": "MEDIUM",
+    "unifiedInputPlusOutputTokenLimit": 1048576
+  },
+  "modelMetadataVerifiedAt": "2026-11-03T23:54:21.091104+00:00",
+  "providerLabel": "Google Developer API",
+  "date": "2026-11-04",
+  "publishedAt": "2026-11-04T22:26:02+08:00",
+  "updatedAt": "2026-11-04T22:26:02+08:00",
+  "summaryZh": "本批11项均已交付并接受检查。SVG的主要约束和动画连接完成得较好，书架主体尺寸、行星机构齿数与采样速比也有核查支撑；机械网格与UV、室内床体尺寸、取景和装饰细节仍有问题。四部知识片均达到1080p、78–89秒，主要解释大体成立，但NASA图表的自定分数、二维码额外断言和部分缺字符号影响可靠性。可编辑工程与源码均保留，使用前仍需核对几何、来源与细字可读性。",
+  "summaryEn": "All 11 tasks were delivered and inspected. SVG constraints and animation attachments are well executed, with checks supporting the shelf bodies, gear counts and sampled ratio; mechanical meshes/UVs, bed dimensions, interior framing and decorative details still have problems. All four knowledge films reach 1080p and 78–89 seconds, with broadly sound explanations, but self-defined scores in a NASA-labeled chart, extra QR claims and missing glyphs affect reliability. Editable projects and source are retained; geometry, sources and fine-text readability still need review before use.",
+  "methodZh": "creative-suite-v4：三项 Blender、四项日期锁定知识视频、三项静态 SVG 与一项 SMIL 动画。模型通过 Google Developer API 兼容工具循环独立编写源码，本地渲染生成画面；协调者只编排、检查和整理交付。未强制 thinkingLevel，文档默认 MEDIUM；未独立测定每次请求的实际思考档位。 知识片旁白统一由本地 Kokoro zf_xiaobei（lang z）合成，未评测 Gemini 原生语音生成。Blender 影片使用程序配乐与音效，无旁白。 书架和首部知识片会话遇到流式多工具调用索引碰撞：适配器将多次看图调用合并，调用未执行。保留错误与用量后，在原会话追加每次响应只调用一个工具的兼容说明，随后恢复；后续Argon案例也附同一技术说明。原冻结运行代码、任务和模型均未更换。串行调用及资源中断会影响请求次数与耗时，本批不据此作跨模型速度或成本排名。 磁盘紧张时曾改为逐项运行；空间回升到约6GiB后，继续以最多一项Blender和一部知识片并行。原有会话与作品始终保留，资源与队列时间不代表模型推理速度。 室内场景的长源码响应曾多次无有效内容断连；保留原会话后追加分段持久保存源码的技术说明，随后继续写入，底层断连原因未确定。",
+  "methodEn": "creative-suite-v4: three Blender tasks, four date-locked knowledge videos, three static SVGs and one SMIL animation. The model independently authors source through the Google Developer API-compatible tool loop; local renderers generate media. The coordinator orchestrates, inspects and packages. No thinkingLevel was forced; the documented default is MEDIUM, without per-request independent measurement. Knowledge narration uses the fixed local Kokoro zf_xiaobei voice (lang z); Gemini-native speech generation was not evaluated. Blender films use procedural music and effects, without narration. The bookshelf and first knowledge-film sessions encountered colliding indices in streamed parallel tool calls: the adapter merged image-view calls, which were not executed. Errors and usage were retained; technical feedback requested one tool call per response in the original sessions, which then resumed. Subsequent Argon cases receive the same transport instruction. Frozen runtime code, tasks and model are unchanged. Serial calls and resource interruptions affect request counts and elapsed time, which are not used for cross-model speed or cost rankings. Work was queued one case at a time under disk pressure. After free space recovered to about 6 GiB, at most one Blender case and one knowledge film ran together. Existing sessions and artwork were retained; resource and queue time are not model inference speed. Long interior-source responses repeatedly disconnected without usable content. The original session resumed with technical feedback to persist source in smaller pieces; source writing then continued. The underlying disconnect cause remains undetermined.",
+  "workflowNoteZh": "画面点评由 AI 完成；尺寸、媒体和音频检查使用程序。不冒称人工评分或实际听审。accepted 表示交付和检查完成，质量问题保留在各题简评。",
+  "workflowNoteEn": "Visual observations are by AI; dimensions, media and audio checks use scripts. No human scoring or actual listening is claimed. Accepted means delivery and inspection; quality defects remain in the case notes.",
+  "usageNoteZh": "原生 P/C/T、cache 和明确返回的 reasoning 逐请求保留在公开账目。C 不保证包含全部隐藏思考，缺失不是 0，不用 T−P−C 推算。完整输入/输出总量未知，展示为 —；已知小计不是完整账单。",
+  "usageNoteEn": "Native P/C/T, cache and explicitly returned reasoning are retained per request in the public ledger. C is not guaranteed to include all hidden thinking; missing is not zero and T−P−C is not inferred as reasoning. Complete input/output totals are unknown and shown as —; known subtotals are not a full bill.",
+  "billingZh": "API 未返回实际账单或抵扣金额，实际费用未知；未用价格估算替代账单。",
+  "billingEn": "The API did not return actual charges or credit deductions. Actual monetary cost is unknown; no price estimate substitutes for billing.",
+  "actualMonetaryCost": null,
+  "limitationsZh": [
+    "不公开完整题目输入、私有续接、事件日志或隐藏思考。",
+    "源码 ZIP 是审阅文件的公开派生包：TTS 元数据脱敏及可选截图助手排除逐项列明；作品、音轨与其余作者文件字节保留。",
+    "原生工程保留作者内嵌脚本。没有完整从零复建认证，也没有人工听审认证。",
+    "模型 ID 是提供商返回的精确别名；未公布可验证的不可变 checkpoint。"
+  ],
+  "limitationsEn": [
+    "Full task inputs, private continuations, event logs and hidden thinking are excluded.",
+    "Source ZIPs are reviewed public derivatives: TTS metadata sanitization and optional helper exclusions are listed. Artwork, audio and other author member bytes are retained.",
+    "Native projects retain author-embedded scripts. Complete from-zero reproducibility and human listening are not certified.",
+    "Model identity is the exact returned provider alias, without a published verifiable immutable checkpoint."
+  ],
+  "evidencePath": "/evaluations/gemini-4-argon-creative/creation-evidence.json",
+  "totals": {
+    "requests": 339,
+    "completedResponses": 327,
+    "errors": null,
+    "interruptedRequests": null,
+    "promptTokens": null,
+    "outputTokens": null
+  },
+  "usageLedger": [
+    {
+      "caseId": "bookshelf",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 1615,
+          "C": 57,
+          "T": 1672,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 65687,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 2122,
+          "C": 42,
+          "T": 2164,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 20283,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 2369,
+          "C": 31,
+          "T": 2400,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 3924,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 2524,
+          "C": 106,
+          "T": 2630,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 4349,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 3230,
+          "C": 230,
+          "T": 3460,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 12753,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 3585,
+          "C": 111,
+          "T": 3696,
+          "cachedPromptTokens": 1181,
+          "reasoningTokens": null,
+          "elapsedMs": 5130,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 3823,
+          "C": 143,
+          "T": 3966,
+          "cachedPromptTokens": 1536,
+          "reasoningTokens": null,
+          "elapsedMs": 4203,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 4173,
+          "C": 314,
+          "T": 4487,
+          "cachedPromptTokens": 1774,
+          "reasoningTokens": null,
+          "elapsedMs": 6381,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 4889,
+          "C": 221,
+          "T": 5110,
+          "cachedPromptTokens": 2124,
+          "reasoningTokens": null,
+          "elapsedMs": 45529,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 5437,
+          "C": 180,
+          "T": 5617,
+          "cachedPromptTokens": 2840,
+          "reasoningTokens": null,
+          "elapsedMs": 5134,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "response",
+          "P": 5811,
+          "C": 348,
+          "T": 6159,
+          "cachedPromptTokens": 3388,
+          "reasoningTokens": null,
+          "elapsedMs": 6600,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 12,
+          "outcome": "response",
+          "P": 6387,
+          "C": 188,
+          "T": 6575,
+          "cachedPromptTokens": 3762,
+          "reasoningTokens": null,
+          "elapsedMs": 18439,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 13,
+          "outcome": "response",
+          "P": 6937,
+          "C": 237,
+          "T": 7174,
+          "cachedPromptTokens": 4338,
+          "reasoningTokens": null,
+          "elapsedMs": 8688,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 14,
+          "outcome": "response",
+          "P": 7358,
+          "C": 254,
+          "T": 7612,
+          "cachedPromptTokens": 4888,
+          "reasoningTokens": null,
+          "elapsedMs": 12654,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 15,
+          "outcome": "response",
+          "P": 8021,
+          "C": 201,
+          "T": 8222,
+          "cachedPromptTokens": 5309,
+          "reasoningTokens": null,
+          "elapsedMs": 14767,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 16,
+          "outcome": "response",
+          "P": 8427,
+          "C": 831,
+          "T": 9258,
+          "cachedPromptTokens": 5972,
+          "reasoningTokens": null,
+          "elapsedMs": 37627,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 17,
+          "outcome": "response",
+          "P": 9642,
+          "C": 500,
+          "T": 10142,
+          "cachedPromptTokens": 6941,
+          "reasoningTokens": null,
+          "elapsedMs": 16397,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 18,
+          "outcome": "response",
+          "P": 10356,
+          "C": 582,
+          "T": 10938,
+          "cachedPromptTokens": 7593,
+          "reasoningTokens": null,
+          "elapsedMs": 12500,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 19,
+          "outcome": "response",
+          "P": 11271,
+          "C": 1615,
+          "T": 12886,
+          "cachedPromptTokens": 8307,
+          "reasoningTokens": null,
+          "elapsedMs": 57543,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 20,
+          "outcome": "response",
+          "P": 13067,
+          "C": 1029,
+          "T": 14096,
+          "cachedPromptTokens": 10360,
+          "reasoningTokens": null,
+          "elapsedMs": 36226,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 21,
+          "outcome": "response",
+          "P": 14280,
+          "C": 19474,
+          "T": 33754,
+          "cachedPromptTokens": 11018,
+          "reasoningTokens": null,
+          "elapsedMs": 243025,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 22,
+          "outcome": "response",
+          "P": 33861,
+          "C": 124,
+          "T": 33985,
+          "cachedPromptTokens": 14281,
+          "reasoningTokens": null,
+          "elapsedMs": 45176,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 23,
+          "outcome": "response",
+          "P": 35090,
+          "C": 52,
+          "T": 35142,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 65991,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 24,
+          "outcome": "response",
+          "P": 35759,
+          "C": 32,
+          "T": 35791,
+          "cachedPromptTokens": 33041,
+          "reasoningTokens": null,
+          "elapsedMs": 7136,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 25,
+          "outcome": "response",
+          "P": 36963,
+          "C": 16968,
+          "T": 53931,
+          "cachedPromptTokens": 33710,
+          "reasoningTokens": null,
+          "elapsedMs": 205575,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 26,
+          "outcome": "response",
+          "P": 54042,
+          "C": 125,
+          "T": 54167,
+          "cachedPromptTokens": 36964,
+          "reasoningTokens": null,
+          "elapsedMs": 9302,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 27,
+          "outcome": "error-or-interruption",
+          "P": 54815,
+          "C": 88,
+          "T": 54903,
+          "cachedPromptTokens": 36964,
+          "reasoningTokens": null,
+          "elapsedMs": 12790,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 28,
+          "outcome": "error-or-interruption",
+          "P": 54815,
+          "C": 88,
+          "T": 54903,
+          "cachedPromptTokens": 52766,
+          "reasoningTokens": null,
+          "elapsedMs": 9658,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 29,
+          "outcome": "response",
+          "P": 54993,
+          "C": 32,
+          "T": 55025,
+          "cachedPromptTokens": 52766,
+          "reasoningTokens": null,
+          "elapsedMs": 36231,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 30,
+          "outcome": "response",
+          "P": 56197,
+          "C": 32,
+          "T": 56229,
+          "cachedPromptTokens": 52944,
+          "reasoningTokens": null,
+          "elapsedMs": 66809,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 31,
+          "outcome": "response",
+          "P": 57401,
+          "C": 32,
+          "T": 57433,
+          "cachedPromptTokens": 55091,
+          "reasoningTokens": null,
+          "elapsedMs": 24440,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 32,
+          "outcome": "response",
+          "P": 58605,
+          "C": 16787,
+          "T": 75392,
+          "cachedPromptTokens": 56295,
+          "reasoningTokens": null,
+          "elapsedMs": 157371,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 33,
+          "outcome": "response",
+          "P": 75693,
+          "C": 32,
+          "T": 75725,
+          "cachedPromptTokens": 58606,
+          "reasoningTokens": null,
+          "elapsedMs": 23399,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 34,
+          "outcome": "response",
+          "P": 76897,
+          "C": 2340,
+          "T": 79237,
+          "cachedPromptTokens": 73644,
+          "reasoningTokens": null,
+          "elapsedMs": 65145,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 35,
+          "outcome": "response",
+          "P": 79538,
+          "C": 32,
+          "T": 79570,
+          "cachedPromptTokens": 76898,
+          "reasoningTokens": null,
+          "elapsedMs": 98912,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 36,
+          "outcome": "response",
+          "P": 80740,
+          "C": 783,
+          "T": 81523,
+          "cachedPromptTokens": 77489,
+          "reasoningTokens": null,
+          "elapsedMs": 153350,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 37,
+          "outcome": "response",
+          "P": 81819,
+          "C": 32,
+          "T": 81851,
+          "cachedPromptTokens": 79634,
+          "reasoningTokens": null,
+          "elapsedMs": 47365,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 38,
+          "outcome": "response",
+          "P": 83022,
+          "C": 125,
+          "T": 83147,
+          "cachedPromptTokens": 80744,
+          "reasoningTokens": null,
+          "elapsedMs": 22904,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 39,
+          "outcome": "response",
+          "P": 83931,
+          "C": 32,
+          "T": 83963,
+          "cachedPromptTokens": 80973,
+          "reasoningTokens": null,
+          "elapsedMs": 17169,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 40,
+          "outcome": "response",
+          "P": 85133,
+          "C": 32,
+          "T": 85165,
+          "cachedPromptTokens": 81882,
+          "reasoningTokens": null,
+          "elapsedMs": 29406,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 41,
+          "outcome": "response",
+          "P": 86337,
+          "C": 32,
+          "T": 86369,
+          "cachedPromptTokens": 84027,
+          "reasoningTokens": null,
+          "elapsedMs": 108565,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 42,
+          "outcome": "response",
+          "P": 87540,
+          "C": 124,
+          "T": 87664,
+          "cachedPromptTokens": 85231,
+          "reasoningTokens": null,
+          "elapsedMs": 51092,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 43,
+          "outcome": "response",
+          "P": 88279,
+          "C": 146,
+          "T": 88425,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 69554,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 44,
+          "outcome": "response",
+          "P": 89287,
+          "C": 29,
+          "T": 89316,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 111569,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 45,
+          "outcome": "response",
+          "P": 90481,
+          "C": 29,
+          "T": 90510,
+          "cachedPromptTokens": 88426,
+          "reasoningTokens": null,
+          "elapsedMs": 107498,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 46,
+          "outcome": "response",
+          "P": 91675,
+          "C": 29,
+          "T": 91704,
+          "cachedPromptTokens": 89375,
+          "reasoningTokens": null,
+          "elapsedMs": 23411,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 47,
+          "outcome": "response",
+          "P": 92869,
+          "C": 29,
+          "T": 92898,
+          "cachedPromptTokens": 90569,
+          "reasoningTokens": null,
+          "elapsedMs": 23276,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 48,
+          "outcome": "response",
+          "P": 94064,
+          "C": 29,
+          "T": 94093,
+          "cachedPromptTokens": 91763,
+          "reasoningTokens": null,
+          "elapsedMs": 87306,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 49,
+          "outcome": "response",
+          "P": 95258,
+          "C": 29,
+          "T": 95287,
+          "cachedPromptTokens": 92958,
+          "reasoningTokens": null,
+          "elapsedMs": 77350,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 50,
+          "outcome": "response",
+          "P": 96452,
+          "C": 139,
+          "T": 96591,
+          "cachedPromptTokens": 94152,
+          "reasoningTokens": null,
+          "elapsedMs": 70595,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 51,
+          "outcome": "response",
+          "P": 97249,
+          "C": 1503,
+          "T": 98752,
+          "cachedPromptTokens": 94403,
+          "reasoningTokens": null,
+          "elapsedMs": 76222,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 2324129,
+          "knownRequests": 51,
+          "missingRequests": 0
+        },
+        "C": {
+          "knownSubtotal": 66580,
+          "knownRequests": 51,
+          "missingRequests": 0
+        },
+        "T": {
+          "knownSubtotal": 2390709,
+          "knownRequests": 51,
+          "missingRequests": 0
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 1926927,
+          "knownRequests": 43,
+          "missingRequests": 8
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 51
+        }
+      },
+      "usageIncomplete": false,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "planetary-reducer",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 1787,
+          "C": 38,
+          "T": 1854,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 7264,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 3075,
+          "C": 87,
+          "T": 6218,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 42944,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 6828,
+          "C": 3602,
+          "T": 12156,
+          "cachedPromptTokens": 3076,
+          "reasoningTokens": null,
+          "elapsedMs": 56246,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 12366,
+          "C": 2627,
+          "T": 15094,
+          "cachedPromptTokens": 6829,
+          "reasoningTokens": null,
+          "elapsedMs": 77448,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 15550,
+          "C": 313,
+          "T": 16363,
+          "cachedPromptTokens": 12367,
+          "reasoningTokens": null,
+          "elapsedMs": 22523,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 16957,
+          "C": 3086,
+          "T": 20906,
+          "cachedPromptTokens": 13501,
+          "reasoningTokens": null,
+          "elapsedMs": 54619,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 21355,
+          "C": 7579,
+          "T": 34989,
+          "cachedPromptTokens": 16958,
+          "reasoningTokens": null,
+          "elapsedMs": 152766,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 35110,
+          "C": 13323,
+          "T": 50110,
+          "cachedPromptTokens": 21356,
+          "reasoningTokens": null,
+          "elapsedMs": 243868,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 51309,
+          "C": 31,
+          "T": 51375,
+          "cachedPromptTokens": 35111,
+          "reasoningTokens": null,
+          "elapsedMs": 16294,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 52544,
+          "C": 31,
+          "T": 52637,
+          "cachedPromptTokens": 50113,
+          "reasoningTokens": null,
+          "elapsedMs": 7456,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "response",
+          "P": 53806,
+          "C": 31,
+          "T": 53854,
+          "cachedPromptTokens": 51438,
+          "reasoningTokens": null,
+          "elapsedMs": 9618,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 12,
+          "outcome": "response",
+          "P": 55023,
+          "C": 33,
+          "T": 55075,
+          "cachedPromptTokens": 52700,
+          "reasoningTokens": null,
+          "elapsedMs": 8066,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 13,
+          "outcome": "response",
+          "P": 56248,
+          "C": 955,
+          "T": 61692,
+          "cachedPromptTokens": 53917,
+          "reasoningTokens": null,
+          "elapsedMs": 128201,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 14,
+          "outcome": "error-or-interruption",
+          "P": null,
+          "C": null,
+          "T": null,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 38504,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 15,
+          "outcome": "response",
+          "P": 62003,
+          "C": 33,
+          "T": 62055,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 12275,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 16,
+          "outcome": "response",
+          "P": 62684,
+          "C": 4656,
+          "T": 67956,
+          "cachedPromptTokens": 59954,
+          "reasoningTokens": null,
+          "elapsedMs": 56225,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 17,
+          "outcome": "response",
+          "P": 68081,
+          "C": 104,
+          "T": 68257,
+          "cachedPromptTokens": 62685,
+          "reasoningTokens": null,
+          "elapsedMs": 6910,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 18,
+          "outcome": "response",
+          "P": 69459,
+          "C": 31,
+          "T": 69535,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 8494,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 19,
+          "outcome": "response",
+          "P": 70705,
+          "C": 31,
+          "T": 70813,
+          "cachedPromptTokens": 68258,
+          "reasoningTokens": null,
+          "elapsedMs": 9507,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 20,
+          "outcome": "response",
+          "P": 71983,
+          "C": 31,
+          "T": 72049,
+          "cachedPromptTokens": 69599,
+          "reasoningTokens": null,
+          "elapsedMs": 10750,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 21,
+          "outcome": "response",
+          "P": 73218,
+          "C": 33,
+          "T": 73334,
+          "cachedPromptTokens": 70877,
+          "reasoningTokens": null,
+          "elapsedMs": 15021,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 22,
+          "outcome": "response",
+          "P": 74508,
+          "C": 1773,
+          "T": 76794,
+          "cachedPromptTokens": 72112,
+          "reasoningTokens": null,
+          "elapsedMs": 35636,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 23,
+          "outcome": "response",
+          "P": 77022,
+          "C": 1075,
+          "T": 78301,
+          "cachedPromptTokens": 74509,
+          "reasoningTokens": null,
+          "elapsedMs": 27755,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 24,
+          "outcome": "response",
+          "P": 93987,
+          "C": 31,
+          "T": 94057,
+          "cachedPromptTokens": 77023,
+          "reasoningTokens": null,
+          "elapsedMs": 41012,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 25,
+          "outcome": "response",
+          "P": 95227,
+          "C": 63,
+          "T": 95404,
+          "cachedPromptTokens": 91938,
+          "reasoningTokens": null,
+          "elapsedMs": 11225,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 26,
+          "outcome": "response",
+          "P": 96014,
+          "C": 1118,
+          "T": 97163,
+          "cachedPromptTokens": 93178,
+          "reasoningTokens": null,
+          "elapsedMs": 24316,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 1296849,
+          "knownRequests": 25,
+          "missingRequests": 1
+        },
+        "C": {
+          "knownSubtotal": 40715,
+          "knownRequests": 25,
+          "missingRequests": 1
+        },
+        "T": {
+          "knownSubtotal": 1358041,
+          "knownRequests": 25,
+          "missingRequests": 1
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 1057499,
+          "knownRequests": 21,
+          "missingRequests": 5
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 26
+        }
+      },
+      "usageIncomplete": true,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "two-bedroom-interior",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 1799,
+          "C": 34,
+          "T": 1862,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 4438,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 3128,
+          "C": 95,
+          "T": 3265,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 8361,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 3863,
+          "C": 147,
+          "T": 16763,
+          "cachedPromptTokens": 1079,
+          "reasoningTokens": null,
+          "elapsedMs": 135091,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 16972,
+          "C": 187,
+          "T": 17190,
+          "cachedPromptTokens": 3864,
+          "reasoningTokens": null,
+          "elapsedMs": 32496,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 17383,
+          "C": 171,
+          "T": 17623,
+          "cachedPromptTokens": 14923,
+          "reasoningTokens": null,
+          "elapsedMs": 6124,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 17804,
+          "C": 118,
+          "T": 28759,
+          "cachedPromptTokens": 15334,
+          "reasoningTokens": null,
+          "elapsedMs": 115122,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 28947,
+          "C": 4860,
+          "T": 34330,
+          "cachedPromptTokens": 17805,
+          "reasoningTokens": null,
+          "elapsedMs": 57847,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "error-or-interruption",
+          "P": null,
+          "C": null,
+          "T": null,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 149811,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "error-or-interruption",
+          "P": null,
+          "C": null,
+          "T": null,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 146777,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 34581,
+          "C": 4253,
+          "T": 38982,
+          "cachedPromptTokens": 32532,
+          "reasoningTokens": null,
+          "elapsedMs": 52777,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "error-or-interruption",
+          "P": null,
+          "C": null,
+          "T": null,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 306145,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 12,
+          "outcome": "response",
+          "P": 40085,
+          "C": 31,
+          "T": 40207,
+          "cachedPromptTokens": 38036,
+          "reasoningTokens": null,
+          "elapsedMs": 6367,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 13,
+          "outcome": "error-or-interruption",
+          "P": null,
+          "C": null,
+          "T": null,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 306130,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 14,
+          "outcome": "error-or-interruption",
+          "P": null,
+          "C": null,
+          "T": null,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 150320,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 15,
+          "outcome": "response",
+          "P": 41435,
+          "C": 1525,
+          "T": 43599,
+          "cachedPromptTokens": 39316,
+          "reasoningTokens": null,
+          "elapsedMs": 55039,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 16,
+          "outcome": "response",
+          "P": 43727,
+          "C": 3952,
+          "T": 47779,
+          "cachedPromptTokens": 41436,
+          "reasoningTokens": null,
+          "elapsedMs": 41422,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 17,
+          "outcome": "response",
+          "P": 47903,
+          "C": 5646,
+          "T": 53782,
+          "cachedPromptTokens": 43728,
+          "reasoningTokens": null,
+          "elapsedMs": 71980,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 18,
+          "outcome": "response",
+          "P": 53908,
+          "C": 5084,
+          "T": 59105,
+          "cachedPromptTokens": 47904,
+          "reasoningTokens": null,
+          "elapsedMs": 49972,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 19,
+          "outcome": "response",
+          "P": 59230,
+          "C": 8490,
+          "T": 69136,
+          "cachedPromptTokens": 53909,
+          "reasoningTokens": null,
+          "elapsedMs": 99281,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 20,
+          "outcome": "response",
+          "P": 69260,
+          "C": 7255,
+          "T": 77915,
+          "cachedPromptTokens": 59231,
+          "reasoningTokens": null,
+          "elapsedMs": 84133,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 21,
+          "outcome": "response",
+          "P": 78043,
+          "C": 4781,
+          "T": 86100,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 82284,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 22,
+          "outcome": "response",
+          "P": 86702,
+          "C": 160,
+          "T": 86962,
+          "cachedPromptTokens": 78044,
+          "reasoningTokens": null,
+          "elapsedMs": 44145,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 23,
+          "outcome": "response",
+          "P": 87541,
+          "C": 157,
+          "T": 87750,
+          "cachedPromptTokens": 84653,
+          "reasoningTokens": null,
+          "elapsedMs": 11748,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 24,
+          "outcome": "response",
+          "P": 88279,
+          "C": 1050,
+          "T": 89641,
+          "cachedPromptTokens": 86101,
+          "reasoningTokens": null,
+          "elapsedMs": 23910,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 25,
+          "outcome": "response",
+          "P": 90372,
+          "C": 30,
+          "T": 90495,
+          "cachedPromptTokens": 88280,
+          "reasoningTokens": null,
+          "elapsedMs": 49161,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 26,
+          "outcome": "response",
+          "P": 91663,
+          "C": 30,
+          "T": 92526,
+          "cachedPromptTokens": 88323,
+          "reasoningTokens": null,
+          "elapsedMs": 24522,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 27,
+          "outcome": "response",
+          "P": 93694,
+          "C": 30,
+          "T": 94016,
+          "cachedPromptTokens": 90557,
+          "reasoningTokens": null,
+          "elapsedMs": 25359,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 28,
+          "outcome": "response",
+          "P": 95184,
+          "C": 30,
+          "T": 96204,
+          "cachedPromptTokens": 92588,
+          "reasoningTokens": null,
+          "elapsedMs": 26256,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 29,
+          "outcome": "response",
+          "P": 97372,
+          "C": 30,
+          "T": 97868,
+          "cachedPromptTokens": 95185,
+          "reasoningTokens": null,
+          "elapsedMs": 14774,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 30,
+          "outcome": "response",
+          "P": 99038,
+          "C": 11752,
+          "T": 113373,
+          "cachedPromptTokens": 96266,
+          "reasoningTokens": null,
+          "elapsedMs": 172199,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 31,
+          "outcome": "response",
+          "P": 113908,
+          "C": 1346,
+          "T": 115462,
+          "cachedPromptTokens": 99039,
+          "reasoningTokens": null,
+          "elapsedMs": 24425,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 32,
+          "outcome": "response",
+          "P": 116202,
+          "C": 30,
+          "T": 116268,
+          "cachedPromptTokens": 113909,
+          "reasoningTokens": null,
+          "elapsedMs": 17034,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 33,
+          "outcome": "response",
+          "P": 117436,
+          "C": 30,
+          "T": 117718,
+          "cachedPromptTokens": 114153,
+          "reasoningTokens": null,
+          "elapsedMs": 34221,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 34,
+          "outcome": "response",
+          "P": 118886,
+          "C": 30,
+          "T": 119021,
+          "cachedPromptTokens": 116330,
+          "reasoningTokens": null,
+          "elapsedMs": 9345,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 35,
+          "outcome": "response",
+          "P": 120189,
+          "C": 30,
+          "T": 121065,
+          "cachedPromptTokens": 117780,
+          "reasoningTokens": null,
+          "elapsedMs": 22037,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 36,
+          "outcome": "response",
+          "P": 122233,
+          "C": 30,
+          "T": 122720,
+          "cachedPromptTokens": 119083,
+          "reasoningTokens": null,
+          "elapsedMs": 10881,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 37,
+          "outcome": "response",
+          "P": 123888,
+          "C": 2489,
+          "T": 127890,
+          "cachedPromptTokens": 121127,
+          "reasoningTokens": null,
+          "elapsedMs": 63490,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 38,
+          "outcome": "response",
+          "P": 129059,
+          "C": 30,
+          "T": 129161,
+          "cachedPromptTokens": 123889,
+          "reasoningTokens": null,
+          "elapsedMs": 12664,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 39,
+          "outcome": "response",
+          "P": 130329,
+          "C": 30,
+          "T": 131334,
+          "cachedPromptTokens": 127893,
+          "reasoningTokens": null,
+          "elapsedMs": 23073,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 40,
+          "outcome": "response",
+          "P": 132502,
+          "C": 30,
+          "T": 132858,
+          "cachedPromptTokens": 130330,
+          "reasoningTokens": null,
+          "elapsedMs": 16692,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 41,
+          "outcome": "response",
+          "P": 134027,
+          "C": 7133,
+          "T": 142238,
+          "cachedPromptTokens": 131396,
+          "reasoningTokens": null,
+          "elapsedMs": 77956,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 42,
+          "outcome": "response",
+          "P": 143408,
+          "C": 30,
+          "T": 143494,
+          "cachedPromptTokens": 134028,
+          "reasoningTokens": null,
+          "elapsedMs": 20594,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 43,
+          "outcome": "response",
+          "P": 144662,
+          "C": 30,
+          "T": 144904,
+          "cachedPromptTokens": 142240,
+          "reasoningTokens": null,
+          "elapsedMs": 23098,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 44,
+          "outcome": "response",
+          "P": 146072,
+          "C": 1422,
+          "T": 148084,
+          "cachedPromptTokens": 143556,
+          "reasoningTokens": null,
+          "elapsedMs": 26939,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 45,
+          "outcome": "response",
+          "P": 148892,
+          "C": 24,
+          "T": 149025,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 11591,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 46,
+          "outcome": "response",
+          "P": 149317,
+          "C": 90,
+          "T": 150121,
+          "cachedPromptTokens": 146843,
+          "reasoningTokens": null,
+          "elapsedMs": 20613,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 47,
+          "outcome": "response",
+          "P": 150417,
+          "C": 28,
+          "T": 150552,
+          "cachedPromptTokens": 148085,
+          "reasoningTokens": null,
+          "elapsedMs": 34968,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 48,
+          "outcome": "response",
+          "P": 151716,
+          "C": 28,
+          "T": 151857,
+          "cachedPromptTokens": 149361,
+          "reasoningTokens": null,
+          "elapsedMs": 10815,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 49,
+          "outcome": "response",
+          "P": 153021,
+          "C": 28,
+          "T": 153078,
+          "cachedPromptTokens": 150610,
+          "reasoningTokens": null,
+          "elapsedMs": 18157,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 50,
+          "outcome": "response",
+          "P": 154242,
+          "C": 28,
+          "T": 154299,
+          "cachedPromptTokens": 151915,
+          "reasoningTokens": null,
+          "elapsedMs": 80181,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 51,
+          "outcome": "response",
+          "P": 155463,
+          "C": 28,
+          "T": 155520,
+          "cachedPromptTokens": 153136,
+          "reasoningTokens": null,
+          "elapsedMs": 26995,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 52,
+          "outcome": "response",
+          "P": 156684,
+          "C": 273,
+          "T": 158753,
+          "cachedPromptTokens": 154357,
+          "reasoningTokens": null,
+          "elapsedMs": 47324,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 53,
+          "outcome": "response",
+          "P": 159035,
+          "C": 312,
+          "T": 159413,
+          "cachedPromptTokens": 156685,
+          "reasoningTokens": null,
+          "elapsedMs": 34519,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 54,
+          "outcome": "response",
+          "P": 160352,
+          "C": 35,
+          "T": 160602,
+          "cachedPromptTokens": 157969,
+          "reasoningTokens": null,
+          "elapsedMs": 17098,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 55,
+          "outcome": "response",
+          "P": 161780,
+          "C": 34,
+          "T": 161862,
+          "cachedPromptTokens": 159414,
+          "reasoningTokens": null,
+          "elapsedMs": 36508,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 56,
+          "outcome": "response",
+          "P": 163038,
+          "C": 481,
+          "T": 163901,
+          "cachedPromptTokens": 160674,
+          "reasoningTokens": null,
+          "elapsedMs": 68006,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 57,
+          "outcome": "response",
+          "P": 164212,
+          "C": 32,
+          "T": 164280,
+          "cachedPromptTokens": 161932,
+          "reasoningTokens": null,
+          "elapsedMs": 43206,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 58,
+          "outcome": "response",
+          "P": 165452,
+          "C": 807,
+          "T": 166616,
+          "cachedPromptTokens": 162163,
+          "reasoningTokens": null,
+          "elapsedMs": 38643,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 59,
+          "outcome": "response",
+          "P": 166926,
+          "C": 32,
+          "T": 167028,
+          "cachedPromptTokens": 164346,
+          "reasoningTokens": null,
+          "elapsedMs": 51436,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 60,
+          "outcome": "response",
+          "P": 168200,
+          "C": 1046,
+          "T": 171102,
+          "cachedPromptTokens": 165813,
+          "reasoningTokens": null,
+          "elapsedMs": 69969,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 61,
+          "outcome": "response",
+          "P": 171375,
+          "C": 1189,
+          "T": 172705,
+          "cachedPromptTokens": 168201,
+          "reasoningTokens": null,
+          "elapsedMs": 56478,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 62,
+          "outcome": "response",
+          "P": 185376,
+          "C": 3042,
+          "T": 189061,
+          "cachedPromptTokens": 171376,
+          "reasoningTokens": null,
+          "elapsedMs": 71395,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 63,
+          "outcome": "response",
+          "P": 192079,
+          "C": 31,
+          "T": 192285,
+          "cachedPromptTokens": 185377,
+          "reasoningTokens": null,
+          "elapsedMs": 15864,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 64,
+          "outcome": "response",
+          "P": 193455,
+          "C": 31,
+          "T": 193518,
+          "cachedPromptTokens": 190030,
+          "reasoningTokens": null,
+          "elapsedMs": 53333,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 65,
+          "outcome": "response",
+          "P": 194687,
+          "C": 31,
+          "T": 194823,
+          "cachedPromptTokens": 192349,
+          "reasoningTokens": null,
+          "elapsedMs": 31667,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 66,
+          "outcome": "response",
+          "P": 195992,
+          "C": 31,
+          "T": 196082,
+          "cachedPromptTokens": 193581,
+          "reasoningTokens": null,
+          "elapsedMs": 21184,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 67,
+          "outcome": "response",
+          "P": 197252,
+          "C": 31,
+          "T": 197315,
+          "cachedPromptTokens": 194886,
+          "reasoningTokens": null,
+          "elapsedMs": 74083,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 68,
+          "outcome": "response",
+          "P": 198485,
+          "C": 90,
+          "T": 198709,
+          "cachedPromptTokens": 196146,
+          "reasoningTokens": null,
+          "elapsedMs": 54769,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 69,
+          "outcome": "response",
+          "P": 199267,
+          "C": 1051,
+          "T": 200349,
+          "cachedPromptTokens": 196436,
+          "reasoningTokens": null,
+          "elapsedMs": 60230,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 7437429,
+          "knownRequests": 64,
+          "missingRequests": 5
+        },
+        "C": {
+          "knownSubtotal": 81421,
+          "knownRequests": 64,
+          "missingRequests": 5
+        },
+        "T": {
+          "knownSubtotal": 7570305,
+          "knownRequests": 64,
+          "missingRequests": 5
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 6975532,
+          "knownRequests": 60,
+          "missingRequests": 9
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 69
+        }
+      },
+      "usageIncomplete": true,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "knowledge-1",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 2384,
+          "C": 64,
+          "T": 2511,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 6536,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 3321,
+          "C": 58,
+          "T": 3416,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 5522,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 5824,
+          "C": 221,
+          "T": 6090,
+          "cachedPromptTokens": 3322,
+          "reasoningTokens": null,
+          "elapsedMs": 20304,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 6328,
+          "C": 102,
+          "T": 6567,
+          "cachedPromptTokens": 3775,
+          "reasoningTokens": null,
+          "elapsedMs": 6652,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 9603,
+          "C": 214,
+          "T": 10823,
+          "cachedPromptTokens": 6329,
+          "reasoningTokens": null,
+          "elapsedMs": 18144,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 11480,
+          "C": 127,
+          "T": 11784,
+          "cachedPromptTokens": 7554,
+          "reasoningTokens": null,
+          "elapsedMs": 106707,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 12962,
+          "C": 94,
+          "T": 13121,
+          "cachedPromptTokens": 10825,
+          "reasoningTokens": null,
+          "elapsedMs": 71427,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 14203,
+          "C": 98,
+          "T": 14322,
+          "cachedPromptTokens": 11785,
+          "reasoningTokens": null,
+          "elapsedMs": 78325,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 14982,
+          "C": 181,
+          "T": 15270,
+          "cachedPromptTokens": 12154,
+          "reasoningTokens": null,
+          "elapsedMs": 37045,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 15411,
+          "C": 99,
+          "T": 16787,
+          "cachedPromptTokens": 12933,
+          "reasoningTokens": null,
+          "elapsedMs": 37601,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "response",
+          "P": 17845,
+          "C": 157,
+          "T": 18025,
+          "cachedPromptTokens": 15412,
+          "reasoningTokens": null,
+          "elapsedMs": 22240,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 12,
+          "outcome": "response",
+          "P": 21194,
+          "C": 587,
+          "T": 25267,
+          "cachedPromptTokens": 17846,
+          "reasoningTokens": null,
+          "elapsedMs": 63148,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 13,
+          "outcome": "response",
+          "P": 27638,
+          "C": 548,
+          "T": 28839,
+          "cachedPromptTokens": 21195,
+          "reasoningTokens": null,
+          "elapsedMs": 21594,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 14,
+          "outcome": "error-or-interruption",
+          "P": null,
+          "C": null,
+          "T": null,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 119926,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 15,
+          "outcome": "response",
+          "P": 31127,
+          "C": 46,
+          "T": 31237,
+          "cachedPromptTokens": 29012,
+          "reasoningTokens": null,
+          "elapsedMs": 9265,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 16,
+          "outcome": "response",
+          "P": 31652,
+          "C": 596,
+          "T": 33258,
+          "cachedPromptTokens": 29078,
+          "reasoningTokens": null,
+          "elapsedMs": 22746,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 17,
+          "outcome": "response",
+          "P": 35533,
+          "C": 512,
+          "T": 36205,
+          "cachedPromptTokens": 31653,
+          "reasoningTokens": null,
+          "elapsedMs": 20326,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 18,
+          "outcome": "response",
+          "P": 38102,
+          "C": 553,
+          "T": 40899,
+          "cachedPromptTokens": 35534,
+          "reasoningTokens": null,
+          "elapsedMs": 62097,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 19,
+          "outcome": "response",
+          "P": 42581,
+          "C": 427,
+          "T": 43182,
+          "cachedPromptTokens": 38103,
+          "reasoningTokens": null,
+          "elapsedMs": 13114,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 20,
+          "outcome": "response",
+          "P": 44845,
+          "C": 333,
+          "T": 46305,
+          "cachedPromptTokens": 42582,
+          "reasoningTokens": null,
+          "elapsedMs": 18598,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 21,
+          "outcome": "response",
+          "P": 47112,
+          "C": 935,
+          "T": 48157,
+          "cachedPromptTokens": 44846,
+          "reasoningTokens": null,
+          "elapsedMs": 16247,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 22,
+          "outcome": "response",
+          "P": 49050,
+          "C": 2257,
+          "T": 52229,
+          "cachedPromptTokens": 46307,
+          "reasoningTokens": null,
+          "elapsedMs": 156396,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 23,
+          "outcome": "response",
+          "P": 52339,
+          "C": 2774,
+          "T": 55210,
+          "cachedPromptTokens": 49051,
+          "reasoningTokens": null,
+          "elapsedMs": 60632,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 24,
+          "outcome": "response",
+          "P": 55319,
+          "C": 3259,
+          "T": 58931,
+          "cachedPromptTokens": 52340,
+          "reasoningTokens": null,
+          "elapsedMs": 43433,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 25,
+          "outcome": "response",
+          "P": 60075,
+          "C": 224,
+          "T": 61001,
+          "cachedPromptTokens": 55320,
+          "reasoningTokens": null,
+          "elapsedMs": 19133,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 26,
+          "outcome": "response",
+          "P": 61237,
+          "C": 132,
+          "T": 61423,
+          "cachedPromptTokens": 58933,
+          "reasoningTokens": null,
+          "elapsedMs": 6727,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 27,
+          "outcome": "response",
+          "P": 61682,
+          "C": 169,
+          "T": 61993,
+          "cachedPromptTokens": 59188,
+          "reasoningTokens": null,
+          "elapsedMs": 14881,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 28,
+          "outcome": "response",
+          "P": 62198,
+          "C": 22589,
+          "T": 87968,
+          "cachedPromptTokens": 59633,
+          "reasoningTokens": null,
+          "elapsedMs": 287967,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 29,
+          "outcome": "response",
+          "P": 88195,
+          "C": 121,
+          "T": 88392,
+          "cachedPromptTokens": 62199,
+          "reasoningTokens": null,
+          "elapsedMs": 9276,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 30,
+          "outcome": "error-or-interruption",
+          "P": 88999,
+          "C": 79,
+          "T": 89181,
+          "cachedPromptTokens": 86146,
+          "reasoningTokens": null,
+          "elapsedMs": 15418,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 31,
+          "outcome": "error-or-interruption",
+          "P": 88999,
+          "C": 79,
+          "T": 89166,
+          "cachedPromptTokens": 86950,
+          "reasoningTokens": null,
+          "elapsedMs": 8068,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 32,
+          "outcome": "response",
+          "P": 89072,
+          "C": 29,
+          "T": 89149,
+          "cachedPromptTokens": 86950,
+          "reasoningTokens": null,
+          "elapsedMs": 15256,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 33,
+          "outcome": "response",
+          "P": 90315,
+          "C": 29,
+          "T": 90705,
+          "cachedPromptTokens": 87023,
+          "reasoningTokens": null,
+          "elapsedMs": 14951,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 34,
+          "outcome": "response",
+          "P": 91873,
+          "C": 29,
+          "T": 92224,
+          "cachedPromptTokens": 89209,
+          "reasoningTokens": null,
+          "elapsedMs": 14861,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 35,
+          "outcome": "response",
+          "P": 93389,
+          "C": 29,
+          "T": 93784,
+          "cachedPromptTokens": 90767,
+          "reasoningTokens": null,
+          "elapsedMs": 65088,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 36,
+          "outcome": "response",
+          "P": 94950,
+          "C": 31,
+          "T": 95435,
+          "cachedPromptTokens": 92283,
+          "reasoningTokens": null,
+          "elapsedMs": 29853,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 37,
+          "outcome": "response",
+          "P": 96605,
+          "C": 29,
+          "T": 96761,
+          "cachedPromptTokens": 93844,
+          "reasoningTokens": null,
+          "elapsedMs": 18040,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 38,
+          "outcome": "response",
+          "P": 97925,
+          "C": 5864,
+          "T": 104940,
+          "cachedPromptTokens": 95499,
+          "reasoningTokens": null,
+          "elapsedMs": 74477,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 39,
+          "outcome": "response",
+          "P": 105206,
+          "C": 29,
+          "T": 105304,
+          "cachedPromptTokens": 97926,
+          "reasoningTokens": null,
+          "elapsedMs": 36426,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 40,
+          "outcome": "response",
+          "P": 106470,
+          "C": 29,
+          "T": 106570,
+          "cachedPromptTokens": 103157,
+          "reasoningTokens": null,
+          "elapsedMs": 13797,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 41,
+          "outcome": "response",
+          "P": 107735,
+          "C": 29,
+          "T": 107823,
+          "cachedPromptTokens": 105364,
+          "reasoningTokens": null,
+          "elapsedMs": 8863,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 42,
+          "outcome": "response",
+          "P": 108988,
+          "C": 31,
+          "T": 109318,
+          "cachedPromptTokens": 106629,
+          "reasoningTokens": null,
+          "elapsedMs": 29166,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 43,
+          "outcome": "response",
+          "P": 110488,
+          "C": 29,
+          "T": 110554,
+          "cachedPromptTokens": 107882,
+          "reasoningTokens": null,
+          "elapsedMs": 13737,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 44,
+          "outcome": "response",
+          "P": 111720,
+          "C": 374,
+          "T": 112208,
+          "cachedPromptTokens": 109382,
+          "reasoningTokens": null,
+          "elapsedMs": 17472,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 45,
+          "outcome": "response",
+          "P": 148842,
+          "C": 184,
+          "T": 149232,
+          "cachedPromptTokens": 111721,
+          "reasoningTokens": null,
+          "elapsedMs": 24344,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 46,
+          "outcome": "response",
+          "P": 150209,
+          "C": 31,
+          "T": 150308,
+          "cachedPromptTokens": 146793,
+          "reasoningTokens": null,
+          "elapsedMs": 14390,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 47,
+          "outcome": "response",
+          "P": 151477,
+          "C": 31,
+          "T": 151539,
+          "cachedPromptTokens": 149234,
+          "reasoningTokens": null,
+          "elapsedMs": 35991,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 48,
+          "outcome": "response",
+          "P": 152708,
+          "C": 31,
+          "T": 152770,
+          "cachedPromptTokens": 150371,
+          "reasoningTokens": null,
+          "elapsedMs": 21344,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 49,
+          "outcome": "response",
+          "P": 153939,
+          "C": 1026,
+          "T": 155045,
+          "cachedPromptTokens": 151602,
+          "reasoningTokens": null,
+          "elapsedMs": 26455,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 3164131,
+          "knownRequests": 48,
+          "missingRequests": 1
+        },
+        "C": {
+          "knownSubtotal": 45499,
+          "knownRequests": 48,
+          "missingRequests": 1
+        },
+        "T": {
+          "knownSubtotal": 3231228,
+          "knownRequests": 48,
+          "missingRequests": 1
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 2965641,
+          "knownRequests": 46,
+          "missingRequests": 3
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 49
+        }
+      },
+      "usageIncomplete": true,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "knowledge-2",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 2415,
+          "C": 89,
+          "T": 2504,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 8322,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 3768,
+          "C": 174,
+          "T": 3942,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 7439,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 4094,
+          "C": 127,
+          "T": 4221,
+          "cachedPromptTokens": 1719,
+          "reasoningTokens": null,
+          "elapsedMs": 8423,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 7509,
+          "C": 1229,
+          "T": 8738,
+          "cachedPromptTokens": 4095,
+          "reasoningTokens": null,
+          "elapsedMs": 51797,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 10952,
+          "C": 488,
+          "T": 11440,
+          "cachedPromptTokens": 7510,
+          "reasoningTokens": null,
+          "elapsedMs": 9581,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 13387,
+          "C": 381,
+          "T": 13768,
+          "cachedPromptTokens": 10953,
+          "reasoningTokens": null,
+          "elapsedMs": 49921,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 15433,
+          "C": 297,
+          "T": 15730,
+          "cachedPromptTokens": 11338,
+          "reasoningTokens": null,
+          "elapsedMs": 48628,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 16429,
+          "C": 668,
+          "T": 17097,
+          "cachedPromptTokens": 13384,
+          "reasoningTokens": null,
+          "elapsedMs": 43675,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 18300,
+          "C": 667,
+          "T": 18967,
+          "cachedPromptTokens": 15731,
+          "reasoningTokens": null,
+          "elapsedMs": 11678,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 20133,
+          "C": 3190,
+          "T": 23323,
+          "cachedPromptTokens": 17098,
+          "reasoningTokens": null,
+          "elapsedMs": 53000,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "response",
+          "P": 23561,
+          "C": 3283,
+          "T": 26844,
+          "cachedPromptTokens": 20134,
+          "reasoningTokens": null,
+          "elapsedMs": 94763,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 12,
+          "outcome": "response",
+          "P": 27853,
+          "C": 204,
+          "T": 28057,
+          "cachedPromptTokens": 23562,
+          "reasoningTokens": null,
+          "elapsedMs": 25144,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 13,
+          "outcome": "response",
+          "P": 28199,
+          "C": 18265,
+          "T": 46464,
+          "cachedPromptTokens": 25804,
+          "reasoningTokens": null,
+          "elapsedMs": 172284,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 14,
+          "outcome": "response",
+          "P": 47257,
+          "C": 33,
+          "T": 47290,
+          "cachedPromptTokens": 28200,
+          "reasoningTokens": null,
+          "elapsedMs": 25701,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 15,
+          "outcome": "response",
+          "P": 48463,
+          "C": 37,
+          "T": 48500,
+          "cachedPromptTokens": 45208,
+          "reasoningTokens": null,
+          "elapsedMs": 6737,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 16,
+          "outcome": "response",
+          "P": 49681,
+          "C": 34,
+          "T": 49715,
+          "cachedPromptTokens": 47357,
+          "reasoningTokens": null,
+          "elapsedMs": 5306,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 17,
+          "outcome": "response",
+          "P": 50890,
+          "C": 40,
+          "T": 50930,
+          "cachedPromptTokens": 48575,
+          "reasoningTokens": null,
+          "elapsedMs": 5651,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 18,
+          "outcome": "response",
+          "P": 52117,
+          "C": 35,
+          "T": 52152,
+          "cachedPromptTokens": 49784,
+          "reasoningTokens": null,
+          "elapsedMs": 8888,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 19,
+          "outcome": "response",
+          "P": 53329,
+          "C": 36,
+          "T": 53365,
+          "cachedPromptTokens": 51011,
+          "reasoningTokens": null,
+          "elapsedMs": 6817,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 20,
+          "outcome": "response",
+          "P": 54543,
+          "C": 33,
+          "T": 54576,
+          "cachedPromptTokens": 52223,
+          "reasoningTokens": null,
+          "elapsedMs": 13286,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 21,
+          "outcome": "response",
+          "P": 55749,
+          "C": 17813,
+          "T": 73562,
+          "cachedPromptTokens": 53437,
+          "reasoningTokens": null,
+          "elapsedMs": 133140,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 22,
+          "outcome": "response",
+          "P": 73785,
+          "C": 301,
+          "T": 74086,
+          "cachedPromptTokens": 55750,
+          "reasoningTokens": null,
+          "elapsedMs": 9503,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 23,
+          "outcome": "response",
+          "P": 74463,
+          "C": 33,
+          "T": 74496,
+          "cachedPromptTokens": 71736,
+          "reasoningTokens": null,
+          "elapsedMs": 7963,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 24,
+          "outcome": "response",
+          "P": 75668,
+          "C": 37,
+          "T": 75705,
+          "cachedPromptTokens": 72414,
+          "reasoningTokens": null,
+          "elapsedMs": 7031,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 25,
+          "outcome": "response",
+          "P": 76886,
+          "C": 34,
+          "T": 76920,
+          "cachedPromptTokens": 74562,
+          "reasoningTokens": null,
+          "elapsedMs": 11399,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 26,
+          "outcome": "response",
+          "P": 78095,
+          "C": 35,
+          "T": 78130,
+          "cachedPromptTokens": 75780,
+          "reasoningTokens": null,
+          "elapsedMs": 52838,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 27,
+          "outcome": "response",
+          "P": 79307,
+          "C": 33,
+          "T": 79340,
+          "cachedPromptTokens": 76989,
+          "reasoningTokens": null,
+          "elapsedMs": 12189,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 28,
+          "outcome": "response",
+          "P": 80513,
+          "C": 158,
+          "T": 80671,
+          "cachedPromptTokens": 78201,
+          "reasoningTokens": null,
+          "elapsedMs": 8958,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 29,
+          "outcome": "response",
+          "P": 112538,
+          "C": 133,
+          "T": 112671,
+          "cachedPromptTokens": 80514,
+          "reasoningTokens": null,
+          "elapsedMs": 43637,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 30,
+          "outcome": "response",
+          "P": 113783,
+          "C": 35,
+          "T": 113818,
+          "cachedPromptTokens": 110489,
+          "reasoningTokens": null,
+          "elapsedMs": 177857,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 31,
+          "outcome": "response",
+          "P": 114996,
+          "C": 35,
+          "T": 115031,
+          "cachedPromptTokens": 112672,
+          "reasoningTokens": null,
+          "elapsedMs": 66867,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 32,
+          "outcome": "response",
+          "P": 116208,
+          "C": 883,
+          "T": 117091,
+          "cachedPromptTokens": 113890,
+          "reasoningTokens": null,
+          "elapsedMs": 28076,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 1600304,
+          "knownRequests": 32,
+          "missingRequests": 0
+        },
+        "C": {
+          "knownSubtotal": 48840,
+          "knownRequests": 32,
+          "missingRequests": 0
+        },
+        "T": {
+          "knownSubtotal": 1649144,
+          "knownRequests": 32,
+          "missingRequests": 0
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 1450120,
+          "knownRequests": 30,
+          "missingRequests": 2
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 32
+        }
+      },
+      "usageIncomplete": false,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "knowledge-3",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 2478,
+          "C": 77,
+          "T": 2621,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 5403,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 3073,
+          "C": 131,
+          "T": 3250,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 5590,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 4681,
+          "C": 98,
+          "T": 4843,
+          "cachedPromptTokens": 2548,
+          "reasoningTokens": null,
+          "elapsedMs": 10399,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 7835,
+          "C": 162,
+          "T": 8634,
+          "cachedPromptTokens": 4682,
+          "reasoningTokens": null,
+          "elapsedMs": 13727,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 9013,
+          "C": 197,
+          "T": 9445,
+          "cachedPromptTokens": 5786,
+          "reasoningTokens": null,
+          "elapsedMs": 9192,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 9603,
+          "C": 131,
+          "T": 10499,
+          "cachedPromptTokens": 6964,
+          "reasoningTokens": null,
+          "elapsedMs": 15058,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 11024,
+          "C": 101,
+          "T": 11180,
+          "cachedPromptTokens": 8479,
+          "reasoningTokens": null,
+          "elapsedMs": 5453,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 12275,
+          "C": 746,
+          "T": 16832,
+          "cachedPromptTokens": 9986,
+          "reasoningTokens": null,
+          "elapsedMs": 57823,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 17140,
+          "C": 760,
+          "T": 18108,
+          "cachedPromptTokens": 12276,
+          "reasoningTokens": null,
+          "elapsedMs": 17823,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 18882,
+          "C": 141,
+          "T": 19083,
+          "cachedPromptTokens": 16094,
+          "reasoningTokens": null,
+          "elapsedMs": 6477,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "response",
+          "P": 21120,
+          "C": 449,
+          "T": 22620,
+          "cachedPromptTokens": 18883,
+          "reasoningTokens": null,
+          "elapsedMs": 23468,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 12,
+          "outcome": "response",
+          "P": 24362,
+          "C": 607,
+          "T": 25497,
+          "cachedPromptTokens": 21121,
+          "reasoningTokens": null,
+          "elapsedMs": 24324,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 13,
+          "outcome": "response",
+          "P": 27449,
+          "C": 208,
+          "T": 28048,
+          "cachedPromptTokens": 24363,
+          "reasoningTokens": null,
+          "elapsedMs": 19836,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 14,
+          "outcome": "response",
+          "P": 28720,
+          "C": 712,
+          "T": 29752,
+          "cachedPromptTokens": 25400,
+          "reasoningTokens": null,
+          "elapsedMs": 20120,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 15,
+          "outcome": "response",
+          "P": 29898,
+          "C": 726,
+          "T": 30662,
+          "cachedPromptTokens": 27521,
+          "reasoningTokens": null,
+          "elapsedMs": 11948,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 16,
+          "outcome": "response",
+          "P": 31690,
+          "C": 2226,
+          "T": 34487,
+          "cachedPromptTokens": 29044,
+          "reasoningTokens": null,
+          "elapsedMs": 38987,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 17,
+          "outcome": "response",
+          "P": 35704,
+          "C": 3288,
+          "T": 39153,
+          "cachedPromptTokens": 31691,
+          "reasoningTokens": null,
+          "elapsedMs": 43110,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 18,
+          "outcome": "response",
+          "P": 39272,
+          "C": 4068,
+          "T": 43868,
+          "cachedPromptTokens": 35705,
+          "reasoningTokens": null,
+          "elapsedMs": 71399,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 19,
+          "outcome": "response",
+          "P": 44993,
+          "C": 208,
+          "T": 45672,
+          "cachedPromptTokens": 39273,
+          "reasoningTokens": null,
+          "elapsedMs": 28316,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 20,
+          "outcome": "response",
+          "P": 45876,
+          "C": 132,
+          "T": 46067,
+          "cachedPromptTokens": 42944,
+          "reasoningTokens": null,
+          "elapsedMs": 14911,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 21,
+          "outcome": "response",
+          "P": 46325,
+          "C": 302,
+          "T": 46787,
+          "cachedPromptTokens": 43827,
+          "reasoningTokens": null,
+          "elapsedMs": 18551,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 22,
+          "outcome": "response",
+          "P": 46911,
+          "C": 22170,
+          "T": 71533,
+          "cachedPromptTokens": 44276,
+          "reasoningTokens": null,
+          "elapsedMs": 254114,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 23,
+          "outcome": "response",
+          "P": 71870,
+          "C": 36,
+          "T": 71991,
+          "cachedPromptTokens": 46912,
+          "reasoningTokens": null,
+          "elapsedMs": 6126,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 24,
+          "outcome": "response",
+          "P": 73169,
+          "C": 36,
+          "T": 73506,
+          "cachedPromptTokens": 69821,
+          "reasoningTokens": null,
+          "elapsedMs": 8790,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 25,
+          "outcome": "response",
+          "P": 74684,
+          "C": 36,
+          "T": 75128,
+          "cachedPromptTokens": 72063,
+          "reasoningTokens": null,
+          "elapsedMs": 21128,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 26,
+          "outcome": "response",
+          "P": 76306,
+          "C": 36,
+          "T": 76742,
+          "cachedPromptTokens": 73578,
+          "reasoningTokens": null,
+          "elapsedMs": 9806,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 27,
+          "outcome": "response",
+          "P": 77922,
+          "C": 36,
+          "T": 78391,
+          "cachedPromptTokens": 75200,
+          "reasoningTokens": null,
+          "elapsedMs": 46352,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 28,
+          "outcome": "response",
+          "P": 79570,
+          "C": 22070,
+          "T": 101983,
+          "cachedPromptTokens": 76816,
+          "reasoningTokens": null,
+          "elapsedMs": 190851,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 29,
+          "outcome": "response",
+          "P": 102230,
+          "C": 36,
+          "T": 102313,
+          "cachedPromptTokens": 79571,
+          "reasoningTokens": null,
+          "elapsedMs": 9286,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 30,
+          "outcome": "response",
+          "P": 103491,
+          "C": 36,
+          "T": 103583,
+          "cachedPromptTokens": 100181,
+          "reasoningTokens": null,
+          "elapsedMs": 14515,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 31,
+          "outcome": "response",
+          "P": 104761,
+          "C": 36,
+          "T": 104868,
+          "cachedPromptTokens": 102385,
+          "reasoningTokens": null,
+          "elapsedMs": 9595,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 32,
+          "outcome": "response",
+          "P": 106046,
+          "C": 36,
+          "T": 106223,
+          "cachedPromptTokens": 103655,
+          "reasoningTokens": null,
+          "elapsedMs": 56806,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 33,
+          "outcome": "response",
+          "P": 107401,
+          "C": 36,
+          "T": 107538,
+          "cachedPromptTokens": 104940,
+          "reasoningTokens": null,
+          "elapsedMs": 27028,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 34,
+          "outcome": "response",
+          "P": 108716,
+          "C": 368,
+          "T": 109403,
+          "cachedPromptTokens": 106295,
+          "reasoningTokens": null,
+          "elapsedMs": 17954,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 35,
+          "outcome": "response",
+          "P": 128802,
+          "C": 226,
+          "T": 129187,
+          "cachedPromptTokens": 108717,
+          "reasoningTokens": null,
+          "elapsedMs": 12244,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 36,
+          "outcome": "response",
+          "P": 129470,
+          "C": 35,
+          "T": 129555,
+          "cachedPromptTokens": 126753,
+          "reasoningTokens": null,
+          "elapsedMs": 23250,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 37,
+          "outcome": "response",
+          "P": 130733,
+          "C": 34,
+          "T": 130901,
+          "cachedPromptTokens": 127421,
+          "reasoningTokens": null,
+          "elapsedMs": 13326,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 38,
+          "outcome": "response",
+          "P": 132077,
+          "C": 46,
+          "T": 132259,
+          "cachedPromptTokens": 129627,
+          "reasoningTokens": null,
+          "elapsedMs": 22779,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 39,
+          "outcome": "response",
+          "P": 133065,
+          "C": 850,
+          "T": 133940,
+          "cachedPromptTokens": 130971,
+          "reasoningTokens": null,
+          "elapsedMs": 73354,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 2258637,
+          "knownRequests": 39,
+          "missingRequests": 0
+        },
+        "C": {
+          "knownSubtotal": 61629,
+          "knownRequests": 39,
+          "missingRequests": 0
+        },
+        "T": {
+          "knownSubtotal": 2336152,
+          "knownRequests": 39,
+          "missingRequests": 0
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 2085769,
+          "knownRequests": 37,
+          "missingRequests": 2
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 39
+        }
+      },
+      "usageIncomplete": false,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "knowledge-4",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 2450,
+          "C": 89,
+          "T": 2539,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 39927,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 3811,
+          "C": 156,
+          "T": 3967,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 6068,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 4149,
+          "C": 122,
+          "T": 4271,
+          "cachedPromptTokens": 1762,
+          "reasoningTokens": null,
+          "elapsedMs": 9310,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 7308,
+          "C": 937,
+          "T": 8245,
+          "cachedPromptTokens": 4150,
+          "reasoningTokens": null,
+          "elapsedMs": 17041,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 10166,
+          "C": 394,
+          "T": 10560,
+          "cachedPromptTokens": 7309,
+          "reasoningTokens": null,
+          "elapsedMs": 10454,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 12257,
+          "C": 404,
+          "T": 12661,
+          "cachedPromptTokens": 10167,
+          "reasoningTokens": null,
+          "elapsedMs": 41804,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 14353,
+          "C": 419,
+          "T": 14772,
+          "cachedPromptTokens": 12258,
+          "reasoningTokens": null,
+          "elapsedMs": 8337,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 16470,
+          "C": 404,
+          "T": 16874,
+          "cachedPromptTokens": 14354,
+          "reasoningTokens": null,
+          "elapsedMs": 30377,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 18535,
+          "C": 477,
+          "T": 19012,
+          "cachedPromptTokens": 16471,
+          "reasoningTokens": null,
+          "elapsedMs": 8197,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 19208,
+          "C": 433,
+          "T": 19641,
+          "cachedPromptTokens": 16486,
+          "reasoningTokens": null,
+          "elapsedMs": 31132,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "response",
+          "P": 20359,
+          "C": 3475,
+          "T": 23834,
+          "cachedPromptTokens": 17159,
+          "reasoningTokens": null,
+          "elapsedMs": 44648,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 12,
+          "outcome": "response",
+          "P": 24104,
+          "C": 2852,
+          "T": 26956,
+          "cachedPromptTokens": 20360,
+          "reasoningTokens": null,
+          "elapsedMs": 60111,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 13,
+          "outcome": "response",
+          "P": 27176,
+          "C": 155,
+          "T": 27331,
+          "cachedPromptTokens": 24105,
+          "reasoningTokens": null,
+          "elapsedMs": 6443,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 14,
+          "outcome": "response",
+          "P": 27512,
+          "C": 18312,
+          "T": 45824,
+          "cachedPromptTokens": 25127,
+          "reasoningTokens": null,
+          "elapsedMs": 246525,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 15,
+          "outcome": "response",
+          "P": 46576,
+          "C": 31,
+          "T": 46607,
+          "cachedPromptTokens": 27513,
+          "reasoningTokens": null,
+          "elapsedMs": 70151,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 16,
+          "outcome": "response",
+          "P": 47776,
+          "C": 31,
+          "T": 47807,
+          "cachedPromptTokens": 44527,
+          "reasoningTokens": null,
+          "elapsedMs": 86751,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 17,
+          "outcome": "response",
+          "P": 48977,
+          "C": 31,
+          "T": 49008,
+          "cachedPromptTokens": 46670,
+          "reasoningTokens": null,
+          "elapsedMs": 20890,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 18,
+          "outcome": "response",
+          "P": 50178,
+          "C": 31,
+          "T": 50209,
+          "cachedPromptTokens": 47871,
+          "reasoningTokens": null,
+          "elapsedMs": 7395,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 19,
+          "outcome": "response",
+          "P": 51379,
+          "C": 32,
+          "T": 51411,
+          "cachedPromptTokens": 49072,
+          "reasoningTokens": null,
+          "elapsedMs": 8501,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 20,
+          "outcome": "response",
+          "P": 52583,
+          "C": 33,
+          "T": 52616,
+          "cachedPromptTokens": 50273,
+          "reasoningTokens": null,
+          "elapsedMs": 22871,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 21,
+          "outcome": "response",
+          "P": 53790,
+          "C": 31,
+          "T": 53821,
+          "cachedPromptTokens": 51477,
+          "reasoningTokens": null,
+          "elapsedMs": 13534,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 22,
+          "outcome": "response",
+          "P": 54991,
+          "C": 29,
+          "T": 55020,
+          "cachedPromptTokens": 52684,
+          "reasoningTokens": null,
+          "elapsedMs": 9843,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 23,
+          "outcome": "error-or-interruption",
+          "P": null,
+          "C": null,
+          "T": null,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 144929,
+          "finalUsageReceived": false
+        },
+        {
+          "requestNumber": 24,
+          "outcome": "response",
+          "P": 56384,
+          "C": 138,
+          "T": 56522,
+          "cachedPromptTokens": 54137,
+          "reasoningTokens": null,
+          "elapsedMs": 9019,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 25,
+          "outcome": "response",
+          "P": 91519,
+          "C": 691,
+          "T": 92210,
+          "cachedPromptTokens": 56385,
+          "reasoningTokens": null,
+          "elapsedMs": 19681,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 762011,
+          "knownRequests": 24,
+          "missingRequests": 1
+        },
+        "C": {
+          "knownSubtotal": 29707,
+          "knownRequests": 24,
+          "missingRequests": 1
+        },
+        "T": {
+          "knownSubtotal": 791718,
+          "knownRequests": 24,
+          "missingRequests": 1
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 650317,
+          "knownRequests": 22,
+          "missingRequests": 3
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 25
+        }
+      },
+      "usageIncomplete": true,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "svg-clock",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 1534,
+          "C": 24,
+          "T": 1912,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 15605,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 2273,
+          "C": 24,
+          "T": 2314,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 52244,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 2515,
+          "C": 27,
+          "T": 2555,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 10608,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 2792,
+          "C": 4012,
+          "T": 10022,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 94180,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 10238,
+          "C": 4114,
+          "T": 14442,
+          "cachedPromptTokens": 2793,
+          "reasoningTokens": null,
+          "elapsedMs": 69850,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 15011,
+          "C": 125,
+          "T": 15194,
+          "cachedPromptTokens": 10239,
+          "reasoningTokens": null,
+          "elapsedMs": 50645,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 15432,
+          "C": 24,
+          "T": 15485,
+          "cachedPromptTokens": 12962,
+          "reasoningTokens": null,
+          "elapsedMs": 37074,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 16605,
+          "C": 4713,
+          "T": 22449,
+          "cachedPromptTokens": 14443,
+          "reasoningTokens": null,
+          "elapsedMs": 76494,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 22689,
+          "C": 24,
+          "T": 22730,
+          "cachedPromptTokens": 16606,
+          "reasoningTokens": null,
+          "elapsedMs": 6054,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 23850,
+          "C": 23,
+          "T": 24103,
+          "cachedPromptTokens": 20640,
+          "reasoningTokens": null,
+          "elapsedMs": 38941,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "response",
+          "P": 33793,
+          "C": 9154,
+          "T": 42971,
+          "cachedPromptTokens": 23851,
+          "reasoningTokens": null,
+          "elapsedMs": 104204,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 146732,
+          "knownRequests": 11,
+          "missingRequests": 0
+        },
+        "C": {
+          "knownSubtotal": 22264,
+          "knownRequests": 11,
+          "missingRequests": 0
+        },
+        "T": {
+          "knownSubtotal": 174177,
+          "knownRequests": 11,
+          "missingRequests": 0
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 101534,
+          "knownRequests": 7,
+          "missingRequests": 4
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 11
+        }
+      },
+      "usageIncomplete": false,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "svg-dashboard",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 1567,
+          "C": 3594,
+          "T": 5161,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 37774,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 6131,
+          "C": 3598,
+          "T": 9729,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 34234,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 9925,
+          "C": 24,
+          "T": 9949,
+          "cachedPromptTokens": 6132,
+          "reasoningTokens": null,
+          "elapsedMs": 5362,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 11069,
+          "C": 3594,
+          "T": 14663,
+          "cachedPromptTokens": 7876,
+          "reasoningTokens": null,
+          "elapsedMs": 31908,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 14991,
+          "C": 24,
+          "T": 15015,
+          "cachedPromptTokens": 11070,
+          "reasoningTokens": null,
+          "elapsedMs": 16167,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 16135,
+          "C": 3644,
+          "T": 19779,
+          "cachedPromptTokens": 12942,
+          "reasoningTokens": null,
+          "elapsedMs": 34082,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 59818,
+          "knownRequests": 6,
+          "missingRequests": 0
+        },
+        "C": {
+          "knownSubtotal": 14478,
+          "knownRequests": 6,
+          "missingRequests": 0
+        },
+        "T": {
+          "knownSubtotal": 74296,
+          "knownRequests": 6,
+          "missingRequests": 0
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 38020,
+          "knownRequests": 4,
+          "missingRequests": 2
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 6
+        }
+      },
+      "usageIncomplete": false,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "svg-poster",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 1573,
+          "C": 24,
+          "T": 1857,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 7745,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 2221,
+          "C": 38,
+          "T": 2298,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 7065,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 2516,
+          "C": 27,
+          "T": 2581,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 6201,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 2859,
+          "C": 6673,
+          "T": 13834,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 117452,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 14049,
+          "C": 6778,
+          "T": 20900,
+          "cachedPromptTokens": 2860,
+          "reasoningTokens": null,
+          "elapsedMs": 101672,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 21802,
+          "C": 120,
+          "T": 21973,
+          "cachedPromptTokens": 14050,
+          "reasoningTokens": null,
+          "elapsedMs": 51961,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 22176,
+          "C": 24,
+          "T": 22217,
+          "cachedPromptTokens": 19753,
+          "reasoningTokens": null,
+          "elapsedMs": 8898,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 23337,
+          "C": 7137,
+          "T": 31566,
+          "cachedPromptTokens": 20901,
+          "reasoningTokens": null,
+          "elapsedMs": 69787,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 31796,
+          "C": 24,
+          "T": 31837,
+          "cachedPromptTokens": 23338,
+          "reasoningTokens": null,
+          "elapsedMs": 9961,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 32957,
+          "C": 497,
+          "T": 33613,
+          "cachedPromptTokens": 29747,
+          "reasoningTokens": null,
+          "elapsedMs": 81121,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 155286,
+          "knownRequests": 10,
+          "missingRequests": 0
+        },
+        "C": {
+          "knownSubtotal": 21342,
+          "knownRequests": 10,
+          "missingRequests": 0
+        },
+        "T": {
+          "knownSubtotal": 182676,
+          "knownRequests": 10,
+          "missingRequests": 0
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 110649,
+          "knownRequests": 6,
+          "missingRequests": 4
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 10
+        }
+      },
+      "usageIncomplete": false,
+      "actualMonetaryCost": null
+    },
+    {
+      "caseId": "svg-pelican-animation",
+      "requests": [
+        {
+          "requestNumber": 1,
+          "outcome": "response",
+          "P": 1651,
+          "C": 22,
+          "T": 1714,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 4161,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 2,
+          "outcome": "response",
+          "P": 2039,
+          "C": 32,
+          "T": 2087,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 4703,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 3,
+          "outcome": "response",
+          "P": 2285,
+          "C": 27,
+          "T": 2325,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 4743,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 4,
+          "outcome": "response",
+          "P": 2585,
+          "C": 16524,
+          "T": 23704,
+          "cachedPromptTokens": null,
+          "reasoningTokens": null,
+          "elapsedMs": 234686,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 5,
+          "outcome": "response",
+          "P": 23931,
+          "C": 14810,
+          "T": 38795,
+          "cachedPromptTokens": 2586,
+          "reasoningTokens": null,
+          "elapsedMs": 138245,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 6,
+          "outcome": "response",
+          "P": 38921,
+          "C": 388,
+          "T": 39434,
+          "cachedPromptTokens": 23932,
+          "reasoningTokens": null,
+          "elapsedMs": 61529,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 7,
+          "outcome": "response",
+          "P": 39560,
+          "C": 24,
+          "T": 39616,
+          "cachedPromptTokens": 36872,
+          "reasoningTokens": null,
+          "elapsedMs": 6201,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 8,
+          "outcome": "response",
+          "P": 40736,
+          "C": 26,
+          "T": 40850,
+          "cachedPromptTokens": 37511,
+          "reasoningTokens": null,
+          "elapsedMs": 42053,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 9,
+          "outcome": "response",
+          "P": 41973,
+          "C": 15284,
+          "T": 58070,
+          "cachedPromptTokens": 39666,
+          "reasoningTokens": null,
+          "elapsedMs": 132979,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 10,
+          "outcome": "response",
+          "P": 58218,
+          "C": 26,
+          "T": 58292,
+          "cachedPromptTokens": 41974,
+          "reasoningTokens": null,
+          "elapsedMs": 8177,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 11,
+          "outcome": "response",
+          "P": 59415,
+          "C": 26,
+          "T": 59489,
+          "cachedPromptTokens": 56169,
+          "reasoningTokens": null,
+          "elapsedMs": 42557,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 12,
+          "outcome": "response",
+          "P": 60613,
+          "C": 26,
+          "T": 60675,
+          "cachedPromptTokens": 58345,
+          "reasoningTokens": null,
+          "elapsedMs": 6343,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 13,
+          "outcome": "response",
+          "P": 61798,
+          "C": 1130,
+          "T": 65933,
+          "cachedPromptTokens": 59543,
+          "reasoningTokens": null,
+          "elapsedMs": 52362,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 14,
+          "outcome": "response",
+          "P": 66089,
+          "C": 26,
+          "T": 66165,
+          "cachedPromptTokens": 61799,
+          "reasoningTokens": null,
+          "elapsedMs": 8003,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 15,
+          "outcome": "response",
+          "P": 67287,
+          "C": 180,
+          "T": 67999,
+          "cachedPromptTokens": 64818,
+          "reasoningTokens": null,
+          "elapsedMs": 28582,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 16,
+          "outcome": "response",
+          "P": 69027,
+          "C": 2500,
+          "T": 73057,
+          "cachedPromptTokens": 66217,
+          "reasoningTokens": null,
+          "elapsedMs": 47390,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 17,
+          "outcome": "response",
+          "P": 73206,
+          "C": 26,
+          "T": 73282,
+          "cachedPromptTokens": 69028,
+          "reasoningTokens": null,
+          "elapsedMs": 10470,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 18,
+          "outcome": "response",
+          "P": 74406,
+          "C": 24,
+          "T": 74570,
+          "cachedPromptTokens": 71157,
+          "reasoningTokens": null,
+          "elapsedMs": 26656,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 19,
+          "outcome": "response",
+          "P": 75689,
+          "C": 374,
+          "T": 76586,
+          "cachedPromptTokens": 73336,
+          "reasoningTokens": null,
+          "elapsedMs": 36144,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 20,
+          "outcome": "response",
+          "P": 76956,
+          "C": 37,
+          "T": 77791,
+          "cachedPromptTokens": 74619,
+          "reasoningTokens": null,
+          "elapsedMs": 21069,
+          "finalUsageReceived": true
+        },
+        {
+          "requestNumber": 21,
+          "outcome": "response",
+          "P": 78425,
+          "C": 380,
+          "T": 78863,
+          "cachedPromptTokens": 76217,
+          "reasoningTokens": null,
+          "elapsedMs": 17150,
+          "finalUsageReceived": true
+        }
+      ],
+      "totals": {
+        "P": {
+          "knownSubtotal": 1014810,
+          "knownRequests": 21,
+          "missingRequests": 0
+        },
+        "C": {
+          "knownSubtotal": 51892,
+          "knownRequests": 21,
+          "missingRequests": 0
+        },
+        "T": {
+          "knownSubtotal": 1079297,
+          "knownRequests": 21,
+          "missingRequests": 0
+        },
+        "cachedPromptTokens": {
+          "knownSubtotal": 913789,
+          "knownRequests": 17,
+          "missingRequests": 4
+        },
+        "reasoningTokens": {
+          "knownSubtotal": null,
+          "knownRequests": 0,
+          "missingRequests": 21
+        }
+      },
+      "usageIncomplete": false,
+      "actualMonetaryCost": null
+    }
+  ],
+  "topicSetSha256": "3ee3c3ae4dd583083b8288b8aeea2eb9cda32d22c86716935c516f10c99f6d71",
+  "batchSha256": "b6b4dc7558a0799ed9b1fbb634e195f88b11f7aa60e8bf7c3f925f6b5b3feb26",
+  "harness": "google-openai-persistent-creation-v1",
+  "forcedThinkingLevel": null,
+  "cases": [
+    {
+      "id": "bookshelf",
+      "titleZh": "参数化书架及参数修改",
+      "titleEn": "Parametric bookshelf and parameter revision",
+      "category": "blender",
+      "effort": "default",
+      "summaryZh": "两版木板主体尺寸、18mm板厚与等分净格准确，抽查榫槽接口贴合。外露五金使总外包略超名义尺寸，浅木上的白字对比偏弱。",
+      "summaryEn": "Both wood bodies, 18 mm boards and equal clear compartments have the specified dimensions, with matching sampled joints. Protruding hardware slightly exceeds the nominal envelope, and white labels lose contrast on pale wood.",
+      "source": {
+        "url": "https://vercel.com/changelog/kimi-k3-1-pro-and-kimi-k3-1-pro-highspeed-are-available-now-in-ai-gateway",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "同一参数化书架制作两版：800/1000mm宽、三格/四格，保持深300mm、高1200mm和18mm板厚，交两工程六视图。\nTwo parametric shelf variants: 800/1000 mm wide, three/four compartments, retaining 300 mm depth, 1200 mm height and 18 mm boards; two projects and six views.",
+        "originalPromptSha256": "270cc062940aa2ccbae53be251aa2b04c4d792416913cc6850b3612ed355b53d",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "同一参数化书架制作两版：800/1000mm宽、三格/四格，保持深300mm、高1200mm和18mm板厚，交两工程六视图。\nTwo parametric shelf variants: 800/1000 mm wide, three/four compartments, retaining 300 mm depth, 1200 mm height and 18 mm boards; two projects and six views.",
+      "promptSha256": "270cc062940aa2ccbae53be251aa2b04c4d792416913cc6850b3612ed355b53d",
+      "caseSpecSha256": "6e2b1958706313f70113222e73d7e202aa6e77d28b074206e61c2dc6f3a69bb5",
+      "qaSha256": "fd77f921efcffd1c7b826204e9dccc2be7bcbfb236156b8e6a4c06e792fb6381",
+      "metrics": {
+        "requests": 51,
+        "completedResponses": 49,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/bookshelf/v1_main.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "参数化书架及参数修改 · 视图 1",
+          "captionEn": "Parametric bookshelf and parameter revision · view 1"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/bookshelf/v2_main.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "参数化书架及参数修改 · 视图 2",
+          "captionEn": "Parametric bookshelf and parameter revision · view 2"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/bookshelf/v1_back.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "参数化书架及参数修改 · 视图 3",
+          "captionEn": "Parametric bookshelf and parameter revision · view 3"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/bookshelf/v1_closeup.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "参数化书架及参数修改 · 视图 4",
+          "captionEn": "Parametric bookshelf and parameter revision · view 4"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/bookshelf/v2_back.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "参数化书架及参数修改 · 视图 5",
+          "captionEn": "Parametric bookshelf and parameter revision · view 5"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/bookshelf/v2_closeup.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "参数化书架及参数修改 · 视图 6",
+          "captionEn": "Parametric bookshelf and parameter revision · view 6"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/bookshelf/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "两版共享参数脚本，木板主体的800/1000mm宽、300mm深、1200mm高及18mm厚度均可核对，三格376mm与四格277.5mm净高准确，抽查榫槽接口贴合。六张图清楚展示正背面与局部连接；含外露五金的总外包略超名义尺寸，浅木上的白字对比一般。"
+      ],
+      "assessmentEn": [
+        "The shared generator produces the specified 800/1000 mm wood-body widths, 300 mm depth, 1200 mm height and 18 mm boards. Clear bays measure 376 mm and 277.5 mm, with matching joint sections. Six clear views show both sides and local joinery. Protruding hardware slightly exceeds the nominal envelope, and white labels have limited contrast on pale wood."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [
+        "The original generator and both required editable native projects are included unchanged. No independent from-zero full render was performed.",
+        "Change geometry presets in the shared script and rerun it to rebuild; the controller custom properties are metadata/hierarchy, not a live driver interface.",
+        "Materials are procedural and require no texture files. The Blender projects reference the optional macOS Helvetica system font; the generator uses Blender built-in font when the system font is absent. No third-party font binary is bundled.",
+        "The optional final.blend comparison scene, historical backups, preview images, logs, frozen inputs and private continuation state are outside this minimal source package."
+      ],
+      "actualListeningPerformed": false
+    },
+    {
+      "id": "planetary-reducer",
+      "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+      "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+      "category": "blender",
+      "effort": "default",
+      "summaryZh": "实际齿数、毫米尺寸和采样3.5速比吻合，六秒影片完整。俯视裁边、高光对比不足、退化三角和零面积UV，以及前后架分壳，仍影响资产质量。",
+      "summaryEn": "The tooth counts, millimetre dimensions and sampled 3.5 ratio are correct, with a complete six-second film. Cropped framing, bright highlights, degenerate triangles, collapsed UVs and disconnected carrier shells still weaken asset quality.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "制作并展示24/18×3/60齿行星减速器，核查尺寸、啮合与运动，交原生工程、多视图和六秒短片。\nCreate a 24/18×3/60-tooth planetary reducer with dimensional, mesh and motion review, editable project, multiple views and a six-second film.",
+        "originalPromptSha256": "9eef9fc40342aec818be3f9134ebf8b33777765f67f9d1d8a2cfea24c168b231",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "制作并展示24/18×3/60齿行星减速器，核查尺寸、啮合与运动，交原生工程、多视图和六秒短片。\nCreate a 24/18×3/60-tooth planetary reducer with dimensional, mesh and motion review, editable project, multiple views and a six-second film.",
+      "promptSha256": "9eef9fc40342aec818be3f9134ebf8b33777765f67f9d1d8a2cfea24c168b231",
+      "caseSpecSha256": "58fc7543753c82a6282d4ab784ed5c16723b749ae0375d5ffc007a982eee8342",
+      "qaSha256": "2b7e29390ffd844e624acdaad2c8089ad79ddb6b2627d90e6357ba8fb9cb8ed8",
+      "metrics": {
+        "requests": 26,
+        "completedResponses": 25,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/gemini-4-argon-creative/assets/planetary-reducer/final.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 6.0,
+          "captionZh": "24/18/60齿行星减速器装配与轴向爆炸 · 视图 1",
+          "captionEn": "24/18/60-tooth planetary reducer and axial explosion · view 1",
+          "posterPath": "/evaluations/gemini-4-argon-creative/assets/planetary-reducer/poster-1.jpg",
+          "posterProvenance": {
+            "sourceSha256": "a096e350097493f485bb72bc0aea6d754bca9d47401cb51ae31149e352104e7e",
+            "derivedSingleFrame": true
+          },
+          "audioMode": "music-only"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/planetary-reducer/01_assembled_main.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "24/18/60齿行星减速器装配与轴向爆炸 · 视图 2",
+          "captionEn": "24/18/60-tooth planetary reducer and axial explosion · view 2"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/planetary-reducer/02_axial_exploded.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "24/18/60齿行星减速器装配与轴向爆炸 · 视图 3",
+          "captionEn": "24/18/60-tooth planetary reducer and axial explosion · view 3"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/planetary-reducer/03_top_view.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "24/18/60齿行星减速器装配与轴向爆炸 · 视图 4",
+          "captionEn": "24/18/60-tooth planetary reducer and axial explosion · view 4"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/planetary-reducer/04_gear_mesh_closeup.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "24/18/60齿行星减速器装配与轴向爆炸 · 视图 5",
+          "captionEn": "24/18/60-tooth planetary reducer and axial explosion · view 5"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/planetary-reducer/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "24/18×3/60齿、140mm外圈和20mm齿宽实测吻合，采样机构速比3.5，6秒1080p影片完整。俯视上下裁切，亮金属对比偏弱；齿轮有退化三角和零面积UV，前后架各11分壳，销座呈切线式接合，结构和拓扑仍需整理。原生工程、四视图、两音轨与源码齐全。"
+      ],
+      "assessmentEn": [
+        "Correct tooth counts and millimetre scale, sampled 3.5:1 kinematics, and a complete 6-second 1080p film. The top view clips the ring and bright metal loses contrast. Degenerate triangles, collapsed UV faces and 11 disconnected shells per carrier remain; coherent pin support is not established. Editable native project, four views, two stems and source are delivered."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [
+        "从零完整复建未验证（full clean rebuild not certified）；运行原音频/视频脚本前，先在解包工作目录创建 .tmp 和 .tmp/frames。",
+        "最终编码未单独脚本化，原作者 shell 命令为：ffmpeg -y -framerate 30 -i .tmp/frames/frame_%04d.png -i .tmp/mixed_audio.wav -c:v libx264 -pix_fmt yuv420p -crf 18 -c:a aac -b:a 192k -shortest final.mp4",
+        "临时混音 WAV 和帧序列由原作者在成片后清理，未进入下载包；原音频/视频脚本保持原字节，可生成这些中间输出。协调者未补写编码器或代合成作品。"
+      ],
+      "actualListeningPerformed": null
+    },
+    {
+      "id": "two-bedroom-interior",
+      "titleZh": "12×9米两居室装修、多房间与俯视平面",
+      "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+      "category": "blender",
+      "effort": "default",
+      "summaryZh": "12×9m轮廓、主要门窗开洞和房间分区可核对，五视图与六秒局部导览齐备。床座为1.8×1.9m，未达到题设的2m长度，取景裁边、末尾门扇遮挡和简化细节也影响展示。",
+      "summaryEn": "The 12×9 m footprint, main wall openings and room layout are verified, with five views and a six-second partial tour. The 1.8×1.9 m bed base falls short of the requested 2 m length; tight crops, the final doorway obstruction and simplified details also limit presentation.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "制作12×9m两居室，包含指定房间、门窗和家具，交原生工程、五视图和六秒短片。\nCreate a 12×9 m two-bedroom interior with specified rooms, openings and furniture; editable project, five views and a six-second film.",
+        "originalPromptSha256": "07131c050f24bd5db4ac8a755d58aae1e708c9cd5e7db41a071cc7632899c7fc",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "制作12×9m两居室，包含指定房间、门窗和家具，交原生工程、五视图和六秒短片。\nCreate a 12×9 m two-bedroom interior with specified rooms, openings and furniture; editable project, five views and a six-second film.",
+      "promptSha256": "07131c050f24bd5db4ac8a755d58aae1e708c9cd5e7db41a071cc7632899c7fc",
+      "caseSpecSha256": "1ccfd5842dac0f5e795c07fd0044f7e0fa55902f0e4894e294a170d208ddd7d0",
+      "qaSha256": "533b6d9ed165d2ed82f2a23ef2afb2c6003f538e3a91c10e31f3344b25fc3acc",
+      "metrics": {
+        "requests": 69,
+        "completedResponses": 64,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/gemini-4-argon-creative/assets/two-bedroom-interior/final.mp4",
+          "width": 1280,
+          "height": 720,
+          "durationSeconds": 6.0,
+          "captionZh": "12×9米两居室装修、多房间与俯视平面 · 视图 1",
+          "captionEn": "12×9m two-bedroom interior, rooms and floor plan · view 1",
+          "posterPath": "/evaluations/gemini-4-argon-creative/assets/two-bedroom-interior/poster-1.jpg",
+          "posterProvenance": {
+            "sourceSha256": "621f770880d988ec75799e990a066027db16385af8eebea43003a9278e27fd7a",
+            "derivedSingleFrame": true
+          },
+          "audioMode": "music-only"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/two-bedroom-interior/clay_closeup.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "12×9米两居室装修、多房间与俯视平面 · 视图 2",
+          "captionEn": "12×9m two-bedroom interior, rooms and floor plan · view 2"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/two-bedroom-interior/living_dining.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "12×9米两居室装修、多房间与俯视平面 · 视图 3",
+          "captionEn": "12×9m two-bedroom interior, rooms and floor plan · view 3"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/two-bedroom-interior/master_bedroom.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "12×9米两居室装修、多房间与俯视平面 · 视图 4",
+          "captionEn": "12×9m two-bedroom interior, rooms and floor plan · view 4"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/two-bedroom-interior/second_bedroom.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "12×9米两居室装修、多房间与俯视平面 · 视图 5",
+          "captionEn": "12×9m two-bedroom interior, rooms and floor plan · view 5"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/two-bedroom-interior/top_ortho.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "12×9米两居室装修、多房间与俯视平面 · 视图 6",
+          "captionEn": "12×9m two-bedroom interior, rooms and floor plan · view 6"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/two-bedroom-interior/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "12×9m轮廓、2.8m净高、240/120mm墙厚与关键门窗洞口实测成立，六椅、1.8×0.9m餐桌和2.4×1.7m地毯齐全。五个HD视角可读，6秒片完整但属客厅至走廊的局部导览；近景裁切、浅材质及窗灯高光层次偏弱。床座/床垫尺寸偏小，电视有效面约63.8英寸。"
+      ],
+      "assessmentEn": [
+        "The 12×9m footprint, 2.8m clear height, 240/120mm walls and key door/window voids are verified, with six dining chairs and correctly sized table/rug. Five HD views are readable; the complete six-second film is a partial living-to-corridor tour. Tight crops and pale highlights limit presentation. The bed base/mattress are undersized, and the active TV screen measures about63.8 inches."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [
+        "未执行从零独立重建；final.blend 为实际交付终稿，外部源码和依赖清单不代表逐字节复建认证。",
+        "题源 inputs/layout.yaml 不进入源码包。最终 build_scene.py 将布局坐标写在代码中，不在运行时读取 YAML；修改 YAML 不会自动更新模型。",
+        "render_finals.py 仍输出 16-bit PNG；作者随后在 shell 通过 FFmpeg 将五张终稿转成 8-bit RGB。此转换没有独立持久脚本或作者 README，仅运行记录保存命令，因此仅执行该渲染脚本不能逐字节重现交付 PNG。",
+        "重建顺序由实际调用推导：使用已附贴图或先执行 generate_textures.py，再执行 build_scene.py、setup_walkthrough.py；静帧渲染与视频帧渲染分别加载 final.blend，随后 generate_audio_and_mux.py 生成双音轨并编码。未提供一键重建入口。",
+        "视频帧脚本在内存中调整世界、灯光、玻璃和窗帘材质，不回写 final.blend，并跳过已有且大于 10000 字节的帧；复建须使用独立、空的帧输出目录以避免混用旧帧。",
+        "依赖 Blender 5.2.3 对应的 bpy/bmesh/mathutils、NumPy，以及含 libx264/AAC 的 FFmpeg；软件版本、硬件和渲染结果的逐字节一致性未验证。",
+        "update_scene.py/refine_scene.py/tweak_living_master.py 的有效修改已写入或被后续改动替代于最终 build_scene.py；它们是保留在本地的历史源码变换，不是重新构建时必须再次执行的步骤，旧锚点已失效。"
+      ],
+      "actualListeningPerformed": null
+    },
+    {
+      "id": "knowledge-1",
+      "titleZh": "水结成冰，为什么反而浮起来？",
+      "titleEn": "Why does water float after it freezes?",
+      "category": "knowledge-video",
+      "effort": "default",
+      "summaryZh": "89秒影片用分子守恒、氢键和体积膨胀解释冰浮起，主要科学主线基本正确。信息卡偏密，等体积图的冰分子数量与分镜不一致，宣称的镜头拉近也未实现。",
+      "summaryEn": "The 89-second film explains floating ice through mass conservation, hydrogen bonds and volume expansion, with a basically correct scientific narrative. Dense cards, a molecular count that differs from the storyboard and absent promised camera zooms reduce clarity.",
+      "source": {
+        "url": "https://www.noaa.gov/jetstream/ocean/sea-water",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "围绕冻结主题“水结成冰，为什么反而浮起来？”制作60–90秒中文口播知识片，交字幕、分镜和工程。\nCreate a 60–90 second Chinese-narrated film about the frozen topic “Why does water float after it freezes?”, with captions, storyboard and project.",
+        "originalPromptSha256": "f1832d017344e1dea2392d2a6edcfb1e3caf43b9e021590f1393d1a81c99e810",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "围绕冻结主题“水结成冰，为什么反而浮起来？”制作60–90秒中文口播知识片，交字幕、分镜和工程。\nCreate a 60–90 second Chinese-narrated film about the frozen topic “Why does water float after it freezes?”, with captions, storyboard and project.",
+      "promptSha256": "f1832d017344e1dea2392d2a6edcfb1e3caf43b9e021590f1393d1a81c99e810",
+      "caseSpecSha256": "a3c13826dc88d43187aaa294f1e596a89c123abf6e61b8504892d5275b6d7321",
+      "qaSha256": "08202a90502abd604b430e0d3e971f91f47357bc49961592e2a85c81c669d5f3",
+      "metrics": {
+        "requests": 49,
+        "completedResponses": 46,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/gemini-4-argon-creative/assets/knowledge-1/final.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 89.0,
+          "captionZh": "水结成冰，为什么反而浮起来？",
+          "captionEn": "Why does water float after it freezes?",
+          "posterPath": "/evaluations/gemini-4-argon-creative/assets/knowledge-1/poster-1.jpg",
+          "posterProvenance": {
+            "sourceSha256": "569f9de238d46f51447caf2fe9f43879069c1a0320f94d96b8176e3a95f89778",
+            "derivedSingleFrame": true
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/knowledge-1/captions.srt",
+          "labelZh": "captions.srt",
+          "labelEn": "captions.srt"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/knowledge-1/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "完整89秒影片与必交稿件/源码/三音轨齐全；全解码、24条SRT及12段TTS边界检查通过。 18/18分子守恒、液态水氢键、约9%体积膨胀和淡水/海水边界解释基本正确。 信息卡密，小屏细字弱；分镜的拉近/拉回未实现；等体积图12个冰分子与分镜约16个不一致。 读音稿“分子”声调错误；实际语音听审未知。 两版TTS原WAV/文本/收据完整只读快照；作者删除的中间混音WAV原字节未保留，可由所交源码与三WAV重建，协调者未重生。"
+      ],
+      "assessmentEn": [
+        "A complete 89 s film, required documents/source and three audio stems are delivered; full decode, 24 SRT cues and 12 TTS segment boundaries pass. The 18/18 molecular comparison, liquid-water hydrogen bonds, about 9% volume expansion and freshwater/seawater boundary are basically consistent with the sources. Dense cards weaken fine-text readability on small screens; promised camera zooms are absent; the equal-volume ice panel has 12 molecules versus about 16 in the storyboard. The pronunciation guide contains a tone error for molecule; actual listening is unknown. Both TTS WAV/text/receipt versions are preserved as read-only snapshots. The author deleted the intermediate mix WAV; its bytes were not archived. Supplied source and stems can rebuild it; the coordinator did not regenerate it."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [],
+      "actualListeningPerformed": null
+    },
+    {
+      "id": "knowledge-2",
+      "titleZh": "二维码缺了一块，为什么还能扫？",
+      "titleEn": "Why can a damaged QR code still be read?",
+      "category": "knowledge-video",
+      "effort": "default",
+      "summaryZh": "78秒影片的8bit码字、四档恢复率与Q级50／200例子正确，100+100码字分组可核对。新增固定冗余比、定位角必然失效和尺寸必须增大的断言缺少来源支撑，细字也偏密。",
+      "summaryEn": "The 78-second film correctly explains 8-bit codewords, correction levels and the Q-level 50/200 example, including the 100+100 split. Extra fixed redundancy ratios, inevitable finder failure and mandatory size growth lack source support, and fine text is dense.",
+      "source": {
+        "url": "https://www.qrcode.com/en/about/error_correction.html",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "围绕冻结主题“二维码缺了一块，为什么还能扫？”制作60–90秒中文口播知识片，交字幕、分镜和工程。\nCreate a 60–90 second Chinese-narrated film about the frozen topic “Why can a damaged QR code still be read?”, with captions, storyboard and project.",
+        "originalPromptSha256": "498ad3d8a8e94410c03bf0209a7b7084ca6c8cace51f026643b3151ec57cfa67",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "围绕冻结主题“二维码缺了一块，为什么还能扫？”制作60–90秒中文口播知识片，交字幕、分镜和工程。\nCreate a 60–90 second Chinese-narrated film about the frozen topic “Why can a damaged QR code still be read?”, with captions, storyboard and project.",
+      "promptSha256": "498ad3d8a8e94410c03bf0209a7b7084ca6c8cace51f026643b3151ec57cfa67",
+      "caseSpecSha256": "fb712266869406dbbb4855844f32a6c60fef86f1a61eb2cb27c9186f0b6fb9eb",
+      "qaSha256": "945c5d31bcce8d91ad88f5968a822867ea97b70a30b1cce39b2f7932acb4090e",
+      "metrics": {
+        "requests": 32,
+        "completedResponses": 32,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/gemini-4-argon-creative/assets/knowledge-2/final.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 78.0,
+          "captionZh": "二维码缺了一块，为什么还能扫？",
+          "captionEn": "Why can a damaged QR code still be read?",
+          "posterPath": "/evaluations/gemini-4-argon-creative/assets/knowledge-2/poster-1.jpg",
+          "posterProvenance": {
+            "sourceSha256": "eddf87a0e125193b5d7b5ced05a92439c81a8658197cc292d85ae484b64d8668",
+            "derivedSingleFrame": true
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/knowledge-2/captions.srt",
+          "labelZh": "captions.srt",
+          "labelEn": "captions.srt"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/knowledge-2/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "78秒完整影片、稿件/分镜/字幕/源码及三WAV齐全；整片解码、12段TTS与SRT及烧录字幕表一致性通过。 主线的8bit、四档近似恢复率与Q级50/200说明正确；200格、100数据+100纠错及50格恢复和D2/D6数值一致已核实。 密集卡片小屏细字弱；容量图额外给出未经来源支持的固定冗余比，定位角损坏必然失效与尺寸必须增大的措辞过满。 分镜的平滑章节转场未实现；实际听感和逐字语音对齐仍未知。 5版TTS原WAV/文本/收据及首次完整MP4/源码快照齐全；作者删去的master原字节已在QA保留，未由协调者重混。"
+      ],
+      "assessmentEn": [
+        "A complete 78 s film, required documents/source and three WAV stems are delivered; full decode, 12 TTS/SRT boundaries and the burned caption table pass. The main 8-bit, approximate levels and Q-level 50/200 explanation is correct; 200 cells, the 100+100 split, 50-cell recovery and D2/D6 values were verified. Dense cards weaken small-screen labels; extra fixed redundancy ratios lack source support, and finder failure/mandatory size growth are overstated. Promised smooth chapter transitions are absent; listening and word-level speech alignment remain unknown. All five TTS WAV/text/receipt versions and the first complete MP4/source are preserved. The author-deleted master WAV was captured in QA; the coordinator did not remix it."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [],
+      "actualListeningPerformed": null
+    },
+    {
+      "id": "knowledge-3",
+      "titleZh": "韦布为什么用五层薄膜，而不是一块厚板？",
+      "titleEn": "Why does Webb use five thin sunshield layers?",
+      "category": "knowledge-video",
+      "effort": "default",
+      "summaryZh": "81.5秒影片把五层膜、侧向散热和涂层作用分开讲清，字幕醒目。尾图却把自定冷却／复杂度分数冠以NASA建模，四层临界等结论缺少冻结来源支持，小字也偏密。",
+      "summaryEn": "The 81.5-second film clearly separates the five-layer shield, lateral heat escape and coatings, with prominent captions. Its final chart presents self-defined cooling/complexity scores as NASA modeling and adds unsupported threshold claims, while fine annotations are dense.",
+      "source": {
+        "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "围绕冻结主题“韦布为什么用五层薄膜，而不是一块厚板？”制作60–90秒中文口播知识片，交字幕、分镜和工程。\nCreate a 60–90 second Chinese-narrated film about the frozen topic “Why does Webb use five thin sunshield layers?”, with captions, storyboard and project.",
+        "originalPromptSha256": "7f9ba6dce5297cc9f1c3d730df41fc19b49e9ed11c929e9170d8aab50a8d3e81",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "围绕冻结主题“韦布为什么用五层薄膜，而不是一块厚板？”制作60–90秒中文口播知识片，交字幕、分镜和工程。\nCreate a 60–90 second Chinese-narrated film about the frozen topic “Why does Webb use five thin sunshield layers?”, with captions, storyboard and project.",
+      "promptSha256": "7f9ba6dce5297cc9f1c3d730df41fc19b49e9ed11c929e9170d8aab50a8d3e81",
+      "caseSpecSha256": "b0473740485ceccaff5343dae1d2565efb5d1b24803caa310588ffa6bae8b268",
+      "qaSha256": "9269f8a3934ffb9afb1b9e277ff2460f88ee0e975ecb9a295c1bfa24abb39627",
+      "metrics": {
+        "requests": 39,
+        "completedResponses": 39,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/gemini-4-argon-creative/assets/knowledge-3/final.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 81.5,
+          "captionZh": "韦布为什么用五层薄膜，而不是一块厚板？",
+          "captionEn": "Why does Webb use five thin sunshield layers?",
+          "posterPath": "/evaluations/gemini-4-argon-creative/assets/knowledge-3/poster-1.jpg",
+          "posterProvenance": {
+            "sourceSha256": "c2bd22a26e7dcd2a15b3033441a4fd1d739f7d47dfa9466d8e142d06caeb6c1c",
+            "derivedSingleFrame": true
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/knowledge-3/captions.srt",
+          "labelZh": "captions.srt",
+          "labelEn": "captions.srt"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/knowledge-3/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "蓝橙图解把厚板传导、五层侧向排热和涂层分开讲清，字幕醒目、冷热方向一致，81.5秒成片与三条音轨完整。尾段却把作者自定的冷却/复杂度柱高冠以NASA建模，并给出“四层临界达标”等缺少冻结来源支持的结论；材料和权衡页小字密集，手机竖屏需放大。"
+      ],
+      "assessmentEn": [
+        "Blue-and-orange diagrams clearly separate slab conduction, five-layer lateral heat escape and coatings, with prominent captions, consistent hot/cold directions and a complete81.5-second film plus three audio stems. The final chart presents author-defined cooling/complexity bar heights as NASA modeling and adds unsupported claims such as a four-layer threshold; dense small annotations need enlargement on a portrait phone."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [
+        "The author deleted mixed_audio.wav after encoding. Its original bytes remain only in the local QA snapshot; the source package retains generate_audio.py plus the delivered narration/music/SFX stems. Source inspection shows generate_audio.py can create the working mix before render_video.py runs; that sequence was not independently executed.",
+        "render_video.py reads subtitles.json as well as the generated mixed_audio.wav. It requires NumPy, Pillow, macOS system fonts and an FFmpeg binary at a hardcoded installation path; generate_audio.py additionally requires SciPy. System fonts and binaries are not redistributed, and portability is not certified.",
+        "The delivered narration.wav and original Kokoro receipt are preserved. Regenerating narration additionally requires the separately frozen Kokoro runtime and voice, which are not included in the author-source package.",
+        "No clean-environment or exact from-zero rebuild was performed. Author source and audio bytes are preserved rather than repaired by the coordinator."
+      ],
+      "actualListeningPerformed": false
+    },
+    {
+      "id": "knowledge-4",
+      "titleZh": "降噪耳机没放音乐，为什么也能安静？",
+      "titleEn": "Why does noise cancellation work without music?",
+      "category": "knowledge-video",
+      "effort": "default",
+      "summaryZh": "84.8秒影片把被动密封、麦克风—处理器—扬声器与残余声压串成清楚因果链，理想和非实测边界明确。部分勾选符号缺字，细字对比偏弱，音频计划增益与实际混音也不一致。",
+      "summaryEn": "The 84.8-second film clearly connects passive sealing, the microphone–processor–speaker chain and residual pressure, with explicit idealization labels. Some checkmarks are missing, fine text has low contrast, and planned gains differ from the actual mix.",
+      "source": {
+        "url": "https://www.bose.com/stories/how-do-noise-cancelling-headphones-work",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "围绕冻结主题“降噪耳机没放音乐，为什么也能安静？”制作60–90秒中文口播知识片，交字幕、分镜和工程。\nCreate a 60–90 second Chinese-narrated film about the frozen topic “Why does noise cancellation work without music?”, with captions, storyboard and project.",
+        "originalPromptSha256": "3a44b93d63a27e3e5bc8e4214b99b50ec28cd087f421ca341afbe63b8c8f98bc",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "围绕冻结主题“降噪耳机没放音乐，为什么也能安静？”制作60–90秒中文口播知识片，交字幕、分镜和工程。\nCreate a 60–90 second Chinese-narrated film about the frozen topic “Why does noise cancellation work without music?”, with captions, storyboard and project.",
+      "promptSha256": "3a44b93d63a27e3e5bc8e4214b99b50ec28cd087f421ca341afbe63b8c8f98bc",
+      "caseSpecSha256": "4b30951b372162bdaf488c7f3eac0451747a8624efd87ad160abb1e687b07c9c",
+      "qaSha256": "7ea38cb98fd4f324defa4898ce7d92c731016d6683ac8ae23d30d480ed9b23b6",
+      "metrics": {
+        "requests": 25,
+        "completedResponses": 24,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/gemini-4-argon-creative/assets/knowledge-4/final.mp4",
+          "width": 1920,
+          "height": 1080,
+          "durationSeconds": 84.8,
+          "captionZh": "降噪耳机没放音乐，为什么也能安静？",
+          "captionEn": "Why does noise cancellation work without music?",
+          "posterPath": "/evaluations/gemini-4-argon-creative/assets/knowledge-4/poster-1.jpg",
+          "posterProvenance": {
+            "sourceSha256": "ae6cb32a181a5db22ac572aba9b480849136beecb11fa74a44b981fe40b7e2a1",
+            "derivedSingleFrame": true
+          }
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/knowledge-4/captions.srt",
+          "labelZh": "captions.srt",
+          "labelEn": "captions.srt"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/knowledge-4/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "84.8秒八幕图解把被动密封、麦克风—处理器—扬声器和残余声压串成清楚因果链，理想示意与非实测边界标注完整。少量勾选符号显示成方框，细字与低对比注释需放大；音频计划写1/1/1增益，实际混音为1/0.85/0.90。"
+      ],
+      "assessmentEn": [
+        "The 84.8-second, eight-scene film clearly connects passive sealing, microphone–processor–speaker flow and residual sound pressure, with explicit idealized/non-measurement labels. Some checkmark glyphs render as boxes and fine, low-contrast annotations need enlargement; the audio plan lists gains of 1/1/1 while the actual mixer uses 1/0.85/0.90."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [
+        "The author renderer writes .tmp/mixed_audio.wav but does not create its parent directory. A fresh extracted source package must have .tmp created before make_video.py runs; this environment preparation was not added to or repaired in the original author code.",
+        "make_video.py reads the three delivered WAV stems and embeds its own CAPTIONS table. It creates and then deletes a temporary master mix during encoding; actual original mix bytes are retained only in local QA. The SRT is a matching deliverable, not a runtime input to this renderer.",
+        "The source requires NumPy, Pillow, FFmpeg/libx264/AAC on PATH and macOS STHeiti system fonts at hardcoded paths. System fonts and binaries are not redistributed; cross-platform portability was not verified.",
+        "The delivered narration.wav and original Kokoro receipt are included; regenerating narration requires the separately frozen Kokoro runtime and voice, which are not part of this author-source package. No independent clean-environment or exact from-zero rebuild was run."
+      ],
+      "actualListeningPerformed": false
+    },
+    {
+      "id": "svg-clock",
+      "titleZh": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "category": "svg",
+      "effort": "default",
+      "summaryZh": "十二数字、9:41指针位置和盘下09:41标签正确。深色、金色与象牙色层次清楚，两针结构与文字边界完整。",
+      "summaryEn": "The twelve numerals, 9:41 hand positions and lower 09:41 label are correct. Dark, gold and ivory layers are clear, with two well-defined hands and intact text margins.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "800×600静态SVG钟表，十二数字齐全，正确显示9:41及盘下09:41标签。\nAn 800×600 static SVG clock with all twelve numerals, correct 9:41 hands and a 09:41 label.",
+        "originalPromptSha256": "16c341b8e1ccdc5b989b67d99e71126f5cbad90011c8a3862e4babbbfb085811",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "800×600静态SVG钟表，十二数字齐全，正确显示9:41及盘下09:41标签。\nAn 800×600 static SVG clock with all twelve numerals, correct 9:41 hands and a 09:41 label.",
+      "promptSha256": "16c341b8e1ccdc5b989b67d99e71126f5cbad90011c8a3862e4babbbfb085811",
+      "caseSpecSha256": "9684418b143445a327367d4c150e2738ad40917562f3d2b93cd156f7b22a55b2",
+      "qaSha256": "3e0d74c939ae3c2e642848461707da1ce3bfbacb97ed6f977380019d4d8f4aec",
+      "metrics": {
+        "requests": 11,
+        "completedResponses": 11,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/svg-clock/preview.png",
+          "width": 800,
+          "height": 600,
+          "captionZh": "9:41 模拟钟表",
+          "captionEn": "An analog clock at 9:41"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/svg-clock/final.svg",
+          "labelZh": "final.svg",
+          "labelEn": "final.svg"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/svg-clock/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "深色背景与金色表圈、象牙色表盘形成清楚对比，十二数字完整，09:41标签在盘下。短时针位于9与10之间，长分针精确指向41分；金色细轴线与针身重合，没有额外秒针，终稿整体入画且无明显文字遮挡。"
+      ],
+      "assessmentEn": [
+        "A dark background, gold bezel and ivory dial give clear contrast. All twelve numerals and the lower 09:41 badge are readable. The shorter hour hand lies between 9 and 10, and the longer minute hand points to minute 41. Gold centerlines align with the two hands, with no extra second hand; the final image is fully framed without obvious text occlusion."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [],
+      "actualListeningPerformed": null
+    },
+    {
+      "id": "svg-dashboard",
+      "titleZh": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "category": "svg",
+      "effort": "default",
+      "summaryZh": "四柱比例、共用零基线与指定汇总标签正确，Q4重点突出。数值、刻度和额外占比标签清楚，排版完整。",
+      "summaryEn": "Bar proportions, the common zero and required summary labels are correct, with Q4 clearly emphasized. Values, axes and added percentage labels are readable in an intact layout.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "800×600静态收入图表，Q1–Q4为12/24/18/30，柱高成比例、共用零基线，包含指定汇总标签。\nAn 800×600 revenue dashboard with Q1–Q4 values 12/24/18/30, proportional bars, shared zero and required summary labels.",
+        "originalPromptSha256": "14b87b19d87ca5b57ef00922aeb60106f4e163b0c8b38e3ad0471e9335351fa3",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "800×600静态收入图表，Q1–Q4为12/24/18/30，柱高成比例、共用零基线，包含指定汇总标签。\nAn 800×600 revenue dashboard with Q1–Q4 values 12/24/18/30, proportional bars, shared zero and required summary labels.",
+      "promptSha256": "14b87b19d87ca5b57ef00922aeb60106f4e163b0c8b38e3ad0471e9335351fa3",
+      "caseSpecSha256": "b03e9172f0f6bfb5ccb9b1fa45bf62b7a03e47c4a8b35650a86df0fecb8ca2d5",
+      "qaSha256": "26ace3829f1e8b519cff70b7a479efe5072e2436c77472eef54848c0e604f686",
+      "metrics": {
+        "requests": 6,
+        "completedResponses": 6,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/svg-dashboard/preview.png",
+          "width": 800,
+          "height": 600,
+          "captionZh": "数据图表与比例",
+          "captionEn": "Data chart and proportional bars"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/svg-dashboard/final.svg",
+          "labelZh": "final.svg",
+          "labelEn": "final.svg"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/svg-dashboard/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "浅色看板的标题、汇总卡片与四柱层级清楚，柱顶数值和坐标刻度均可读；四柱真实高度108/216/162/270px，严格对应12/24/18/30并共用y=480零基线。Q4通过紫色突出，Total: 84与Best: Q4完整，额外占比标签与数据一致，未见明显文字重叠或裁切。"
+      ],
+      "assessmentEn": [
+        "The light dashboard has clear title, summary cards and four bars. Values and axis labels are readable; actual heights of 108/216/162/270 px exactly represent 12/24/18/30 with a shared y=480 zero. Purple highlights Q4, Total: 84 and Best: Q4 are intact, and added percentage labels match the values. No obvious overlap or clipping was observed."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [],
+      "actualListeningPerformed": null
+    },
+    {
+      "id": "svg-poster",
+      "titleZh": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "category": "svg",
+      "effort": "default",
+      "summaryZh": "六段指定中文完整，标题、时间地点与说明字号层级成立。橙绿配色、自行车和城市河岸分区清楚，留白充足。",
+      "summaryEn": "The six required Chinese lines are intact, with the required title, time/location and note hierarchy. Orange-and-green styling clearly separates the bicycle/city scene from the text, with generous spacing.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "800×600浅色中文骑行活动海报，准确包含指定六段文字及自行车图标，检查字号层级与边界。\nAn 800×600 light Chinese cycling poster with exactly six required text lines, a bicycle, readable hierarchy and margins.",
+        "originalPromptSha256": "1d835e8150ebe2eeff7688d7a4b4907751b2296b27b98601f22e70a83a6ce0ce",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "800×600浅色中文骑行活动海报，准确包含指定六段文字及自行车图标，检查字号层级与边界。\nAn 800×600 light Chinese cycling poster with exactly six required text lines, a bicycle, readable hierarchy and margins.",
+      "promptSha256": "1d835e8150ebe2eeff7688d7a4b4907751b2296b27b98601f22e70a83a6ce0ce",
+      "caseSpecSha256": "39a76fe09c73dbdf822862e72c284e160658b5722c30d61e5b844087ae86177b",
+      "qaSha256": "733f65f0409994f98485007ac7cd7b89a7c8af078810a06c35d8842257747557",
+      "metrics": {
+        "requests": 10,
+        "completedResponses": 10,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/svg-poster/preview.png",
+          "width": 800,
+          "height": 600,
+          "captionZh": "中文海报与排版约束",
+          "captionEn": "Chinese poster and layout constraints"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/svg-poster/final.svg",
+          "labelZh": "final.svg",
+          "labelEn": "final.svg"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/svg-poster/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "米白底色与橙绿配色清楚，左侧活动信息、右侧城市河岸与自行车图标分区明确；六段指定文字各出现一次，中文完整，主标题52px、时间地点24px、说明15px的层级成立。自行车双轮、车架、座把与篮筐可辨，留白充足，终稿未见文字重叠或裁切。"
+      ],
+      "assessmentEn": [
+        "Warm cream with orange and green separates the event information on the left from a city-river bicycle illustration on the right. Each of the six required lines appears once with intact Chinese glyphs; the 52 px title, 24 px time/location and 15 px note create the required hierarchy. Wheels, frame, saddle, handlebar and basket are recognizable, with generous spacing and no observed text overlap or clipping."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [],
+      "actualListeningPerformed": null
+    },
+    {
+      "id": "svg-pelican-animation",
+      "titleZh": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "category": "svg-animation",
+      "effort": "default",
+      "summaryZh": "白色鹈鹕、长橙喙和自行车易辨，双腿、轮辐与曲柄实际运动。四十个时点的身体／腿／脚踏连接保持，主体不出画，四秒循环衔接自然。",
+      "summaryEn": "The white pelican, long orange bill and bicycle are recognizable, with moving legs, spokes and crank. Attachments hold at forty sampled times, the subject stays on canvas and the four-second loop is continuous.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "冻结题目来源（非模型资料）",
+        "titleEn": "Frozen task source (not model metadata)",
+        "originalPrompt": "800×600纯SMIL鹈鹕骑车SVG，四秒循环，轮辐、曲柄和连接身体与脚踏的双腿实际运动。\nAn 800×600 SMIL pelican cycling SVG with a four-second loop, moving spokes/crank and legs attached to body and pedals.",
+        "originalPromptSha256": "b74a9f0ac32effa9c722fbf3ca12b24b62eb4058fd01a9ee6adf50d022116575",
+        "changesZh": "沿用冻结题集。这里只公开题意摘要与原始提示 SHA-256，不公开完整输入；历史题目来源链接不是 Google 模型资料。",
+        "changesEn": "The frozen suite is retained. Only a brief and original prompt SHA-256 are public; full inputs are excluded. Historical task-source links are not Google model documentation."
+      },
+      "prompt": "800×600纯SMIL鹈鹕骑车SVG，四秒循环，轮辐、曲柄和连接身体与脚踏的双腿实际运动。\nAn 800×600 SMIL pelican cycling SVG with a four-second loop, moving spokes/crank and legs attached to body and pedals.",
+      "promptSha256": "b74a9f0ac32effa9c722fbf3ca12b24b62eb4058fd01a9ee6adf50d022116575",
+      "caseSpecSha256": "e14b37abae213de3292366779afe9a8ec6fb0f68c82c6c8a0f25b7ceac732f09",
+      "qaSha256": "7e3d55f50297a2a6b32d2c647e7cdcf06998eb52a4d37b8a65bc1a87c90cfea9",
+      "metrics": {
+        "requests": 21,
+        "completedResponses": 21,
+        "promptTokens": null,
+        "outputTokens": null,
+        "wallMs": null
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/gemini-4-argon-creative/assets/svg-pelican-animation/poster.png",
+          "width": 800,
+          "height": 600,
+          "captionZh": "鹈鹕骑车动画",
+          "captionEn": "Animated cycling pelican",
+          "posterPath": "/evaluations/gemini-4-argon-creative/assets/svg-pelican-animation/poster.png",
+          "animationPath": "/evaluations/gemini-4-argon-creative/assets/svg-pelican-animation/animation.webp"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/gemini-4-argon-creative/assets/svg-pelican-animation/animation.webp",
+          "labelZh": "animation.webp",
+          "labelEn": "animation.webp"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/svg-pelican-animation/final.svg",
+          "labelZh": "final.svg",
+          "labelEn": "final.svg"
+        },
+        {
+          "path": "/evaluations/gemini-4-argon-creative/downloads/svg-pelican-animation/project-source.zip",
+          "labelZh": "源码与工程 ZIP（公开派生包）",
+          "labelEn": "Source and project ZIP (public derivative)"
+        }
+      ],
+      "assessmentZh": [
+        "浅色海岸背景中，白色鹈鹕的长橙喙和喉囊清楚，水手帽、红围巾、青绿自行车与鱼篮增加辨识度。两轮、车架、座垫与把手齐全；轮辐、链轮、可见曲柄及双腿实际运动，40个时点的臀部、膝、踝和脚踏连接均通过检查，主体始终在画布内。云、路面与围巾的移动形成骑行感；末帧到首帧变化与普通邻帧相当，循环衔接自然。"
+      ],
+      "assessmentEn": [
+        "Against a light coastal background, the white pelican's long orange bill and throat pouch are clear; a sailor hat, red scarf, teal bicycle and fish basket add character. Both wheels, frame, saddle and handlebar are present. Spokes, chainring, visible crank and both legs move; hip, knee, ankle and pedal attachment checks pass at all forty sampled times, with the subject remaining on canvas. Moving clouds, road and scarf convey travel. The last-to-first transition is comparable to ordinary adjacent frames and the loop looks continuous."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付与独立检查",
+          "labelEn": "Delivery and independent inspection",
+          "status": "pass",
+          "detailZh": "已交付并检查，accepted 不代表质量满分。",
+          "detailEn": "Delivered and inspected; accepted does not mean perfect quality."
+        },
+        {
+          "labelZh": "完整从零复建",
+          "labelEn": "Independent from-zero rebuild",
+          "status": "not-tested",
+          "detailZh": "保留可编辑工程与审阅源码；未独立验证完整从零复建。具体源码缺口见公开包说明。",
+          "detailEn": "Editable projects and reviewed source are retained; complete from-zero reconstruction was not independently verified. See the package notes for source gaps."
+        }
+      ],
+      "attempts": [],
+      "accepted": true,
+      "acceptanceMeansPerfectQuality": false,
+      "independentFullRebuildVerified": false,
+      "rebuildLimitations": [],
+      "actualListeningPerformed": null
+    }
+  ],
+  "officialBenchmarks": [
+    {
+      "sha256": "481de187c66d4b4d2848046f57206ce3bf6bfb1883d01f8100236a21e4f8b392",
+      "bytes": 341364,
+      "sourcePage": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/",
+      "imageUrl": "https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/gemini-4-argon_table_blog.gif",
+      "retrievedAt": "2026-11-03T23:52:11.833821+00:00",
+      "copyrightHolder": "Google / Google DeepMind",
+      "licenseStatus": "No asset-specific open reuse license located; retain attribution. Source archiving does not establish publication permission.",
+      "width": 3936,
+      "height": 3948,
+      "altZh": "Gemini 4 Argon · Google 多项基准总表",
+      "altEn": "Gemini 4 Argon · Google benchmark overview",
+      "path": "/evaluations/gemini-4-argon-creative/official/gemini-4-argon-official-benchmark-01.gif"
+    },
+    {
+      "sha256": "560c63c0a190a1b00aa3d97bf374cfe37d6cd35cb4e6c66811e52f16514331e1",
+      "bytes": 41023,
+      "sourcePage": "https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-4-argon/",
+      "imageUrl": "https://storage.googleapis.com/gweb-uniblog-publish-prod/original_images/gemini_4_cyber_evals_deepswe.gif",
+      "retrievedAt": "2026-11-03T23:52:11.964979+00:00",
+      "copyrightHolder": "Google / Google DeepMind",
+      "licenseStatus": "No asset-specific open reuse license located; retain attribution. Source archiving does not establish publication permission.",
+      "width": 1920,
+      "height": 1080,
+      "altZh": "Gemini 4 Argon · DeepSWE V1.1",
+      "altEn": "Gemini 4 Argon · DeepSWE V1.1",
+      "path": "/evaluations/gemini-4-argon-creative/official/gemini-4-argon-official-benchmark-02.gif"
+    }
+  ],
+  "officialContext": {
+    "methodology": "https://deepmind.google/models/evals-methodology/gemini-4-argon",
+    "note": "Google/vendor reported, not reproduced by TOKRACE. Highest thinking except noted; most scores pass@1. Harnesses and source leaderboards vary; OSWorld max over 3 runs is a partial score on offline subset, so do not call all rows uniform single-shot comparisons."
+  },
+  "publicationGate": {
+    "allElevenAccepted": true,
+    "acceptanceMeansPerfectQuality": false,
+    "cardEditorialSha256": "6305b2d9b35f6bef4ebfff5ce101f7c1c72a9f07a971fcf547837f92a9de536d",
+    "frozenAggregateSha256": "49bfce57680e9f1ea7068abc36fd2fbdd07067c7881478ec26c10924d24baca4",
+    "localReportSha256": "3a1d67c87ebdac93ca2f283041070ea40e56afe3cace0d94a743f4f39b5ee2a0",
+    "qaAcceptanceSha256": "1da0da03f328b794039c0cf11f5621d2597a523696df91882972ed5d8fe3f590",
+    "harnessSourceSha256": {
+      "google-creation-runner.mjs": "79f59681e5fad99f413e783d4597010538717e54f13d116dc5e01c72d835c3f7",
+      "google-tool-runtime.mjs": "1d4e93b0fe583e42383bc0fa465d58397256c35a603b4ff3b947d70e225a709f",
+      "api-tool-runtime.mjs": "dbdbeaa3b6c841961f32846f7506cd23cc24c770ebb90edae7999555d7679e27"
+    }
+  }
+}

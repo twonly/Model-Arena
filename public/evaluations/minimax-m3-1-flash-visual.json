@@ -1,0 +1,955 @@
+{
+  "model": "MiniMax-M3.1-Flash",
+  "endpoint": "https://api.minimax.io/v1",
+  "modes": {
+    "default": {},
+    "low": {
+      "reasoning_effort": "low"
+    }
+  },
+  "attempts": [
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "mode": "default",
+      "request": {
+        "model": "MiniMax-M3.1-Flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Generate an SVG of a pelican riding a bicycle"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_split": true
+      },
+      "startedAt": "2026-10-20T06:48:31.903Z",
+      "text": "```svg\n<svg xmlns=\"http://www.w3.org/2000/svg\"\n     width=\"900\" height=\"600\" viewBox=\"0 0 900 600\"\n     role=\"img\" aria-labelledby=\"title description\">\n  <title id=\"title\">A pelican riding a bicycle</title>\n  <desc id=\"description\">\n    A cheerful pelican with a large golden bill rides a coral bicycle\n    along a sunny coastal road.\n  </desc>\n\n  <defs>\n    <linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#bfe8f4\"/>\n      <stop offset=\"1\" stop-color=\"#f5fbec\"/>\n    </linearGradient>\n\n    <linearGradient id=\"body\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#fffdf2\"/>\n      <stop offset=\"1\" stop-color=\"#e5d9bd\"/>\n    </linearGradient>\n\n    <linearGradient id=\"wing\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#aa7954\"/>\n      <stop offset=\"1\" stop-color=\"#65483e\"/>\n    </linearGradient>\n\n    <linearGradient id=\"beak\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\">\n      <stop offset=\"0\" stop-color=\"#e7a93d\"/>\n      <stop offset=\"1\" stop-color=\"#ffd978\"/>\n    </linearGradient>\n\n    <linearGradient id=\"pouch\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#f3aa46\"/>\n      <stop offset=\"1\" stop-color=\"#df7436\"/>\n    </linearGradient>\n\n    <linearGradient id=\"frame\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#ff7767\"/>\n      <stop offset=\"1\" stop-color=\"#d94355\"/>\n    </linearGradient>\n\n    <filter id=\"shadow\" x=\"-30%\" y=\"-30%\" width=\"160%\" height=\"160%\">\n      <feDropShadow dx=\"0\" dy=\"5\" stdDeviation=\"5\"\n                    flood-color=\"#18313b\" flood-opacity=\".2\"/>\n    </filter>\n\n    <g id=\"wheel\">\n      <circle r=\"103\" fill=\"none\" stroke=\"#273640\" stroke-width=\"12\"/>\n      <circle r=\"92\" fill=\"none\" stroke=\"#9eb7bd\" stroke-width=\"3\"/>\n      <g stroke=\"#8ca5ac\" stroke-width=\"2\" opacity=\".9\">\n        <path d=\"M0-88V88 M-88 0H88\n                 M-62-62L62 62 M-62 62L62-62\"/>\n        <path d=\"M0-88V88 M-88 0H88\n                 M-62-62L62 62 M-62 62L62-62\"\n              transform=\"rotate(30)\"/>\n        <path d=\"M0-88V88 M-88 0H88\n                 M-62-62L62 62 M-62 62L62-62\"\n              transform=\"rotate(60)\"/>\n      </g>\n      <circle r=\"9\" fill=\"#344b55\"/>\n      <circle r=\"3\" fill=\"#d8e4e5\"/>\n    </g>\n  </defs>\n\n  <!-- Coastal background -->\n  <rect width=\"900\" height=\"600\" fill=\"url(#sky)\"/>\n  <circle cx=\"760\" cy=\"100\" r=\"48\" fill=\"#ffe17a\" opacity=\".95\"/>\n\n  <g fill=\"#ffffff\" opacity=\".78\">\n    <path d=\"M70 112c4-19 24-30 42-23 8-22 41-27 57-7\n             20-8 42 6 45 25 17-2 31 8 34 23H70z\"/>\n    <path d=\"M594 82c3-13 17-21 29-16 6-16 30-19 41-5\n             14-5 30 5 32 18 12-1 23 6 25 16H594z\"/>\n  </g>\n\n  <path d=\"M0 402Q120 344 245 398T490 392T735 394T900 381V520H0z\"\n        fill=\"#8fc5af\" opacity=\".55\"/>\n  <path d=\"M0 451Q180 430 350 450T700 446T900 451V520H0z\"\n        fill=\"#74b9bd\" opacity=\".55\"/>\n  <path d=\"M0 510Q210 493 420 510T900 505V600H0z\"\n        fill=\"#d8c98f\"/>\n\n  <g fill=\"none\" stroke=\"#668f95\" stroke-width=\"4\"\n     stroke-linecap=\"round\" opacity=\".65\">\n    <path d=\"M55 181q12-12 24 0q12-12 24 0\"/>\n    <path d=\"M105 148q9-9 18 0q9-9 18 0\"/>\n  </g>\n\n  <!-- Ground shadow -->\n  <ellipse cx=\"456\" cy=\"549\" rx=\"320\" ry=\"18\"\n           fill=\"#435b55\" opacity=\".18\"/>\n\n  <!-- Bicycle wheels -->\n  <g filter=\"url(#shadow)\">\n    <use href=\"#wheel\" transform=\"translate(255 440)\"/>\n    <use href=\"#wheel\" transform=\"translate(660 440)\"/>\n  </g>\n\n  <!-- Bicycle frame -->\n  <g fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <g stroke=\"#263944\" stroke-width=\"13\">\n      <path d=\"M255 440L385 285L430 440L255 440\"/>\n      <path d=\"M385 285L555 285L570 325L430 440\"/>\n      <path d=\"M570 325L660 440\"/>\n    </g>\n    <g stroke=\"url(#frame)\" stroke-width=\"8\">\n      <path d=\"M255 440L385 285L430 440L255 440\"/>\n      <path d=\"M385 285L555 285L570 325L430 440\"/>\n      <path d=\"M570 325L660 440\"/>\n    </g>\n  </g>\n\n  <!-- Chain and crank -->\n  <g fill=\"none\" stroke-linecap=\"round\">\n    <path d=\"M255 425L430 417L255 455L430 463Z\"\n          stroke=\"#394951\" stroke-width=\"4\"/>\n    <circle cx=\"430\" cy=\"440\" r=\"29\"\n            fill=\"#f4d982\" stroke=\"#263944\" stroke-width=\"6\"/>\n    <circle cx=\"430\" cy=\"440\" r=\"8\" fill=\"#263944\"/>\n    <path d=\"M430 440L460 426M430 440L400 454\"\n          stroke=\"#263944\" stroke-width=\"7\"/>\n  </g>\n\n  <!-- Pedals -->\n  <g fill=\"#344b55\" stroke=\"#1f3038\" stroke-width=\"3\">\n    <rect x=\"449\" y=\"420\" width=\"27\" height=\"8\" rx=\"3\"\n          transform=\"rotate(-12 462 424)\"/>\n    <rect x=\"386\" y=\"450\" width=\"28\" height=\"8\" rx=\"3\"\n          transform=\"rotate(12 400 454)\"/>\n  </g>\n\n  <!-- Seat and handlebars -->\n  <g fill=\"none\" stroke=\"#263944\" stroke-linecap=\"round\"\n     stroke-linejoin=\"round\">\n    <path d=\"M385 285L375 250\" stroke-width=\"7\"/>\n    <path d=\"M555 285L570 251Q577 241 592 240L618 239\"\n          stroke-width=\"8\"/>\n    <path d=\"M618 239L630 224\" stroke-width=\"10\"/>\n    <path d=\"M605 248Q620 277 606 302\"\n          stroke-width=\"2\" opacity=\".8\"/>\n  </g>\n\n  <path d=\"M340 247Q361 237 382 238L406 245\n           Q394 253 370 252L338 252Q332 249 340 247Z\"\n        fill=\"#344b55\" stroke=\"#263944\" stroke-width=\"4\"/>\n\n  <!-- Pelican legs, behind the body -->\n  <g fill=\"none\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M392 326Q400 359 421 390L453 420\n             M424 327Q425 360 414 395L400 450\"\n          stroke=\"#65483d\" stroke-width=\"13\"/>\n    <path d=\"M392 326Q400 359 421 390L453 420\n             M424 327Q425 360 414 395L400 450\"\n          stroke=\"#e89a45\" stroke-width=\"8\"/>\n  </g>\n\n  <!-- Webbed feet -->\n  <g fill=\"#e89a45\" stroke=\"#65483d\" stroke-width=\"3\"\n     stroke-linejoin=\"round\">\n    <path d=\"M447 416L460 418L467 426L458 430L446 425Z\"/>\n    <path d=\"M391 446L402 448L409 456L399 460L388 455Z\"/>\n  </g>\n\n  <!-- Tail feathers -->\n  <g fill=\"#e8d8b8\" stroke=\"#655047\" stroke-width=\"3\"\n     stroke-linejoin=\"round\">\n    <path d=\"M335 251Q294 237 270 211Q283 246 268 278\n             Q303 273 334 283Z\"/>\n    <path d=\"M335 253Q290 264 253 258Q282 281 271 299\n             Q306 293 337 287Z\"/>\n    <path d=\"M336 258Q303 292 283 319Q319 306 347 288Z\"/>\n  </g>\n\n  <!-- Pelican body, neck, and head -->\n  <path d=\"M327 245\n           C329 214 356 194 390 197\n           C419 199 437 211 447 226\n           C445 205 449 180 461 160\n           C474 139 494 132 515 137\n           C537 142 551 157 550 176\n           C549 198 530 214 506 220\n           C503 242 496 257 482 270\n           C468 282 448 284 430 278\n           C432 302 447 319 450 333\n           C423 355 372 353 340 334\n           C309 316 302 275 327 245Z\"\n        fill=\"url(#body)\" stroke=\"#655047\" stroke-width=\"4\"\n        stroke-linejoin=\"round\" filter=\"url(#shadow)\"/>\n\n  <!-- Far, folded wing -->\n  <path d=\"M332 246\n           C361 221 401 226 438 259\n           C449 280 437 309 409 322\n           C381 335 343 321 323 294\n           C341 284 344 263 332 246Z\"\n        fill=\"url(#wing)\" stroke=\"#4e3a35\" stroke-width=\"4\"/>\n\n  <g fill=\"none\" stroke=\"#d1a477\" stroke-width=\"4\"\n     stroke-linecap=\"round\" opacity=\".8\">\n    <path d=\"M345 269Q375 284 419 281\"/>\n    <path d=\"M339 286Q370 305 407 302\"/>\n    <path d=\"M351 305Q376 319 393 315\"/>\n    <path d=\"M376 249Q398 258 423 278\"/>\n  </g>\n\n  <!-- Near wing reaching for the handlebar -->\n  <path d=\"M408 248\n           C445 235 498 230 554 230\n           L583 231Q596 232 592 241\n           Q590 247 577 250\n           C530 258 487 273 446 278\n           Q422 273 408 248Z\"\n        fill=\"#f3ead3\" stroke=\"#655047\" stroke-width=\"4\"\n        stroke-linejoin=\"round\"/>\n\n  <g fill=\"none\" stroke=\"#b99b73\" stroke-width=\"3\"\n     stroke-linecap=\"round\">\n    <path d=\"M445 269Q510 249 585 239\"/>\n    <path d=\"M456 259Q519 238 579 233\"/>\n    <path d=\"M470 249Q527 233 567 230\"/>\n  </g>\n\n  <!-- Bill and pouch -->\n  <path d=\"M542 170\n           C557 205 592 223 634 200\n           C648 193 658 185 670 179\n           C625 180 581 181 542 170Z\"\n        fill=\"url(#pouch)\" stroke=\"#655047\" stroke-width=\"4\"\n        stroke-linejoin=\"round\"/>\n\n  <path d=\"M538 155\n           C573 144 624 151 681 177\n           C630 181 579 178 540 170\n           Q535 163 538 155Z\"\n        fill=\"url(#beak)\" stroke=\"#655047\" stroke-width=\"4\"\n        stroke-linejoin=\"round\"/>\n\n  <path d=\"M546 169Q606 177 662 177\"\n        fill=\"none\" stroke=\"#8e6137\" stroke-width=\"3\"\n        stroke-linecap=\"round\"/>\n\n  <!-- Face -->\n  <circle cx=\"526\" cy=\"157\" r=\"8\" fill=\"#fff9df\"\n          stroke=\"#493b35\" stroke-width=\"3\"/>\n  <circle cx=\"528\" cy=\"158\" r=\"3.8\" fill=\"#273640\"/>\n  <circle cx=\"529.5\" cy=\"156.5\" r=\"1.3\" fill=\"#ffffff\"/>\n\n  <path d=\"M507 144Q521 137 535 145\"\n        fill=\"none\" stroke=\"#655047\" stroke-width=\"3\"\n        stroke-linecap=\"round\"/>\n\n  <g fill=\"none\" stroke=\"#d4c3a3\" stroke-width=\"3\"\n     stroke-linecap=\"round\">\n    <path d=\"M467 224Q484 235 502 232\"/>\n    <path d=\"M452 239Q467 251 487 252\"/>\n    <path d=\"M451 274Q468 283 484 281\"/>\n  </g>\n\n  <!-- A few breeze lines behind the bicycle -->\n  <g fill=\"none\" stroke=\"#78a8aa\" stroke-width=\"5\"\n     stroke-linecap=\"round\" opacity=\".65\">\n    <path d=\"M74 317H191\"/>\n    <path d=\"M111 340H221\"/>\n    <path d=\"M53 365H157\"/>\n  </g>\n</svg>\n```",
+      "firstContentMs": 91645.07304100001,
+      "firstReasoningMs": 1118.1697080000001,
+      "firstEventMs": 1118.16875,
+      "usage": {
+        "total_tokens": 8610,
+        "total_characters": 0,
+        "prompt_tokens": 212,
+        "completion_tokens": 8398,
+        "completion_tokens_details": {
+          "reasoning_tokens": 5044
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 197
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "MiniMax-M3.1-Flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-20T06:50:28.666Z",
+      "totalMs": 116762.13662500001,
+      "promptTokens": 212,
+      "outputTokens": 8398,
+      "reasoningTokens": 5044,
+      "renderable": true,
+      "svgPath": "/evaluations/minimax-m3-1-flash/assets/pelican-default.svg",
+      "svgSha256": "1e4ce3f3341899d9b2f845e6f8828c7a2b42d9956ccc9a18040dfbc45a6a27ae",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 900 600",
+      "texts": [],
+      "pngPath": "/evaluations/minimax-m3-1-flash/assets/pelican-default.png",
+      "width": 1200,
+      "height": 800,
+      "pngSha256": "698e1d0ea35eca45d9bcff7724a5ba5fb24c21b0eaf798d554216bc7fd9b070b",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "assessmentZh": "长喙与喉囊可辨认，双轮、前叉、车架与曲柄连贯；翼伸向车把，两脚落在脚踏附近。腿部交叉和车座接触关系仍较简化。",
+      "assessmentEn": "Recognizable bill and pouch, connected wheels, fork, frame and crank. The wing reaches the bars and feet sit near the pedals; crossed legs and saddle contact remain simplified.",
+      "altZh": "默认档：白色鹈鹕在浅蓝天空下骑红色自行车，前叉连接前轮。",
+      "altEn": "Default: a pale pelican riding a red bicycle beneath a blue sky, with a connected front fork."
+    },
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/",
+      "prompt": "Generate an SVG of a pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "mode": "low",
+      "request": {
+        "model": "MiniMax-M3.1-Flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Generate an SVG of a pelican riding a bicycle"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_split": true,
+        "reasoning_effort": "low"
+      },
+      "startedAt": "2026-10-20T06:50:28.669Z",
+      "text": "```svg\n<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">Pelican riding a bicycle</title>\n  <desc id=\"desc\">A cheerful pelican pedals a blue bicycle along a sunny seaside promenade.</desc>\n\n  <defs>\n    <linearGradient id=\"sky\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#8ed8ff\"/>\n      <stop offset=\"1\" stop-color=\"#eaf9ff\"/>\n    </linearGradient>\n    <linearGradient id=\"sea\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#42b9d7\"/>\n      <stop offset=\"1\" stop-color=\"#157fae\"/>\n    </linearGradient>\n    <linearGradient id=\"bird\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#ffffff\"/>\n      <stop offset=\"1\" stop-color=\"#dfeaf0\"/>\n    </linearGradient>\n    <filter id=\"shadow\" x=\"-30%\" y=\"-30%\" width=\"160%\" height=\"160%\">\n      <feDropShadow dx=\"0\" dy=\"7\" stdDeviation=\"7\" flood-color=\"#24495a\" flood-opacity=\".22\"/>\n    </filter>\n  </defs>\n\n  <!-- Background -->\n  <rect width=\"800\" height=\"600\" fill=\"url(#sky)\"/>\n  <circle cx=\"675\" cy=\"92\" r=\"48\" fill=\"#fff4a8\" opacity=\".9\"/>\n  <g fill=\"#ffffff\" opacity=\".85\">\n    <path d=\"M95 122c10-24 42-24 54 0 18-10 43 2 41 22H70c-2-20 12-31 25-22z\"/>\n    <path d=\"M420 84c8-18 32-18 41 0 14-7 33 2 31 17H402c-1-15 10-23 18-17z\"/>\n  </g>\n\n  <!-- Ocean and horizon -->\n  <path d=\"M0 258 Q180 240 380 257 T800 251 V600 H0Z\" fill=\"url(#sea)\"/>\n  <path d=\"M0 260 Q200 246 400 260 T800 254\" fill=\"none\" stroke=\"#f3fcfb\" stroke-width=\"9\"/>\n  <g fill=\"none\" stroke=\"#bceefa\" stroke-width=\"5\" stroke-linecap=\"round\" opacity=\".8\">\n    <path d=\"M40 304h76m38 0h45m441-6h79m-473 54h102m47 0h65m210 8h87\"/>\n    <path d=\"M105 386h73m365 23h87m-410 31h128m-94 39h72\"/>\n  </g>\n\n  <!-- Distant sailboat -->\n  <g transform=\"translate(92 202)\">\n    <path d=\"M0 55h80l-13 11H15Z\" fill=\"#f7f0d7\" stroke=\"#425a63\" stroke-width=\"3\"/>\n    <path d=\"M39 3v52\" stroke=\"#425a63\" stroke-width=\"3\"/>\n    <path d=\"M35 8 7 50h28Z\" fill=\"#fff\" stroke=\"#425a63\" stroke-width=\"2\"/>\n    <path d=\"M44 14v36h31Z\" fill=\"#ffd36d\" stroke=\"#425a63\" stroke-width=\"2\"/>\n  </g>\n\n  <!-- Promenade -->\n  <path d=\"M0 449 Q390 423 800 454V600H0Z\" fill=\"#f1d7a2\"/>\n  <path d=\"M0 449 Q390 423 800 454\" fill=\"none\" stroke=\"#d4ad71\" stroke-width=\"6\"/>\n  <g stroke=\"#d4ad71\" stroke-width=\"3\" opacity=\".75\">\n    <path d=\"M15 535h145m54 0h145m54 0h145m54 0h145\"/>\n    <path d=\"M58 578h184m54 0h184m54 0h184\"/>\n  </g>\n\n  <!-- Bicycle wheels -->\n  <g filter=\"url(#shadow)\">\n    <g fill=\"none\" stroke=\"#263943\" stroke-width=\"11\">\n      <circle cx=\"245\" cy=\"438\" r=\"101\"/>\n      <circle cx=\"610\" cy=\"438\" r=\"101\"/>\n    </g>\n    <g fill=\"none\" stroke=\"#a9dce8\" stroke-width=\"3\">\n      <circle cx=\"245\" cy=\"438\" r=\"91\"/>\n      <circle cx=\"610\" cy=\"438\" r=\"91\"/>\n      <circle cx=\"245\" cy=\"438\" r=\"24\"/>\n      <circle cx=\"610\" cy=\"438\" r=\"24\"/>\n      <path d=\"M245 347v182M154 438h182M183 376l124 124M183 500l124-124\"/>\n      <path d=\"M610 347v182M519 438h182M548 376l124 124M548 500l124-124\"/>\n    </g>\n  </g>\n\n  <!-- Bicycle frame -->\n  <g fill=\"none\" stroke=\"#176b91\" stroke-width=\"13\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M245 438l91-137 83 137H245Z\"/>\n    <path d=\"M336 301l58-66h72\"/>\n    <path d=\"M419 438l-38-177\"/>\n    <path d=\"M381 261h80\"/>\n  </g>\n  <g fill=\"none\" stroke=\"#ffcb45\" stroke-width=\"4\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M245 438l91-137 83 137H245Z\"/>\n    <path d=\"M336 301l58-66h72M419 438l-38-177\"/>\n  </g>\n\n  <!-- Rear rack and fender -->\n  <path d=\"M181 350q57-43 126-12\" fill=\"none\" stroke=\"#263943\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n  <path d=\"M170 368a84 84 0 0 1 151-32\" fill=\"none\" stroke=\"#176b91\" stroke-width=\"10\" stroke-linecap=\"round\"/>\n\n  <!-- Handlebars -->\n  <path d=\"M394 235q18 25 59 20l17-23\" fill=\"none\" stroke=\"#263943\" stroke-width=\"9\" stroke-linecap=\"round\"/>\n  <path d=\"M469 232l20-10\" stroke=\"#263943\" stroke-width=\"12\" stroke-linecap=\"round\"/>\n  <path d=\"M475 224q19-15 36-2\" fill=\"none\" stroke=\"#263943\" stroke-width=\"8\" stroke-linecap=\"round\"/>\n\n  <!-- Saddle -->\n  <path d=\"M334 270q24-14 57-4l-5 13h-47q-13-1-5-9Z\" fill=\"#263943\"/>\n  <path d=\"M362 278v30\" stroke=\"#263943\" stroke-width=\"7\"/>\n\n  <!-- Pelican body -->\n  <g filter=\"url(#shadow)\">\n    <ellipse cx=\"316\" cy=\"244\" rx=\"92\" ry=\"67\" fill=\"url(#bird)\" stroke=\"#41545d\" stroke-width=\"4\"/>\n    <path d=\"M265 285q48 38 111-3\" fill=\"none\" stroke=\"#c5d4db\" stroke-width=\"5\" stroke-linecap=\"round\"/>\n  </g>\n\n  <!-- Pelican head -->\n  <ellipse cx=\"393\" cy=\"166\" rx=\"53\" ry=\"49\" fill=\"url(#bird)\" stroke=\"#41545d\" stroke-width=\"4\"/>\n  <path d=\"M416 123q23-20 43 1-21 5-43-1Z\" fill=\"#ffffff\" stroke=\"#41545d\" stroke-width=\"4\"/>\n  <circle cx=\"408\" cy=\"157\" r=\"9\" fill=\"#263943\"/>\n  <circle cx=\"411\" cy=\"154\" r=\"3\" fill=\"#fff\"/>\n\n  <!-- Large beak and pouch -->\n  <path d=\"M423 174q73 4 113 39-53 10-110-17Z\" fill=\"#f5b83f\" stroke=\"#41545d\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n  <path d=\"M427 184q49 7 76 29-48 1-81-15Z\" fill=\"#f29c38\" stroke=\"#41545d\" stroke-width=\"3\"/>\n  <path d=\"M427 196q35 10 66 17\" fill=\"none\" stroke=\"#d77828\" stroke-width=\"3\" stroke-linecap=\"round\"/>\n\n  <!-- Wing -->\n  <path d=\"M274 205q35-34 83-9 37 20 13 61-30 21-67 3-31-20-29-55Z\" fill=\"#f8fbfc\" stroke=\"#637780\" stroke-width=\"4\"/>\n  <path d=\"M292 218q30 22 65 9m-51 15q28 17 54 7\" fill=\"none\" stroke=\"#b7c9d0\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n\n  <!-- Legs gripping handlebars and saddle -->\n  <g fill=\"none\" stroke=\"#e7a83b\" stroke-width=\"13\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <path d=\"M307 286q35 10 42 32l13 40\"/>\n    <path d=\"M364 294q-8 31-30 44\"/>\n  </g>\n  <g fill=\"none\" stroke=\"#41545d\" stroke-width=\"6\" stroke-linecap=\"round\">\n    <path d=\"M362 358q-14 9-26 1m26-1q-7 13-21 10\"/>\n    <path d=\"M407 224q21-3 29 8m-29-8q4 13 19 15\"/>\n  </g>\n\n  <!-- Tail feathers -->\n  <path d=\"M236 227l-55 22 57 2-38 27 61-13Z\" fill=\"#eaf0f2\" stroke=\"#41545d\" stroke-width=\"4\" stroke-linejoin=\"round\"/>\n\n  <!-- Pedal crank -->\n  <circle cx=\"419\" cy=\"438\" r=\"22\" fill=\"#263943\"/>\n  <circle cx=\"419\" cy=\"438\" r=\"8\" fill=\"#ffcb45\"/>\n  <path d=\"M419 438l28 25 18-3\" fill=\"none\" stroke=\"#263943\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n  <path d=\"M419 438l-28-25-18 3\" fill=\"none\" stroke=\"#263943\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n  <rect x=\"440\" y=\"461\" width=\"31\" height=\"8\" rx=\"3\" fill=\"#263943\"/>\n  <rect x=\"359\" y=\"413\" width=\"31\" height=\"8\" rx=\"3\" fill=\"#263943\"/>\n\n  <!-- Motion accents -->\n  <g fill=\"none\" stroke=\"#f7f0d7\" stroke-width=\"7\" stroke-linecap=\"round\" opacity=\".9\">\n    <path d=\"M94 371h78m-22-22h48\"/>\n    <path d=\"M676 349h51\"/>\n  </g>\n</svg>\n```",
+      "firstContentMs": 1406.851999999999,
+      "firstReasoningMs": 931.6535829999921,
+      "firstEventMs": 931.6442919999972,
+      "usage": {
+        "total_tokens": 2915,
+        "total_characters": 0,
+        "prompt_tokens": 212,
+        "completion_tokens": 2703,
+        "completion_tokens_details": {
+          "reasoning_tokens": 57
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "MiniMax-M3.1-Flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-20T06:50:41.992Z",
+      "totalMs": 13322.233708,
+      "promptTokens": 212,
+      "outputTokens": 2703,
+      "reasoningTokens": 57,
+      "renderable": true,
+      "svgPath": "/evaluations/minimax-m3-1-flash/assets/pelican-low.svg",
+      "svgSha256": "21c596760e23854da7e52f834143c08f924dde01c8c8bf3e7824a2b386da7a77",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [],
+      "pngPath": "/evaluations/minimax-m3-1-flash/assets/pelican-low.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "a960b16da9eb5eca585553af61841ad61a0d1bb3b08b13bf67fe059f4b2ce58c",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "assessmentZh": "鸟和双轮可辨认，但前轮独立在右侧，没有前叉连接车架；双脚也悬在曲柄和脚踏上方。整体像骑车，关键连接关系不成立。",
+      "assessmentEn": "The bird and two wheels are recognizable, but the front wheel floats separately on the right with no connecting fork. Both feet sit above the crank and pedals. The scene reads as cycling while key connections fail.",
+      "altZh": "low 档：海边鹈鹕与黄色自行车，右侧前轮没有连接到车架。",
+      "altEn": "Low: a seaside pelican and yellow bicycle with a disconnected front wheel."
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ],
+      "mode": "low",
+      "request": {
+        "model": "MiniMax-M3.1-Flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_split": true,
+        "reasoning_effort": "low"
+      },
+      "startedAt": "2026-10-20T06:50:41.993Z",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">Analog clock showing 9:41</title>\n  <desc id=\"desc\">A clear analog clock with all twelve hour numbers, a short hour hand correctly between 9 and 10, a long minute hand pointing to 41 minutes, and no second hand.</desc>\n\n  <defs>\n    <line id=\"minor-tick\" x1=\"400\" y1=\"76\" x2=\"400\" y2=\"84\" stroke=\"#263238\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n    <line id=\"major-tick\" x1=\"400\" y1=\"70\" x2=\"400\" y2=\"87\" stroke=\"#263238\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n  </defs>\n\n  <rect width=\"800\" height=\"600\" fill=\"#f5f7fa\"/>\n\n  <circle cx=\"400\" cy=\"270\" r=\"218\" fill=\"#dfe5ea\" stroke=\"#263238\" stroke-width=\"5\"/>\n  <circle cx=\"400\" cy=\"270\" r=\"202\" fill=\"#ffffff\" stroke=\"#90a4ae\" stroke-width=\"2\"/>\n\n  <g>\n    <use href=\"#major-tick\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(6 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(12 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(18 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(24 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(30 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(36 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(42 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(48 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(54 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(60 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(66 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(72 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(78 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(84 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(90 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(96 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(102 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(108 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(114 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(120 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(126 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(132 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(138 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(144 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(150 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(156 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(162 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(168 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(174 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(180 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(186 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(192 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(198 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(204 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(210 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(216 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(222 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(228 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(234 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(240 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(246 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(252 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(258 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(264 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(270 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(276 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(282 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(288 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(294 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(300 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(306 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(312 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(318 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(324 400 270)\"/>\n    <use href=\"#major-tick\" transform=\"rotate(330 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(336 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(342 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(348 400 270)\"/>\n    <use href=\"#minor-tick\" transform=\"rotate(354 400 270)\"/>\n  </g>\n\n  <g fill=\"#1f2933\" font-family=\"Arial, Helvetica, sans-serif\" font-size=\"30\" font-weight=\"700\" text-anchor=\"middle\" dominant-baseline=\"middle\">\n    <text x=\"400\" y=\"116\">12</text>\n    <text x=\"482\" y=\"132\">1</text>\n    <text x=\"542\" y=\"198\">2</text>\n    <text x=\"564\" y=\"270\">3</text>\n    <text x=\"542\" y=\"342\">4</text>\n    <text x=\"482\" y=\"408\">5</text>\n    <text x=\"400\" y=\"424\">6</text>\n    <text x=\"318\" y=\"408\">7</text>\n    <text x=\"258\" y=\"342\">8</text>\n    <text x=\"236\" y=\"270\">9</text>\n    <text x=\"258\" y=\"198\">10</text>\n    <text x=\"318\" y=\"132\">11</text>\n  </g>\n\n  <!-- Short hour hand: 9:41, positioned 20.5 degrees past 9. -->\n  <line x1=\"400\" y1=\"270\" x2=\"301.7\" y2=\"306.8\" stroke=\"#263238\" stroke-width=\"11\" stroke-linecap=\"round\"/>\n  <!-- Long minute hand: 41 minutes, or 246 degrees clockwise from 12. -->\n  <line x1=\"400\" y1=\"270\" x2=\"260.2\" y2=\"332.3\" stroke=\"#e53935\" stroke-width=\"7\" stroke-linecap=\"round\"/>\n  <circle cx=\"400\" cy=\"270\" r=\"12\" fill=\"#263238\" stroke=\"#ffffff\" stroke-width=\"4\"/>\n\n  <text x=\"400\" y=\"545\" fill=\"#263238\" font-family=\"Arial, Helvetica, sans-serif\" font-size=\"34\" font-weight=\"700\" text-anchor=\"middle\">09:41</text>\n</svg>",
+      "firstContentMs": 5957.650916000013,
+      "firstReasoningMs": 855.3455830000021,
+      "firstEventMs": 855.3444579999923,
+      "usage": {
+        "total_tokens": 2677,
+        "total_characters": 0,
+        "prompt_tokens": 313,
+        "completion_tokens": 2364,
+        "completion_tokens_details": {
+          "reasoning_tokens": 447
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 186
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "MiniMax-M3.1-Flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-20T06:50:54.354Z",
+      "totalMs": 12360.454708000005,
+      "promptTokens": 313,
+      "outputTokens": 2364,
+      "reasoningTokens": 447,
+      "renderable": true,
+      "svgPath": "/evaluations/minimax-m3-1-flash/assets/clock-low.svg",
+      "svgSha256": "b0e60de86f2a8fa56252c534ac06d7fde165c14cda84aaceaf2c1225bcc57a12",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "12",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "09:41"
+      ],
+      "pngPath": "/evaluations/minimax-m3-1-flash/assets/clock-low.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "99d932f6ca9fbaf645e78129ceffaf6cbc9664c0bf24ad5478fa5e73c096d8ec",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "assessmentZh": "09:41 标签和分针基本正确，但时针指向左下方，约 249.48°，应为 290.5°。源码注释声称位置正确，实际坐标却错了；不能只检查文字标签。",
+      "assessmentEn": "The 09:41 label and minute hand are essentially correct, but the hour hand points down-left at approximately 249.48°, rather than 290.5°. The source comment claims correctness while its coordinates disagree; checking the label alone misses the error.",
+      "altZh": "low 档钟表写着 09:41，但黑色短时针错误地朝向左下方。",
+      "altEn": "Low clock labeled 09:41, with the short black hour hand incorrectly pointing down-left.",
+      "geometryCheck": {
+        "hour": {
+          "angleDeg": 249.47589934641582,
+          "length": 104.96251711920785,
+          "targetAngleDeg": 290.5,
+          "attributes": {
+            "x1": "400",
+            "y1": "270",
+            "x2": "301.7",
+            "y2": "306.8",
+            "stroke": "#263238",
+            "stroke-width": "11",
+            "stroke-linecap": "round"
+          }
+        },
+        "minute": {
+          "angleDeg": 245.98049653629994,
+          "length": 153.05335670935153,
+          "targetAngleDeg": 246,
+          "attributes": {
+            "x1": "400",
+            "y1": "270",
+            "x2": "260.2",
+            "y2": "332.3",
+            "stroke": "#e53935",
+            "stroke-width": "7",
+            "stroke-linecap": "round"
+          }
+        }
+      }
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ],
+      "mode": "default",
+      "request": {
+        "model": "MiniMax-M3.1-Flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Draw a clear analog clock showing exactly 9:41, with all twelve numbers 1 through 12. The hour hand must be correctly positioned between 9 and 10, not exactly on 9. The minute hand must indicate minute 41. Use a shorter hour hand and a longer minute hand, no second hand. Add a small label \"09:41\" below the dial. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_split": true
+      },
+      "startedAt": "2026-10-20T06:50:54.355Z",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\" role=\"img\" aria-labelledby=\"title description\">\n  <title id=\"title\">Analog clock showing 9:41</title>\n  <desc id=\"description\">A twelve-number analog clock with the hour hand between 9 and 10 and the minute hand indicating 41 minutes.</desc>\n\n  <defs>\n    <linearGradient id=\"dial\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#ffffff\"/>\n      <stop offset=\"1\" stop-color=\"#f4f1e9\"/>\n    </linearGradient>\n    <g id=\"minor-ticks\" stroke=\"#75808d\" stroke-width=\"2\" stroke-linecap=\"round\">\n      <line x1=\"400\" y1=\"72\" x2=\"400\" y2=\"80\" transform=\"rotate(6 400 280)\"/>\n      <line x1=\"400\" y1=\"72\" x2=\"400\" y2=\"80\" transform=\"rotate(12 400 280)\"/>\n      <line x1=\"400\" y1=\"72\" x2=\"400\" y2=\"80\" transform=\"rotate(18 400 280)\"/>\n      <line x1=\"400\" y1=\"72\" x2=\"400\" y2=\"80\" transform=\"rotate(24 400 280)\"/>\n    </g>\n  </defs>\n\n  <rect width=\"800\" height=\"600\" fill=\"#edf1f5\"/>\n\n  <!-- Clock body and dial -->\n  <circle cx=\"400\" cy=\"289\" r=\"236\" fill=\"#132238\" opacity=\"0.14\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"236\" fill=\"#15263d\" stroke=\"#0c1727\" stroke-width=\"4\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"226\" fill=\"url(#dial)\" stroke=\"#d6b46a\" stroke-width=\"3\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"211\" fill=\"none\" stroke=\"#dedbd2\" stroke-width=\"1.5\"/>\n\n  <!-- Minute marks -->\n  <g>\n    <use href=\"#minor-ticks\" transform=\"rotate(0 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(30 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(60 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(90 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(120 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(150 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(180 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(210 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(240 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(270 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(300 400 280)\"/>\n    <use href=\"#minor-ticks\" transform=\"rotate(330 400 280)\"/>\n  </g>\n\n  <!-- Hour marks -->\n  <g stroke=\"#26384d\" stroke-width=\"4\" stroke-linecap=\"round\">\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(0 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(30 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(60 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(90 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(120 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(150 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(180 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(210 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(240 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(270 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(300 400 280)\"/>\n    <line x1=\"400\" y1=\"69\" x2=\"400\" y2=\"87\" transform=\"rotate(330 400 280)\"/>\n  </g>\n\n  <!-- Hands: minute at 41 minutes; hour at 9 + 41/60 hours -->\n  <line x1=\"400\" y1=\"280\" x2=\"400\" y2=\"79\"\n        transform=\"rotate(246 400 280)\"\n        stroke=\"#d94b3d\" stroke-width=\"8\" stroke-linecap=\"round\"/>\n  <line x1=\"400\" y1=\"280\" x2=\"400\" y2=\"145\"\n        transform=\"rotate(290.5 400 280)\"\n        stroke=\"#18354f\" stroke-width=\"12\" stroke-linecap=\"round\"/>\n\n  <!-- All twelve numerals -->\n  <g fill=\"#172b42\" stroke=\"#f8f6ef\" stroke-width=\"4\" paint-order=\"stroke fill\"\n     font-family=\"Arial, Helvetica, sans-serif\" font-size=\"27\" font-weight=\"700\"\n     text-anchor=\"middle\" dominant-baseline=\"middle\">\n    <text x=\"400\" y=\"109\">12</text>\n    <text x=\"485.5\" y=\"131.9\">1</text>\n    <text x=\"548.1\" y=\"194.5\">2</text>\n    <text x=\"571\" y=\"280\">3</text>\n    <text x=\"548.1\" y=\"365.5\">4</text>\n    <text x=\"485.5\" y=\"428.1\">5</text>\n    <text x=\"400\" y=\"451\">6</text>\n    <text x=\"314.5\" y=\"428.1\">7</text>\n    <text x=\"251.9\" y=\"365.5\">8</text>\n    <text x=\"229\" y=\"280\">9</text>\n    <text x=\"251.9\" y=\"194.5\">10</text>\n    <text x=\"314.5\" y=\"131.9\">11</text>\n  </g>\n\n  <!-- Central pivot -->\n  <circle cx=\"400\" cy=\"280\" r=\"13\" fill=\"#172b42\" stroke=\"#f8f6ef\" stroke-width=\"4\"/>\n  <circle cx=\"400\" cy=\"280\" r=\"5\" fill=\"#d94b3d\"/>\n\n  <!-- Digital time label below the dial -->\n  <g>\n    <rect x=\"347\" y=\"534\" width=\"106\" height=\"40\" rx=\"20\" fill=\"#ffffff\" stroke=\"#c8d0da\" stroke-width=\"2\"/>\n    <text x=\"400\" y=\"554\"\n          fill=\"#172b42\" font-family=\"Arial, Helvetica, sans-serif\"\n          font-size=\"24\" font-weight=\"700\" letter-spacing=\"1.5\"\n          text-anchor=\"middle\" dominant-baseline=\"middle\">09:41</text>\n  </g>\n</svg>",
+      "firstContentMs": 49480.468083000014,
+      "firstReasoningMs": 902.8620410000149,
+      "firstEventMs": 902.8615409999911,
+      "usage": {
+        "total_tokens": 8670,
+        "total_characters": 0,
+        "prompt_tokens": 313,
+        "completion_tokens": 8357,
+        "completion_tokens_details": {
+          "reasoning_tokens": 6575
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "MiniMax-M3.1-Flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-20T06:51:49.760Z",
+      "totalMs": 55404.50429100002,
+      "promptTokens": 313,
+      "outputTokens": 8357,
+      "reasoningTokens": 6575,
+      "renderable": true,
+      "svgPath": "/evaluations/minimax-m3-1-flash/assets/clock-default.svg",
+      "svgSha256": "fd953abcfdbff6fb9a59335acaa5ff3d685ab3c5951be1a259b690174da91370",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "12",
+        "1",
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "11",
+        "09:41"
+      ],
+      "pngPath": "/evaluations/minimax-m3-1-flash/assets/clock-default.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "75e3a7042629961b3f71bea79870593e07ad7e8f9aeba34d5ce2765b6cb1bfe6",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "assessmentZh": "12 个数字完整，分针 246°、时针 290.5°（从 12 点顺时针计算），短时针位于 9 与 10 之间。源码几何与 09:41 标签一致。",
+      "assessmentEn": "All twelve numbers are present. The minute hand is at 246° and the shorter hour hand at 290.5° clockwise from 12, between 9 and 10. Geometry agrees with the 09:41 label.",
+      "altZh": "默认档钟表：红色分针指向 41 分钟，深蓝时针位于 9 与 10 之间。",
+      "altEn": "Default clock: red minute hand at minute 41 and navy hour hand between 9 and 10.",
+      "geometryCheck": {
+        "hour": {
+          "angleDeg": 290.5,
+          "length": 135.0,
+          "targetAngleDeg": 290.5,
+          "attributes": {
+            "x1": "400",
+            "y1": "280",
+            "x2": "400",
+            "y2": "145",
+            "transform": "rotate(290.5 400 280)",
+            "stroke": "#18354f",
+            "stroke-width": "12",
+            "stroke-linecap": "round"
+          }
+        },
+        "minute": {
+          "angleDeg": 246.0,
+          "length": 201.0,
+          "targetAngleDeg": 246,
+          "attributes": {
+            "x1": "400",
+            "y1": "280",
+            "x2": "400",
+            "y2": "79",
+            "transform": "rotate(246 400 280)",
+            "stroke": "#d94b3d",
+            "stroke-width": "8",
+            "stroke-linecap": "round"
+          }
+        }
+      }
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ],
+      "mode": "default",
+      "request": {
+        "model": "MiniMax-M3.1-Flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_split": true
+      },
+      "startedAt": "2026-10-20T06:51:49.761Z",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\" role=\"img\" aria-labelledby=\"title description\">\n  <title id=\"title\">Quarterly Revenue dashboard</title>\n  <desc id=\"description\">A dashboard card showing quarterly revenue bars for Q1 through Q4. Values are 12, 24, 18, and 30. Total revenue is 84 and the best quarter is Q4.</desc>\n\n  <defs>\n    <linearGradient id=\"pageBackground\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#f3f6fb\"/>\n      <stop offset=\"1\" stop-color=\"#e9eff7\"/>\n    </linearGradient>\n\n    <linearGradient id=\"blueBar\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#7586ff\"/>\n      <stop offset=\"1\" stop-color=\"#5264e6\"/>\n    </linearGradient>\n\n    <linearGradient id=\"greenBar\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#32c3ad\"/>\n      <stop offset=\"1\" stop-color=\"#149b89\"/>\n    </linearGradient>\n\n    <filter id=\"cardShadow\" x=\"-10%\" y=\"-10%\" width=\"120%\" height=\"130%\">\n      <feDropShadow dx=\"0\" dy=\"12\" stdDeviation=\"16\" flood-color=\"#253653\" flood-opacity=\"0.12\"/>\n    </filter>\n  </defs>\n\n  <rect width=\"800\" height=\"600\" fill=\"url(#pageBackground)\"/>\n\n  <g filter=\"url(#cardShadow)\">\n    <rect x=\"40\" y=\"28\" width=\"720\" height=\"544\" rx=\"28\" fill=\"#ffffff\"/>\n  </g>\n\n  <g font-family=\"Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif\">\n    <text x=\"80\" y=\"58\" fill=\"#718096\" font-size=\"10\" font-weight=\"700\" letter-spacing=\"1.8\">FINANCIAL OVERVIEW</text>\n    <text x=\"80\" y=\"90\" fill=\"#17233b\" font-size=\"29\" font-weight=\"750\">Quarterly Revenue</text>\n    <text x=\"80\" y=\"117\" fill=\"#718096\" font-size=\"13.5\">Revenue performance across all four quarters</text>\n\n    <g>\n      <rect x=\"500\" y=\"50\" width=\"110\" height=\"60\" rx=\"16\" fill=\"#f0f2ff\" stroke=\"#dfe3ff\"/>\n      <circle cx=\"520\" cy=\"80\" r=\"9\" fill=\"#5968e8\" opacity=\"0.14\"/>\n      <path d=\"M516 80h8M520 76v8\" stroke=\"#5968e8\" stroke-width=\"1.8\" stroke-linecap=\"round\"/>\n      <text x=\"536\" y=\"85\" fill=\"#4352c5\" font-size=\"14\" font-weight=\"700\">Total: 84</text>\n\n      <rect x=\"624\" y=\"50\" width=\"110\" height=\"60\" rx=\"16\" fill=\"#eaf8f4\" stroke=\"#cfeee5\"/>\n      <circle cx=\"644\" cy=\"80\" r=\"9\" fill=\"#1aa58f\" opacity=\"0.15\"/>\n      <path d=\"M640 81l3 3 6-7\" fill=\"none\" stroke=\"#159b87\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n      <text x=\"660\" y=\"85\" fill=\"#147b6c\" font-size=\"14\" font-weight=\"700\">Best: Q4</text>\n    </g>\n\n    <rect x=\"72\" y=\"140\" width=\"656\" height=\"376\" rx=\"20\" fill=\"#fbfcfe\" stroke=\"#e8edf4\"/>\n\n    <g fill=\"none\" stroke=\"#e4e9f1\" stroke-width=\"1\">\n      <line x1=\"132\" y1=\"215\" x2=\"690\" y2=\"215\"/>\n      <line x1=\"132\" y1=\"295\" x2=\"690\" y2=\"295\"/>\n      <line x1=\"132\" y1=\"375\" x2=\"690\" y2=\"375\"/>\n    </g>\n    <line x1=\"132\" y1=\"455\" x2=\"690\" y2=\"455\" stroke=\"#9aa7ba\" stroke-width=\"2\"/>\n\n    <g stroke=\"#9aa7ba\" stroke-width=\"1\">\n      <line x1=\"126\" y1=\"215\" x2=\"132\" y2=\"215\"/>\n      <line x1=\"126\" y1=\"295\" x2=\"132\" y2=\"295\"/>\n      <line x1=\"126\" y1=\"375\" x2=\"132\" y2=\"375\"/>\n      <line x1=\"126\" y1=\"455\" x2=\"132\" y2=\"455\"/>\n    </g>\n\n    <g fill=\"#68768c\" font-size=\"12.5\" font-weight=\"550\" text-anchor=\"end\" dominant-baseline=\"middle\">\n      <text x=\"116\" y=\"455\">0</text>\n      <text x=\"116\" y=\"375\">10</text>\n      <text x=\"116\" y=\"295\">20</text>\n      <text x=\"116\" y=\"215\">30</text>\n    </g>\n\n    <text x=\"91\" y=\"335\" transform=\"rotate(-90 91 335)\" fill=\"#94a0b2\" font-size=\"9.5\" font-weight=\"700\" letter-spacing=\"1.8\" text-anchor=\"middle\">REVENUE</text>\n\n    <g>\n      <path d=\"M161 455V367Q161 359 169 359H233Q241 359 241 367V455Z\" fill=\"url(#blueBar)\"/>\n      <path d=\"M301 455V271Q301 263 309 263H373Q381 263 381 271V455Z\" fill=\"url(#blueBar)\"/>\n      <path d=\"M441 455V319Q441 311 449 311H513Q521 311 521 319V455Z\" fill=\"url(#blueBar)\"/>\n      <path d=\"M581 455V223Q581 215 589 215H653Q661 215 661 223V455Z\" fill=\"url(#greenBar)\"/>\n    </g>\n\n    <g fill=\"#2f3c52\" font-size=\"18\" font-weight=\"750\" text-anchor=\"middle\">\n      <text x=\"201\" y=\"340\">12</text>\n      <text x=\"341\" y=\"244\">24</text>\n      <text x=\"481\" y=\"292\">18</text>\n      <text x=\"621\" y=\"196\" fill=\"#118b79\">30</text>\n    </g>\n\n    <g fill=\"#536176\" font-size=\"13.5\" font-weight=\"650\" text-anchor=\"middle\">\n      <text x=\"201\" y=\"486\">Q1</text>\n      <text x=\"341\" y=\"486\">Q2</text>\n      <text x=\"481\" y=\"486\">Q3</text>\n      <text x=\"621\" y=\"486\" fill=\"#147b6c\">Q4</text>\n    </g>\n  </g>\n</svg>",
+      "firstContentMs": 25985.992875000025,
+      "firstReasoningMs": 1624.6905830000178,
+      "firstEventMs": 1624.689916000003,
+      "usage": {
+        "total_tokens": 5206,
+        "total_characters": 0,
+        "prompt_tokens": 346,
+        "completion_tokens": 4860,
+        "completion_tokens_details": {
+          "reasoning_tokens": 3181
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "MiniMax-M3.1-Flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-20T06:52:21.557Z",
+      "totalMs": 31795.475041000027,
+      "promptTokens": 346,
+      "outputTokens": 4860,
+      "reasoningTokens": 3181,
+      "renderable": true,
+      "svgPath": "/evaluations/minimax-m3-1-flash/assets/dashboard-default.svg",
+      "svgSha256": "8e149791837ff684353a08733eb2b9158db4af3f4d8cdc4caa54f193c4e4e123",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "FINANCIAL OVERVIEW",
+        "Quarterly Revenue",
+        "Revenue performance across all four quarters",
+        "Total: 84",
+        "Best: Q4",
+        "0",
+        "10",
+        "20",
+        "30",
+        "REVENUE",
+        "12",
+        "24",
+        "18",
+        "30",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4"
+      ],
+      "pngPath": "/evaluations/minimax-m3-1-flash/assets/dashboard-default.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "2ab81d951795732c8e25ba0fde34f28c4f83706a7298cafc43f1920a254fc146",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "assessmentZh": "四柱高度为 96、192、144、240，共用 y=455 的零基线，比例与 12、24、18、30 一致。总计 84、最佳 Q4 正确，顶部摘要与图表留有间隔。",
+      "assessmentEn": "Bar heights 96, 192, 144 and 240 share a y=455 baseline and match values 12, 24, 18 and 30. Total 84 and Best Q4 are correct; header summaries are separated from the chart.",
+      "altZh": "默认档季度收入图：四根比例正确的柱形，顶部总计和最佳季度摘要独立排列。",
+      "altEn": "Default quarterly chart: four proportional bars with separate summary cards above."
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "prompt": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images.",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ],
+      "mode": "low",
+      "request": {
+        "model": "MiniMax-M3.1-Flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "Return only a complete, self-contained static SVG with viewBox=\"0 0 800 600\". Design a polished dashboard card titled \"Quarterly Revenue\". Draw a vertical bar chart for Q1=12, Q2=24, Q3=18, Q4=30, in that left-to-right order. All four bars must share a zero baseline, and bar heights must be exactly proportional to the values. Show a y-axis labeled 0, 10, 20, 30 and show the value above each bar. Add summary labels \"Total: 84\" and \"Best: Q4\". Use a light background and readable typography. Do not use scripts, external assets or embedded images."
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_split": true,
+        "reasoning_effort": "low"
+      },
+      "startedAt": "2026-10-20T06:52:21.559Z",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\" role=\"img\" aria-labelledby=\"title desc\">\n  <title id=\"title\">Quarterly Revenue dashboard card</title>\n  <desc id=\"desc\">A vertical bar chart showing quarterly revenue: Q1 equals 12, Q2 equals 24, Q3 equals 18, and Q4 equals 30. Total revenue is 84 and the best quarter is Q4.</desc>\n\n  <defs>\n    <linearGradient id=\"background\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#f4f7fb\"/>\n      <stop offset=\"1\" stop-color=\"#e9eff7\"/>\n    </linearGradient>\n    <linearGradient id=\"bar\" x1=\"0\" y1=\"0\" x2=\"0\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#4f7cff\"/>\n      <stop offset=\"1\" stop-color=\"#315edb\"/>\n    </linearGradient>\n    <filter id=\"shadow\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"150%\">\n      <feDropShadow dx=\"0\" dy=\"8\" stdDeviation=\"12\" flood-color=\"#1b3158\" flood-opacity=\"0.12\"/>\n    </filter>\n  </defs>\n\n  <rect width=\"800\" height=\"600\" fill=\"url(#background)\"/>\n  <rect x=\"44\" y=\"34\" width=\"712\" height=\"532\" rx=\"22\" fill=\"#ffffff\" filter=\"url(#shadow)\"/>\n\n  <g font-family=\"Inter, Segoe UI, Arial, sans-serif\">\n    <text x=\"80\" y=\"88\" fill=\"#17233b\" font-size=\"28\" font-weight=\"700\">Quarterly Revenue</text>\n    <text x=\"80\" y=\"113\" fill=\"#718096\" font-size=\"14\">Performance by quarter</text>\n\n    <g transform=\"translate(502 72)\">\n      <rect width=\"96\" height=\"42\" rx=\"12\" fill=\"#edf3ff\"/>\n      <text x=\"48\" y=\"27\" text-anchor=\"middle\" fill=\"#315edb\" font-size=\"16\" font-weight=\"700\">Total: 84</text>\n    </g>\n    <g transform=\"translate(608 72)\">\n      <rect width=\"112\" height=\"42\" rx=\"12\" fill=\"#eaf8f1\"/>\n      <text x=\"56\" y=\"27\" text-anchor=\"middle\" fill=\"#16835b\" font-size=\"16\" font-weight=\"700\">Best: Q4</text>\n    </g>\n\n    <g fill=\"none\" stroke=\"#dfe6ef\" stroke-width=\"1\">\n      <path d=\"M104 460H716\"/>\n      <path d=\"M104 340H716\"/>\n      <path d=\"M104 220H716\"/>\n      <path d=\"M104 100H716\"/>\n    </g>\n\n    <g fill=\"#7b879c\" font-size=\"13\" text-anchor=\"end\" dominant-baseline=\"middle\">\n      <text x=\"88\" y=\"460\">0</text>\n      <text x=\"88\" y=\"340\">10</text>\n      <text x=\"88\" y=\"220\">20</text>\n      <text x=\"88\" y=\"100\">30</text>\n    </g>\n\n    <g>\n      <rect x=\"142\" y=\"316\" width=\"82\" height=\"144\" rx=\"8\" fill=\"url(#bar)\"/>\n      <rect x=\"286\" y=\"172\" width=\"82\" height=\"288\" rx=\"8\" fill=\"url(#bar)\"/>\n      <rect x=\"430\" y=\"244\" width=\"82\" height=\"216\" rx=\"8\" fill=\"url(#bar)\"/>\n      <rect x=\"574\" y=\"100\" width=\"82\" height=\"360\" rx=\"8\" fill=\"url(#bar)\"/>\n    </g>\n\n    <g fill=\"#24324d\" font-size=\"17\" font-weight=\"700\" text-anchor=\"middle\">\n      <text x=\"183\" y=\"299\">12</text>\n      <text x=\"327\" y=\"155\">24</text>\n      <text x=\"471\" y=\"227\">18</text>\n      <text x=\"615\" y=\"83\">30</text>\n    </g>\n\n    <g fill=\"#526077\" font-size=\"15\" font-weight=\"600\" text-anchor=\"middle\">\n      <text x=\"183\" y=\"490\">Q1</text>\n      <text x=\"327\" y=\"490\">Q2</text>\n      <text x=\"471\" y=\"490\">Q3</text>\n      <text x=\"615\" y=\"490\">Q4</text>\n    </g>\n\n    <path d=\"M104 460H716\" fill=\"none\" stroke=\"#9aa8ba\" stroke-width=\"2\"/>\n  </g>\n</svg>",
+      "firstContentMs": 2142.3196670000034,
+      "firstReasoningMs": 889.2631249999977,
+      "firstEventMs": 889.2627090000024,
+      "usage": {
+        "total_tokens": 1558,
+        "total_characters": 0,
+        "prompt_tokens": 346,
+        "completion_tokens": 1212,
+        "completion_tokens_details": {
+          "reasoning_tokens": 105
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 174
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "MiniMax-M3.1-Flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-20T06:52:29.378Z",
+      "totalMs": 7818.564459000016,
+      "promptTokens": 346,
+      "outputTokens": 1212,
+      "reasoningTokens": 105,
+      "renderable": true,
+      "svgPath": "/evaluations/minimax-m3-1-flash/assets/dashboard-low.svg",
+      "svgSha256": "5001d1c09032a6d6cfc8222fa95cbad633b14c6986d3d570b9fc093a16352331",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "Quarterly Revenue",
+        "Performance by quarter",
+        "Total: 84",
+        "Best: Q4",
+        "0",
+        "10",
+        "20",
+        "30",
+        "12",
+        "24",
+        "18",
+        "30",
+        "Q1",
+        "Q2",
+        "Q3",
+        "Q4"
+      ],
+      "pngPath": "/evaluations/minimax-m3-1-flash/assets/dashboard-low.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "fa9e638c6ee22ac615f528653d9274e5b04809efb7902c60a8bd58166cb63b30",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "assessmentZh": "数值与比例正确：柱高 144、288、216、360，共用 y=460 基线。但图表侵入顶部摘要区域，30 刻度线穿过摘要卡片，版面分区不足。",
+      "assessmentEn": "Values and proportions are correct: heights 144, 288, 216 and 360 share a y=460 baseline. The chart intrudes into the header summaries and the 30 gridline crosses the summary cards.",
+      "altZh": "low 档季度收入图：比例正确，但最高柱和 30 刻度侵入顶部摘要区域。",
+      "altEn": "Low quarterly chart: proportional bars, but the tallest bar and 30 gridline intrude into the header area."
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ],
+      "mode": "low",
+      "request": {
+        "model": "MiniMax-M3.1-Flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_split": true,
+        "reasoning_effort": "low"
+      },
+      "startedAt": "2026-10-20T06:52:29.382Z",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 800 600\" width=\"800\" height=\"600\">\n  <rect width=\"800\" height=\"600\" fill=\"#F7F4EC\"/>\n  <path d=\"M80 72H245\" stroke=\"#E66B4F\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n  <path d=\"M555 72H720\" stroke=\"#E66B4F\" stroke-width=\"4\" stroke-linecap=\"round\"/>\n  <circle cx=\"268\" cy=\"72\" r=\"5\" fill=\"#E66B4F\"/>\n  <circle cx=\"532\" cy=\"72\" r=\"5\" fill=\"#E66B4F\"/>\n\n  <text x=\"400\" y=\"145\" text-anchor=\"middle\" font-family=\"Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif\" font-size=\"56\" font-weight=\"800\" letter-spacing=\"5\" fill=\"#203A3B\">周末骑行计划</text>\n  <text x=\"400\" y=\"190\" text-anchor=\"middle\" font-family=\"Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif\" font-size=\"28\" font-weight=\"400\" letter-spacing=\"4\" fill=\"#5E7774\">慢一点，看见城市</text>\n\n  <g font-family=\"Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif\" font-size=\"23\" font-weight=\"600\" fill=\"#294A49\" text-anchor=\"middle\">\n    <text x=\"400\" y=\"245\">10月24日 09:00</text>\n    <text x=\"400\" y=\"281\">滨江公园东门</text>\n  </g>\n\n  <g transform=\"translate(295 315)\" fill=\"none\" stroke=\"#E66B4F\" stroke-width=\"5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <circle cx=\"55\" cy=\"78\" r=\"43\"/>\n    <circle cx=\"190\" cy=\"78\" r=\"43\"/>\n    <path d=\"M55 78L91 29H143L116 78H55L78 47H137L190 78\"/>\n    <path d=\"M132 29H163\"/>\n    <path d=\"M143 29L190 78\"/>\n    <path d=\"M78 47L55 78\"/>\n    <path d=\"M116 78L143 29\"/>\n  </g>\n  <path d=\"M320 461H480\" stroke=\"#D8DED7\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n\n  <text x=\"400\" y=\"452\" text-anchor=\"middle\" font-family=\"Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif\" font-size=\"16\" font-weight=\"400\" letter-spacing=\"2\" fill=\"#71827E\">自备头盔 · 全程12公里</text>\n\n  <rect x=\"310\" y=\"493\" width=\"180\" height=\"58\" rx=\"29\" fill=\"#E66B4F\"/>\n  <rect x=\"316\" y=\"499\" width=\"168\" height=\"46\" rx=\"23\" fill=\"none\" stroke=\"#F7F4EC\" stroke-width=\"1.5\" opacity=\"0.55\"/>\n  <text x=\"400\" y=\"529\" text-anchor=\"middle\" font-family=\"Noto Sans CJK SC, Source Han Sans SC, Microsoft YaHei, sans-serif\" font-size=\"21\" font-weight=\"700\" letter-spacing=\"3\" fill=\"#FFFFFF\">立即报名</text>\n</svg>",
+      "firstContentMs": 5952.883125000022,
+      "firstReasoningMs": 1562.704792000004,
+      "firstEventMs": 1562.7044170000008,
+      "usage": {
+        "total_tokens": 1392,
+        "total_characters": 0,
+        "prompt_tokens": 342,
+        "completion_tokens": 1050,
+        "completion_tokens_details": {
+          "reasoning_tokens": 248
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 197
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "MiniMax-M3.1-Flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-20T06:52:42.175Z",
+      "totalMs": 12793.828708000015,
+      "promptTokens": 342,
+      "outputTokens": 1050,
+      "reasoningTokens": 248,
+      "renderable": true,
+      "svgPath": "/evaluations/minimax-m3-1-flash/assets/poster-low.svg",
+      "svgSha256": "3e73cbba3677f3daa1c1a590582f1282faa6ef8aa84d6f05632e38e94a0c6f68",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "周末骑行计划",
+        "慢一点，看见城市",
+        "10月24日 09:00",
+        "滨江公园东门",
+        "自备头盔 · 全程12公里",
+        "立即报名"
+      ],
+      "pngPath": "/evaluations/minimax-m3-1-flash/assets/poster-low.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "f4da1d2eafe81c157c26d822d10423577ef01322a59db9bf177e05fe57dc4d4c",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "assessmentZh": "六段指定文字各出现一次，字词和数字完整；主标题最大，时间地点次之，说明最小。自行车图标、留白和按钮清楚，本次成图未见文字重叠或越界。",
+      "assessmentEn": "All six required strings appear once with intact wording and numbers. Heading, details and small print follow the requested hierarchy. The bicycle, whitespace and button are clear; no text overlap or clipping is visible in this render.",
+      "altZh": "low 档中文骑行海报：奶油色背景、珊瑚色自行车与立即报名按钮。",
+      "altEn": "Low Chinese cycling poster with a cream background, coral bicycle and registration button.",
+      "exactTextCheck": {
+        "周末骑行计划": 1,
+        "慢一点，看见城市": 1,
+        "10月24日 09:00": 1,
+        "滨江公园东门": 1,
+        "自备头盔 · 全程12公里": 1,
+        "立即报名": 1
+      },
+      "allVisibleTextNodes": [
+        "周末骑行计划",
+        "慢一点，看见城市",
+        "10月24日 09:00",
+        "滨江公园东门",
+        "自备头盔 · 全程12公里",
+        "立即报名"
+      ]
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "prompt": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ],
+      "mode": "default",
+      "request": {
+        "model": "MiniMax-M3.1-Flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只输出一个完整、自包含的静态 SVG，viewBox=\"0 0 800 600\"。设计一张清晰、精致的中文活动海报。必须且仅包含以下六段文字，每段出现一次，不能增删字或改写：主标题“周末骑行计划”；副标题“慢一点，看见城市”；时间“10月24日 09:00”；地点“滨江公园东门”；说明“自备头盔 · 全程12公里”；按钮文字“立即报名”。画一个简洁的自行车图标。主标题最大，时间地点次之，说明最小。背景浅色，留足边距，所有文字保持在画布内，不重叠，不使用脚本、外部素材或嵌入图片。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 12288,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "reasoning_split": true
+      },
+      "startedAt": "2026-10-20T06:52:42.238Z",
+      "text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"800\" height=\"600\" viewBox=\"0 0 800 600\">\n  <defs>\n    <linearGradient id=\"background\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"1\">\n      <stop offset=\"0\" stop-color=\"#F7F5EE\"/>\n      <stop offset=\"1\" stop-color=\"#ECEFE7\"/>\n    </linearGradient>\n    <filter id=\"shadow\" x=\"-20%\" y=\"-20%\" width=\"140%\" height=\"160%\">\n      <feDropShadow dx=\"0\" dy=\"8\" stdDeviation=\"12\" flood-color=\"#173F3C\" flood-opacity=\"0.08\"/>\n    </filter>\n  </defs>\n\n  <rect width=\"800\" height=\"600\" fill=\"url(#background)\"/>\n  <rect x=\"24\" y=\"24\" width=\"752\" height=\"552\" rx=\"32\" fill=\"#FCFBF7\" stroke=\"#D9DED5\" stroke-width=\"2\"/>\n\n  <circle cx=\"400\" cy=\"244\" r=\"82\" fill=\"#E0EDE4\"/>\n  <circle cx=\"505\" cy=\"187\" r=\"9\" fill=\"#E98259\"/>\n  <circle cx=\"291\" cy=\"220\" r=\"5\" fill=\"#8DB3A5\"/>\n\n  <path d=\"M290 286C321 310 357 307 391 287S462 260 510 280\" fill=\"none\" stroke=\"#B8CEC2\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-dasharray=\"4 9\"/>\n\n  <g transform=\"translate(400 238)\" fill=\"none\" stroke=\"#194D49\" stroke-width=\"4.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\">\n    <circle cx=\"-66\" cy=\"20\" r=\"34\"/>\n    <circle cx=\"66\" cy=\"20\" r=\"34\"/>\n    <path d=\"M-66 20L-28-24L32-24L2 20Z\"/>\n    <path d=\"M32-24L66 20\"/>\n    <path d=\"M32-24L28-40L42-43\"/>\n    <path d=\"M-28-24L-31-38\"/>\n    <path d=\"M-42-41H-19\"/>\n    <circle cx=\"2\" cy=\"20\" r=\"9\"/>\n    <path d=\"M2 20L17 27\"/>\n    <path d=\"M-66 20H-7\"/>\n  </g>\n  <g fill=\"#E98259\">\n    <circle cx=\"334\" cy=\"258\" r=\"4\"/>\n    <circle cx=\"466\" cy=\"258\" r=\"4\"/>\n  </g>\n\n  <text x=\"400\" y=\"108\" text-anchor=\"middle\" fill=\"#173F3C\" font-family=\"Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"60\" font-weight=\"700\" letter-spacing=\"3\">周末骑行计划</text>\n  <text x=\"400\" y=\"154\" text-anchor=\"middle\" fill=\"#66766F\" font-family=\"Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"27\" font-weight=\"400\" letter-spacing=\"3\">慢一点，看见城市</text>\n\n  <rect x=\"142\" y=\"344\" width=\"516\" height=\"205\" rx=\"24\" fill=\"#FFFFFF\" filter=\"url(#shadow)\"/>\n  <rect x=\"380\" y=\"344\" width=\"40\" height=\"4\" rx=\"2\" fill=\"#E98259\"/>\n\n  <text x=\"400\" y=\"385\" text-anchor=\"middle\" fill=\"#173F3C\" font-family=\"Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"30\" font-weight=\"600\" letter-spacing=\"1\">10月24日 09:00</text>\n  <path d=\"M194 402H606\" stroke=\"#E5E8E1\" stroke-width=\"1.5\"/>\n  <text x=\"400\" y=\"430\" text-anchor=\"middle\" fill=\"#173F3C\" font-family=\"Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"30\" font-weight=\"600\" letter-spacing=\"1\">滨江公园东门</text>\n  <text x=\"400\" y=\"465\" text-anchor=\"middle\" fill=\"#718079\" font-family=\"Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"16\" font-weight=\"400\" letter-spacing=\"0.6\">自备头盔 · 全程12公里</text>\n\n  <rect x=\"304\" y=\"482\" width=\"192\" height=\"56\" rx=\"28\" fill=\"#E98259\"/>\n  <text x=\"400\" y=\"519\" text-anchor=\"middle\" fill=\"#FFFFFF\" font-family=\"Noto Sans SC, PingFang SC, Microsoft YaHei, sans-serif\" font-size=\"22\" font-weight=\"600\" letter-spacing=\"2\">立即报名</text>\n</svg>",
+      "firstContentMs": 48435.954958999966,
+      "firstReasoningMs": 2166.0021669999987,
+      "firstEventMs": 2166.001833999995,
+      "usage": {
+        "total_tokens": 6161,
+        "total_characters": 0,
+        "prompt_tokens": 342,
+        "completion_tokens": 5819,
+        "completion_tokens_details": {
+          "reasoning_tokens": 4688
+        },
+        "prompt_tokens_details": {
+          "cached_tokens": 195
+        }
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "MiniMax-M3.1-Flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-20T06:53:35.170Z",
+      "totalMs": 52932.563083999994,
+      "promptTokens": 342,
+      "outputTokens": 5819,
+      "reasoningTokens": 4688,
+      "renderable": true,
+      "svgPath": "/evaluations/minimax-m3-1-flash/assets/poster-default.svg",
+      "svgSha256": "4359d6d9835649bef3dbe9cc6ed40935c70271d801ee1a4e5db2ba7170d42548",
+      "extraction": "Exact first SVG element from response; surrounding prose or code fence omitted, SVG bytes unchanged.",
+      "viewBox": "0 0 800 600",
+      "texts": [
+        "周末骑行计划",
+        "慢一点，看见城市",
+        "10月24日 09:00",
+        "滨江公园东门",
+        "自备头盔 · 全程12公里",
+        "立即报名"
+      ],
+      "pngPath": "/evaluations/minimax-m3-1-flash/assets/poster-default.png",
+      "width": 1200,
+      "height": 900,
+      "pngSha256": "8fff8453fb7aaadad6909051c07cf99e4679d078d8399ac9c1c34a8d963e2eae",
+      "renderer": "sharp/libvips SVG rasterization at 1200px width; no visual edits",
+      "assessmentZh": "六段指定文字各出现一次，字词和数字完整。大标题、自行车插图、时间地点卡片与报名按钮层次清楚；说明字号最小，未见文字遮挡或越界。",
+      "assessmentEn": "All six required strings appear once with intact wording and numbers. The large heading, bicycle illustration, details card and button form a clear hierarchy; small print is smallest, with no visible text overlap or clipping.",
+      "altZh": "默认档中文周末骑行活动海报。",
+      "altEn": "Default Chinese weekend cycling poster.",
+      "exactTextCheck": {
+        "周末骑行计划": 1,
+        "慢一点，看见城市": 1,
+        "10月24日 09:00": 1,
+        "滨江公园东门": 1,
+        "自备头盔 · 全程12公里": 1,
+        "立即报名": 1
+      },
+      "allVisibleTextNodes": [
+        "周末骑行计划",
+        "慢一点，看见城市",
+        "10月24日 09:00",
+        "滨江公园东门",
+        "自备头盔 · 全程12公里",
+        "立即报名"
+      ]
+    }
+  ],
+  "method": "Four fixed SVG prompts, one attempt per effort. Alternating order; no retries, edits, visual feedback or best-of selection. Default omits effort (documented max); low explicitly requests low. SVG code generation, not native image generation.",
+  "temperature": 0,
+  "maxTokens": 12288,
+  "tasks": [
+    {
+      "id": "pelican",
+      "title": "鹈鹕骑自行车",
+      "titleEn": "Pelican riding a bicycle",
+      "rubricZh": [
+        "能辨认出鹈鹕的长喙与喉囊",
+        "自行车有两轮和连贯的车架",
+        "身体、车座、脚踏、车把之间的位置合理"
+      ],
+      "rubricEn": [
+        "Recognizable pelican bill and pouch",
+        "Two wheels and a connected bicycle frame",
+        "Coherent rider, saddle, pedals and handlebar relationships"
+      ],
+      "source": "https://simonwillison.net/2024/Oct/25/pelicans-on-a-bicycle/"
+    },
+    {
+      "id": "clock",
+      "title": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "rubricZh": [
+        "12 个数字完整、顺序正确",
+        "分针指向第 41 分钟（从 12 点顺时针 246°）",
+        "时针指向 9 点后 41 分钟（290.5°），且短于分针"
+      ],
+      "rubricEn": [
+        "Twelve numbers in the correct order",
+        "Minute hand at 246 degrees clockwise from 12",
+        "Shorter hour hand at 290.5 degrees, between 9 and 10"
+      ]
+    },
+    {
+      "id": "dashboard",
+      "title": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "rubricZh": [
+        "Q1 到 Q4 的顺序、数值与总计 84 正确",
+        "四柱共享零基线，高度比例为 2:4:3:5",
+        "刻度、柱顶数字与摘要清楚，无遮挡"
+      ],
+      "rubricEn": [
+        "Correct quarter order, values and total of 84",
+        "Shared zero baseline and heights in the ratio 2:4:3:5",
+        "Readable axis, values and summaries without overlap"
+      ]
+    },
+    {
+      "id": "poster",
+      "title": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "rubricZh": [
+        "六段指定文字各一次，字词与数字不改写",
+        "标题、信息和按钮层次清晰",
+        "边距充足，文字在画布内且不重叠，自行车可辨识"
+      ],
+      "rubricEn": [
+        "All six exact Chinese strings appear once",
+        "Clear hierarchy of heading, details and button",
+        "Adequate margins, no clipping or overlaps, recognizable bicycle"
+      ]
+    }
+  ],
+  "date": "2026-10-20",
+  "updatedAt": "2026-10-20T06:55:35.019304+00:00",
+  "official": [
+    {
+      "id": "official-benchmarks",
+      "url": "https://filecdn.minimax.chat/public/m31-flash-en-2-1792403273121-webp-1.m31-flash-en-2-1792403273121-webp",
+      "sourcePage": "https://www.minimax.io/blog/minimax-m31f",
+      "downloadedAt": "2026-10-20T06:48:50.489Z",
+      "path": "/evaluations/minimax-m3-1-flash/assets/official-benchmarks.webp",
+      "width": 2160,
+      "height": 2980,
+      "sha256": "5525d0bcceba085809b7995b1db2a6a067a52b94edb406bd6dbdcc63d2055d63",
+      "bytes": 344492,
+      "titleZh": "官方基准总表（含评测设置脚注）",
+      "titleEn": "Official benchmark table, including setup footnotes",
+      "captionZh": "综合表包含多种任务和不同评测设置。图中空白项不代表零分；请放大查看原始脚注。",
+      "captionEn": "The table covers multiple tasks and evaluation setups. Blank cells are not zero scores; zoom in to read the original footnotes.",
+      "copyrightHolder": "MiniMax",
+      "unmodifiedOriginal": true
+    },
+    {
+      "id": "official-automation",
+      "url": "https://filecdn.minimax.chat/public/m31-flash-en-5-1792403273121.png",
+      "sourcePage": "https://www.minimax.io/blog/minimax-m31f",
+      "downloadedAt": "2026-10-20T06:48:50.591Z",
+      "path": "/evaluations/minimax-m3-1-flash/assets/official-automation.png",
+      "width": 2400,
+      "height": 1720,
+      "sha256": "2fe56b1cefe6f716af93b302bef4a780d56150538c5d38a44abec26492b8987e",
+      "bytes": 324373,
+      "titleZh": "Automation-Bench：成绩与单任务成本",
+      "titleEn": "Automation-Bench: score versus per-task cost",
+      "captionZh": "横轴为对数成本，图注给出价格假设和数据日期。不要把图中的成本直接套用为当前 API 单价。",
+      "captionEn": "Cost uses a logarithmic axis; the footnote gives its pricing assumptions and data date. These costs are not current API rate quotes.",
+      "copyrightHolder": "MiniMax",
+      "unmodifiedOriginal": true
+    },
+    {
+      "id": "official-deepswe",
+      "url": "https://filecdn.minimax.chat/public/m31-flash-en-4-1792403273121.png",
+      "sourcePage": "https://www.minimax.io/blog/minimax-m31f",
+      "downloadedAt": "2026-10-20T06:48:50.737Z",
+      "path": "/evaluations/minimax-m3-1-flash/assets/official-deepswe.png",
+      "width": 2400,
+      "height": 1800,
+      "sha256": "3f749f378a2e32e44878f3ba137a33cc12070c95cb570209ec488bdf34e4d1c0",
+      "bytes": 409821,
+      "titleZh": "DeepSWE v1.1：成绩与单任务成本",
+      "titleEn": "DeepSWE v1.1: score versus per-task cost",
+      "captionZh": "展示官方报告的多档推理结果；图注注明 mini-swe-agent、榜单日期与汇率口径。本站没有复现。",
+      "captionEn": "Vendor-reported effort curves; the footnote specifies mini-swe-agent, leaderboard date and exchange-rate assumptions. Not reproduced here.",
+      "copyrightHolder": "MiniMax",
+      "unmodifiedOriginal": true
+    },
+    {
+      "id": "official-ale",
+      "url": "https://filecdn.minimax.chat/public/m31-flash-en-3-1792403273121.png",
+      "sourcePage": "https://www.minimax.io/blog/minimax-m31f",
+      "downloadedAt": "2026-10-20T06:48:50.815Z",
+      "path": "/evaluations/minimax-m3-1-flash/assets/official-ale.png",
+      "width": 2400,
+      "height": 1800,
+      "sha256": "6b26ab4747dc2489175c39918e76d3b74f06d13d29950b6ea24a54df8d638f53",
+      "bytes": 283488,
+      "titleZh": "Agents’ Last Exam：通过率与总成本",
+      "titleEn": "Agents’ Last Exam: pass rate versus total cost",
+      "captionZh": "横轴是总成本，和前两张的单任务成本不同；保留原始 152 项任务、框架和日期说明。",
+      "captionEn": "The horizontal axis is total cost, unlike the preceding per-task charts. Original 152-task, harness and date notes are retained.",
+      "copyrightHolder": "MiniMax",
+      "unmodifiedOriginal": true
+    }
+  ],
+  "evidencePath": "/evaluations/minimax-m3-1-flash-visual.json",
+  "visualAssessment": "Qualitative inspection of all rendered outputs by the publishing AI assistant plus limited source-coordinate/text checks; not an independent human score.",
+  "publication": {
+    "titleZh": "MiniMax M3.1 Flash 评测：Space Bunny、鹈鹕骑车与官方基准",
+    "titleEn": "MiniMax M3.1 Flash: Space Bunny, Pelican SVG and Benchmarks",
+    "summaryZh": "含 46 次文本与代码测试、8 次 SVG 视觉测试和 4 张官方 benchmark 原图。查看鹈鹕骑车、钟表、数据图表与中文海报的默认/low 成图、原始代码和具体失败。",
+    "summaryEn": "46 text/code attempts, 8 SVG visual attempts and 4 official benchmark figures. Compare default and low pelicans, clocks, charts and Chinese posters, with original code and visible failures."
+  },
+  "display": {
+    "vendor": "MiniMax",
+    "officialDate": "2026-10-19",
+    "previousAttempts": 46,
+    "modeLabels": {
+      "default": {
+        "zh": "默认档 · max",
+        "en": "Default · max"
+      },
+      "low": {
+        "zh": "低思考档 · low",
+        "en": "Low effort"
+      }
+    },
+    "methodZh": "温度 0；max_tokens 为 12,288（包含思考）；超时 180 秒。默认档省略 effort（文档规定为 max），low 档显式设置 low。逐题交替两档顺序，顺序调用。页面展示 PNG 静态渲染，原始 SVG 可下载。下方点评由本站 AI 助手查看成图并核对源码，属于定性观察，不是独立人工评分或综合榜单。",
+    "methodEn": "Temperature 0; max_tokens 12,288 including reasoning; 180-second timeout. Default omits effort (documented max); low explicitly requests low. Calls were sequential with alternating mode order. Images are static PNG renders; original SVGs are available. Observations are qualitative inspection by the site’s AI assistant, not an independent human rating or a leaderboard.",
+    "officialIntroZh": "以下 4 张原图来自 MiniMax 10 月 19 日发布文章，保留完整脚注、坐标和图例，版权归 MiniMax。本站未独立复现这些 benchmark；其任务、评测框架、数据日期与成本假设，和本站测试不同。",
+    "officialIntroEn": "These four original images were downloaded from MiniMax’s October 19 launch article, retaining footnotes, axes and labels. Copyright remains with MiniMax. TOKRACE has not independently reproduced these benchmarks; their tasks, harnesses, dates and pricing assumptions differ from our tests."
+  }
+}

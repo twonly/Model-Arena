@@ -1,0 +1,1339 @@
+{
+  "schemaVersion": 1,
+  "model": "openrouter/stealth/crouton-alpha",
+  "date": "2026-11-04",
+  "suiteVersion": "creative-suite-v4",
+  "topicSetSha256": "3ee3c3ae4dd583083b8288b8aeea2eb9cda32d22c86716935c516f10c99f6d71",
+  "publishedAt": "2026-11-04",
+  "updatedAt": "2026-11-04",
+  "summaryZh": "静态SVG与循环动画对明确约束执行较稳，参数化书架尺寸正确但材质简单。四支知识视频经修正后形成完整的带字幕讲解，仍有示意与措辞精度的局限。复杂Blender任务暴露了明显问题：减速器实际载盘与轴未联动、啮合画面遮挡；室内场景的动线、材质与镜头可读性不足。作品交付和质量通过分别记录，不以作者自检代替实际检查。",
+  "summaryEn": "Static SVGs and the loop animation follow explicit constraints consistently; the parametric bookshelf has correct dimensions but simple materials. The four corrected knowledge videos deliver complete captioned explanations, with remaining schematic and wording limits. Complex Blender tasks show clear failures: the reducer's physical carriers and shafts do not follow the motion and meshing is obscured; the interior has circulation, material and camera-readability problems. Delivery and quality acceptance are recorded separately; author selfchecks do not replace inspection.",
+  "methodZh": "作品、工程源码与口播脚本由指定的 Crouton Alpha 模型在 OpenCode v2.2.5 每案例持久会话中以路由 openrouter/stealth/crouton-alpha 创作。Codex 协调者检查像素与技术 QA，并有时在持久控制器任务中执行作者提供的确切前台渲染命令；协调者未做艺术修正，未使用其他创作模型。QA = 作者自检 + 协调者 AI 检查与独立进程测量，不是盲评、独立人类分数，也不是全部在同一个 Crouton 会话内完成。环境为 harness 默认；仅指定的只读检查/捕获工具禁用网络，不声称全程离线。长 wall 时间含产出、模型、渲染、排队、闲置、恢复与协调者 QA，非模型速度。冻结范围 3 Blender + 4 知识视频 + 3 静态 SVG + 1 SVG 动画，日期 2026-11-04，主题 SHA 见冻结 batch；共享 Pillow/NumPy/FFmpeg/浏览器 SVG 能力与公共 Kokoro TTS 制作工具（口播脚本由模型编写，声音非模型原生；知识-4 变速已披露）。native completedResponses 为 assistant step_finish 计数，非实际提供方请求；时钟沿用既有 Build 12 步，成功的 preflight Plan 与外部出版工作排除在外，本地 trial receipt 保留。",
+  "methodEn": "Artworks, project sources and narration scripts were authored by the exact Crouton in native OpenCode v2.2.5 persistent per-case sessions via route openrouter/stealth/crouton-alpha. Codex coordinators inspected pixels and technical QA and sometimes executed the exact author-supplied foreground render commands in persistent controller jobs; coordinators made no artistic fixes and no other creative models were used. QA = author self-checks plus coordinator AI inspection and separate-process measurements, NOT blind or independent human scores, and NOT all inside one Crouton session. The environment is the harness default; only specified read-only inspection/capture tools deny networking, with no whole-offline claim. Long wall time includes productive, model, render, queue, idle/resume and coordinator-QA time, not model speed. Frozen scope 3 Blender + 4 knowledge videos + 3 static SVG + 1 SVG animation, date 2026-11-04, topic SHA from frozen batch; shared Pillow/NumPy/FFmpeg/browser SVG capabilities and the common Kokoro TTS production tool (scripts model-authored, voice NOT model-native; knowledge-4 speedup disclosed). Native completedResponses are assistant step_finish counts, NOT actual provider requests; the clock reuses the existing Build 12 steps, the successful preflight Plan and external publication work are excluded, and the local trial receipt is retained.",
+  "billingZh": "OpenRouter 官方列出输入/输出价格为零；实际发票未核实，不从归一化计数推断费用。",
+  "billingEn": "OpenRouter officially lists zero input/output prices; the actual invoice is unverified, and no cost is inferred from normalized counters.",
+  "usageNoteZh": "计数为原生 assistant step_finish（非提供方请求）；输出为可见输出加单独报告的 reasoning 各计一次；缺失的上游计数被归一化为 0，不是原始账单；时钟为 Build 12 步范围，preflight Plan、出版与协调者用量排除，本地 trial receipt 保留。 聚合已知小计（OpenCode 归一化 harness 计数，非原始发票）：输入 28,919,558、输出 241,645（可见输出 238,506 + 单独报告的推理 3,139）；完整总量未知，实际提供方请求数未知，发票未知。部分用例的 wallMs 含长时间闲置/恢复/排队与协调者 QA，非模型推理速度。",
+  "usageNoteEn": "Counts are native assistant step_finish events (NOT provider requests); outputs are visible output plus separately reported reasoning counted once; missing upstream counters are normalized to 0, not raw billing; the clock uses the Build 12-step scope with preflight Plan, publication and coordinator usage excluded and the local trial receipt preserved. Aggregate KNOWN subtotals (OpenCode normalized harness counters, not raw invoices): input 28,919,558, output 241,645 (visible output 238,506 + separately reported reasoning 3,139); complete totals UNKNOWN, actual provider request count UNKNOWN, invoice UNKNOWN. Some cases' wallMs includes long idle/resume/queue time and coordinator QA, never model inference speed.",
+  "limitationsZh": [
+    "匿名厂商与固定 checkpoint 未公开，未复现官方 benchmark 图/分数。",
+    "共享固定 Kokoro zf_xiaobei 为制作工具，非模型原生语音；降噪 1.15× 与分段级字幕已披露；无听审或人类分数。",
+    "已知归一化 assistant-step 计数不是原始提供方请求或发票；一条被中断的减速器消息用量为 null，故完整 token 总量未知。时钟 Build 12 步范围排除原 preflight Plan；出版/协调者用量排除。",
+    "冻结同日主题/规格哈希保留；原始流水线适配与共享主机资源争用已披露；wall 时间非推理速度。",
+    "机械联动、衣帽间动线、成片遮挡、灰模对比与科学措辞的 partial/fail 结论保留；无制造/载荷或全 UV/LOD 认证。"
+  ],
+  "limitationsEn": [
+    "Anonymous vendor and fixed checkpoint undisclosed; no official benchmark image/score reproduced.",
+    "Shared fixed Kokoro zf_xiaobei is a production tool, not native model speech; ANC 1.15x and segment-level captions disclosed; no listening or human score.",
+    "Known normalized assistant-step counters are not raw provider requests or invoices; one interrupted reducer message has null usage, so full token totals unknown. Clock Build 12-step scope excludes original preflight Plan; publication/coordinator usage excluded.",
+    "Frozen same-day topics/spec hashes retained; original pipeline adaptations and shared host resource contention disclosed; wall time not inference speed.",
+    "Mechanical linkage, wardrobe route, film occlusion, gray contrast and scientific wording partial/fail findings retained; no manufacturing/load or universal UV/LOD certification."
+  ],
+  "evidencePath": "/evaluations/crouton-alpha-creative.json",
+  "totals": {
+    "requests": null,
+    "completedResponses": 715,
+    "errors": 1,
+    "interruptedRequests": null,
+    "promptTokens": null,
+    "outputTokens": null
+  },
+  "knownSubtotal": {
+    "requests": null,
+    "completedResponses": 715,
+    "errors": 1,
+    "interruptedRequests": 1,
+    "promptTokens": 28919558,
+    "outputTokens": 241645
+  },
+  "cases": [
+    {
+      "id": "bookshelf",
+      "titleZh": "参数化书架及参数修改",
+      "titleEn": "Parametric bookshelf and parameter revision",
+      "category": "blender",
+      "effort": "default",
+      "summaryZh": "两版书架尺寸、18mm板厚和等高分格正确，背面是真实开放结构；木材质感较简单。",
+      "summaryEn": "Both variants have correct dimensions,18mm boards and equal openings, with a genuinely open back; wood material is simple.",
+      "source": {
+        "url": "https://vercel.com/changelog/kimi-k3-1-pro-and-kimi-k3-1-pro-highspeed-are-available-now-in-ai-gateway",
+        "titleZh": "参数化书架及参数修改",
+        "titleEn": "Parametric bookshelf and parameter revision",
+        "originalPrompt": "参数化书架：3格与4格两版，板件与背面开放结构对比。 / Parametric bookshelf: 3- and 4-compartment variants, boards and open back compared.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": "86151fda84cd34fb1612185d4bf3edc051e49c38fd163d190b9acf2ae186f079",
+        "changesZh": "参数化书架：3格与4格两版，板件与背面开放结构对比。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Parametric bookshelf: 3- and 4-compartment variants, boards and open back compared.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [],
+      "prompt": "Parametric bookshelf: 3- and 4-compartment variants, boards and open back compared.",
+      "promptSha256": "2806ab28c5e7dd5437d75e7acc0043239c9cefef44792ad7b01a4de0b74b9aac",
+      "caseSpecSha256": "b6d7ae16f3005aac26806e557e91ab51130241ec7f16e7b0e9becf2ca763039d",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 42,
+        "promptTokens": 1040229,
+        "outputTokens": 11708,
+        "wallMs": 370918
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/58bf1bc1ede0-baseline_front.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "3格书架正面",
+          "captionEn": "3-compartment bookshelf front"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/e3ddfb383874-baseline_back.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "3格书架背面开放结构",
+          "captionEn": "3-compartment bookshelf open back"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/05b41016e9e3-modified_front.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "4格书架正面",
+          "captionEn": "4-compartment bookshelf front"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/66d5ce5e2727-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        }
+      ],
+      "assessmentZh": [
+        "同一参数脚本生成3格与4格两版，板件独立且未混入道具。",
+        "三张成图可清楚比较宽度与分格变化，背面能查看内部结构。",
+        "木材只有平涂颜色，缺少木纹和细节质感。"
+      ],
+      "assessmentEn": [
+        "A single parameter script generates both3- and4-compartment variants, with separate boards and props excluded from measurement.",
+        "Three renders clearly compare width/opening changes and reveal the open back.",
+        "Wood uses flat colour without grain or detailed surface character."
+      ],
+      "checks": [
+        {
+          "labelZh": "尺寸与分格",
+          "labelEn": "Dimensions and compartments",
+          "status": "pass",
+          "detailZh": "独立重开后的外框分别0.8/1.0×0.3×1.2m；板厚18mm；3格净高376mm、4格净高277.5mm。",
+          "detailEn": "Reopened variants measure0.8/1.0×0.3×1.2m with18mm boards; three376mm and four277.5mm clear openings."
+        },
+        {
+          "labelZh": "真实工程与视角",
+          "labelEn": "Native projects and views",
+          "status": "pass",
+          "detailZh": "两个原生工程独立重开且字节不变，无嵌入Text或外部依赖；三张1920×1080成图均已查看。",
+          "detailEn": "Both native projects reopen unchanged with no embedded Text or external dependencies; all three1920×1080 renders inspected."
+        },
+        {
+          "labelZh": "材质质感",
+          "labelEn": "Material detail",
+          "status": "partial",
+          "detailZh": "板面与边界清楚，但木材为平涂颜色，没有木纹；成图较朴素。",
+          "detailEn": "Panels and edges read clearly, but wood is flat-coloured without grain and the presentation is basic."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 42,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/bookshelf-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "planetary-reducer",
+      "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+      "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+      "category": "blender",
+      "effort": "default",
+      "summaryZh": "减速器工程、四张静帧及6秒动画均已交付。太阳轮与公转空物体的名义比值为3.5，但实际载盘和输入/输出轴未随动；动画前盖遮挡内部，整体渲染灰淡，机械联动与啮合展示均有失败。",
+      "summaryEn": "The reducer project, four stills and six-second film are delivered. Sun-to-orbit-pivot ratio is3.5, but physical carrier discs and input/output shafts do not follow the motion. Front-disc occlusion and pale rendering further weaken the film; mechanical linkage and meshing presentation fail.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+        "titleZh": "24/18/60齿行星减速器装配与轴向爆炸",
+        "titleEn": "24/18/60-tooth planetary reducer and axial explosion",
+        "originalPrompt": "24/18/60齿行星减速器：装配、四张静帧与6秒转台动画。 / 24/18/60-tooth planetary reducer: assembly, four stills and a 6s turntable film.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": "4b2e0fcc930a262160e2804f8bfbeadc8dc98c1df6f80f8f2a8a64e5133104dd",
+        "changesZh": "24/18/60齿行星减速器：装配、四张静帧与6秒转台动画。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "24/18/60-tooth planetary reducer: assembly, four stills and a 6s turntable film.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [
+        {
+          "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0106/environment/inputs/query.txt",
+          "labelZh": "BlenderWorld 公开题目",
+          "labelEn": "BlenderWorld public task"
+        }
+      ],
+      "prompt": "24/18/60-tooth planetary reducer: assembly, four stills and a 6s turntable film.",
+      "promptSha256": "66ed7b5df9169be945cfdc9ff33ce228e29f6c561c5218efb147a32aaf9f4dcb",
+      "caseSpecSha256": "f3646301909f9a930451c2fc08e13828584d55c7caecf35d7df239b62e74170e",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 119,
+        "promptTokens": 5206758,
+        "outputTokens": 37093,
+        "wallMs": 22455888
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/60c3f03799aa-main_1920x1080.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "行星减速器主图",
+          "captionEn": "Planetary reducer main view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/23585767aeff-alt_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "备选机位",
+          "captionEn": "Alternate view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/d04acb7d0107-exploded_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "轴向爆炸图",
+          "captionEn": "Axial exploded view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/f905f82021f1-gray_closeup_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "灰模近景",
+          "captionEn": "Clay close-up"
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/crouton-alpha-creative/a65a6cacb414-turntable.mp4",
+          "width": 1280,
+          "height": 720,
+          "captionZh": "6秒转台动画",
+          "captionEn": "6-second turntable film",
+          "durationSeconds": 6,
+          "posterPath": "/evaluations/crouton-alpha-creative/60c3f03799aa-poster.png",
+          "audioMode": "music-only"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/f831877b4ab5-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        }
+      ],
+      "assessmentZh": [
+        "同一Crouton会话保留并修正首版错误：内齿圈误用外齿公式，验证器以世界原点筛选行星轮导致轮廓空缺。最终局部轮廓有非空保护，齿数24/18/60、中心距42mm和传动比3.5；9个重开相位及20个二维离散相位未见轮廓交叉。这不是连续接触、载荷或制造验证。",
+        "协调者另用禁网、禁自动执行的独立重开进程测7个时点的世界变换：太阳轮转540度，公转轴154.286度，行星轮世界转角-360度，内齿圈固定；但两个实际载盘和输入/输出轴世界转角均为0。作者的公转轴比值检查不足以证明完整机械联动。",
+        "0.08度半齿厚角侧隙是名义展示选择，未证明为全局最小；公差配合、接触应力和制造可用性未测试。",
+        "已查看全部四张真实静帧和动画三个contact sheet。备选及灰模图可辨接触区域，主图和动画的不透明前盘遮挡多数内部结构，材质与照明整体灰淡。动画仅部分可见运动，不能据此判为啮合展示通过。",
+        "原始工程禁用自动执行重开，哈希未变且无嵌入文本或外部图像。UV层和LOD网格存在，但未做完整UV重叠/密度或全LOD视觉验收。",
+        "成片1280×720、24fps、144帧、6秒，完整解码及客观音轨检查通过；未听审。一次协调者中断的模型消息没有token记录，公开用量只能是已知小计，完整总量未知。"
+      ],
+      "assessmentEn": [
+        "The same Crouton session preserved and repaired first-version errors: external tooth law reused for the ring, and a world-origin filter leaving planet profiles empty. Final local profiles have nonempty guards; teeth24/18/60,42mm centers and ratio3.5. Nine reopened phases and20 discrete2D phases show no outline crossings, without continuous-contact, load or manufacturing validation.",
+        "A separate coordinator process reopened the unchanged blend with network and autoexec disabled and sampled world transforms at7times: sun540degrees, orbit pivot154.286degrees, planet world rotation-360degrees and ring fixed. Both physical carrier discs and input/output shafts remain at zero rotation; the author pivot-ratio test does not establish complete mechanical linkage.",
+        "The0.08degree half-angle backlash is a nominal display choice, not a globally minimum proof. Tolerances, stresses and manufacturability are untested.",
+        "The coordinator viewed all four actual stills and all three film contact sheets. Alt/clay expose a contact region, but the opaque front disc hides most internals in the main view and film; materials and lighting remain pale. Visible partial motion does not pass clear meshing presentation.",
+        "The blend reopens with autoexec disabled, unchanged hash and no embedded text/external images. UV layers and LOD meshes exist; complete UV overlap/density and all-LOD visual acceptance were not performed.",
+        "1280x720,24fps,144frames,6s, full decode and objective audio checks pass; no listening. One coordinator-interrupted model message has no token record, so usage is a known subtotal, not a complete total."
+      ],
+      "checks": [
+        {
+          "labelZh": "工程与名义运动",
+          "labelEn": "Project and nominal kinematics",
+          "status": "partial",
+          "detailZh": "太阳轮/公转轴比值3.500000007、行星轮中心R42与世界自转关系通过；完整机构联动另有失败。",
+          "detailEn": "Sun/orbit-pivot ratio3.500000007,planet centersR42 and world-spin relation pass; complete linkage has separate failures."
+        },
+        {
+          "labelZh": "实际载盘与轴联动",
+          "labelEn": "Physical carrier and shaft linkage",
+          "status": "fail",
+          "detailZh": "7个时点重开测量显示实际前后载盘和输入/输出轴未转动，公转空物体转动不能替代这些部件的联动。",
+          "detailEn": "Seven reopened samples show physical front/back carrier discs and input/output shafts do not rotate; the animated empty pivot does not establish these bodies following motion."
+        },
+        {
+          "labelZh": "材质与构图",
+          "labelEn": "Materials and framing",
+          "status": "partial",
+          "detailZh": "四张静帧完整，但颜色、金属质感和光照偏灰淡，主图前盖遮挡。",
+          "detailEn": "Four stills delivered, with flat pale lighting/materials and main-view front-disc occlusion."
+        },
+        {
+          "labelZh": "动画啮合可见性",
+          "labelEn": "Film meshing visibility",
+          "status": "fail",
+          "detailZh": "6秒成片可播放，但不透明前盘遮挡大部分啮合区域，未清晰展示全机构。",
+          "detailEn": "Playable6s film, but an opaque front disc obscures most meshing and prevents a clear full-mechanism demonstration."
+        },
+        {
+          "labelZh": "视频技术参数",
+          "labelEn": "Video technical checks",
+          "status": "pass",
+          "detailZh": "720p24、144帧、6秒，音视频完整解码。",
+          "detailEn": "720p24,144frames,6s, full A/V decode."
+        },
+        {
+          "labelZh": "UV与LOD",
+          "labelEn": "UV and LOD",
+          "status": "partial",
+          "detailZh": "可检查到UV层与降面LOD；完整重叠/密度和全LOD画质未验收。",
+          "detailEn": "UV layers and reduced LOD meshes are present; full overlap/density and all-LOD image quality are unverified."
+        },
+        {
+          "labelZh": "制造与听审",
+          "labelEn": "Manufacturing and listening",
+          "status": "not-tested",
+          "detailZh": "未做制造/载荷验证或实际听审。",
+          "detailEn": "No manufacturing/load validation or listening performed."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 119,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/planetary-reducer-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "two-bedroom-interior",
+      "titleZh": "12×9米两居室装修、多房间与俯视平面",
+      "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+      "category": "blender",
+      "effort": "default",
+      "summaryZh": "12×9米两居室工程、六张真实静帧和6秒144帧动画已交付；顶视平面能呈现主要房间和家具关系。动线、材质、灰模对比与镜头可读性均不足：衣帽间通路不成立，灰模近景失败，主卧结尾没有完整揭示。",
+      "summaryEn": "The 12×9m two-bedroom project, six real stills and a 6s 144-frame film are delivered; the top view communicates the main rooms and furniture relationships. Circulation, materials, clay contrast and camera readability fall short: wardrobe circulation is not established, the clay close-up fails, and the master ending has no full reveal.",
+      "source": {
+        "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+        "titleZh": "12×9米两居室装修、多房间与俯视平面",
+        "titleEn": "12×9m two-bedroom interior, rooms and floor plan",
+        "originalPrompt": "12×9米两居室：多房间装修、俯视平面与转台动画。 / 12×9m two-bedroom interior: rooms, floor plan and turntable film.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": "3947abd2d7e39da19d44da55cc45bb9ceeba7220bd9d25b9ba44485f6f3c8579",
+        "changesZh": "12×9米两居室：多房间装修、俯视平面与转台动画。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "12×9m two-bedroom interior: rooms, floor plan and turntable film.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [
+        {
+          "url": "https://huggingface.co/datasets/Qwen/BlenderWorld/resolve/e67837a78e2d963447bc1b147db42f46bc6ef07f/bw_0139/environment/inputs/query.txt",
+          "labelZh": "BlenderWorld 公开题目",
+          "labelEn": "BlenderWorld public task"
+        }
+      ],
+      "prompt": "12×9m two-bedroom interior: rooms, floor plan and turntable film.",
+      "promptSha256": "953ab0d133ce8cd9b6b48e39545a4084d1ae00ddab85993e5330facc9cdce582",
+      "caseSpecSha256": "92a373860c133766b5814adb76ed0f47d9a85cc03c54d71273662f367217de5c",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 164,
+        "promptTokens": 8955166,
+        "outputTokens": 73304,
+        "wallMs": 26289067
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/92a63067d718-still_main_1920x1080.png",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "室内主图",
+          "captionEn": "Interior main view"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/6ceda3355d53-still_dining_kitchen_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "餐厅厨房",
+          "captionEn": "Dining and kitchen"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/cabcc5d4e67c-still_master_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "主卧",
+          "captionEn": "Master bedroom"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/0c004f74785c-still_second_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "次卧",
+          "captionEn": "Second bedroom"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/ae738e8aea13-plan_top_1600x1200.png",
+          "width": 1600,
+          "height": 1200,
+          "captionZh": "俯视平面",
+          "captionEn": "Top floor plan"
+        },
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/bc4a8e05bfcb-gray_closeup_1600x900.png",
+          "width": 1600,
+          "height": 900,
+          "captionZh": "灰模近景",
+          "captionEn": "Clay close-up"
+        },
+        {
+          "type": "video",
+          "path": "/evaluations/crouton-alpha-creative/3569af060257-turntable.mp4",
+          "width": 1280,
+          "height": 720,
+          "captionZh": "6秒转台动画",
+          "captionEn": "6-second turntable film",
+          "durationSeconds": 6,
+          "posterPath": "/evaluations/crouton-alpha-creative/92a63067d718-poster.png",
+          "audioMode": "music-only"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/1446d5f9b946-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        }
+      ],
+      "assessmentZh": [
+        "交付与质量分开记录：工程、六张真实静帧和带程序配乐/SFX的6秒影片已交付，这不证明质量通过。",
+        "衣帽间动线 FAIL：床边柜移入衣帽区；0.56米侧向条带止于梳妆台前，仅约50毫米转身缝隙。",
+        "灰模近景对比 FAIL，材质 PARTIAL；卧室机位偏近、遮挡空间关系。",
+        "厨房与主卧标签被场景实体遮挡；主卧结尾以墙与床局部为主，没有完整揭示，此项 FAIL。",
+        "解码、帧数与客观音轨检查通过，不证明听感、质量或制造/载荷验证；未听审。",
+        "实际为离线 EEVEE 与程序化资产、冻结分辨率，非原 Cycles/OptiX 4K/HDRI 复现。"
+      ],
+      "assessmentEn": [
+        "Delivery is recorded separately from quality: the project, six real stills and a 6s film with procedural music/SFX are delivered, which does not certify quality.",
+        "Wardrobe circulation FAIL: a nightstand was moved into the wardrobe zone; the 0.56m side strip ends near a vanity with about 50mm turning clearance.",
+        "Clay close-up contrast FAIL; materials PARTIAL; bedroom framing is tight and obscures spatial relationships.",
+        "Kitchen and master labels are occluded by geometry; the master ending is dominated by wall and bed crops with no full reveal — FAIL.",
+        "Decode, frame-count and objective audio checks pass; they do not prove hearing, quality, or manufacturing/load validation. No listening review.",
+        "Actual pipeline is offline EEVEE with procedural assets at frozen resolutions, NOT the original Cycles/OptiX 4K/HDRI reproduction."
+      ],
+      "checks": [
+        {
+          "labelZh": "交付",
+          "labelEn": "Delivery",
+          "status": "partial",
+          "detailZh": "工程、六张真实静帧与6秒144帧影片已交付；顶视平面可读。",
+          "detailEn": "Project, six real stills and a 6s 144-frame film delivered; top view is legible."
+        },
+        {
+          "labelZh": "衣帽间动线",
+          "labelEn": "Wardrobe circulation",
+          "status": "fail",
+          "detailZh": "0.56米侧向条带止于梳妆台前，仅约50毫米转身缝隙；床边柜移入衣帽区。",
+          "detailEn": "0.56m side strip ends near the vanity with ~50mm turning clearance; nightstand moved into the wardrobe zone."
+        },
+        {
+          "labelZh": "灰模近景对比",
+          "labelEn": "Clay close-up contrast",
+          "status": "fail",
+          "detailZh": "低对比度，未能清晰呈现接触关系。",
+          "detailEn": "Low contrast; contact relationships are not clearly presented."
+        },
+        {
+          "labelZh": "材质",
+          "labelEn": "Materials",
+          "status": "partial",
+          "detailZh": "整体材质与光照粗糙，卧室机位偏近。",
+          "detailEn": "Materials and lighting remain coarse; bedroom framing is tight."
+        },
+        {
+          "labelZh": "标签与结尾揭示",
+          "labelEn": "Labels and ending reveal",
+          "status": "fail",
+          "detailZh": "厨房与主卧标签被遮挡；主卧结尾无完整揭示。",
+          "detailEn": "Kitchen and master labels occluded; master ending has no full reveal."
+        },
+        {
+          "labelZh": "技术与听审",
+          "labelEn": "Technical and listening",
+          "status": "not-tested",
+          "detailZh": "解码与客观音轨检查通过；未听审，不证明听感与质量。",
+          "detailEn": "Decode and objective audio checks pass; no listening review, which does not prove hearing or quality."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 164,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/two-bedroom-interior-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-1",
+      "titleZh": "水结成冰，为什么反而浮起来？",
+      "titleEn": "Why does water float after it freezes?",
+      "category": "knowledge-video",
+      "effort": "default",
+      "summaryZh": "画面以分子排列、体积与密度的因果关系展开；同量水质量不变，结冰约9%体积膨胀，杯中冰块大部分位于水面下。",
+      "summaryEn": "The sequence links molecular arrangement, volume and density; mass is conserved, freezing expands volume by about 9%, and ice remains mostly submerged.",
+      "source": {
+        "url": "https://www.noaa.gov/jetstream/ocean/sea-water",
+        "titleZh": "水结成冰，为什么反而浮起来？",
+        "titleEn": "Why does water float after it freezes?",
+        "originalPrompt": "水结冰为何上浮：分子排列、氢键、体积与密度因果关系。 / Why ice floats: molecular arrangement, hydrogen bonds, volume and density.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": null,
+        "changesZh": "水结冰为何上浮：分子排列、氢键、体积与密度因果关系。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Why ice floats: molecular arrangement, hydrogen bonds, volume and density.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [
+        {
+          "url": "https://www.noaa.gov/jetstream/ocean/sea-water",
+          "labelZh": "NOAA JetStream",
+          "labelEn": "NOAA JetStream"
+        },
+        {
+          "url": "https://cordis.europa.eu/article/id/454697-why-does-ice-float",
+          "labelZh": "CORDIS",
+          "labelEn": "CORDIS"
+        }
+      ],
+      "prompt": "Why ice floats: molecular arrangement, hydrogen bonds, volume and density.",
+      "promptSha256": "2a44ec391079b06132503e2ac5d7a26a8e168483c99b2262a7b960784a651075",
+      "caseSpecSha256": "a3c13826dc88d43187aaa294f1e596a89c123abf6e61b8504892d5275b6d7321",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 50,
+        "promptTokens": 1561038,
+        "outputTokens": 20154,
+        "wallMs": 1369946
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/crouton-alpha-creative/3a2cbcc85eb5-final.mp4",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "冰为何上浮：分子排列与氢键",
+          "captionEn": "Why ice floats: molecular arrangement and hydrogen bonds",
+          "durationSeconds": 69.3,
+          "posterPath": "/evaluations/crouton-alpha-creative/f4993288dd45-poster.png",
+          "captionsPath": "/evaluations/crouton-alpha-creative/11e56b23105a-captions.vtt",
+          "captionsLanguage": "zh-CN"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/7674638565ce-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/ffc0650b0b62-captions.srt",
+          "labelZh": "字幕SRT",
+          "labelEn": "Captions (SRT)"
+        }
+      ],
+      "assessmentZh": [
+        "液态与冰态均显示氢键，质量与体积变化有明确区分。",
+        "字幕已烧入成片，中文可读且未与机制标签重叠。",
+        "画面中的“密度 = 相同体积的质量”是等体积比较的通俗说法，不是严谨的质量/体积公式。",
+        "分子示意不是精确比例，不应按真实比例测量。"
+      ],
+      "assessmentEn": [
+        "Hydrogen bonds appear in both states, with mass and volume changes clearly distinguished.",
+        "Captions are burned into the film, legible in Chinese and clear of mechanism labels.",
+        "The on-screen “density = mass of equal volume” is a colloquial equal-volume comparison, not a rigorous mass/volume formula.",
+        "Schematics are not exact proportions and should not be measured as real ratios."
+      ],
+      "checks": [
+        {
+          "labelZh": "时长与解码",
+          "labelEn": "Duration and decode",
+          "status": "pass",
+          "detailZh": "69.3秒，1920×1080，完整解码通过。",
+          "detailEn": "69.3s, 1920×1080, full decode passes."
+        },
+        {
+          "labelZh": "科学事实",
+          "labelEn": "Verified facts",
+          "status": "pass",
+          "detailZh": "质量守恒、冰密度低、氢键、约9%体积膨胀、冰大部分在水下。",
+          "detailEn": "Mass conserved, lower ice density, hydrogen bonds, ~9% expansion, mostly submerged."
+        },
+        {
+          "labelZh": "烧入字幕",
+          "labelEn": "Burned captions",
+          "status": "pass",
+          "detailZh": "中文烧入字幕可读，无缺字方框、无重叠。",
+          "detailEn": "Burned Chinese captions legible, no tofu or overlap."
+        },
+        {
+          "labelZh": "听感核查",
+          "labelEn": "Listening check",
+          "status": "not-tested",
+          "detailZh": "未听感核查，发音与可听性未认证。",
+          "detailEn": "Listening not performed; pronunciation not certified."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 50,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/knowledge-1-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-2",
+      "titleZh": "二维码缺了一块，为什么还能扫？",
+      "titleEn": "Why can a damaged QR code still be read?",
+      "category": "knowledge-video",
+      "effort": "default",
+      "summaryZh": "成片用颜色区分数据、纠错信息与受损码字：200个总码字中50个表示可纠正的受损数，百分比针对总码字而非图片面积；容量与码尺寸的代价按固定条件分别讲解，示意格子不是实际扫码实验。",
+      "summaryEn": "Color separates data, error-correction information and damaged codewords: 50 of 200 total codewords means correctable damaged codewords, and percentages apply to total codewords, not image area. Capacity and size tradeoffs are separated by fixed conditions; the grids are schematic, not a real scanning test.",
+      "source": {
+        "url": "https://www.qrcode.com/en/about/error_correction.html",
+        "titleZh": "二维码缺了一块，为什么还能扫？",
+        "titleEn": "Why can a damaged QR code still be read?",
+        "originalPrompt": "二维码为何能纠错恢复：数据与纠错码字、L/M/Q/H四档与容量代价。 / Why damaged QR codes can still be read: data and error-correction codewords, L/M/Q/H levels and capacity cost.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": null,
+        "changesZh": "二维码为何能纠错恢复：数据与纠错码字、L/M/Q/H四档与容量代价。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Why damaged QR codes can still be read: data and error-correction codewords, L/M/Q/H levels and capacity cost.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [
+        {
+          "url": "https://www.qrcode.com/en/about/error_correction.html",
+          "labelZh": "DENSO WAVE / QRcode.com 纠错说明",
+          "labelEn": "DENSO WAVE / QRcode.com error correction"
+        }
+      ],
+      "prompt": "Why damaged QR codes can still be read: data and error-correction codewords, L/M/Q/H levels and capacity cost.",
+      "promptSha256": "8cd0bf84eda56320b44c501cdda2c4384a32d02b13dea8915ee626a5199ea5ce",
+      "caseSpecSha256": "fb712266869406dbbb4855844f32a6c60fef86f1a61eb2cb27c9186f0b6fb9eb",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 131,
+        "promptTokens": 5578408,
+        "outputTokens": 32191,
+        "wallMs": 1751751
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/crouton-alpha-creative/90a7495a5e90-knowledge-2-final.mp4",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "二维码缺了一块，为何还能扫",
+          "captionEn": "Why a damaged QR code can still be read",
+          "durationSeconds": 85.013,
+          "posterPath": "/evaluations/crouton-alpha-creative/9be9befc0304-poster.png",
+          "captionsPath": "/evaluations/crouton-alpha-creative/40ea39578fd8-captions.vtt",
+          "captionsLanguage": "zh-CN"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/1f4042d7062c-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/d3a023cb0967-captions.srt",
+          "labelZh": "字幕SRT",
+          "labelEn": "Captions (SRT)"
+        }
+      ],
+      "assessmentZh": [
+        "正确区分50个可纠正受损码字与总码字，未把百分比改写成任意面积遮挡。",
+        "明确任意损坏模式和功能图案受损不保证恢复，容量图为定性说明。",
+        "烧入中文字幕可读且与机制标签分开。"
+      ],
+      "assessmentEn": [
+        "50 correctable damaged codewords are correctly distinguished within the 200 total, and percentages are not rewritten as arbitrary covered image area.",
+        "Arbitrary damage patterns and functional-pattern loss are explicitly not guaranteed recoverable; capacity diagrams are qualitative.",
+        "Burned Chinese captions are readable and separate from mechanism labels."
+      ],
+      "checks": [
+        {
+          "labelZh": "时长与解码",
+          "labelEn": "Duration and decode",
+          "status": "pass",
+          "detailZh": "85.013秒，1920×1080，30fps，完整解码通过。",
+          "detailEn": "85.013s, 1920×1080, 30fps, full decode passes."
+        },
+        {
+          "labelZh": "纠错事实",
+          "labelEn": "Error-correction facts",
+          "status": "pass",
+          "detailZh": "200总码字/50可纠正受损数区分正确；百分比针对总码字，容量条件分开。",
+          "detailEn": "200 total / 50 correctable-damaged distinction correct; percentages apply to total codewords, capacity conditions separated."
+        },
+        {
+          "labelZh": "示意边界",
+          "labelEn": "Schematic limits",
+          "status": "pass",
+          "detailZh": "示意格子非实际扫码；任意损坏模式与功能图案受损不保证恢复。",
+          "detailEn": "Grids are schematic, not a real scan; arbitrary damage and functional-pattern loss are not guaranteed recoverable."
+        },
+        {
+          "labelZh": "烧入字幕",
+          "labelEn": "Burned captions",
+          "status": "pass",
+          "detailZh": "中文烧入字幕可读，与机制标签分开，无缺字方框。",
+          "detailEn": "Burned Chinese captions readable, separate from mechanism labels, no tofu."
+        },
+        {
+          "labelZh": "听感核查",
+          "labelEn": "Listening check",
+          "status": "not-tested",
+          "detailZh": "未听感核查，发音与可听性未认证。",
+          "detailEn": "Listening not performed; pronunciation not certified."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 131,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/knowledge-2-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-3",
+      "titleZh": "韦布为什么用五层薄膜，而不是一块厚板？",
+      "titleEn": "Why does Webb use five thin sunshield layers?",
+      "category": "knowledge-video",
+      "effort": "default",
+      "summaryZh": "五层薄膜、热侧与冷侧、真空隔热及侧向辐射均有原创动画演示；厚板对比图沿用底面向上表面的热流描述，却没有明确说明其朝向相对其他镜头翻转，方向衔接较弱。",
+      "summaryEn": "Original animation shows five films, hot and cold sides, vacuum insulation and sideways radiation. The thick-plate comparison uses bottom-to-top heat flow without clearly declaring its changed orientation relative to other shots, weakening directional continuity.",
+      "source": {
+        "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/",
+        "titleZh": "韦布为什么用五层薄膜，而不是一块厚板？",
+        "titleEn": "Why does Webb use five thin sunshield layers?",
+        "originalPrompt": "韦布五层遮阳膜为何胜过厚板：分离薄膜、热侧冷侧与侧向辐射。 / Why Webb's five-layer sunshield beats a thick plate: separated films, hot/cold sides and lateral radiation.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": null,
+        "changesZh": "韦布五层遮阳膜为何胜过厚板：分离薄膜、热侧冷侧与侧向辐射。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Why Webb's five-layer sunshield beats a thick plate: separated films, hot/cold sides and lateral radiation.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [
+        {
+          "url": "https://science.nasa.gov/mission/webb/webbs-sunshield/",
+          "labelZh": "NASA Webb 遮阳膜",
+          "labelEn": "NASA Webb sunshield"
+        }
+      ],
+      "prompt": "Why Webb's five-layer sunshield beats a thick plate: separated films, hot/cold sides and lateral radiation.",
+      "promptSha256": "afe56d66e496b52002528283fc818547d45737717c6928282ab6483b9434b81c",
+      "caseSpecSha256": "b0473740485ceccaff5343dae1d2565efb5d1b24803caa310588ffa6bae8b268",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 67,
+        "promptTokens": 2137482,
+        "outputTokens": 18525,
+        "wallMs": 22167372
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/crouton-alpha-creative/9dac1ad112de-webb_sunshield.mp4",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "韦布为何用五层薄膜",
+          "captionEn": "Why Webb uses five thin layers",
+          "durationSeconds": 84.6,
+          "posterPath": "/evaluations/crouton-alpha-creative/67de858d9fa6-poster.jpg",
+          "captionsPath": "/evaluations/crouton-alpha-creative/d917829ad546-captions.vtt",
+          "captionsLanguage": "zh-CN"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/b40b58219241-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/a4aa9f74dad6-captions.srt",
+          "labelZh": "字幕SRT",
+          "labelEn": "Captions (SRT)"
+        }
+      ],
+      "assessmentZh": [
+        "84.5秒视频流，容器含音频尾部为84.6秒；1920×1080、30fps，完整音视频解码通过。",
+        "实际查看三张成片contact sheet的十个时点，包括片头、片尾、字幕及主要机制。材料与五层取舍对应NASA来源；图形为定性示意，没有热学仿真。",
+        "厚板对比图朝向交代不足；部分层间小字对比度较弱，不能把作者自检改写为所有视觉表达均通过。",
+        "口播使用统一Kokoro制作工具，非模型原生语音。未听审，发音、听感和完整语义同步未由真人认证。"
+      ],
+      "assessmentEn": [
+        "84.5s video stream; container 84.6s including audio tail; 1920×1080 at 30fps and full A/V decode pass.",
+        "The coordinator viewed all three encoded contact sheets covering ten moments, head/tail, captions and core mechanisms. Materials and layer tradeoffs follow NASA; diagrams are qualitative, without thermal simulation.",
+        "The thick-plate orientation change is insufficiently explained and some small inter-layer labels have weak contrast; author selfchecks do not establish universal visual correctness.",
+        "Narration uses the shared Kokoro production tool, not native model speech. No listening review; pronunciation, sound quality and complete semantic sync are not human-certified."
+      ],
+      "checks": [
+        {
+          "labelZh": "时长与解码",
+          "labelEn": "Duration and decode",
+          "status": "pass",
+          "detailZh": "84.6秒容器、1080p30，完整解码通过；抽取尾帧按视频流时长，避免AAC尾部超出最后画面。",
+          "detailEn": "84.6s container, 1080p30, full decode passes; tail samples use video-stream duration rather than the AAC tail."
+        },
+        {
+          "labelZh": "核心来源事实",
+          "labelEn": "Core source facts",
+          "status": "pass",
+          "detailZh": "五层分隔、侧向散热、Kapton/铝/最热两层向阳面硅涂层及二至七层建模取舍与NASA页面一致。",
+          "detailEn": "Separated films, lateral heat radiation, Kapton/aluminium/sun-facing silicon on the hottest two layers and 2-7-layer modelling agree with NASA."
+        },
+        {
+          "labelZh": "方向与文字表达",
+          "labelEn": "Direction and label clarity",
+          "status": "partial",
+          "detailZh": "厚板图底向上热流与其他镜头热侧在上的约定缺少明确转换；部分层间小字对比偏弱。",
+          "detailEn": "Bottom-to-top flow in the plate panel lacks a declared orientation change from the other shots' hot-side-above convention; some small labels have weak contrast."
+        },
+        {
+          "labelZh": "字幕时间",
+          "labelEn": "Caption timing",
+          "status": "pass",
+          "detailZh": "13条SRT均在成片范围内且不重叠，抽帧可见烧入中文字幕。",
+          "detailEn": "All 13 SRT cues lie within the film without overlap; burned Chinese captions are visible in samples."
+        },
+        {
+          "labelZh": "听审",
+          "labelEn": "Listening",
+          "status": "not-tested",
+          "detailZh": "仅做客观音频检查；未听审。",
+          "detailEn": "Objective audio checks only; listening not performed."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 67,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/knowledge-3-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "knowledge-4",
+      "titleZh": "降噪耳机没放音乐，为什么也能安静？",
+      "titleEn": "Why does noise cancellation work without music?",
+      "category": "knowledge-video",
+      "effort": "default",
+      "summaryZh": "成片用被动隔音与麦克风—处理器—扬声器路径、三路波形解释降噪，保留人声与密封条件；图示是耳边局部的幅度失配示意，不是耳机性能实测。",
+      "summaryEn": "Passive isolation, the microphone-processor-speaker path and three waveform traces explain noise cancellation, retaining voice and seal limits; the illustration is a local-at-ear amplitude-mismatch schematic, not device performance measurement.",
+      "source": {
+        "url": "https://www.bose.com/stories/how-do-noise-cancelling-headphones-work",
+        "titleZh": "降噪耳机没放音乐，为什么也能安静？",
+        "titleEn": "Why does noise cancellation work without music?",
+        "originalPrompt": "降噪耳机为何无音乐也安静：被动隔音与主动降噪路径、三路波形。 / Why noise-cancelling headphones work without music: passive isolation, active path and three waveforms.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": null,
+        "changesZh": "降噪耳机为何无音乐也安静：被动隔音与主动降噪路径、三路波形。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Why noise-cancelling headphones work without music: passive isolation, active path and three waveforms.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [
+        {
+          "url": "https://www.bose.com/stories/how-do-noise-cancelling-headphones-work",
+          "labelZh": "Bose 降噪原理",
+          "labelEn": "Bose how noise cancelling works"
+        }
+      ],
+      "prompt": "Why noise-cancelling headphones work without music: passive isolation, active path and three waveforms.",
+      "promptSha256": "617856550a5c1c23b6cfbe49c52b706987baa3c138aa6ece1d84a3d8889eeb12",
+      "caseSpecSha256": "4b30951b372162bdaf488c7f3eac0451747a8624efd87ad160abb1e687b07c9c",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 61,
+        "promptTokens": 2607373,
+        "outputTokens": 21745,
+        "wallMs": 24121889
+      },
+      "media": [
+        {
+          "type": "video",
+          "path": "/evaluations/crouton-alpha-creative/4e4c1e30b34f-knowledge-4.mp4",
+          "width": 1920,
+          "height": 1080,
+          "captionZh": "降噪耳机无音乐也安静",
+          "captionEn": "Why noise cancellation works without music",
+          "durationSeconds": 79.59,
+          "posterPath": "/evaluations/crouton-alpha-creative/6f974e0a7046-poster.jpg",
+          "captionsPath": "/evaluations/crouton-alpha-creative/d51c4b584b3b-captions.vtt",
+          "captionsLanguage": "zh-CN"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/62228165f992-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/388f7f3de579-captions.srt",
+          "labelZh": "字幕SRT",
+          "labelEn": "Captions (SRT)"
+        }
+      ],
+      "assessmentZh": [
+        "被动隔音与主动信号路径分开说明；实际信号加法正确，残余显示的是耳边局部幅度失配，不是耳机设备性能。",
+        "全部五处交叉淡化与字幕时间技术检查通过。",
+        "约70.7秒“即使是理想示意里的相消，也仍有残余声”措辞不精确：可见模拟是幅度失配，不能断言完全等幅反相仍有残余。",
+        "14段字幕对应真实Kokoro合成分段（非逐词），口播为已披露的1.15倍变速；未听审，发音与可听性未认证。"
+      ],
+      "assessmentEn": [
+        "Passive isolation and the active signal path are separately explained; the actual signal sums are correct, and the residual shown is local-at-ear amplitude mismatch, not headphone device performance.",
+        "All five crossfades and caption-timing/fade technical checks pass.",
+        "The line near 70.7s, 'even in the idealized cancellation there is residual sound', is imprecise: the visible simulation is amplitude mismatch; do not claim perfectly equal-amplitude opposite waves retain residual.",
+        "Fourteen captions follow real Kokoro synthesis chunks (not word-level); narration is disclosed 1.15x speedup from Kokoro zf_xiaobei, not native model voice. No listening review; pronunciation not certified."
+      ],
+      "checks": [
+        {
+          "labelZh": "时长与解码",
+          "labelEn": "Duration and decode",
+          "status": "pass",
+          "detailZh": "79.59秒，1920×1080，30fps，完整解码通过。",
+          "detailEn": "79.59s, 1920×1080, 30fps, full decode passes."
+        },
+        {
+          "labelZh": "降噪机制",
+          "labelEn": "Cancellation mechanism",
+          "status": "pass",
+          "detailZh": "被动隔音与主动路径分开；三路波形实际加法正确，耳边局部幅度失配示意。",
+          "detailEn": "Passive and active paths separated; three-waveform sums correct as local-at-ear amplitude-mismatch illustration."
+        },
+        {
+          "labelZh": "交叉淡化与字幕时间",
+          "labelEn": "Crossfades and caption timing",
+          "status": "pass",
+          "detailZh": "五处交叉淡化与14段字幕时间技术检查通过；字幕为合成分段，非逐词。",
+          "detailEn": "Five crossfades and 14-caption timing checks pass; captions follow synthesis chunks, not word-level."
+        },
+        {
+          "labelZh": "措辞精度",
+          "labelEn": "Wording precision",
+          "status": "partial",
+          "detailZh": "“理想示意相消仍有残余”措辞过松；可见模拟是幅度失配，不证明等幅反相有残余。",
+          "detailEn": "'Idealized cancellation retains residual' is too loose; visible simulation is amplitude mismatch, not proof equal-amplitude opposite waves retain residual."
+        },
+        {
+          "labelZh": "听感核查",
+          "labelEn": "Listening check",
+          "status": "not-tested",
+          "detailZh": "未听审；Kokoro zf_xiaobei 1.15倍变速，非模型原生语音，发音未认证。",
+          "detailEn": "No listening review; Kokoro zf_xiaobei at 1.15x, not native model voice; pronunciation not certified."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 61,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/knowledge-4-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-clock",
+      "titleZh": "9:41 模拟钟表",
+      "titleEn": "An analog clock at 9:41",
+      "category": "svg",
+      "effort": "default",
+      "summaryZh": "数字1至12完整，时针与分针位置正确；分针末端与数字8留有间隙，09:41标签位于表盘下方。",
+      "summaryEn": "Numerals 1-12 are complete and correctly placed; the short hour hand sits between 9 and 10, the long minute hand points just after 8 with clear separation, and the 09:41 label is below the dial.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "9:41 模拟钟表",
+        "titleEn": "An analog clock at 9:41",
+        "originalPrompt": "9:41模拟钟表：静态SVG，含数字与时分针。 / Analog clock at 9:41: static SVG with numerals and hour/minute hands.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": null,
+        "changesZh": "9:41模拟钟表：静态SVG，含数字与时分针。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Analog clock at 9:41: static SVG with numerals and hour/minute hands.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [],
+      "prompt": "Analog clock at 9:41: static SVG with numerals and hour/minute hands.",
+      "promptSha256": "fbf8775af76d1ad3fa691c4db26a4a1c35c0fca6768fbfbf860d6bb759a04f86",
+      "caseSpecSha256": "9684418b143445a327367d4c150e2738ad40917562f3d2b93cd156f7b22a55b2",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 12,
+        "promptTokens": 220073,
+        "outputTokens": 4534,
+        "wallMs": 96304
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/38fd597d34a2-preview-2.png",
+          "width": 1600,
+          "height": 1200,
+          "captionZh": "9:41钟表成图",
+          "captionEn": "Clock at 9:41 render"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/81547571cc02-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/028d29f22036-final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Raw SVG"
+        }
+      ],
+      "assessmentZh": [
+        "12个数字完整且位置正确，无遮挡。",
+        "9:41对应角度正确：时针约290.5°、分针约246°；分针末端与数字8有可见间隙。"
+      ],
+      "assessmentEn": [
+        "All twelve numerals are complete, correctly placed and unobscured.",
+        "Hand angles are approximately correct (hour ~290.5°, minute ~246°); the minute tip clears numeral 8."
+      ],
+      "checks": [
+        {
+          "labelZh": "数字完整性",
+          "labelEn": "Numerals",
+          "status": "pass",
+          "detailZh": "1至12完整、顺序与位置正确。",
+          "detailEn": "1-12 complete, ordered and correctly positioned."
+        },
+        {
+          "labelZh": "指针角度",
+          "labelEn": "Hand angles",
+          "status": "pass",
+          "detailZh": "时针约290.5°、分针约246°，接近09:41真值。",
+          "detailEn": "Hour ~290.5° and minute ~246° match 9:41."
+        },
+        {
+          "labelZh": "分针与8的间隙",
+          "labelEn": "Minute/8 clearance",
+          "status": "pass",
+          "detailZh": "分针末端与数字8有可见间隙，无遮挡。",
+          "detailEn": "Minute tip visibly clears numeral 8."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 12,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/svg-clock-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-dashboard",
+      "titleZh": "数据图表与比例",
+      "titleEn": "Data chart and proportional bars",
+      "category": "svg",
+      "effort": "default",
+      "summaryZh": "四根柱共用零基线，柱高按12、24、18、30正确缩放，柱顶数字、Q1—Q4顺序、总计84与最佳Q4清晰。卡片留白充足，未见遮挡。",
+      "summaryEn": "All four bars share the zero baseline and scale correctly for 12, 24, 18 and 30. Values, quarter order, total 84 and best quarter Q4 are legible, with ample whitespace and no visible occlusion.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "数据图表与比例",
+        "titleEn": "Data chart and proportional bars",
+        "originalPrompt": "数据图表：季度营收柱状图，柱高比例与总计标注。 / Data chart: quarterly revenue bars with proportional heights and total label.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": null,
+        "changesZh": "数据图表：季度营收柱状图，柱高比例与总计标注。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Data chart: quarterly revenue bars with proportional heights and total label.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [],
+      "prompt": "Data chart: quarterly revenue bars with proportional heights and total label.",
+      "promptSha256": "75c045108ea59d8967a50b16c6d3658f4f6aa13a3abdab8eeea6b0e2597988e8",
+      "caseSpecSha256": "b03e9172f0f6bfb5ccb9b1fa45bf62b7a03e47c4a8b35650a86df0fecb8ca2d5",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 21,
+        "promptTokens": 460465,
+        "outputTokens": 6684,
+        "wallMs": 317811
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/3c36621a2131-final.png",
+          "width": 1200,
+          "height": 900,
+          "captionZh": "季度营收柱状图",
+          "captionEn": "Quarterly revenue bar chart"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/bb9e3258aaac-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/4cf9494dfd7d-final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Raw SVG"
+        }
+      ],
+      "assessmentZh": [
+        "四根柱共用零基线，柱高按12、24、18、30正确缩放，柱顶数字、Q1—Q4顺序、总计84与最佳Q4清晰。卡片留白充足，未见遮挡。"
+      ],
+      "assessmentEn": [
+        "All four bars share the zero baseline and scale correctly for 12, 24, 18 and 30. Values, quarter order, total 84 and best quarter Q4 are legible, with ample whitespace and no visible occlusion."
+      ],
+      "checks": [
+        {
+          "labelZh": "柱高比例",
+          "labelEn": "Bar proportions",
+          "status": "pass",
+          "detailZh": "四根柱共用零基线，柱高比2:4:3:5正确。",
+          "detailEn": "Shared zero baseline; heights in ratio 2:4:3:5."
+        },
+        {
+          "labelZh": "文字与总计",
+          "labelEn": "Labels and total",
+          "status": "pass",
+          "detailZh": "Q1-Q4顺序、总计84、最佳Q4均清晰。",
+          "detailEn": "Q1-Q4 order, total 84 and best Q4 are legible."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 21,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/svg-dashboard-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-poster",
+      "titleZh": "中文海报与排版约束",
+      "titleEn": "Chinese poster and layout constraints",
+      "category": "svg",
+      "effort": "default",
+      "summaryZh": "浅绿色底与深绿文字层次清楚，六段指定文字均可读。自行车图标位于信息与按钮之间，中文无缺字方框，所有内容保有边距，未见文字重叠。",
+      "summaryEn": "The pale green layout has clear text hierarchy. All six required strings are readable, the bicycle sits between the event details and button, and no missing glyphs, text overlap or clipping are visible.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "中文海报与排版约束",
+        "titleEn": "Chinese poster and layout constraints",
+        "originalPrompt": "中文海报：骑行活动信息，六段文字与版式层次。 / Chinese poster: cycling event details with six text lines and layout hierarchy.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": null,
+        "changesZh": "中文海报：骑行活动信息，六段文字与版式层次。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Chinese poster: cycling event details with six text lines and layout hierarchy.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [],
+      "prompt": "Chinese poster: cycling event details with six text lines and layout hierarchy.",
+      "promptSha256": "1bbcb03701d9aba48994231b1a1d16582aec35f580572eae9b8b19aae6bb105f",
+      "caseSpecSha256": "39a76fe09c73dbdf822862e72c284e160658b5722c30d61e5b844087ae86177b",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 17,
+        "promptTokens": 375874,
+        "outputTokens": 5654,
+        "wallMs": 317758
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/da295759c3e4-final.png",
+          "width": 1200,
+          "height": 900,
+          "captionZh": "中文骑行海报",
+          "captionEn": "Chinese cycling poster"
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/9373efa82c35-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/fd8fb8732507-final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Raw SVG"
+        }
+      ],
+      "assessmentZh": [
+        "浅绿色底与深绿文字层次清楚，六段指定文字均可读。自行车图标位于信息与按钮之间，中文无缺字方框，所有内容保有边距，未见文字重叠。"
+      ],
+      "assessmentEn": [
+        "The pale green layout has clear text hierarchy. All six required strings are readable, the bicycle sits between the event details and button, and no missing glyphs, text overlap or clipping are visible."
+      ],
+      "checks": [
+        {
+          "labelZh": "六段文字",
+          "labelEn": "Six strings",
+          "status": "pass",
+          "detailZh": "六段指定文字各出现一次且可读。",
+          "detailEn": "All six required strings appear once and read clearly."
+        },
+        {
+          "labelZh": "层次与缺字",
+          "labelEn": "Hierarchy",
+          "status": "pass",
+          "detailZh": "字体层次清楚，中文无缺字方框、无重叠。",
+          "detailEn": "Clear hierarchy, no missing glyphs or overlap."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 17,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/svg-poster-attempt-records.json"
+        }
+      ]
+    },
+    {
+      "id": "svg-pelican-animation",
+      "titleZh": "鹈鹕骑车动画",
+      "titleEn": "Animated cycling pelican",
+      "category": "svg-animation",
+      "effort": "default",
+      "summaryZh": "长喙与橙色喉囊清楚，两轮车架、车座和车把可辨认。轮辐、曲柄与双腿随4秒周期运动，抽帧与实际播放样本中脚部保持接在脚踏附近，腿起点接在鸟身下。主体、鸟喙和轮胎均在画布内；首尾视觉连续，技术像素差非零但极小。",
+      "summaryEn": "The long bill and orange throat pouch are recognizable, with a connected two-wheel bicycle, saddle and handlebar. Spokes, crank and both legs move during the four-second loop; in sampled phases and unpaused playback the feet stay on the pedal region and the legs attach beneath the body. The bird, bill and tyres stay inside the canvas. The loop looks continuous, with a tiny disclosed nonzero boundary pixel difference.",
+      "source": {
+        "url": "https://www.tokrace.com/",
+        "titleZh": "鹈鹕骑车动画",
+        "titleEn": "Animated cycling pelican",
+        "originalPrompt": "鹈鹕骑车动画：4秒循环SMIL，轮辐、曲柄与腿部运动。 / Cycling pelican animation: 4-second SMIL loop with spokes, crank and legs.. 以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。 Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published.",
+        "originalPromptSha256": null,
+        "changesZh": "鹈鹕骑车动画：4秒循环SMIL，轮辐、曲柄与腿部运动。。以下为协调者短摘要；完整冻结提示词SHA-256见promptSha256，原文不公开。",
+        "changesEn": "Cycling pelican animation: 4-second SMIL loop with spokes, crank and legs.. Short coordinator summary; full frozen prompt hash preserved in promptSha256, original text not published."
+      },
+      "references": [],
+      "prompt": "Cycling pelican animation: 4-second SMIL loop with spokes, crank and legs.",
+      "promptSha256": "3e0f1b0386fa1155b0d0655e533fe37aaa49de781658ee1fa4f51fec0678b6fc",
+      "caseSpecSha256": "e14b37abae213de3292366779afe9a8ec6fb0f68c82c6c8a0f25b7ceac732f09",
+      "metrics": {
+        "requests": null,
+        "completedResponses": 31,
+        "promptTokens": 776692,
+        "outputTokens": 10053,
+        "wallMs": 317709
+      },
+      "media": [
+        {
+          "type": "image",
+          "path": "/evaluations/crouton-alpha-creative/2cab4132ad12-poster.png",
+          "posterPath": "/evaluations/crouton-alpha-creative/2cab4132ad12-poster.png",
+          "animationPath": "/evaluations/crouton-alpha-creative/ab1d113f4601-animation.webp",
+          "width": 800,
+          "height": 600,
+          "captionZh": "骑车鹈鹕静态帧",
+          "captionEn": "Cycling pelican still frame",
+          "durationSeconds": 4
+        }
+      ],
+      "downloads": [
+        {
+          "path": "/evaluations/crouton-alpha-creative/123966776be7-project-source.zip",
+          "labelZh": "工程来源",
+          "labelEn": "Source project"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/39ef06f3df82-final.svg",
+          "labelZh": "原始SVG",
+          "labelEn": "Raw SVG"
+        },
+        {
+          "path": "/evaluations/crouton-alpha-creative/ab1d113f4601-animation.webp",
+          "labelZh": "动画WebP",
+          "labelEn": "Animation WebP"
+        }
+      ],
+      "assessmentZh": [
+        "长喙与橙色喉囊清楚，两轮车架、车座和车把可辨认。轮辐、曲柄与双腿随4秒周期运动，抽帧与实际播放样本中脚部保持接在脚踏附近，腿起点接在鸟身下。主体、鸟喙和轮胎均在画布内；首尾视觉连续，技术像素差非零但极小。"
+      ],
+      "assessmentEn": [
+        "The long bill and orange throat pouch are recognizable, with a connected two-wheel bicycle, saddle and handlebar. Spokes, crank and both legs move during the four-second loop; in sampled phases and unpaused playback the feet stay on the pedal region and the legs attach beneath the body. The bird, bill and tyres stay inside the canvas. The loop looks continuous, with a tiny disclosed nonzero boundary pixel difference."
+      ],
+      "checks": [
+        {
+          "labelZh": "循环动画",
+          "labelEn": "Loop animation",
+          "status": "pass",
+          "detailZh": "40个唯一帧，4秒周期轮辐/曲柄/腿部运动且首尾连续。",
+          "detailEn": "40 unique frames; 4s cycle moves spokes, crank and legs with a continuous loop."
+        },
+        {
+          "labelZh": "骑行姿态",
+          "labelEn": "Riding pose",
+          "status": "pass",
+          "detailZh": "脚部在脚踏附近，腿接点在鸟身下，主体不越界。",
+          "detailEn": "Feet stay near pedals, legs attach beneath body, nothing leaves canvas."
+        }
+      ],
+      "attempts": [
+        {
+          "id": "attempt-1",
+          "effort": "default",
+          "status": "model_finished",
+          "requests": null,
+          "completedResponses": 31,
+          "noteZh": "公开计数与rawVisible/rawReasoning见来源记录。",
+          "noteEn": "See run record for counts and raw tokens.",
+          "evidencePath": "/evaluations/crouton-alpha-creative/svg-pelican-animation-attempt-records.json"
+        }
+      ]
+    }
+  ]
+}

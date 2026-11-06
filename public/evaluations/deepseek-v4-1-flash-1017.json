@@ -1,0 +1,2235 @@
+{
+  "model": "deepseek-flash",
+  "version": "DeepSeek-V4.1-Flash-1017",
+  "endpoint": "https://api.deepseek.com/v1",
+  "suiteVersion": "tasks-2026-09-26.1",
+  "params": {
+    "systemPrompt": "",
+    "temperature": "0",
+    "maxTokens": "2048"
+  },
+  "measurementOrigin": "Local macOS client calling official DeepSeek API directly. Network egress and provider region unverified. Not the hkg1 standard-report runner or browser timing.",
+  "design": "15 fixed text tasks and 3 coding tasks, one attempt per mode. Sequential pairs with alternating mode order. No retries; all failures retained. Cache, route and load uncontrolled. No pre-1017 baseline.",
+  "modes": {
+    "default": {},
+    "disabled": {
+      "thinking": {
+        "type": "disabled"
+      }
+    }
+  },
+  "attempts": [
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:12.653Z",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "firstContentMs": 1293.300166,
+      "firstReasoningMs": 802.6318749999999,
+      "firstEventMs": 802.6218749999999,
+      "usage": {
+        "prompt_tokens": 105,
+        "completion_tokens": 136,
+        "total_tokens": 241,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 117
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 105
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:14.074Z",
+      "totalMs": 1421.215916,
+      "promptTokens": 105,
+      "outputTokens": 136,
+      "reasoningTokens": 117,
+      "pass": true
+    },
+    {
+      "id": "extract-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 1",
+      "titleEn": "Contact extraction 1",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "林桐",
+        "age": 28,
+        "city": "杭州",
+        "email": null
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：林桐，28 岁，目前居住在杭州。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:14.076Z",
+      "text": "{\"name\":\"林桐\",\"age\":28,\"city\":\"杭州\",\"email\":null}",
+      "firstContentMs": 646.3722499999999,
+      "firstReasoningMs": null,
+      "firstEventMs": 646.3653749999999,
+      "usage": {
+        "prompt_tokens": 79,
+        "completion_tokens": 18,
+        "total_tokens": 97,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 79
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:14.840Z",
+      "totalMs": 763.5696659999999,
+      "promptTokens": 79,
+      "outputTokens": 18,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:14.841Z",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "firstContentMs": 513.2913330000001,
+      "firstReasoningMs": null,
+      "firstEventMs": 513.290125,
+      "usage": {
+        "prompt_tokens": 81,
+        "completion_tokens": 20,
+        "total_tokens": 101,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 81
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:15.498Z",
+      "totalMs": 657.8426250000002,
+      "promptTokens": 81,
+      "outputTokens": 20,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "extract-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 2",
+      "titleEn": "Contact extraction 2",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "李明",
+        "age": 36,
+        "city": "成都",
+        "email": "li@example.test"
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：李明，36 岁，目前居住在成都。电子邮件为 li@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:15.500Z",
+      "text": "{\"name\":\"李明\",\"age\":36,\"city\":\"成都\",\"email\":\"li@example.test\"}",
+      "firstContentMs": 1105.955875,
+      "firstReasoningMs": 798.5769999999998,
+      "firstEventMs": 798.5763750000001,
+      "usage": {
+        "prompt_tokens": 107,
+        "completion_tokens": 68,
+        "total_tokens": 175,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 47
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 107
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:16.652Z",
+      "totalMs": 1152.7787089999997,
+      "promptTokens": 107,
+      "outputTokens": 68,
+      "reasoningTokens": 47,
+      "pass": true
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:16.653Z",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "firstContentMs": 777.4617079999998,
+      "firstReasoningMs": 475.6124580000005,
+      "firstEventMs": 475.6114580000003,
+      "usage": {
+        "prompt_tokens": 105,
+        "completion_tokens": 66,
+        "total_tokens": 171,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 47
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 105
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:17.480Z",
+      "totalMs": 826.7589580000003,
+      "promptTokens": 105,
+      "outputTokens": 66,
+      "reasoningTokens": 47,
+      "pass": true
+    },
+    {
+      "id": "extract-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 3",
+      "titleEn": "Contact extraction 3",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "陈夏",
+        "age": 22,
+        "city": "南京",
+        "email": null
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：陈夏，22 岁，目前居住在南京。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:17.481Z",
+      "text": "{\"name\":\"陈夏\",\"age\":22,\"city\":\"南京\",\"email\":null}",
+      "firstContentMs": 577.0847919999997,
+      "firstReasoningMs": null,
+      "firstEventMs": 577.0834169999998,
+      "usage": {
+        "prompt_tokens": 79,
+        "completion_tokens": 18,
+        "total_tokens": 97,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 79
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:18.156Z",
+      "totalMs": 674.8417499999996,
+      "promptTokens": 79,
+      "outputTokens": 18,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:18.157Z",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "firstContentMs": 487.267167,
+      "firstReasoningMs": null,
+      "firstEventMs": 487.26587500000005,
+      "usage": {
+        "prompt_tokens": 83,
+        "completion_tokens": 21,
+        "total_tokens": 104,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 83
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:18.745Z",
+      "totalMs": 588.4127920000001,
+      "promptTokens": 83,
+      "outputTokens": 21,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "extract-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 4",
+      "titleEn": "Contact extraction 4",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "周舟",
+        "age": 41,
+        "city": "苏州",
+        "email": "zhou@example.test"
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：周舟，41 岁，目前居住在苏州。电子邮件为 zhou@example.test。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:18.747Z",
+      "text": "{\"name\":\"周舟\",\"age\":41,\"city\":\"苏州\",\"email\":\"zhou@example.test\"}",
+      "firstContentMs": 1254.628917,
+      "firstReasoningMs": 851.0741670000007,
+      "firstEventMs": 851.073042,
+      "usage": {
+        "prompt_tokens": 109,
+        "completion_tokens": 103,
+        "total_tokens": 212,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 81
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 109
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:20.081Z",
+      "totalMs": 1334.3983750000007,
+      "promptTokens": 109,
+      "outputTokens": 103,
+      "reasoningTokens": 81,
+      "pass": true
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:20.082Z",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "firstContentMs": 733.5303330000006,
+      "firstReasoningMs": 564.5355410000011,
+      "firstEventMs": 564.5343329999996,
+      "usage": {
+        "prompt_tokens": 105,
+        "completion_tokens": 63,
+        "total_tokens": 168,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 44
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 105
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:20.878Z",
+      "totalMs": 795.3165829999998,
+      "promptTokens": 105,
+      "outputTokens": 63,
+      "reasoningTokens": 44,
+      "pass": true
+    },
+    {
+      "id": "extract-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "extraction",
+      "title": "联系信息抽取 5",
+      "titleEn": "Contact extraction 5",
+      "prompt": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。",
+      "expected": {
+        "name": "吴雨",
+        "age": 30,
+        "city": "武汉",
+        "email": null
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "从以下资料提取联系信息。只输出一个 JSON 对象，恰好包含 name、age、city、email 四个字段；age 为数字，未提供的 email 为 null。不要 Markdown 或解释。\n资料：吴雨，30 岁，目前居住在武汉。未提供电子邮件。历史备注提到曾在北京出差，不是现居城市。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:20.879Z",
+      "text": "{\"name\":\"吴雨\",\"age\":30,\"city\":\"武汉\",\"email\":null}",
+      "firstContentMs": 574.8490419999998,
+      "firstReasoningMs": null,
+      "firstEventMs": 574.848750000001,
+      "usage": {
+        "prompt_tokens": 79,
+        "completion_tokens": 18,
+        "total_tokens": 97,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 79
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:21.645Z",
+      "totalMs": 765.5503750000007,
+      "promptTokens": 79,
+      "outputTokens": 18,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:21.645Z",
+      "text": "B2,A1,C3,D4",
+      "firstContentMs": 654.8811249999999,
+      "firstReasoningMs": null,
+      "firstEventMs": 654.8807080000006,
+      "usage": {
+        "prompt_tokens": 44,
+        "completion_tokens": 8,
+        "total_tokens": 52,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 44
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:22.346Z",
+      "totalMs": 700.8126659999998,
+      "promptTokens": 44,
+      "outputTokens": 8,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "format-1",
+      "title": "保序去重",
+      "titleEn": "Stable deduplication",
+      "prompt": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。",
+      "expected": "B2,A1,C3,D4",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "把以下编号去重并保持首次出现的顺序：B2,A1,B2,C3,A1,D4。只输出用英文逗号连接的编号，不要空格、标题或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:22.347Z",
+      "text": "B2,A1,C3,D4",
+      "firstContentMs": 1169.3562079999992,
+      "firstReasoningMs": 747.5537499999991,
+      "firstEventMs": 747.5532910000002,
+      "usage": {
+        "prompt_tokens": 70,
+        "completion_tokens": 49,
+        "total_tokens": 119,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 40
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 70
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:23.546Z",
+      "totalMs": 1199.391458,
+      "promptTokens": 70,
+      "outputTokens": 49,
+      "reasoningTokens": 40,
+      "pass": true
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:23.547Z",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "firstContentMs": 1018.6215000000011,
+      "firstReasoningMs": 784.0647500000014,
+      "firstEventMs": 784.0642079999998,
+      "usage": {
+        "prompt_tokens": 73,
+        "completion_tokens": 39,
+        "total_tokens": 112,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 29
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 73
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:24.594Z",
+      "totalMs": 1046.2742500000004,
+      "promptTokens": 73,
+      "outputTokens": 39,
+      "reasoningTokens": 29,
+      "pass": true
+    },
+    {
+      "id": "format-2",
+      "title": "限定字段",
+      "titleEn": "Exact fields",
+      "prompt": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。",
+      "expected": {
+        "status": "ready",
+        "count": 3
+      },
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "仅输出 JSON 对象，且恰好包含 status 和 count 两个字段。status 的值必须为字符串 \"ready\"，count 必须为数字 3。不要 Markdown、解释或额外字段。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:24.595Z",
+      "text": "{\"status\":\"ready\",\"count\":3}",
+      "firstContentMs": 816.198124999999,
+      "firstReasoningMs": null,
+      "firstEventMs": 816.1969580000004,
+      "usage": {
+        "prompt_tokens": 47,
+        "completion_tokens": 9,
+        "total_tokens": 56,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 47
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:25.436Z",
+      "totalMs": 841.0002499999991,
+      "promptTokens": 47,
+      "outputTokens": 9,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:25.437Z",
+      "text": "[3,8,12,25]",
+      "firstContentMs": 674.4324580000011,
+      "firstReasoningMs": null,
+      "firstEventMs": 674.4310830000013,
+      "usage": {
+        "prompt_tokens": 36,
+        "completion_tokens": 9,
+        "total_tokens": 45,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 36
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:26.217Z",
+      "totalMs": 779.5883330000015,
+      "promptTokens": 36,
+      "outputTokens": 9,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "format-3",
+      "title": "严格排序",
+      "titleEn": "Ordered output",
+      "prompt": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。",
+      "expected": [
+        3,
+        8,
+        12,
+        25
+      ],
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "将数值 12、3、25、8 按从小到大排序。只输出 JSON 数组，元素为数字。不要解释或代码围栏。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:26.217Z",
+      "text": "[3,8,12,25]",
+      "firstContentMs": 1053.1803339999988,
+      "firstReasoningMs": 746.7971669999988,
+      "firstEventMs": 746.796542,
+      "usage": {
+        "prompt_tokens": 62,
+        "completion_tokens": 47,
+        "total_tokens": 109,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 37
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 62
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:27.323Z",
+      "totalMs": 1106.1109589999996,
+      "promptTokens": 62,
+      "outputTokens": 47,
+      "reasoningTokens": 37,
+      "pass": true
+    },
+    {
+      "id": "format-4",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:27.325Z",
+      "text": "APPLE\nPEAR\nPLUM",
+      "firstContentMs": 1053.228541999999,
+      "firstReasoningMs": 721.6792080000014,
+      "firstEventMs": 721.678750000001,
+      "usage": {
+        "prompt_tokens": 66,
+        "completion_tokens": 37,
+        "total_tokens": 103,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 28
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 66
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:28.382Z",
+      "totalMs": 1057.6473750000023,
+      "promptTokens": 66,
+      "outputTokens": 37,
+      "reasoningTokens": 28,
+      "pass": true
+    },
+    {
+      "id": "format-4",
+      "title": "大小写与换行",
+      "titleEn": "Case and line breaks",
+      "prompt": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。",
+      "expected": "APPLE\nPEAR\nPLUM",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "按原顺序将 apple、pear、plum 转为英文大写，每行一个单词。总共三行，不要编号、标点、空行或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:28.383Z",
+      "text": "APPLE\nPEAR\nPLUM",
+      "firstContentMs": 716.4495419999985,
+      "firstReasoningMs": null,
+      "firstEventMs": 716.4484579999989,
+      "usage": {
+        "prompt_tokens": 40,
+        "completion_tokens": 8,
+        "total_tokens": 48,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 40
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:29.221Z",
+      "totalMs": 837.630541999999,
+      "promptTokens": 40,
+      "outputTokens": 8,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "format-5",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:29.221Z",
+      "text": "TX-103|TX-207|TX-309",
+      "firstContentMs": 514.7961249999971,
+      "firstReasoningMs": null,
+      "firstEventMs": 514.7955419999998,
+      "usage": {
+        "prompt_tokens": 54,
+        "completion_tokens": 11,
+        "total_tokens": 65,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 54
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:29.849Z",
+      "totalMs": 627.8117089999978,
+      "promptTokens": 54,
+      "outputTokens": 11,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "format-5",
+      "title": "指定分隔符",
+      "titleEn": "Required delimiter",
+      "prompt": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。",
+      "expected": "TX-103|TX-207|TX-309",
+      "category": "instruction",
+      "version": "tasks-2026-09-26.1",
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "提取下面三个工单号，保持顺序：工单 TX-103 已关闭；工单 TX-207 正在处理；工单 TX-309 待分配。只用英文竖线连接三个编号，不要空格或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:29.850Z",
+      "text": "TX-103|TX-207|TX-309",
+      "firstContentMs": 1470.8946670000005,
+      "firstReasoningMs": 1031.2054580000004,
+      "firstEventMs": 1031.204958000002,
+      "usage": {
+        "prompt_tokens": 80,
+        "completion_tokens": 84,
+        "total_tokens": 164,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 72
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 80
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:31.326Z",
+      "totalMs": 1476.418292000002,
+      "promptTokens": 80,
+      "outputTokens": 84,
+      "reasoningTokens": 72,
+      "pass": true
+    },
+    {
+      "id": "grounded-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:31.328Z",
+      "text": "{\"usable\":9,\"nextDelivery\":\"周二\",\"manager\":null}",
+      "firstContentMs": 1334.1725420000002,
+      "firstReasoningMs": 747.4431670000013,
+      "firstEventMs": 747.4420420000024,
+      "usage": {
+        "prompt_tokens": 130,
+        "completion_tokens": 95,
+        "total_tokens": 225,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 80
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 130
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:32.665Z",
+      "totalMs": 1336.3140000000021,
+      "promptTokens": 130,
+      "outputTokens": 95,
+      "reasoningTokens": 80,
+      "pass": true
+    },
+    {
+      "id": "grounded-1",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 1",
+      "titleEn": "Grounded question answering 1",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 9,
+        "nextDelivery": "周二",
+        "manager": null
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：北区仓库今天收到 12 件货物，其中 3 件损坏，不可使用。下一次送货安排在周二。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:32.665Z",
+      "text": "{\"usable\":9,\"nextDelivery\":\"周二\",\"manager\":null}",
+      "firstContentMs": 865.8705829999999,
+      "firstReasoningMs": null,
+      "firstEventMs": 865.8693330000024,
+      "usage": {
+        "prompt_tokens": 104,
+        "completion_tokens": 14,
+        "total_tokens": 118,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 104
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:33.535Z",
+      "totalMs": 869.7764999999999,
+      "promptTokens": 104,
+      "outputTokens": 14,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "grounded-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:33.537Z",
+      "text": "{\"usable\": 16, \"nextDelivery\": \"周三\", \"manager\": null}",
+      "firstContentMs": 697.0964590000003,
+      "firstReasoningMs": null,
+      "firstEventMs": 697.0958749999991,
+      "usage": {
+        "prompt_tokens": 103,
+        "completion_tokens": 18,
+        "total_tokens": 121,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 103
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:34.363Z",
+      "totalMs": 826.0601669999996,
+      "promptTokens": 103,
+      "outputTokens": 18,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "grounded-2",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 2",
+      "titleEn": "Grounded question answering 2",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 16,
+        "nextDelivery": "周三",
+        "manager": null
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：南区仓库今天收到 20 件货物，其中 4 件损坏，不可使用。下一次送货安排在周三。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:34.364Z",
+      "text": "{\"usable\":16,\"nextDelivery\":\"周三\",\"manager\":null}",
+      "firstContentMs": 1260.341625000001,
+      "firstReasoningMs": 640.6548750000002,
+      "firstEventMs": 640.6543749999983,
+      "usage": {
+        "prompt_tokens": 129,
+        "completion_tokens": 130,
+        "total_tokens": 259,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 115
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 129
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:35.679Z",
+      "totalMs": 1314.8723329999993,
+      "promptTokens": 129,
+      "outputTokens": 130,
+      "reasoningTokens": 115,
+      "pass": true
+    },
+    {
+      "id": "grounded-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:35.680Z",
+      "text": "{\"usable\":12,\"nextDelivery\":\"周四\",\"manager\":null}",
+      "firstContentMs": 1019.7372920000016,
+      "firstReasoningMs": 658.2768340000002,
+      "firstEventMs": 658.2763750000013,
+      "usage": {
+        "prompt_tokens": 130,
+        "completion_tokens": 58,
+        "total_tokens": 188,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 43
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 130
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:36.723Z",
+      "totalMs": 1043.7510840000032,
+      "promptTokens": 130,
+      "outputTokens": 58,
+      "reasoningTokens": 43,
+      "pass": true
+    },
+    {
+      "id": "grounded-3",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 3",
+      "titleEn": "Grounded question answering 3",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 12,
+        "nextDelivery": "周四",
+        "manager": null
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：东区仓库今天收到 18 件货物，其中 6 件损坏，不可使用。下一次送货安排在周四。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:36.726Z",
+      "text": "{\"usable\":12,\"nextDelivery\":\"周四\",\"manager\":null}",
+      "firstContentMs": 661.0743750000001,
+      "firstReasoningMs": null,
+      "firstEventMs": 661.0739160000012,
+      "usage": {
+        "prompt_tokens": 104,
+        "completion_tokens": 14,
+        "total_tokens": 118,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 104
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:37.545Z",
+      "totalMs": 818.8398330000018,
+      "promptTokens": 104,
+      "outputTokens": 14,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "grounded-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:37.546Z",
+      "text": "{\"usable\":20,\"nextDelivery\":\"周五\",\"manager\":null}",
+      "firstContentMs": 1021.6756249999999,
+      "firstReasoningMs": null,
+      "firstEventMs": 1021.6746249999997,
+      "usage": {
+        "prompt_tokens": 104,
+        "completion_tokens": 14,
+        "total_tokens": 118,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 104
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:38.712Z",
+      "totalMs": 1166.477332999999,
+      "promptTokens": 104,
+      "outputTokens": 14,
+      "reasoningTokens": null,
+      "pass": true
+    },
+    {
+      "id": "grounded-4",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 4",
+      "titleEn": "Grounded question answering 4",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 20,
+        "nextDelivery": "周五",
+        "manager": null
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：西区仓库今天收到 25 件货物，其中 5 件损坏，不可使用。下一次送货安排在周五。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:38.713Z",
+      "text": "{\"usable\":20,\"nextDelivery\":\"周五\",\"manager\":null}",
+      "firstContentMs": 1112.9922920000026,
+      "firstReasoningMs": 764.1212500000001,
+      "firstEventMs": 764.1202090000006,
+      "usage": {
+        "prompt_tokens": 130,
+        "completion_tokens": 67,
+        "total_tokens": 197,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 52
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 130
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:39.849Z",
+      "totalMs": 1136.11175,
+      "promptTokens": 130,
+      "outputTokens": 67,
+      "reasoningTokens": 52,
+      "pass": true
+    },
+    {
+      "id": "grounded-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      },
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:39.850Z",
+      "text": "{\"usable\":14,\"nextDelivery\":\"周一\",\"manager\":null}",
+      "firstContentMs": 2671.5114170000015,
+      "firstReasoningMs": 874.9121249999989,
+      "firstEventMs": 874.9109170000011,
+      "usage": {
+        "prompt_tokens": 130,
+        "completion_tokens": 103,
+        "total_tokens": 233,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 88
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 130
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:42.536Z",
+      "totalMs": 2686.035416999999,
+      "promptTokens": 130,
+      "outputTokens": 103,
+      "reasoningTokens": 88,
+      "pass": true
+    },
+    {
+      "id": "grounded-5",
+      "version": "tasks-2026-09-26.1",
+      "category": "grounded-qa",
+      "title": "材料问答 5",
+      "titleEn": "Grounded question answering 5",
+      "prompt": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。",
+      "expected": {
+        "usable": 14,
+        "nextDelivery": "周一",
+        "manager": null
+      },
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "只根据以下材料回答。输出恰好包含 usable、nextDelivery、manager 三个字段的 JSON 对象，不要额外文字。usable 是可用件数（数字），nextDelivery 是下一次送货时间（字符串），材料未说明的信息用 null，不能猜测。\n材料：中区仓库今天收到 16 件货物，其中 2 件损坏，不可使用。下一次送货安排在周一。仓库负责人姓名没有记载。旧计划曾写周日，已作废。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 2048,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:42.538Z",
+      "text": "{\"usable\":14,\"nextDelivery\":\"周一\",\"manager\":null}",
+      "firstContentMs": 772.422125000001,
+      "firstReasoningMs": null,
+      "firstEventMs": 772.4208749999998,
+      "usage": {
+        "prompt_tokens": 104,
+        "completion_tokens": 14,
+        "total_tokens": 118,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 104
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:43.425Z",
+      "totalMs": 886.8192500000005,
+      "promptTokens": 104,
+      "outputTokens": 14,
+      "reasoningTokens": null,
+      "pass": true
+    }
+  ],
+  "coding": [
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 4096,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:55:43.425Z",
+      "text": "function parseCents(value) {\n  if (typeof value !== \"string\") return null;\n  const s = value.trim();\n  if (s === \"\") return null;\n  if (!/^(?:0|[1-9]\\d*)(?:\\.\\d{1,2})?$/.test(s)) return null;\n  const parts = s.split(\".\");\n  const whole = parts[0];\n  const frac = parts[1] || \"\";\n  const centsStr = whole + (frac + \"00\").slice(0, 2);\n  const cents = Number(centsStr);\n  if (!Number.isSafeInteger(cents)) return null;\n  return cents;\n}",
+      "firstContentMs": 938.153707999998,
+      "firstReasoningMs": null,
+      "firstEventMs": 938.1530419999981,
+      "usage": {
+        "prompt_tokens": 106,
+        "completion_tokens": 141,
+        "total_tokens": 247,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 106
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:55:44.460Z",
+      "totalMs": 1034.4215829999994,
+      "promptTokens": 106,
+      "outputTokens": 141,
+      "reasoningTokens": null,
+      "pass": false,
+      "executable": "function parseCents(value) {\n  if (typeof value !== \"string\") return null;\n  const s = value.trim();\n  if (s === \"\") return null;\n  if (!/^(?:0|[1-9]\\d*)(?:\\.\\d{1,2})?$/.test(s)) return null;\n  const parts = s.split(\".\");\n  const whole = parts[0];\n  const frac = parts[1] || \"\";\n  const centsStr = whole + (frac + \"00\").slice(0, 2);\n  const cents = Number(centsStr);\n  if (!Number.isSafeInteger(cents)) return null;\n  return cents;\n}",
+      "checkError": "Failed \"0001.02\""
+    },
+    {
+      "id": "code-money",
+      "title": "金额转换：拒绝非法输入，避免浮点误差",
+      "titleEn": "Money parsing without rounding invalid inputs",
+      "prompt": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[['0',0],[' 12.30 ',1230],['0.29',29],['1.2',120],['0001.02',102],['1.234',null],['-1',null],['+1',null],['1e3',null],['',null],['.5',null],['1.',null],['Infinity',null],['1,000',null],[null,null],[1,null],['90071992547409.91',9007199254740991],['90071992547409.92',null]]; for (const [input,want] of cases) if(parseCents(input)!==want) throw Error('Failed '+JSON.stringify(input));",
+      "checkCount": 18,
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 parseCents(value)。value 必须是字符串：允许两端空白；只接受非负十进制金额，整数部分至少一位，小数最多两位；拒绝指数写法、符号、千分位、Infinity、空串、超过两位小数。返回整数分数，超过 Number.MAX_SAFE_INTEGER 则返回 null。非法类型或格式返回 null。不能把非法值四舍五入成合法值。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 4096,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:55:44.464Z",
+      "text": "",
+      "firstContentMs": null,
+      "firstReasoningMs": 936.1903749999983,
+      "firstEventMs": 936.1900000000023,
+      "usage": {
+        "prompt_tokens": 132,
+        "completion_tokens": 4096,
+        "total_tokens": 4228,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 4096
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 132
+      },
+      "finishReason": "length",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "truncated",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:56:03.110Z",
+      "totalMs": 18646.379,
+      "promptTokens": 132,
+      "outputTokens": 4096,
+      "reasoningTokens": 4096,
+      "pass": false,
+      "executable": "",
+      "checkError": "Incomplete response; checks not run"
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 4096,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:56:03.112Z",
+      "text": "function uniqueById(items) {\n  const seen = new Map();\n  const result = [];\n  for (const item of items) {\n    const id = item.id;\n    if (!seen.has(id)) {\n      seen.set(id, true);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "firstContentMs": 1262.6630420000001,
+      "firstReasoningMs": 691.9294169999994,
+      "firstEventMs": 691.9283329999962,
+      "usage": {
+        "prompt_tokens": 102,
+        "completion_tokens": 228,
+        "total_tokens": 330,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 164
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 102
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:56:04.533Z",
+      "totalMs": 1420.5797499999971,
+      "promptTokens": 102,
+      "outputTokens": 228,
+      "reasoningTokens": 164,
+      "pass": true,
+      "executable": "function uniqueById(items) {\n  const seen = new Map();\n  const result = [];\n  for (const item of items) {\n    const id = item.id;\n    if (!seen.has(id)) {\n      seen.set(id, true);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "checkError": null
+    },
+    {
+      "id": "code-dedupe",
+      "title": "保序去重：安全处理特殊键且不修改输入",
+      "titleEn": "Stable deduplication with special property names",
+      "prompt": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const a={id:'__proto__',value:1},b={id:'constructor'},c={id:''},d={id:'x'};const input=Object.freeze([a,b,{id:'__proto__'},c,{id:''},d,{id:'constructor'}]);const got=uniqueById(input);if(got.length!==4||got[0]!==a||got[1]!==b||got[2]!==c||got[3]!==d)throw Error('Wrong identity or order');if(uniqueById([]).length!==0)throw Error('Empty');if(input.length!==7||a.value!==1)throw Error('Mutation');",
+      "checkCount": 3,
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 uniqueById(items)。items 是对象数组，每个对象有字符串 id 字段。保留每个 id 首次出现的原对象和原顺序，不修改输入或任何对象；空数组返回空数组。id 可为 __proto__、constructor 或空字符串。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 4096,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:56:04.536Z",
+      "text": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n  for (const item of items) {\n    const id = item.id;\n    if (!seen.has(id)) {\n      seen.add(id);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "firstContentMs": 528.1621670000022,
+      "firstReasoningMs": null,
+      "firstEventMs": 528.1608750000014,
+      "usage": {
+        "prompt_tokens": 76,
+        "completion_tokens": 61,
+        "total_tokens": 137,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 76
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:56:05.169Z",
+      "totalMs": 632.9819999999963,
+      "promptTokens": 76,
+      "outputTokens": 61,
+      "reasoningTokens": null,
+      "pass": true,
+      "executable": "function uniqueById(items) {\n  const seen = new Set();\n  const result = [];\n  for (const item of items) {\n    const id = item.id;\n    if (!seen.has(id)) {\n      seen.add(id);\n      result.push(item);\n    }\n  }\n  return result;\n}",
+      "checkError": null
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "mode": "disabled",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 4096,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        },
+        "thinking": {
+          "type": "disabled"
+        }
+      },
+      "startedAt": "2026-10-18T01:56:05.173Z",
+      "text": "function mergeIntervals(intervals) {\n  if (!Array.isArray(intervals) || intervals.length === 0) return [];\n  const sorted = intervals\n    .map(([start, end]) => [start, end])\n    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n  const result = [];\n  for (const [start, end] of sorted) {\n    if (result.length === 0) {\n      result.push([start, end]);\n    } else {\n      const last = result[result.length - 1];\n      if (start <= last[1]) {\n        if (end > last[1]) last[1] = end;\n      } else {\n        result.push([start, end]);\n      }\n    }\n  }\n  return result;\n}",
+      "firstContentMs": 825.8400000000038,
+      "firstReasoningMs": null,
+      "firstEventMs": 825.8394170000029,
+      "usage": {
+        "prompt_tokens": 81,
+        "completion_tokens": 178,
+        "total_tokens": 259,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 81
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:56:06.543Z",
+      "totalMs": 1370.4462920000005,
+      "promptTokens": 81,
+      "outputTokens": 178,
+      "reasoningTokens": null,
+      "pass": true,
+      "executable": "function mergeIntervals(intervals) {\n  if (!Array.isArray(intervals) || intervals.length === 0) return [];\n  const sorted = intervals\n    .map(([start, end]) => [start, end])\n    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n  const result = [];\n  for (const [start, end] of sorted) {\n    if (result.length === 0) {\n      result.push([start, end]);\n    } else {\n      const last = result[result.length - 1];\n      if (start <= last[1]) {\n        if (end > last[1]) last[1] = end;\n      } else {\n        result.push([start, end]);\n      }\n    }\n  }\n  return result;\n}",
+      "checkError": null
+    },
+    {
+      "id": "code-intervals",
+      "title": "区间合并：乱序、相邻区间与输入不可变",
+      "titleEn": "Interval merging, touching intervals and immutability",
+      "prompt": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。",
+      "checks": "const cases=[[[[5,7],[1,3],[3,5]],[[1,7]]],[[[1,4],[2,3]],[[1,4]]],[[[0,0],[2,2]],[[0,0],[2,2]]],[[[-3,-1],[-2,0],[3,4]],[[-3,0],[3,4]]],[[],[]]];for(const [input,want] of cases){input.forEach(Object.freeze);Object.freeze(input);if(JSON.stringify(mergeIntervals(input))!==JSON.stringify(want))throw Error('Wrong merge');}",
+      "checkCount": 5,
+      "mode": "default",
+      "request": {
+        "model": "deepseek-flash",
+        "messages": [
+          {
+            "role": "user",
+            "content": "写 JavaScript 函数 mergeIntervals(intervals)。输入为有限数字组成的闭区间 [start,end] 数组，保证 start<=end，输入可能乱序。返回按 start 排序的合并闭区间，相接区间也合并；不要修改输入或任何内层数组，空数组返回空数组。只输出函数代码，不要 Markdown 或解释。"
+          }
+        ],
+        "temperature": 0,
+        "max_tokens": 4096,
+        "stream": true,
+        "stream_options": {
+          "include_usage": true
+        }
+      },
+      "startedAt": "2026-10-18T01:56:06.547Z",
+      "text": "function mergeIntervals(intervals) {\n  if (intervals.length === 0) return [];\n\n  const sorted = intervals\n    .map(([start, end]) => [start, end])\n    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n\n  const merged = [];\n\n  for (const [start, end] of sorted) {\n    if (merged.length === 0) {\n      merged.push([start, end]);\n    } else {\n      const last = merged[merged.length - 1];\n      if (start <= last[1]) {\n        if (end > last[1]) last[1] = end;\n      } else {\n        merged.push([start, end]);\n      }\n    }\n  }\n\n  return merged;\n}",
+      "firstContentMs": 3506.719541999999,
+      "firstReasoningMs": 503.3782500000016,
+      "firstEventMs": 503.377625000001,
+      "usage": {
+        "prompt_tokens": 107,
+        "completion_tokens": 777,
+        "total_tokens": 884,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 605
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 107
+      },
+      "finishReason": "stop",
+      "error": null,
+      "returnedModel": "deepseek-flash",
+      "status": "done",
+      "httpStatus": 200,
+      "finishedAt": "2026-10-18T01:56:10.546Z",
+      "totalMs": 3999.3843750000015,
+      "promptTokens": 107,
+      "outputTokens": 777,
+      "reasoningTokens": 605,
+      "pass": true,
+      "executable": "function mergeIntervals(intervals) {\n  if (intervals.length === 0) return [];\n\n  const sorted = intervals\n    .map(([start, end]) => [start, end])\n    .sort((a, b) => a[0] - b[0] || a[1] - b[1]);\n\n  const merged = [];\n\n  for (const [start, end] of sorted) {\n    if (merged.length === 0) {\n      merged.push([start, end]);\n    } else {\n      const last = merged[merged.length - 1];\n      if (start <= last[1]) {\n        if (end > last[1]) last[1] = end;\n      } else {\n        merged.push([start, end]);\n      }\n    }\n  }\n\n  return merged;\n}",
+      "checkError": null
+    }
+  ],
+  "catalog": {
+    "checkedAt": "2026-10-18T01:55:12.634Z",
+    "status": 200,
+    "modelIds": [
+      "deepseek-flash",
+      "deepseek-v4-pro"
+    ]
+  },
+  "date": "2026-10-18",
+  "publishedAt": "2026-10-18T10:00:00+08:00",
+  "sources": [
+    {
+      "name": "DeepSeek official change log",
+      "url": "https://api-docs.deepseek.com/updates/",
+      "checkedOn": "2026-10-18",
+      "sha256": "44aa1245d5d65d5fc54c8f47a9a3d3235e1ab064a8fc64d6a6e57f570ec8c99c"
+    },
+    {
+      "name": "DeepSeek models and pricing",
+      "url": "https://api-docs.deepseek.com/quick_start/pricing/",
+      "checkedOn": "2026-10-18",
+      "sha256": "38f583f627523f45a0cacd00d43ad49cd4f7e3aa5c20cc98bdbc3674f5c74c95"
+    },
+    {
+      "name": "DeepSeek thinking mode",
+      "url": "https://api-docs.deepseek.com/guides/thinking_mode/",
+      "checkedOn": "2026-10-18",
+      "sha256": "2d9258749cbef1bebf70d447c3d37d57f7bf295622615e2e5b61b8f527a8b8fb"
+    },
+    {
+      "name": "DeepSeek official 1017 model card",
+      "url": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017",
+      "checkedOn": "2026-10-18",
+      "sha256": "b72b796e4f4c739eca5d0ad360a7679b39118ca7eb64891f7151a527b292c42a"
+    }
+  ],
+  "summary": {
+    "default": {
+      "textPassed": 15,
+      "textCount": 15,
+      "medianFirstContentMs": 1112.9922920000026,
+      "medianTotalMs": 1152.7787089999997,
+      "outputTokens": 1145,
+      "reasoningTokens": 920,
+      "codingPassed": 2,
+      "codingCount": 3
+    },
+    "disabled": {
+      "textPassed": 15,
+      "textCount": 15,
+      "medianFirstContentMs": 661.0743750000001,
+      "medianTotalMs": 779.5883330000015,
+      "outputTokens": 214,
+      "reasoningTokens": 0,
+      "codingPassed": 2,
+      "codingCount": 3
+    }
+  },
+  "estimatedCostUsd": 0.0045953999999999995,
+  "costBasis": "Official off-peak USD per million: cache hit 0.003, cache miss 0.15, output 0.60. All 36 requests occurred on Sunday 2026-10-18. Includes truncated attempt. Estimate from returned usage, not an invoice; no search/fetch calls.",
+  "editorial": {
+    "zh-CN": {
+      "title": "DeepSeek V4.1 Flash 1017 实测：速度、价格与代码边界",
+      "summary": "36 次官方 API 实测：默认与关闭思考的短文本各 15/15，正文首响中位数 1.113 秒与 0.661 秒；公开两次代码失败、完整参数和原始回答。",
+      "sections": [
+        {
+          "id": "verdict",
+          "title": "先看结论：短题可靠，代码边界仍需检查",
+          "body": "TOKRACE 于 2026 年 10 月 18 日直接调用 DeepSeek 官方 API，对同一组 15 道中文短文本题分别开启默认思考、关闭思考，再测试 3 道 JavaScript 函数题，共 **36 次请求**。没有重试或丢弃失败记录。\n\n两组短文本均为 **15/15**；默认思考正文首响中位数 **1.113 秒**，关闭思考 **0.661 秒**。代码任务两组均为 **2/3**：金额解析题分别出现预算耗尽与前导零处理错误。短题通过率不能代表复杂推理、完整项目开发或 Agent 能力。\n\n实际使用建议：固定格式抽取可先尝试关闭思考；代码必须用业务边界测试验收，并为思考预算不足设置明确的失败处理。这是基于本次小样本的分析，不是普遍排名。"
+        },
+        {
+          "id": "identity",
+          "title": "DeepSeek V4.1 Flash 1017 是什么？",
+          "body": "这是 2026 年 10 月 17 日的 V4.1 Flash 更新。官方 API 继续使用 `deepseek-flash`；本次响应也只返回该别名。1017 的版本归属依据[官方更新日志](https://api-docs.deepseek.com/updates/)，不能通过这个可变别名永久锁定同一检查点。\n\n官方规格列出 1M 上下文、384K 最大输出、图片输入与工具调用；权重仓库采用 MIT 许可。这里的规格属于来源信息，本次只验证短文本与函数输出。[官方规格](https://api-docs.deepseek.com/quick_start/pricing/) · [官方模型卡](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017)\n\n不要把本站 9 月的临时预览 ID `deepseek-v4.1-flash-expires-on-0910` 当作这次正式接口。旧预览页保留历史说明，当前入口见[模型页](/zh-CN/model/deepseek-flash)。"
+        },
+        {
+          "id": "official",
+          "title": "官方公布了哪些变化？",
+          "body": "下面是厂商模型卡公布的成绩，不是 TOKRACE 复现结果。\n\n| 基准 | 9 月版本 | 1017 版本 |\n| --- | ---: | ---: |\n| Terminal-Bench 4.0 | 31.2 | 42.3 |\n| DeepSWE v1.1 | 74.2 | 77.0 |\n| ProgramBench | 20.3 | 29.1 |\n\n官方还表示任务耗时与输出长度下降。Terminal-Bench 使用 Claude Code，DeepSWE 使用 Mini-SWE-V2；框架和题目影响结果。本站没有可固定调用的 9 月基线，因此不能从本次测试得出“比旧版快多少”。[数据来源与评测注释](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017)"
+        },
+        {
+          "id": "method",
+          "title": "测试怎么跑：参数、路径与计时口径",
+          "body": "文本题采用 `tasks-2026-09-26.1` 固定任务：JSON 信息抽取、严格格式约束、基于材料的问答，各 5 题。每题每模式仅调用一次，两模式先后顺序按题交替；题目、期望值和检查规则在调用前确定。代码题检查金额解析、特殊键去重、区间合并。\n\n从本地 macOS 客户端直连 `https://api.deepseek.com/v1/chat/completions`，串行流式请求，单次超时 120 秒。网络出口与服务区域未确认；这些结果不混入香港节点标准报告或社区测速排行榜。\n\n提交 `temperature=0`、文本 `max_tokens=2048`、代码 `max_tokens=4096`；默认组省略思考参数，另一组提交 `thinking: {type: \"disabled\"}`。官方默认开启思考、effort 为 high，且思考模式忽略 temperature，所以不能把默认组称为确定性采样。[参数说明](https://api-docs.deepseek.com/guides/thinking_mode/)\n\n正文首响从发起请求计时到第一段非空正文，**不把思考内容计作正文**；总耗时到流结束。短输出容易受网络和缓冲影响，因此不从总 completion token 推算正文 tok/s。缓存未预热或清空，服务负载未控制。"
+        },
+        {
+          "id": "results",
+          "title": "实测结果：通过率、首响与 token",
+          "body": "| 短文本指标（每组 15 次） | 默认思考 | 关闭思考 |\n| --- | ---: | ---: |\n| JSON 抽取 | 5/5 | 5/5 |\n| 格式约束 | 5/5 | 5/5 |\n| 材料问答 | 5/5 | 5/5 |\n| 正文首响中位数 | 1.113 秒 | 0.661 秒 |\n| 请求总耗时中位数 | 1.153 秒 | 0.780 秒 |\n| completion token 合计 | 1145 | 214 |\n| API 报告的思考 token 合计 | 920 | 关闭；未返回此字段 |\n\ncompletion token 包含思考消耗，不能全部算成用户看到的答案。两组使用相同题目，但上下文封装和 token 记账可能随模式不同；这不是严格隔离的性能实验。15 道题只覆盖少量短文本模式，也没有多次采样来估计稳定性。"
+        },
+        {
+          "id": "failures",
+          "title": "代码题：两次金额解析失败值得看",
+          "body": "| 任务 | 默认思考 | 关闭思考 |\n| --- | --- | --- |\n| 金额字符串转整数分 | 截断，无代码 | 完成，但未通过 |\n| 按 id 保序去重 | 通过 | 通过 |\n| 闭区间合并与不可变输入 | 通过 | 通过 |\n\n**关闭思考的金额题**：输入 `\"0001.02\"` 应返回 `102`，模型的正则只接受单个零或非零开头的整数，因此返回 `null`。题目没有禁止前导零。这是自行增加约束造成的实际错误。[查看原题、代码与检查](#evidence-code-money-disabled)\n\n**默认思考的金额题**：`finish_reason=length`，4096 个 completion token 全部记为 reasoning，18.646 秒后结束，正文为空。18 项金额检查均未执行；这证明本次 4096 token 预算下未完成，不证明提高预算后仍不能解决。[查看完整记录](#evidence-code-money-default)\n\n每个模式预设 26 项检查：金额 18、去重 3、区间 5。检查脚本遇到首个错误即停止，不能把后续未执行检查算成通过。两组各有 2 道完整通过的函数题；这里报告任务级 2/3，而不制造逐断言通过率。"
+        },
+        {
+          "id": "pricing",
+          "title": "API 价格与这次测试花费",
+          "body": "官方称此次升级价格不变。下面单位均为 **美元 / 百万 token**，查询日期为 2026-10-18。\n\n| 计费类型 | 非高峰 | 高峰 |\n| --- | ---: | ---: |\n| 缓存命中输入 | 0.003 | 0.006 |\n| 缓存未命中输入 | 0.15 | 0.30 |\n| 输出 | 0.60 | 1.20 |\n\n这 36 次调用发生在周日，按官方非高峰价和 API 返回的缓存、输入、输出 usage 估算，共 **$0.004595**，包括截断失败请求。它是计算值，不是账户账单；未调用 Search/Fetch。[官方时段与计费规则](https://api-docs.deepseek.com/quick_start/pricing/)\n\nTOKRACE 体验额度与上游收费不同。页面的免费复测沿用本站现有额度；API 消费仍由对应凭据承担。"
+        },
+        {
+          "id": "faq",
+          "title": "常见问题与复测建议",
+          "body": "**API model 应该填什么？** 填 `deepseek-flash`，完整展示名 `DeepSeek-V4.1-Flash-1017` 不是本次请求使用的 model 字段。\n\n**能证明新版本比旧版更强吗？** 不能。官方成绩与本站小任务首测分开呈现；本次没有旧版配对基线，没有验证百万上下文、视觉、工具调用或完整仓库开发。\n\n**怎样复测？** 下方按钮带入第一道抽取题、默认思考配置和官方接入点，在[竞速场](/zh-CN/arena)点击开始才会调用。本站共享入口使用服务端默认思考配置；要复现关闭思考组，请使用自己的官方 API Key，并提交 JSON 中记录的 `thinking.type=disabled`。完整题目、参数、usage、原始正文和代码检查均可下载。\n\n查看[测试方法与限制](/zh-CN/method)、[全部实测报告](/zh-CN/reports)和[模型身份页](/zh-CN/model/deepseek-flash)。"
+        }
+      ]
+    },
+    "en": {
+      "title": "DeepSeek V4.1 Flash 1017: speed, pricing and coding tests",
+      "summary": "36 official API attempts: both text modes pass 15/15, with 1.113s and 0.661s median first-content latency. Includes two coding failures, parameters and raw answers.",
+      "sections": [
+        {
+          "id": "verdict",
+          "title": "The result: short tasks pass; code still needs edge-case tests",
+          "body": "TOKRACE made **36 direct requests** to the official DeepSeek API on October 18, 2026: 15 Chinese text tasks in each of two modes, plus 3 JavaScript tasks in each mode. No retries or failed attempts were discarded.\n\nBoth text groups passed **15/15**. Median time to first answer content was **1.113s** with default thinking and **0.661s** with thinking disabled. Both coding groups passed **2/3** tasks. The money parser exposed a budget-exhaustion failure and an incorrect leading-zero restriction.\n\nOur practical reading: disabling thinking is worth trying for fixed-format extraction, while generated code still needs business-specific edge-case tests and explicit handling of incomplete outputs. These small tasks do not measure general reasoning, full-repository coding or agent quality."
+        },
+        {
+          "id": "identity",
+          "title": "What is DeepSeek V4.1 Flash 1017?",
+          "body": "The October 17 update uses the existing API alias `deepseek-flash`. That is also the model field returned in our responses. Checkpoint attribution relies on the [official change log](https://api-docs.deepseek.com/updates/); this mutable alias does not permanently pin a checkpoint.\n\nOfficial specifications list 1M context, 384K maximum output, image input and tools. The weights have an MIT license. These are source claims; our tests cover short text and functions only. [Specifications](https://api-docs.deepseek.com/quick_start/pricing/) · [Model card](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017)\n\nThe expired September preview ID `deepseek-v4.1-flash-expires-on-0910` is a separate historical entry. Use the [current model page](/en/model/deepseek-flash)."
+        },
+        {
+          "id": "official",
+          "title": "What changed in the vendor benchmarks?",
+          "body": "These are vendor-reported results, not TOKRACE replications.\n\n| Benchmark | September | 1017 |\n| --- | ---: | ---: |\n| Terminal-Bench 4.0 | 31.2 | 42.3 |\n| DeepSWE v1.1 | 74.2 | 77.0 |\n| ProgramBench | 20.3 | 29.1 |\n\nDeepSeek also reports shorter task runtimes and outputs. Terminal-Bench used Claude Code; DeepSWE used Mini-SWE-V2. We have no pinned September endpoint and cannot measure improvement over that checkpoint. [Official table and methodology notes](https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash-1017)"
+        },
+        {
+          "id": "method",
+          "title": "Method: fixed tasks, request parameters and measurement path",
+          "body": "The versioned suite `tasks-2026-09-26.1` contains 5 extraction, 5 instruction-format and 5 grounded-QA tasks, all in Chinese. Each gets one attempt per mode, with alternating mode order. Prompts, expected answers and checks were fixed before requests. Code tasks cover money parsing, stable deduplication and interval merging.\n\nA local macOS client called `https://api.deepseek.com/v1/chat/completions` sequentially with streaming and a 120-second timeout. Egress and provider region are unverified. These results remain separate from Hong Kong standard reports and community speed telemetry.\n\nRequests submitted `temperature=0`; text output budgets were 2048 tokens and coding budgets 4096. The default group omitted thinking settings; the other sent `thinking: {type: \"disabled\"}`. Official defaults enable thinking at high effort and ignore temperature in thinking mode. This is not deterministic sampling. [Thinking documentation](https://api-docs.deepseek.com/guides/thinking_mode/)\n\nFirst-content timing starts before the request and stops at the first nonempty answer delta, excluding reasoning. Total time ends at stream completion. We do not infer answer throughput from completion tokens. Cache state, network buffering and upstream load were uncontrolled."
+        },
+        {
+          "id": "results",
+          "title": "Measured results: pass rate, latency and tokens",
+          "body": "| Text metric (15 attempts per mode) | Default thinking | Thinking disabled |\n| --- | ---: | ---: |\n| JSON extraction | 5/5 | 5/5 |\n| Instruction format | 5/5 | 5/5 |\n| Grounded QA | 5/5 | 5/5 |\n| Median first answer content | 1.113s | 0.661s |\n| Median total request time | 1.153s | 0.780s |\n| Total completion tokens | 1145 | 214 |\n| Reported reasoning tokens | 920 | Disabled; field absent |\n\nCompletion tokens include reasoning, not just visible answers. Token accounting and context wrapping can differ between modes. This is a small observational test, not an isolated performance experiment. The suite has limited task diversity and no repeated sampling to estimate stability."
+        },
+        {
+          "id": "failures",
+          "title": "Coding failures: a leading zero and an exhausted budget",
+          "body": "| Task | Default thinking | Thinking disabled |\n| --- | --- | --- |\n| Parse money into integer cents | Truncated; no code | Completed; failed checks |\n| Stable deduplication by id | Passed | Passed |\n| Merge closed intervals without mutation | Passed | Passed |\n\n**Thinking disabled:** `\"0001.02\"` should produce `102`. The generated regex only permits a single zero or a nonzero starting digit, returning `null` instead. Leading zeros were never prohibited by the prompt. [Prompt, code and checks](#evidence-code-money-disabled)\n\n**Default thinking:** the money task ended with `finish_reason=length` after 18.646 seconds. All 4096 completion tokens were reported as reasoning, with an empty answer. Its 18 planned checks were not run. This establishes failure under this budget, not inability with a larger budget. [Original attempt](#evidence-code-money-default)\n\nEach mode has 26 predetermined checks: 18 for money, 3 for deduplication and 5 for intervals. The checker stops at its first failure. Unexecuted checks are not counted as passed. We report task-level 2/3 per mode rather than an invented assertion-level pass rate."
+        },
+        {
+          "id": "pricing",
+          "title": "API pricing and the cost of this run",
+          "body": "DeepSeek says pricing is unchanged. These are **USD per million tokens**, checked October 18, 2026.\n\n| Billing category | Off-peak | Peak |\n| --- | ---: | ---: |\n| Cached input | 0.003 | 0.006 |\n| Uncached input | 0.15 | 0.30 |\n| Output | 0.60 | 1.20 |\n\nAll 36 calls ran on Sunday. Applying off-peak prices to the returned input/cache/output usage gives **$0.004595**, including the truncated failure. This is an estimate, not an invoice. No Search/Fetch calls were made. [Official pricing rules](https://api-docs.deepseek.com/quick_start/pricing/)\n\nTOKRACE trial quotas are separate from upstream billing. The free rerun uses the site's existing allowance; upstream use is charged to the corresponding credential."
+        },
+        {
+          "id": "faq",
+          "title": "FAQ and reproduction",
+          "body": "**Which API model ID should I use?** `deepseek-flash`. The full display version `DeepSeek-V4.1-Flash-1017` was not the request model ID in this test.\n\n**Does this prove improvement over September?** No. Vendor benchmarks and our original tests are labeled separately. We did not test long context, vision, tools or repository-scale development and have no matched old-version baseline.\n\n**How can I rerun it?** The button below loads the first extraction task, default thinking configuration and official endpoint in the [arena](/en/arena). It sends a model request only after you press Start. The shared trial uses server-controlled default thinking. Reproducing the disabled group requires your own official API key and the recorded `thinking.type=disabled` parameter. Download the prompts, request bodies, usage, original answers and code checks below.\n\nSee the [method and limitations](/en/method), [all reports](/en/reports) and [model identity](/en/model/deepseek-flash)."
+        }
+      ]
+    }
+  }
+}
